@@ -2,7 +2,7 @@
   "body": [
     {
       "title": {
-        "text": "Gen3 Data Platform",
+        "text": "MMRF Data Platform",
         "level": 2
       }
     },
@@ -10,12 +10,12 @@
       "splitarea": {
         "left": [
           {
-            "text": "The <strong>Gen3 Data Platform</strong> is a single web interface which allows visitors to <strong>discover, access and analyze data</strong>. Making data easily findable enables secondary, cross-study analyses, promotes dissemination of research and accelerates new discoveries."
+            "text": "The Multiple Myeloma Research Foundation® (MMRF®) is the largest nonprofit in the world solely focused on accelerating a cure for each and every multiple myeloma patient."
           },
           {
             "link": {
-              "href": "/discovery",
-              "linkType": "portal",
+              "href": "/Dictionary",
+              "href": "portal",
               "text": "Explore Gen3 Data"
             }
           },
