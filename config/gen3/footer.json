@@ -9,7 +9,7 @@
         "rows": [
           {
             "Icon": {
-              "logo": "/icons/gen3.png",
+              "logo": "/images/logos/gen3.png",
               "width": 132,
               "height": 60,
               "description": "Gen3 Logo"
@@ -21,7 +21,7 @@
         "rows": [
           {
             "Icon": {
-              "logo": "/icons/createdby.png",
+              "logo": "/images/logos/createdby.png",
               "width": 170,
               "height": 60,
               "description": "Created by CTDS"
