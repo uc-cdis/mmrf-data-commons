@@ -1,0 +1,104 @@
+{
+  "mmrfFooter": {
+    "leftSection": {
+      "columns": [
+        {
+          "title": "Contact",
+          "className": "flex-wrap mr-14 mb-8 md:mb-0",
+          "linkSet": [
+            {
+              "text": "About Us",
+              "href": "/"
+            },
+            {
+              "text": "Contact",
+              "href": "/"
+            }
+          ]
+        },
+        {
+          "title": "Help",
+          "className": "flex-wrap",
+          "linkSet": [
+            {
+              "text": "User Guides",
+              "href": "/"
+            },
+            {
+              "text": "Tutorials",
+              "href": "/"
+            },
+            {
+              "text": "FAQ",
+              "href": "/documentation/faqs"
+            }
+          ]
+        },
+        {
+          "title": "Platform",
+          "className": "flex-wrap mr-14 mb-8 md:mb-0",
+          "linkSet": [
+            {
+              "text": "Workspaces",
+              "href": "/"
+            },
+            {
+              "text": "Dictionary",
+              "href": "/"
+            },
+            {
+              "text": "Profile",
+              "href": "/"
+            }
+          ]
+        }
+      ]
+    },
+    "rightSection": {
+      "icons": [
+        {
+          "className": "w-[20%] sm:w-[58px] border-r-1 border-heal-blue_accent pr-2 sm:pr-3 inline",
+          "width": 58,
+          "height": 100,
+          "icon": "/images/gen3.png",
+          "alt": "Gen3 Logo",
+          "href": "https://ctds.uchicago.edu/gen3"
+        },
+        {
+          "className": "w-[40%] sm:w-[105px] border-r-1 border-heal-blue_accent px-2 sm:px-3 inline",
+          "width": 105,
+          "height": 100,
+          "icon": "/images/ctds-logo.png",
+          "alt": "Center for Translational Data Science at the University of Chicago",
+          "href": "https://ctds.uchicago.edu/"
+        },
+        {
+          "className": "w-[20%] sm:w-[45px] pl-2 sm:pl-3 inline",
+          "width": 45,
+          "height": 100,
+          "icon": "/images/footer-nih-logo.png",
+          "alt": "NIH HEAL INITIATIVE",
+          "href": "https://heal.nih.gov/"
+        }
+      ],
+      "description": "Designed for the health community, the Open Access Data Commons is a scalable, cloud-based platform for computational discovery.",
+      "linkSet": [
+        {
+          "text": "Dictionary",
+          "version": "v0.3.0",
+          "href": "/"
+        },
+        {
+          "text": "Submission",
+          "version": "v2023.04",
+          "href": "/"
+        },
+        {
+          "text": "Portal",
+          "version": "v5.13.0",
+          "href": "/"
+        }
+      ]
+    }
+  }
+}
