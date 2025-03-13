@@ -85,18 +85,15 @@
       "linkSet": [
         {
           "text": "Dictionary",
-          "version": "v0.3.0",
-          "href": "/"
+          "version": "v0.3.0"
         },
         {
           "text": "Submission",
-          "version": "v2023.04",
-          "href": "/"
+          "version": "v2023.04"
         },
         {
           "text": "Portal",
-          "version": "v5.13.0",
-          "href": "/"
+          "version": "v5.13.0"
         }
       ]
     }

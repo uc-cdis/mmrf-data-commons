@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import footerJSON from '../../../config/mmrf/footer.json';
-import { Anchor } from '@mantine/core';
+import { Anchor, Text } from '@mantine/core';
 
 const { mmrfFooter } = footerJSON;
 
@@ -62,15 +62,9 @@ const HealFooter: React.FC = () => {
           <div className="mt-3 w-full">
             {mmrfFooter.rightSection.linkSet.map((item, i) => (
               <React.Fragment key={i}>
-                <Anchor
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-variant="dark-background"
-                  className="block md:inline"
-                >
+                <Text className="block md:inline text-white">
                   <b>{item.text}</b> {item.version}
-                </Anchor>
+                </Text>
                 {i < mmrfFooter.rightSection.linkSet.length - 1 && (
                   <span className="hidden md:inline">&nbsp;|&nbsp;</span>
                 )}
