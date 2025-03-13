@@ -36,7 +36,7 @@ const HealFooter: React.FC = () => {
         </div>
         {/* Right Section */}
         <div className="flex flex-wrap max-w-[500px] text-sm text-right">
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
                 key={i}
