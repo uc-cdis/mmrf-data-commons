@@ -9,11 +9,11 @@ const HealFooter: React.FC = () => {
   return (
     <footer
       data-testid="heal-footer"
-      className="bg-mmrf-gunmetal min-h-[212px] text-white "
+      className="bg-mmrf-gunmetal min-h-[152px] text-white "
     >
-      <div className="container mx-auto px-6 py-12 flex justify-between">
+      <div className="container px-4 py-6 flex min-w-full">
         {/* Left Section */}
-        <div className="block md:flex justify-between max-w-[283px] ml-8 md:ml-0 md:mr-8">
+        <div className="block md:flex justify-between min-w-[500px] items-start ml-4 md:ml-0 md:mr-4">
           {mmrfFooter.leftSection.columns.map((col, i) => (
             <div className="flex-wrap mr-14 mb-8 md:mb-0" key={i}>
               <div className="mb-3 font-bold uppercase">{col.title}</div>
@@ -35,7 +35,7 @@ const HealFooter: React.FC = () => {
           ))}
         </div>
         {/* Right Section */}
-        <div className="flex flex-wrap max-w-[500px] text-sm text-right">
+        <div className="flex flex-wrap min-w-[500px] items-end justify-end text-sm text-right">
           <div className="mb-3 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
@@ -56,7 +56,9 @@ const HealFooter: React.FC = () => {
               </Anchor>
             ))}
           </div>
-          <div>{mmrfFooter.rightSection.description}</div>
+          <div className="text-right w-[400px]">
+            {mmrfFooter.rightSection.description}
+          </div>
           <div className="mt-3 w-full">
             {mmrfFooter.rightSection.linkSet.map((item, i) => (
               <React.Fragment key={i}>
