@@ -56,6 +56,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "axe-playwright": "^2.0.3",
     "@axe-core/react": "^4.10.1",
     "@chromatic-com/storybook": "^3.2.5",
     "@gen3/toolsff": "^0.10.81",
