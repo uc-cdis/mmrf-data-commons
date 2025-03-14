@@ -8,14 +8,21 @@ const { mmrfFooter } = footerJSON;
 const HealFooter: React.FC = () => {
   return (
     <footer
-      data-testid="heal-footer"
+      data-testid="mmrf-footer"
       className="bg-mmrf-gunmetal min-h-[152px] text-white "
     >
       <div className="container px-4 py-6 flex min-w-full">
         {/* Left Section */}
-        <div className="block md:flex justify-between min-w-[500px] items-start ml-4 md:ml-0 md:mr-4">
+        <div
+          className="block md:flex justify-between min-w-[500px] items-start ml-4 md:ml-0 md:mr-4"
+          data-testid="mmrf-footer-left-section"
+        >
           {mmrfFooter.leftSection.columns.map((col, i) => (
-            <div className="flex-wrap mr-14 mb-8 md:mb-0" key={i}>
+            <div
+              className="flex-wrap mr-14 mb-8 md:mb-0"
+              key={i}
+              data-testid={`mmrf-footer-left-column-${i}`}
+            >
               <div className="mb-3 font-bold uppercase">{col.title}</div>
               <ul className="text-sm">
                 {col.linkSet.map((link, iterator) => (
@@ -35,7 +42,10 @@ const HealFooter: React.FC = () => {
           ))}
         </div>
         {/* Right Section */}
-        <div className="flex flex-wrap min-w-[500px] items-end justify-end text-sm text-right">
+        <div
+          className="flex flex-wrap min-w-[500px] items-end justify-end text-sm text-right"
+          data-testid="mmrf-footer-right-section"
+        >
           <div className="mb-3 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
@@ -44,6 +54,7 @@ const HealFooter: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-85"
+                data-testid={`mmrf-footer-icon-${i}`}
               >
                 <Image
                   src={item.icon}
