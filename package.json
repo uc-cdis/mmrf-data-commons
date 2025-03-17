@@ -104,5 +104,10 @@
     "workerDirectory": [
       "public"
     ]
+  },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "^20.3.0",
+    "@nx/nx-linux-arm64-gnu": "^20.3.0",
+    "@nx/nx-linux-x64-gnu": "^20.3.0"
   }
 }
