@@ -58,7 +58,7 @@
   "devDependencies": {
     "axe-playwright": "^2.0.3",
     "@axe-core/react": "^4.10.1",
-    "@chromatic-com/storybook": "^3.2.5",
+    "@chromatic-com/storybook": "^3.2.6",
     "@gen3/toolsff": "^0.10.81",
     "@next/eslint-plugin-next": "^15.2.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -98,7 +98,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.26.0",
-    "storybook": "^8.6.4"
+    "storybook": "^8.6.7"
   },
   "msw": {
     "workerDirectory": [
@@ -106,8 +106,8 @@
     ]
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "^20.3.0",
-    "@nx/nx-linux-arm64-gnu": "^20.3.0",
-    "@nx/nx-linux-x64-gnu": "^20.3.0"
+    "@nx/nx-darwin-arm64": "^20.6.0",
+    "@nx/nx-linux-arm64-gnu": "^20.6.0",
+    "@nx/nx-linux-x64-gnu": "^20.6.0"
   }
 }
