@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   useCoreSelector,
-  // selectGen3AppByName,
-  selectGen3AppById,
+  selectGen3AppByName,
   GEN3_COMMONS_NAME,
 } from '@gen3/core';
 import { GetServerSideProps } from 'next';
@@ -24,8 +23,7 @@ const AppsPage = ({ headerProps, footerProps, config }: AppConfig) => {
   const appName = getAppName(router);
 
   const GdcApp = useCoreSelector(
-    // () => selectGen3AppByIdName(appName), // TODO update ById to ByName
-    () => selectGen3AppById(appName), // TODO update ById to ByName
+    () => selectGen3AppByName(appName)
   ) as React.ElementType;
 
   return (
