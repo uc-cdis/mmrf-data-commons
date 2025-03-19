@@ -2,7 +2,7 @@ import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Card, Container, Text } from '@mantine/core';
 
-const HealLandingPage = () => {
+const Tools = () => {
   return (
     <>
       <PageTitle pageName="Tools" />
@@ -21,4 +21,4 @@ const HealLandingPage = () => {
   );
 };
 
-export default HealLandingPage;
+export default Tools;
