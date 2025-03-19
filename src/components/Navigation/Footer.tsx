@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
         </div>
         {/* Right Section */}
         <div
-          className=" w-full md:ml-12 md:flex md:flex-wrap md:items-end md:justify-end md:text-right "
+          className="w-full md:ml-12 md:flex md:flex-wrap md:items-end md:justify-end md:text-right "
           data-testid="mmrf-footer-right-section"
         >
           <div className="mb-2 w-full">
@@ -70,13 +70,13 @@ const Footer: React.FC = () => {
               </Anchor>
             ))}
           </div>
-          <div className="md:text-right lg:w-[400px]">
+          <div className="md:text-right lg:w-[425px]">
             {mmrfFooter.rightSection.description}
           </div>
           <div className="mt-3 w-full">
             {mmrfFooter.rightSection.linkSet.map((item, i) => (
               <React.Fragment key={i}>
-                <Text className="block md:inline text-white text-xs">
+                <Text className="block md:inline text-xs">
                   <b>{item.text}</b> {item.version}
                 </Text>
                 {i < mmrfFooter.rightSection.linkSet.length - 1 && (

@@ -19,24 +19,6 @@ const gen3Theme = createMantineTheme(
 const localTheme = createTheme({
   components: {
     Anchor: Anchor.extend({ classNames: themeExtensionClasses }),
-    /*     Anchor: {
-      styles: () => ({
-        root: {
-          textDecoration: 'none', // Default style
-          color: 'blue', // Default color
-        },
-      }),
-      variants: {
-        custom: {
-          root: {
-            color: 'white', // Custom color
-            '&:hover': {
-              textDecoration: 'underline', // Underline on hover
-            },
-          },
-        },
-      },
-    }, */
   },
 });
 
