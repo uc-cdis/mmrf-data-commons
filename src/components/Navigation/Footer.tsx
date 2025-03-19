@@ -9,22 +9,25 @@ const HealFooter: React.FC = () => {
   return (
     <footer
       data-testid="mmrf-footer"
-      className="bg-mmrf-gunmetal min-h-[152px] text-white "
+      className="bg-mmrf-gunmetal min-h-[152px] text-white text-xs"
     >
-      <div className="container px-4 py-6 flex min-w-full">
+      <div className="container px-4 py-6 md:flex min-w-full">
         {/* Left Section */}
         <div
-          className="block md:flex justify-between min-w-[500px] items-start ml-4 md:ml-0 md:mr-4"
+          className={`flex justify-between w-full sm:w-[40%]  items-start md:ml-0 md:mr-4
+           `}
           data-testid="mmrf-footer-left-section"
         >
           {mmrfFooter.leftSection.columns.map((col, i) => (
             <div
-              className="flex-wrap mr-14 mb-8 md:mb-0"
+              className="flex-wrap mr-5 md:mr-14 mb-8 md:mb-0"
               key={i}
               data-testid={`mmrf-footer-left-column-${i}`}
             >
-              <div className="mb-3 font-bold uppercase">{col.title}</div>
-              <ul className="text-sm">
+              <div className="mb-2 font-bold uppercase text-sm">
+                {col.title}
+              </div>
+              <ul>
                 {col.linkSet.map((link, iterator) => (
                   <li key={iterator}>
                     <Anchor
@@ -43,10 +46,10 @@ const HealFooter: React.FC = () => {
         </div>
         {/* Right Section */}
         <div
-          className="flex flex-wrap min-w-[500px] items-end justify-end text-sm text-right"
+          className=" w-full md:ml-12 md:flex md:flex-wrap md:items-end md:justify-end md:text-right "
           data-testid="mmrf-footer-right-section"
         >
-          <div className="mb-3 w-full">
+          <div className="mb-2 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
                 key={i}
@@ -67,13 +70,13 @@ const HealFooter: React.FC = () => {
               </Anchor>
             ))}
           </div>
-          <div className="text-right w-[400px]">
+          <div className="md:text-right lg:w-[400px]">
             {mmrfFooter.rightSection.description}
           </div>
           <div className="mt-3 w-full">
             {mmrfFooter.rightSection.linkSet.map((item, i) => (
               <React.Fragment key={i}>
-                <Text className="block md:inline text-white">
+                <Text className="block md:inline text-white text-xs">
                   <b>{item.text}</b> {item.version}
                 </Text>
                 {i < mmrfFooter.rightSection.linkSet.length - 1 && (
