@@ -5,7 +5,7 @@ import { Anchor, Text } from '@mantine/core';
 
 const { mmrfFooter } = footerJSON;
 
-const HealFooter: React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <footer
       data-testid="mmrf-footer"
@@ -20,7 +20,7 @@ const HealFooter: React.FC = () => {
         >
           {mmrfFooter.leftSection.columns.map((col, i) => (
             <div
-              className="flex-wrap mr-5 md:mr-14 mb-8 md:mb-0"
+              className="flex-wrap mr-5 md:mr-12 mb-8 md:mb-0"
               key={i}
               data-testid={`mmrf-footer-left-column-${i}`}
             >
@@ -64,7 +64,7 @@ const HealFooter: React.FC = () => {
                   height={item.height}
                   width={item.width}
                   alt={item.alt}
-                  className={`border-heal-blue_accent
+                  className={`border-white
                     ${item.className}`}
                 />
               </Anchor>
@@ -91,4 +91,4 @@ const HealFooter: React.FC = () => {
   );
 };
 
-export default HealFooter;
+export default Footer;

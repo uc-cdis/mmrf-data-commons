@@ -57,7 +57,7 @@
     "rightSection": {
       "icons": [
         {
-          "className": "w-[20%] sm:w-[35px] border-r-1 border-heal-blue_accent pr-2 sm:pr-3 inline",
+          "className": "w-[20%] sm:w-[35px] border-r-1 border-white pr-2 sm:pr-3 inline",
           "width": 33,
           "height": 100,
           "icon": "/images/logos/MMRF Square_White_CMYK.png",
@@ -73,7 +73,7 @@
           "href": "/"
         },
         {
-          "className": "w-[40%] sm:w-[78px] pl-2 sm:pl-3 inline  border-l-1 border-heal-blue_accent",
+          "className": "w-[40%] sm:w-[78px] pl-2 sm:pl-3 inline  border-l-1 border-white",
           "width": 68,
           "height": 100,
           "icon": "/images/logos/createdby.png",
