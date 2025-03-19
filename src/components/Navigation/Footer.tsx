@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
       <div className="container px-4 py-6 md:flex min-w-full">
         {/* Left Section */}
         <div
-          className={`flex justify-between w-full sm:w-[40%]  items-start md:ml-0 md:mr-4
+          className={`flex justify-between w-full sm:w-[40%] items-start md:ml-0 md:mr-4
            `}
           data-testid="mmrf-footer-left-section"
         >
@@ -64,8 +64,7 @@ const Footer: React.FC = () => {
                   height={item.height}
                   width={item.width}
                   alt={item.alt}
-                  className={`border-white
-                    ${item.className}`}
+                  className={`border-white ${item.className}`}
                 />
               </Anchor>
             ))}
