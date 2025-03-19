@@ -65,7 +65,7 @@
           "href": "/"
         },
         {
-          "className": "w-[53px] min-h-[70px] pl-2 pr-2 sm:pr-3 inline",
+          "className": "w-[53px] min-h-[70px] px-2 sm:pr-3 inline",
           "width": 53,
           "height": 100,
           "icon": "/images/logos/gen3.png",
