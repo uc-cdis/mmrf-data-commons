@@ -8,6 +8,7 @@ import {
 import TopNavigation from '@/components/Navigation/TopNavigation';
 import Footer from '@/components/Navigation/Footer';
 import mantinetheme from '../mantineTheme';
+import MainNavigation from '@/components/Navigation/MainNavigation';
 
 export default function Document() {
   return (
@@ -17,7 +18,6 @@ export default function Document() {
       </Head>
       <body className="flex flex-col min-h-screen">
         <MantineProvider theme={mantinetheme}>
-          <TopNavigation />
           <main id="main-content" className="flex-grow">
             <Main />
           </main>

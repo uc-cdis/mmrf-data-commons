@@ -1,0 +1,33 @@
+{
+  "navigation": {
+    "logo": {
+      "src": "/images/logos/VirtualLab-TM-FINAL-CMYK_PLUM.png",
+      "width": 150,
+      "height": 50,
+      "href": "/",
+      "alt": "MMRF Virtual Lab"
+    },
+    "items": [
+      {
+        "icon": "/icons/Apps/AnalysisCenter.svg",
+        "href": "/",
+        "name": "Analysis Center"
+      },
+      {
+        "icon": "/icons/Apps/Projects.svg",
+        "href": "/",
+        "name": "Projects"
+      },
+      {
+        "icon": "/icons/Apps/CohortBuilder.svg",
+        "href": "/",
+        "name": "Cohort Build"
+      },
+      {
+        "icon": "/icons/Apps/Repository.svg",
+        "href": "/",
+        "name": "Repository"
+      }
+    ]
+  }
+}
