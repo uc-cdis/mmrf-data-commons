@@ -23,7 +23,7 @@ const AppsPage = ({ headerProps, footerProps, config }: AppConfig) => {
   const appName = getAppName(router);
 
   const GdcApp = useCoreSelector(
-    () => selectGen3AppByName(appName), // TODO update ById to ByName
+    () => selectGen3AppByName(appName)
   ) as React.ElementType;
 
   return (

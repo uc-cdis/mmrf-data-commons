@@ -1,0 +1,7 @@
+/* Per Variant documentation:https://v7.mantine.dev/styles/variants-sizes/ and https://mantine.dev/core/button/#custom-variants */
+.root {
+  &[data-variant='dark-background'] {
+    color: white;
+    font-size: 12px;
+  }
+}

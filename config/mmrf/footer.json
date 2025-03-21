@@ -1,0 +1,101 @@
+{
+  "mmrfFooter": {
+    "leftSection": {
+      "columns": [
+        {
+          "title": "Contact",
+          "className": "flex-wrap mr-14 mb-8 md:mb-0",
+          "linkSet": [
+            {
+              "text": "About Us",
+              "href": "/"
+            },
+            {
+              "text": "Contact",
+              "href": "/"
+            }
+          ]
+        },
+        {
+          "title": "Help",
+          "className": "flex-wrap",
+          "linkSet": [
+            {
+              "text": "User Guides",
+              "href": "/"
+            },
+            {
+              "text": "Tutorials",
+              "href": "/"
+            },
+            {
+              "text": "FAQ",
+              "href": "/documentation/faqs"
+            }
+          ]
+        },
+        {
+          "title": "Platform",
+          "className": "flex-wrap mr-14 mb-8 md:mb-0",
+          "linkSet": [
+            {
+              "text": "Workspaces",
+              "href": "/"
+            },
+            {
+              "text": "Dictionary",
+              "href": "/"
+            },
+            {
+              "text": "Profile",
+              "href": "/"
+            }
+          ]
+        }
+      ]
+    },
+    "rightSection": {
+      "icons": [
+        {
+          "className": "w-[33px] border-r-1 border-white pr-2 sm:pr-3 inline",
+          "width": 33,
+          "height": 100,
+          "icon": "/images/logos/MMRF Square_White_CMYK.png",
+          "alt": "MMRF Logo",
+          "href": "/"
+        },
+        {
+          "className": "w-[53px] min-h-[70px] px-2 sm:pr-3 inline",
+          "width": 53,
+          "height": 100,
+          "icon": "/images/logos/gen3.png",
+          "alt": "Gen3 Logo",
+          "href": "/"
+        },
+        {
+          "className": "w-[68px] pl-2 sm:pl-3 inline  border-l-1 border-white",
+          "width": 68,
+          "height": 100,
+          "icon": "/images/logos/createdby.png",
+          "alt": "Center for Translational Data Science at the University of Chicago",
+          "href": "/"
+        }
+      ],
+      "description": "Designed for the health community, the Open Access Data Commons is a scalable, cloud-based platform for computational discovery.",
+      "linkSet": [
+        {
+          "text": "Dictionary",
+          "version": "v0.3.0"
+        },
+        {
+          "text": "Submission",
+          "version": "v2023.04"
+        },
+        {
+          "text": "Portal",
+          "version": "v5.13.0"
+        }
+      ]
+    }
+  }
+}
