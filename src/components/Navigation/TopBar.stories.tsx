@@ -42,10 +42,9 @@ export const Default: Story = {
     loginButtonVisibility: 'visible' as any,
     classNames: {
       divider: 'border-base-min border-1',
-      login: 'hover:border-base-max'
     },
     itemClassnames :{
-        button: 'hover:border-base-max'
+        button: 'hover:border-accent'
     }
   },
 };
