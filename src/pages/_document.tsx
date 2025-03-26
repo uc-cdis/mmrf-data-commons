@@ -5,10 +5,8 @@ import {
   mantineHtmlProps,
   MantineProvider,
 } from '@mantine/core';
-import TopNavigation from '@/components/Navigation/TopNavigation';
 import Footer from '@/components/Navigation/Footer/Footer';
 import mantinetheme from '../mantineTheme';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 export default function Document() {
   return (
