@@ -44,7 +44,10 @@ const MobileView: React.FC<MobileViewProps> = ({ navigation }) => {
               </Anchor>
             ))}
           </div>
-          <SearchBar iconSrc={navigation.Search.icon} />
+          <SearchBar
+            iconSrc={navigation.Search.icon}
+            placeholderText={navigation.Search.placeholderText}
+          />
         </Drawer>
       </div>
       <div className="lg:hidden items-center">

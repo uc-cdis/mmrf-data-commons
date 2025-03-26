@@ -20,4 +20,5 @@ interface NavigationItem {
 
 interface Search {
   icon: string;
+  placeholderText: string;
 }

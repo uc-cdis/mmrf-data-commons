@@ -30,7 +30,8 @@
       }
     ],
     "Search": {
-      "icon": "/icons/Search.svg"
+      "icon": "/icons/Search.svg",
+      "placeholderText": "Quick Search"
     }
   }
 }

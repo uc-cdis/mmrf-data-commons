@@ -4,12 +4,13 @@ import Image from 'next/image';
 
 interface SearchBarProps {
   iconSrc: string;
+  placeholderText: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ iconSrc }) => (
+const SearchBar: React.FC<SearchBarProps> = ({ iconSrc, placeholderText }) => (
   <Input
     leftSection={<Image src={iconSrc} alt="" width={18} height={18} />}
-    placeholder="Search..."
+    placeholder={placeholderText}
     className="w-64"
   />
 );

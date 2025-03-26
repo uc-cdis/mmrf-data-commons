@@ -9,13 +9,15 @@ const MainNavigation = () => {
   const { navigation } = navigationJSON;
   return (
     <>
-      <div className="text-sm pr-4 hidden md:block">
-        <TopBar
-          loginButtonVisibility={topBarData.loginButtonVisibility as any}
-          classNames={topBarData.classNames}
-          itemClassnames={topBarData.itemClassnames}
-          items={topBarData.items}
-        />
+      <div className="bg-mmrf-purple w-full">
+        <div className="text-[5px]  sm:text-sm md:pr-4  md:block">
+          <TopBar
+            loginButtonVisibility={topBarData.loginButtonVisibility as any}
+            classNames={topBarData.classNames}
+            itemClassnames={topBarData.itemClassnames}
+            items={topBarData.items}
+          />
+        </div>
       </div>
       <div
         className="flex items-center justify-between p-4 bg-white shadow-md"

@@ -38,7 +38,10 @@ const DesktopView: React.FC<DesktopViewProps> = ({ navigation }) => (
         </Anchor>
       ))}
       <div className="pl-3" data-testid="mmrf-mainNavigation-search">
-        <SearchBar iconSrc={navigation.Search.icon} />
+        <SearchBar
+          iconSrc={navigation.Search.icon}
+          placeholderText={navigation.Search.placeholderText}
+        />
       </div>
     </div>
   </>
