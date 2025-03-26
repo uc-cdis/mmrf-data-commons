@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Anchor, Input, Burger, Drawer } from '@mantine/core';
 import Image from 'next/image';
+import { TopBar } from '@gen3/frontend';
+import topBarData from '../../../config/mmrf/topBar.json';
 import navigationJSON from '../../../config/mmrf/mainNavigation.json';
 
 const MainNavigation = () => {
@@ -17,8 +19,13 @@ const MainNavigation = () => {
 
   return (
     <>
-      <div className="bg-mmrf-purple text-white p-3 h-[50px]">
-        Secondary Navigation
+      <div className="bg-mmrf-purple text-white pr-4 hidden md:block">
+        <TopBar
+          loginButtonVisibility={topBarData.loginButtonVisibility as any}
+          classNames={topBarData.classNames}
+          itemClassnames={topBarData.itemClassnames}
+          items={topBarData.items}
+        />
       </div>
       <header className="flex items-center justify-between p-4 bg-white shadow-md">
         <div className="flex items-center">{navLogo}</div>
