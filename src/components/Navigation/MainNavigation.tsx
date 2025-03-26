@@ -28,7 +28,8 @@ const MainNavigation = () => {
         />
       </div>
       <header className="flex items-center justify-between p-4 bg-white shadow-md">
-        <div className="flex items-center">{navLogo}</div>
+        {/* Desktop view */}
+        <div className="hidden lg:flex items-center">{navLogo}</div>
         <div className="hidden lg:flex space-x-4 ml-4 items-center">
           {navigation.items.map((link, i) => (
             <Anchor
@@ -48,7 +49,7 @@ const MainNavigation = () => {
           ))}
           <Input placeholder="Search..." className="w-64" />
         </div>
-
+        {/* Mobile view */}
         <div className="lg:hidden">
           <Burger
             opened={opened}
@@ -80,6 +81,7 @@ const MainNavigation = () => {
             <Input placeholder="Search..." className="w-full mt-6  " />
           </Drawer>
         </div>
+        <div className="lg:hidden items-center">{navLogo}</div>
       </header>
     </>
   );
