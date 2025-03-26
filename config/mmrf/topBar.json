@@ -4,7 +4,8 @@
     "divider": "border-base-min border-1"
   },
   "itemClassnames": {
-    "button": "hover:border-white"
+    "button": "hover:border-white",
+    "rightIcon": "hidden md:block"
   },
   "items": [
     {

@@ -9,7 +9,7 @@ const MainNavigation = () => {
   const { navigation } = navigationJSON;
   return (
     <>
-      <div className="bg-mmrf-purple text-[5px]  sm:text-sm md:pr-4  md:block">
+      <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4 md:block">
         <TopBar
           loginButtonVisibility={topBarData.loginButtonVisibility as any}
           classNames={topBarData.classNames}
