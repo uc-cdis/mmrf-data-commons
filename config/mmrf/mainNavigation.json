@@ -28,6 +28,9 @@
         "href": "/",
         "name": "Repository"
       }
-    ]
+    ],
+    "Search": {
+      "icon": "/icons/Search.svg"
+    }
   }
 }

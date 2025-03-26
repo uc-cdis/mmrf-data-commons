@@ -1,7 +1,7 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Card, Container, Text } from '@mantine/core';
-import MainNavigation from '@/components/Navigation/MainNavigation';
+import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 const Tools = () => {
   return (
