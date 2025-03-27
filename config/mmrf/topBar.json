@@ -1,0 +1,37 @@
+{
+  "loginButtonVisibility": "visible",
+  "classNames": {
+    "divider": "border-base-min border-1"
+  },
+  "itemClassnames": {
+    "button": "hover:border-white",
+    "rightIcon": "hidden md:block"
+  },
+  "items": [
+    {
+      "rightIcon": "mmrf:video",
+      "href": "/",
+      "name": "Video Guides"
+    },
+    {
+      "rightIcon": "mmrf:feedback",
+      "href": "/",
+      "name": "Send Feedback"
+    },
+    {
+      "rightIcon": "mmrf:documentation",
+      "href": "/",
+      "name": "Documentation"
+    },
+    {
+      "rightIcon": "mmrf:library",
+      "href": "/",
+      "name": "My Data Library"
+    },
+    {
+      "rightIcon": "mmrf:email",
+      "href": "/",
+      "name": "email@email.edu"
+    }
+  ]
+}

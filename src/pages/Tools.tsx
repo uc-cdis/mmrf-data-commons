@@ -1,11 +1,13 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Card, Container, Text } from '@mantine/core';
+import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 const Tools = () => {
   return (
     <>
       <PageTitle pageName="Tools" />
+      <MainNavigation />
       <Container className="flex justify-center align-middle h-[300px] p-12">
         <Card
           shadow="sm"

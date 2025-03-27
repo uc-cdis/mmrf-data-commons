@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import footerJSON from '../../../config/mmrf/footer.json';
+import footerJSON from '../../../../config/mmrf/footer.json';
 import { Anchor, Text } from '@mantine/core';
 
 const { mmrfFooter } = footerJSON;

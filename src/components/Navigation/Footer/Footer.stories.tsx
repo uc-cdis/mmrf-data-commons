@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within } from '@storybook/test';
 import Footer from './Footer';
-import footerJSON from '../../../config/mmrf/footer.json';
+import footerJSON from '../../../../config/mmrf/footer.json';
 
 const meta = {
   title: 'Components/Navigation/Footer',

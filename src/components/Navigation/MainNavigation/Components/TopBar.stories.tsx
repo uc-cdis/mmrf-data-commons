@@ -4,7 +4,7 @@ import { TopBar }  from '@gen3/frontend';
 
 const meta = {
   component: TopBar,
-  title: 'Features/Navigation/TopBar',
+  title: 'Components/Navigation/TopBar',
   parameters: {
     deepControls: { enabled: true },
   },
