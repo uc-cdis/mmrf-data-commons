@@ -1,6 +1,6 @@
 import React from 'react';
+import { Navigation } from '../navigationInterfaces';
 import Image from 'next/image';
-import { Navigation } from '../MainNavigation/navigationInterfaces';
 
 interface NavLogoProps {
   navigation: Navigation;

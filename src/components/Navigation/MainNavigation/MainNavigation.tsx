@@ -1,12 +1,13 @@
 import React from 'react';
 import { TopBar } from '@gen3/frontend';
+import { Navigation } from './navigationInterfaces';
 import topBarData from '../../../../config/mmrf/topBar.json';
 import navigationJSON from '../../../../config/mmrf/mainNavigation.json';
-import MobileView from './MobileView';
-import DesktopView from './DesktopView';
+import MobileView from './Components/MobileView';
+import DesktopView from './Components/DesktopView';
 
-const MainNavigation = () => {
-  const { navigation } = navigationJSON;
+const MainNavigation: React.FC = () => {
+  const { navigation }: { navigation: Navigation } = navigationJSON;
   return (
     <>
       <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4">

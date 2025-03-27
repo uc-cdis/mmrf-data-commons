@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Anchor, Burger, Drawer } from '@mantine/core';
+import { Navigation } from '../navigationInterfaces';
 import Image from 'next/image';
 import SearchBar from './SearchBar';
 import NavLogo from './NavLogo';
-import { Navigation } from '../MainNavigation/navigationInterfaces';
 
 interface MobileViewProps {
   navigation: Navigation;

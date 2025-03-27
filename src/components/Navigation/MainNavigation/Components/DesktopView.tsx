@@ -1,8 +1,8 @@
 import React from 'react';
 import { Anchor } from '@mantine/core';
+import { Navigation } from '../navigationInterfaces';
 import Image from 'next/image';
 import NavLogo from './NavLogo';
-import { Navigation } from '../MainNavigation/navigationInterfaces';
 import SearchBar from './SearchBar';
 
 interface DesktopViewProps {
