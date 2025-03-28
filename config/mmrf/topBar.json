@@ -4,8 +4,7 @@
     "divider": "border-base-min border-1"
   },
   "itemClassnames": {
-    "button": "hover:border-white",
-    "rightIcon": "hidden md:block"
+    "button": "hover:border-white"
   },
   "items": [
     {
@@ -27,11 +26,6 @@
       "rightIcon": "mmrf:library",
       "href": "/",
       "name": "My Data Library"
-    },
-    {
-      "rightIcon": "mmrf:email",
-      "href": "/",
-      "name": "email@email.edu"
     }
   ]
 }
