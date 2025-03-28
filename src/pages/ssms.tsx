@@ -1,7 +1,8 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
-import { Card, Container, Text } from '@mantine/core';
+import { Container } from '@mantine/core';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
+import { SSMSSummary } from '@/lib/mutationSummary/SSMSSummary';
 
 const ssms = () => {
   return (
@@ -10,15 +11,10 @@ const ssms = () => {
       <MainNavigation />
 
       <Container className="flex justify-center align-middle h-[300px] p-12">
-        <Card
-          shadow="sm"
-          padding="lg"
-          className="w-[500px] text-center bg-mmrf-platinum text-mmrf-purple"
-        >
-          <Text size="lg" component="h1">
-            SMSS Page
-          </Text>
-        </Card>
+        <SSMSSummary
+          ssm_id={'53af5705-a17b-555a-92e9-880ce5c14ca0'}
+          isModal={false}
+        />
       </Container>
     </>
   );
