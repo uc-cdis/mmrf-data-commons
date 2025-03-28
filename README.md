@@ -1,10 +1,8 @@
-
-
-This is the base REPOSITORY for Gen3.2 data commons.
+This is the repository for the MMRF Data Commons.
 
 
 ## Getting Started
-Gen3 Data Commons using the Gen3 Frontend Framework is a matter of the following:
+MMRF Data Commons using the Gen3 Frontend Framework is a matter of the following:
 
 * create a clone of [Gen3 Data Commons Application](https://github.com/uc-cdis/commons-frontend-app/)  
 
@@ -78,3 +76,18 @@ You build a Docker image by:
 ```bash
 docker build .
 ```
+## Updating a forked commons
+
+To update a forked commons, the following steps usually apply.
+
+Get the changes from the parent fork:
+```bash
+git remote add upstream git@github.com:uc-cdis/commons-frontend-app.git
+git fetch upstream
+```
+Create a branch and merge changes from upstream:
+```bash
+git merge upstream/main
+```
+You will see merge conflicts. In general: **take the remote's version for everything except the config files**, as those are customized to the commons config. Resolve the remaining config issues and open a PR.
+Test the new common by running it locally or in a staging environment.
