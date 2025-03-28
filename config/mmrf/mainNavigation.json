@@ -2,8 +2,8 @@
   "navigation": {
     "logo": {
       "src": "/images/logos/VirtualLab-TM-FINAL-CMYK_PLUM.png",
-      "width": 150,
-      "height": 50,
+      "width": 240,
+      "height": 100,
       "href": "/",
       "alt": "MMRF Virtual Lab"
     },
@@ -21,7 +21,7 @@
       {
         "icon": "/icons/Apps/CohortBuilder.svg",
         "href": "/",
-        "name": "Cohort Build"
+        "name": "Cohort Builder"
       },
       {
         "icon": "/icons/Apps/Repository.svg",
