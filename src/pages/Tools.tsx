@@ -1,13 +1,16 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-import { Center } from "@mantine/core";
-import { AnalysisPageLayoutProps, ErrorCard, AnalysisCenterWithSections, AnalysisPageGetServerSideProps as getServerSideProps, } from "@gen3/frontend"
+import { Center } from '@mantine/core';
+import {
+  AnalysisPageLayoutProps,
+  ErrorCard,
+  AnalysisCenterWithSections,
+  AnalysisPageGetServerSideProps as getServerSideProps,
+  CohortManager,
+} from '@gen3/frontend';
 
-const Tools = ({
-                 sections,
-                 classNames,
-               }: AnalysisPageLayoutProps) => {
+const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   return (
     <>
       <PageTitle pageName="Analysis Center" />
@@ -18,11 +21,14 @@ const Tools = ({
         </Center>
       )}
       {sections && (
-        <div className="m-4" >
-        <AnalysisCenterWithSections
-          sections={sections}
-          classNames={classNames}
-        />
+        <div className="flex flex-col ml-2">
+          <CohortManager index="cases"></CohortManager>
+          <div className="ml-2 pr-[300px]">
+            <AnalysisCenterWithSections
+              sections={sections}
+              classNames={classNames}
+            />
+          </div>
         </div>
       )}
     </>
