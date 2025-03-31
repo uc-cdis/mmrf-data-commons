@@ -1,7 +1,7 @@
 {
   "navigation": {
     "logo": {
-      "src": "/images/logos/VirtualLab-TM-FINAL-CMYK_PLUM.png",
+      "src": "/images/logos/VirtualLab-TM.png",
       "width": 240,
       "height": 100,
       "href": "/",
@@ -9,22 +9,22 @@
     },
     "items": [
       {
-        "icon": "/icons/Apps/AnalysisCenter.svg",
+        "icon": "/icons/apps/AnalysisCenter.svg",
         "href": "/",
         "name": "Analysis Center"
       },
       {
-        "icon": "/icons/Apps/Projects.svg",
+        "icon": "/icons/apps/Projects.svg",
         "href": "/",
         "name": "Projects"
       },
       {
-        "icon": "/icons/Apps/CohortBuilder.svg",
+        "icon": "/icons/apps/CohortBuilder.svg",
         "href": "/",
         "name": "Cohort Builder"
       },
       {
-        "icon": "/icons/Apps/Repository.svg",
+        "icon": "/icons/apps/Repository.svg",
         "href": "/",
         "name": "Repository"
       }
