@@ -25,7 +25,7 @@ const DesktopView: React.FC<DesktopViewProps> = ({ navigation }) => (
         <Anchor
           key={i}
           href={link.href}
-          className="text-mmrf-gunmetal whitespace-nowrap"
+          className="text-mmrf-gunmetal whitespace-nowrap text-lg"
         >
           <Image
             src={link.icon}
