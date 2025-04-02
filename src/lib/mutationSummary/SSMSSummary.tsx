@@ -1,5 +1,19 @@
 import React from 'react';
+import { SummaryHeader } from '@/components/Summary/SummaryHeader';
+import { SummaryCard } from '@/components/Summary/SummaryCard';
+// import { useSSMS } from '@gff/core';
+import { pick } from 'lodash';
+import { HorizontalTableProps } from '@/components/HorizontalTable';
+import { formatDataForHorizontalTable } from '../../features/files/utils';
+import { externalLinks, humanify } from '../../utils';
+import { CollapsibleList } from '@/components/CollapsibleList';
+import { AnchorLink } from '@/components/AnchorLink';
+import SSMPlot from '../charts/SSMPlot';
+import { ConsequenceTable } from '@/features/mutationSummary/ConsequenceTable';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import SSMSCancerDistributionTable from '../cancerDistributionTable/SSMSCancerDistributionTable';
 
+/*
 export const SSMSSummary = ({
   ssm_id,
   isModal = false,
@@ -9,21 +23,7 @@ export const SSMSSummary = ({
 }): JSX.Element => {
   return <h1>SSMS SUMMARY</h1>;
 };
-
-/*
-import { SummaryHeader } from "@/components/Summary/SummaryHeader";
-import { SummaryCard } from "@/components/Summary/SummaryCard";
-import { useSSMS } from "@gff/core";
-import { pick } from "lodash";
-import { HorizontalTableProps } from "@/components/HorizontalTable";
-import { formatDataForHorizontalTable } from "../files/utils";
-import { externalLinks, humanify } from "src/utils";
-import { CollapsibleList } from "@/components/CollapsibleList";
-import { AnchorLink } from "@/components/AnchorLink";
-import SSMPlot from "../charts/SSMPlot";
-import { ConsequenceTable } from "@/features/mutationSummary/ConsequenceTable";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import SSMSCancerDistributionTable from "../cancerDistributionTable/SSMSCancerDistributionTable";
+*/
 
 export const SSMSSummary = ({
   ssm_id,
@@ -32,34 +32,36 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  const { data: summaryData, isFetching } = useSSMS({
+  const summaryData = [];
+  const isFetching = false;
+  /* const { data: summaryData, isFetching } = useSSMS({
     filters: {
       content: {
-        field: "ssm_id",
+        field: 'ssm_id',
         value: ssm_id,
       },
-      op: "=",
+      op: '=',
     },
-    expand: ["consequence.transcript", "consequence.transcript.annotation"],
+    expand: ['consequence.transcript', 'consequence.transcript.annotation'],
     fields: [
-      "reference_allele",
-      "genomic_dna_change",
-      "mutation_subtype",
-      "ncbi_build",
-      "reference_allele",
-      "cosmic_id",
-      "clinical_annotations.civic.variant_id",
+      'reference_allele',
+      'genomic_dna_change',
+      'mutation_subtype',
+      'ncbi_build',
+      'reference_allele',
+      'cosmic_id',
+      'clinical_annotations.civic.variant_id',
     ],
     size: 1,
-  });
+  }); */
 
-  const formatDataForSummary = (): HorizontalTableProps["tableData"] => {
+  const formatDataForSummary = (): HorizontalTableProps['tableData'] => {
     const obj = pick(summaryData, [
-      "uuid",
-      "dna_change",
-      "type",
-      "reference_genome_assembly",
-      "allele_in_the_reference_assembly",
+      'uuid',
+      'dna_change',
+      'type',
+      'reference_genome_assembly',
+      'allele_in_the_reference_assembly',
     ]);
 
     const {
@@ -108,7 +110,7 @@ export const SSMSSummary = ({
               )}
             </div>
           ) : (
-            "No canonical transcript"
+            'No canonical transcript'
           )}
         </>
       ),
@@ -132,15 +134,15 @@ export const SSMSSummary = ({
 
     const arr = [];
     arr.push([
-      "dbsnp",
+      'dbsnp',
       dbsnp && /rs(\d+)$/g.test(dbsnp) ? (
         <AnchorLink href={externalLinks.dbsnp(dbsnp)} title={dbsnp} />
       ) : (
-        "--"
+        '--'
       ),
     ]);
     arr.push([
-      "cosmic",
+      'cosmic',
       cosmic_id ? (
         <CollapsibleList
           data={cosmic_id.map((id) => (
@@ -154,15 +156,15 @@ export const SSMSSummary = ({
           ))}
         />
       ) : (
-        "--"
+        '--'
       ),
     ]);
     arr.push([
-      "civic",
+      'civic',
       civic ? (
         <AnchorLink href={externalLinks.civicMutaton(civic)} title={civic} />
       ) : (
-        "--"
+        '--'
       ),
     ]);
     const headersConfig = arr.map(([key]) => ({
@@ -184,7 +186,7 @@ export const SSMSSummary = ({
             isModal={isModal}
           />
 
-          <div className={`mx-4 ${!isModal ? "mt-24" : "mt-6"}`}>
+          <div className={`mx-4 ${!isModal ? 'mt-24' : 'mt-6'}`}>
             <div className="flex gap-8">
               <div className="flex-1">
                 <SummaryCard tableData={formatDataForSummary()} />
@@ -220,4 +222,3 @@ export const SSMSSummary = ({
     </div>
   );
 };
-*/
