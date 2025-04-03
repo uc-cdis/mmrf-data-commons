@@ -8,7 +8,7 @@ import { BsList, BsX } from 'react-icons/bs';
 import { MdSearch as SearchIcon } from 'react-icons/md';
 import { isEqual } from 'lodash';
 import { FaUndo as RevertIcon } from 'react-icons/fa';
-import { humanify } from '@/utils/index';
+import { humanify } from '@/utils/utils';
 import { NO_COLUMN_ORDERING_IDS } from './utils';
 import {
   DndContext,
@@ -74,7 +74,7 @@ function ColumnOrdering<TData>({
     if (active?.id !== over?.id) {
       setColumnOrder((items) => {
         const oldIndex = items.indexOf(active.id as string);
-        const newIndex = items.indexOf(over.id as string);
+        const newIndex = items.indexOf(over?.id as string);
 
         return arrayMove(items, oldIndex, newIndex);
       });
@@ -115,7 +115,7 @@ function ColumnOrdering<TData>({
               <span>
                 <ActionIcon
                   onClick={handleColumnOrderingReset}
-                  className={isBackToDefaults && 'invisible'}
+                  className={isBackToDefaults ? 'invisible' : 'visible'}
                   data-testid="restore-default-icon"
                   aria-label="restore default column ordering button"
                 >
@@ -132,7 +132,7 @@ function ColumnOrdering<TData>({
             }
             placeholder="Filter Columns"
             aria-label="Search input for columns"
-            icon={<SearchIcon />}
+            leftSection={<SearchIcon />}
             className="mb-2 mt-4"
             data-testid="textbox-column-selector"
           />

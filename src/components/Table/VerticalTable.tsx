@@ -29,7 +29,7 @@ import {
 import { MdClose, MdSearch } from 'react-icons/md';
 import ColumnOrdering from './ColumnOrdering';
 // import { DataStatus } from '@gff/core';
-import { createKeyboardAccessibleFunction } from '@/utils/index';
+import { createKeyboardAccessibleFunction } from '@/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { useDeepCompareEffect } from 'use-deep-compare';
 
@@ -73,16 +73,16 @@ function VerticalTable<TData>({
   const [tableData, setTableData] = useState(data);
   const [searchTerm, setSearchTerm] = useState(search?.defaultSearchTerm ?? '');
   const [searchFocused, setSearchFocused] = useState(false);
-  const inputRef = useRef(null);
-  const timeoutRef = useRef(null);
-  const liveRegionRef = useRef(null); // Reference to the Live Region
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const timeoutRef = useRef<any>(undefined);
+  const liveRegionRef = useRef<any | null>(null); // Reference to the Live Region
   const [sortingStatus, setSortingStatus] = useState(''); // Sorting status announcement
   const [announcementTimestamp, setAnnouncementTimestamp] = useState(
     Date.now(),
   );
 
   useEffect(() => {
-    if (sortingStatus && announcementTimestamp) {
+    if (sortingStatus && announcementTimestamp && liveRegionRef.current) {
       liveRegionRef.current.textContent = sortingStatus;
     }
   }, [sortingStatus, announcementTimestamp]);
@@ -101,7 +101,7 @@ function VerticalTable<TData>({
     }
   }, [search?.defaultSearchTerm]);
 
-  const [clickedColumnId, setClickedColumnId] = useState<string>(null);
+  const [clickedColumnId, setClickedColumnId] = useState<string|null>(null);
   const table = useReactTable({
     columns,
     data: tableData,
@@ -150,16 +150,16 @@ function VerticalTable<TData>({
     }
   }, [pagination]);
 
-  const handlePageSizeChange = (newPageSize: string) => {
-    setPageSize(parseInt(newPageSize));
-    handleChange &&
+  const handlePageSizeChange = (newPageSize: string | null ) => {
+    setPageSize(parseInt(newPageSize?? '10'));
+    if (handleChange)
       handleChange({
-        newPageSize: newPageSize,
+        newPageSize: newPageSize ?? "10",
       });
   };
   const handlePageChange = (newPageNumber: number) => {
     setPageOn(newPageNumber);
-    handleChange &&
+    if (handleChange)
       handleChange({
         newPageNumber: newPageNumber,
       });
@@ -174,18 +174,18 @@ function VerticalTable<TData>({
 
     // Set a new timeout to perform the search after 400ms
     timeoutRef.current = setTimeout(() => {
-      handleChange({ newSearch: newSearchTerm.trim() });
+      if (handleChange) handleChange({ newSearch: newSearchTerm.trim() });
     }, 400);
   };
 
   const handleClearClick = () => {
     setSearchTerm('');
     clearTimeout(timeoutRef.current);
-    handleChange({ newSearch: '' });
+    if (handleChange) handleChange({ newSearch: '' });
   };
 
   const TooltipContainer = search?.tooltip
-    ? (children) => (
+    ? (children: any) => (
         <Tooltip
           multiline
           label={search.tooltip}
@@ -239,7 +239,7 @@ function VerticalTable<TData>({
             <div className="flex mb-2 gap-2">
               {search?.enabled && (
                 <TextInput
-                  icon={<MdSearch size={24} />}
+                  leftSection={<MdSearch size={24} />}
                   data-testid="textbox-table-search-bar"
                   placeholder={search.placeholder ?? 'Search'}
                   aria-label="Table Search Input"
@@ -273,8 +273,8 @@ function VerticalTable<TData>({
                     table.resetColumnVisibility();
                     table.resetColumnOrder();
                   }}
-                  columnOrder={columnOrder}
-                  setColumnOrder={setColumnOrder}
+                  columnOrder={columnOrder ?? []}
+                  setColumnOrder={setColumnOrder as any}
                 />
               )}
             </div>
@@ -401,15 +401,15 @@ function VerticalTable<TData>({
                     return (
                       <td key={cell.id} className="px-2.5 py-2 cursor-default">
                         {row.getCanExpand() &&
-                        expandableColumnIds.includes(columnId) ? (
+                        expandableColumnIds?.includes(columnId ?? 'unset') ? (
                           <button
                             onClick={() => {
-                              setClickedColumnId(columnId);
-                              setExpanded(row, columnId);
+                              setClickedColumnId(columnId ?? 'unset');
+                              if (setExpanded) setExpanded(row, columnId ?? 'unknown');
                             }}
                             onKeyDown={createKeyboardAccessibleFunction(() => {
-                              setClickedColumnId(columnId);
-                              setExpanded(row, columnId);
+                              setClickedColumnId(columnId ?? 'unset');
+                              if (setExpanded) setExpanded(row, columnId ?? 'unset');
                             })}
                             className="cursor-auto align-bottom"
                           >
@@ -427,7 +427,7 @@ function VerticalTable<TData>({
                     {/* 2nd row is a custom 1 cell row */}
                     <td colSpan={row.getVisibleCells().length}>
                       {/* Need to pass in the SubRow component to render here */}
-                      {renderSubComponent({ row, clickedColumnId })}
+                      {(renderSubComponent) ? renderSubComponent({ row, clickedColumnId: clickedColumnId ?? 'unset' }) : null}
                     </td>
                   </tr>
                 )}
@@ -472,10 +472,10 @@ function VerticalTable<TData>({
 
           <ShowingCount
             from={pagination?.from}
-            label={pagination?.label}
+            label={pagination?.label ?? ''}
             total={pagination?.total}
             dataLength={tableData?.length}
-            status={status}
+            status={status ??  'uninitialized'}
             pageSize={pageSize}
           />
 
@@ -526,8 +526,8 @@ function ShowingCount({
   status: DataStatus;
   pageSize: number;
 }) {
-  let outputString: JSX.Element;
-  if (!isNaN(from) && status === 'fulfilled') {
+  let outputString: JSX.Element = (<span/>);
+  if (!isNaN(from) && status === ('fulfilled')) {
     const paginationFrom = from >= 0 && dataLength > 0 ? from + 1 : 0;
 
     const defaultPaginationTo = from + pageSize;

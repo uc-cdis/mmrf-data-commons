@@ -1,18 +1,18 @@
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import { FilterSet, useSsmPlot } from '@gff/core';
-import ChartTitleBar from './ChartTitleBar';
-import { processFilters } from 'src/utils';
-import { CountSpan } from '@/components/tailwindComponents';
+import React from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { FilterSet, ProjectPercent, useSsmPlotQuery } from '@/core';
+import ChartTitleBar from "./ChartTitleBar";
+import { CountSpan } from "@/components/tailwindComponents";
 
-const BarChart = dynamic(() => import('./BarChart'), {
+const BarChart = dynamic(() => import("./BarChart"), {
   ssr: false,
 });
 
-const CHART_NAME = 'cancer-distribution-bar-chart-ssm';
+const CHART_NAME = "cancer-distribution-bar-chart-ssm";
 
 interface SSMPlotProps {
-  readonly page: 'gene' | 'ssms';
+  readonly page: "gene" | "ssms";
   readonly gene?: string;
   readonly ssms?: string;
   readonly height?: number;
@@ -21,22 +21,23 @@ interface SSMPlotProps {
 }
 
 const SSMPlot: React.FC<SSMPlotProps> = ({
-  page,
-  gene,
-  ssms,
-  height = undefined,
-  genomicFilters = undefined,
-  cohortFilters = undefined,
-}: SSMPlotProps) => {
-  const contextFilters = processFilters(genomicFilters, cohortFilters);
-
+                                           page,
+                                           gene,
+                                           ssms,
+                                           height = undefined,
+                                           genomicFilters = undefined,
+                                           cohortFilters = undefined,
+                                         }: SSMPlotProps) => {
   const router = useRouter();
 
-  const { data, error, isUninitialized, isFetching, isError } = useSsmPlot({
-    gene,
-    ssms,
-    contextFilters,
-  });
+  const { data, error, isUninitialized, isFetching, isError } = useSsmPlotQuery(
+    {
+      gene,
+      ssms,
+      cohortFilters,
+      genomicFilters,
+    },
+  );
 
   if (isUninitialized) {
     return <div>Initializing chart...</div>;
@@ -47,7 +48,16 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   }
 
   if (isError) {
-    return <div>Failed to fetch chart: {error}</div>;
+    return (
+      <div>
+        Failed to fetch chart:{" "}
+        {typeof error === "string"
+          ? error
+          : "text" in error
+            ? error?.text
+            : "error"}
+      </div>
+    );
   }
 
   if (data.cases.length < 5) {
@@ -55,15 +65,15 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   }
 
   const sortedData = data.cases
-    .map((d) => ({ ...d, percent: (d.ssmCount / d.totalCount) * 100 }))
-    .sort((a, b) => (a.percent < b.percent ? 1 : -1))
+    .map((d: any) => ({ ...d, percent: (d.ssmCount / d.totalCount) * 100 }))
+    .sort((a : any, b : any) => (a.percent < b.percent ? 1 : -1))
     .slice(0, 20);
 
   const caseCount = (
     <CountSpan>
       {data.cases
-        .map((d) => d.ssmCount)
-        .reduce((a, b) => a + b, 0)
+        .map((d: any) => d.ssmCount)
+        .reduce((a: any, b: any) => a + b, 0)
         .toLocaleString()}
     </CountSpan>
   );
@@ -74,9 +84,9 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   );
 
   const title =
-    page === 'gene' ? (
+    page === "gene" ? (
       <span>
-        {caseCount} CASES AFFECTED BY {ssmCount} MUTATIONS ACROSS {projectCount}{' '}
+        {caseCount} CASES AFFECTED BY {ssmCount} MUTATIONS ACROSS {projectCount}{" "}
         PROJECTS
       </span>
     ) : (
@@ -88,31 +98,34 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   const chartData = {
     datasets: [
       {
-        x: sortedData.map((d) => d.project),
-        y: sortedData.map((d) => d.percent),
-        customdata: sortedData.map((d) => [d.ssmCount, d.totalCount]),
+        x: sortedData.map((d:any) => d.project),
+        y: sortedData.map((d: any) => d.percent),
+        customdata: sortedData.map((d: any) => [d.ssmCount, d.totalCount]),
         hovertemplate:
-          '%{customdata[0]} Cases Affected in <b>%{x}</b><br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)  <extra></extra>',
+          "%{customdata[0]} Cases Affected in <b>%{x}</b><br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)  <extra></extra>",
       },
     ],
-    yAxisTitle: '% of Cases Affected',
+    yAxisTitle: "% of Cases Affected",
   };
 
   const chartDivId = `${CHART_NAME}_${Math.floor(Math.random() * 100)}`;
 
-  const onClickHandler = (mouseEvent) => {
+  const onClickHandler = (mouseEvent : any) => {
     router.push(`/projects/${mouseEvent.points[0].x}`);
   };
 
   return (
-    <div className="border border-base-lighter p-4">
+    <div
+      data-testid="graph-cancer-distribution-mutations"
+      className="border border-base-lighter p-4"
+    >
       <div>
         <ChartTitleBar
           title={title}
           filename="cancer-distribution-bar-chart"
           divId={chartDivId}
           jsonData={[
-            ...sortedData.map(({ project: label, percent: value }) => {
+            ...sortedData.map(({ project: label, percent: value } : ProjectPercent) => {
               return {
                 label,
                 value,

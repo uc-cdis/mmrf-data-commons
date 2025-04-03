@@ -1,5 +1,5 @@
-import { CartFile, GdcFile, caseFileType } from '@gff/core';
-import { get, omit, pick } from 'lodash';
+import { GdcFile } from '@/core';
+import { get, } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';
 import { JSONObject } from '../types';
 
@@ -15,7 +15,7 @@ export const formatDataForHorizontalTable = (
   }>,
 ): HorizontalTableProps['tableData'] => {
   //match headers with available properties
-  return headersConfig.reduce((output, obj) => {
+  return headersConfig.reduce((output : any[], obj) => {
     let value = get(file, obj.field);
     //run modifier if provided on value
     if (obj.modifier) {
@@ -112,43 +112,3 @@ export const formatImageDetailsInfo: formatImageDetailsInfoFunc = (
 
   return formatDataForHorizontalTable(obj, headersConfig);
 };
-
-type parseSlideDetailsInfoFunc = (file: GdcFile) => {
-  readonly headerName: string;
-  readonly values: readonly (
-    | string
-    | number
-    | boolean
-    | readonly string[]
-    | JSX.Element
-  )[];
-}[];
-
-export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
-  file: GdcFile,
-) => {
-  const slides = file.cases?.[0]?.samples?.[0]?.portions?.[0]?.slides[0];
-  const slidesInfo = omit(slides, [
-    'created_datetime',
-    'updated_datetime',
-    'state',
-  ]);
-  const slideDetailsInfo = { file_id: file.file_id, ...slidesInfo };
-
-  return formatImageDetailsInfo(slideDetailsInfo);
-};
-
-export const mapGdcFileToCartFile = (
-  files: GdcFile[] | caseFileType[] | undefined,
-): CartFile[] =>
-  files?.map((file: GdcFile | caseFileType) =>
-    pick(file, [
-      'access',
-      'acl',
-      'file_id',
-      'file_size',
-      'state',
-      'project_id',
-      'file_name',
-    ]),
-  );

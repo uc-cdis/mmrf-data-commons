@@ -1,4 +1,4 @@
-import { humanify } from '@/utils/index';
+import { humanify } from '@/utils/utils';
 import {
   ColumnDef,
   ColumnOrderState,
@@ -34,10 +34,12 @@ export function downloadTSV<TData>({
   // Filter columns based on blackList and columnVisibility
   const filteredColumns = columns.filter((column) => {
     const columnId = column.id;
+    if (columnId)
     return (
       !option?.blacklist?.includes(columnId) &&
       !(columnVisibility?.[columnId] === false)
     );
+    return false;
   });
 
   // Sort columns based on columnOrder
@@ -51,15 +53,19 @@ export function downloadTSV<TData>({
     .filter((column) => column !== null);
 
   const header = sortedColumns
-    .map((column) => humanify({ term: column.id }))
+    .map((column) => humanify({ term: column.id ?? ''}))
     .join('\t');
 
   const body = (tableData || [])
-    .map((datum) =>
+    .map((datum : any) =>
       sortedColumns
         .map((column) => {
-          const composer = option?.overwrite?.[column.id]?.composer;
+          if (column.id) {
+            const composer = option?.overwrite?.[column.id]?.composer;
           return composer ? composer(datum) : datum?.[column.id];
+        } else  {
+          return '';
+        }
         })
         .join('\t'),
     )

@@ -5,11 +5,11 @@ import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { pick } from 'lodash';
 import { HorizontalTableProps } from '@/components/HorizontalTable';
 import { formatDataForHorizontalTable } from '../../features/files/utils';
-import { externalLinks, humanify } from '../../utils';
+import { externalLinks, humanify } from '../../utils/utils';
 import { CollapsibleList } from '@/components/CollapsibleList';
 import { AnchorLink } from '@/components/AnchorLink';
-import SSMPlot from '../charts/SSMPlot';
-import { ConsequenceTable } from '@/features/mutationSummary/ConsequenceTable';
+import SSMPlot from '../../features/charts/SSMPlot';
+import { ConsequenceTable } from './ConsequenceTable';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import SSMSCancerDistributionTable from '../cancerDistributionTable/SSMSCancerDistributionTable';
 
