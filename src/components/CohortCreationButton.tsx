@@ -87,7 +87,8 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   const [cohortFilters, setCohortFilters] = useState<FilterSet>(filters);
   const [loading, setLoading] = useState(false);
   const disabled = numCases === undefined || numCases === 0;
-  const dispatch = useCoreDispatch();
+  // const dispatch = useCoreDispatch();
+  const dispatch = () => null;
   const tooltipText = disabled
     ? 'No cases available'
     : `Save a new cohort of ${
