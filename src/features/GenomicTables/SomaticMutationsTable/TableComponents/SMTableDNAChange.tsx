@@ -1,9 +1,9 @@
-import { truncateAfterMarker } from "../utils";
-import { Tooltip } from "@mantine/core";
-import Link from "next/link";
-import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
-import { Dispatch, SetStateAction } from "react";
-import { entityMetadataType } from "src/utils/contexts";
+import { truncateAfterMarker } from '../utils';
+import { Tooltip } from '@mantine/core';
+import Link from 'next/link';
+import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
+import { Dispatch, SetStateAction } from 'react';
+import { entityMetadataType } from 'src/utils/contexts';
 
 const SMTableDNAChange = ({
   DNAChange,
@@ -29,7 +29,7 @@ const SMTableDNAChange = ({
               <PopupIconButton
                 handleClick={() =>
                   setEntityMetadata({
-                    entity_type: "ssms",
+                    entity_type: 'ssms',
                     entity_id: mutationID,
                   })
                 }
@@ -46,7 +46,7 @@ const SMTableDNAChange = ({
           </span>
         </Tooltip>
       ) : (
-        "--"
+        '--'
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { humanify } from "src/utils";
+import { humanify } from '../../../../utils';
 
 const SMTableConsequences = ({
   consequences,
@@ -7,9 +7,9 @@ const SMTableConsequences = ({
 }): JSX.Element => (
   <span className="font-content text-left">
     {!consequences
-      ? "--"
+      ? '--'
       : humanify({
-          term: consequences?.replace("_variant", "").replace("_", " "),
+          term: consequences?.replace('_variant', '').replace('_', ' '),
         })}
   </span>
 );

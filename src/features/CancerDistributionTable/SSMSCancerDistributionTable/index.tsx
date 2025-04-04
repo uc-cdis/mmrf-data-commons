@@ -2,7 +2,7 @@ import React from 'react';
 import {
   useGetSSMSCancerDistributionTableQuery,
   useGetProjectsQuery,
-} from '@gff/core';
+} from '@/core';
 import { useCallback, useEffect, useState } from 'react';
 import { ExpandedState, Row, SortingState } from '@tanstack/react-table';
 import { useDeepCompareMemo } from 'use-deep-compare';

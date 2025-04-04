@@ -1,7 +1,7 @@
-import CohortInactiveIcon from "public/user-flow/icons/CohortSym_inactive.svg";
-import CohortActiveIcon from "public/user-flow/icons/cohort-dna.svg";
-import { SsmToggledHandler } from "../types";
-import SwitchSpring from "@/components/SwitchSpring/shared/SwitchSpring";
+import CohortInactiveIcon from '../../../../../public/icons/CohortSym_inactive.svg';
+import CohortActiveIcon from '../../../../../public/icons/cohort-dna.svg';
+import { SsmToggledHandler } from '../types';
+import SwitchSpring from '@/components/SwitchSpring/shared/SwitchSpring';
 
 const SMTableCohort = ({
   isToggledSsm,
@@ -48,10 +48,10 @@ const SMTableCohort = ({
     }}
     tooltip={
       isDemoMode
-        ? "Feature not available in demo mode"
+        ? 'Feature not available in demo mode'
         : isToggledSsm
-        ? `Remove ${DNAChange} from cohort filters`
-        : `Add ${DNAChange} to cohort filters`
+          ? `Remove ${DNAChange} from cohort filters`
+          : `Add ${DNAChange} to cohort filters`
     }
     disabled={isDemoMode}
   />
