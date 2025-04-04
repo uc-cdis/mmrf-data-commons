@@ -1,23 +1,24 @@
+import React from 'react';
 import {
   useGetSSMSCancerDistributionTableQuery,
   useGetProjectsQuery,
-} from "@gff/core";
-import { useCallback, useEffect, useState } from "react";
-import { ExpandedState, Row, SortingState } from "@tanstack/react-table";
-import { useDeepCompareMemo } from "use-deep-compare";
+} from '@gff/core';
+import { useCallback, useEffect, useState } from 'react';
+import { ExpandedState, Row, SortingState } from '@tanstack/react-table';
+import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   calculatePercentageAsNumber,
   statusBooleansToDataStatus,
-} from "@/utils/index";
-import useStandardPagination from "@/hooks/useStandardPagination";
-import { HandleChangeInput } from "@/components/Table/types";
-import VerticalTable from "@/components/Table/VerticalTable";
-import TotalItems from "@/components/Table/TotalItem";
-import FunctionButton from "@/components/FunctionButton";
-import SubrowPrimarySiteDiseaseType from "@/components/SubrowPrimarySiteDiseaseType/SubrowPrimarySiteDiseaseType";
-import { CancerDistributionSSMType } from "../types";
-import { useSSMCancerDistributionColumns } from "./useSSMCancerDistributionColumns";
-import { handleJSONDownloadSSM, handleTSVDownloadSSM } from "./utils";
+} from '@/utils/index';
+import useStandardPagination from '@/hooks/useStandardPagination';
+import { HandleChangeInput } from '@/components/Table/types';
+import VerticalTable from '@/components/Table/VerticalTable';
+import TotalItems from '@/components/Table/TotalItem';
+import FunctionButton from '@/components/FunctionButton';
+import SubrowPrimarySiteDiseaseType from '@/components/SubrowPrimarySiteDiseaseType/SubrowPrimarySiteDiseaseType';
+import { CancerDistributionSSMType } from '../types';
+import { useSSMCancerDistributionColumns } from './useSSMCancerDistributionColumns';
+import { handleJSONDownloadSSM, handleTSVDownloadSSM } from './utils';
 
 export interface SSMSCancerDistributionTableProps {
   readonly ssms: string;
@@ -42,17 +43,17 @@ const SSMSCancerDistributionTable: React.FC<
   const { data: projectsData, isFetching: projectsFetching } =
     useGetProjectsQuery({
       filters: {
-        op: "in",
+        op: 'in',
         content: {
-          field: "project_id",
+          field: 'project_id',
           value: projectKeys,
         },
       },
       expand: [
-        "summary",
-        "summary.data_categories",
-        "summary.experimental_strategies",
-        "program",
+        'summary',
+        'summary.data_categories',
+        'summary.experimental_strategies',
+        'program',
       ],
       size: ssmCancerDistributionData?.projects.length,
     });
@@ -106,7 +107,7 @@ const SSMSCancerDistributionTable: React.FC<
 
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "#_ssm_affected_cases",
+      id: '#_ssm_affected_cases',
       desc: true,
     },
   ]);
@@ -133,10 +134,10 @@ const SSMSCancerDistributionTable: React.FC<
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         handlePageSizeChange(obj.newPageSize);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         handlePageChange(obj.newPageNumber);
         break;
     }
@@ -188,7 +189,7 @@ const SSMSCancerDistributionTable: React.FC<
           </FunctionButton>
         </div>
       }
-      expandableColumnIds={["disease_type", "primary_site"]}
+      expandableColumnIds={['disease_type', 'primary_site']}
       sorting={sorting}
       setSorting={setSorting}
       expanded={expanded}
@@ -203,7 +204,7 @@ const SSMSCancerDistributionTable: React.FC<
         size,
         from,
         total,
-        label: "project",
+        label: 'project',
       }}
       status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
       handleChange={handleChange}
