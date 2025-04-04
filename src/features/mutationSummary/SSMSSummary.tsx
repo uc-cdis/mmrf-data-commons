@@ -14,7 +14,7 @@ import { ConsequenceTable } from '@/features/mutationSummary/ConsequenceTable';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import SSMSCancerDistributionTable from '../CancerDistributionTable/SSMSCancerDistributionTable';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import MutationsIcon from 'public/user-flow/icons/summary/gene-mutation.svg';
+import MutationsIcon from '../../../public/icons/gene-mutation.svg';
 
 export const SSMSSummary = ({
   ssm_id,
@@ -23,9 +23,6 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  // PLACEHOLDER UNTIL SETUP TO DELIVER ACTUAL DATA
-  const { data: summaryData, isFetching } = useSsmsSummaryQuery();
-  // UNCOMMENT ONCE ACTUAL DATA IS AVAILABLE
   /*   const { data: summaryData, isFetching } = useSsmsSummaryQuery({
     filters: {
       content: {
@@ -46,6 +43,9 @@ export const SSMSSummary = ({
     ],
     size: 1,
   }); */
+  const { data: summaryData, isFetching } = useSsmsSummaryQuery();
+  console.log('summaryData', summaryData.transcript);
+  // if (!summaryData.transcript) return <h1>loading...</h1>;
 
   const formatDataForSummary = (): HorizontalTableProps['tableData'] => {
     const obj = pick(summaryData, [

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSsmsConsequenceTableQuery } from '@gff/core';
+import { useSsmsConsequenceTableQuery } from '@/core';
 import { useEffect, useMemo, useState } from 'react';
 import { ConsequenceTableData } from '@/features/mutationSummary/types';
 import useStandardPagination from '@/hooks/useStandardPagination';
