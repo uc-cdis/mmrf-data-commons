@@ -1,35 +1,38 @@
-/*
-import { useSsmsConsequenceTable } from "@gff/core";
-import { useEffect, useMemo, useState } from "react";
-import { ConsequenceTableData } from "@/features/mutationSummary/types";
-import useStandardPagination from "@/hooks/useStandardPagination";
-import FunctionButton from "@/components/FunctionButton";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { HandleChangeInput } from "@/components/Table/types";
+import React from 'react';
+import { useSsmsConsequenceTableQuery } from '@gff/core';
+import { useEffect, useMemo, useState } from 'react';
+import { ConsequenceTableData } from '@/features/mutationSummary/types';
+import useStandardPagination from '@/hooks/useStandardPagination';
+import FunctionButton from '@/components/FunctionButton';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnDef,
   ColumnOrderState,
   VisibilityState,
   createColumnHelper,
-} from "@tanstack/react-table";
-import Link from "next/link";
-import { HeaderTooltip } from "@/components/Table/HeaderTooltip";
-import { AnchorLink } from "@/components/AnchorLink";
+} from '@tanstack/react-table';
+import Link from 'next/link';
+import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
+import { AnchorLink } from '@/components/AnchorLink';
 import {
   externalLinks,
   humanify,
   statusBooleansToDataStatus,
-} from "@/utils/index";
+} from '@/utils/index';
 import {
   SMTableConsequences,
   SMTableImpacts,
-} from "../GenomicTables/SomaticMutationsTable/TableComponents";
-import saveAs from "file-saver";
-import { Loader } from "@mantine/core";
-import { convertDateToString } from "@/utils/date";
-import { downloadTSV } from "@/components/Table/utils";
-import { ButtonTooltip } from "@/components/ButtonTooltip";
-import ImpactHeaderWithTooltip from "../GenomicTables/SharedComponent/ImpactHeaderWithTooltip";
+} from '../GenomicTables/SomaticMutationsTable/TableComponents';
+import saveAs from 'file-saver';
+import { Loader } from '@mantine/core';
+import { getFormattedTimestamp } from '../../utils/date';
+import { downloadTSV } from '@/components/Table/utils';
+import ImpactHeaderWithTooltip from '../GenomicTables/SharedComponent/ImpactHeaderWithTooltip';
+import TotalItems from '@/components/Table/TotalItem';
+import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
+
+const consequenceTableColumnHelper = createColumnHelper<ConsequenceTableData>();
 
 export const ConsequenceTable = ({
   ssmsId,
@@ -42,11 +45,11 @@ export const ConsequenceTable = ({
   ] = useState(false);
 
   const {
-    data: { ssmsConsequence: initialData },
+    data: initialData,
     isFetching,
     isSuccess,
     isError,
-  } = useSsmsConsequenceTable({
+  } = useSsmsConsequenceTableQuery({
     pageSize: 99, // get max 100 entries
     offset: 0,
     mutationId: ssmsId,
@@ -67,10 +70,10 @@ export const ConsequenceTable = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         handlePageSizeChange(obj.newPageSize);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         handlePageChange(obj.newPageNumber);
         break;
     }
@@ -80,10 +83,10 @@ export const ConsequenceTable = ({
     if (isSuccess) {
       // need to sort the table data and then store all entries in tableData
       const sortedData: ConsequenceTableData[] = [
-        ...initialData.consequence.filter(
+        ...(initialData.consequence || []).filter(
           ({ transcript: { is_canonical } }) => is_canonical,
         ),
-        ...initialData.consequence
+        ...(initialData.consequence || [])
           .filter(({ transcript: { is_canonical } }) => !is_canonical)
           .sort((a, b) => {
             if (
@@ -126,12 +129,12 @@ export const ConsequenceTable = ({
           return {
             gene: symbol,
             gene_id: gene_id,
-            aa_change: aa_change ?? "--",
+            aa_change: aa_change ?? '--',
             coding_dna_change: hgvsc,
             consequences: consequence_type,
             transcript: transcript_id,
             is_canonical: is_canonical,
-            gene_strand: gene_strand > 0 ? "+" : "-",
+            gene_strand: gene_strand,
             impact: {
               polyphen_impact: polyphen_impact,
               polyphen_score: polyphen_score,
@@ -144,32 +147,30 @@ export const ConsequenceTable = ({
       );
       setTableData(sortedData);
     }
-  }, [isSuccess, initialData.consequence]);
-
-  const consequenceTableColumnHelper =
-    createColumnHelper<ConsequenceTableData>();
+  }, [isSuccess, initialData?.consequence]);
 
   const consequenceTableDefaultColumns = useMemo<
     ColumnDef<ConsequenceTableData>[]
   >(
     () => [
-      consequenceTableColumnHelper.accessor("gene", {
-        id: "gene",
-        header: "Gene",
+      consequenceTableColumnHelper.accessor('gene', {
+        id: 'gene',
+        header: 'Gene',
         cell: ({ row }) => (
-          <Link href={`/genes/${row.original.gene_id}`}>
-            <a className="text-utility-link font-content underline">
-              {row.original.gene}
-            </a>
+          <Link
+            href={`/genes/${row.original.gene_id}`}
+            className="text-utility-link font-content underline"
+          >
+            {row.original.gene}
           </Link>
         ),
       }),
-      consequenceTableColumnHelper.accessor("aa_change", {
-        id: "aa_change",
-        header: "AA Change",
+      consequenceTableColumnHelper.accessor('aa_change', {
+        id: 'aa_change',
+        header: 'AA Change',
       }),
-      consequenceTableColumnHelper.accessor("consequences", {
-        id: "consequences",
+      consequenceTableColumnHelper.accessor('consequences', {
+        id: 'consequences',
         header: () => (
           <HeaderTooltip
             title="Consequences"
@@ -180,12 +181,12 @@ export const ConsequenceTable = ({
           <SMTableConsequences consequences={row.original.consequences} />
         ),
       }),
-      consequenceTableColumnHelper.accessor("coding_dna_change", {
-        id: "coding_dna_change",
-        header: "Coding DNA Change",
+      consequenceTableColumnHelper.accessor('coding_dna_change', {
+        id: 'coding_dna_change',
+        header: 'Coding DNA Change',
       }),
       consequenceTableColumnHelper.display({
-        id: "impact",
+        id: 'impact',
         header: () => <ImpactHeaderWithTooltip />,
         cell: ({ row }) => (
           <SMTableImpacts
@@ -201,15 +202,21 @@ export const ConsequenceTable = ({
       }),
 
       consequenceTableColumnHelper.display({
-        id: "gene_strand",
-        header: "Gene Strand",
+        id: 'gene_strand',
+        header: 'Gene Strand',
         cell: ({ row }) => (
-          <span className="text-lg font-bold">{row.original.gene_strand}</span>
+          <span>
+            {row.original.gene_strand > 0 ? (
+              <StrandPlusIcon />
+            ) : (
+              <StrandMinusIcon />
+            )}
+          </span>
         ),
       }),
       consequenceTableColumnHelper.display({
-        id: "transcript",
-        header: "Transcript",
+        id: 'transcript',
+        header: 'Transcript',
         cell: ({ row }) => (
           <>
             {row.original.transcript ? (
@@ -217,16 +224,16 @@ export const ConsequenceTable = ({
                 href={externalLinks.transcript(row.original.transcript)}
                 title={row.original.transcript}
                 toolTipLabel={
-                  row.original.is_canonical ? "Canonical" : undefined
+                  row.original.is_canonical ? 'Canonical' : undefined
                 }
-                iconText={row.original.is_canonical ? "C" : undefined}
+                iconText={row.original.is_canonical ? 'C' : undefined}
               />
             ) : null}
           </>
         ),
       }),
     ],
-    [consequenceTableColumnHelper],
+    [],
   );
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     consequenceTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
@@ -234,9 +241,7 @@ export const ConsequenceTable = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const handleTSVDownload = () => {
-    const fileName = `consequences-table.${convertDateToString(
-      new Date(),
-    )}.tsv`;
+    const fileName = `consequences-table.${getFormattedTimestamp()}.tsv`;
     downloadTSV({
       tableData,
       columns: consequenceTableDefaultColumns,
@@ -250,10 +255,10 @@ export const ConsequenceTable = ({
               consequenceData.consequences
                 ? humanify({
                     term: consequenceData.consequences
-                      .replace("_variant", "")
-                      .replace("_", " "),
+                      .replace('_variant', '')
+                      .replace('_', ' '),
                   })
-                : "",
+                : '',
           },
           impact: {
             composer: (consequenceData) => {
@@ -281,14 +286,19 @@ export const ConsequenceTable = ({
                 }`,
               ]
                 .filter(({ length }) => length)
-                .join(", ")}`;
+                .join(', ')}`;
               return impactString;
+            },
+          },
+          gene_strand: {
+            composer: (consequenceData) => {
+              return consequenceData.gene_strand > 0 ? '+' : '-';
             },
           },
           transcript: {
             composer: (consequenceData) => {
               const transcriptString = `${consequenceData.transcript}${
-                consequenceData.is_canonical ? ` (Canonical)` : ""
+                consequenceData.is_canonical ? ` (Canonical)` : ''
               }`;
               return transcriptString;
             },
@@ -340,15 +350,19 @@ export const ConsequenceTable = ({
       },
     );
     const blob = new Blob([JSON.stringify(json, null, 2)], {
-      type: "application/json",
+      type: 'application/json',
     });
-    saveAs(blob, `consequences-data.${convertDateToString(new Date())}.json`);
+    saveAs(blob, `consequences-data.${getFormattedTimestamp()}.json`);
     setConsequenceTableJSONDownloadActive(false);
   };
 
   return (
     <VerticalTable
+      customDataTestID="table-consequences-mutation-summary"
       data={displayedData}
+      tableTotalDetail={
+        <TotalItems total={tableData?.length} itemName="consequence" />
+      }
       columns={consequenceTableDefaultColumns}
       setColumnVisibility={setColumnVisibility}
       columnVisibility={columnVisibility}
@@ -362,17 +376,16 @@ export const ConsequenceTable = ({
         size,
         from,
         total,
+        label: 'consequence',
       }}
       additionalControls={
         <div className="flex gap-2 mb-2">
-          <ButtonTooltip label="Export All">
-            <FunctionButton onClick={handleJSONDownload}>
-              {consequenceTableJSONDownloadActive ? <Loader /> : "JSON"}
-            </FunctionButton>
-          </ButtonTooltip>
-          <ButtonTooltip label="Export current view">
-            <FunctionButton onClick={handleTSVDownload}>TSV</FunctionButton>
-          </ButtonTooltip>
+          <FunctionButton onClick={handleJSONDownload} disabled={isFetching}>
+            {consequenceTableJSONDownloadActive ? <Loader /> : 'JSON'}
+          </FunctionButton>
+          <FunctionButton onClick={handleTSVDownload} disabled={isFetching}>
+            TSV
+          </FunctionButton>
         </div>
       }
       status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
@@ -381,4 +394,3 @@ export const ConsequenceTable = ({
 };
 
 export default ConsequenceTable;
-*/

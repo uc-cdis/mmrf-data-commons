@@ -1,5 +1,37 @@
 import { FilterSet } from './types';
 
+export const useSsmsSummaryQuery = () => {
+  const data = [
+    {
+      uuid: '53af5705-a17b-555a-92e9-880ce5c14ca0',
+      dna_change: 'chr17:g.7673776G>A',
+      type: 'Single base substitution',
+      reference_genome_assembly: 'GRCh38',
+      cosmic_id: ['COSM10704', 'COSM1636702', 'COSM3378339', 'COSM99925'],
+      allele_in_the_reference_assembly: 'G',
+      transcript: {
+        is_canonical: true,
+        transcript_id: 'ENST00000269305',
+        annotation: {
+          polyphen_impact: 'probably_damaging',
+          polyphen_score: 1,
+          sift_impact: 'deleterious',
+          sift_score: 0,
+          vep_impact: 'MODERATE',
+          dbsnp: 'rs28934574',
+        },
+      },
+    },
+  ];
+  return {
+    data,
+    isFetching: false,
+    isLoading: false,
+    isError: false,
+    isSuccess: true,
+  };
+};
+
 export const useSsmsConsequenceTableQuery = () => {
   const data = [
     {
@@ -293,7 +325,7 @@ interface DataResponse {
   isSuccess: boolean;
 }
 
-export const useSsmPlotQuery = (_:SsmPlotRequest) : DataResponse => {
+export const useSsmPlotQuery = (_: SsmPlotRequest): DataResponse => {
   const data = {
     cases: [
       {
@@ -387,7 +419,7 @@ export const useSsmPlotQuery = (_:SsmPlotRequest) : DataResponse => {
 
   return {
     data,
-    error: "none",
+    error: 'none',
     isUninitialized: false,
     isError: false,
     isFetching: false,

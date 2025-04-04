@@ -2,7 +2,7 @@ import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Container } from '@mantine/core';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-import { SSMSSummary } from '@/lib/mutationSummary/SSMSSummary';
+import { SSMSSummary } from '@/features/mutationSummary/SSMSSummary';
 
 const ssms = () => {
   return (

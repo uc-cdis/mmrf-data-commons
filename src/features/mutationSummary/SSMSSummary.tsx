@@ -1,29 +1,20 @@
 import React from 'react';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
-// import { useSSMS } from '@gff/core';
+import { useSsmsSummaryQuery } from '@/core';
+import { Loader } from '@mantine/core';
 import { pick } from 'lodash';
 import { HorizontalTableProps } from '@/components/HorizontalTable';
-import { formatDataForHorizontalTable } from '../../features/files/utils';
-import { externalLinks, humanify } from '../../utils/utils';
+import { formatDataForHorizontalTable } from '../files/utils';
+import { externalLinks, humanify } from '../../utils';
 import { CollapsibleList } from '@/components/CollapsibleList';
 import { AnchorLink } from '@/components/AnchorLink';
-import SSMPlot from '../../features/charts/SSMPlot';
-import { ConsequenceTable } from './ConsequenceTable';
+import SSMPlot from '../charts/SSMPlot';
+import { ConsequenceTable } from '@/features/mutationSummary/ConsequenceTable';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import SSMSCancerDistributionTable from '../cancerDistributionTable/SSMSCancerDistributionTable';
-
-/*
-export const SSMSSummary = ({
-  ssm_id,
-  isModal = false,
-}: {
-  ssm_id: string;
-  isModal?: boolean;
-}): JSX.Element => {
-  return <h1>SSMS SUMMARY</h1>;
-};
-*/
+import SSMSCancerDistributionTable from '../CancerDistributionTable/SSMSCancerDistributionTable';
+import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
+import MutationsIcon from 'public/user-flow/icons/summary/gene-mutation.svg';
 
 export const SSMSSummary = ({
   ssm_id,
@@ -32,9 +23,10 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  const summaryData = [];
-  const isFetching = false;
-  /* const { data: summaryData, isFetching } = useSSMS({
+  // PLACEHOLDER UNTIL SETUP TO DELIVER ACTUAL DATA
+  const { data: summaryData, isFetching } = useSsmsSummaryQuery();
+  // UNCOMMENT ONCE ACTUAL DATA IS AVAILABLE
+  /*   const { data: summaryData, isFetching } = useSsmsSummaryQuery({
     filters: {
       content: {
         field: 'ssm_id',
@@ -176,38 +168,49 @@ export const SSMSSummary = ({
     return formatDataForHorizontalTable(externalLinksObj, headersConfig);
   };
 
+  console.log('summaryData', summaryData);
   return (
     <div>
-      {!isFetching && summaryData ? (
+      {isFetching ? (
+        <Loader />
+      ) : summaryData ? (
         <>
           <SummaryHeader
-            iconText="mu"
+            Icon={MutationsIcon}
+            headerTitleLeft="Mutation"
             headerTitle={summaryData.dna_change}
             isModal={isModal}
           />
 
-          <div className={`mx-4 ${!isModal ? 'mt-24' : 'mt-6'}`}>
-            <div className="flex gap-8">
+          <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
+            <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1">
-                <SummaryCard tableData={formatDataForSummary()} />
+                <SummaryCard
+                  customDataTestID="table-summary-mutation-summary"
+                  tableData={formatDataForSummary()}
+                />
               </div>
               <div className="flex-1">
                 <SummaryCard
+                  customDataTestID="table-external-references-mutation-summary"
                   tableData={formatDataForExternalReferences()}
                   title="External References"
                 />
               </div>
             </div>
-            <div className="mt-12">
+            <div className="mt-8">
               <div className="mb-2">
                 <HeaderTitle>Consequences</HeaderTitle>
               </div>
               <ConsequenceTable ssmsId={ssm_id} />
             </div>
 
-            <div className="mt-8 mb-16">
+            <div
+              data-testid="table-cancer-distribution-mutation-summary"
+              className="mt-8 mb-16"
+            >
               <HeaderTitle>Cancer Distribution</HeaderTitle>
-              <div className="grid grid-cols-2 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 mb-8">
                 <SSMPlot page="ssms" ssms={ssm_id} />
               </div>
 
@@ -218,7 +221,9 @@ export const SSMSSummary = ({
             </div>
           </div>
         </>
-      ) : null}
+      ) : (
+        <SummaryErrorHeader label="Mutation Not Found" />
+      )}
     </div>
   );
 };
