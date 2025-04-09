@@ -170,7 +170,7 @@ export const SSMSSummary = ({
 
   console.log('summaryData', summaryData);
   return (
-    <div>
+    <div className='w-full mt-[125px]'>
       {isFetching ? (
         <Loader />
       ) : summaryData ? (
@@ -182,7 +182,7 @@ export const SSMSSummary = ({
             isModal={isModal}
           />
 
-          <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
+          <div className={`${!isModal ? 'mt-24' : 'mt-4'} mx-4`}>
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1">
                 <SummaryCard

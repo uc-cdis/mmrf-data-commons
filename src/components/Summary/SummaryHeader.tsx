@@ -21,7 +21,7 @@ export const SummaryHeader = ({
 }: SummaryHeaderProps): JSX.Element => {
   return (
     <header
-      className={`bg-primary-vivid py-4 px-4 w-full flex flex-col shadow-lg gap-4 ${
+      className={`bg-mmrf-purple py-4 px-4 w-full flex flex-col shadow-lg gap-4 ${
         isModal ? 'sticky top-0 rounded-t-sm z-20' : 'fixed z-10'
       }`}
     >
