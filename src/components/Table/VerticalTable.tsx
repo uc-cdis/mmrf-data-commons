@@ -5,40 +5,78 @@ import {
   getExpandedRowModel,
   getSortedRowModel,
   Header,
-  Row,
   SortDirection,
   useReactTable,
 } from '@tanstack/react-table';
 import { TableProps } from './types';
 import {
-  ChangeEvent,
   Fragment,
   ReactNode,
   useEffect,
   useRef,
   useState,
+  useMemo,
+  createContext,
+  useContext,
 } from 'react';
-import { BsCaretDownFill, BsCaretUpFill } from 'react-icons/bs';
-import {
-  LoadingOverlay,
-  Pagination,
-  Select,
-  TextInput,
-  Tooltip,
-} from '@mantine/core';
-import { MdClose, MdSearch } from 'react-icons/md';
-import ColumnOrdering from './ColumnOrdering';
-// import { DataStatus } from '@gff/core';
-import { createKeyboardAccessibleFunction } from '@/utils/utils';
-import { v4 as uuidv4 } from 'uuid';
-import { useDeepCompareEffect } from 'use-deep-compare';
+import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
+import { LoadingOverlay } from '@mantine/core';
+import { getDefaultRowId } from './utils';
+import TableHeader from './TableHeader';
+import TablePagination from './TablePagination';
+import { RowCollapseIcon, RowExpandIcon } from '@/utils/icons';
 
-declare type DataStatus =
-  | 'uninitialized'
-  | 'pending'
-  | 'fulfilled'
-  | 'rejected';
+// Provides the bottom X position so components can align themselves with the table
 
+// Updated Apr 10 25 to get build to build
+export const TableXPositionContext = createContext<{
+  xPosition: number | undefined;
+  setXPosition: (xPosition: number | undefined) => void;
+}>({
+  xPosition: undefined,
+  setXPosition: () => {
+    return undefined;
+  },
+});
+
+/**
+ * VerticalTable is a table component that displays data in a vertical format.
+ * @param columns - The columns to be displayed in the table.
+ * @param data - The data to be displayed in the table.
+ * @param footer - The footer to be displayed in the table.
+ * @param getRowCanExpand - A function that returns a boolean value indicating whether a row can be expanded.
+ * @param expandableColumnIds - The column ids that can be expanded.
+ * @param setRowSelection - A function that sets the row selection.
+ * @param rowSelection - The row selection.
+ * @param enableRowSelection  - A boolean value indicating whether row selection is enabled.
+ * @param status  - The status of the data.
+ * @param tableTitle  - The title of the table.
+ * @param tableTotalDetail  - caption including total items in the table.
+ * @param additionalControls  - Additional controls to be displayed in the table.
+ * @param search  - The search options for the table.
+ * @param showControls  - A boolean value indicating whether the controls should be displayed.
+ * @param handleChange  - A function that handles the change.
+ * @param pagination  - The pagination options for the table.
+ * @param disablePageSize - A boolean value indicating whether the page size should be disabled in the pagination.
+ * @param renderSubComponent - A function that renders the subcomponent.
+ * @param columnVisibility  - The column visibility.
+ * @param setColumnVisibility - A function that sets the column visibility.
+ * @param columnOrder - The column order.
+ * @param setColumnOrder  - A function that sets the column order.
+ * @param columnSorting - The column sorting, possible values:
+          - "none" - No sorting is enabled.
+          - "enable" - Sorting is enabled.
+          - "manual" - Manual sorting is enabled.
+ * @param sorting - The sorting.
+ * @param setSorting  - A function that sets the sorting.
+ * @param expanded  - The expanded.
+ * @param setExpanded - A function that sets the expanded.
+ * @param getRowId  - A function that returns the row id.
+ * @param baseZIndex  - The base z index.
+ * @param customDataTestID - optional locator for test automation
+ * @param customBreakpoint - custom breakpoint for header responsive behavior
+ * @category Table
+ */
 function VerticalTable<TData>({
   columns,
   data = [],
@@ -48,8 +86,9 @@ function VerticalTable<TData>({
   setRowSelection,
   rowSelection,
   enableRowSelection = false,
-  status,
+  status = 'fulfilled',
   tableTitle,
+  tableTotalDetail,
   additionalControls,
   search,
   showControls = false,
@@ -66,57 +105,63 @@ function VerticalTable<TData>({
   setSorting,
   expanded,
   setExpanded,
-  getRowId = (_originalRow: TData, _index: number, _parent?: Row<TData>) =>
-    uuidv4(),
+  getRowId = getDefaultRowId,
   baseZIndex = 0,
+  customDataTestID,
+  customAriaLabel,
+  customBreakpoint,
 }: TableProps<TData>): JSX.Element {
   const [tableData, setTableData] = useState(data);
-  const [searchTerm, setSearchTerm] = useState(search?.defaultSearchTerm ?? '');
-  const [searchFocused, setSearchFocused] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const timeoutRef = useRef<any>(undefined);
-  const liveRegionRef = useRef<any | null>(null); // Reference to the Live Region
-  const [sortingStatus, setSortingStatus] = useState(''); // Sorting status announcement
+  const liveRegionRef = useRef(null as any);
+  const [sortingStatus, setSortingStatus] = useState('');
   const [announcementTimestamp, setAnnouncementTimestamp] = useState(
     Date.now(),
   );
 
+  const ref = useRef<HTMLDivElement>();
+  const { xPosition, setXPosition } = useContext(TableXPositionContext);
+  const bottomXCoor = ref?.current?.getBoundingClientRect()?.bottom;
   useEffect(() => {
-    if (sortingStatus && announcementTimestamp && liveRegionRef.current) {
+    if (sortingStatus && announcementTimestamp) {
       liveRegionRef.current.textContent = sortingStatus;
     }
   }, [sortingStatus, announcementTimestamp]);
 
-  // TODO: status fufilled is to be sent for all the tables (even without api calls)
-  // also need in pagination (do sth about it)
   useDeepCompareEffect(() => {
-    if (status === 'fulfilled') {
-      setTableData(data);
-    }
-  }, [data, status]);
+    setTableData(data);
+  }, [data]);
 
-  useEffect(() => {
-    if (search?.defaultSearchTerm) {
-      inputRef?.current?.focus();
-    }
-  }, [search?.defaultSearchTerm]);
-
-  const [clickedColumnId, setClickedColumnId] = useState<string|null>(null);
-  const table = useReactTable({
-    columns,
-    data: tableData,
-    getRowCanExpand,
-    initialState: {
+  const initialState = useDeepCompareMemo(
+    () => ({
       columnVisibility,
       columnOrder,
-    },
-    state: {
+    }),
+    [columnVisibility, columnOrder],
+  );
+
+  const state = useDeepCompareMemo(
+    () => ({
       sorting,
       rowSelection,
       columnVisibility,
       columnOrder,
       expanded,
-    },
+    }),
+    [sorting, rowSelection, columnVisibility, columnOrder, expanded],
+  );
+
+  const expandedRowModel = useMemo(() => getExpandedRowModel<TData>(), []);
+  const coreRowModel = useMemo(() => getCoreRowModel<TData>(), []);
+  const sortedRowModel = useMemo(() => getSortedRowModel<TData>(), []);
+  // Updated Apr 10 25 to get build to build
+  // const [clickedColumnId, setClickedColumnId] = useState<string>(null);
+  const [clickedColumnId, setClickedColumnId] = useState<string>('');
+  const table = useReactTable({
+    columns,
+    data: tableData,
+    getRowCanExpand,
+    initialState,
+    state,
     manualSorting: columnSorting === 'manual',
     sortDescFirst: false,
     autoResetExpanded: false,
@@ -125,83 +170,24 @@ function VerticalTable<TData>({
     enableRowSelection: enableRowSelection,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    getExpandedRowModel: getExpandedRowModel<TData>(),
-    getCoreRowModel: getCoreRowModel<TData>(),
-    getSortedRowModel: getSortedRowModel<TData>(),
+    getExpandedRowModel: expandedRowModel,
+    getCoreRowModel: coreRowModel,
+    getSortedRowModel: sortedRowModel,
     getRowId: getRowId,
     enableSorting: columnSorting === 'manual' || columnSorting === 'enable',
   });
 
-  // TODO: Make this as a separate component leveraging pagination API of tanstack table
-  // For smoother setting of pagination so the values don't bounce around when loading new data
-  const [pageSize, setPageSize] = useState(10);
-  const [pageOn, setPageOn] = useState(1);
-  const [pageTotal, setPageTotal] = useState(1);
-
+  // Only set xPosition on initial load, not when table options change
   useEffect(() => {
-    if (pagination?.size !== undefined) {
-      setPageSize(pagination.size);
+    if (
+      setXPosition &&
+      xPosition === undefined &&
+      status === 'fulfilled' &&
+      table.getRowModel().rows.length > 0
+    ) {
+      setXPosition(bottomXCoor);
     }
-    if (pagination?.page !== undefined) {
-      setPageOn(pagination.page);
-    }
-    if (pagination?.pages !== undefined) {
-      setPageTotal(pagination.pages);
-    }
-  }, [pagination]);
-
-  const handlePageSizeChange = (newPageSize: string | null ) => {
-    setPageSize(parseInt(newPageSize?? '10'));
-    if (handleChange)
-      handleChange({
-        newPageSize: newPageSize ?? "10",
-      });
-  };
-  const handlePageChange = (newPageNumber: number) => {
-    setPageOn(newPageNumber);
-    if (handleChange)
-      handleChange({
-        newPageNumber: newPageNumber,
-      });
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newSearchTerm = e.target.value;
-    setSearchTerm(newSearchTerm);
-
-    // Clear the previous timeout
-    clearTimeout(timeoutRef.current);
-
-    // Set a new timeout to perform the search after 400ms
-    timeoutRef.current = setTimeout(() => {
-      if (handleChange) handleChange({ newSearch: newSearchTerm.trim() });
-    }, 400);
-  };
-
-  const handleClearClick = () => {
-    setSearchTerm('');
-    clearTimeout(timeoutRef.current);
-    if (handleChange) handleChange({ newSearch: '' });
-  };
-
-  const TooltipContainer = search?.tooltip
-    ? (children: any) => (
-        <Tooltip
-          multiline
-          label={search.tooltip}
-          position="bottom-start"
-          opened={searchFocused}
-          zIndex={baseZIndex + 1} // needs to be higher z-index when in a modal
-          offset={0}
-          classNames={{
-            tooltip:
-              'w-72 border border-base-lighter absolute bg-white p-2 text-nci-gray text-sm  overflow-wrap break-all rounded-b rounded-t-none font-content',
-          }}
-        >
-          {children}
-        </Tooltip>
-      )
-    : undefined;
+  }, [setXPosition, bottomXCoor, xPosition, status, table]);
 
   const handleSorting = (
     header: Header<TData, unknown>,
@@ -225,63 +211,29 @@ function VerticalTable<TData>({
   };
 
   return (
-    <div className="grow overflow-hidden pt-1">
-      <div
-        className={`flex ${
-          !additionalControls ? 'justify-end' : 'justify-between'
-        }`}
-      >
-        {additionalControls && (
-          <div className="flex-1">{additionalControls}</div>
-        )}
-        {(search?.enabled || showControls) && (
-          <div className="flex items-center" data-testid="table-options-menu">
-            <div className="flex mb-2 gap-2">
-              {search?.enabled && (
-                <TextInput
-                  leftSection={<MdSearch size={24} />}
-                  data-testid="textbox-table-search-bar"
-                  placeholder={search.placeholder ?? 'Search'}
-                  aria-label="Table Search Input"
-                  classNames={{
-                    input: `border-base-lighter focus:border-2 focus:border-primary${
-                      TooltipContainer ? ' focus:rounded-b-none' : ''
-                    }`,
-                    wrapper: 'w-72 h-8',
-                  }}
-                  size="sm"
-                  rightSection={
-                    searchTerm.length > 0 && (
-                      <MdClose
-                        onClick={handleClearClick}
-                        className="cursor-pointer"
-                      />
-                    )
-                  }
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                  ref={inputRef}
-                  onFocus={() => setSearchFocused(true)}
-                  onBlur={() => setSearchFocused(false)}
-                  inputContainer={TooltipContainer}
-                />
-              )}
-              {showControls && (
-                <ColumnOrdering
-                  table={table}
-                  handleColumnOrderingReset={() => {
-                    table.resetColumnVisibility();
-                    table.resetColumnOrder();
-                  }}
-                  columnOrder={columnOrder ?? []}
-                  setColumnOrder={setColumnOrder as any}
-                />
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
+    <div
+      data-testid={customDataTestID}
+      className="grow overflow-hidden"
+      ref={ref as any}
+    >
+      {(additionalControls ||
+        tableTotalDetail ||
+        search?.enabled ||
+        showControls) && (
+        <TableHeader
+          additionalControls={additionalControls}
+          tableTitle={tableTitle}
+          tableTotalDetail={tableTotalDetail}
+          search={search}
+          showControls={showControls}
+          handleChange={handleChange as any}
+          table={table}
+          columnOrder={columnOrder as any}
+          setColumnOrder={setColumnOrder as any}
+          baseZIndex={baseZIndex}
+          customBreakpoint={customBreakpoint}
+        />
+      )}
       <div className="overflow-y-auto w-full relative">
         <div
           key={announcementTimestamp}
@@ -294,10 +246,10 @@ function VerticalTable<TData>({
           visible={status === 'pending' || status === 'uninitialized'}
           zIndex={0}
         />
-        <table className="w-full text-left font-content shadow-xs text-sm">
-          {tableTitle && (
-            <caption className="font-semibold text-left">{tableTitle}</caption>
-          )}
+        <table
+          className="w-full text-left font-content shadow-xs text-sm"
+          aria-label={customAriaLabel}
+        >
           <thead className="h-12">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
@@ -325,6 +277,7 @@ function VerticalTable<TData>({
                         className={commonHeaderClass}
                         key={header.id}
                         colSpan={header.colSpan}
+                        scope={header.column.columnDef.meta?.scope || 'col'}
                       >
                         {headerName}
                       </th>
@@ -333,7 +286,7 @@ function VerticalTable<TData>({
                     return (
                       <th
                         key={header.id}
-                        scope="col"
+                        scope={header.column.columnDef.meta?.scope || 'col'}
                         className={`
                         ${commonHeaderClass} whitespace-nowrap
                         ${
@@ -364,12 +317,12 @@ function VerticalTable<TData>({
                               className="inline-block text-xs pl-3 align-middle text-base-light"
                               aria-hidden="true"
                             >
-                              <BsCaretUpFill
+                              <RowCollapseIcon
                                 className={
                                   isColumnSorted === 'asc' ? 'text-primary' : ''
                                 }
                               />
-                              <BsCaretDownFill
+                              <RowExpandIcon
                                 className={`${
                                   isColumnSorted === 'desc'
                                     ? 'text-primary'
@@ -386,32 +339,43 @@ function VerticalTable<TData>({
               </tr>
             ))}
           </thead>
-          <tbody className="border-1 border-base-lighter">
+          <tbody>
             {table.getRowModel().rows.map((row, index) => (
               <Fragment key={row.id}>
                 <tr
-                  className={`border border-base-lighter max-h-10 ${
+                  className={`first:border-t-0 border border-base-lighter h-10 ${
                     index % 2 === 1 ? 'bg-base-max' : 'bg-base-lightest'
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const columnDefCell = cell.column.columnDef.cell; // Access the required data
                     const columnId = cell.column.columnDef.id;
+                    const cellValue = cell.getValue();
 
                     return (
                       <td key={cell.id} className="px-2.5 py-2 cursor-default">
                         {row.getCanExpand() &&
-                        expandableColumnIds?.includes(columnId ?? 'unset') ? (
+                        expandableColumnIds &&
+                        expandableColumnIds.includes(columnId as any) &&
+                        // check to make sure item is expandable
+                        (cellValue !== undefined
+                          ? Array.isArray(cellValue) && cellValue.length > 1
+                          : true) ? (
                           <button
                             onClick={() => {
-                              setClickedColumnId(columnId ?? 'unset');
-                              if (setExpanded) setExpanded(row, columnId ?? 'unknown');
+                              setClickedColumnId(columnId as any);
+                              if (setExpanded) {
+                                setExpanded(row, columnId as any);
+                              } else {
+                                console.error('setExpanded is undefined');
+                              }
                             }}
-                            onKeyDown={createKeyboardAccessibleFunction(() => {
-                              setClickedColumnId(columnId ?? 'unset');
-                              if (setExpanded) setExpanded(row, columnId ?? 'unset');
-                            })}
                             className="cursor-auto align-bottom"
+                            aria-expanded={row.getIsExpanded()}
+                            aria-controls={`${row.id}_${columnId}_expanded`.replace(
+                              /\W/g,
+                              '_',
+                            )}
                           >
                             {flexRender(columnDefCell, cell.getContext())}
                           </button>
@@ -423,11 +387,17 @@ function VerticalTable<TData>({
                   })}
                 </tr>
                 {row.getIsExpanded() && (
-                  <tr>
+                  <tr
+                    id={`${row.id}_${clickedColumnId}_expanded`.replace(
+                      /\W/g,
+                      '_',
+                    )}
+                  >
                     {/* 2nd row is a custom 1 cell row */}
                     <td colSpan={row.getVisibleCells().length}>
                       {/* Need to pass in the SubRow component to render here */}
-                      {(renderSubComponent) ? renderSubComponent({ row, clickedColumnId: clickedColumnId ?? 'unset' }) : null}
+                      {renderSubComponent &&
+                        renderSubComponent({ row, clickedColumnId })}
                     </td>
                   </tr>
                 )}
@@ -442,113 +412,15 @@ function VerticalTable<TData>({
         </table>
       </div>
       {pagination && (
-        <div className="flex font-heading items-center text-content justify-between bg-base-max border-base-lighter border-1 border-t-0 py-3 px-4">
-          {!disablePageSize && (
-            <div
-              data-testid="area-show-number-of-entries"
-              className="flex flex-row items-center m-auto ml-0 text-sm"
-            >
-              <span className="my-auto mx-1">Show</span>
-              <Select
-                size="xs"
-                radius="md"
-                onChange={handlePageSizeChange}
-                value={pageSize?.toString()}
-                data={[
-                  { value: '10', label: '10' },
-                  { value: '20', label: '20' },
-                  { value: '40', label: '40' },
-                  { value: '100', label: '100' },
-                ]}
-                classNames={{
-                  root: 'w-16 font-heading',
-                }}
-                data-testid="button-show-entries"
-                aria-label="select page size"
-              />
-              <span className="my-auto mx-1">Entries</span>
-            </div>
-          )}
-
-          <ShowingCount
-            from={pagination?.from}
-            label={pagination?.label ?? ''}
-            total={pagination?.total}
-            dataLength={tableData?.length}
-            status={status ??  'uninitialized'}
-            pageSize={pageSize}
-          />
-
-          <Pagination
-            data-testid="pagination"
-            color="accent.5"
-            className="ml-auto"
-            value={pageOn}
-            onChange={handlePageChange}
-            total={pageTotal}
-            size="sm"
-            radius="xs"
-            withEdges
-            classNames={{ control: 'border-0' }}
-            getControlProps={(control) => {
-              switch (control) {
-                case 'previous':
-                  return { 'aria-label': 'previous page button' };
-                case 'next':
-                  return { 'aria-label': 'next page button' };
-                case 'first':
-                  return { 'aria-label': 'first page button' };
-                case 'last':
-                  return { 'aria-label': 'last page button' };
-                default:
-                  return { 'aria-label': `${control} page button` };
-              }
-            }}
-          />
-        </div>
+        <TablePagination
+          pagination={pagination}
+          disablePageSize={disablePageSize}
+          handleChange={handleChange as any}
+          tableData={tableData}
+          status={status}
+        />
       )}
     </div>
-  );
-}
-
-function ShowingCount({
-  from,
-  total,
-  label,
-  dataLength,
-  status,
-  pageSize,
-}: {
-  from: number;
-  total: number;
-  label: string;
-  dataLength: number;
-  status: DataStatus;
-  pageSize: number;
-}) {
-  let outputString: JSX.Element = (<span/>);
-  if (!isNaN(from) && status === ('fulfilled')) {
-    const paginationFrom = from >= 0 && dataLength > 0 ? from + 1 : 0;
-
-    const defaultPaginationTo = from + pageSize;
-
-    const paginationTo =
-      defaultPaginationTo < total ? defaultPaginationTo : total;
-
-    const totalValue = total.toLocaleString();
-
-    outputString = (
-      <span>
-        <b>{paginationFrom}</b> - <b>{paginationTo}</b> of <b>{totalValue}</b>
-        {label && ` ${label}`}
-      </span>
-    );
-  }
-
-  return (
-    <p data-testid="text-showing-count" className="text-heading text-sm">
-      Showing {outputString ?? '--'}
-    </p>
   );
 }
 

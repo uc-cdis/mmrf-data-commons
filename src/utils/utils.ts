@@ -1,13 +1,7 @@
-
-
-import { KeyboardEventHandler } from "react";
-import {
-  CartFile,
-  GdcFile,
-  DataStatus
-} from "../core";
-import { replace, sortBy, zip } from "lodash";
-import { DocumentWithWebkit } from "@/features/types";
+import React, { KeyboardEventHandler } from 'react';
+import { CartFile, GdcFile, DataStatus } from '../core';
+import { replace, sortBy, zip } from 'lodash';
+import { DocumentWithWebkit } from '@/features/types';
 
 export const toggleFullScreen = async (
   ref: React.MutableRefObject<any>,
@@ -35,58 +29,58 @@ export const createKeyboardAccessibleFunction = (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   func: Function,
 ): KeyboardEventHandler<any> => {
-  return (e: React.KeyboardEvent<any>) => (e.key === "Enter" ? func() : null);
+  return (e: React.KeyboardEvent<any>) => (e.key === 'Enter' ? func() : null);
 };
 /* eslint-enable */
 
 export const capitalize = (original: string): string => {
-  const customCapitalizations : Record<string, string> = {
-    id: "ID",
-    uuid: "UUID",
-    dna: "DNA",
-    dbsnp: "dbSNP",
-    cosmic: "COSMIC",
-    civic: "CIViC",
-    dbgap: "dbGaP",
-    ecog: "ECOG",
-    bmi: "BMI",
-    gdc: "GDC",
-    cnv: "CNV",
-    ssm: "SSM",
-    aa: "AA",
+  const customCapitalizations: Record<string, string> = {
+    id: 'ID',
+    uuid: 'UUID',
+    dna: 'DNA',
+    dbsnp: 'dbSNP',
+    cosmic: 'COSMIC',
+    civic: 'CIViC',
+    dbgap: 'dbGaP',
+    ecog: 'ECOG',
+    bmi: 'BMI',
+    gdc: 'GDC',
+    cnv: 'CNV',
+    ssm: 'SSM',
+    aa: 'AA',
   };
 
   return original
-    .split(" ")
+    .split(' ')
     .map(
       (word) =>
         customCapitalizations[word.toLowerCase()] ||
         `${word.charAt(0).toUpperCase()}${word.slice(1)}`,
     )
-    .join(" ");
+    .join(' ');
 };
 
 export const truncateString = (str: string, n: number): string => {
   if (str.length > n) {
-    return str.substring(0, n) + "...";
+    return str.substring(0, n) + '...';
   } else {
     return str;
   }
 };
 export const externalLinkNames = {
-  civic: "CIViC",
-  entrez_gene: "NCBI Gene",
-  hgnc: "HGNC",
-  omim_gene: "OMIM",
-  uniprotkb_swissprot: "UniProtKB Swiss-Prot",
+  civic: 'CIViC',
+  entrez_gene: 'NCBI Gene',
+  hgnc: 'HGNC',
+  omim_gene: 'OMIM',
+  uniprotkb_swissprot: 'UniProtKB Swiss-Prot',
 };
 
 export const geneExternalLinkNames = {
-  civic: "CIViC",
-  entrez_gene: "NCBI Gene",
-  hgnc: "HGNC",
-  omim_gene: "OMIM",
-  uniprotkb_swissprot: "UniProtKB Swiss-Prot",
+  civic: 'CIViC',
+  entrez_gene: 'NCBI Gene',
+  hgnc: 'HGNC',
+  omim_gene: 'OMIM',
+  uniprotkb_swissprot: 'UniProtKB Swiss-Prot',
 };
 
 export const externalLinks = {
@@ -137,7 +131,7 @@ export const sortByPropertyAsc = <T>(
   property: string,
 ): Array<T> =>
   sortBy(givenObjects, [
-    (e : any) => replace(e[property], /[^a-zA-Z]/g, "").toLocaleLowerCase(),
+    (e: any) => replace(e[property], /[^a-zA-Z]/g, '').toLocaleLowerCase(),
   ]);
 
 interface HumanifyParams {
@@ -146,7 +140,7 @@ interface HumanifyParams {
   facetTerm?: boolean;
 }
 export const humanify = ({
-  term = "",
+  term = '',
   capitalize: cap = true,
   facetTerm = false,
 }: HumanifyParams): string => {
@@ -155,27 +149,25 @@ export const humanify = ({
   if (facetTerm) {
     // Splits on capital letters followed by lowercase letters to find
     // words squished together in a string.
-    original = term?.split(/(?=[A-Z][a-z])/).join(" ");
-    humanified = term?.replace(/\./g, " ").replace(/_/g, " ").trim();
+    original = term?.split(/(?=[A-Z][a-z])/).join(' ');
+    humanified = term?.replace(/\./g, ' ').replace(/_/g, ' ').trim();
   } else {
-    const split = (original || term)?.split(".");
-    humanified = split[split.length - 1]?.replace(/_/g, " ").trim();
+    const split = (original || term)?.split('.');
+    humanified = split[split.length - 1]?.replace(/_/g, ' ').trim();
 
     // Special case 'name' to include any parent nested for sake of
     // specificity in the UI
-    if (humanified === "name" && split?.length > 1) {
+    if (humanified === 'name' && split?.length > 1) {
       humanified = `${split[split?.length - 2]} ${humanified}`;
     }
   }
   return cap ? capitalize(humanified) : humanified;
 };
 
-
 export const extractToArray = (
   data: ReadonlyArray<Record<string, number | string>>,
   nodeKey: string,
 ): (string | number)[] => data?.map((x) => x[nodeKey]);
-
 
 /**
  * convert hooks 3 boolean status to DataStatus
@@ -190,12 +182,12 @@ export const statusBooleansToDataStatus = (
   isError: boolean,
 ): DataStatus => {
   return isFetching
-    ? "pending"
+    ? 'pending'
     : isSuccess
-    ? "fulfilled"
-    : isError
-    ? "rejected"
-    : "uninitialized";
+      ? 'fulfilled'
+      : isError
+        ? 'rejected'
+        : 'uninitialized';
 };
 
 export const getAnnotationsLinkParamsFromFiles = (

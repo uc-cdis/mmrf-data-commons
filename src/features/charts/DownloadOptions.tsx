@@ -1,8 +1,8 @@
-import React from "react";
-import { ActionIcon, Menu, Tooltip } from "@mantine/core";
-import Plotly from "plotly.js";
-import { JSONArray } from "@/features/types";
-import { DownloadIcon } from "@/utils/icons";
+import React from 'react';
+import { ActionIcon, Menu, Tooltip } from '@mantine/core';
+import Plotly from 'plotly.js';
+import { JSONArray } from '@/features/types';
+import { DownloadIcon } from '@/utils/icons';
 
 interface ChartDownloadProps {
   readonly chartDivId: string;
@@ -15,13 +15,13 @@ const DownloadOptions: React.FC<ChartDownloadProps> = ({
   chartName,
   jsonData,
 }: ChartDownloadProps) => {
-  const downloadImage = (filetype: "svg" | "png") => {
+  const downloadImage = (filetype: 'svg' | 'png') => {
     Plotly.downloadImage(chartDivId, {
       format: filetype,
       height: 500,
       width: 700,
       filename: chartName,
-    }).then((r : any) => r);
+    }).then((r) => r);
   };
 
   return (
@@ -38,14 +38,14 @@ const DownloadOptions: React.FC<ChartDownloadProps> = ({
       </Menu.Target>
       <Menu.Dropdown data-testid="list-download-image-or-data-dropdown">
         <Menu.Item
-          onClick={() => downloadImage("svg")}
-          onKeyUp={(e) => e.key === "Enter" && downloadImage("svg")}
+          onClick={() => downloadImage('svg')}
+          onKeyUp={(e) => e.key === 'Enter' && downloadImage('svg')}
         >
           SVG
         </Menu.Item>
         <Menu.Item
-          onClick={() => downloadImage("png")}
-          onKeyUp={(e) => e.key === "Enter" && downloadImage("png")}
+          onClick={() => downloadImage('png')}
+          onKeyUp={(e) => e.key === 'Enter' && downloadImage('png')}
         >
           PNG
         </Menu.Item>

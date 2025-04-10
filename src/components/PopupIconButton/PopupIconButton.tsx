@@ -1,6 +1,7 @@
-import { ReactNode, forwardRef } from "react";
-import { Image } from "@/components/Image";
-import { Button } from "@mantine/core";
+/* eslint-disable react/display-name */
+import React, { ReactNode, forwardRef } from 'react';
+import { Image } from '@/components/Image';
+import { Button } from '@mantine/core';
 
 interface PopupIconButtonProps {
   label: ReactNode;
@@ -19,7 +20,7 @@ export const PopupIconButton = forwardRef<
       label,
       handleClick,
       customAriaLabel = undefined,
-      customStyle = "text-utility-link underline font-content",
+      customStyle = 'text-utility-link underline font-content',
       ariaId,
     }: PopupIconButtonProps,
     ref,
@@ -41,9 +42,9 @@ export const PopupIconButton = forwardRef<
         }
         ref={ref}
         classNames={{
-          label: "font-normal",
-          root: "hover:bg-inherit px-0 h-4 w-auto border-0 flex items-center",
-          section: "mr-1.5 mt-0.5",
+          label: 'font-normal',
+          root: 'hover:bg-inherit px-0 h-4 w-auto border-0 flex items-center',
+          section: 'mr-1.5 mt-0.5',
         }}
         variant="subtle"
         size="compact-sm"

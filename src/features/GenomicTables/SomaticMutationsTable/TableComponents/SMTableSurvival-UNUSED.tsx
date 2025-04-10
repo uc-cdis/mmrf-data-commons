@@ -1,6 +1,8 @@
-import { SurvivalChartIcon } from "@/utils/icons";
-import ToggledCheck from "../../SharedComponent/ToggledCheck";
-import { Survival } from "../types";
+/*
+import React from 'react';
+import { SurvivalChartIcon } from '@/utils/icons';
+import ToggledCheck from '../../SharedComponent/ToggledCheck';
+import { Survival } from '../types';
 
 const SMTableSurvival = ({
   affectedCasesInCohort,
@@ -32,8 +34,8 @@ const SMTableSurvival = ({
   const tooltip = disabled
     ? `Not enough data`
     : isActive
-    ? `Remove ${survival.name} from plot`
-    : `Plot ${survival.name}`;
+      ? `Remove ${survival.name} from plot`
+      : `Plot ${survival.name}`;
 
   return (
     <ToggledCheck
@@ -41,7 +43,7 @@ const SMTableSurvival = ({
       margin="ml-0.5"
       isActive={survival?.checked}
       icon={<SurvivalChartIcon size={24} aria-hidden="true" />}
-      survivalProps={{ plot: "gene.ssm.ssm_id" }}
+      survivalProps={{ plot: 'gene.ssm.ssm_id' }}
       selected={survival as unknown as Record<string, string>} // need to fix this
       disabled={disabled}
       handleSwitch={handleSurvivalPlotToggled}
@@ -51,3 +53,4 @@ const SMTableSurvival = ({
 };
 
 export default SMTableSurvival;
+*/

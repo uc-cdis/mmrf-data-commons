@@ -1,11 +1,16 @@
-import React, { ReactNode, useState } from 'react';
-import { Tooltip, ButtonProps, Loader } from '@mantine/core';
-import tw from 'tailwind-styled-components';
-// import { FilterSet, useCoreDispatch, Modals, showModal } from '@gff/core';
-// import { SaveCohortModal } from '@gff/portal-components';
-import { PlusIcon } from '@/utils/icons';
-// import { cohortActionsHooks } from '@/features/cohortBuilder/CohortManager/cohortActionHooks';
-// import { INVALID_COHORT_NAMES } from '@/features/cohortBuilder/utils';
+import React from 'react';
+
+// COMMENTED OUT FOR NOW, MIGHT NOT BE PART OF MMRF IMPLEMENTATION
+const CohortCreationButton = () => <div></div>;
+
+/*
+import { Tooltip, ButtonProps, Loader } from "@mantine/core";
+import tw from "tailwind-styled-components";
+import { FilterSet, useCoreDispatch, Modals, showModal } from "@gff/core";
+import { SaveCohortModal } from "@gff/portal-components";
+import { PlusIcon } from "@/utils/icons";
+import { cohortActionsHooks } from "@/features/cohortBuilder/CohortManager/cohortActionHooks";
+import { INVALID_COHORT_NAMES } from "@/features/cohortBuilder/utils";
 
 interface CohortCreationStyledButtonProps extends ButtonProps {
   $fullWidth?: boolean;
@@ -16,7 +21,7 @@ export const CohortCreationStyledButton = tw.button<CohortCreationStyledButtonPr
   items-stretch
   w-52
   h-full
-  ${(p: { $fullWidth: boolean }) => !p.$fullWidth && 'max-w-[125px]'}
+  ${(p: { $fullWidth: boolean }) => !p.$fullWidth && "max-w-[125px]"}
   gap-2
   rounded
   border-primary
@@ -35,17 +40,17 @@ export const CohortCreationStyledButton = tw.button<CohortCreationStyledButtonPr
 
 export const IconWrapperTW = tw.span`
   ${(p: { $disabled: boolean }) =>
-    p.$disabled ? 'bg-base-light' : 'bg-accent'}
+    p.$disabled ? "bg-base-light" : "bg-accent"}
   border-r-1
   border-solid
   ${(p: { $disabled: boolean }) =>
-    p.$disabled ? 'border-base-light' : 'border-primary'}
+    p.$disabled ? "border-base-light" : "border-primary"}
   flex
   items-center
   p-1
 `;
 
-/**
+
  * Props for the CohortCreationButton component
  * @category Buttons
  * @interface
@@ -55,7 +60,7 @@ export const IconWrapperTW = tw.span`
  * @property caseFilters - the case filters to use for the cohort
  * @property filtersCallback - callback to create filters, used when filters are too complicated for FilterSet
  * @property createStaticCohort - whether to create a case set from the filters so the cases in the cohort remain static
- */
+
 interface CohortCreationButtonProps {
   readonly label: ReactNode;
   readonly numCases: number;
@@ -74,7 +79,7 @@ interface CohortCreationButtonProps {
  * @property filtersCallback - callback to create filters, used when filters are too complicated for FilterSet
  * @param createStaticCohort - whether to create a case set from the filters so the cases in the cohort remain static
  * @category Buttons
- */
+
 const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   label,
   numCases,
@@ -87,12 +92,11 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   const [cohortFilters, setCohortFilters] = useState<FilterSet>(filters);
   const [loading, setLoading] = useState(false);
   const disabled = numCases === undefined || numCases === 0;
-  // const dispatch = useCoreDispatch();
-  const dispatch = () => null;
+  const dispatch = useCoreDispatch();
   const tooltipText = disabled
-    ? 'No cases available'
+    ? "No cases available"
     : `Save a new cohort of ${
-        numCases > 1 ? `these ${numCases.toLocaleString()} cases` : 'this case'
+        numCases > 1 ? `these ${numCases.toLocaleString()} cases` : "this case"
       }`;
 
   return (
@@ -100,16 +104,16 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
       <Tooltip
         label={
           disabled ? (
-            'No cases available'
+            "No cases available"
           ) : (
             <>
-              Save a new cohort of{' '}
+              Save a new cohort of{" "}
               {numCases > 1 ? (
                 <>
                   these <b>{numCases.toLocaleString()}</b> cases
                 </>
               ) : (
-                'this case'
+                "this case"
               )}
             </>
           )
@@ -150,12 +154,11 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
               <PlusIcon color="white" size={12} />
             )}
           </IconWrapperTW>
-          <span className="pr-2 self-center">{label ?? '--'}</span>
+          <span className="pr-2 self-center">{label ?? "--"}</span>
         </CohortCreationStyledButton>
       </Tooltip>
 
-      {/* TO DO -> IMPORT SaveCohortModal from GFF PACKAGE */}
-      {/*       <SaveCohortModal
+      <SaveCohortModal
         onClose={() => setShowSaveCohort(false)}
         opened={showSaveCohort}
         filters={cohortFilters}
@@ -163,9 +166,9 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
         createStaticCohort={createStaticCohort}
         hooks={cohortActionsHooks}
         invalidCohortNames={INVALID_COHORT_NAMES}
-      /> */}
+      />
     </div>
   );
 };
-
+*/
 export default CohortCreationButton;

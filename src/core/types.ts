@@ -1,5 +1,4 @@
-
-const accessTypes = ["open", "controlled"] as const;
+const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
 
@@ -16,7 +15,7 @@ const asAccessType = (x: unknown): AccessType => {
 };
 
 export interface caseFileType {
-  readonly access: "open" | "controlled";
+  readonly access: 'open' | 'controlled';
   readonly acl: Array<string>;
   readonly data_type: string;
   readonly file_id: string;
@@ -120,7 +119,6 @@ export interface GdcCartFile {
   readonly md5sum: string;
 }
 
-
 export interface GdcFile {
   readonly id?: string;
   readonly submitterId: string;
@@ -209,19 +207,18 @@ export interface GdcFile {
  * - If the data request fails for any reason, then the status
  * transitions from "pending" to "rejected".
  */
-export type DataStatus = "uninitialized" | "pending" | "fulfilled" | "rejected";
+export type DataStatus = 'uninitialized' | 'pending' | 'fulfilled' | 'rejected';
 
 export type CartFile = Pick<
   GdcFile,
-  | "access"
-  | "acl"
-  | "file_id"
-  | "file_size"
-  | "state"
-  | "project_id"
-  | "file_name"
+  | 'access'
+  | 'acl'
+  | 'file_id'
+  | 'file_size'
+  | 'state'
+  | 'project_id'
+  | 'file_name'
 >;
-
 
 export interface ProjectPercent {
   project: string;
@@ -229,3 +226,37 @@ export interface ProjectPercent {
 }
 
 export type FilterSet = Record<string, any>;
+
+interface SSMSConsequence {
+  readonly id: string;
+  readonly transcript: {
+    readonly aa_change: string;
+    readonly annotation: {
+      readonly polyphen_impact: string;
+      readonly polyphen_score: number;
+      readonly sift_impact: string;
+      readonly sift_score: string;
+      readonly vep_impact: string;
+      readonly hgvsc?: string;
+    };
+    readonly consequence_type: string;
+    readonly gene: {
+      readonly gene_id: string;
+      readonly symbol: string;
+      readonly gene_strand?: number;
+    };
+    readonly is_canonical: boolean;
+    readonly transcript_id?: string;
+  };
+}
+
+export interface SSMSData {
+  readonly ssm_id: string;
+  readonly occurrence: number;
+  readonly filteredOccurrences: number;
+  readonly id: string;
+  readonly score: number;
+  readonly genomic_dna_change: string;
+  readonly mutation_subtype: string;
+  readonly consequence: ReadonlyArray<SSMSConsequence>;
+}

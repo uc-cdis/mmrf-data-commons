@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  IoIosArrowDropdownCircle as DownIcon,
-  IoIosArrowDropupCircle as UpIcon,
-} from 'react-icons/io';
+import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
 
 const ExpandRowComponent = ({
   isRowExpanded,
@@ -21,20 +18,16 @@ const ExpandRowComponent = ({
     ) : value?.length === 1 ? (
       value
     ) : (
-      <div
-        className="flex items-center text-primary cursor-pointer gap-2"
-        aria-label={`${value.length} ${title}`}
-        role="button"
-      >
+      <div className="flex items-center text-primary cursor-pointer gap-2">
         {isRowExpanded && isColumnExpanded ? (
-          <UpIcon
+          <CollapseCircleIcon
             size="1.25em"
             className="text-accent"
             data-testid="up-icon"
             aria-hidden="true"
           />
         ) : (
-          <DownIcon
+          <ExpandCircleIcon
             size="1.25em"
             className="text-accent"
             data-testid="down-icon"
@@ -45,7 +38,6 @@ const ExpandRowComponent = ({
           className={`whitespace-nowrap ${
             isRowExpanded && isColumnExpanded && 'font-bold'
           }`}
-          aria-hidden="true"
         >
           {value.length.toLocaleString().padStart(6)} {title}
         </span>

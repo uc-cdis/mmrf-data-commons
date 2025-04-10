@@ -26,7 +26,7 @@ import {
 } from '../GenomicTables/SomaticMutationsTable/TableComponents';
 import saveAs from 'file-saver';
 import { Loader } from '@mantine/core';
-import { getFormattedTimestamp } from '../../utils/date';
+import { getFormattedTimestamp } from '@/utils/date';
 import { downloadTSV } from '@/components/Table/utils';
 import ImpactHeaderWithTooltip from '../GenomicTables/SharedComponent/ImpactHeaderWithTooltip';
 import TotalItems from '@/components/Table/TotalItem';

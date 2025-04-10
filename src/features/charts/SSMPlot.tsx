@@ -1,18 +1,18 @@
-import React from "react";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { FilterSet, ProjectPercent, useSsmPlotQuery } from '@/core';
-import ChartTitleBar from "./ChartTitleBar";
-import { CountSpan } from "@/components/tailwindComponents";
+import React from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { FilterSet, useSsmPlotQuery } from '@/core';
+import ChartTitleBar from './ChartTitleBar';
+import { CountSpan } from '@/components/tailwindComponents';
 
-const BarChart = dynamic(() => import("./BarChart"), {
+const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
 });
 
-const CHART_NAME = "cancer-distribution-bar-chart-ssm";
+const CHART_NAME = 'cancer-distribution-bar-chart-ssm';
 
 interface SSMPlotProps {
-  readonly page: "gene" | "ssms";
+  readonly page: 'gene' | 'ssms';
   readonly gene?: string;
   readonly ssms?: string;
   readonly height?: number;
@@ -21,13 +21,13 @@ interface SSMPlotProps {
 }
 
 const SSMPlot: React.FC<SSMPlotProps> = ({
-                                           page,
-                                           gene,
-                                           ssms,
-                                           height = undefined,
-                                           genomicFilters = undefined,
-                                           cohortFilters = undefined,
-                                         }: SSMPlotProps) => {
+  page,
+  gene,
+  ssms,
+  height = undefined,
+  genomicFilters = undefined,
+  cohortFilters = undefined,
+}: SSMPlotProps) => {
   const router = useRouter();
 
   const { data, error, isUninitialized, isFetching, isError } = useSsmPlotQuery(
@@ -50,12 +50,12 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   if (isError) {
     return (
       <div>
-        Failed to fetch chart:{" "}
-        {typeof error === "string"
+        Failed to fetch chart:{' '}
+        {typeof error === 'string'
           ? error
-          : "text" in error
+          : 'text' in error
             ? error?.text
-            : "error"}
+            : 'error'}
       </div>
     );
   }
@@ -66,7 +66,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
 
   const sortedData = data.cases
     .map((d: any) => ({ ...d, percent: (d.ssmCount / d.totalCount) * 100 }))
-    .sort((a : any, b : any) => (a.percent < b.percent ? 1 : -1))
+    .sort((a: any, b: any) => (a.percent < b.percent ? 1 : -1))
     .slice(0, 20);
 
   const caseCount = (
@@ -84,9 +84,9 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   );
 
   const title =
-    page === "gene" ? (
+    page === 'gene' ? (
       <span>
-        {caseCount} CASES AFFECTED BY {ssmCount} MUTATIONS ACROSS {projectCount}{" "}
+        {caseCount} CASES AFFECTED BY {ssmCount} MUTATIONS ACROSS {projectCount}{' '}
         PROJECTS
       </span>
     ) : (
@@ -98,19 +98,19 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   const chartData = {
     datasets: [
       {
-        x: sortedData.map((d:any) => d.project),
+        x: sortedData.map((d: any) => d.project),
         y: sortedData.map((d: any) => d.percent),
         customdata: sortedData.map((d: any) => [d.ssmCount, d.totalCount]),
         hovertemplate:
-          "%{customdata[0]} Cases Affected in <b>%{x}</b><br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)  <extra></extra>",
+          '%{customdata[0]} Cases Affected in <b>%{x}</b><br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)  <extra></extra>',
       },
     ],
-    yAxisTitle: "% of Cases Affected",
+    yAxisTitle: '% of Cases Affected',
   };
 
   const chartDivId = `${CHART_NAME}_${Math.floor(Math.random() * 100)}`;
 
-  const onClickHandler = (mouseEvent : any) => {
+  const onClickHandler = (mouseEvent: any) => {
     router.push(`/projects/${mouseEvent.points[0].x}`);
   };
 
@@ -125,12 +125,20 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           filename="cancer-distribution-bar-chart"
           divId={chartDivId}
           jsonData={[
-            ...sortedData.map(({ project: label, percent: value } : ProjectPercent) => {
-              return {
-                label,
-                value,
-              };
-            }),
+            ...sortedData.map(
+              ({
+                project: label,
+                percent: value,
+              }: {
+                project: any;
+                percent: any;
+              }) => {
+                return {
+                  label,
+                  value,
+                };
+              },
+            ),
           ]}
         />
       </div>

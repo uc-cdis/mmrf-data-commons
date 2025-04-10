@@ -1,12 +1,14 @@
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
-import { humanify } from "@/utils/index";
-import { SSMSData, FilterSet } from "@gff/core";
-import { SomaticMutation, SsmToggledHandler } from "./types";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { Dispatch, SetStateAction, useId } from "react";
-import { useDeepCompareMemo } from "use-deep-compare";
-import { Checkbox } from "@mantine/core";
-import { HeaderTooltip } from "@/components/Table/HeaderTooltip";
+/*
+import React from 'react';
+import { humanify } from '@/utils/index';
+import { SSMSData, FilterSet } from '@/core';
+import { SomaticMutation, SsmToggledHandler } from './types';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { Dispatch, SetStateAction, useId } from 'react';
+import { useDeepCompareMemo } from 'use-deep-compare';
+import { Checkbox } from '@mantine/core';
+import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
 import {
   SMTableCohort,
   SMTableConsequences,
@@ -14,23 +16,23 @@ import {
   SMTableImpacts,
   SMTableProteinChange,
   SMTableSurvival,
-} from "./TableComponents";
-import CohortCreationButton from "@/components/CohortCreationButton";
-import { entityMetadataType } from "@/utils/contexts";
-import NumeratorDenominator from "@/components/NumeratorDenominator";
-import ImpactHeaderWithTooltip from "../SharedComponent/ImpactHeaderWithTooltip";
-import RatioWithSpring from "@/components/RatioWithSpring";
-import { ComparativeSurvival } from "@/features/genomic/types";
-import { CollapseCircleIcon, ExpandCircleIcon } from "@/utils/icons";
+} from './TableComponents';
+import CohortCreationButton from '@/components/CohortCreationButton';
+import { entityMetadataType } from '@/utils/contexts';
+import NumeratorDenominator from '@/components/NumeratorDenominator';
+import ImpactHeaderWithTooltip from '../SharedComponent/ImpactHeaderWithTooltip';
+import RatioWithSpring from '@/components/RatioWithSpring';
+import { ComparativeSurvival } from '@/features/genomic/types';
+import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
 
 export const filterMutationType = (mutationSubType: string): string => {
   if (
-    ["Oligo-nucleotide polymorphism", "Tri-nucleotide polymorphism"].includes(
+    ['Oligo-nucleotide polymorphism', 'Tri-nucleotide polymorphism'].includes(
       mutationSubType,
     )
   )
     return mutationSubType;
-  const split = mutationSubType.split(" ");
+  const split = mutationSubType.split(' ');
   const operation = split[split.length - 1];
   return operation.charAt(0).toUpperCase() + operation.slice(1);
 };
@@ -75,13 +77,13 @@ export const useGenerateSMTableColumns = ({
   >(
     () => [
       SMTableColumnHelper.display({
-        id: "select",
+        id: 'select',
         header: ({ table }) => (
           <Checkbox
             size="xs"
             classNames={{
-              input: "checked:bg-accent checked:border-accent",
-              label: "sr-only",
+              input: 'checked:bg-accent checked:border-accent',
+              label: 'sr-only',
             }}
             label={`Select all mutation rows on page ${currentPage} of ${totalPages}`}
             {...{
@@ -94,7 +96,7 @@ export const useGenerateSMTableColumns = ({
           <Checkbox
             size="xs"
             classNames={{
-              input: "checked:bg-accent checked:border-accent",
+              input: 'checked:bg-accent checked:border-accent',
             }}
             aria-labelledby={`${componentId}-mutation-table-${row.original.mutation_id}`}
             {...{
@@ -109,7 +111,7 @@ export const useGenerateSMTableColumns = ({
       ...(!geneSymbol && !projectId
         ? [
             SMTableColumnHelper.display({
-              id: "cohort",
+              id: 'cohort',
               header: () => (
                 <HeaderTooltip
                   title="Cohort"
@@ -134,7 +136,7 @@ export const useGenerateSMTableColumns = ({
       ...(!geneSymbol && !projectId
         ? [
             SMTableColumnHelper.display({
-              id: "survival",
+              id: 'survival',
               header: () => (
                 <HeaderTooltip
                   title="Survival"
@@ -144,7 +146,7 @@ export const useGenerateSMTableColumns = ({
               cell: ({ row }) => (
                 <SMTableSurvival
                   affectedCasesInCohort={
-                    row.original["#_affected_cases_in_cohort"]
+                    row.original['#_affected_cases_in_cohort']
                   }
                   survival={row.original.survival}
                   proteinChange={row.original.protein_change}
@@ -155,12 +157,12 @@ export const useGenerateSMTableColumns = ({
           ]
         : []),
 
-      SMTableColumnHelper.accessor("mutation_id", {
-        id: "mutation_id",
-        header: "Mutation ID",
+      SMTableColumnHelper.accessor('mutation_id', {
+        id: 'mutation_id',
+        header: 'Mutation ID',
       }),
       SMTableColumnHelper.display({
-        id: "dna_change",
+        id: 'dna_change',
         header: () => (
           <HeaderTooltip
             title="DNA Change"
@@ -179,8 +181,8 @@ export const useGenerateSMTableColumns = ({
         ),
       }),
       SMTableColumnHelper.display({
-        id: "protein_change",
-        header: "Protein Change",
+        id: 'protein_change',
+        header: 'Protein Change',
         cell: ({ row }) => (
           <SMTableProteinChange
             proteinChange={row.original.protein_change}
@@ -191,12 +193,12 @@ export const useGenerateSMTableColumns = ({
           />
         ),
       }),
-      SMTableColumnHelper.accessor("type", {
-        id: "type",
-        header: "Type",
+      SMTableColumnHelper.accessor('type', {
+        id: 'type',
+        header: 'Type',
       }),
       SMTableColumnHelper.display({
-        id: "consequences",
+        id: 'consequences',
         header: () => (
           <HeaderTooltip
             title="Consequences"
@@ -209,20 +211,20 @@ export const useGenerateSMTableColumns = ({
       }),
       SMTableColumnHelper.display({
         id: `#_affected_cases_in_${
-          geneSymbol ? geneSymbol : projectId ? projectId : "Cohort"
+          geneSymbol ? geneSymbol : projectId ? projectId : 'Cohort'
         }`,
         header: () => (
           <HeaderTooltip
             title={`# Affected Cases
-          in ${geneSymbol ? geneSymbol : projectId ? projectId : "Cohort"}`}
+          in ${geneSymbol ? geneSymbol : projectId ? projectId : 'Cohort'}`}
             tooltip={`# Cases where Mutation is observed in ${
-              geneSymbol ?? projectId ?? "Cohort"
+              geneSymbol ?? projectId ?? 'Cohort'
             }
               / ${
                 geneSymbol
                   ? `# Cases with variants in ${geneSymbol}`
                   : `Cases tested for Simple Somatic Mutations in ${
-                      projectId ?? "Cohort"
+                      projectId ?? 'Cohort'
                     }`
               }
             `}
@@ -232,14 +234,14 @@ export const useGenerateSMTableColumns = ({
           <CohortCreationButton
             label={
               <NumeratorDenominator
-                numerator={row.original["#_affected_cases_in_cohort"].numerator}
+                numerator={row.original['#_affected_cases_in_cohort'].numerator}
                 denominator={
-                  row.original["#_affected_cases_in_cohort"].denominator
+                  row.original['#_affected_cases_in_cohort'].denominator
                 }
                 boldNumerator={true}
               />
             }
-            numCases={row.original["#_affected_cases_in_cohort"].numerator}
+            numCases={row.original['#_affected_cases_in_cohort'].numerator}
             filters={generateFilters(row.original.mutation_id)}
             caseFilters={cohortFilters}
             createStaticCohort
@@ -247,7 +249,7 @@ export const useGenerateSMTableColumns = ({
         ),
       }),
       SMTableColumnHelper.display({
-        id: "#_affected_cases_across_the_gdc",
+        id: '#_affected_cases_across_the_gdc',
         header: () => (
           <HeaderTooltip
             title={`# Affected Cases
@@ -259,12 +261,12 @@ export const useGenerateSMTableColumns = ({
         ),
         cell: ({ row }) => {
           const { numerator, denominator } = row.original[
-            "#_affected_cases_across_the_gdc"
+            '#_affected_cases_across_the_gdc'
           ] ?? { numerator: 0, denominator: 1 };
           return (
             <div
               className={`flex items-center gap-2 ${
-                numerator !== 0 && "cursor-pointer"
+                numerator !== 0 && 'cursor-pointer'
               }`}
             >
               {numerator !== 0 && row.getCanExpand() && (
@@ -284,7 +286,7 @@ export const useGenerateSMTableColumns = ({
         },
       }),
       SMTableColumnHelper.display({
-        id: "impact",
+        id: 'impact',
         header: () => <ImpactHeaderWithTooltip />,
         cell: ({ row }) => <SMTableImpacts impact={row.original.impact} />,
       }),
@@ -353,11 +355,11 @@ export const getMutation = (
       geneId: gene_id,
       aaChange: aa_change,
     },
-    "#_affected_cases_in_cohort": {
+    '#_affected_cases_in_cohort': {
       numerator: filteredOccurrences,
       denominator: filteredCases,
     },
-    "#_affected_cases_across_the_gdc": {
+    '#_affected_cases_across_the_gdc': {
       numerator: occurrence,
       denominator: cases,
     },
@@ -365,8 +367,8 @@ export const getMutation = (
       checked: true,
     },
     survival: {
-      label: `${symbol} ${aa_change ? aa_change : ""} ${humanify({
-        term: consequence_type?.replace("_variant", "").replace("_", " "),
+      label: `${symbol} ${aa_change ? aa_change : ''} ${humanify({
+        term: consequence_type?.replace('_variant', '').replace('_', ' '),
       })}`,
       name: genomic_dna_change,
       symbol: ssm_id,
@@ -383,12 +385,12 @@ export const getMutation = (
   };
 };
 
-export const DNA_CHANGE_MARKERS = ["del", "ins", ">"];
+export const DNA_CHANGE_MARKERS = ['del', 'ins', '>'];
 
 export const truncateAfterMarker = (
   term: string,
   markers: string[] = DNA_CHANGE_MARKERS,
-  omission = "…",
+  omission = '…',
 ): string => {
   const markersByIndex = markers.reduce(
     (acc, marker) => {
@@ -398,7 +400,7 @@ export const truncateAfterMarker = (
       }
       return acc;
     },
-    { index: -1, marker: "" },
+    { index: -1, marker: '' },
   );
   const { index, marker } = markersByIndex;
   if (index !== -1 && term.length > index + marker.length + 8) {
@@ -406,3 +408,4 @@ export const truncateAfterMarker = (
   }
   return term;
 };
+*/

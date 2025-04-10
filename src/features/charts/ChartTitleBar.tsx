@@ -1,9 +1,9 @@
-import React from "react";
-import dynamic from "next/dynamic";
-import { ReactNode } from "react";
-import { JSONArray } from "@/features/types";
+import React from 'react';
+import dynamic from 'next/dynamic';
+import { ReactNode } from 'react';
+import { JSONArray } from '@/features/types';
 
-const DownloadOptions = dynamic(() => import("./DownloadOptions"), {
+const DownloadOptions = dynamic(() => import('./DownloadOptions'), {
   ssr: false,
 });
 

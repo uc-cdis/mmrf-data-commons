@@ -1,6 +1,7 @@
 import { FilterSet } from './types';
 
-export const useGetProjectsQuery = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useGetProjectsQuery = (project: { [key: string]: any }) => {
   const data = [
     {
       projectData: [
@@ -3153,7 +3154,10 @@ export const useGetProjectsQuery = () => {
     isSuccess: true,
   };
 };
-export const useGetSSMSCancerDistributionTableQuery = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useGetSSMSCancerDistributionTableQuery = (ssms: {
+  ssms: object | string;
+}) => {
   const data = {
     projects: [
       {
@@ -3358,7 +3362,8 @@ export const useGetSSMSCancerDistributionTableQuery = () => {
   };
 };
 
-export const useSsmsSummaryQuery = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useSsmsSummaryQuery = (summary: { [key: string]: any }) => {
   const data = {
     uuid: '53af5705-a17b-555a-92e9-880ce5c14ca0',
     dna_change: 'chr17:g.7673776G>A',
@@ -3388,7 +3393,10 @@ export const useSsmsSummaryQuery = () => {
   };
 };
 
-export const useSsmsConsequenceTableQuery = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useSsmsConsequenceTableQuery = (consequenceQuery: {
+  [key: string]: any;
+}) => {
   const data = [
     {
       id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OjNkYzU2MjAwLTM0YjgtNTAzYy05NDBhLWM2NDhmNzg4ZWQzYQ==', // pragma: allowlist secret
@@ -3681,6 +3689,7 @@ interface DataResponse {
   isSuccess: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useSsmPlotQuery = (_: SsmPlotRequest): DataResponse => {
   const data = {
     cases: [

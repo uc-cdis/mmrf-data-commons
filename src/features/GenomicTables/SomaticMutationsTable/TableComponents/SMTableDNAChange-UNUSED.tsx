@@ -1,9 +1,11 @@
+/*
+import React from 'react';
 import { truncateAfterMarker } from '../utils';
 import { Tooltip } from '@mantine/core';
 import Link from 'next/link';
 import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
 import { Dispatch, SetStateAction } from 'react';
-import { entityMetadataType } from 'src/utils/contexts';
+import { entityMetadataType } from '../../../../utils/contexts';
 
 const SMTableDNAChange = ({
   DNAChange,
@@ -53,3 +55,4 @@ const SMTableDNAChange = ({
 };
 
 export default SMTableDNAChange;
+*/

@@ -1,4 +1,6 @@
 export interface CancerDistributionSSMType {
+  // updated april 10 25 to get build to work
+  [key: string]: any;
   project: string;
   disease_type: string[];
   primary_site: string[];

@@ -23,13 +23,13 @@ const SummaryCount = ({
   const addLinkValue = () => (
     <>
       {href ? (
-        <Link href={href} passHref>
-          <a
-            className="text-utility-link underline"
-            target={shouldOpenInNewTab ? '_blank' : '_self'}
-          >
-            {count}
-          </a>
+        <Link
+          href={href}
+          className="text-utility-link underline"
+          target={shouldOpenInNewTab ? '_blank' : undefined}
+          rel="noreferrer"
+        >
+          {count}
         </Link>
       ) : (
         count

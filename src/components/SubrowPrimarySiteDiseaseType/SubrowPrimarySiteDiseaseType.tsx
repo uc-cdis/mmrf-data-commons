@@ -1,8 +1,8 @@
-import React from "react";
-import { CircleIcon } from "@/utils/icons";
-import { animated, useSpring } from "@react-spring/web";
-import { Row } from "@tanstack/react-table";
-import { useMeasure } from "react-use";
+import React from 'react';
+import { CircleIcon } from '@/utils/icons';
+import { animated, useSpring } from '@react-spring/web';
+import { Row } from '@tanstack/react-table';
+import { useMeasure } from 'react-use';
 
 function SubrowPrimarySiteDiseaseType<T>({
   row,
@@ -11,9 +11,10 @@ function SubrowPrimarySiteDiseaseType<T>({
   row: Row<T>;
   columnId: string;
 }): JSX.Element {
-  const values = row?.original[columnId] as string[];
-
-  const title = columnId === "disease_type" ? "Disease Type" : "Primary Site";
+  // const values = row?.original[columnId];
+  // THIS SHOULD BE UPDATED, TYPESCRIPT ISSUE WITH row?.original[columnId];
+  const values = ['value'];
+  const title = columnId === 'disease_type' ? 'Disease Type' : 'Primary Site';
 
   const [subRef, { width, height }] = useMeasure();
 
@@ -33,7 +34,8 @@ function SubrowPrimarySiteDiseaseType<T>({
 
   return (
     <>
-      <animated.div ref={subRef} className="absolute ml-2 mt-2 w-full">
+      {/* <animated.div ref={subRef} className="absolute ml-2 mt-2 w-full"> */}
+      <animated.div className="absolute ml-2 mt-2 w-full">
         <div className="font-semibold text-[1rem] mb-2">{title}</div>
         <div className="columns-4 font-content text-sm">
           {values.map((value) => (

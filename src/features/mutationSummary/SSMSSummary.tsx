@@ -23,7 +23,7 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  /*   const { data: summaryData, isFetching } = useSsmsSummaryQuery({
+  const { data: summaryData, isFetching } = useSsmsSummaryQuery({
     filters: {
       content: {
         field: 'ssm_id',
@@ -42,10 +42,7 @@ export const SSMSSummary = ({
       'clinical_annotations.civic.variant_id',
     ],
     size: 1,
-  }); */
-  const { data: summaryData, isFetching } = useSsmsSummaryQuery();
-  console.log('summaryData', summaryData.transcript);
-  // if (!summaryData.transcript) return <h1>loading...</h1>;
+  });
 
   const formatDataForSummary = (): HorizontalTableProps['tableData'] => {
     const obj = pick(summaryData, [
@@ -168,9 +165,8 @@ export const SSMSSummary = ({
     return formatDataForHorizontalTable(externalLinksObj, headersConfig);
   };
 
-  console.log('summaryData', summaryData);
   return (
-    <div className='w-full mt-[125px]'>
+    <div className="w-full mt-[125px]">
       {isFetching ? (
         <Loader />
       ) : summaryData ? (

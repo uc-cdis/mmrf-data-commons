@@ -1,6 +1,6 @@
-import  React from "react";
-import { Config, Layout, PlotMouseEvent, PlotData } from "plotly.js";
-import Plot from "react-plotly.js";
+import React from 'react';
+import { Config, Layout, PlotMouseEvent, PlotData } from 'plotly.js';
+import Plot from 'react-plotly.js';
 
 export interface BarChartData {
   datasets: Partial<PlotData>[];
@@ -55,136 +55,137 @@ interface BarChartProps {
  * @category Charts
  */
 const BarChart: React.FC<BarChartProps> = ({
-                                             data,
-                                             marginBottom,
-                                             marginTop = 30,
-                                             padding = 4,
-                                             orientation = "v",
-                                             onClickHandler,
-                                             divId,
-                                             stacked = false,
-                                             onAfterPlot,
-                                           }: BarChartProps) => {
+  data,
+  marginBottom,
+  marginTop = 30,
+  padding = 4,
+  orientation = 'v',
+  onClickHandler,
+  divId,
+  stacked = false,
+  onAfterPlot,
+}: BarChartProps) => {
   const chartData = data.datasets.map((dataset) => ({
-    x: orientation === "v" ? dataset.x : dataset.y,
-    y: orientation === "v" ? dataset.y : dataset.x,
-    hoverinfo: "text",
+    x: orientation === 'v' ? dataset.x : dataset.y,
+    y: orientation === 'v' ? dataset.y : dataset.x,
+    hoverinfo: 'text',
     text: dataset.text,
-    hoverlabel: { bgcolor: "rgba(0,0,0,0.9)", font: "Montserrat" },
+    hoverlabel: { bgcolor: 'rgba(0,0,0,0.9)', font: 'Montserrat' },
     hovertemplate: dataset.hovertemplate,
     customdata: dataset.customdata,
-    textposition: "none",
+    textposition: 'none',
     showlegend: false,
-    uniformtext_mode: "hide",
+    uniformtext_mode: 'hide',
     title: null,
     marker: {
       color: dataset?.marker?.color,
       line: {
-        color: "#4f4b4b",
+        color: '#4f4b4b',
         width: 2,
       },
     },
-    type: "bar",
+    type: 'bar',
     orientation: orientation,
     bargap: 0.5,
   }));
 
   const layout: Partial<Layout> =
-    orientation === "v"
+    orientation === 'v'
       ? {
-        xaxis: {
-          // (bars are vertical)
-          automargin: false,
-          ticks: "outside",
-          tickwidth: 2,
-          tickcolor: "#aaaaaa",
-          ticklen: 2,
-          tickvals: data.tickvals,
-          ticktext: data.ticktext,
-          tickfont: {
-            size: 12,
-            family: "Noto Sans, sans-serif",
-            color: "rgb(107, 107, 107)",
+          xaxis: {
+            // (bars are vertical)
+            automargin: false,
+            ticks: 'outside',
+            tickwidth: 2,
+            tickcolor: '#aaaaaa',
+            ticklen: 2,
+            tickvals: data.tickvals,
+            ticktext: data.ticktext,
+            tickfont: {
+              size: 12,
+              family: 'Noto Sans, sans-serif',
+              color: 'rgb(107, 107, 107)',
+            },
+            tickangle:
+              (data?.datasets?.[0]?.x?.length as number) > 6 ? 35 : undefined,
           },
-          tickangle: (data?.datasets?.[0]?.x?.length ?? 0) > 6 ? 35 : undefined,
-        },
-        yaxis: {
-          title: data.yAxisTitle,
-          titlefont: {
-            family: "Noto Sans, sans-serif",
-            size: 14,
+          yaxis: {
+            title: data.yAxisTitle,
+            titlefont: {
+              family: 'Noto Sans, sans-serif',
+              size: 14,
+            },
+            tickfont: {
+              size: 12,
+              color: 'rgb(107, 107, 107)',
+              family: 'Noto Sans, sans-serif',
+            },
           },
-          tickfont: {
-            size: 12,
-            color: "rgb(107, 107, 107)",
-            family: "Noto Sans, sans-serif",
+          margin: {
+            l: 80,
+            r: 40,
+            b: marginBottom !== undefined ? marginBottom : 100,
+            t: marginTop,
+            pad: padding,
           },
-        },
-        margin: {
-          l: 80,
-          r: 40,
-          b: marginBottom !== undefined ? marginBottom : 100,
-          t: marginTop,
-          pad: padding,
-        },
-        autosize: true,
-        barmode: stacked ? "stack" : "group",
-        transition: {
-          duration: 500,
-          easing: "cubic-in-out",
-        },
-      }
+          autosize: true,
+          barmode: stacked ? 'stack' : 'group',
+          transition: {
+            duration: 500,
+            easing: 'cubic-in-out',
+          },
+        }
       : {
-        // (bars are horizontal)
-        yaxis: {
-          automargin: false,
-          ticks: "outside",
-          tickwidth: 2,
-          tickcolor: "#aaaaaa",
-          ticklen: 2,
-          tickvals: data.tickvals,
-          ticktext: data.ticktext,
-          autorange: "reversed",
-          tickfont: {
-            size: 12,
-            color: "rgb(107, 107, 107)",
-            family: "Noto Sans, sans-serif",
+          // (bars are horizontal)
+          yaxis: {
+            automargin: false,
+            ticks: 'outside',
+            tickwidth: 2,
+            tickcolor: '#aaaaaa',
+            ticklen: 2,
+            tickvals: data.tickvals,
+            ticktext: data.ticktext,
+            autorange: 'reversed',
+            tickfont: {
+              size: 12,
+              color: 'rgb(107, 107, 107)',
+              family: 'Noto Sans, sans-serif',
+            },
           },
-        },
-        xaxis: {
-          title: data.yAxisTitle,
-          titlefont: {
-            family: "Noto Sans, sans-serif",
-            size: 14,
+          xaxis: {
+            title: data.yAxisTitle,
+            titlefont: {
+              family: 'Noto Sans, sans-serif',
+              size: 14,
+            },
+            tickfont: {
+              size: 12,
+              color: 'rgb(107, 107, 107)',
+              family: 'Noto Sans, sans-serif',
+            },
           },
-          tickfont: {
-            size: 12,
-            color: "rgb(107, 107, 107)",
-            family: "Noto Sans, sans-serif",
+          margin: {
+            l: 120,
+            r: 10,
+            b: marginBottom !== undefined ? marginBottom : 100,
+            t: marginTop,
+            pad: padding,
           },
-        },
-        margin: {
-          l: 120,
-          r: 10,
-          b: marginBottom !== undefined ? marginBottom : 100,
-          t: marginTop,
-          pad: padding,
-        },
-        autosize: true,
-      };
+          autosize: true,
+        };
 
   const config: Partial<Config> = {
     displaylogo: false,
     modeBarButtonsToRemove: [
-      "zoom2d",
-      "pan2d",
-      "select2d",
-      "lasso2d",
-      "zoomIn2d",
-      "zoomOut2d",
-      "autoScale2d",
-      "resetScale2d",
-      "toImage",
+      'zoom2d',
+      'pan2d',
+      'select2d',
+      'lasso2d',
+      'zoomIn2d',
+      'zoomOut2d',
+      'autoScale2d',
+      'resetScale2d',
+      'toImage',
     ],
   };
 

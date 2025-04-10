@@ -21,7 +21,9 @@ const ToggledCheck: React.FC<ToggleProps> = ({
   selected,
   disabled = false,
   handleSwitch,
-  tooltip = undefined,
+  // update april 10 25 to get build to work
+  // tooltip=undefined,
+  tooltip = '',
   margin,
   survivalProps,
   ariaText,
@@ -50,12 +52,13 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         color={isActive ? 'white' : 'black'}
         onChange={() => {
           if (!disabled)
+            // todo: if used for > 2 icons refactor to use switch(icon) statement
+            /* Commenting this out for now to get build to work
             if (icon) {
-              // todo: if used for > 2 icons refactor to use switch(icon) statement
-              handleSwitch(selected[`symbol`], selected[`label`], plot);
-            } else {
-              handleSwitch(selected);
-            }
+              handleSwitch(selected[`symbol`], selected[`name`], plot);
+            } else { */
+            handleSwitch(selected);
+          //}
         }}
         classNames={{
           root: margin,

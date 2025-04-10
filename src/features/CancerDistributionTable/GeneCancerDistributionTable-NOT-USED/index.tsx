@@ -1,30 +1,32 @@
+/*
+import React from 'react';
 import {
   FilterSet,
   useGetGeneCancerDistributionTableQuery,
   useGetProjectsQuery,
-} from "@gff/core";
-import { useCallback, useEffect, useState } from "react";
+} from '@/core';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ColumnOrderState,
   ExpandedState,
   Row,
   SortingState,
   VisibilityState,
-} from "@tanstack/react-table";
-import { useDeepCompareMemo } from "use-deep-compare";
+} from '@tanstack/react-table';
+import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   calculatePercentageAsNumber,
   statusBooleansToDataStatus,
-} from "@/utils/index";
-import useStandardPagination from "@/hooks/useStandardPagination";
-import { HandleChangeInput } from "@/components/Table/types";
-import VerticalTable from "@/components/Table/VerticalTable";
-import TotalItems from "@/components/Table/TotalItem";
-import FunctionButton from "@/components/FunctionButton";
-import SubrowPrimarySiteDiseaseType from "@/components/SubrowPrimarySiteDiseaseType/SubrowPrimarySiteDiseaseType";
-import { CancerDistributionGeneType } from "../types";
-import { useGeneCancerDistributionColumns } from "./useGeneCancerDistributionColumns";
-import { handleJSONDownloadGene, handleTSVDownloadGene } from "./utils";
+} from '@/utils/index';
+import useStandardPagination from '@/hooks/useStandardPagination';
+import { HandleChangeInput } from '@/components/Table/types';
+import VerticalTable from '@/components/Table/VerticalTable';
+import TotalItems from '@/components/Table/TotalItem';
+import FunctionButton from '@/components/FunctionButton';
+import SubrowPrimarySiteDiseaseType from '@/components/SubrowPrimarySiteDiseaseType/SubrowPrimarySiteDiseaseType';
+import { CancerDistributionGeneType } from '../types';
+import { useGeneCancerDistributionColumns } from './useGeneCancerDistributionColumns';
+import { handleJSONDownloadGene, handleTSVDownloadGene } from './utils';
 
 export interface GeneCancerDistributionTableProps {
   readonly gene: string;
@@ -59,17 +61,17 @@ const GeneCancerDistributionTable: React.FC<
   const { data: projectsData, isFetching: projectsFetching } =
     useGetProjectsQuery({
       filters: {
-        op: "in",
+        op: 'in',
         content: {
-          field: "project_id",
+          field: 'project_id',
           value: projectKeys,
         },
       },
       expand: [
-        "summary",
-        "summary.data_categories",
-        "summary.experimental_strategies",
-        "program",
+        'summary',
+        'summary.data_categories',
+        'summary.experimental_strategies',
+        'program',
       ],
       size: geneCancerDistributionData?.projects.length,
     });
@@ -168,13 +170,13 @@ const GeneCancerDistributionTable: React.FC<
 
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "#_ssm_affected_cases", // need to be column ids
+      id: '#_ssm_affected_cases', // need to be column ids
       desc: true,
     },
   ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    "#_cnv_gains": false,
-    "#_cnv_heterozygous_deletions": false,
+    '#_cnv_gains': false,
+    '#_cnv_heterozygous_deletions': false,
   });
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     cancerDistributionTableColumns.map((column) => column.id), //must start out with populated columnOrder so we can splice
@@ -201,10 +203,10 @@ const GeneCancerDistributionTable: React.FC<
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         handlePageSizeChange(obj.newPageSize);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         handlePageChange(obj.newPageNumber);
         break;
     }
@@ -256,7 +258,7 @@ const GeneCancerDistributionTable: React.FC<
           </FunctionButton>
         </div>
       }
-      expandableColumnIds={["disease_type", "primary_site"]}
+      expandableColumnIds={['disease_type', 'primary_site']}
       sorting={sorting}
       setSorting={setSorting}
       expanded={expanded}
@@ -276,7 +278,7 @@ const GeneCancerDistributionTable: React.FC<
         size,
         from,
         total,
-        label: "project",
+        label: 'project',
       }}
       status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
       handleChange={handleChange}
@@ -286,3 +288,4 @@ const GeneCancerDistributionTable: React.FC<
 };
 
 export default GeneCancerDistributionTable;
+*/

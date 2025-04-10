@@ -1,3 +1,4 @@
+/*
 import { downloadTSV } from "@/components/Table/utils";
 import { getFormattedTimestamp } from "@/utils/date";
 import { ColumnDef } from "@tanstack/react-table";
@@ -123,3 +124,4 @@ export const handleJSONDownloadGene = (
   });
   saveAs(blob, "cancer-distribution-data.json");
 };
+*/

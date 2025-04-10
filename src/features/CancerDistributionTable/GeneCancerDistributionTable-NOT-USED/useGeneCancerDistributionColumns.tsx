@@ -1,12 +1,14 @@
-import { createColumnHelper } from "@tanstack/react-table";
-import { useDeepCompareMemo } from "use-deep-compare";
-import Link from "next/link";
-import ExpandRowComponent from "@/components/Table/ExpandRowComponent";
-import { HeaderTooltip } from "@/components/Table/HeaderTooltip";
-import CohortCreationButton from "@/components/CohortCreationButton";
-import NumeratorDenominator from "@/components/NumeratorDenominator";
-import { FilterSet, joinFilters } from "@gff/core";
-import { CancerDistributionGeneType } from "../types";
+/*
+import React from 'react';
+import { createColumnHelper } from '@tanstack/react-table';
+import { useDeepCompareMemo } from 'use-deep-compare';
+import Link from 'next/link';
+import ExpandRowComponent from '@/components/Table/ExpandRowComponent';
+import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
+import CohortCreationButton from '@/components/CohortCreationButton';
+import NumeratorDenominator from '@/components/NumeratorDenominator';
+import { FilterSet, joinFilters } from '@gff/core';
+import { CancerDistributionGeneType } from '../types';
 
 const createSSMAffectedFilters = (
   project: string,
@@ -15,21 +17,21 @@ const createSSMAffectedFilters = (
   genomicFilters: FilterSet,
 ): FilterSet => {
   return {
-    mode: "and",
+    mode: 'and',
     root: {
-      "cases.project.project_id": {
-        field: "cases.project.project_id",
-        operator: "includes",
+      'cases.project.project_id': {
+        field: 'cases.project.project_id',
+        operator: 'includes',
         operands: [project],
       },
-      "genes.gene_id": {
-        field: "genes.gene_id",
-        operator: "includes",
+      'genes.gene_id': {
+        field: 'genes.gene_id',
+        operator: 'includes',
         operands: [gene_id],
       },
-      "ssms.ssm_id": {
-        field: "ssms.ssm_id",
-        operator: "exists",
+      'ssms.ssm_id': {
+        field: 'ssms.ssm_id',
+        operator: 'exists',
       },
       ...genomicFilters?.root,
       ...cohortFilters?.root,
@@ -44,26 +46,26 @@ const createCNVFiltersForGene = ({
   gene_id,
 }: {
   project: string;
-  cnvType: "Loss" | "Gain" | "Amplification" | "Homozygous Deletion";
+  cnvType: 'Loss' | 'Gain' | 'Amplification' | 'Homozygous Deletion';
   genomicFilters: FilterSet;
   gene_id: string;
 }): FilterSet => {
   const baseFilters: FilterSet = {
-    mode: "and",
+    mode: 'and',
     root: {
-      "cases.project.project_id": {
-        field: "cases.project.project_id",
-        operator: "includes",
+      'cases.project.project_id': {
+        field: 'cases.project.project_id',
+        operator: 'includes',
         operands: [project],
       },
-      "genes.gene_id": {
-        field: "genes.gene_id",
-        operator: "=",
+      'genes.gene_id': {
+        field: 'genes.gene_id',
+        operator: '=',
         operand: gene_id,
       },
-      "genes.cnv.cnv_change": {
-        field: "genes.cnv.cnv_change_5_category",
-        operator: "=",
+      'genes.cnv.cnv_change': {
+        field: 'genes.cnv.cnv_change_5_category',
+        operator: '=',
         operand: cnvType,
       },
     },
@@ -101,9 +103,9 @@ export const useGeneCancerDistributionColumns = ({
 }) => {
   return useDeepCompareMemo(
     () => [
-      cancerDistributionTableColumnHelper.accessor("project", {
-        id: "project" as const,
-        header: "Project",
+      cancerDistributionTableColumnHelper.accessor('project', {
+        id: 'project' as const,
+        header: 'Project',
         cell: ({ getValue }) => (
           <Link
             href={`/projects/${getValue()}`}
@@ -114,34 +116,34 @@ export const useGeneCancerDistributionColumns = ({
         ),
         enableSorting: false,
       }),
-      cancerDistributionTableColumnHelper.accessor("disease_type", {
-        id: "disease_type" as const,
-        header: "Disease Type",
+      cancerDistributionTableColumnHelper.accessor('disease_type', {
+        id: 'disease_type' as const,
+        header: 'Disease Type',
         cell: ({ row, getValue }) => (
           <ExpandRowComponent
             value={getValue()}
             title="Disease Types"
             isRowExpanded={row.getIsExpanded()}
-            isColumnExpanded={expandedColumnId === "disease_type"}
+            isColumnExpanded={expandedColumnId === 'disease_type'}
           />
         ),
       }),
-      cancerDistributionTableColumnHelper.accessor("primary_site", {
-        id: "primary_site" as const,
-        header: "Primary Site",
+      cancerDistributionTableColumnHelper.accessor('primary_site', {
+        id: 'primary_site' as const,
+        header: 'Primary Site',
         cell: ({ row, getValue }) => (
           <ExpandRowComponent
             value={getValue()}
             title="Primary Sites"
             isRowExpanded={row.getIsExpanded()}
-            isColumnExpanded={expandedColumnId === "primary_site"}
+            isColumnExpanded={expandedColumnId === 'primary_site'}
           />
         ),
       }),
       cancerDistributionTableColumnHelper.accessor(
-        "ssm_affected_cases_percent",
+        'ssm_affected_cases_percent',
         {
-          id: "#_ssm_affected_cases" as const,
+          id: '#_ssm_affected_cases' as const,
           header: () => (
             <HeaderTooltip
               title="# SSM Affected Cases"
@@ -169,16 +171,16 @@ export const useGeneCancerDistributionColumns = ({
             />
           ),
           meta: {
-            sortingFn: createSortingFn("ssm_affected_cases_percent"),
+            sortingFn: createSortingFn('ssm_affected_cases_percent'),
           },
           enableSorting: true,
         },
       ),
 
       cancerDistributionTableColumnHelper.accessor(
-        "cnv_amplifications_percent",
+        'cnv_amplifications_percent',
         {
-          id: "#_cnv_amplifications" as const,
+          id: '#_cnv_amplifications' as const,
           header: () => (
             <HeaderTooltip
               title="# CNV Amplifications"
@@ -190,7 +192,7 @@ export const useGeneCancerDistributionColumns = ({
               numCases={row.original.cnv_amplifications.numerator || 0}
               filters={createCNVFiltersForGene({
                 project: row.original.project,
-                cnvType: "Amplification",
+                cnvType: 'Amplification',
                 genomicFilters,
                 gene_id,
               })}
@@ -206,13 +208,13 @@ export const useGeneCancerDistributionColumns = ({
             />
           ),
           meta: {
-            sortingFn: createSortingFn("cnv_amplifications_percent"),
+            sortingFn: createSortingFn('cnv_amplifications_percent'),
           },
           enableSorting: true,
         },
       ),
-      cancerDistributionTableColumnHelper.accessor("cnv_gains_percent", {
-        id: "#_cnv_gains" as const,
+      cancerDistributionTableColumnHelper.accessor('cnv_gains_percent', {
+        id: '#_cnv_gains' as const,
         header: () => (
           <HeaderTooltip
             title="# CNV Gains"
@@ -225,7 +227,7 @@ export const useGeneCancerDistributionColumns = ({
             numCases={row.original.cnv_gains.numerator || 0}
             filters={createCNVFiltersForGene({
               project: row.original.project,
-              cnvType: "Gain",
+              cnvType: 'Gain',
               genomicFilters,
               gene_id,
             })}
@@ -241,14 +243,14 @@ export const useGeneCancerDistributionColumns = ({
           />
         ),
         meta: {
-          sortingFn: createSortingFn("cnv_gains_percent"),
+          sortingFn: createSortingFn('cnv_gains_percent'),
         },
         enableSorting: true,
       }),
       cancerDistributionTableColumnHelper.accessor(
-        "cnv_heterozygous_deletions_percent",
+        'cnv_heterozygous_deletions_percent',
         {
-          id: "#_cnv_heterozygous_deletions" as const,
+          id: '#_cnv_heterozygous_deletions' as const,
           header: () => (
             <HeaderTooltip
               title="# CNV Heterozygous Deletions"
@@ -261,7 +263,7 @@ export const useGeneCancerDistributionColumns = ({
               numCases={row.original.cnv_heterozygous_deletions.numerator || 0}
               filters={createCNVFiltersForGene({
                 project: row.original.project,
-                cnvType: "Loss",
+                cnvType: 'Loss',
                 genomicFilters,
                 gene_id,
               })}
@@ -281,15 +283,15 @@ export const useGeneCancerDistributionColumns = ({
             />
           ),
           meta: {
-            sortingFn: createSortingFn("cnv_heterozygous_deletions_percent"),
+            sortingFn: createSortingFn('cnv_heterozygous_deletions_percent'),
           },
           enableSorting: true,
         },
       ),
       cancerDistributionTableColumnHelper.accessor(
-        "cnv_homozygous_deletions_percent",
+        'cnv_homozygous_deletions_percent',
         {
-          id: "#_cnv_homozygous_deletions" as const,
+          id: '#_cnv_homozygous_deletions' as const,
           header: () => (
             <HeaderTooltip
               title="# CNV Homozygous Deletions"
@@ -302,7 +304,7 @@ export const useGeneCancerDistributionColumns = ({
               numCases={row.original.cnv_homozygous_deletions.numerator || 0}
               filters={createCNVFiltersForGene({
                 project: row.original.project,
-                cnvType: "Homozygous Deletion",
+                cnvType: 'Homozygous Deletion',
                 genomicFilters,
                 gene_id,
               })}
@@ -322,13 +324,13 @@ export const useGeneCancerDistributionColumns = ({
             />
           ),
           meta: {
-            sortingFn: createSortingFn("cnv_homozygous_deletions_percent"),
+            sortingFn: createSortingFn('cnv_homozygous_deletions_percent'),
           },
           enableSorting: true,
         },
       ),
-      cancerDistributionTableColumnHelper.accessor("num_mutations", {
-        id: "#_mutations" as const,
+      cancerDistributionTableColumnHelper.accessor('num_mutations', {
+        id: '#_mutations' as const,
         header: () => (
           <HeaderTooltip
             title="# Mutations"
@@ -338,10 +340,11 @@ export const useGeneCancerDistributionColumns = ({
         enableSorting: true,
         cell: ({ row }) => row.original.num_mutations.toLocaleString(),
         meta: {
-          sortingFn: createSortingFn("num_mutations"),
+          sortingFn: createSortingFn('num_mutations'),
         },
       }),
     ],
     [symbol, expandedColumnId, gene_id, cohortFilters, genomicFilters],
   );
 };
+*/

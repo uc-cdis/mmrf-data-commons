@@ -1,5 +1,5 @@
-import { GdcFile } from '@/core';
-import { get, } from 'lodash';
+import { CartFile, GdcFile, caseFileType } from '@/core';
+import { get, omit, pick } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';
 import { JSONObject } from '../types';
 
@@ -15,7 +15,7 @@ export const formatDataForHorizontalTable = (
   }>,
 ): HorizontalTableProps['tableData'] => {
   //match headers with available properties
-  return headersConfig.reduce((output : any[], obj) => {
+  return headersConfig.reduce((output: any, obj) => {
     let value = get(file, obj.field);
     //run modifier if provided on value
     if (obj.modifier) {
@@ -111,4 +111,82 @@ export const formatImageDetailsInfo: formatImageDetailsInfoFunc = (
   ];
 
   return formatDataForHorizontalTable(obj, headersConfig);
+};
+
+type parseSlideDetailsInfoFunc = (file: GdcFile) => {
+  readonly headerName: string;
+  readonly values: readonly (
+    | string
+    | number
+    | boolean
+    | readonly string[]
+    | JSX.Element
+  )[];
+}[];
+
+export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
+  file: GdcFile,
+) => {
+  //Updated April 10 25 to get build to work
+  //   const slides = file.cases?.[0]?.samples?.[0]?.portions?.[0]?.slides?.[0];
+  const slides =
+    file.cases?.[0]?.samples?.[0]?.portions?.[0]?.slides?.[0] ?? [];
+  const slidesInfo = omit(slides, [
+    'created_datetime',
+    'updated_datetime',
+    'state',
+  ]);
+  const slideDetailsInfo = { file_id: file.file_id, ...slidesInfo };
+
+  return formatImageDetailsInfo(slideDetailsInfo);
+};
+
+export const mapGdcFileToCartFile = (
+  files: GdcFile[] | caseFileType[] | undefined,
+): CartFile[] => {
+  // Updated April 10 25 to get build to work
+  /*
+  files?.map((file: GdcFile | caseFileType) =>
+    pick(file, [
+      'access',
+      'acl',
+      'file_id',
+      'file_size',
+      'state',
+      'project_id',
+      'file_name',
+    ]),
+  );
+  */
+  return (files as (GdcFile | caseFileType)[]).map((file) =>
+    pick(file, [
+      'access',
+      'acl',
+      'file_id',
+      'file_size',
+      'state',
+      'project_id',
+      'file_name',
+    ]),
+  );
+};
+
+export const REF_GENOME_EXCLUDED_TYPES = {
+  fileType: ['masked_methylation_array'],
+  workflow_type: ['Birdseed'],
+};
+
+export const shouldDisplayReferenceGenome = (file: GdcFile) => {
+  const isIncluded = (type: string, value: string) => {
+    // Updated April 10 25 to get build to work
+    // return REF_GENOME_EXCLUDED_TYPES[type]?.includes(value);
+    return (REF_GENOME_EXCLUDED_TYPES as Record<string, string[]>)[
+      type
+    ]?.includes(value);
+  };
+
+  return (
+    !isIncluded('fileType', file.fileType as string) &&
+    !isIncluded('workflow_type', file?.analysis?.workflow_type as string)
+  );
 };
