@@ -23,7 +23,7 @@ const AppsPage = ({ headerProps, footerProps, config }: AppConfig) => {
   const appName = getAppName(router);
 
   const GdcApp = useCoreSelector(
-    () => selectGen3AppByName(appName)
+    () => selectGen3AppByName(appName), // TODO update ById to ByName
   ) as React.ElementType;
 
   return (
@@ -54,8 +54,8 @@ export const getServerSideProps: GetServerSideProps<
   const appName = context.query.appName as string;
 
   try {
-    const config: any = await ContentSource.get(
-      `config/${GEN3_COMMONS_NAME}/apps/${appName}.json`,
+    const config: any = await ContentSource.getContentDatabase().get(
+      `${GEN3_COMMONS_NAME}/apps/${appName}.json`,
     );
 
     return {
