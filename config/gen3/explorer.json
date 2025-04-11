@@ -2,69 +2,227 @@
   {
     "tabTitle": "Cases",
     "charts": {
-      "race": {
+      "disease_type": {
         "chartType": "fullPie",
-        "title": "Race"
+        "title": "Disease Type"
       },
-      "ethnicity": {
-        "chartType": "horizontalStacked",
-        "title": "Ethnicity"
-      },
-      "gender": {
-        "chartType": "bar",
-        "title": "Gender"
+      "primary_site": {
+        "chartType": "fullPie",
+        "title": "Primary Site"
       }
     },
     "filters": {
       "tabs": [
         {
-          "title": "Study Selection",
-          "fields": ["project"]
+          "title": "Case Filters",
+          "fields": [
+            "primary_site",
+            "disease_type",
+            "index_date"
+          ]
         },
         {
-          "title": "Subjects",
+          "title": "Demographics",
           "fields": [
-            "study",
             "gender",
             "race",
             "ethnicity",
-            "vital_status",
-            "whatever_lab_result_value"
-          ],
-          "fieldsConfig": {
-            "gender" : {
-              "type" : "multiselect"
-            }
-          }
+            "age_at_index",
+            "days_to_birth",
+            "vital_status"
+          ]
+        },
+        {
+          "title": "Diagnoses",
+          "fields": [
+            "primary_diagnosis",
+            "age_at_diagnosis"
+          ]
+        },
+        {
+          "title": "Treatments",
+          "fields": [
+            "therapeutic_agents"
+          ]
         }
       ]
     },
     "table": {
       "enabled": true,
-      "detailsConfig": {
-        "panel": "default",
-        "mode" : "click",
-        "idField": "submitter_id",
-        "title": "Row Details"
-      },
       "pageLimit": {
-        "limit": 10000
+        "limit": 10000,
+        "label": "Maximum of 10,000 Total Records. Records per Page:"
       },
       "fields": [
-        "project",
+        "submitter_id",
+        "project_id",
+        "batch_id",
+        "disease_type",
+        "index_date",
+        "primary_site",
         "gender",
-        "race",
         "ethnicity",
-        "whatever_lab_result_value"
+        "race",
+        "age_at_index",
+        "days_to_birth",
+        "vital_status",
+        "primary_diagnosis",
+        "age_at_diagnosis",
+        "therapeutic_agents"
       ],
       "columns": {
-        "whatever_lab_result_value": {
-          "sortable": false
+        "submitter_id": {
+          "title": "Case ID"
         }
       }
     },
+    "guppyConfig": {
+      "dataType": "case",
+      "nodeCountTitle": "Cases",
+      "fieldMapping": [
+        {
+          "field": "submitter_id",
+          "name": "Case ID"
+        }
+      ],
+      "manifestMapping": {
+        "resourceIndexType": "case",
+        "resourceIdField": "submitter_id",
+        "referenceIdFieldInResourceIndex": "submitter_id",
+        "referenceIdFieldInDataIndex": "submitter_id"
+      },
+      "accessibleFieldCheckList": ["authz"],
+      "accessibleValidationField": "auth_resource_path"
+    },
+    "loginForDownload": true,
     "dropdowns": {
-      "download-table": {
+      "download-menu": {
+        "enabled": true,
+        "title": "Download Cases",
+        "leftIcon": "gen3:download",
+        "rightIcon": "gen3:chevron-down",
+        "dropdownItems": [
+          {
+            "enabled": true,
+            "type": "data-json",
+            "title": "JSON",
+            "leftIcon": "datafile",
+            "rightIcon": "download",
+            "action": "data-json",
+            "actionArgs": {
+              "filename": "MMRF_cases_table.json"
+            }
+          },
+          {
+            "enabled": true,
+            "type": "data-tsv",
+            "title": "TSV",
+            "leftIcon": "datafile",
+            "rightIcon": "download",
+            "action": "data-tsv",
+            "actionArgs": {
+              "filename": "MMRF_cases_table.tsv"
+            }
+          },
+          {
+            "enabled": true,
+            "type": "data-csv",
+            "title": "CSV",
+            "leftIcon": "datafile",
+            "rightIcon": "download",
+            "action": "data-csv",
+            "actionArgs": {
+              "filename": "MMRF_cases_table.csv"
+            }
+          }
+        ]
+      }
+    },
+    "buttons": [
+      {
+        "enabled": true,
+        "type": "manifest",
+        "title": "Get File Manifest for Cases",
+        "leftIcon": "datafile",
+        "rightIcon": "download",
+        "fileName": "MMRF_file_manifest.json"
+      }
+    ]
+  },
+  {
+    "tabTitle": "Files",
+    "charts": {
+      "data_category": {
+        "chartType": "fullPie",
+        "title": "Data Category"
+      },
+      "data_type": {
+        "chartType": "fullPie",
+        "title": "Data Type"
+      }
+    },
+    "filters": {
+      "tabs": [
+        {
+          "title": "File Filters",
+          "fields": [
+            "source_node",
+            "data_category",
+            "data_type",
+            "data_format",
+            "experimental_strategy",
+            "platform",
+            "project_id"
+          ]
+        }
+      ]
+    },
+    "table": {
+      "enabled": true,
+      "pageLimit": {
+        "limit": 10000,
+        "label": "Maximum of 10,000 Total Records. Records per Page:"
+      },
+      "fields": [
+        "source_node",
+        "data_category",
+        "data_type",
+        "data_format",
+        "experimental_strategy",
+        "platform",
+        "file_name",
+        "object_id",
+        "submitter_id",
+        "project_id"
+      ],
+      "columns": {
+        "submitter_id": {
+          "title": "File ID"
+        }
+      }
+    },
+    "guppyConfig": {
+      "dataType": "data_file",
+      "nodeCountTitle": "Data Files",
+      "fieldMapping": [
+        {
+          "field": "submitter_id",
+          "name": "File ID"
+        }
+      ],
+      "manifestMapping": {
+        "resourceIndexType": "data_file",
+        "resourceIdField": "object_id",
+        "referenceIdFieldInResourceIndex": "object_id",
+        "referenceIdFieldInDataIndex": "object_id"
+      },
+      "accessibleFieldCheckList": ["authz"],
+      "accessibleValidationField": "auth_resource_path"
+    },
+    "loginForDownload": true,
+    "dropdowns": {
+      "download-menu": {
+        "enabled": true,
         "title": "Download Table",
         "leftIcon": "gen3:download",
         "rightIcon": "gen3:chevron-down",
@@ -76,9 +234,19 @@
             "leftIcon": "datafile",
             "rightIcon": "download",
             "action": "data-json",
-            "actionArgs" : {
-              "filename": "MIDRC_Series_table.json",
-              "rootPath": "gen3_discovery"
+            "actionArgs": {
+              "filename": "MMRF_files_table.json"
+            }
+          },
+          {
+            "enabled": true,
+            "type": "data-tsv",
+            "title": "TSV",
+            "leftIcon": "datafile",
+            "rightIcon": "download",
+            "action": "data-tsv",
+            "actionArgs": {
+              "filename": "MMRF_files_table.tsv"
             }
           },
           {
@@ -88,8 +256,8 @@
             "leftIcon": "datafile",
             "rightIcon": "download",
             "action": "data-csv",
-            "actionArgs" : {
-              "filename": "data_table.csv"
+            "actionArgs": {
+              "filename": "MMRF_files_table.csv"
             }
           }
         ]
@@ -98,184 +266,12 @@
     "buttons": [
       {
         "enabled": true,
-        "type": "data-json",
-        "title": "JSON",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.json"
-        }
-      },
-      {
-        "enabled": true,
-        "type": "data-tsv",
-        "title": "TSV",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.tsv"
-        }
-      },
-      {
-        "enabled": true,
-        "type": "data-csv",
-        "title": "CSV",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.csv"
-        }
-      },
-      {
-        "enabled": true,
         "type": "manifest",
-        "action": "manifest",
-        "title": "Download File Manifest for Cases",
+        "title": "Get File Download Manifest",
         "leftIcon": "datafile",
         "rightIcon": "download",
-        "fileName": "case_manifest.json",
-        "actionArgs": {
-          "resourceIndexType": "file",
-          "resourceIdField": "object_id",
-          "referenceIdFieldInResourceIndex": "project_id",
-          "referenceIdFieldInDataIndex": "project_id",
-          "fileFields": ["file_name", "file_size", "md5sum", "object_id"]
-        }
+        "fileName": "MMRF_file_manifest.json"
       }
-    ],
-    "loginForDownload": false,
-    "guppyConfig": {
-      "dataType": "subject",
-      "nodeCountTitle": "Subjects",
-      "fieldMapping": [
-        {
-          "field": "_samples_count",
-          "name": "Samples Count"
-        },
-        {
-          "field": "_imaging_files_count",
-          "name": "Imaging Files Count"
-        },
-        {
-          "field": "_unaligned_reads_files_count",
-          "name": "Unaligned Reads Count"
-        },
-        {
-          "field": "_aligned_reads_files_count",
-          "name": "Aligned Reads Count"
-        },
-        {
-          "field": "_expression_arrays_count",
-          "name": "Expression Arrays Count"
-        }
-      ],
-      "manifestMapping": {
-        "resourceIndexType": "file",
-        "resourceIdField": "object_id",
-        "referenceIdFieldInResourceIndex": "subject_id",
-        "referenceIdFieldInDataIndex": "subject_id"
-      },
-      "accessibleFieldCheckList": ["project"],
-      "accessibleValidationField": "project"
-    }
-  },
-  {
-    "tabTitle": "Data Files",
-    "charts": {
-      "file_type": {
-        "chartType": "stackedBar",
-        "title": "File Type"
-      },
-      "file_format": {
-        "chartType": "stackedBar",
-        "title": "File Format"
-      }
-    },
-    "filters": {
-      "tabs": [
-        {
-          "title": "File",
-          "fields": ["subject_id"]
-        }
-      ]
-    },
-    "table": {
-      "enabled": true,
-      "detailsConfig": {
-        "panel": "fileDetails",
-        "mode": "click",
-        "idField": "file_name",
-        "title": "File Details"
-      },
-      "fields": ["subject_id", "file_type", "file_size", "object_id"]
-    },
-    "guppyConfig": {
-      "dataType": "file",
-      "fieldMapping": [
-        {
-          "field": "file_id",
-          "name": "GUID"
-        }
-      ],
-      "nodeCountTitle": "Files",
-      "manifestMapping": {
-        "resourceIndexType": "subject",
-        "resourceIdField": "subject_id",
-        "referenceIdFieldInResourceIndex": "object_id",
-        "referenceIdFieldInDataIndex": "object_id"
-      },
-      "accessibleFieldCheckList": ["subject_id"],
-      "accessibleValidationField": "subject_id",
-      "downloadAccessor": "subject_id"
-    },
-    "buttons": [
-      {
-        "enabled": true,
-        "type": "data-json",
-        "title": "JSON",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.json"
-        }
-      },
-      {
-        "enabled": true,
-        "type": "data-tsv",
-        "title": "TSV",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.tsv"
-        }
-      },
-      {
-        "enabled": true,
-        "type": "data-csv",
-        "title": "CSV",
-        "dropdownId": "download-table",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table.csv"
-        }
-      },
-      {
-        "enabled": true,
-        "type": "file-manifest",
-        "title": "Download File Manifest",
-        "leftIcon": "datafile",
-        "rightIcon": "download",
-        "actionArgs": {
-          "filename": "data_table_manifest.csv"
-        }
-      }
-    ],
-    "loginForDownload": true
+    ]
   }
 ]
