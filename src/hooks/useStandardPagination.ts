@@ -1,7 +1,7 @@
-import { useState, useCallback } from "react";
-import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { PaginationOptions } from "@/components/Table/types";
-import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
+import { useState, useCallback } from 'react';
+import { ColumnDef, SortingState } from '@tanstack/react-table';
+import { PaginationOptions } from '@/components/Table/types';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 
 /**
  * For use with the VerticalTable component or other paginated tables,
@@ -10,7 +10,7 @@ import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 function useStandardPagination<TData>(
   fullData: TData[],
   columns?: ColumnDef<TData, any>[],
-): Omit<PaginationOptions, "label"> & {
+): Omit<PaginationOptions, 'label'> & {
   displayedData: TData[];
   /**
    * full data that is sorted or filtered without the slice
@@ -48,16 +48,21 @@ function useStandardPagination<TData>(
 
   const recursivelyExtractSortingFns = useCallback(
     (columns: ColumnDef<TData, any>[]) => {
-      return columns.reduce((output, column) => {
-        if (column.meta?.sortingFn) {
-          output[column.id] = column.meta.sortingFn;
-        }
-        if ("columns" in column) {
-          const nestedFns = recursivelyExtractSortingFns(column.columns);
-          Object.assign(output, nestedFns);
-        }
-        return output;
-      }, {} as Record<string, (a: TData, b: TData) => number>);
+      return columns.reduce(
+        (output, column) => {
+          if (column.meta?.sortingFn) {
+            output[column.id as string] = column.meta.sortingFn;
+          }
+          if ('columns' in column) {
+            const nestedFns = recursivelyExtractSortingFns(
+              column.columns as any,
+            );
+            Object.assign(output, nestedFns);
+          }
+          return output;
+        },
+        {} as Record<string, (a: TData, b: TData) => number>,
+      );
     },
     [],
   );
@@ -83,12 +88,12 @@ function useStandardPagination<TData>(
             const valueA = a[id as keyof TData];
             const valueB = b[id as keyof TData];
 
-            if (typeof valueA === "number" && typeof valueB === "number") {
+            if (typeof valueA === 'number' && typeof valueB === 'number') {
               if (valueA !== valueB)
                 return desc ? valueB - valueA : valueA - valueB;
             } else if (
-              typeof valueA === "string" &&
-              typeof valueB === "string"
+              typeof valueA === 'string' &&
+              typeof valueB === 'string'
             ) {
               const comparison = valueA.localeCompare(valueB);
               if (comparison !== 0) return desc ? -comparison : comparison;

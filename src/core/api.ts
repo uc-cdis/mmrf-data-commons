@@ -3366,6 +3366,7 @@ export const useGetSSMSCancerDistributionTableQuery = (ssms: {
 export const useSsmsSummaryQuery = (summary: { [key: string]: any }) => {
   const data = {
     uuid: '53af5705-a17b-555a-92e9-880ce5c14ca0',
+    civic: null,
     dna_change: 'chr17:g.7673776G>A',
     type: 'Single base substitution',
     reference_genome_assembly: 'GRCh38',
@@ -3397,272 +3398,584 @@ export const useSsmsSummaryQuery = (summary: { [key: string]: any }) => {
 export const useSsmsConsequenceTableQuery = (consequenceQuery: {
   [key: string]: any;
 }) => {
-  const data = [
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OjNkYzU2MjAwLTM0YjgtNTAzYy05NDBhLWM2NDhmNzg4ZWQzYQ==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V157E',
-        annotation: {
-          hgvsc: 'c.470T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.999,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+  const data = {
+    id: '12',
+    consequenceTotal: 26,
+    consequence: [
+      {
+        id: '123',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000619485',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000479537',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OjBhY2JhMjIwLTM1MzQtNTY1ZC05OTU1LTgwZGQzZTA0OTllNg==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'c.738-3918T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: '1234',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'upstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000576024',
         },
-        consequence_type: 'intron_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000647434',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmY1NmQ1ZTdiLTYyNzMtNWZhMC1iYmQwLTZlNTgwYmYyMzVjNA==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V640E',
-        annotation: {
-          hgvsc: 'c.1919T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.955,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+      {
+        id: 'U1Ng==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: 'c.782+405C>T',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'intron_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000413465',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000288602',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmE2Y2Q5MGJmLTg4NTMtNTQ2OC04NjBmLTdkNDQ4NjcwNjQxNw==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'n.2189T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: '12345',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000508793',
         },
-        consequence_type: 'non_coding_transcript_exon_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000644120',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmFkZDIzNTIxLTUzYTctNTk0ZC1iZWRjLWE2YzlhMTJkNzA5ZA==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V299E',
-        annotation: {
-          hgvsc: 'c.896T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.924,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+      {
+        id: 'U1NN5Mg==',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000635293',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000644650',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OjBmNjVlNmFjLThhOTgtNTU5NS05YTY3LTkxYzA0NGEwYjUxNg==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'c.*375T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: '123456',
+        transcript: {
+          aa_change: 'R150W',
+          annotation: {
+            hgvsc: 'c.448C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.998,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000504290',
         },
-        consequence_type: '3_prime_UTR_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000646730',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmY5YWMwMjg1LWU1N2MtNWZkOC05YzNmLTc1NzE1NTE3OGNhYQ==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V640E',
-        annotation: {
-          hgvsc: 'c.1919T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.955,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+      {
+        id: 'U3Zg==',
+        transcript: {
+          aa_change: 'R150W',
+          annotation: {
+            hgvsc: 'c.448C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000509690',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: true,
-        transcript_id: 'ENST00000644969',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmNlNzlmZDc0LWYwN2UtNTIxZC1iMGJhLTM4NTE4MmFlNjRmOA==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V600E',
-        annotation: {
-          hgvsc: 'c.1799T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.963,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+      {
+        id: 'U1NNQ==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000514944',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000646891',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmM5YjVlZGZhLWQ2YTYtNTMxMS05MWM1LWMyNTdhMjMzZmQzNw==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'n.1259-3918T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: 'U1NNQ',
+        transcript: {
+          aa_change: 'R123W',
+          annotation: {
+            hgvsc: 'c.367C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000619186',
         },
-        consequence_type: 'intron_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000642875',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmFiNTUzZjQxLWMxOTQtNTU3Mi1hMmI2LWZhMGFmZGQ1N2Q5Mw==', // pragma: allowlist secret
-      transcript: {
-        aa_change: 'V600E',
-        annotation: {
-          hgvsc: 'c.1799T>A',
-          polyphen_impact: 'probably_damaging',
-          polyphen_score: 0.927,
-          sift_impact: 'deleterious',
-          sift_score: 0,
-          vep_impact: 'MODERATE',
+      {
+        id: 'U1NNQ29uc2VxdW==',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.999,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000622645',
         },
-        consequence_type: 'missense_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000496384',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmQzYjY0YjU4LTVhYmEtNTkwYS04ZjljLWE1M2YwNWQ5NjQyNQ==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'c.*1249T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: 'U1NmJjMzgyYg==',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.998,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000610538',
         },
-        consequence_type: '3_prime_UTR_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000497784',
       },
-    },
-    {
-      id: 'U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmQ0YjE0ZmJkLWM0MGItNTNhZi1hZWZmLTdhNzBiMjc4ZjdmYQ==', // pragma: allowlist secret
-      transcript: {
-        aa_change: null,
-        annotation: {
-          hgvsc: 'c.*877T>A',
-          polyphen_impact: '',
-          polyphen_score: null,
-          sift_impact: '',
-          sift_score: null,
-          vep_impact: 'MODIFIER',
+      {
+        id: 'U10OQ==',
+        transcript: {
+          aa_change: 'R282W',
+          annotation: {
+            hgvsc: 'c.844C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.999,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000359597',
         },
-        consequence_type: '3_prime_UTR_variant',
-        gene: {
-          gene_id: 'ENSG00000157764',
-          gene_strand: -1,
-          symbol: 'BRAF',
-        },
-        is_canonical: false,
-        transcript_id: 'ENST00000642228',
       },
-    },
-  ];
+      {
+        id: 'U1NjNg==',
+        transcript: {
+          aa_change: 'R150W',
+          annotation: {
+            hgvsc: 'c.448C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000504937',
+        },
+      },
+      {
+        id: 'U1NA==',
+        transcript: {
+          aa_change: 'R282W',
+          annotation: {
+            hgvsc: 'c.844C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: true,
+          transcript_id: 'ENST00000269305',
+        },
+      },
+      {
+        id: 'U1NZhZA==',
+        transcript: {
+          aa_change: 'R282W',
+          annotation: {
+            hgvsc: 'c.844C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.999,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000420246',
+        },
+      },
+      {
+        id: 'U1NNzY2M3Yg==',
+        transcript: {
+          aa_change: 'R123W',
+          annotation: {
+            hgvsc: 'c.367C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.999,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000618944',
+        },
+      },
+      {
+        id: 'U1NRkZQ==',
+        transcript: {
+          aa_change: 'R123W',
+          annotation: {
+            hgvsc: 'c.367C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.998,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000610623',
+        },
+      },
+      {
+        id: 'U1NNQOTFkZQ==',
+        transcript: {
+          aa_change: 'R282W',
+          annotation: {
+            hgvsc: 'c.844C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000445888',
+        },
+      },
+      {
+        id: 'U1NNQ29uc2==',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000610292',
+        },
+      },
+      {
+        id: 'U1NMzM2OA==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000574684',
+        },
+      },
+      {
+        id: 'U1NNjU0Nw==',
+        transcript: {
+          aa_change: 'R243W',
+          annotation: {
+            hgvsc: 'c.727C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 1,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000620739',
+        },
+      },
+      {
+        id: 'U1NNjcwMg==',
+        transcript: {
+          aa_change: 'R150W',
+          annotation: {
+            hgvsc: 'c.448C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.999,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000510385',
+        },
+      },
+      {
+        id: 'U1ZjOA==',
+        transcript: {
+          aa_change: 'R282W',
+          annotation: {
+            hgvsc: 'c.844C>T',
+            polyphen_impact: 'probably_damaging',
+            polyphen_score: 0.998,
+            sift_impact: 'deleterious',
+            sift_score: 0,
+            vep_impact: 'MODERATE',
+          },
+          consequence_type: 'missense_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000455263',
+        },
+      },
+      {
+        id: 'U1NA==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000604348',
+        },
+      },
+      {
+        id: 'U1NNzIzY2E3ODAxNQ==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000505014',
+        },
+      },
+      {
+        id: 'U1Nw==',
+        transcript: {
+          aa_change: null,
+          annotation: {
+            hgvsc: '',
+            polyphen_impact: '',
+            polyphen_score: null,
+            sift_impact: '',
+            sift_score: null,
+            vep_impact: 'MODIFIER',
+          },
+          consequence_type: 'downstream_gene_variant',
+          gene: {
+            gene_id: 'ENSG00000141510',
+            gene_strand: -1,
+            symbol: 'TP53',
+          },
+          is_canonical: false,
+          transcript_id: 'ENST00000503591',
+        },
+      },
+    ],
+  };
 
   return {
     data,

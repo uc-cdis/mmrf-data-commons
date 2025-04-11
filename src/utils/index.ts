@@ -1,13 +1,16 @@
 import { KeyboardEventHandler } from 'react';
-import {
-  CartFile,
-  DAYS_IN_YEAR,
-  FilterSet,
-  joinFilters,
-  DataStatus,
-} from '@/core';
+import { CartFile, DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
+
+interface FilterSet {
+  readonly root: Record<string, any>;
+  readonly mode: string;
+  readonly isLoggedIn?: boolean;
+}
+
+const DAYS_IN_YEAR = 365.25;
+declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;
 
 export const toggleFullScreen = async (
   ref: React.MutableRefObject<any>,
@@ -38,7 +41,7 @@ export const createKeyboardAccessibleFunction = (
 };
 
 export const capitalize = (original: string): string => {
-  const customCapitalizations = {
+  const customCapitalizations: any = {
     id: 'ID',
     uuid: 'UUID',
     dna: 'DNA',
@@ -135,7 +138,7 @@ export const sortByPropertyAsc = <T>(
   property: string,
 ): Array<T> =>
   sortBy(givenObjects, [
-    (e) => replace(e[property], /[^a-zA-Z]/g, '').toLocaleLowerCase(),
+    (e: any) => replace(e[property], /[^a-zA-Z]/g, '').toLocaleLowerCase(),
   ]);
 
 interface HumanifyParams {

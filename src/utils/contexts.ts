@@ -1,9 +1,9 @@
-import { FilterSet } from "@gff/core";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { FilterSet } from '@/core';
+import { createContext, Dispatch, SetStateAction } from 'react';
 
-export const URLContext = createContext({ prevPath: "", currentPath: "" });
+export const URLContext = createContext({ prevPath: '', currentPath: '' });
 
-export type entityType = null | "project" | "case" | "file" | "ssms" | "genes";
+export type entityType = null | 'project' | 'case' | 'file' | 'ssms' | 'genes';
 export interface entityMetadataType {
   entity_type: entityType;
   entity_id: string;
@@ -13,4 +13,4 @@ export interface entityMetadataType {
 export const SummaryModalContext = createContext<{
   entityMetadata: entityMetadataType;
   setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>>;
-}>(null);
+}>(null as any);

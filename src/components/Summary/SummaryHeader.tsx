@@ -2,17 +2,17 @@ import React from 'react';
 import { SummaryHeaderTitle } from '@/components/tailwindComponents';
 import { Divider } from '@mantine/core';
 import { ReactNode } from 'react';
+import { IconType } from 'react-icons';
+import MutationsIcon from '../../../public/icons/gene-mutation.svg';
+import Image from 'next/image';
 
 export interface SummaryHeaderProps {
-  iconText: string;
   headerTitle: string | number;
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   isModal?: boolean;
-  isFile?: boolean;
 }
 export const SummaryHeader = ({
-  iconText,
   headerTitle,
   leftElement,
   rightElement,
@@ -25,7 +25,7 @@ export const SummaryHeader = ({
       }`}
     >
       <div className="flex flex-nowrap items-center gap-4">
-        <SummaryHeaderIcon iconText={iconText} />
+        <SummaryHeaderIcon />
         <SummaryHeaderTitle>{headerTitle}</SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (
@@ -41,13 +41,19 @@ export const SummaryHeader = ({
   );
 };
 
-export const SummaryHeaderIcon = ({
-  iconText,
-}: {
-  iconText: string;
-}): JSX.Element => (
-  <span className="w-9 h-9 uppercase rounded-full text-lg flex justify-center items-center leading-[22px] font-bold bg-base-lightest text-primary">
-    {iconText}
+export const SummaryHeaderIcon = (): JSX.Element => (
+  <span
+    className="w-9 h-9 uppercase
+      rounded-full text-lg flex justify-center items-center leading-[22px]
+      font-bold bg-base-lightest"
+  >
+    <Image
+      className="ml-[6px] mt-[9px]"
+      src={MutationsIcon}
+      alt=""
+      height={40}
+      width={40}
+    />
   </span>
 );
 

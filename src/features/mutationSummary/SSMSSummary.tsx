@@ -134,15 +134,18 @@ export const SSMSSummary = ({
       'cosmic',
       cosmic_id ? (
         <CollapsibleList
-          data={cosmic_id.map((id) => (
-            <AnchorLink
-              href={externalLinks[id.substring(0, 4).toLowerCase()](
-                id.match(/(\d+)$/g),
-              )}
-              title={id}
-              key={id}
-            />
-          ))}
+          data={cosmic_id.map((id) => {
+            const key = id
+              .substring(0, 4)
+              .toLowerCase() as keyof typeof externalLinks;
+            return (
+              <AnchorLink
+                href={externalLinks[key](id.match(/(\d+)$/g)?.[0] || '')}
+                title={id}
+                key={id}
+              />
+            );
+          })}
         />
       ) : (
         '--'
@@ -158,11 +161,11 @@ export const SSMSSummary = ({
     ]);
     const headersConfig = arr.map(([key]) => ({
       field: key,
-      name: humanify({ term: key }),
+      name: humanify({ term: key as string }),
     }));
 
     const externalLinksObj = { ...Object.fromEntries(arr) };
-    return formatDataForHorizontalTable(externalLinksObj, headersConfig);
+    return formatDataForHorizontalTable(externalLinksObj, headersConfig as any);
   };
 
   return (
@@ -172,8 +175,6 @@ export const SSMSSummary = ({
       ) : summaryData ? (
         <>
           <SummaryHeader
-            Icon={MutationsIcon}
-            headerTitleLeft="Mutation"
             headerTitle={summaryData.dna_change}
             isModal={isModal}
           />

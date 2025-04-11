@@ -71,10 +71,10 @@ export const ConsequenceTable = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        handlePageSizeChange(obj.newPageSize);
+        handlePageSizeChange(obj.newPageSize as any);
         break;
       case 'newPageNumber':
-        handlePageChange(obj.newPageNumber);
+        handlePageChange(obj.newPageNumber as number);
         break;
     }
   };
@@ -82,7 +82,7 @@ export const ConsequenceTable = ({
   useEffect(() => {
     if (isSuccess) {
       // need to sort the table data and then store all entries in tableData
-      const sortedData: ConsequenceTableData[] = [
+      const sortedData: any[] = [
         ...(initialData.consequence || []).filter(
           ({ transcript: { is_canonical } }) => is_canonical,
         ),
@@ -104,7 +104,9 @@ export const ConsequenceTable = ({
               b.transcript.aa_change == null
             )
               return 0;
-            if (a.transcript.aa_change > b.transcript.aa_change) return 1;
+            // Updated April 11 25 to get build to work, casted variables to String
+            if (String(a.transcript.aa_change) > String(b.transcript.aa_change))
+              return 1;
             if (a.transcript.aa_change == b.transcript.aa_change) return 0;
             return -1;
           }),
@@ -152,87 +154,88 @@ export const ConsequenceTable = ({
   const consequenceTableDefaultColumns = useMemo<
     ColumnDef<ConsequenceTableData>[]
   >(
-    () => [
-      consequenceTableColumnHelper.accessor('gene', {
-        id: 'gene',
-        header: 'Gene',
-        cell: ({ row }) => (
-          <Link
-            href={`/genes/${row.original.gene_id}`}
-            className="text-utility-link font-content underline"
-          >
-            {row.original.gene}
-          </Link>
-        ),
-      }),
-      consequenceTableColumnHelper.accessor('aa_change', {
-        id: 'aa_change',
-        header: 'AA Change',
-      }),
-      consequenceTableColumnHelper.accessor('consequences', {
-        id: 'consequences',
-        header: () => (
-          <HeaderTooltip
-            title="Consequences"
-            tooltip="SO Term: consequence type"
-          />
-        ),
-        cell: ({ row }) => (
-          <SMTableConsequences consequences={row.original.consequences} />
-        ),
-      }),
-      consequenceTableColumnHelper.accessor('coding_dna_change', {
-        id: 'coding_dna_change',
-        header: 'Coding DNA Change',
-      }),
-      consequenceTableColumnHelper.display({
-        id: 'impact',
-        header: () => <ImpactHeaderWithTooltip />,
-        cell: ({ row }) => (
-          <SMTableImpacts
-            impact={{
-              polyphenImpact: row.original.impact.polyphen_impact,
-              polyphenScore: row.original.impact.polyphen_score,
-              siftImpact: row.original.impact.sift_impact,
-              siftScore: row.original.impact.sift_score,
-              vepImpact: row.original.impact.vep_impact,
-            }}
-          />
-        ),
-      }),
+    () =>
+      [
+        consequenceTableColumnHelper.accessor('gene', {
+          id: 'gene',
+          header: 'Gene',
+          cell: ({ row }) => (
+            <Link
+              href={`/genes/${row.original.gene_id}`}
+              className="text-utility-link font-content underline"
+            >
+              {row.original.gene}
+            </Link>
+          ),
+        }),
+        consequenceTableColumnHelper.accessor('aa_change', {
+          id: 'aa_change',
+          header: 'AA Change',
+        }),
+        consequenceTableColumnHelper.accessor('consequences', {
+          id: 'consequences',
+          header: () => (
+            <HeaderTooltip
+              title="Consequences"
+              tooltip="SO Term: consequence type"
+            />
+          ),
+          cell: ({ row }) => (
+            <SMTableConsequences consequences={row.original.consequences} />
+          ),
+        }),
+        consequenceTableColumnHelper.accessor('coding_dna_change', {
+          id: 'coding_dna_change',
+          header: 'Coding DNA Change',
+        }),
+        consequenceTableColumnHelper.display({
+          id: 'impact',
+          header: () => <ImpactHeaderWithTooltip />,
+          cell: ({ row }) => (
+            <SMTableImpacts
+              impact={{
+                polyphenImpact: row.original.impact.polyphen_impact,
+                polyphenScore: row.original.impact.polyphen_score,
+                siftImpact: row.original.impact.sift_impact,
+                siftScore: row.original.impact.sift_score,
+                vepImpact: row.original.impact.vep_impact,
+              }}
+            />
+          ),
+        }),
 
-      consequenceTableColumnHelper.display({
-        id: 'gene_strand',
-        header: 'Gene Strand',
-        cell: ({ row }) => (
-          <span>
-            {row.original.gene_strand > 0 ? (
-              <StrandPlusIcon />
-            ) : (
-              <StrandMinusIcon />
-            )}
-          </span>
-        ),
-      }),
-      consequenceTableColumnHelper.display({
-        id: 'transcript',
-        header: 'Transcript',
-        cell: ({ row }) => (
-          <>
-            {row.original.transcript ? (
-              <AnchorLink
-                href={externalLinks.transcript(row.original.transcript)}
-                title={row.original.transcript}
-                toolTipLabel={
-                  row.original.is_canonical ? 'Canonical' : undefined
-                }
-                iconText={row.original.is_canonical ? 'C' : undefined}
-              />
-            ) : null}
-          </>
-        ),
-      }),
-    ],
+        consequenceTableColumnHelper.display({
+          id: 'gene_strand',
+          header: 'Gene Strand',
+          cell: ({ row }) => (
+            <span>
+              {row.original.gene_strand > 0 ? (
+                <StrandPlusIcon />
+              ) : (
+                <StrandMinusIcon />
+              )}
+            </span>
+          ),
+        }),
+        consequenceTableColumnHelper.display({
+          id: 'transcript',
+          header: 'Transcript',
+          cell: ({ row }) => (
+            <>
+              {row.original.transcript ? (
+                <AnchorLink
+                  href={externalLinks.transcript(row.original.transcript)}
+                  title={row.original.transcript}
+                  toolTipLabel={
+                    row.original.is_canonical ? 'Canonical' : undefined
+                  }
+                  iconText={row.original.is_canonical ? 'C' : undefined}
+                />
+              ) : null}
+            </>
+          ),
+        }),
+      ] as any,
     [],
   );
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
