@@ -37,7 +37,9 @@ export const SummaryHeader = ({
             width={40}
           />
         </span>
-        <SummaryHeaderTitle>{headerTitle}</SummaryHeaderTitle>
+        <SummaryHeaderTitle>
+          MUTATION <span className="mx-4 text-2xl inline">•</span> {headerTitle}
+        </SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (
         <>
