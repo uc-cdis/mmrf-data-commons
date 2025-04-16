@@ -75,7 +75,7 @@ export const HorizontalTable = forwardRef<
             return (
               <tr
                 key={`row-${obj.headerName}`}
-                className={rowIndex % 2 ? 'white' : 'bg-gen3-cloud'}
+                className={rowIndex % 2 ? 'white' : 'bg-base-lightest'}
               >
                 <th
                   className={`w-2/5 align-top px-2 ${
