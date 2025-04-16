@@ -24,7 +24,19 @@ export const SummaryHeader = ({
       }`}
     >
       <div className="flex flex-nowrap items-center gap-4">
-        <SummaryHeaderIcon />
+        <span
+          className="w-9 h-9 uppercase
+      rounded-full text-lg flex justify-center items-center leading-[22px]
+      font-bold bg-base-lightest"
+        >
+          <Image
+            className="ml-[8px] mt-[12px]"
+            src={MutationsIcon}
+            alt=""
+            height={40}
+            width={40}
+          />
+        </span>
         <SummaryHeaderTitle>{headerTitle}</SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (
@@ -39,19 +51,3 @@ export const SummaryHeader = ({
     </header>
   );
 };
-
-export const SummaryHeaderIcon = (): JSX.Element => (
-  <span
-    className="w-9 h-9 uppercase
-      rounded-full text-lg flex justify-center items-center leading-[22px]
-      font-bold bg-base-lightest"
-  >
-    <Image
-      className="ml-[6px] mt-[9px]"
-      src={MutationsIcon}
-      alt=""
-      height={40}
-      width={40}
-    />
-  </span>
-);
