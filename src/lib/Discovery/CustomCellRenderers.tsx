@@ -38,10 +38,8 @@ export const LinkedStudyCell = ({
 
 const WrappedStringCell = (
   { value }: CellRenderFunctionProps,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   params?: JSONObject,
 ) => {
-
   if (value === undefined || value === null || toString(value) === '') {
     return (
       <Text>
@@ -64,7 +62,6 @@ const WrappedStringCell = (
   );
 };
 
-
 /**
  * Register custom cell renderers for DiscoveryTable
  */
@@ -79,6 +76,6 @@ export const registerDiscoveryCustomCellRenderers = () => {
     manifest: {
       default: FilemapPopup,
       inline: FilemapInline,
-    }
+    },
   });
 };
