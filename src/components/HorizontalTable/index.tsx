@@ -63,6 +63,7 @@ export const HorizontalTable = forwardRef<
     const updatedContainerClassName = customContainerStyles
       ? containerClassName + ` ${customContainerStyles}`
       : containerClassName;
+    console.log('tableData', tableData);
 
     return (
       <table
