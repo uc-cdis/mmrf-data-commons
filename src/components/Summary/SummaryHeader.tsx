@@ -25,9 +25,8 @@ export const SummaryHeader = ({
     >
       <div className="flex flex-nowrap items-center gap-4">
         <span
-          className="w-9 h-9 uppercase
-      rounded-full text-lg flex justify-center items-center leading-[22px]
-      font-bold bg-base-lightest"
+          className="w-9 h-9 uppercase rounded-full text-lg flex justify-center
+            items-center leading-[22px] font-bold bg-base-lightest"
         >
           <Image
             className="ml-[8px] mt-[11px]"

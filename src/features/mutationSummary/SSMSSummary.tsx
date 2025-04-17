@@ -14,7 +14,6 @@ import { ConsequenceTable } from '@/features/mutationSummary/ConsequenceTable';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import SSMSCancerDistributionTable from '../CancerDistributionTable/SSMSCancerDistributionTable';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import MutationsIcon from '../../../public/icons/gene-mutation.svg';
 
 export const SSMSSummary = ({
   ssm_id,
