@@ -86,8 +86,22 @@ export const Default: Story = {
         ],
       },
     ],
-    customDataTestID: '123',
+    customDataTestID: 'customDataTestID',
     enableSync: true,
     ref: null,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    let testIds = ['customDataTestID'];
+    const numberOfRowsExpected = 6;
+    const rowIds = Array.from(
+      { length: numberOfRowsExpected },
+      (_, index) => `horizontal-table-row-${index}`,
+    );
+    testIds = [...testIds, ...rowIds];
+    testIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
   },
 };

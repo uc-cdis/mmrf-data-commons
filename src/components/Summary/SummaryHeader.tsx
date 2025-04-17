@@ -21,6 +21,7 @@ export const SummaryHeader = ({
       className={`bg-mmrf-purple py-4 px-4 w-full flex flex-col shadow-lg gap-4 ${
         isModal ? 'sticky top-0 rounded-t-sm z-20' : 'fixed z-10'
       }`}
+      data-testid="summary-header"
     >
       <div className="flex flex-nowrap items-center gap-4">
         <span
@@ -34,9 +35,10 @@ export const SummaryHeader = ({
             alt=""
             height={40}
             width={40}
+            data-testid="summary-header-icon"
           />
         </span>
-        <SummaryHeaderTitle>
+        <SummaryHeaderTitle data-testid="summary-header-title">
           MUTATION <span className="mx-4 text-2xl inline">•</span> {headerTitle}
         </SummaryHeaderTitle>
       </div>

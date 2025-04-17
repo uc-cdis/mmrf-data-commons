@@ -19,4 +19,16 @@ export const Default: Story = {
     headerTitle: 'HeaderTitle',
     isModal: false,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const testIds = [
+      'summary-header',
+      'summary-header-title',
+      'summary-header-icon',
+    ];
+    testIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };

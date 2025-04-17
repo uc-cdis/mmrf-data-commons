@@ -63,7 +63,6 @@ export const HorizontalTable = forwardRef<
     const updatedContainerClassName = customContainerStyles
       ? containerClassName + ` ${customContainerStyles}`
       : containerClassName;
-    console.log('tableData', tableData);
 
     return (
       <table
@@ -76,7 +75,8 @@ export const HorizontalTable = forwardRef<
             return (
               <tr
                 key={`row-${obj.headerName}`}
-                className={rowIndex % 2 ? 'white' : 'bg-base-lightest'}
+                data-testid={`horizontal-table-row-${rowIndex}`}
+                className={rowIndex % 2 ? 'transparent' : 'bg-base-lightest'}
               >
                 <th
                   className={`w-2/5 align-top px-2 ${
