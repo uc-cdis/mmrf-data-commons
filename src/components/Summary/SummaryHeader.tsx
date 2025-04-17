@@ -2,7 +2,6 @@ import React from 'react';
 import { SummaryHeaderTitle } from '@/components/tailwindComponents';
 import { Divider } from '@mantine/core';
 import { ReactNode } from 'react';
-import MutationsIcon from '../../../public/icons/gene-mutation.svg';
 import Image from 'next/image';
 
 export interface SummaryHeaderProps {
@@ -30,8 +29,8 @@ export const SummaryHeader = ({
       font-bold bg-base-lightest"
         >
           <Image
-            className="ml-[8px] mt-[12px]"
-            src={MutationsIcon}
+            className="ml-[8px] mt-[11px]"
+            src="/icons/gene-mutation.svg"
             alt=""
             height={40}
             width={40}
