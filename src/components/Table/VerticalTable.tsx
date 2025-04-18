@@ -111,6 +111,8 @@ function VerticalTable<TData>({
   customAriaLabel,
   customBreakpoint,
 }: TableProps<TData>): JSX.Element {
+  console.log('footer', footer);
+
   const [tableData, setTableData] = useState(data);
   const liveRegionRef = useRef(null as any);
   const [sortingStatus, setSortingStatus] = useState('');
