@@ -104,7 +104,7 @@ export const HorizontalTable = forwardRef<
 );
 HorizontalTable.displayName = 'HorizontalTable';
 const renderValue = (
-  value: React.ReactElement | any[] | undefined,
+  value: string | ReadonlyArray<string> | boolean | number | JSX.Element | undefined,
   headerName: string,
   index: number,
 ): JSX.Element => {
