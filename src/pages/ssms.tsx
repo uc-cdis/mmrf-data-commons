@@ -10,6 +10,7 @@ const ssms = () => {
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
       </div>
+      <h1 className="sr-only">Mutation Summary</h1>
       <div className="flex">
         <SSMSSummary
           ssm_id={'53af5705-a17b-555a-92e9-880ce5c14ca0'}

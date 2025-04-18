@@ -59,7 +59,7 @@ export const HorizontalTable = forwardRef<
     ref,
   ) => {
     const containerClassName =
-      'bg-base-lightest w-full text-left text-base-contrast-lightest font-content font-medium drop-shadow-sm border-1 border-base-lighter text-sm';
+      'w-full text-left text-base-contrast-lightest font-content font-medium drop-shadow-sm border-1 border-base-lighter text-sm';
     const updatedContainerClassName = customContainerStyles
       ? containerClassName + ` ${customContainerStyles}`
       : containerClassName;
@@ -75,22 +75,19 @@ export const HorizontalTable = forwardRef<
             return (
               <tr
                 key={`row-${obj.headerName}`}
-                className={
-                  rowIndex % 2
-                    ? 'bg-primary-content-max'
-                    : 'bg-primary-content-lightest'
-                }
+                data-testid={`horizontal-table-row-${rowIndex}`}
+                className={rowIndex % 2 ? 'transparent' : 'bg-base-lightest'}
               >
                 <th
                   className={`w-2/5 align-top px-2 ${
                     !slideImageDetails && 'py-2.5'
-                  } border-base-lighter border-1 whitespace-normal font-semibold font-heading`}
+                  } border-gen3-smoke border-1 whitespace-normal font-semibold font-heading`}
                   key={`head-${obj.headerName}`}
                   scope="row"
                 >
                   {obj.headerName}
                 </th>
-                <td className="w-3/5 border-1 border-base-lighter px-2 font-content-noto font-normal">
+                <td className="w-3/5 border-1 border-gen3-smoke px-2 font-content-noto font-normal">
                   <div className="flex flex-wrap gap-2">
                     {obj.values.map((value, index) =>
                       renderValue(value, obj.headerName, index),
@@ -107,7 +104,7 @@ export const HorizontalTable = forwardRef<
 );
 HorizontalTable.displayName = 'HorizontalTable';
 const renderValue = (
-  value: any,
+  value: string | ReadonlyArray<string> | boolean | number | JSX.Element | undefined,
   headerName: string,
   index: number,
 ): JSX.Element => {

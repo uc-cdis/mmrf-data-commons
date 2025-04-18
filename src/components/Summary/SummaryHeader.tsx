@@ -2,7 +2,6 @@ import React from 'react';
 import { SummaryHeaderTitle } from '@/components/tailwindComponents';
 import { Divider } from '@mantine/core';
 import { ReactNode } from 'react';
-import MutationsIcon from '../../../public/icons/gene-mutation.svg';
 import Image from 'next/image';
 
 export interface SummaryHeaderProps {
@@ -22,10 +21,25 @@ export const SummaryHeader = ({
       className={`bg-mmrf-purple py-4 px-4 w-full flex flex-col shadow-lg gap-4 ${
         isModal ? 'sticky top-0 rounded-t-sm z-20' : 'fixed z-10'
       }`}
+      data-testid="summary-header"
     >
       <div className="flex flex-nowrap items-center gap-4">
-        <SummaryHeaderIcon />
-        <SummaryHeaderTitle>{headerTitle}</SummaryHeaderTitle>
+        <span
+          className="w-9 h-9 uppercase rounded-full text-lg flex justify-center
+            items-center leading-[22px] font-bold bg-base-lightest"
+        >
+          <Image
+            className="ml-[8px] mt-[11px]"
+            src="/icons/gene-mutation.svg"
+            alt=""
+            height={40}
+            width={40}
+            data-testid="summary-header-icon"
+          />
+        </span>
+        <SummaryHeaderTitle data-testid="summary-header-title">
+          MUTATION <span className="mx-4 text-2xl inline">•</span> {headerTitle}
+        </SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (
         <>
@@ -39,19 +53,3 @@ export const SummaryHeader = ({
     </header>
   );
 };
-
-export const SummaryHeaderIcon = (): JSX.Element => (
-  <span
-    className="w-9 h-9 uppercase
-      rounded-full text-lg flex justify-center items-center leading-[22px]
-      font-bold bg-base-lightest"
-  >
-    <Image
-      className="ml-[6px] mt-[9px]"
-      src={MutationsIcon}
-      alt=""
-      height={40}
-      width={40}
-    />
-  </span>
-);
