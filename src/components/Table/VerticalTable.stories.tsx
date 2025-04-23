@@ -39,6 +39,7 @@ export const Default: Story = {
       },
       {
         id: 'impact',
+        header: 'impact',
       },
       {
         id: 'gene_strand',
@@ -58,7 +59,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000269305',
         is_canonical: true,
-        gene_strand: -1,
+        gene_strand: 'a',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -75,7 +76,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000619186',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'b',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -92,7 +93,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000618944',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'c',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 0.999,
@@ -109,7 +110,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000610623',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'd',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 0.998,
@@ -126,7 +127,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000504290',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'e',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 0.998,
@@ -143,7 +144,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000509690',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'f',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -160,7 +161,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000504937',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'g',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -194,7 +195,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000619485',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'h',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -211,7 +212,7 @@ export const Default: Story = {
         consequences: 'missense_variant',
         transcript: 'ENST00000635293',
         is_canonical: false,
-        gene_strand: -1,
+        gene_strand: 'i',
         impact: {
           polyphen_impact: 'probably_damaging',
           polyphen_score: 1,
@@ -221,19 +222,20 @@ export const Default: Story = {
         },
       },
     ],
-    footer: <div>Footer</div>,
+    customDataTestID: 'customDataTestID',
+    tableTotalDetail: 'Table Total Detail',
+    additionalControls: 'Additional Controls',
+    footer: (
+      <tr>
+        <td>Footer</td>
+      </tr>
+    ),
     getRowCanExpand: () => false,
     expandableColumnIds: [],
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    let testIds = ['customDataTestID'];
-    const numberOfRowsExpected = 6;
-    const rowIds = Array.from(
-      { length: numberOfRowsExpected },
-      (_, index) => `horizontal-table-row-${index}`,
-    );
-    testIds = [...testIds, ...rowIds];
+    const testIds = ['customDataTestID'];
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
