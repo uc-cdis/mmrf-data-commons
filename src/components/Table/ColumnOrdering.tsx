@@ -223,6 +223,8 @@ function DraggableColumnItem<TData>({
     transition,
   };
 
+  console.log('column', column);
+
   return (
     <li
       ref={setNodeRef}
@@ -247,8 +249,7 @@ function DraggableColumnItem<TData>({
           classNames={{
             root: 'w-full',
             body: 'grow flex justify-between',
-            label:
-              'text-xs text-secondary-contrast-lighter font-medium tracking-normal',
+            label: 'text-xs font-medium tracking-normal',
           }}
           color="accent"
           checked={column.getIsVisible()}
