@@ -134,7 +134,7 @@ function ColumnOrdering<TData>({
                 data-testid="restore-default-icon"
                 aria-label="restore default column ordering"
               >
-                <UndoIcon className="text-primary" size="1rem" />
+                <UndoIcon size="1rem" />
               </ActionIcon>
             </span>
           </Tooltip>
