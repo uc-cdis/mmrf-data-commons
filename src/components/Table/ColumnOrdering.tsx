@@ -223,8 +223,6 @@ function DraggableColumnItem<TData>({
     transition,
   };
 
-  console.log('column', column);
-
   return (
     <li
       ref={setNodeRef}
