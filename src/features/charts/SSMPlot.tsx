@@ -142,7 +142,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           ]}
         />
       </div>
-      <div className="">
+      <div>
         <BarChart
           divId={chartDivId}
           data={chartData}
