@@ -4,12 +4,12 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import Link from 'next/link';
 import ExpandRowComponent from '@/components/Table/ExpandRowComponent';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
-import CohortCreationButton from '@/components/CohortCreationButton';
-import NumeratorDenominator from '@/components/NumeratorDenominator';
+// import CohortCreationButton from '@/components/CohortCreationButton';
+// import NumeratorDenominator from '@/components/NumeratorDenominator';
 import { FilterSet } from '@/core';
 import { CancerDistributionSSMType } from '../types';
 
-const createSSMAffectedFilters = (
+/* const createSSMAffectedFilters = (
   project: string,
   ssm_id: string,
 ): FilterSet => {
@@ -30,7 +30,7 @@ const createSSMAffectedFilters = (
       },
     };
   }
-};
+}; */
 
 const cancerDistributionTableColumnHelper =
   createColumnHelper<CancerDistributionSSMType>();

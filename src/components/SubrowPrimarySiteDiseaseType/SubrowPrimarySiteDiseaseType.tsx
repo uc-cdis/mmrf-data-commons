@@ -16,7 +16,7 @@ function SubrowPrimarySiteDiseaseType<T>({
   const values = ['value'];
   const title = columnId === 'disease_type' ? 'Disease Type' : 'Primary Site';
 
-  const [subRef, { width, height }] = useMeasure();
+  const [subRef, { width, height }] = useMeasure<HTMLDivElement>();
 
   const fudgeFactor = width / 60;
 
@@ -34,8 +34,7 @@ function SubrowPrimarySiteDiseaseType<T>({
 
   return (
     <>
-      {/* <animated.div ref={subRef} className="absolute ml-2 mt-2 w-full"> */}
-      <animated.div className="absolute ml-2 mt-2 w-full">
+      <animated.div ref={subRef} className="absolute ml-2 mt-2 w-full">
         <div className="font-semibold text-[1rem] mb-2">{title}</div>
         <div className="columns-4 font-content text-sm">
           {values.map((value) => (
