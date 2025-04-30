@@ -292,7 +292,7 @@ function VerticalTable<TData>({
                         ${
                           isColumnHighlighted
                             ? 'hover:bg-nci-purple-lighter'
-                            : 'hover:bg-primary-lightest'
+                            : 'hover:bg-slate-100'
                         }
                       `}
                         aria-sort={
