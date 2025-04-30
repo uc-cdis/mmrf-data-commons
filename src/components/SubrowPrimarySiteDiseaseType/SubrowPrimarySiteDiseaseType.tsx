@@ -12,7 +12,6 @@ function SubrowPrimarySiteDiseaseType<T>({
   columnId: string;
 }): JSX.Element {
   const values: string[] = row?.original[columnId];
-  console.log('values', values);
   const title = columnId === 'disease_type' ? 'Disease Type' : 'Primary Site';
 
   const [subRef, { width, height }] = useMeasure<HTMLDivElement>();
