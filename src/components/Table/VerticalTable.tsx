@@ -314,7 +314,7 @@ function VerticalTable<TData>({
                           {headerName}
                           {isColumnSortable && (
                             <div
-                              className="inline-block text-xs pl-3 align-middle text-base-light"
+                              className="inline-block text-xs pl-3 align-middle text-slate-300"
                               aria-hidden="true"
                             >
                               <RowCollapseIcon
