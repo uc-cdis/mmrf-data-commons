@@ -70,13 +70,11 @@ export const useSSMCancerDistributionColumns = ({
             />
           ),
           cell: ({ row }) => (
-            <>
-              <NumeratorDenominator
-                numerator={row.original.ssm_affected_cases.numerator || 0}
-                denominator={row.original.ssm_affected_cases.denominator || 0}
-                boldNumerator
-              />
-            </>
+            <NumeratorDenominator
+              numerator={row.original.ssm_affected_cases.numerator || 0}
+              denominator={row.original.ssm_affected_cases.denominator || 0}
+              boldNumerator
+            />
           ),
           meta: {
             sortingFn: (rowA, rowB) => {
