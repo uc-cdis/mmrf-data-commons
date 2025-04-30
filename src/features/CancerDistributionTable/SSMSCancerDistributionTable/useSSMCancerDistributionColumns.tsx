@@ -4,33 +4,8 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import Link from 'next/link';
 import ExpandRowComponent from '@/components/Table/ExpandRowComponent';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
-// import CohortCreationButton from '@/components/CohortCreationButton';
-// import NumeratorDenominator from '@/components/NumeratorDenominator';
-import { FilterSet } from '@/core';
 import { CancerDistributionSSMType } from '../types';
-
-/* const createSSMAffectedFilters = (
-  project: string,
-  ssm_id: string,
-): FilterSet => {
-  {
-    return {
-      mode: 'and',
-      root: {
-        'cases.project.project_id': {
-          field: 'cases.project.project_id',
-          operator: 'includes',
-          operands: [project],
-        },
-        'ssms.ssm_id': {
-          field: 'ssms.ssm_id',
-          operator: 'includes',
-          operands: [ssm_id],
-        },
-      },
-    };
-  }
-}; */
+import NumeratorDenominator from '@/components/NumeratorDenominator';
 
 const cancerDistributionTableColumnHelper =
   createColumnHelper<CancerDistributionSSMType>();
@@ -95,21 +70,13 @@ export const useSSMCancerDistributionColumns = ({
             />
           ),
           cell: ({ row }) => (
-            // Updated April 10 25 to get build to work
-            <></>
-            /*
-            <CohortCreationButton
-              numCases={(row.original.ssm_affected_cases.numerator) || 0}
-              filters={createSSMAffectedFilters(row.original.project, ssm_id)}
-              label={
-                <NumeratorDenominator
-                  numerator={row.original.ssm_affected_cases.numerator || 0}
-                  denominator={row.original.ssm_affected_cases.denominator || 0}
-                  boldNumerator
-                />
-              }
-              createStaticCohort
-            />*/
+            <>
+              <NumeratorDenominator
+                numerator={row.original.ssm_affected_cases.numerator || 0}
+                denominator={row.original.ssm_affected_cases.denominator || 0}
+                boldNumerator
+              />
+            </>
           ),
           meta: {
             sortingFn: (rowA, rowB) => {
