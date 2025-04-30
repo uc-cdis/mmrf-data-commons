@@ -175,6 +175,7 @@ const SSMSCancerDistributionTable: React.FC<
 
   return (
     <VerticalTable
+      customDataTestID="SSMSCancerDistributionTable"
       data={displayedData}
       columns={cancerDistributionTableColumns}
       tableTotalDetail={
