@@ -1,0 +1,334 @@
+{
+  "cnvs": {
+    "MP2PRT-ALL": {
+      "total": 1493,
+      "amplification": 3,
+      "gain": 23,
+      "loss": 77,
+      "homozygousDeletion": 1
+    },
+    "CPTAC-3": {
+      "total": 1290,
+      "amplification": 66,
+      "gain": 131,
+      "loss": 52,
+      "homozygousDeletion": 0
+    },
+    "TCGA-BRCA": {
+      "total": 1094,
+      "amplification": 72,
+      "gain": 153,
+      "loss": 90,
+      "homozygousDeletion": 0
+    },
+    "TCGA-GBM": {
+      "total": 589,
+      "amplification": 12,
+      "gain": 38,
+      "loss": 33,
+      "homozygousDeletion": 0
+    },
+    "TCGA-OV": {
+      "total": 578,
+      "amplification": 108,
+      "gain": 173,
+      "loss": 37,
+      "homozygousDeletion": 0
+    },
+    "TCGA-UCEC": {
+      "total": 544,
+      "amplification": 19,
+      "gain": 58,
+      "loss": 29,
+      "homozygousDeletion": 0
+    },
+    "TCGA-KIRC": {
+      "total": 532,
+      "amplification": 12,
+      "gain": 74,
+      "loss": 4,
+      "homozygousDeletion": 0
+    },
+    "TCGA-HNSC": {
+      "total": 525,
+      "amplification": 32,
+      "gain": 105,
+      "loss": 27,
+      "homozygousDeletion": 0
+    },
+    "TCGA-LUAD": {
+      "total": 518,
+      "amplification": 44,
+      "gain": 119,
+      "loss": 65,
+      "homozygousDeletion": 0
+    },
+    "TCGA-LGG": {
+      "total": 515,
+      "amplification": 7,
+      "gain": 26,
+      "loss": 9,
+      "homozygousDeletion": 0
+    },
+    "TCGA-LUSC": {
+      "total": 504,
+      "amplification": 94,
+      "gain": 117,
+      "loss": 23,
+      "homozygousDeletion": 0
+    },
+    "TCGA-THCA": {
+      "total": 504,
+      "amplification": 0,
+      "gain": 10,
+      "loss": 0,
+      "homozygousDeletion": 0
+    },
+    "TCGA-PRAD": {
+      "total": 494,
+      "amplification": 1,
+      "gain": 11,
+      "loss": 58,
+      "homozygousDeletion": 0
+    },
+    "TCGA-SKCM": {
+      "total": 470,
+      "amplification": 16,
+      "gain": 57,
+      "loss": 51,
+      "homozygousDeletion": 0
+    },
+    "TCGA-COAD": {
+      "total": 459,
+      "amplification": 10,
+      "gain": 84,
+      "loss": 28,
+      "homozygousDeletion": 0
+    },
+    "TCGA-STAD": {
+      "total": 442,
+      "amplification": 34,
+      "gain": 84,
+      "loss": 38,
+      "homozygousDeletion": 1
+    },
+    "TCGA-BLCA": {
+      "total": 411,
+      "amplification": 21,
+      "gain": 99,
+      "loss": 47,
+      "homozygousDeletion": 0
+    },
+    "REBC-THYR": {
+      "total": 390,
+      "amplification": 1,
+      "gain": 6,
+      "loss": 0,
+      "homozygousDeletion": 0
+    },
+    "TCGA-LIHC": {
+      "total": 374,
+      "amplification": 2,
+      "gain": 38,
+      "loss": 62,
+      "homozygousDeletion": 0
+    },
+    "TCGA-CESC": {
+      "total": 302,
+      "amplification": 8,
+      "gain": 45,
+      "loss": 37,
+      "homozygousDeletion": 0
+    },
+    "TARGET-ALL-P2": {
+      "total": 293,
+      "amplification": 0,
+      "gain": 3,
+      "loss": 8,
+      "homozygousDeletion": 0
+    },
+    "TCGA-KIRP": {
+      "total": 291,
+      "amplification": 13,
+      "gain": 98,
+      "loss": 0,
+      "homozygousDeletion": 0
+    },
+    "HCMI-CMDC": {
+      "total": 268,
+      "amplification": 27,
+      "gain": 39,
+      "loss": 13,
+      "homozygousDeletion": 0
+    },
+    "TCGA-TGCT": {
+      "total": 262,
+      "amplification": 189,
+      "gain": 67,
+      "loss": 0,
+      "homozygousDeletion": 0
+    },
+    "TCGA-SARC": {
+      "total": 257,
+      "amplification": 13,
+      "gain": 36,
+      "loss": 46,
+      "homozygousDeletion": 1
+    },
+    "TCGA-LAML": {
+      "total": 197,
+      "amplification": 0,
+      "gain": 0,
+      "loss": 4,
+      "homozygousDeletion": 0
+    },
+    "TCGA-ESCA": {
+      "total": 185,
+      "amplification": 23,
+      "gain": 43,
+      "loss": 20,
+      "homozygousDeletion": 0
+    },
+    "TCGA-PAAD": {
+      "total": 185,
+      "amplification": 11,
+      "gain": 26,
+      "loss": 17,
+      "homozygousDeletion": 0
+    },
+    "TCGA-PCPG": {
+      "total": 178,
+      "amplification": 1,
+      "gain": 7,
+      "loss": 3,
+      "homozygousDeletion": 0
+    },
+    "TCGA-READ": {
+      "total": 167,
+      "amplification": 8,
+      "gain": 29,
+      "loss": 13,
+      "homozygousDeletion": 0
+    },
+    "CGCI-BLGSP": {
+      "total": 152,
+      "amplification": 0,
+      "gain": 19,
+      "loss": 1,
+      "homozygousDeletion": 0
+    },
+    "TCGA-THYM": {
+      "total": 124,
+      "amplification": 1,
+      "gain": 2,
+      "loss": 3,
+      "homozygousDeletion": 1
+    },
+    "CGCI-HTMCP-CC": {
+      "total": 122,
+      "amplification": 8,
+      "gain": 24,
+      "loss": 12,
+      "homozygousDeletion": 0
+    },
+    "TCGA-ACC": {
+      "total": 91,
+      "amplification": 43,
+      "gain": 14,
+      "loss": 2,
+      "homozygousDeletion": 0
+    },
+    "TCGA-MESO": {
+      "total": 87,
+      "amplification": 3,
+      "gain": 5,
+      "loss": 4,
+      "homozygousDeletion": 0
+    },
+    "APOLLO-LUAD": {
+      "total": 83,
+      "amplification": 7,
+      "gain": 20,
+      "loss": 9,
+      "homozygousDeletion": 0
+    },
+    "TARGET-OS": {
+      "total": 81,
+      "amplification": 9,
+      "gain": 28,
+      "loss": 18,
+      "homozygousDeletion": 0
+    },
+    "TCGA-KICH": {
+      "total": 80,
+      "amplification": 9,
+      "gain": 6,
+      "loss": 1,
+      "homozygousDeletion": 0
+    },
+    "TCGA-UVM": {
+      "total": 80,
+      "amplification": 0,
+      "gain": 2,
+      "loss": 2,
+      "homozygousDeletion": 0
+    },
+    "TARGET-AML": {
+      "total": 73,
+      "amplification": 1,
+      "gain": 1,
+      "loss": 1,
+      "homozygousDeletion": 0
+    },
+    "TCGA-UCS": {
+      "total": 56,
+      "amplification": 9,
+      "gain": 11,
+      "loss": 12,
+      "homozygousDeletion": 0
+    },
+    "MP2PRT-WT": {
+      "total": 51,
+      "amplification": 2,
+      "gain": 18,
+      "loss": 0,
+      "homozygousDeletion": 0
+    },
+    "CGCI-HTMCP-DLBCL": {
+      "total": 50,
+      "amplification": 3,
+      "gain": 11,
+      "loss": 1,
+      "homozygousDeletion": 0
+    },
+    "TCGA-CHOL": {
+      "total": 49,
+      "amplification": 0,
+      "gain": 5,
+      "loss": 3,
+      "homozygousDeletion": 0
+    },
+    "TCGA-DLBC": {
+      "total": 48,
+      "amplification": 0,
+      "gain": 7,
+      "loss": 2,
+      "homozygousDeletion": 0
+    },
+    "CDDP_EAGLE-1": {
+      "total": 44,
+      "amplification": 4,
+      "gain": 7,
+      "loss": 2,
+      "homozygousDeletion": 0
+    },
+    "CGCI-HTMCP-LC": {
+      "total": 34,
+      "amplification": 2,
+      "gain": 7,
+      "loss": 1,
+      "homozygousDeletion": 0
+    }
+  },
+  "caseTotal": 3903
+}
