@@ -5,7 +5,7 @@ import SSMSCancerDistributionTable from './index';
 
 const meta = {
   component: SSMSCancerDistributionTable,
-  title: 'components/SSMSCancerDistributionTablet',
+  title: 'components/SSMSCancerDistributionTable',
   parameters: {
     deepControls: { enabled: true },
   },
