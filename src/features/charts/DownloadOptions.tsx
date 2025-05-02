@@ -31,6 +31,7 @@ const DownloadOptions: React.FC<ChartDownloadProps> = ({
           <ActionIcon
             data-testid="button-download-image-or-data"
             variant="outline"
+            aria-label="Download image or data"
           >
             <DownloadIcon size="1rem" aria-hidden="true" />
           </ActionIcon>

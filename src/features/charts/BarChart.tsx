@@ -92,6 +92,8 @@ const BarChart: React.FC<BarChartProps> = ({
   const layout: Partial<Layout> =
     orientation === 'v'
       ? {
+          plot_bgcolor: '#FFFFFF',
+          paper_bgcolor: '#FFFFFF',
           xaxis: {
             // (bars are vertical)
             automargin: false,
