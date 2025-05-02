@@ -1,6 +1,6 @@
 import { FilterSet } from './types';
 import geneSummaryData from './data/gene/ENSG00000133703.json';
-import CNVPlotData from './data/gene/CVNPLot.json';
+import CNVPlotData from './data/gene/CVNPlot.json';
 import CancerDistributionTableData from './data/gene/CancerDistributionTable.json';
 import SSMSTableData from './data/gene/SSMSTable.json';
 
