@@ -1,0 +1,31 @@
+{
+  "symbol": "KRAS",
+  "name": "KRAS proto-oncogene, GTPase",
+  "synonyms": [
+    "KRAS1",
+    "KRAS2"
+  ],
+  "biotype": "protein_coding",
+  "gene_chromosome": "12",
+  "gene_start": 25205246,
+  "gene_end": 25250936,
+  "gene_strand": -1,
+  "description": "This gene, a Kirsten ras oncogene homolog from the mammalian ras gene family, encodes a protein that is a member of the small GTPase superfamily. A single amino acid substitution is responsible for an activating mutation. The transforming protein that results is implicated in various malignancies, including lung adenocarcinoma, mucinous adenoma, ductal carcinoma of the pancreas and colorectal carcinoma. Alternative splicing leads to variants encoding two isoforms that differ in the C-terminal region. [provided by RefSeq, Jul 2008]",
+  "is_cancer_gene_census": true,
+  "gene_id": "ENSG00000133703",
+  "external_db_ids": {
+    "entrez_gene": [
+      "3845"
+    ],
+    "uniprotkb_swissprot": [
+      "P01116"
+    ],
+    "hgnc": [
+      "HGNC:6407"
+    ],
+    "omim_gene": [
+      "190070"
+    ]
+  },
+  "civic": "30"
+}
