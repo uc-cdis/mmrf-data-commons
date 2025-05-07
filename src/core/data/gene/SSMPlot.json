@@ -1,0 +1,225 @@
+{
+  "cases": [
+    {
+      "ssmCount": 274,
+      "project": "CPTAC-3",
+      "totalCount": 1317
+    },
+    {
+      "ssmCount": 258,
+      "project": "MP2PRT-ALL",
+      "totalCount": 1487
+    },
+    {
+      "ssmCount": 227,
+      "project": "MMRF-COMMPASS",
+      "totalCount": 959
+    },
+    {
+      "ssmCount": 184,
+      "project": "TCGA-COAD",
+      "totalCount": 428
+    },
+    {
+      "ssmCount": 148,
+      "project": "TCGA-LUAD",
+      "totalCount": 559
+    },
+    {
+      "ssmCount": 106,
+      "project": "TCGA-PAAD",
+      "totalCount": 179
+    },
+    {
+      "ssmCount": 99,
+      "project": "TCGA-UCEC",
+      "totalCount": 512
+    },
+    {
+      "ssmCount": 87,
+      "project": "TARGET-ALL-P2",
+      "totalCount": 717
+    },
+    {
+      "ssmCount": 71,
+      "project": "HCMI-CMDC",
+      "totalCount": 274
+    },
+    {
+      "ssmCount": 61,
+      "project": "TCGA-READ",
+      "totalCount": 155
+    },
+    {
+      "ssmCount": 39,
+      "project": "CPTAC-2",
+      "totalCount": 328
+    },
+    {
+      "ssmCount": 39,
+      "project": "TCGA-STAD",
+      "totalCount": 434
+    },
+    {
+      "ssmCount": 21,
+      "project": "CDDP_EAGLE-1",
+      "totalCount": 50
+    },
+    {
+      "ssmCount": 17,
+      "project": "TCGA-BLCA",
+      "totalCount": 408
+    },
+    {
+      "ssmCount": 15,
+      "project": "TCGA-CESC",
+      "totalCount": 287
+    },
+    {
+      "ssmCount": 13,
+      "project": "TCGA-TGCT",
+      "totalCount": 141
+    },
+    {
+      "ssmCount": 11,
+      "project": "TCGA-SKCM",
+      "totalCount": 470
+    },
+    {
+      "ssmCount": 9,
+      "project": "TCGA-LUSC",
+      "totalCount": 490
+    },
+    {
+      "ssmCount": 7,
+      "project": "EXCEPTIONAL_RESPONDERS-ER",
+      "totalCount": 19
+    },
+    {
+      "ssmCount": 7,
+      "project": "TCGA-BRCA",
+      "totalCount": 969
+    },
+    {
+      "ssmCount": 7,
+      "project": "TCGA-UCS",
+      "totalCount": 57
+    },
+    {
+      "ssmCount": 6,
+      "project": "TCGA-LAML",
+      "totalCount": 144
+    },
+    {
+      "ssmCount": 6,
+      "project": "TCGA-LIHC",
+      "totalCount": 369
+    },
+    {
+      "ssmCount": 5,
+      "project": "TCGA-CHOL",
+      "totalCount": 51
+    },
+    {
+      "ssmCount": 5,
+      "project": "TCGA-KIRP",
+      "totalCount": 278
+    },
+    {
+      "ssmCount": 5,
+      "project": "TCGA-OV",
+      "totalCount": 419
+    },
+    {
+      "ssmCount": 4,
+      "project": "BEATAML1.0-COHORT",
+      "totalCount": 342
+    },
+    {
+      "ssmCount": 4,
+      "project": "TCGA-THCA",
+      "totalCount": 490
+    },
+    {
+      "ssmCount": 3,
+      "project": "CMI-MBC",
+      "totalCount": 174
+    },
+    {
+      "ssmCount": 3,
+      "project": "TARGET-AML",
+      "totalCount": 22
+    },
+    {
+      "ssmCount": 3,
+      "project": "TCGA-DLBC",
+      "totalCount": 47
+    },
+    {
+      "ssmCount": 2,
+      "project": "CGCI-HTMCP-CC",
+      "totalCount": 85
+    },
+    {
+      "ssmCount": 2,
+      "project": "TCGA-ESCA",
+      "totalCount": 184
+    },
+    {
+      "ssmCount": 2,
+      "project": "TCGA-GBM",
+      "totalCount": 374
+    },
+    {
+      "ssmCount": 2,
+      "project": "TCGA-KIRC",
+      "totalCount": 374
+    },
+    {
+      "ssmCount": 2,
+      "project": "TCGA-LGG",
+      "totalCount": 513
+    },
+    {
+      "ssmCount": 2,
+      "project": "TCGA-PRAD",
+      "totalCount": 496
+    },
+    {
+      "ssmCount": 1,
+      "project": "CMI-MPC",
+      "totalCount": 60
+    },
+    {
+      "ssmCount": 1,
+      "project": "TARGET-ALL-P3",
+      "totalCount": 56
+    },
+    {
+      "ssmCount": 1,
+      "project": "TARGET-WT",
+      "totalCount": 38
+    },
+    {
+      "ssmCount": 1,
+      "project": "TCGA-HNSC",
+      "totalCount": 509
+    },
+    {
+      "ssmCount": 1,
+      "project": "TCGA-MESO",
+      "totalCount": 80
+    },
+    {
+      "ssmCount": 1,
+      "project": "TCGA-SARC",
+      "totalCount": 235
+    },
+    {
+      "ssmCount": 1,
+      "project": "TCGA-THYM",
+      "totalCount": 123
+    }
+  ],
+  "ssmCount": 129
+}

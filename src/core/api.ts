@@ -1,4 +1,8 @@
 import { FilterSet } from './types';
+import geneSummaryData from './data/gene/ENSG00000133703.json';
+import CNVPlotData from './data/gene/CVNPlot.json';
+import CancerDistributionTableData from './data/gene/CancerDistributionTable.json';
+import SSMSTableData from './data/gene/SSMSTable.json';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useGetProjectsQuery = (project: { [key: string]: any }) => {
@@ -4104,3 +4108,84 @@ export const useSsmPlotQuery = (_: SsmPlotRequest): DataResponse => {
     isSuccess: true,
   };
 };
+
+interface GeneSummaryQueryParams {
+  gene_id: string;
+}
+
+export const useGeneSummaryQuery = ({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+  gene_id,
+} : GeneSummaryQueryParams) => {
+
+  return {
+    data: geneSummaryData,
+    error: 'none',
+    isUninitialized: false,
+    isError: false,
+    isFetching: false,
+    isSuccess: true,
+  };
+};
+
+interface CNVPlotRequest {
+  gene: string;
+  cohortFilters?: FilterSet;
+  genomicFilters?: FilterSet;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useCnvPlotQuery = ({ gene, cohortFilters, genomicFilters} : CNVPlotRequest) => {
+  return {
+    data: CNVPlotData,
+    error: 'none',
+    isUninitialized: false,
+    isError: false,
+    isFetching: false,
+    isSuccess: true,
+  };
+}
+
+
+export const useGetGeneCancerDistributionTableQuery = () => {
+  return {
+    data: CancerDistributionTableData,
+    error: 'none',
+    isUninitialized: false,
+    isError: false,
+    isFetching: false,
+    isSuccess: true,
+  };
+}
+
+export interface SortOption {
+  field: string;
+  order: string;
+}
+
+export interface TablePageOffsetProps {
+  readonly pageSize?: number;
+  readonly offset?: number;
+  readonly sorts?: Array<SortOption>;
+  readonly searchTerm?: string;
+}
+
+export interface SsmsTableRequestParameters extends TablePageOffsetProps {
+  readonly geneSymbol?: string;
+  readonly genomicFilters: FilterSet;
+  readonly cohortFilters: FilterSet;
+  readonly tableFilters: FilterSet;
+  readonly _cohortFiltersNoSet?: FilterSet;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useGetSssmTableDataQuery = ({ geneSymbol, genomicFilters, cohortFilters, tableFilters, _cohortFiltersNoSet } : SsmsTableRequestParameters ) => {
+  return {
+    data: SSMSTableData,
+    error: 'none',
+    isUninitialized: false,
+    isError: false,
+    isFetching: false,
+    isSuccess: true,
+  };
+}
