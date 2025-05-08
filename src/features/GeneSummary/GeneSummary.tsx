@@ -12,7 +12,7 @@ import {
   // selectCurrentCohortFilters,
 } from '@/core';
 import { externalLinkNames, externalLinks, humanify } from '../../utils';
-// import CNVPlot from "../charts/CNVPlot";
+import CNVPlot from '../charts/CNVPlot';
 import SSMPlot from '../charts/SSMPlot';
 import { formatDataForHorizontalTable } from '../files/utils';
 import { LoadingOverlay } from '@mantine/core';
@@ -273,13 +273,12 @@ const GeneView = ({
                   genomicFilters={genomicFilters}
                   cohortFilters={cohortFilters}
                 />
-                <h1>Placeholder for CNVPlot</h1>
-                {/*                <CNVPlot
+                <CNVPlot
                   gene={gene_id}
                   height={200}
                   genomicFilters={genomicFilters}
                   cohortFilters={cohortFilters}
-                /> */}
+                />
               </div>
               <div className="mt-8">
                 <h1>Placeholder for GeneCancerDistributionTable</h1>
