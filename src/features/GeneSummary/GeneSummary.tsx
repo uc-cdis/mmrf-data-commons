@@ -25,6 +25,7 @@ import { CollapsibleList } from '@/components/CollapsibleList';
 //import GeneCancerDistributionTable from "../CancerDistributionTable/GeneCancerDistributionTable";
 import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
+import { WarningBanner } from '@/components/WarningBanner';
 
 interface GeneViewProps {
   data: GeneSummaryData;
@@ -235,13 +236,12 @@ const GeneView = ({
 
           <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
             {contextSensitive && (
-              <div className="my-6">
-                <h1>PLACEHODLER FOR WARNING BANNER</h1>
-                {/*                 <WarningBanner
+              <div className="my-6 pt-20">
+                <WarningBanner
                   text={
                     'Viewing subset of the GDC based on your current cohort and Mutation Frequency filters.'
                   }
-                /> */}
+                />
               </div>
             )}
             <div className="pt-20 flex flex-col lg:flex-row gap-8">
@@ -266,14 +266,13 @@ const GeneView = ({
               <HeaderTitle>Cancer Distribution</HeaderTitle>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <h1>Placeholder for SSMPlot</h1>
-                {/*                 <SSMPlot
+                <SSMPlot
                   page="gene"
                   gene={gene_id}
                   height={200}
                   genomicFilters={genomicFilters}
                   cohortFilters={cohortFilters}
-                /> */}
+                />
                 <h1>Placeholder for CNVPlot</h1>
                 {/*                <CNVPlot
                   gene={gene_id}
