@@ -1,7 +1,10 @@
 export const chartDivId = 'cancer-distribution-bar-chart-cnv';
 
 export interface CheckboxState {
-  [key: string]: boolean;
+  amplification: boolean;
+  gain: boolean;
+  heterozygousDeletion: boolean;
+  homozygousDeletion: boolean;
 }
 
 export interface CheckboxConfig {

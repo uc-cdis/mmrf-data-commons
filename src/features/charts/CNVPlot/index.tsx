@@ -74,7 +74,6 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     if (point && point.x) {
       router.push(`/projects/${point.x}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [isReady, setIsReady] = useState(false);
@@ -105,10 +104,12 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
 
   const chartData = useDeepCompareMemo(() => {
     return projectKeys.map((project) => {
-      const cnv = data.cnvs[project];
+      const cnv: any = data.cnvs[project as keyof typeof data.cnvs];
       const valueSum = anyCheckboxSelected
         ? Object.keys(cnvMapping).reduce((sum, key) => {
-            return checkboxState[key] ? sum + cnv[cnvMapping[key].prop] : sum;
+            return checkboxState[key as keyof CheckboxState]
+              ? sum + cnv[cnvMapping[key as keyof CheckboxState].prop]
+              : sum;
           }, 0)
         : 0;
       return {
@@ -133,7 +134,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
       ];
     }
     return Object.entries(cnvMapping)
-      .filter(([key]) => checkboxState[key])
+      .filter(([key]) => checkboxState[key as keyof CheckboxState])
       .map(([_, { prop, color }]) => ({
         y: top20ChartData.map((d) => (d[prop] / d.total) * 100),
         x: top20ChartData.map((d) => d.project),
