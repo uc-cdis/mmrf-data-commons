@@ -1,0 +1,470 @@
+{
+  "projects": [
+    {
+      "doc_count": 25,
+      "key": "CPTAC-3"
+    },
+    {
+      "doc_count": 30,
+      "key": "MP2PRT-ALL"
+    },
+    {
+      "doc_count": 53,
+      "key": "MMRF-COMMPASS"
+    },
+    {
+      "doc_count": 26,
+      "key": "TCGA-COAD"
+    },
+    {
+      "doc_count": 14,
+      "key": "TCGA-LUAD"
+    },
+    {
+      "doc_count": 9,
+      "key": "TCGA-PAAD"
+    },
+    {
+      "doc_count": 27,
+      "key": "TCGA-UCEC"
+    },
+    {
+      "doc_count": 24,
+      "key": "TARGET-ALL-P2"
+    },
+    {
+      "doc_count": 14,
+      "key": "HCMI-CMDC"
+    },
+    {
+      "doc_count": 17,
+      "key": "TCGA-READ"
+    },
+    {
+      "doc_count": 14,
+      "key": "CPTAC-2"
+    },
+    {
+      "doc_count": 10,
+      "key": "TCGA-STAD"
+    },
+    {
+      "doc_count": 7,
+      "key": "CDDP_EAGLE-1"
+    },
+    {
+      "doc_count": 9,
+      "key": "TCGA-BLCA"
+    },
+    {
+      "doc_count": 7,
+      "key": "TCGA-CESC"
+    },
+    {
+      "doc_count": 10,
+      "key": "TCGA-SKCM"
+    },
+    {
+      "doc_count": 8,
+      "key": "TCGA-TGCT"
+    },
+    {
+      "doc_count": 9,
+      "key": "TCGA-LUSC"
+    },
+    {
+      "doc_count": 5,
+      "key": "EXCEPTIONAL_RESPONDERS-ER"
+    },
+    {
+      "doc_count": 5,
+      "key": "TCGA-BRCA"
+    },
+    {
+      "doc_count": 4,
+      "key": "TCGA-UCS"
+    },
+    {
+      "doc_count": 4,
+      "key": "TCGA-CHOL"
+    },
+    {
+      "doc_count": 4,
+      "key": "TCGA-LAML"
+    },
+    {
+      "doc_count": 5,
+      "key": "TCGA-LIHC"
+    },
+    {
+      "doc_count": 4,
+      "key": "TCGA-THCA"
+    },
+    {
+      "doc_count": 2,
+      "key": "TCGA-KIRP"
+    },
+    {
+      "doc_count": 3,
+      "key": "TCGA-OV"
+    },
+    {
+      "doc_count": 4,
+      "key": "BEATAML1.0-COHORT"
+    },
+    {
+      "doc_count": 2,
+      "key": "CMI-MBC"
+    },
+    {
+      "doc_count": 3,
+      "key": "TARGET-AML"
+    },
+    {
+      "doc_count": 3,
+      "key": "TCGA-DLBC"
+    },
+    {
+      "doc_count": 1,
+      "key": "CGCI-HTMCP-CC"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-ESCA"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-GBM"
+    },
+    {
+      "doc_count": 2,
+      "key": "TCGA-KIRC"
+    },
+    {
+      "doc_count": 2,
+      "key": "TCGA-LGG"
+    },
+    {
+      "doc_count": 2,
+      "key": "TCGA-PRAD"
+    },
+    {
+      "doc_count": 1,
+      "key": "CMI-MPC"
+    },
+    {
+      "doc_count": 1,
+      "key": "TARGET-ALL-P3"
+    },
+    {
+      "doc_count": 1,
+      "key": "TARGET-WT"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-HNSC"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-MESO"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-SARC"
+    },
+    {
+      "doc_count": 1,
+      "key": "TCGA-THYM"
+    }
+  ],
+  "ssmFiltered": {
+    "CPTAC-3": 274,
+    "MP2PRT-ALL": 258,
+    "MMRF-COMMPASS": 227,
+    "TCGA-COAD": 184,
+    "TCGA-LUAD": 148,
+    "TCGA-PAAD": 106,
+    "TCGA-UCEC": 99,
+    "TARGET-ALL-P2": 87,
+    "HCMI-CMDC": 71,
+    "TCGA-READ": 61,
+    "CPTAC-2": 39,
+    "TCGA-STAD": 39,
+    "CDDP_EAGLE-1": 21,
+    "TCGA-BLCA": 17,
+    "TCGA-CESC": 15,
+    "TCGA-TGCT": 13,
+    "TCGA-SKCM": 11,
+    "TCGA-LUSC": 9,
+    "EXCEPTIONAL_RESPONDERS-ER": 7,
+    "TCGA-BRCA": 7,
+    "TCGA-UCS": 7,
+    "TCGA-LAML": 6,
+    "TCGA-LIHC": 6,
+    "TCGA-CHOL": 5,
+    "TCGA-KIRP": 5,
+    "TCGA-OV": 5,
+    "BEATAML1.0-COHORT": 4,
+    "TCGA-THCA": 4,
+    "CMI-MBC": 3,
+    "TARGET-AML": 3,
+    "TCGA-DLBC": 3,
+    "CGCI-HTMCP-CC": 2,
+    "TCGA-ESCA": 2,
+    "TCGA-GBM": 2,
+    "TCGA-KIRC": 2,
+    "TCGA-LGG": 2,
+    "TCGA-PRAD": 2,
+    "CMI-MPC": 1,
+    "TARGET-ALL-P3": 1,
+    "TARGET-WT": 1,
+    "TCGA-HNSC": 1,
+    "TCGA-MESO": 1,
+    "TCGA-SARC": 1,
+    "TCGA-THYM": 1
+  },
+  "ssmTotal": {
+    "MP2PRT-ALL": 1487,
+    "CPTAC-3": 1317,
+    "TCGA-BRCA": 969,
+    "MMRF-COMMPASS": 959,
+    "TARGET-ALL-P2": 717,
+    "TCGA-LUAD": 559,
+    "TCGA-LGG": 513,
+    "TCGA-UCEC": 512,
+    "TCGA-HNSC": 509,
+    "TCGA-PRAD": 496,
+    "TCGA-LUSC": 490,
+    "TCGA-THCA": 490,
+    "TCGA-SKCM": 470,
+    "TCGA-STAD": 434,
+    "TCGA-COAD": 428,
+    "TCGA-OV": 419,
+    "TCGA-BLCA": 408,
+    "TCGA-GBM": 374,
+    "TCGA-KIRC": 374,
+    "TCGA-LIHC": 369,
+    "BEATAML1.0-COHORT": 342,
+    "CPTAC-2": 328,
+    "TCGA-CESC": 287,
+    "TCGA-KIRP": 278,
+    "HCMI-CMDC": 274,
+    "TCGA-SARC": 235,
+    "TARGET-NBL": 220,
+    "TCGA-ESCA": 184,
+    "TCGA-PAAD": 179,
+    "TCGA-PCPG": 179,
+    "CMI-MBC": 174,
+    "TCGA-READ": 155,
+    "TCGA-LAML": 144,
+    "TCGA-TGCT": 141,
+    "TCGA-THYM": 123,
+    "TARGET-OS": 97,
+    "TCGA-ACC": 90,
+    "CGCI-HTMCP-CC": 85,
+    "TCGA-MESO": 80,
+    "TCGA-UVM": 80,
+    "TCGA-KICH": 66,
+    "CMI-MPC": 60,
+    "TCGA-UCS": 57,
+    "TARGET-ALL-P3": 56,
+    "TCGA-CHOL": 51,
+    "CDDP_EAGLE-1": 50,
+    "TCGA-DLBC": 47,
+    "TARGET-WT": 38,
+    "CGCI-BLGSP": 37,
+    "CMI-ASC": 36,
+    "TARGET-AML": 22,
+    "EXCEPTIONAL_RESPONDERS-ER": 19
+  },
+  "cnvAmplification": {
+    "TCGA-TGCT": 189,
+    "TCGA-OV": 108,
+    "TCGA-LUSC": 94,
+    "TCGA-BRCA": 72,
+    "CPTAC-3": 66,
+    "TCGA-LUAD": 44,
+    "TCGA-ACC": 43,
+    "TCGA-STAD": 34,
+    "TCGA-HNSC": 32,
+    "HCMI-CMDC": 27,
+    "TCGA-ESCA": 23,
+    "TCGA-BLCA": 21,
+    "TCGA-UCEC": 19,
+    "TCGA-SKCM": 16,
+    "TCGA-KIRP": 13,
+    "TCGA-SARC": 13,
+    "TCGA-GBM": 12,
+    "TCGA-KIRC": 12,
+    "TCGA-PAAD": 11,
+    "TCGA-COAD": 10,
+    "TARGET-OS": 9,
+    "TCGA-KICH": 9,
+    "TCGA-UCS": 9,
+    "CGCI-HTMCP-CC": 8,
+    "TCGA-CESC": 8,
+    "TCGA-READ": 8,
+    "APOLLO-LUAD": 7,
+    "TCGA-LGG": 7,
+    "CDDP_EAGLE-1": 4,
+    "CGCI-HTMCP-DLBCL": 3,
+    "MP2PRT-ALL": 3,
+    "TCGA-MESO": 3,
+    "CGCI-HTMCP-LC": 2,
+    "MP2PRT-WT": 2,
+    "TCGA-LIHC": 2,
+    "REBC-THYR": 1,
+    "TARGET-AML": 1,
+    "TCGA-PCPG": 1,
+    "TCGA-PRAD": 1,
+    "TCGA-THYM": 1
+  },
+  "cnvGain": {
+    "TCGA-OV": 173,
+    "TCGA-BRCA": 153,
+    "CPTAC-3": 131,
+    "TCGA-LUAD": 119,
+    "TCGA-LUSC": 117,
+    "TCGA-HNSC": 105,
+    "TCGA-BLCA": 99,
+    "TCGA-KIRP": 98,
+    "TCGA-COAD": 84,
+    "TCGA-STAD": 84,
+    "TCGA-KIRC": 74,
+    "TCGA-TGCT": 67,
+    "TCGA-UCEC": 58,
+    "TCGA-SKCM": 57,
+    "TCGA-CESC": 45,
+    "TCGA-ESCA": 43,
+    "HCMI-CMDC": 39,
+    "TCGA-GBM": 38,
+    "TCGA-LIHC": 38,
+    "TCGA-SARC": 36,
+    "TCGA-READ": 29,
+    "TARGET-OS": 28,
+    "TCGA-LGG": 26,
+    "TCGA-PAAD": 26,
+    "CGCI-HTMCP-CC": 24,
+    "MP2PRT-ALL": 23,
+    "APOLLO-LUAD": 20,
+    "CGCI-BLGSP": 19,
+    "MP2PRT-WT": 18,
+    "TCGA-ACC": 14,
+    "CGCI-HTMCP-DLBCL": 11,
+    "TCGA-PRAD": 11,
+    "TCGA-UCS": 11,
+    "TCGA-THCA": 10,
+    "CDDP_EAGLE-1": 7,
+    "CGCI-HTMCP-LC": 7,
+    "TCGA-DLBC": 7,
+    "TCGA-PCPG": 7,
+    "REBC-THYR": 6,
+    "TCGA-KICH": 6,
+    "TCGA-CHOL": 5,
+    "TCGA-MESO": 5,
+    "TARGET-ALL-P2": 3,
+    "TCGA-THYM": 2,
+    "TCGA-UVM": 2,
+    "TARGET-AML": 1
+  },
+  "cnvLoss": {
+    "TCGA-BRCA": 90,
+    "MP2PRT-ALL": 77,
+    "TCGA-LUAD": 65,
+    "TCGA-LIHC": 62,
+    "TCGA-PRAD": 58,
+    "CPTAC-3": 52,
+    "TCGA-SKCM": 51,
+    "TCGA-BLCA": 47,
+    "TCGA-SARC": 46,
+    "TCGA-STAD": 38,
+    "TCGA-CESC": 37,
+    "TCGA-OV": 37,
+    "TCGA-GBM": 33,
+    "TCGA-UCEC": 29,
+    "TCGA-COAD": 28,
+    "TCGA-HNSC": 27,
+    "TCGA-LUSC": 23,
+    "TCGA-ESCA": 20,
+    "TARGET-OS": 18,
+    "TCGA-PAAD": 17,
+    "HCMI-CMDC": 13,
+    "TCGA-READ": 13,
+    "CGCI-HTMCP-CC": 12,
+    "TCGA-UCS": 12,
+    "APOLLO-LUAD": 9,
+    "TCGA-LGG": 9,
+    "TARGET-ALL-P2": 8,
+    "TCGA-KIRC": 4,
+    "TCGA-LAML": 4,
+    "TCGA-MESO": 4,
+    "TCGA-CHOL": 3,
+    "TCGA-PCPG": 3,
+    "TCGA-THYM": 3,
+    "CDDP_EAGLE-1": 2,
+    "TCGA-ACC": 2,
+    "TCGA-DLBC": 2,
+    "TCGA-UVM": 2,
+    "CGCI-BLGSP": 1,
+    "CGCI-HTMCP-DLBCL": 1,
+    "CGCI-HTMCP-LC": 1,
+    "TARGET-AML": 1,
+    "TCGA-KICH": 1
+  },
+  "cnvHomozygousDeletion": {
+    "MP2PRT-ALL": 1,
+    "TCGA-SARC": 1,
+    "TCGA-STAD": 1,
+    "TCGA-THYM": 1
+  },
+  "cnvTotal": {
+    "MP2PRT-ALL": 1493,
+    "CPTAC-3": 1290,
+    "TCGA-BRCA": 1094,
+    "TCGA-GBM": 589,
+    "TCGA-OV": 578,
+    "TCGA-UCEC": 544,
+    "TCGA-KIRC": 532,
+    "TCGA-HNSC": 525,
+    "TCGA-LUAD": 518,
+    "TCGA-LGG": 515,
+    "TCGA-LUSC": 504,
+    "TCGA-THCA": 504,
+    "TCGA-PRAD": 494,
+    "TCGA-SKCM": 470,
+    "TCGA-COAD": 459,
+    "TCGA-STAD": 442,
+    "TCGA-BLCA": 411,
+    "REBC-THYR": 390,
+    "TCGA-LIHC": 374,
+    "TCGA-CESC": 302,
+    "TARGET-ALL-P2": 293,
+    "TCGA-KIRP": 291,
+    "HCMI-CMDC": 268,
+    "TCGA-TGCT": 262,
+    "TCGA-SARC": 257,
+    "TCGA-LAML": 197,
+    "TCGA-ESCA": 185,
+    "TCGA-PAAD": 185,
+    "TCGA-PCPG": 178,
+    "TCGA-READ": 167,
+    "CGCI-BLGSP": 152,
+    "TCGA-THYM": 124,
+    "CGCI-HTMCP-CC": 122,
+    "TCGA-ACC": 91,
+    "TCGA-MESO": 87,
+    "APOLLO-LUAD": 83,
+    "TARGET-OS": 81,
+    "TCGA-KICH": 80,
+    "TCGA-UVM": 80,
+    "TARGET-AML": 73,
+    "TCGA-UCS": 56,
+    "MP2PRT-WT": 51,
+    "CGCI-HTMCP-DLBCL": 50,
+    "TCGA-CHOL": 49,
+    "TCGA-DLBC": 48,
+    "CDDP_EAGLE-1": 44,
+    "CGCI-HTMCP-LC": 34,
+    "TARGET-CCSK": 11
+  }
+}
