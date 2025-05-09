@@ -1,7 +1,8 @@
-import { useGetSomaticMutationTableSubrowQuery } from "@gff/core";
-import { Row } from "@tanstack/react-table";
-import { SomaticMutation } from "./types";
-import CommonSubcomponent from "../SharedComponent/CommonSubcomponent";
+import React from 'react';
+import { useGetSomaticMutationTableSubrowQuery } from '@/core';
+import { Row } from '@tanstack/react-table';
+import { SomaticMutation } from './types';
+import CommonSubcomponent from '../SharedComponent/CommonSubcomponent';
 
 function SMTableSubcomponent({
   row,

@@ -6,9 +6,8 @@ import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import {
   useGeneSummaryQuery,
-  GeneSummaryData,
   FilterSet,
-  useCoreSelector,
+  // useCoreSelector,
   // selectCurrentCohortFilters,
 } from '@/core';
 import { externalLinkNames, externalLinks, humanify } from '../../utils';
@@ -25,6 +24,27 @@ import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDi
 import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
 import { WarningBanner } from '@/components/WarningBanner';
+
+interface GeneSummaryData {
+  symbol: string;
+  name: string;
+  synonyms: Array<string>;
+  biotype: string;
+  gene_chromosome: string;
+  gene_start: number;
+  gene_end: number;
+  gene_strand: number;
+  description: string;
+  is_cancer_gene_census: boolean;
+  civic?: string;
+  gene_id: string;
+  external_db_ids: {
+    entrez_gene: string[];
+    uniprotkb_swissprot: string[];
+    hgnc: string[];
+    omim_gene: string[];
+  };
+}
 
 interface GeneViewProps {
   data: GeneSummaryData;
@@ -89,7 +109,7 @@ const GeneView = ({
     () => (contextSensitive ? contextFilters : undefined),
     [contextFilters, contextSensitive],
   );
-  let cohortFilters: FilterSet = undefined as unknown as FilterSet;
+  const cohortFilters: FilterSet = undefined as unknown as FilterSet;
 
   if (contextSensitive) {
     // if it's for mutation frequency demo use different filter (TCGA-LGG) than the current cohort filter
@@ -183,14 +203,21 @@ const GeneView = ({
 
     Object.keys(externalLinksObj).forEach((link) => {
       const modified = {
-        [`${externalLinkNames[link] || link.replace(/_/, ' ')}`]:
-          externalLinksObj[link]?.length > 0 ? (
+        [`${externalLinkNames[link as keyof typeof externalLinkNames] || link.replace(/_/, ' ')}`]:
+          (externalLinksObj[link as keyof typeof externalLinkNames]
+            ?.length as number) > 0 ? (
             <>
-              {Array.isArray(externalLinksObj[link]) ? (
+              {Array.isArray(
+                externalLinksObj[link as keyof typeof externalLinkNames],
+              ) ? (
                 <CollapsibleList
-                  data={externalLinksObj[link]?.map((item) => (
+                  data={externalLinksObj[
+                    link as keyof typeof externalLinkNames
+                  ]?.map((item: any) => (
                     <AnchorLink
-                      href={externalLinks[link](item)}
+                      href={externalLinks[link as keyof typeof externalLinks](
+                        item,
+                      )}
                       title={item}
                       key={item}
                     />
@@ -198,8 +225,16 @@ const GeneView = ({
                 />
               ) : (
                 <AnchorLink
-                  href={externalLinks[link](externalLinksObj[link])}
-                  title={externalLinksObj[link]}
+                  href={externalLinks[link as keyof typeof externalLinks](
+                    externalLinksObj[
+                      link as keyof typeof externalLinksObj
+                    ] as any,
+                  )}
+                  title={
+                    externalLinksObj[
+                      link as keyof typeof externalLinksObj
+                    ] as any
+                  }
                 />
               )}
             </>
