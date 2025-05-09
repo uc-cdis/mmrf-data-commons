@@ -260,3 +260,10 @@ export interface SSMSData {
   readonly mutation_subtype: string;
   readonly consequence: ReadonlyArray<SSMSConsequence>;
 }
+
+interface TableSubrowItem {
+  project: string;
+  numerator: number;
+  denominator: number;
+}
+export type TableSubrowData = Partial<TableSubrowItem>;

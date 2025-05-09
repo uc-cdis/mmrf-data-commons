@@ -4114,10 +4114,9 @@ interface GeneSummaryQueryParams {
 }
 
 export const useGeneSummaryQuery = ({
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   gene_id,
-} : GeneSummaryQueryParams) => {
-
+}: GeneSummaryQueryParams) => {
   return {
     data: geneSummaryData,
     error: 'none',
@@ -4135,7 +4134,11 @@ interface CNVPlotRequest {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useCnvPlotQuery = ({ gene, cohortFilters, genomicFilters} : CNVPlotRequest) => {
+export const useCnvPlotQuery = ({
+  gene,
+  cohortFilters,
+  genomicFilters,
+}: CNVPlotRequest) => {
   return {
     data: CNVPlotData,
     error: 'none',
@@ -4144,10 +4147,20 @@ export const useCnvPlotQuery = ({ gene, cohortFilters, genomicFilters} : CNVPlot
     isFetching: false,
     isSuccess: true,
   };
-}
+};
 
-
-export const useGetGeneCancerDistributionTableQuery = () => {
+export const useGetGeneCancerDistributionTableQuery = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  gene,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  genomicFilters,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  cohortFilters,
+}: {
+  gene: any;
+  genomicFilters: any;
+  cohortFilters: any;
+}) => {
   return {
     data: CancerDistributionTableData,
     error: 'none',
@@ -4156,7 +4169,7 @@ export const useGetGeneCancerDistributionTableQuery = () => {
     isFetching: false,
     isSuccess: true,
   };
-}
+};
 
 export interface SortOption {
   field: string;
@@ -4179,7 +4192,13 @@ export interface SsmsTableRequestParameters extends TablePageOffsetProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useGetSssmTableDataQuery = ({ geneSymbol, genomicFilters, cohortFilters, tableFilters, _cohortFiltersNoSet } : SsmsTableRequestParameters ) => {
+export const useGetSssmTableDataQuery = ({
+  geneSymbol,
+  genomicFilters,
+  cohortFilters,
+  tableFilters,
+  _cohortFiltersNoSet,
+}: SsmsTableRequestParameters) => {
   return {
     data: SSMSTableData,
     error: 'none',
@@ -4188,4 +4207,154 @@ export const useGetSssmTableDataQuery = ({ geneSymbol, genomicFilters, cohortFil
     isFetching: false,
     isSuccess: true,
   };
-}
+};
+
+export const useGetSomaticMutationTableSubrowQuery = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  id,
+}: {
+  id: string;
+}) => {
+  return {
+    data: [
+      {
+        project: 'TCGA-COAD',
+        numerator: 26,
+        denominator: 428,
+      },
+      {
+        project: 'HCMI-CMDC',
+        numerator: 23,
+        denominator: 513,
+      },
+      {
+        project: 'CPTAC-3',
+        numerator: 19,
+        denominator: 1317,
+      },
+      {
+        project: 'TCGA-BRCA',
+        numerator: 18,
+        denominator: 969,
+      },
+      {
+        project: 'TCGA-OV',
+        numerator: 15,
+        denominator: 419,
+      },
+      {
+        project: 'TCGA-READ',
+        numerator: 13,
+        denominator: 155,
+      },
+      {
+        project: 'TCGA-HNSC',
+        numerator: 12,
+        denominator: 509,
+      },
+      {
+        project: 'TCGA-STAD',
+        numerator: 12,
+        denominator: 434,
+      },
+      {
+        project: 'TCGA-ESCA',
+        numerator: 9,
+        denominator: 184,
+      },
+      {
+        project: 'CPTAC-2',
+        numerator: 8,
+        denominator: 328,
+      },
+      {
+        project: 'TCGA-LGG',
+        numerator: 8,
+        denominator: 513,
+      },
+      {
+        project: 'TCGA-GBM',
+        numerator: 7,
+        denominator: 374,
+      },
+      {
+        project: 'TCGA-UCEC',
+        numerator: 5,
+        denominator: 512,
+      },
+      {
+        project: 'TCGA-LUSC',
+        numerator: 4,
+        denominator: 490,
+      },
+      {
+        project: 'TCGA-PAAD',
+        numerator: 4,
+        denominator: 179,
+      },
+      {
+        project: 'TCGA-SARC',
+        numerator: 4,
+        denominator: 235,
+      },
+      {
+        project: 'BEATAML1.0-COHORT',
+        numerator: 3,
+        denominator: 342,
+      },
+      {
+        project: 'TCGA-BLCA',
+        numerator: 3,
+        denominator: 408,
+      },
+      {
+        project: 'CMI-MBC',
+        numerator: 2,
+        denominator: 174,
+      },
+      {
+        project: 'TCGA-LUAD',
+        numerator: 2,
+        denominator: 559,
+      },
+      {
+        project: 'TCGA-PRAD',
+        numerator: 2,
+        denominator: 496,
+      },
+      {
+        project: 'TCGA-UCS',
+        numerator: 2,
+        denominator: 57,
+      },
+      {
+        project: 'MMRF-COMMPASS',
+        numerator: 1,
+        denominator: 959,
+      },
+      {
+        project: 'MP2PRT-ALL',
+        numerator: 1,
+        denominator: 1487,
+      },
+      {
+        project: 'TARGET-ALL-P2',
+        numerator: 1,
+        denominator: 717,
+      },
+      {
+        project: 'TARGET-WT',
+        numerator: 1,
+        denominator: 38,
+      },
+      {
+        project: 'TCGA-SKCM',
+        numerator: 1,
+        denominator: 470,
+      },
+    ],
+    isError: false,
+    isFetching: false,
+    isSuccess: true,
+  };
+};
