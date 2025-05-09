@@ -20,7 +20,7 @@ import { HeaderTitle } from '@/components/tailwindComponents';
 // import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 //import { overwritingDemoFilterMutationFrequency } from "../genomic/GenesAndMutationFrequencyAnalysisTool";
 import { CollapsibleList } from '@/components/CollapsibleList';
-//import SMTableContainer from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
+import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
 import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
@@ -291,7 +291,7 @@ const GeneView = ({
 
               <div className="mt-8 mb-16">
                 <h1>Placeholder for SMTableContainer</h1>
-                {/*                 <SMTableContainer
+                <SMTableContainer
                   geneSymbol={data.symbol}
                   gene_id={gene_id}
                   cohortFilters={cohortFilters}
@@ -299,7 +299,7 @@ const GeneView = ({
                   isModal={isModal}
                   inModal={isModal}
                   tableTitle="Most Frequent Somatic Mutations"
-                /> */}
+                />
               </div>
             </div>
           </div>
