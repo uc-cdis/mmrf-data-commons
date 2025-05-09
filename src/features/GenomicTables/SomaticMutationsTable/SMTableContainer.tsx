@@ -1,13 +1,11 @@
-import React, {
-  useEffect,
+import React /*   useEffect,
   useState,
   useContext,
   useMemo,
-  useCallback,
-} from 'react';
+  useCallback, */ from 'react';
 import {
   FilterSet,
-  usePrevious,
+  /*  usePrevious,
   useGetSssmTableDataQuery,
   useSsmSetCountQuery,
   useSsmSetCountsQuery,
@@ -22,36 +20,39 @@ import {
   useCoreDispatch,
   buildSSMSTableSearchFilters,
   filterSetToOperation,
-  convertFilterToGqlFilter,
+  convertFilterToGqlFilter, */
 } from '@/core';
-import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
-import { Loader } from '@mantine/core';
-import isEqual from 'lodash/isEqual';
-import SaveSelectionAsSetModal from '@/components/Modals/SetModals/SaveSelectionModal';
-import AddToSetModal from '@/components/Modals/SetModals/AddToSetModal';
-import RemoveFromSetModal from '@/components/Modals/SetModals/RemoveFromSetModal';
-import { statusBooleansToDataStatus } from 'src/utils';
-import FunctionButton from '@/components/FunctionButton';
-import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
-import download from '@/utils/download';
-import { getFormattedTimestamp } from '@/utils/date';
-import { SomaticMutation, SsmToggledHandler } from './types';
-import { SummaryModalContext } from '@/utils/contexts';
-import { HandleChangeInput } from '@/components/Table/types';
+//import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
+//import { Loader } from '@mantine/core';
+//import isEqual from 'lodash/isEqual';
+//import SaveSelectionAsSetModal from '@/components/Modals/SetModals/SaveSelectionModal';
+//import AddToSetModal from '@/components/Modals/SetModals/AddToSetModal';
+//import RemoveFromSetModal from '@/components/Modals/SetModals/RemoveFromSetModal';
+//import { statusBooleansToDataStatus } from 'src/utils';
+//import FunctionButton from '@/components/FunctionButton';
+//import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
+//import download from '@/utils/download';
+//import { getFormattedTimestamp } from '@/utils/date';
 import {
+  //SomaticMutation,
+  SsmToggledHandler,
+} from './types';
+//import { SummaryModalContext } from '@/utils/contexts';
+//import { HandleChangeInput } from '@/components/Table/types';
+/* import {
   ColumnOrderState,
   ExpandedState,
   Row,
   VisibilityState,
-} from '@tanstack/react-table';
-import { getMutation, useGenerateSMTableColumns } from './utils';
-import { appendSearchTermFilters } from '../utils';
-import VerticalTable from '@/components/Table/VerticalTable';
-import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
-import SMTableSubcomponent from './SMTableSubcomponent';
-import { ComparativeSurvival } from '@/features/genomic/types';
-import TotalItems from '@/components/Table/TotalItem';
-import { SET_COUNT_LIMIT } from '@/components/Modals/SetModals/constants';
+} from '@tanstack/react-table'; */
+//import { getMutation, useGenerateSMTableColumns } from './utils';
+//import { appendSearchTermFilters } from '../utils';
+//import VerticalTable from '@/components/Table/VerticalTable';
+//import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
+//import SMTableSubcomponent from './SMTableSubcomponent';
+import { ComparativeSurvival } from '../../genomic/types';
+//import TotalItems from '@/components/Table/TotalItem';
+//import { SET_COUNT_LIMIT } from '@/components/Modals/SetModals/constants';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -98,8 +99,9 @@ export interface SMTableContainerProps {
   case_id?: string;
 }
 
-export const SMTableContainer: React.FC<SMTableContainerProps> = ({
-  selectedSurvivalPlot,
+export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
+  /*  {
+    selectedSurvivalPlot,
   handleSurvivalPlotToggled = undefined,
   geneSymbol = undefined,
   projectId = undefined,
@@ -116,9 +118,10 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   clearSearchTermsForGene,
   gene_id,
   case_id,
-}: SMTableContainerProps) => {
-  return <h1>SMTableContainer Placeholder</h1>;
-  /*
+  }: SMTableContainerProps, */
+  {
+    return <h1>SMTableContainer Placeholder</h1>;
+    /*
   // States for table
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
@@ -582,6 +585,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     </>
   );
   */
-};
+  };
 
 export default SMTableContainer;
