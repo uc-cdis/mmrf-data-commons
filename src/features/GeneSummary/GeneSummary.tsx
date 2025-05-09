@@ -16,13 +16,12 @@ import CNVPlot from '../charts/CNVPlot';
 import SSMPlot from '../charts/SSMPlot';
 import { formatDataForHorizontalTable } from '../files/utils';
 import { LoadingOverlay } from '@mantine/core';
-// import { WarningBanner } from "@/components/WarningBanner";
 import { HeaderTitle } from '@/components/tailwindComponents';
 // import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 //import { overwritingDemoFilterMutationFrequency } from "../genomic/GenesAndMutationFrequencyAnalysisTool";
 import { CollapsibleList } from '@/components/CollapsibleList';
 //import SMTableContainer from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
-//import GeneCancerDistributionTable from "../CancerDistributionTable/GeneCancerDistributionTable";
+import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
 import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
 import { WarningBanner } from '@/components/WarningBanner';
@@ -282,12 +281,12 @@ const GeneView = ({
               </div>
               <div className="mt-8">
                 <h1>Placeholder for GeneCancerDistributionTable</h1>
-                {/*                 <GeneCancerDistributionTable
+                <GeneCancerDistributionTable
                   gene={gene_id}
                   symbol={data.symbol}
                   genomicFilters={genomicFilters}
                   cohortFilters={cohortFilters}
-                /> */}
+                />
               </div>
 
               <div className="mt-8 mb-16">
