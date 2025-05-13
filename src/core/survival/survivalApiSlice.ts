@@ -12,7 +12,7 @@ export const survivalApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
     getSurvivalPlot: builder.query<Survival, SurvivalApiRequest>({
       query: (request: SurvivalApiRequest) => ({
-        url: `${GEN3_API}/metadata`,
+        url: `${GEN3_API}/analysis/survival_plot`,
         method: 'POST',
         body: request,
       }),

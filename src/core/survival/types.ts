@@ -22,3 +22,17 @@ export interface Survival {
   readonly survivalData: ReadonlyArray<SurvivalElement>;
   readonly overallStats: Record<string, number>;
 }
+
+export const emptySurvivalPlot = {
+  overallStats: { pValue: 0.0 },
+  survivalData: [],
+};
+
+export enum SurvivalPlotTypes {
+  gene = "gene",
+  mutation = "mutation",
+  categorical = "categorical",
+  continuous = "continuous",
+  overall = "overall",
+  cohortComparison = "cohortComparison",
+}
