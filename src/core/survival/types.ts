@@ -12,7 +12,7 @@ export interface SurvivalElement {
   readonly donors: ReadonlyArray<SurvivalDonor>;
 }
 
-interface SurvivalApiResponse {
+export interface SurvivalApiResponse {
   readonly results: ReadonlyArray<SurvivalElement>;
   readonly overallStats: Record<string, number>;
   readonly warnings: Record<string, string>;
