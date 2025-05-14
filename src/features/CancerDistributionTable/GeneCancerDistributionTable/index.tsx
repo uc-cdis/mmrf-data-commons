@@ -42,7 +42,7 @@ const GeneCancerDistributionTable: React.FC<
   cohortFilters = undefined,
 }: GeneCancerDistributionTableProps) => {
   const {
-    data: geneCancerDistributionData,
+    data: geneCancerDistributionData = {} as any,
     isFetching,
     isError,
     isSuccess,
@@ -53,7 +53,7 @@ const GeneCancerDistributionTable: React.FC<
   });
 
   const projectKeys = useDeepCompareMemo(
-    () => geneCancerDistributionData?.projects.map((p) => p.key) || [],
+    () => geneCancerDistributionData?.projects.map((p: any) => p.key) || [],
     [geneCancerDistributionData],
   );
 
@@ -75,9 +75,10 @@ const GeneCancerDistributionTable: React.FC<
       size: geneCancerDistributionData?.projects.length,
     });
 
-  const projectsById = useDeepCompareMemo(
+  const projectsById: any = useDeepCompareMemo(
     () =>
-      (projectsData?.projectData || []).reduce(
+      // updated from projectsData?.projectData to get project to compile 5/14/25
+      (projectsData[0]?.projectData || []).reduce(
         (acc, project) => ({
           ...acc,
           [project.project_id]: project,
@@ -90,7 +91,7 @@ const GeneCancerDistributionTable: React.FC<
   const formattedData: CancerDistributionGeneType[] = useDeepCompareMemo(
     () =>
       isSuccess && !projectsFetching
-        ? geneCancerDistributionData?.projects.map((d) => {
+        ? geneCancerDistributionData?.projects.map((d: any) => {
             const row = {
               project: d.key,
               disease_type:
@@ -148,6 +149,7 @@ const GeneCancerDistributionTable: React.FC<
                   ? 0
                   : d.doc_count,
             };
+            console.log('row.disease_type', row.disease_type);
             return row;
           })
         : [],
@@ -178,7 +180,7 @@ const GeneCancerDistributionTable: React.FC<
     '#_cnv_heterozygous_deletions': false,
   });
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
-    cancerDistributionTableColumns.map((column) => column.id), //must start out with populated columnOrder so we can splice
+    cancerDistributionTableColumns.map((column) => column.id as any), //must start out with populated columnOrder so we can splice
   );
 
   const getRowId = useCallback(
@@ -203,10 +205,14 @@ const GeneCancerDistributionTable: React.FC<
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        handlePageSizeChange(obj.newPageSize);
+        if (obj.newPageSize !== undefined) {
+          handlePageSizeChange(obj.newPageSize);
+        }
         break;
       case 'newPageNumber':
-        handlePageChange(obj.newPageNumber);
+        if (obj.newPageNumber !== undefined) {
+          handlePageChange(obj.newPageNumber);
+        }
         break;
     }
   };
@@ -224,7 +230,7 @@ const GeneCancerDistributionTable: React.FC<
     } else if ((row.original[columnId] as string[]).length > 1) {
       setExpanded({ [row.original.project]: true });
       setExpandedColumnId(columnId);
-      setExpandedRowId(row.original.project);
+      setExpandedRowId(row.original.project as any);
     }
   };
 
@@ -247,8 +253,8 @@ const GeneCancerDistributionTable: React.FC<
           <FunctionButton
             onClick={() =>
               handleTSVDownloadGene(
-                updatedFullData,
-                cancerDistributionTableColumns,
+                updatedFullData as any,
+                cancerDistributionTableColumns as any,
               )
             }
             disabled={isFetching}
