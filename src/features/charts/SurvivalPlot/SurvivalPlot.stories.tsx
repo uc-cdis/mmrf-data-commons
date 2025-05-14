@@ -66,8 +66,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const Template = (args: Record<string, unknown>) => <SurvivalPlotWrapped {...args} />;
-
 export const Default: Story = {
   args: {
   },
