@@ -211,9 +211,11 @@ const GeneView = ({
                 externalLinksObj[link as keyof typeof externalLinkNames],
               ) ? (
                 <CollapsibleList
-                  data={externalLinksObj[
-                    link as keyof typeof externalLinkNames
-                  ]?.map((item: any) => (
+                  data={(
+                    externalLinksObj[
+                      link as keyof typeof externalLinkNames
+                    ] as string[]
+                  ).map((item) => (
                     <AnchorLink
                       href={externalLinks[link as keyof typeof externalLinks](
                         item,
@@ -227,13 +229,18 @@ const GeneView = ({
                 <AnchorLink
                   href={externalLinks[link as keyof typeof externalLinks](
                     externalLinksObj[
-                      link as keyof typeof externalLinksObj
-                    ] as any,
+                      link as keyof typeof externalLinkNames
+                    ] as string,
                   )}
                   title={
                     externalLinksObj[
-                      link as keyof typeof externalLinksObj
-                    ] as any
+                      link as keyof typeof externalLinkNames
+                    ] as string
+                  }
+                  key={
+                    externalLinksObj[
+                      link as keyof typeof externalLinkNames
+                    ] as string
                   }
                 />
               )}
