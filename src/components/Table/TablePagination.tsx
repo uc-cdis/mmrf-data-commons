@@ -109,7 +109,7 @@ function TablePagination<TData>({
       </div>
       <Pagination
         data-testid="pagination"
-        color="accent.5"
+        color="primary"
         className="mt-4 gap-1 mx-auto xl:mx-0 xl:gap-2 xl:mr-0 xl:mt-0"
         value={pageOn}
         onChange={handlePageChange}

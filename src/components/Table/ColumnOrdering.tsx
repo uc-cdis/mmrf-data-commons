@@ -134,7 +134,7 @@ function ColumnOrdering<TData>({
                 data-testid="restore-default-icon"
                 aria-label="restore default column ordering"
               >
-                <UndoIcon className="text-primary" size="1rem" />
+                <UndoIcon size="1rem" />
               </ActionIcon>
             </span>
           </Tooltip>
@@ -247,8 +247,7 @@ function DraggableColumnItem<TData>({
           classNames={{
             root: 'w-full',
             body: 'grow flex justify-between',
-            label:
-              'text-xs text-secondary-contrast-lighter font-medium tracking-normal',
+            label: 'text-xs font-medium tracking-normal',
           }}
           color="accent"
           checked={column.getIsVisible()}
