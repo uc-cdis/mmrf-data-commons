@@ -322,7 +322,6 @@ const GeneView = ({
                 />
               </div>
               <div className="mt-8">
-                <h1>Placeholder for GeneCancerDistributionTable</h1>
                 <GeneCancerDistributionTable
                   gene={gene_id}
                   symbol={data.symbol}
@@ -332,7 +331,6 @@ const GeneView = ({
               </div>
 
               <div className="mt-8 mb-16">
-                <h1>Placeholder for SMTableContainer</h1>
                 <SMTableContainer
                   geneSymbol={data.symbol}
                   gene_id={gene_id}

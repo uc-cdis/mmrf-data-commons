@@ -120,7 +120,11 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
   case_id,
   }: SMTableContainerProps, */
   {
-    return <h1>SMTableContainer Placeholder</h1>;
+    return (
+      <div className="bg-base-lightest border-black h-40 w-full text-center pt-10 align-middle text-2xl">
+        SMTableContainer Placeholder
+      </div>
+    );
     /*
   // States for table
   const [pageSize, setPageSize] = useState(10);
