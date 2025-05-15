@@ -149,7 +149,6 @@ const GeneCancerDistributionTable: React.FC<
                   ? 0
                   : d.doc_count,
             };
-            console.log('row.disease_type', row.disease_type);
             return row;
           })
         : [],
