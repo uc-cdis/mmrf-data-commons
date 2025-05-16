@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Table } from '@mantine/core';
+import { Accordion, Table, ScrollArea } from '@mantine/core';
 import { PlotData } from 'plotly.js';
 
 export interface BarChartData {
@@ -44,16 +44,19 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
 
   const ChartDataTable = (
     <>
-      <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Value</Table.Th>
-            <Table.Th>Cases Affected</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
+      {' '}
+      <ScrollArea h={300}>
+        <Table>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Value</Table.Th>
+              <Table.Th>Cases Affected</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </ScrollArea>
     </>
   );
 
