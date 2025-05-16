@@ -204,7 +204,6 @@ const BarChart: React.FC<BarChartProps> = ({
         className="w-full h-full"
         onAfterPlot={onAfterPlot}
       />
-      <BarChartTextVersion data={chartData} />
     </>
   );
 };

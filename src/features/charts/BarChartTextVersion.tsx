@@ -44,7 +44,6 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
 
   const ChartDataTable = (
     <>
-      {' '}
       <ScrollArea h={300}>
         <Table>
           <Table.Thead>
