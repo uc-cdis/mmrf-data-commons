@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config, Layout, PlotMouseEvent, PlotData } from 'plotly.js';
 import Plot from 'react-plotly.js';
+import BarChartTextVersion from './BarChartTextVersion';
 
 export interface BarChartData {
   datasets: Partial<PlotData>[];
@@ -192,16 +193,19 @@ const BarChart: React.FC<BarChartProps> = ({
   };
 
   return (
-    <Plot
-      divId={divId}
-      data={chartData as any}
-      layout={layout}
-      config={config}
-      useResizeHandler={true}
-      onClick={onClickHandler}
-      className="w-full h-full"
-      onAfterPlot={onAfterPlot}
-    />
+    <>
+      <Plot
+        divId={divId}
+        data={chartData as any}
+        layout={layout}
+        config={config}
+        useResizeHandler={true}
+        onClick={onClickHandler}
+        className="w-full h-full"
+        onAfterPlot={onAfterPlot}
+      />
+      <BarChartTextVersion data={chartData} />
+    </>
   );
 };
 
