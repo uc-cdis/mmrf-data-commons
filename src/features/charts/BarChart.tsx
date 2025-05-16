@@ -1,7 +1,6 @@
 import React from 'react';
 import { Config, Layout, PlotMouseEvent, PlotData } from 'plotly.js';
 import Plot from 'react-plotly.js';
-import BarChartTextVersion from './BarChartTextVersion';
 
 export interface BarChartData {
   datasets: Partial<PlotData>[];
