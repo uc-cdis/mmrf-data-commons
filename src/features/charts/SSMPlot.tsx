@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { FilterSet, useSsmPlotQuery } from '@/core';
 import ChartTitleBar from './ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
+import BarChartTextVersion from './BarChartTextVersion';
 
 const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
@@ -149,6 +150,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           onClickHandler={onClickHandler}
           height={height}
         />
+        <BarChartTextVersion data={chartData.datasets} />
       </div>
     </div>
   );
