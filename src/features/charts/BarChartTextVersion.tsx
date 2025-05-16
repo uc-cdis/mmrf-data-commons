@@ -2,18 +2,8 @@ import React from 'react';
 import { Accordion, Table, ScrollArea } from '@mantine/core';
 import { PlotData } from 'plotly.js';
 
-export interface BarChartData {
-  datasets: Partial<PlotData>[];
-  yAxisTitle?: string;
-  tickvals?: number[];
-  ticktext?: string[];
-  label_text?: string[] | number[];
-  title?: string;
-  filename?: string;
-}
-
 interface BarChartTextVersionProps {
-  readonly data: BarChartData;
+  readonly data: any;
 }
 
 const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
@@ -22,28 +12,30 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   interface DataPoint {
     name: string;
     value: number;
+    customdata: number[];
   }
 
-  const transformedData = data[0].x.map((name: string, index: number) => ({
+  console.log('data', data);
+  const transformedData = data[0]?.x?.map((name: string, index: number) => ({
     name,
     value: data[0].y[index],
     customdata: data[0].customdata[index],
   }));
-  console.log('transformedData', transformedData);
 
-  const rows = transformedData.map((element) => (
-    <Table.Tr key={element.name}>
-      <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.value}</Table.Td>
+  const rows = transformedData.map((rowData) => (
+    <Table.Tr key={rowData.name}>
+      <Table.Td>{rowData.name}</Table.Td>
+      <Table.Td>{rowData.value}</Table.Td>
       <Table.Td>
-        {element.customdata[0]} / {element.customdata[1]} (
-        {element.value.toFixed(2)})%
+        {rowData.customdata[0]} / {rowData.customdata[1]} (
+        {rowData.value.toFixed(2)})%
       </Table.Td>
     </Table.Tr>
   ));
 
-  const ChartDataTable = (
+  const ChartTextVersionTable = (
     <>
+      {JSON.stringify(data)}
       <ScrollArea h={300}>
         <Table>
           <Table.Thead>
@@ -64,7 +56,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
       <Accordion>
         <Accordion.Item value="textVersion">
           <Accordion.Control>{`Text Version`}</Accordion.Control>
-          <Accordion.Panel>{ChartDataTable}</Accordion.Panel>
+          <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
         </Accordion.Item>
       </Accordion>
     </>

@@ -193,18 +193,16 @@ const BarChart: React.FC<BarChartProps> = ({
   };
 
   return (
-    <>
-      <Plot
-        divId={divId}
-        data={chartData as any}
-        layout={layout}
-        config={config}
-        useResizeHandler={true}
-        onClick={onClickHandler}
-        className="w-full h-full"
-        onAfterPlot={onAfterPlot}
-      />
-    </>
+    <Plot
+      divId={divId}
+      data={chartData as any}
+      layout={layout}
+      config={config}
+      useResizeHandler={true}
+      onClick={onClickHandler}
+      className="w-full h-full"
+      onAfterPlot={onAfterPlot}
+    />
   );
 };
 
