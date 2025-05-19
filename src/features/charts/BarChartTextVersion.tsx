@@ -34,18 +34,20 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   ));
 
   const ChartTextVersionTable = (
-    <ScrollArea h={maxHeightOfScrollArea}>
-      <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Value</Table.Th>
-            <Table.Th>Cases Affected</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </ScrollArea>
+    <div data-testid="chart-text-version">
+      <ScrollArea h={maxHeightOfScrollArea}>
+        <Table>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Value</Table.Th>
+              <Table.Th>Cases Affected</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </ScrollArea>
+    </div>
   );
 
   return (
