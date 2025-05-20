@@ -23,7 +23,10 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const testIds = ['graph-cancer-distribution-mutations'];
+    const testIds = [
+      'graph-cancer-distribution-mutations',
+      'chart-text-version',
+    ];
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
