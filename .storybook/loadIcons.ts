@@ -29,6 +29,4 @@ const icons: RegisteredIcons[] = [
   mmrfIcons
 ];
 
-console.log(icons);
-
 export default icons;
