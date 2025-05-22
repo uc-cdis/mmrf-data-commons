@@ -106,10 +106,8 @@ export const useGenerateSMTableColumns = ({
         ),
         enableHiding: false,
       }),
-      /*
       ...(!geneSymbol && !projectId
-        ? []
-        : [
+        ? [
             SMTableColumnHelper.display({
               id: 'cohort',
               header: () => (
@@ -132,9 +130,10 @@ export const useGenerateSMTableColumns = ({
               ),
             }),
           ]
-          []),
+        : []),
+
       ...(!geneSymbol && !projectId
-        ? [] [
+        ? [
             SMTableColumnHelper.display({
               id: 'survival',
               header: () => (
@@ -161,6 +160,7 @@ export const useGenerateSMTableColumns = ({
         id: 'mutation_id',
         header: 'Mutation ID',
       }),
+
       SMTableColumnHelper.display({
         id: 'dna_change',
         header: () => (
@@ -182,6 +182,7 @@ export const useGenerateSMTableColumns = ({
           />
         ),
       }),
+      /*
       SMTableColumnHelper.display({
         id: 'protein_change',
         header: 'Protein Change',
