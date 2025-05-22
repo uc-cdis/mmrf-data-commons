@@ -75,6 +75,8 @@ export const useGenerateSMTableColumns = ({
     ColumnDef<SomaticMutation>[]
   >(
     () => [
+      // HIDE CHECKBOX FOR NOW SINCE NOT SUPPORTING MODALS OR FILTERING ETC
+      /*
       SMTableColumnHelper.display({
         id: 'select',
         header: ({ table }) => (
@@ -106,6 +108,7 @@ export const useGenerateSMTableColumns = ({
         ),
         enableHiding: false,
       }),
+      */
       ...(!geneSymbol && !projectId
         ? [
             SMTableColumnHelper.display({
@@ -242,7 +245,7 @@ export const useGenerateSMTableColumns = ({
           />
         ),
       }),
-      /*
+
       SMTableColumnHelper.display({
         id: '#_affected_cases_across_the_gdc',
         header: () => (
@@ -284,7 +287,7 @@ export const useGenerateSMTableColumns = ({
         id: 'impact',
         header: () => <ImpactHeaderWithTooltip />,
         cell: ({ row }) => <SMTableImpacts impact={row.original.impact} />,
-      }), */
+      }),
     ],
     [
       geneSymbol,
