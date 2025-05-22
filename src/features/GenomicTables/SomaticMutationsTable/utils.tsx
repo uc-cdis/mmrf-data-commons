@@ -182,7 +182,7 @@ export const useGenerateSMTableColumns = ({
           />
         ),
       }),
-      /*
+
       SMTableColumnHelper.display({
         id: 'protein_change',
         header: 'Protein Change',
@@ -196,6 +196,7 @@ export const useGenerateSMTableColumns = ({
           />
         ),
       }),
+
       SMTableColumnHelper.accessor('type', {
         id: 'type',
         header: 'Type',
@@ -234,23 +235,14 @@ export const useGenerateSMTableColumns = ({
           />
         ),
         cell: ({ row }) => (
-          <CohortCreationButton
-            label={
-              <NumeratorDenominator
-                numerator={row.original['#_affected_cases_in_cohort'].numerator}
-                denominator={
-                  row.original['#_affected_cases_in_cohort'].denominator
-                }
-                boldNumerator={true}
-              />
-            }
-            numCases={row.original['#_affected_cases_in_cohort'].numerator}
-            filters={generateFilters(row.original.mutation_id)}
-            caseFilters={cohortFilters}
-            createStaticCohort
+          <NumeratorDenominator
+            numerator={row.original['#_affected_cases_in_cohort'].numerator}
+            denominator={row.original['#_affected_cases_in_cohort'].denominator}
+            boldNumerator={true}
           />
         ),
       }),
+      /*
       SMTableColumnHelper.display({
         id: '#_affected_cases_across_the_gdc',
         header: () => (
