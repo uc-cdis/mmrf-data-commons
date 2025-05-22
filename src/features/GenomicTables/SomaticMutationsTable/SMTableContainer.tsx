@@ -1,58 +1,54 @@
-import React /*   useEffect,
-  useState,
-  useContext,
-  useMemo,
-  useCallback, */ from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import {
   FilterSet,
-  /*  usePrevious,
+  // usePrevious,
   useGetSssmTableDataQuery,
-  useSsmSetCountQuery,
-  useSsmSetCountsQuery,
-  useAppendToSsmSetMutation,
-  useRemoveFromSsmSetMutation,
-  useCreateSsmsSetFromFiltersMutation,
-  useCreateTopNSsmsSetFromFiltersMutation,
-  useCoreSelector,
-  selectSetsByType,
-  joinFilters,
-  buildCohortGqlOperator,
-  useCoreDispatch,
-  buildSSMSTableSearchFilters,
-  filterSetToOperation,
-  convertFilterToGqlFilter, */
+  // useSsmSetCountQuery,
+  // useSsmSetCountsQuery,
+  // useAppendToSsmSetMutation,
+  // useRemoveFromSsmSetMutation,
+  // useCreateSsmsSetFromFiltersMutation,
+  // useCreateTopNSsmsSetFromFiltersMutation,
+  // useCoreSelector,
+  // selectSetsByType,
+  // joinFilters,
+  // buildCohortGqlOperator,
+  // useCoreDispatch,
+  // buildSSMSTableSearchFilters,
+  // filterSetToOperation,
+  // convertFilterToGqlFilter,
 } from '@/core';
-//import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
-//import { Loader } from '@mantine/core';
-//import isEqual from 'lodash/isEqual';
-//import SaveSelectionAsSetModal from '@/components/Modals/SetModals/SaveSelectionModal';
-//import AddToSetModal from '@/components/Modals/SetModals/AddToSetModal';
-//import RemoveFromSetModal from '@/components/Modals/SetModals/RemoveFromSetModal';
-//import { statusBooleansToDataStatus } from 'src/utils';
-//import FunctionButton from '@/components/FunctionButton';
-//import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
-//import download from '@/utils/download';
-//import { getFormattedTimestamp } from '@/utils/date';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
+import { Loader } from '@mantine/core';
+import isEqual from 'lodash/isEqual';
+// import SaveSelectionAsSetModal from '@/components/Modals/SetModals/SaveSelectionModal';
+// import AddToSetModal from '@/components/Modals/SetModals/AddToSetModal';
+// import RemoveFromSetModal from '@/components/Modals/SetModals/RemoveFromSetModal';
+import { statusBooleansToDataStatus } from '../../../utils';
+import FunctionButton from '@/components/FunctionButton';
+import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
+import download from '../../../utils/download';
+import { getFormattedTimestamp } from '@/utils/date';
+import { SomaticMutation, SsmToggledHandler } from './types';
+import { SummaryModalContext } from '@/utils/contexts';
+import { HandleChangeInput } from '@/components/Table/types';
 import {
-  //SomaticMutation,
-  SsmToggledHandler,
-} from './types';
-//import { SummaryModalContext } from '@/utils/contexts';
-//import { HandleChangeInput } from '@/components/Table/types';
-/* import {
   ColumnOrderState,
   ExpandedState,
   Row,
   VisibilityState,
-} from '@tanstack/react-table'; */
-//import { getMutation, useGenerateSMTableColumns } from './utils';
-//import { appendSearchTermFilters } from '../utils';
-//import VerticalTable from '@/components/Table/VerticalTable';
-//import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
-//import SMTableSubcomponent from './SMTableSubcomponent';
-import { ComparativeSurvival } from '../../genomic/types';
-//import TotalItems from '@/components/Table/TotalItem';
-//import { SET_COUNT_LIMIT } from '@/components/Modals/SetModals/constants';
+} from '@tanstack/react-table';
+import {
+  getMutation,
+  useGenerateSMTableColumns,
+  // appendSearchTermFilters,
+} from './utils';
+import VerticalTable from '@/components/Table/VerticalTable';
+// import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
+import SMTableSubcomponent from './SMTableSubcomponent';
+import { ComparativeSurvival } from '@/features/genomic/types';
+import TotalItems from '@/components/Table/TotalItem';
+// import { SET_COUNT_LIMIT } from '@/components/Modals/SetModals/constants';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -99,9 +95,8 @@ export interface SMTableContainerProps {
   case_id?: string;
 }
 
-export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
-  /*  {
-    selectedSurvivalPlot,
+export const SMTableContainer: React.FC<SMTableContainerProps> = ({
+  selectedSurvivalPlot,
   handleSurvivalPlotToggled = undefined,
   geneSymbol = undefined,
   projectId = undefined,
@@ -118,15 +113,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
   clearSearchTermsForGene,
   gene_id,
   case_id,
-  }: SMTableContainerProps, */
-  {
-    return (
-      <div className="bg-base-lightest border-black h-40 w-full text-center pt-10 align-middle text-2xl">
-        SMTableContainer Placeholder
-      </div>
-    );
-    /*
-  // States for table
+}: SMTableContainerProps) => {
+  /* States for table */
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(
@@ -138,16 +126,18 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
     setDownloadMutationsFrequencyTSVActive,
   ] = useState(false);
 
-  const dispatch = useCoreDispatch();
-  const { setEntityMetadata } = useContext(SummaryModalContext);
+  // const dispatch = useCoreDispatch();
+  const dispatch = null;
+  // const { setEntityMetadata } = useContext(SummaryModalContext);
+  const setEntityMetadata = null;
+  /* Modal start
 
-  // Modal start /
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
-  // Modal end
+   Modal end */
 
-  const genomicFiltersWithPossibleGeneSymbol = geneSymbol
+  /*   const genomicFiltersWithPossibleGeneSymbol = geneSymbol
     ? joinFilters(
         {
           mode: 'and',
@@ -161,18 +151,20 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
         },
         genomicFilters,
       )
-    : genomicFilters;
+    : genomicFilters; */
+  const genomicFiltersWithPossibleGeneSymbol = genomicFilters;
 
-  const searchFilters = buildSSMSTableSearchFilters(searchTerm);
+  /* const searchFilters = buildSSMSTableSearchFilters(searchTerm);
   const genomicTableFilters = appendSearchTermFilters(
     genomicFiltersWithPossibleGeneSymbol,
     searchFilters,
   );
   const caseTableFilters = appendSearchTermFilters(caseFilter, searchFilters);
+ */
+  // const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
-  const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
-
-  // SM Table Call
+  const tableFilters = {};
+  /* SM Table Call */
   const { data, isSuccess, isFetching, isError, isUninitialized } =
     useGetSssmTableDataQuery({
       pageSize: pageSize,
@@ -184,7 +176,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       tableFilters,
     });
 
-  // SM Table Call end
+  console.log('data', data);
+  /* SM Table Call end */
 
   useEffect(() => {
     if (searchTerm === '' && clearSearchTermsForGene) {
@@ -192,7 +185,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
     }
   }, [searchTerm, clearSearchTermsForGene]);
 
-  const generateFilters = useDeepCompareCallback(
+  /*   const generateFilters = useDeepCompareCallback(
     (ssmId: string) => {
       return joinFilters(genomicFilters, {
         mode: 'and',
@@ -206,11 +199,14 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       } as FilterSet);
     },
     [genomicFilters],
-  );
-  // Create Cohort end
+  ); */
+  const generateFilters = () => null;
 
-  const sets = useCoreSelector((state) => selectSetsByType(state, 'ssms'));
-  const prevGenomicFilters = usePrevious(genomicFilters);
+  /* Create Cohort end  */
+
+  // const sets = useCoreSelector((state: any) => selectSetsByType(state, 'ssms'));
+  const sets = null;
+  /*   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
   useEffect(() => {
     if (
@@ -218,7 +214,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       !isEqual(prevCohortFilters, cohortFilters)
     )
       setPage(1);
-  }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]);
+  }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]); */
 
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
@@ -280,12 +276,14 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
     ([mutation_id]) => mutation_id,
   );
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
-    SMTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
+    SMTableDefaultColumns.map((column: any) => column.id as string), //must start out with populated columnOrder so we can splice
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     mutation_id: false,
   });
 
+  // OMITTING FILTERS
+  /*
   const setFilters =
     selectedMutations.length > 0
       ? ({
@@ -299,15 +297,17 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
           mode: 'and',
         } as FilterSet)
       : tableFilters;
-
-  const handleTSVGeneDownload = () => {
+    */
+  /*   const handleTSVGeneDownload = () => {
     setDownloadMutationsFrequencyTSVActive(true);
     download({
       endpoint: '/analysis/top_ssms_by_gene',
       method: 'POST',
       params: {
-        filters: buildCohortGqlOperator(tableFilters) ?? {},
-        case_filters: buildCohortGqlOperator(cohortFilters) ?? {},
+        // filters: buildCohortGqlOperator(tableFilters) ?? {},
+        filters: {},
+        // case_filters: buildCohortGqlOperator(cohortFilters) ?? {},
+        case_filters: {},
         gene_id,
         attachment: true,
         filename: `frequent-mutations.${getFormattedTimestamp()}.tsv`,
@@ -315,23 +315,24 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       dispatch,
       done: () => setDownloadMutationsFrequencyTSVActive(false),
     });
-  };
+  }; */
 
-  const handleTSVCaseDownload = () => {
+  /*   const handleTSVCaseDownload = () => {
     setDownloadMutationsFrequencyTSVActive(true);
     download({
       endpoint: '/analysis/top_ssms_by_case',
       method: 'POST',
       params: {
         case_id,
-        filters: buildCohortGqlOperator(tableFilters) ?? {},
+        // filters: buildCohortGqlOperator(tableFilters) ?? {},
+        filters: {},
         attachment: true,
         filename: `frequent-mutations.${getFormattedTimestamp()}.tsv`,
       },
       dispatch,
       done: () => setDownloadMutationsFrequencyTSVActive(false),
     });
-  };
+  }; */
 
   const handleTSVDownload = () => {
     setDownloadMutationsFrequencyTSVActive(true);
@@ -340,8 +341,10 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       endpoint: '/analysis/top_ssms',
       method: 'POST',
       params: {
-        filters: buildCohortGqlOperator(tableFilters) ?? {},
-        case_filters: buildCohortGqlOperator(cohortFilters) ?? {},
+        // filters: buildCohortGqlOperator(tableFilters) ?? {},
+        filters: {},
+        // case_filters: buildCohortGqlOperator(cohortFilters) ?? {},
+        case_filters: {},
         attachment: true,
         filename: `frequent-mutations.${getFormattedTimestamp()}.tsv`,
       },
@@ -353,23 +356,23 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        setPageSize(parseInt(obj.newPageSize));
+        setPageSize(parseInt(obj.newPageSize as string));
         setPage(1);
         break;
       case 'newPageNumber':
         setExpanded({});
-        setPage(obj.newPageNumber);
+        setPage(obj.newPageNumber as number);
         break;
       case 'newSearch':
         setExpanded({});
-        setSearchTerm(obj.newSearch);
+        setSearchTerm(obj.newSearch as string);
         setPage(1);
         break;
     }
   };
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState('');
   const handleExpand = (row: Row<SomaticMutation>) => {
     if (
       Object.keys(expanded).length > 0 &&
@@ -384,7 +387,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
     }
   };
 
-  const handleSaveSelectionAsSetModalClose = useCallback(
+  /* const handleSaveSelectionAsSetModalClose = useCallback(
     () => setShowSaveModal(false),
     [],
   );
@@ -397,11 +400,12 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
   const handleRemoveFromSetModalClose = useCallback(
     () => setShowRemoveModal(false),
     [],
-  );
+  ); */
 
+  /*
   const operationCohortFilters = filterSetToOperation(cohortFilters);
   const operationSetFilters = filterSetToOperation(setFilters);
-
+  */
   return (
     <>
       {caseFilter && searchTerm.length === 0 && data?.ssmsTotal === 0 ? null : (
@@ -417,6 +421,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
 
           {isUninitialized || isFetching ? null : (
             <>
+              <h1>Omitting Modal</h1>
+              {/*
               <SaveSelectionAsSetModal
                 opened={showSaveModal}
                 cohortFilters={
@@ -484,6 +490,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
                 closeModal={handleRemoveFromSetModalClose}
                 removeFromSetHook={useRemoveFromSsmSetMutation}
               />
+              */}
             </>
           )}
           {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
@@ -494,7 +501,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
             columns={SMTableDefaultColumns}
             additionalControls={
               <div className="flex gap-2 items-center">
-                <DropdownWithIcon
+                <h1>Omitting DropdownWithIcon</h1>
+                {/*<DropdownWithIcon
                   dropdownElements={[
                     {
                       title: 'Save as new mutation set',
@@ -525,13 +533,15 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
                   customPosition="bottom-start"
                   customDataTestId="button-save-edit-mutation-set"
                 />
+                */}
 
                 {caseFilter || geneSymbol ? (
                   <FunctionButton
                     data-testid="button-tsv-mutation-frequency"
-                    onClick={
+                    /*         onClick={
                       caseFilter ? handleTSVCaseDownload : handleTSVGeneDownload
-                    }
+                    } */
+                    onClick={() => alert('hello world')}
                     aria-label="Download TSV"
                     disabled={isFetching}
                   >
@@ -588,7 +598,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = () =>
       )}
     </>
   );
-  */
-  };
+};
 
 export default SMTableContainer;
