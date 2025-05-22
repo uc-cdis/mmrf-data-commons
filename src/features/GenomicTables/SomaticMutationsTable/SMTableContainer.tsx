@@ -176,6 +176,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       tableFilters,
     });
 
+  console.log('data', data);
   /* SM Table Call end */
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import React from 'react';
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
 import { humanify } from '@/utils/index';
 import { SSMSData, FilterSet } from '@/core';
@@ -105,9 +106,10 @@ export const useGenerateSMTableColumns = ({
         ),
         enableHiding: false,
       }),
-
+      /*
       ...(!geneSymbol && !projectId
-        ? [
+        ? []
+        : [
             SMTableColumnHelper.display({
               id: 'cohort',
               header: () => (
@@ -130,9 +132,9 @@ export const useGenerateSMTableColumns = ({
               ),
             }),
           ]
-        : []),
+          []),
       ...(!geneSymbol && !projectId
-        ? [
+        ? [] [
             SMTableColumnHelper.display({
               id: 'survival',
               header: () => (
@@ -172,8 +174,10 @@ export const useGenerateSMTableColumns = ({
           <SMTableDNAChange
             DNAChange={row.original.dna_change}
             mutationID={row.original.mutation_id}
-            isModal={isModal}
-            geneSymbol={geneSymbol}
+            // isModal={isModal}
+            isModal={false}
+            // geneSymbol={geneSymbol}
+            geneSymbol={null}
             setEntityMetadata={setEntityMetadata}
           />
         ),
@@ -287,7 +291,7 @@ export const useGenerateSMTableColumns = ({
         id: 'impact',
         header: () => <ImpactHeaderWithTooltip />,
         cell: ({ row }) => <SMTableImpacts impact={row.original.impact} />,
-      }),
+      }), */
     ],
     [
       geneSymbol,
