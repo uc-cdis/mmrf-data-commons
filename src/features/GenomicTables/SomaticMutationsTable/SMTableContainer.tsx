@@ -49,6 +49,7 @@ import VerticalTable from '@/components/Table/VerticalTable';
 import SMTableSubcomponent from './SMTableSubcomponent';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import TotalItems from '@/components/Table/TotalItem';
+import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 // import { SET_COUNT_LIMIT } from '@/components/Modals/SetModals/constants';
 
 export interface SMTableContainerProps {
@@ -121,6 +122,23 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
+  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState();
+
+  useEffect(() => {
+    console.log('searchTerm:', searchTerm);
+    console.log('formattedTableData', formattedTableData);
+    console.log(
+      'search Results',
+      SMTableClientSideSearch(formattedTableData, searchTerm),
+    );
+    if (searchTerm.length > 0) {
+      setDisplayedDataAfterSearch(
+        SMTableClientSideSearch(formattedTableData, searchTerm),
+      );
+    } else {
+      setDisplayedDataAfterSearch(formattedTableData);
+    }
+  }, [searchTerm]);
 
   const [
     downloadMutationsFrequencyTSVActive,
@@ -409,21 +427,23 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   return (
     <>
-      {caseFilter && searchTerm.length === 0 && data?.ssmsTotal === 0 ? null : (
-        <>
-          {searchTermsForGene?.geneSymbol && (
-            <div id="announce" aria-live="polite" className="sr-only">
-              <p>
-                You are now viewing the Mutations table filtered by
-                {searchTermsForGene.geneSymbol}
-              </p>
-            </div>
-          )}
+      {
+        /*caseFilter &&*/
+        searchTerm.length === 0 && data?.ssmsTotal === 0 ? null : (
+          <>
+            {searchTermsForGene?.geneSymbol && (
+              <div id="announce" aria-live="polite" className="sr-only">
+                <p>
+                  You are now viewing the Mutations table filtered by
+                  {searchTermsForGene.geneSymbol}
+                </p>
+              </div>
+            )}
 
-          {isUninitialized || isFetching ? null : (
-            <>
-              <h1>Omitting Modal</h1>
-              {/*
+            {isUninitialized || isFetching ? null : (
+              <>
+                <h1>Omitting Modal</h1>
+                {/*
               <SaveSelectionAsSetModal
                 opened={showSaveModal}
                 cohortFilters={
@@ -492,18 +512,19 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
                 removeFromSetHook={useRemoveFromSsmSetMutation}
               />
               */}
-            </>
-          )}
-          {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
+              </>
+            )}
+            {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
 
-          <VerticalTable
-            customDataTestID="table-most-frequent-somatic-mutations"
-            data={formattedTableData ?? []}
-            columns={SMTableDefaultColumns}
-            additionalControls={
-              <div className="flex gap-2 items-center">
-                <h1>Omitting DropdownWithIcon</h1>
-                {/*<DropdownWithIcon
+            <VerticalTable
+              customDataTestID="table-most-frequent-somatic-mutations"
+              // data={formattedTableData ?? []}
+              data={displayedDataAfterSearch ?? []}
+              columns={SMTableDefaultColumns}
+              additionalControls={
+                <div className="flex gap-2 items-center">
+                  <h1>Omitting DropdownWithIcon</h1>
+                  {/*<DropdownWithIcon
                   dropdownElements={[
                     {
                       title: 'Save as new mutation set',
@@ -536,53 +557,65 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
                 />
                 */}
 
-                <FunctionButton
-                  data-testid="button-tsv-mutation-frequency"
-                  /*         onClick={
+                  <FunctionButton
+                    data-testid="button-tsv-mutation-frequency"
+                    /*         onClick={
                       caseFilter ? handleTSVCaseDownload : handleTSVGeneDownload
                     } */
-                  onClick={() =>
-                    handleTSVDownload(
-                      formattedTableData ?? [],
-                      SMTableDefaultColumns,
-                    )
-                  }
-                  aria-label="Download TSV"
-                  disabled={isFetching}
-                >
-                  TSV
-                </FunctionButton>
-              </div>
-            }
-            search={{
-              enabled: true,
-              defaultSearchTerm: searchTerm,
-              tooltip: 'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
-            }}
-            tableTotalDetail={
-              <TotalItems total={data?.ssmsTotal} itemName="somatic mutation" />
-            }
-            pagination={pagination}
-            showControls={true}
-            enableRowSelection={true}
-            setRowSelection={setRowSelection}
-            rowSelection={rowSelection}
-            status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
-            getRowCanExpand={() => true}
-            expandableColumnIds={['#_affected_cases_across_the_gdc']}
-            renderSubComponent={({ row }) => <SMTableSubcomponent row={row} />}
-            handleChange={handleChange}
-            setColumnVisibility={setColumnVisibility}
-            columnVisibility={columnVisibility}
-            columnOrder={columnOrder}
-            setColumnOrder={setColumnOrder}
-            expanded={expanded}
-            setExpanded={handleExpand}
-            getRowId={getRowId}
-            baseZIndex={inModal ? 300 : 0}
-          />
-        </>
-      )}
+                    onClick={() =>
+                      handleTSVDownload(
+                        formattedTableData ?? [],
+                        SMTableDefaultColumns,
+                      )
+                    }
+                    aria-label="Download TSV"
+                    disabled={isFetching}
+                  >
+                    TSV
+                  </FunctionButton>
+                </div>
+              }
+              search={{
+                enabled: true,
+                defaultSearchTerm: searchTerm,
+                tooltip:
+                  'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
+              }}
+              tableTotalDetail={
+                <TotalItems
+                  // total={data?.ssmsTotal}
+                  total={displayedDataAfterSearch.length + 1}
+                  itemName="somatic mutation"
+                />
+              }
+              pagination={pagination}
+              showControls={true}
+              enableRowSelection={true}
+              setRowSelection={setRowSelection}
+              rowSelection={rowSelection}
+              status={statusBooleansToDataStatus(
+                isFetching,
+                isSuccess,
+                isError,
+              )}
+              getRowCanExpand={() => true}
+              expandableColumnIds={['#_affected_cases_across_the_gdc']}
+              renderSubComponent={({ row }) => (
+                <SMTableSubcomponent row={row} />
+              )}
+              handleChange={handleChange}
+              setColumnVisibility={setColumnVisibility}
+              columnVisibility={columnVisibility}
+              columnOrder={columnOrder}
+              setColumnOrder={setColumnOrder}
+              expanded={expanded}
+              setExpanded={handleExpand}
+              getRowId={getRowId}
+              baseZIndex={inModal ? 300 : 0}
+            />
+          </>
+        )
+      }
     </>
   );
 };
