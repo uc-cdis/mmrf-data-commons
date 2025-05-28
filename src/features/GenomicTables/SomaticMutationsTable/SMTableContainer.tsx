@@ -28,7 +28,7 @@ import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
 import download from '../../../utils/download';
-import { getFormattedTimestamp } from '@/utils/date';
+// import { getFormattedTimestamp } from '@/utils/date';
 import { SomaticMutation, SsmToggledHandler } from './types';
 import { SummaryModalContext } from '@/utils/contexts';
 import { HandleChangeInput } from '@/components/Table/types';
@@ -42,7 +42,8 @@ import {
   getMutation,
   useGenerateSMTableColumns,
   // appendSearchTermFilters,
-} from './utils';
+} from './Utils/utils';
+import { handleTSVDownload } from './Utils/download';
 import VerticalTable from '@/components/Table/VerticalTable';
 // import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
 import SMTableSubcomponent from './SMTableSubcomponent';
@@ -176,7 +177,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       tableFilters,
     });
 
-  console.log('data', data);
   /* SM Table Call end */
 
   useEffect(() => {
@@ -334,7 +334,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     });
   }; */
 
-  const handleTSVDownload = () => {
+  /*   const handleTSVDownload = () => {
     setDownloadMutationsFrequencyTSVActive(true);
 
     download({
@@ -351,7 +351,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       dispatch,
       done: () => setDownloadMutationsFrequencyTSVActive(false),
     });
-  };
+  }; */
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
@@ -406,6 +406,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const operationCohortFilters = filterSetToOperation(cohortFilters);
   const operationSetFilters = filterSetToOperation(setFilters);
   */
+
   return (
     <>
       {caseFilter && searchTerm.length === 0 && data?.ssmsTotal === 0 ? null : (
@@ -413,7 +414,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
           {searchTermsForGene?.geneSymbol && (
             <div id="announce" aria-live="polite" className="sr-only">
               <p>
-                You are now viewing the Mutations table filtered by{' '}
+                You are now viewing the Mutations table filtered by
                 {searchTermsForGene.geneSymbol}
               </p>
             </div>
@@ -535,36 +536,22 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
                 />
                 */}
 
-                {caseFilter || geneSymbol ? (
-                  <FunctionButton
-                    data-testid="button-tsv-mutation-frequency"
-                    /*         onClick={
+                <FunctionButton
+                  data-testid="button-tsv-mutation-frequency"
+                  /*         onClick={
                       caseFilter ? handleTSVCaseDownload : handleTSVGeneDownload
                     } */
-                    onClick={() => alert('hello world')}
-                    aria-label="Download TSV"
-                    disabled={isFetching}
-                  >
-                    {downloadMutationsFrequencyTSVActive ? (
-                      <Loader size="sm" />
-                    ) : (
-                      'TSV'
-                    )}
-                  </FunctionButton>
-                ) : (
-                  <FunctionButton
-                    onClick={handleTSVDownload}
-                    data-testid="button-tsv-mutation-frequency"
-                    aria-label="Download TSV"
-                    disabled={isFetching}
-                  >
-                    {downloadMutationsFrequencyTSVActive ? (
-                      <Loader size="sm" />
-                    ) : (
-                      'TSV'
-                    )}
-                  </FunctionButton>
-                )}
+                  onClick={() =>
+                    handleTSVDownload(
+                      formattedTableData ?? [],
+                      SMTableDefaultColumns,
+                    )
+                  }
+                  aria-label="Download TSV"
+                  disabled={isFetching}
+                >
+                  TSV
+                </FunctionButton>
               </div>
             }
             search={{

@@ -2,7 +2,7 @@ import React from 'react';
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
 import { humanify } from '@/utils/index';
 import { SSMSData, FilterSet } from '@/core';
-import { SomaticMutation, SsmToggledHandler } from './types';
+import { SomaticMutation, SsmToggledHandler } from '../types';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Dispatch, SetStateAction, useId } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
@@ -15,11 +15,11 @@ import {
   SMTableImpacts,
   SMTableProteinChange,
   SMTableSurvival,
-} from './TableComponents';
+} from '../TableComponents';
 import CohortCreationButton from '@/components/CohortCreationButton';
 import { entityMetadataType } from '@/utils/contexts';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
-import ImpactHeaderWithTooltip from '../SharedComponent/ImpactHeaderWithTooltip';
+import ImpactHeaderWithTooltip from '../../SharedComponent/ImpactHeaderWithTooltip';
 import RatioWithSpring from '@/components/RatioWithSpring';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
@@ -405,4 +405,8 @@ export const truncateAfterMarker = (
     return `${term.substring(0, index + marker.length + 8)}${omission}`;
   }
   return term;
+};
+
+export const handleTSVDownload = () => {
+  alert('handleTSVDownload');
 };

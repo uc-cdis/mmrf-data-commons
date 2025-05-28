@@ -1,5 +1,5 @@
 import React from 'react';
-import { truncateAfterMarker } from '../utils';
+import { truncateAfterMarker } from '../Utils/utils';
 import { Tooltip } from '@mantine/core';
 import Link from 'next/link';
 import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
