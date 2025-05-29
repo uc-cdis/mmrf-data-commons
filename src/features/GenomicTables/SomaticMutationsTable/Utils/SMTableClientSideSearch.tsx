@@ -1,4 +1,17 @@
-export const SMTableClientSideSearch = (data, searchTerm) => {
+interface SearchableItem {
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | null
+    | SearchableItem
+    | Array<string | number | boolean | null>;
+}
+
+export const SMTableClientSideSearch = (
+  data: SearchableItem[],
+  searchTerm: string,
+): SearchableItem[] => {
   // Convert the search term to lowercase for case-insensitive comparison
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
