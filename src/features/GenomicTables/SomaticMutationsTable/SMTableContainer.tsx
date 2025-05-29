@@ -584,7 +584,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tableTotalDetail={
                 <TotalItems
                   // total={data?.ssmsTotal}
-                  total={displayedDataAfterSearch.length + 1}
+                  total={displayedDataAfterSearch?.length + 1}
                   itemName="somatic mutation"
                 />
               }
