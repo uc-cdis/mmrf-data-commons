@@ -1,4 +1,5 @@
-interface SearchableItem {
+import { SomaticMutation } from '../types';
+/* interface SearchableItem {
   [key: string]:
     | string
     | number
@@ -6,26 +7,31 @@ interface SearchableItem {
     | null
     | SearchableItem
     | Array<string | number | boolean | null>;
-}
+} */
 
 export const SMTableClientSideSearch = (
-  data: SearchableItem[],
+  data: SomaticMutation[],
   searchTerm: string,
-): SearchableItem[] => {
+): SomaticMutation[] => {
   // Convert the search term to lowercase for case-insensitive comparison
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
-  return data.filter((item) => {
+  return data.filter((item: SomaticMutation) => {
     // Check each key in the object
     return Object.keys(item).some((key) => {
       // If the value is an object, check its properties
-      if (typeof item[key] === 'object' && item[key] !== null) {
-        return Object.values(item[key]).some((value) =>
+      if (
+        typeof item[key as keyof SomaticMutation] === 'object' &&
+        item[key as keyof SomaticMutation] !== null
+      ) {
+        return Object.values(item[key as keyof SomaticMutation]).some((value) =>
           String(value).toLowerCase().includes(lowerCaseSearchTerm),
         );
       }
       // Otherwise, check the value directly
-      return String(item[key]).toLowerCase().includes(lowerCaseSearchTerm);
+      return String(item[key as keyof SomaticMutation])
+        .toLowerCase()
+        .includes(lowerCaseSearchTerm);
     });
   });
 };

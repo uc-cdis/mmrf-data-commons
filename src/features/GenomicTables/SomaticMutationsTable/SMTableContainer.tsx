@@ -30,7 +30,7 @@ import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
 import download from '../../../utils/download';
 // import { getFormattedTimestamp } from '@/utils/date';
 import { SomaticMutation, SsmToggledHandler } from './types';
-import { SummaryModalContext } from '@/utils/contexts';
+// import { SummaryModalContext } from '@/utils/contexts';
 import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnOrderState,
@@ -122,15 +122,11 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
-  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState();
+  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
+    [] as SomaticMutation[],
+  );
 
   useEffect(() => {
-    console.log('searchTerm:', searchTerm);
-    console.log('formattedTableData', formattedTableData);
-    console.log(
-      'search Results',
-      SMTableClientSideSearch(formattedTableData, searchTerm),
-    );
     if (searchTerm.length > 0) {
       setDisplayedDataAfterSearch(
         SMTableClientSideSearch(formattedTableData, searchTerm),
@@ -223,7 +219,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   /* Create Cohort end  */
 
   // const sets = useCoreSelector((state: any) => selectSetsByType(state, 'ssms'));
-  const sets = null;
+  // const sets = null;
   /*   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
   useEffect(() => {
@@ -234,7 +230,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       setPage(1);
   }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]); */
 
-  const formattedTableData = useDeepCompareMemo(() => {
+  const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
 
     return data.ssms.map((sm) =>
