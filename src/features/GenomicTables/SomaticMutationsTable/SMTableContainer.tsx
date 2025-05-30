@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useContext, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
+import { SSMSData } from '@/core';
 import {
   FilterSet,
   // usePrevious,
@@ -18,16 +19,16 @@ import {
   // filterSetToOperation,
   // convertFilterToGqlFilter,
 } from '@/core';
-import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
-import { Loader } from '@mantine/core';
-import isEqual from 'lodash/isEqual';
+import { useDeepCompareMemo } from 'use-deep-compare';
+// import { Loader } from '@mantine/core';
+// import isEqual from 'lodash/isEqual';
 // import SaveSelectionAsSetModal from '@/components/Modals/SetModals/SaveSelectionModal';
 // import AddToSetModal from '@/components/Modals/SetModals/AddToSetModal';
 // import RemoveFromSetModal from '@/components/Modals/SetModals/RemoveFromSetModal';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
-import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
-import download from '../../../utils/download';
+// import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
+// import download from '../../../utils/download';
 // import { getFormattedTimestamp } from '@/utils/date';
 import { SomaticMutation, SsmToggledHandler } from './types';
 // import { SummaryModalContext } from '@/utils/contexts';
@@ -139,7 +140,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
 
-    return data.ssms.map((sm) =>
+    return data.ssms.map((sm: any) =>
       getMutation(
         sm,
         selectedSurvivalPlot,

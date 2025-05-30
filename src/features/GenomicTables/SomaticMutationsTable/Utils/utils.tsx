@@ -310,8 +310,8 @@ export const useGenerateSMTableColumns = ({
 };
 
 export const getMutation = (
-  sm: SSMSData,
-  selectedSurvivalPlot: ComparativeSurvival,
+  sm: any,
+  selectedSurvivalPlot: ComparativeSurvival | undefined,
   filteredCases: number,
   cases: number,
   ssmsTotal: number,
