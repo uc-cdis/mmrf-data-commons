@@ -38,6 +38,11 @@ export const filterMutationType = (mutationSubType: string): string => {
 
 const SMTableColumnHelper = createColumnHelper<SomaticMutation>();
 
+type HandleSurvivalPlotToggledType = (
+  symbol: string,
+  name: string,
+  field: string,
+) => void;
 export const useGenerateSMTableColumns = ({
   toggledSsms,
   isDemoMode,
@@ -52,19 +57,15 @@ export const useGenerateSMTableColumns = ({
   totalPages,
   cohortFilters,
 }: {
-  toggledSsms: string[];
+  toggledSsms: string[] | undefined;
   isDemoMode: boolean;
-  handleSsmToggled: SsmToggledHandler;
-  handleSurvivalPlotToggled: (
-    symbol: string,
-    name: string,
-    field: string,
-  ) => void;
+  handleSsmToggled: SsmToggledHandler | undefined;
+  handleSurvivalPlotToggled: HandleSurvivalPlotToggledType | undefined;
   isModal: boolean;
-  geneSymbol: string;
-  setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>>;
-  projectId: string;
-  generateFilters: (ssmId: string) => FilterSet;
+  geneSymbol: string | undefined;
+  setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>> | null;
+  projectId: string | undefined;
+  generateFilters: (ssmId: string) => FilterSet | null;
   currentPage: number;
   totalPages: number;
   cohortFilters: FilterSet;

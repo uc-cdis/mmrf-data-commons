@@ -28,6 +28,7 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 // import { CountsIcon, HeaderTitle } from '@/components/tailwindComponents';
+import { HeaderTitle } from '@/components/tailwindComponents';
 // import download from '../../../utils/download';
 // import { getFormattedTimestamp } from '@/utils/date';
 import { SomaticMutation, SsmToggledHandler } from './types';
