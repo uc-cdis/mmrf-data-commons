@@ -607,7 +607,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tableTotalDetail={
                 <TotalItems
                   // total={data?.ssmsTotal}
-                  total={displayedDataAfterSearch?.length + 1}
+                  total={displayedDataAfterSearch?.length}
                   itemName="somatic mutation"
                 />
               }
@@ -615,7 +615,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               pagination={{
                 page,
                 pages,
-                size,
+                size: displayedDataAfterSearch?.length,
                 from,
                 total,
                 label: 'somatic mutation',
