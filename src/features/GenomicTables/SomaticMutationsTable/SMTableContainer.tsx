@@ -223,7 +223,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
         genomicFilters,
       )
     : genomicFilters; */
-  const genomicFiltersWithPossibleGeneSymbol = genomicFilters;
+  // const genomicFiltersWithPossibleGeneSymbol = genomicFilters;
 
   /* const searchFilters = buildSSMSTableSearchFilters(searchTerm);
   const genomicTableFilters = appendSearchTermFilters(
@@ -299,9 +299,9 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     return originalRow.mutation_id;
   };
   const [rowSelection, setRowSelection] = useState({});
-  const selectedMutations = Object.entries(rowSelection)?.map(
+  /* const selectedMutations = Object.entries(rowSelection)?.map(
     ([mutation_id]) => mutation_id,
-  );
+  ); */
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     SMTableDefaultColumns.map((column: any) => column.id as string), //must start out with populated columnOrder so we can splice
   );
@@ -389,12 +389,12 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       case 'newPageNumber':
         setExpanded({});
         setPage(obj.newPageNumber as number);
-        break;
+        break;*/
       case 'newSearch':
         setExpanded({});
         setSearchTerm(obj.newSearch as string);
-        setPage(1);
-        break; */
+        //setPage(1);
+        break;
       case 'newPageSize':
         if (obj.newPageSize !== undefined) {
           handlePageSizeChange(obj.newPageSize);
