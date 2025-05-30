@@ -171,6 +171,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     handlePageSizeChange,
     handleSortByChange,
     page,
+
     pages,
     size,
     from,
@@ -393,7 +394,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       case 'newSearch':
         setExpanded({});
         setSearchTerm(obj.newSearch as string);
-        //setPage(1);
+        // setPage(1);
+        handlePageChange(1);
         break;
       case 'newPageSize':
         if (obj.newPageSize !== undefined) {
