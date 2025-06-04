@@ -4,9 +4,6 @@ import { SomaticMutation } from '../types';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const handleTSVDownload = (data:SomaticMutation[], columns: ColumnDef<SomaticMutation>[]) => {
-  console.log('data in download.tsx', data);
-  console.log('columns in download.tsx', columns);
-
   downloadTSV({
     // tableData: data,
     tableData: data as any,
