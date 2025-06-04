@@ -45,7 +45,7 @@ import {
   useGenerateSMTableColumns,
   // appendSearchTermFilters,
 } from './Utils/utils';
-import { handleTSVDownload } from './Utils/download';
+import { handleJSONDownload, handleTSVDownload } from './Utils/download';
 import VerticalTable from '@/components/Table/VerticalTable';
 // import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
 import SMTableSubcomponent from './SMTableSubcomponent';
@@ -577,6 +577,22 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
                   customDataTestId="button-save-edit-mutation-set"
                 />
                 */}
+
+                  <FunctionButton
+                    data-testid="button-json-mutation-frequency"
+                    /*         onClick={
+                      caseFilter ? handleTSVCaseDownload : handleTSVGeneDownload
+                    } */
+                    onClick={() =>
+                      handleJSONDownload(
+                        formattedTableData ?? [],
+                      )
+                    }
+                    aria-label="Download JSON"
+                    disabled={isFetching}
+                  >
+                    JSON
+                  </FunctionButton>
 
                   <FunctionButton
                     data-testid="button-tsv-mutation-frequency"
