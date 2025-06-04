@@ -593,7 +593,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
                   >
                     JSON
                   </FunctionButton>
-
                   <FunctionButton
                     data-testid="button-tsv-mutation-frequency"
                     /*         onClick={
@@ -621,7 +620,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tableTotalDetail={
                 <TotalItems
                   // total={data?.ssmsTotal}
-                  total={displayedDataAfterSearch?.length}
+                  total={formattedTableData?.length}
                   itemName="somatic mutation"
                 />
               }
