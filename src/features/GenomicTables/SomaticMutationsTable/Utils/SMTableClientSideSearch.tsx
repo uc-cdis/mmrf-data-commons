@@ -1,23 +1,11 @@
 import { SomaticMutation } from '../types';
-/* interface SearchableItem {
-  [key: string]:
-    | string
-    | number
-    | boolean
-    | null
-    | SearchableItem
-    | Array<string | number | boolean | null>;
-} */
 
 export const SMTableClientSideSearch = (
   data: SomaticMutation[],
   searchTerm: string,
 ): SomaticMutation[] => {
-  // Convert the search term to lowercase for case-insensitive comparison
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
-
   return data.filter((item: SomaticMutation) => {
-    // Check each key in the object
     return Object.keys(item).some((key) => {
       // If the value is an object, check its properties
       if (

@@ -217,7 +217,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   return (
     <>
       {
-        searchTerm.length === 0 && formattedTableData.length === 0 && isSuccess ? <h2>Data Error</h2> : (
+        searchTerm.length === 0 && formattedTableData.length === 0 && isSuccess ?
+          <h2>❌ Somatic Mutations Table Data Error</h2> : (
           <>
             {searchTermsForGene?.geneSymbol && (
               <div id="announce" aria-live="polite" className="sr-only">

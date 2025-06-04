@@ -6,16 +6,13 @@ import { SomaticMutation, SsmToggledHandler } from '../types';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Dispatch, SetStateAction, useId } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
-
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
 import {
-  SMTableCohort,
   SMTableConsequences,
   SMTableDNAChange,
   SMTableImpacts,
   SMTableProteinChange,
 } from '../TableComponents';
-import CohortCreationButton from '@/components/CohortCreationButton';
 import { entityMetadataType } from '@/utils/contexts';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
 import ImpactHeaderWithTooltip from '../../SharedComponent/ImpactHeaderWithTooltip';
@@ -75,89 +72,6 @@ export const useGenerateSMTableColumns = ({
     any
   >(
     () => [
-      // HIDE CHECKBOX FOR NOW SINCE NOT SUPPORTING MODALS OR FILTERING ETC
-      /*
-      SMTableColumnHelper.display({
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            size="xs"
-            classNames={{
-              input: 'checked:bg-accent checked:border-accent',
-              label: 'sr-only',
-            }}
-            label={`Select all mutation rows on page ${currentPage} of ${totalPages}`}
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            size="xs"
-            classNames={{
-              input: 'checked:bg-accent checked:border-accent',
-            }}
-            aria-labelledby={`${componentId}-mutation-table-${row.original.mutation_id}`}
-            {...{
-              checked: row.getIsSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        ),
-        enableHiding: false,
-      }),
-      */
-/*       ...(!geneSymbol && !projectId
-        ? [
-            SMTableColumnHelper.display({
-              id: 'cohort',
-              header: () => (
-                <HeaderTooltip
-                  title="Cohort"
-                  tooltip="Add/remove mutations to/from your cohort filters"
-                />
-              ),
-              cell: ({ row }) => (<>DOES THIS RENDER?
-                <SMTableCohort
-                  isToggledSsm={(toggledSsms || []).includes(
-                    row.original.mutation_id,
-                  )}
-                  mutationID={row.original.mutation_id}
-                  isDemoMode={isDemoMode}
-                  cohort={row.original.cohort}
-                  handleSsmToggled={handleSsmToggled}
-                  DNAChange={row.original.dna_change}
-                /></>
-              ),
-            }),
-          ]
-        : []), */
-      /* ...(!geneSymbol && !projectId
-        ? [
-            SMTableColumnHelper.display({
-              id: 'survival',
-              header: () => (
-                <HeaderTooltip
-                  title="Survival"
-                  tooltip="Change the survival plot display"
-                />
-              ),
-              cell: ({ row }) => (
-                <SMTableSurvival
-                  affectedCasesInCohort={
-                    row.original['#_affected_cases_in_cohort']
-                  }
-                  survival={row.original.survival}
-                  proteinChange={row.original.protein_change}
-                  handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-                />
-              ),
-            }),
-          ]
-        : []), */
-
       SMTableColumnHelper.accessor('mutation_id', {
         id: 'mutation_id',
         header: 'Mutation ID',
@@ -176,9 +90,7 @@ export const useGenerateSMTableColumns = ({
           <SMTableDNAChange
             DNAChange={row.original.dna_change}
             mutationID={row.original.mutation_id}
-            // isModal={isModal}
             isModal={false}
-            // geneSymbol={geneSymbol}
             geneSymbol={null as unknown as string}
             setEntityMetadata={setEntityMetadata as unknown as Dispatch<SetStateAction<entityMetadataType>>}
           />
