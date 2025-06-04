@@ -465,7 +465,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
             {isUninitialized || isFetching ? null : (
               <>
-                <h1>Omitting Modal</h1>
                 {/*
               <SaveSelectionAsSetModal
                 opened={showSaveModal}
@@ -546,7 +545,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               columns={SMTableDefaultColumns}
               additionalControls={
                 <div className="flex gap-2 items-center">
-                  <h1>Omitting DropdownWithIcon</h1>
                   {/*<DropdownWithIcon
                   dropdownElements={[
                     {
