@@ -19,6 +19,7 @@ import { registerCohortTableCustomCellRenderers } from '@/lib/CohortBuilder/Cust
 import { registerCustomExplorerDetailsPanels } from '@/lib/CohortBuilder/FileDetailsPanel';
 
 import '../styles/globals.css';
+import "../styles/survivalplot.css";
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
