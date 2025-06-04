@@ -1,4 +1,4 @@
-// RUN THIS WITH NODE JS TO GENERATOR SYTHETIC TEST DATA FOR SSMS TABLE
+// RUN THIS WITH NODE JS TO GENERATOR TEST DATA FOR SSMS TABLE
 // This will create or overwrite the file SSMSTableLarge.json
 // node SSMSTableDataGenerator.js
 
