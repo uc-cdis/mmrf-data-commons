@@ -235,7 +235,7 @@ interface SSMSConsequence {
       readonly polyphen_impact: string;
       readonly polyphen_score: number;
       readonly sift_impact: string;
-      readonly sift_score: string;
+      readonly sift_score: number;
       readonly vep_impact: string;
       readonly hgvsc?: string;
     };
