@@ -64,14 +64,16 @@ export function downloadTSV<TData>({
         .join('\t');
 
       const body = (tableData || [])
-        .map((datum) =>
+        .map((datum: any) =>
           sortedColumns
             .map((column) => {
               const composer =
                 option?.overwrite?.[column.id as string]?.composer;
               // return composer ? composer(datum) : datum?.[column.id as string];
-              // UPDATED APR 10 25 to get application to build
-              return composer ? composer(datum) : '';
+              // UPDATED MAY 28 to get TSV to render data
+              return composer
+                ? composer(datum)
+                : JSON.stringify(datum?.[column.id as string]);
             })
             .join('\t'),
         )

@@ -1,6 +1,6 @@
 import React, { KeyboardEventHandler } from 'react';
 import { CartFile, GdcFile, DataStatus } from '../core';
-import { replace, sortBy, zip } from 'lodash';
+import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
 
 export const toggleFullScreen = async (
