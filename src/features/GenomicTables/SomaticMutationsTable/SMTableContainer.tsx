@@ -85,14 +85,13 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   gene_id,
   case_id,
 }: SMTableContainerProps) => {
-  /* States for table */
   const pageSize = 10;
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
   const tableFilters = {};
-  /* SM Table Call */
 
+  /* SM Table Call */
   const { data, isSuccess, isFetching, isError } = useGetSssmTableDataQuery({
     pageSize: pageSize,
     offset: 0,

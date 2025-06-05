@@ -1,7 +1,7 @@
 import React from 'react';
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
 import { humanify } from '@/utils/index';
-import {  FilterSet } from '@/core';
+import { FilterSet } from '@/core';
 import { SomaticMutation, SsmToggledHandler } from '../types';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Dispatch, SetStateAction, useId } from 'react';
@@ -68,9 +68,7 @@ export const useGenerateSMTableColumns = ({
 }): ColumnDef<SomaticMutation>[] => {
   const componentId = useId();
 
-  const SMTableDefaultColumns = useDeepCompareMemo<
-    any
-  >(
+  const SMTableDefaultColumns = useDeepCompareMemo<any>(
     () => [
       SMTableColumnHelper.accessor('mutation_id', {
         id: 'mutation_id',
@@ -92,7 +90,11 @@ export const useGenerateSMTableColumns = ({
             mutationID={row.original.mutation_id}
             isModal={false}
             geneSymbol={null as unknown as string}
-            setEntityMetadata={setEntityMetadata as unknown as Dispatch<SetStateAction<entityMetadataType>>}
+            setEntityMetadata={
+              setEntityMetadata as unknown as Dispatch<
+                SetStateAction<entityMetadataType>
+              >
+            }
           />
         ),
       }),
@@ -105,7 +107,11 @@ export const useGenerateSMTableColumns = ({
             proteinChange={row.original.protein_change}
             shouldOpenModal={isModal && geneSymbol === undefined}
             shouldLink={projectId !== undefined}
-            setEntityMetadata={setEntityMetadata as unknown as Dispatch<SetStateAction<entityMetadataType>>}
+            setEntityMetadata={
+              setEntityMetadata as unknown as Dispatch<
+                SetStateAction<entityMetadataType>
+              >
+            }
             ariaId={`${componentId}-mutation-table-${row.original.mutation_id}`}
           />
         ),
