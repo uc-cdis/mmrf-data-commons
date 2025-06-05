@@ -267,3 +267,10 @@ interface TableSubrowItem {
   denominator: number;
 }
 export type TableSubrowData = Partial<TableSubrowItem>;
+
+export interface SSMSTableData {
+  ssmsTotal: number;
+  cases: number;
+  filteredCases: number;
+  ssms: SSMSData[];
+}

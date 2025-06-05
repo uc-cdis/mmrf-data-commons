@@ -24,11 +24,11 @@ export interface SomaticMutation {
     aaChange: string;
     geneId: string;
   };
-  "#_affected_cases_in_cohort": {
+  '#_affected_cases_in_cohort': {
     numerator: number;
     denominator: number;
   };
-  "#_affected_cases_across_the_gdc": {
+  '#_affected_cases_across_the_gdc': {
     numerator: number;
     denominator: number;
   };
