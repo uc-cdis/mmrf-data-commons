@@ -5,12 +5,14 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 
 export interface SummaryHeaderProps {
+  headerTitleLeft: 'Gene' | 'Mutation';
   headerTitle: string | number;
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   isModal?: boolean;
 }
 export const SummaryHeader = ({
+  headerTitleLeft,
   headerTitle,
   leftElement,
   rightElement,
@@ -37,8 +39,12 @@ export const SummaryHeader = ({
             data-testid="summary-header-icon"
           />
         </span>
-        <SummaryHeaderTitle data-testid="summary-header-title">
-          MUTATION <span className="mx-4 text-2xl inline">•</span> {headerTitle}
+        <SummaryHeaderTitle
+          data-testid="summary-header-title"
+          className="uppercase"
+        >
+          {headerTitleLeft}
+          <span className="mx-4 text-2xl inline">•</span> {headerTitle}
         </SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (

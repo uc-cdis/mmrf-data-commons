@@ -264,13 +264,14 @@ const GeneView = ({
     );
   };
 
+  console.log('data', data);
   return (
     <div>
       {data && (
         <>
           <SummaryHeader
             // Icon={GenesIcon}
-            // headerTitleLeft="Gene"
+            headerTitleLeft="Gene"
             headerTitle={data.symbol}
             isModal={isModal}
           />
