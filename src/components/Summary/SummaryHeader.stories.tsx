@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    icon: '/icons/genes.svg',
     headerTitleLeft: 'Gene',
     headerTitle: 'HeaderTitle',
     isModal: false,
