@@ -21,7 +21,6 @@ import { HeaderTitle } from '@/components/tailwindComponents';
 import { CollapsibleList } from '@/components/CollapsibleList';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
-import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
 import { WarningBanner } from '@/components/WarningBanner';
 
@@ -270,7 +269,7 @@ const GeneView = ({
       {data && (
         <>
           <SummaryHeader
-            // Icon={GenesIcon}
+            icon="/icons/genes.svg"
             headerTitleLeft="Gene"
             headerTitle={data.symbol}
             isModal={isModal}

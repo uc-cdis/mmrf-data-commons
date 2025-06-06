@@ -174,6 +174,7 @@ export const SSMSSummary = ({
       ) : summaryData ? (
         <>
           <SummaryHeader
+            icon="/icons/gene-mutation.svg"
             headerTitle={summaryData.dna_change}
             headerTitleLeft="Mutation"
             isModal={isModal}
