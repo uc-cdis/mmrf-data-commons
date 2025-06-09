@@ -26,7 +26,7 @@ const GenesPage: NextPage = () => {
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
       </div>
-      <h1 className="sr-only">Mutation Summary</h1>
+      <h1 className="sr-only">Gene Summary</h1>
       <div className="flex">
         <div className="w-full mt-[100px]">
           {ready && <GeneSummary gene_id={gene} />}
