@@ -5,13 +5,15 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 
 export interface SummaryHeaderProps {
+  headerTitleLeft: string;
   headerTitle: string | number;
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   isModal?: boolean;
 }
 export const SummaryHeader = ({
-  headerTitle,
+
+                                headerTitleLeft, headerTitle,
   leftElement,
   rightElement,
   isModal = false,
@@ -38,7 +40,8 @@ export const SummaryHeader = ({
           />
         </span>
         <SummaryHeaderTitle data-testid="summary-header-title">
-          MUTATION <span className="mx-4 text-2xl inline">•</span> {headerTitle}
+          {headerTitleLeft} <span className="mx-4 text-2xl inline">•</span>{' '}
+          {headerTitle}
         </SummaryHeaderTitle>
       </div>
       {(leftElement || rightElement) && (

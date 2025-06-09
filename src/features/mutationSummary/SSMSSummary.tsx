@@ -174,6 +174,7 @@ export const SSMSSummary = ({
       ) : summaryData ? (
         <>
           <SummaryHeader
+            headerTitleLeft="MUTATION"
             headerTitle={summaryData.dna_change}
             isModal={isModal}
           />

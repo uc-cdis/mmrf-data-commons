@@ -270,7 +270,7 @@ const GeneView = ({
         <>
           <SummaryHeader
             // Icon={GenesIcon}
-            // headerTitleLeft="Gene"
+            headerTitleLeft="GENE"
             headerTitle={data.symbol}
             isModal={isModal}
           />
