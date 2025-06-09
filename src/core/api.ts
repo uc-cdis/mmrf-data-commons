@@ -1,8 +1,8 @@
-import { FilterSet } from './types';
+import { FilterSet, SSMSTableData } from './types';
 import geneSummaryData from './data/gene/ENSG00000133703.json';
 import CNVPlotData from './data/gene/CVNPlot.json';
 import CancerDistributionTableData from './data/gene/CancerDistributionTable.json';
-import SSMSTableData from './data/gene/SSMSTable.json';
+import SSMSTableDataLarge from './data/gene/SSMSTableLarge.json';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useGetProjectsQuery = (project: { [key: string]: any }) => {
@@ -4200,7 +4200,7 @@ export const useGetSssmTableDataQuery = ({
   _cohortFiltersNoSet,
 }: SsmsTableRequestParameters) => {
   return {
-    data: SSMSTableData,
+    data: SSMSTableDataLarge as SSMSTableData | undefined,
     error: 'none',
     isUninitialized: false,
     isError: false,
