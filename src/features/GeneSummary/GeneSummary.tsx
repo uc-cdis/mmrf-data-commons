@@ -274,8 +274,12 @@ const GeneView = ({
             headerTitleLeft="Gene"
 =======
             // Icon={GenesIcon}
+<<<<<<< HEAD
             headerTitleLeft="GENE"
 >>>>>>> 7b95e8c (add leftHeader to SummaryHeader (#28))
+=======
+            headerTitleLeft="Gene"
+>>>>>>> 1d87521 (feat(externatlRefTable): Resolved merge conflict)
             headerTitle={data.symbol}
             isModal={isModal}
           />
