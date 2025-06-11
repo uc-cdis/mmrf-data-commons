@@ -175,12 +175,17 @@ export const SSMSSummary = ({
         <>
           <SummaryHeader
 <<<<<<< HEAD
+<<<<<<< HEAD
             icon="/icons/gene-mutation.svg"
 =======
             headerTitleLeft="MUTATION"
 >>>>>>> 7b95e8c (add leftHeader to SummaryHeader (#28))
             headerTitle={summaryData.dna_change}
+=======
+>>>>>>> 9a71eae (feat(externatlRefTable): Resolved merge conflict in SSMSSummary)
             headerTitleLeft="Mutation"
+            icon="/icons/gene-mutation.svg"
+            headerTitle={summaryData.dna_change}
             isModal={isModal}
           />
 
