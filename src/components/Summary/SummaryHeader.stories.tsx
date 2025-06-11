@@ -16,7 +16,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+<<<<<<< HEAD
     icon: '/icons/genes.svg',
+=======
+>>>>>>> 3f5f3ad (feat(externatlRefTable): Resolved merge conflict in storybook story)
     headerTitleLeft: 'Gene',
     headerTitle: 'HeaderTitle',
     isModal: false,
