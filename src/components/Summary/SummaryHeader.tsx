@@ -41,7 +41,7 @@ export const SummaryHeader = ({
             data-testid="summary-header-icon"
           />
         </span>
-        <SummaryHeaderTitle data-testid="summary-header-title">
+        <SummaryHeaderTitle data-testid="summary-header-title" className='uppercase'>
           {headerTitleLeft} <span className="mx-4 text-2xl inline">•</span>{' '}
           {headerTitle}
         </SummaryHeaderTitle>
