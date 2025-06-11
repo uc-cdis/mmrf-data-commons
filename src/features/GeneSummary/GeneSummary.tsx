@@ -269,7 +269,7 @@ const GeneView = ({
       {data && (
         <>
           <SummaryHeader
-            // Icon={GenesIcon}
+            iconPath='/icons/genes.svg'
             headerTitleLeft="GENE"
             headerTitle={data.symbol}
             isModal={isModal}
