@@ -19,10 +19,10 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
 
   const headerTitles = Object.keys(data[0]);
 
-  const rows = data.map((rowData) => {
+  const rows = data.map((rowData, i) => {
     const rowDataArr = Object.values(rowData);
     return (
-      <Table.Tr key={rowData.name}>
+      <Table.Tr key={i}>
         {rowDataArr.map((value, i) => (
           <Table.Td key={i}>
             {isNumber(value) ? formatNumber(value) : (value as string)}
@@ -32,7 +32,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
     );
   });
 
-  const TextVersionTable = (
+  const ChartTextVersionTable = (
     <div data-testid="chart-text-version">
       <ScrollArea h={maxHeightOfScrollArea}>
         <Table>
@@ -55,7 +55,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
     <Accordion>
       <Accordion.Item value="textVersion">
         <Accordion.Control>Text Version</Accordion.Control>
-        <Accordion.Panel>{TextVersionTable}</Accordion.Panel>
+        <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
       </Accordion.Item>
     </Accordion>
   );
