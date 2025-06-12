@@ -114,6 +114,16 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   const onClickHandler = (mouseEvent: any) => {
     router.push(`/projects/${mouseEvent.points[0].x}`);
   };
+  const jsonData = [
+    ...sortedData.map(
+      ({ project: label, percent: value }: { project: any; percent: any }) => {
+        return {
+          label,
+          value,
+        };
+      },
+    ),
+  ];
 
   return (
     <div
@@ -125,22 +135,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           title={title}
           filename="cancer-distribution-bar-chart"
           divId={chartDivId}
-          jsonData={[
-            ...sortedData.map(
-              ({
-                project: label,
-                percent: value,
-              }: {
-                project: any;
-                percent: any;
-              }) => {
-                return {
-                  label,
-                  value,
-                };
-              },
-            ),
-          ]}
+          jsonData={jsonData}
         />
       </div>
       <div>
@@ -150,7 +145,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           onClickHandler={onClickHandler}
           height={height}
         />
-        <BarChartTextVersion data={chartData.datasets} />
+        <BarChartTextVersion data={jsonData} />
       </div>
     </div>
   );
