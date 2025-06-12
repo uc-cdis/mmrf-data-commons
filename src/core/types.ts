@@ -14,6 +14,14 @@ const asAccessType = (x: unknown): AccessType => {
   }
 };
 
+export interface HistogramDataAsStringKey {
+  key: string;
+  count: number;
+}
+
+// type alias for compatibility with GDC
+export type Bucket = HistogramDataAsStringKey;
+
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
   readonly acl: Array<string>;
