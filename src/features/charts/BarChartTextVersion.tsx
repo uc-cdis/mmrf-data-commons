@@ -3,7 +3,7 @@ import { Accordion, Table, ScrollArea } from '@mantine/core';
 import isNumber from 'lodash/isNumber';
 
 interface BarChartTextVersionProps {
-  readonly data: any[];
+  readonly data: { [key: string]: number | string }[];
 }
 
 const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
