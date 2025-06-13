@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 
 export interface SummaryHeaderProps {
+  iconPath: string;
   headerTitleLeft: string;
   headerTitle: string | number;
   leftElement?: ReactNode;
@@ -12,8 +13,9 @@ export interface SummaryHeaderProps {
   isModal?: boolean;
 }
 export const SummaryHeader = ({
-
-                                headerTitleLeft, headerTitle,
+  iconPath,
+  headerTitleLeft,
+  headerTitle,
   leftElement,
   rightElement,
   isModal = false,
@@ -32,14 +34,14 @@ export const SummaryHeader = ({
         >
           <Image
             className="ml-[8px] mt-[11px]"
-            src="/icons/gene-mutation.svg"
+            src={iconPath}
             alt=""
             height={40}
             width={40}
             data-testid="summary-header-icon"
           />
         </span>
-        <SummaryHeaderTitle data-testid="summary-header-title">
+        <SummaryHeaderTitle data-testid="summary-header-title" className='uppercase'>
           {headerTitleLeft} <span className="mx-4 text-2xl inline">•</span>{' '}
           {headerTitle}
         </SummaryHeaderTitle>
