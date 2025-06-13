@@ -1,16 +1,22 @@
 import React from 'react';
-import { Accordion, Table, ScrollArea } from '@mantine/core';
+import { Accordion, Table, ScrollArea, Box } from '@mantine/core';
 import isNumber from 'lodash/isNumber';
 
 interface BarChartTextVersionProps {
   readonly data: { [key: string]: number | string }[];
+  readonly className?: string;
+  horizontalScroll?: boolean;
 }
 
 const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   data,
+  className,
+  horizontalScroll,
 }: BarChartTextVersionProps) => {
   const maxHeightOfScrollArea = 300;
+  const horizontalScrollWidth = 800;
   const numberOfDecimalsPlacesToShow = 2;
+
   const formatNumber = (num: number) =>
     num
       .toFixed(numberOfDecimalsPlacesToShow)
@@ -35,29 +41,33 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   const ChartTextVersionTable = (
     <div data-testid="chart-text-version">
       <ScrollArea h={maxHeightOfScrollArea}>
-        <Table>
-          <Table.Thead>
-            <Table.Tr>
-              {headerTitles.map((title, i) => (
-                <Table.Th key={i} className="capitalize">
-                  {title}
-                </Table.Th>
-              ))}
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
+        <Box w={horizontalScroll ? horizontalScrollWidth : undefined}>
+          <Table>
+            <Table.Thead>
+              <Table.Tr>
+                {headerTitles.map((title, i) => (
+                  <Table.Th key={i} className="capitalize hyphens-auto">
+                    {title}
+                  </Table.Th>
+                ))}
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Box>
       </ScrollArea>
     </div>
   );
 
   return (
-    <Accordion>
-      <Accordion.Item value="textVersion">
-        <Accordion.Control>Text Version</Accordion.Control>
-        <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
-      </Accordion.Item>
-    </Accordion>
+    <div className={`pt-2 ${className}`}>
+      <Accordion>
+        <Accordion.Item value="textVersion">
+          <Accordion.Control>Text Version</Accordion.Control>
+          <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </div>
   );
 };
 

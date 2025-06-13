@@ -163,7 +163,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           onClickHandler={onClickHandler}
           height={height}
         />
-        <BarChartTextVersion data={jsonData} />
+        <BarChartTextVersion className="mt-[20px]" data={jsonData} />
       </div>
     </div>
   );
