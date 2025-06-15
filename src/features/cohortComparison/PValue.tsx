@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { Tooltip } from "@mantine/core";
-import { usePValueQuery } from "@gff/core";
+import { usePValueQuery } from "@/core/features/cohortComparison";
 
 const noDataKeys = [
   "missing",
