@@ -282,3 +282,8 @@ export interface SSMSTableData {
   filteredCases: number;
   ssms: SSMSData[];
 }
+
+export interface GraphqlApiSliceRequest {
+  readonly graphQLQuery: string;
+  readonly graphQLFilters: Record<string, unknown>;
+}

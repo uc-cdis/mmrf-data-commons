@@ -1,4 +1,5 @@
-import { graphqlAPISlice } from "../gdcapi/gdcgraphql";
+import { graphQLAPI } from "@gen3/core";
+import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
 
 const graphQLQuery = `
     query pValue($data: [[Int]]!) {
@@ -8,16 +9,26 @@ const graphQLQuery = `
     }
   `;
 
-const pValueSlice = graphqlAPISlice.injectEndpoints({
+interface PValueResponse {
+  data?: {
+    analysis: {
+      pvalue: number;
+    }
+  }
+}
+
+const pValueSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
-    pValue: builder.query<number, number[][]>({
+    pValue: builder.query<number | undefined, number[][]>({
       query: (data) => ({
-        graphQLQuery,
-        graphQLFilters: {
-          data,
-        },
+        url: `${GEN3_COHORT_COMPARISON_API}`,
+        method: 'POST',
+          body: {
+              query: graphQLQuery,
+              variables: data
+          }
       }),
-      transformResponse: (response) => response?.data?.analysis.pvalue,
+      transformResponse: (response : PValueResponse) => response?.data?.analysis.pvalue,
     }),
   }),
 });
