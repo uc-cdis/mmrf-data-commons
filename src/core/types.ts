@@ -19,6 +19,15 @@ export interface HistogramDataAsStringKey {
   count: number;
 }
 
+type AnyJson = Record<string, any>;
+
+export interface GraphQLApiResponse<H = AnyJson> {
+  readonly data: H;
+  readonly errors: Record<string, string>;
+}
+
+
+
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
 

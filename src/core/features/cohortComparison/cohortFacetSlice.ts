@@ -1,5 +1,6 @@
-import { gen3Api, type FilterSet, JSONObject } from '@gen3/core';
+import { graphQLAPI, type GQLFilter } from '@gen3/core';
 import { DAYS_IN_YEAR } from "../../constants";
+import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
 
 const graphQLQuery = `
   query CohortComparison(
@@ -57,48 +58,30 @@ const graphQLQuery = `
 
 interface CohortFacetsRequest {
   facetFields: string[];
-  primaryCohortSetId: FilterSet;
-  comparisonCohortSetId: FilterSet;
+  primaryCohortSet: GQLFilter;
+  comparisonCohortSet: GQLFilter;
 }
 
-export const cohortFacetSlice = gen3Api.injectEndpoints({
+export const cohortFacetSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
     cohortFacets: builder.query< any, CohortFacetsRequest>({
       query: (
         {
         facetFields,
-        primaryCohortSetId,
-        comparisonCohortSetId,
+        primaryCohortSet,
+        comparisonCohortSet,
       }) => ({
-        graphQLQuery,
-        graphQLFilters: {
-          cohort1: {
-            op: "and",
-            content: [
-              {
-                op: "in",
-                content: {
-                  field: "cases.case_id",
-                  value: [`set_id:${primaryCohortSetId}`],
-                },
-              },
-            ],
+        url: `${GEN3_COHORT_COMPARISON_API}`,
+        method: 'POST',
+        body: {
+          query: graphQLQuery,
+          variables: {
+            cohort1: primaryCohortSet,
+            cohort2: comparisonCohortSet,
+            facets: facetFields,
+            interval: 10 * DAYS_IN_YEAR,
           },
-          cohort2: {
-            op: "and",
-            content: [
-              {
-                op: "in",
-                content: {
-                  field: "cases.case_id",
-                  value: [`set_id:${comparisonCohortSetId}`],
-                },
-              },
-            ],
-          },
-          facets: facetFields,
-          interval: 10 * DAYS_IN_YEAR,
-        },
+        }
       }),
       transformResponse: (response : any) => {
         const facets1 = JSON.parse(response.data.viewer.explore.cohort1.facets);

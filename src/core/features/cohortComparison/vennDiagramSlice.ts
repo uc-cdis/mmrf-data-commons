@@ -1,5 +1,6 @@
-import { GqlOperation } from "../gdcapi/filters";
-import { graphqlAPISlice } from "../gdcapi/gdcgraphql";
+import { graphQLAPI, type GQLFilter } from '@gen3/core';
+import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
+import { GraphQLApiResponse } from '@/core';
 
 const graphQLQuery = `
   query VennDiagram(
@@ -42,12 +43,12 @@ interface CohortVennDiagramData {
 }
 
 interface VennDiagramRequest {
-  set1Filters: GqlOperation;
-  set2Filters: GqlOperation;
-  intersectionFilters: GqlOperation;
+  set1Filters: GQLFilter;
+  set2Filters: GQLFilter;
+  intersectionFilters: GQLFilter;
 }
 
-const vennDiagramApiSlice = graphqlAPISlice.injectEndpoints({
+const vennDiagramApiSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
     vennDiagram: builder.query<CohortVennDiagramData, VennDiagramRequest>({
       query: ({ set1Filters, set2Filters, intersectionFilters }) => {
@@ -57,11 +58,15 @@ const vennDiagramApiSlice = graphqlAPISlice.injectEndpoints({
           intersectionFilters,
         };
         return {
-          graphQLFilters,
-          graphQLQuery,
+          url: `${GEN3_COHORT_COMPARISON_API}`,
+          method: 'POST',
+          body: {
+            query: graphQLQuery,
+            variables: graphQLFilters,
+          }
         };
       },
-      transformResponse: (response) => response?.data?.viewer?.explore,
+      transformResponse: (response: GraphQLApiResponse) => response?.data?.viewer?.explore,
     }),
   }),
 });
