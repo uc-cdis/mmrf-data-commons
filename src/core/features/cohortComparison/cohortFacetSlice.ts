@@ -58,8 +58,8 @@ const graphQLQuery = `
 
 interface CohortFacetsRequest {
   facetFields: string[];
-  primaryCohortSet: GQLFilter;
-  comparisonCohortSet: GQLFilter;
+  primaryCohort: GQLFilter;
+  comparisonCohort: GQLFilter;
 }
 
 export const cohortFacetSlice = graphQLAPI.injectEndpoints({
@@ -68,16 +68,16 @@ export const cohortFacetSlice = graphQLAPI.injectEndpoints({
       query: (
         {
         facetFields,
-        primaryCohortSet,
-        comparisonCohortSet,
+        primaryCohort,
+        comparisonCohort,
       }) => ({
         url: `${GEN3_COHORT_COMPARISON_API}`,
         method: 'POST',
         body: {
           query: graphQLQuery,
           variables: {
-            cohort1: primaryCohortSet,
-            cohort2: comparisonCohortSet,
+            cohort1: primaryCohort,
+            cohort2: comparisonCohort,
             facets: facetFields,
             interval: 10 * DAYS_IN_YEAR,
           },

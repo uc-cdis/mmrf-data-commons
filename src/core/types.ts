@@ -26,7 +26,7 @@ export interface GraphQLApiResponse<H = AnyJson> {
   readonly errors: Record<string, string>;
 }
 
-
+export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
