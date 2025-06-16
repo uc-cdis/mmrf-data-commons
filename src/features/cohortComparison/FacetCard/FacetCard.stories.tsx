@@ -61,8 +61,6 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
     facetFields: facetFields,
   });
 
-
-
   return (
     <FacetCard
       cohorts={cohorts}
