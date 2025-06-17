@@ -21,7 +21,7 @@ const pValueSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
     pValue: builder.query<number | undefined, number[][]>({
       query: (data) => ({
-        url: `${GEN3_COHORT_COMPARISON_API}`,
+        url: `${GEN3_COHORT_COMPARISON_API}/pvalue`,
         method: 'POST',
           body: {
               query: graphQLQuery,

@@ -3,12 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext } from '@/utils/contexts';
 import { useCohortFacetsQuery } from '@/core/features/cohortComparison';
-import { convertFilterSetToGqlFilter, FilterSet } from '@gen3/core';
+import { convertFilterSetToGqlFilter, FilterSet, GEN3_API, GEN3_AUTHZ_API, GEN3_FENCE_API } from '@gen3/core';
 import { CohortComparisonFields } from "../types";
 
 import cohortComparisionQueryData from '@/core/features/cohortComparison/test/cohortComparisonQuery.json';
+import pValueQueryResults from '@/core/features/cohortComparison/test/pValueQuery.json';
+
 import FacetCard from './index';
-import { http, HttpResponse } from 'msw';
+import { graphql, http, HttpResponse } from 'msw';
 import { CohortComparisonType } from '@/features/cohortComparison/types';
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
 
@@ -61,14 +63,15 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
     facetFields: facetFields,
   });
 
+  const counts = cohortFacetsData?.caseCounts || [];
   return (
     <FacetCard
       cohorts={cohorts}
-      counts={[1, 1]}
+      counts={counts}
       data={
         cohortFacetsData?.aggregations
           ? cohortFacetsData.aggregations.map(
-            (d: any) => d[CohortComparisonFields[field]], // TODO: tighten typeing
+            (d: any) => d[CohortComparisonFields[field]], // TODO: tighten typing
           )
           : []
       }
@@ -79,10 +82,18 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
 
 const meta = {
   component: FacetCardWrapped,
-  title: 'components/SurvivalPlot',
+  title: 'components/CohortComparison/FacetCard',
+  /* --
+  argTypes: {
+    field: {
+      options: ['vital_status', 'ethnicity', 'age_at_diagnosis', 'gender', 'race'],
+      control: { type: 'select' },
+    }
+  },
+  -- */
   parameters: {
     deepControls: { enabled: true },
-    field: 'demographic.vital_status',
+    field: 'vital_status',
   },
   decorators: [
     (Story) => {
@@ -107,9 +118,30 @@ const meta = {
 
 const handlers = {
   success: [
-    http.post(`${GEN3_COHORT_COMPARISON_API}`, () => {
-      return HttpResponse.json(cohortComparisionQueryData);
+    http.get(`${GEN3_API}/_status`, () => {
+      return HttpResponse.json({
+        "message": "Feeling good with storybook!",
+        "csrf": "6640e4857e5cb3b42db303d8ee3a4ace11900.0002025-06-17T15:24:53+00:00"
+      });
     }),
+    http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
+      return HttpResponse.json({
+      });
+    }),
+    http.get(`${GEN3_FENCE_API}/user`, () => {
+      return HttpResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }),
+
+      http.post(`${GEN3_COHORT_COMPARISON_API}/graphql`, () => {
+        return HttpResponse.json(cohortComparisionQueryData);
+      }),
+
+      http.post(`${GEN3_COHORT_COMPARISON_API}/pvalue`, () => {
+        return HttpResponse.json(pValueQueryResults);
+      })
   ],
 };
 

@@ -24,7 +24,7 @@ const graphQLQuery = `
               }
               histogram(interval: $interval) {
                 buckets {
-                  doc_count
+                  count
                   key
                 }
               }
@@ -44,7 +44,7 @@ const graphQLQuery = `
               }
               histogram(interval: $interval) {
                 buckets {
-                  doc_count
+                  count
                   key
                 }
               }
@@ -71,7 +71,7 @@ export const cohortFacetSlice = graphQLAPI.injectEndpoints({
         primaryCohort,
         comparisonCohort,
       }) => ({
-        url: `${GEN3_COHORT_COMPARISON_API}`,
+        url: `${GEN3_COHORT_COMPARISON_API}/graphql`,
         method: 'POST',
         body: {
           query: graphQLQuery,
