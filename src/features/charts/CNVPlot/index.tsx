@@ -16,6 +16,7 @@ import {
 } from './utils';
 import { PlotMouseEvent } from 'plotly.js';
 import { useDeepCompareMemo } from 'use-deep-compare';
+import BarChartTextVersion from '../BarChartTextVersion';
 
 const BarChart = dynamic(() => import('../BarChart'), {
   ssr: false,
@@ -244,6 +245,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
             </div>
           ))}
         </div>
+        <BarChartTextVersion data={jsonData} horizontalScrollWidth={800} />
       </div>
     </div>
   );
