@@ -46,7 +46,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
             <Table.Thead>
               <Table.Tr>
                 {headerTitles.map((title, i) => (
-                  <Table.Th key={i} className="capitalize">
+                  <Table.Th key={i} className="capitalize text-xs md:text-sm">
                     {title}
                   </Table.Th>
                 ))}
