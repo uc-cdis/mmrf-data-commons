@@ -5,16 +5,15 @@ import isNumber from 'lodash/isNumber';
 interface BarChartTextVersionProps {
   readonly data: { [key: string]: number | string }[];
   readonly className?: string;
-  horizontalScroll?: boolean;
+  horizontalScrollWidth?: number;
 }
 
 const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   data,
   className,
-  horizontalScroll,
+  horizontalScrollWidth,
 }: BarChartTextVersionProps) => {
   const maxHeightOfScrollArea = 300;
-  const horizontalScrollWidth = 800;
   const numberOfDecimalsPlacesToShow = 2;
 
   const formatNumber = (num: number) =>
@@ -41,7 +40,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   const ChartTextVersionTable = (
     <div data-testid="chart-text-version">
       <ScrollArea h={maxHeightOfScrollArea}>
-        <Box w={horizontalScroll ? horizontalScrollWidth : undefined}>
+        <Box w={horizontalScrollWidth ? horizontalScrollWidth : undefined}>
           <Table>
             <Table.Thead>
               <Table.Tr>

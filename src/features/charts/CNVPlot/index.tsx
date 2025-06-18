@@ -245,7 +245,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
             </div>
           ))}
         </div>
-        <BarChartTextVersion data={jsonData} horizontalScroll={true} />
+        <BarChartTextVersion data={jsonData} horizontalScrollWidth={800} />
       </div>
     </div>
   );
