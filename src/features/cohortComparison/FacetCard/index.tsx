@@ -61,7 +61,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
       if (dataPoint) {
         return dataPoint;
       }
-      return { key: value, count: -1, filter: EmptyFilterSet };
+      return { key: value, count: 0, filter: EmptyFilterSet };
     }),
   );
 

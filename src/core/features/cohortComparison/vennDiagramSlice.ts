@@ -58,7 +58,7 @@ const vennDiagramApiSlice = graphQLAPI.injectEndpoints({
           intersectionFilters,
         };
         return {
-          url: `${GEN3_COHORT_COMPARISON_API}`,
+          url: `${GEN3_COHORT_COMPARISON_API}/venn`,
           method: 'POST',
           body: {
             query: graphQLQuery,
