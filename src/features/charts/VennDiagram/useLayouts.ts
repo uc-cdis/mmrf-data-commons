@@ -622,12 +622,12 @@ const chartConfig: EChartsOption = {
 };
 
 const addHighlight = (
-  chartLayout: GraphicComponentOption[],
+  chartLayout:    GraphicComponentGroupOption[],
   highlightedIndices: string[],
   hoveredId: string | null = null,
   isCursorAllowed: boolean = true,
 ) => {
-  return chartLayout.map((group: GraphicComponentGroupOption) => {
+  return chartLayout.map((group) => {
     const isHighlighted = highlightedIndices.includes(group.id);
     const isHovered = hoveredId === group.id;
 
@@ -685,10 +685,10 @@ const getLayout = (
   xOffset: number = 0,
   yOffset: number = 0,
 ) => {
-  const layout = twoCircles
+  const layout: GraphicComponentOption[] = twoCircles
     ? createTwoCircleLayout(scaleFactor, xOffset, yOffset)
     : createThreeCircleLayout(scaleFactor, xOffset, yOffset);
-  return addHighlight(layout, highlightedIndices, hoveredId, isCursorAllowed);
+  return addHighlight(layout as never , highlightedIndices, hoveredId, isCursorAllowed);
 };
 
 type UseLayoutProps = VennDiagramProps & {
