@@ -1,3 +1,5 @@
+import { GQLFilter } from '@gen3/core';
+
 const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
@@ -296,3 +298,5 @@ export interface GraphqlApiSliceRequest {
   readonly graphQLQuery: string;
   readonly graphQLFilters: Record<string, unknown>;
 }
+
+export type GqlOperation = GQLFilter;
