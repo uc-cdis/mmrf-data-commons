@@ -10,7 +10,7 @@ import cohortComparisionQueryData from '@/core/features/cohortComparison/test/co
 import pValueQueryResults from '@/core/features/cohortComparison/test/pValueQuery.json';
 
 import FacetCard from './index';
-import { graphql, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { CohortComparisonType } from '@/features/cohortComparison/types';
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
 
@@ -30,7 +30,7 @@ const primary: FilterSet = {
   },
 };
 
-const comparision: FilterSet = {
+const comparison: FilterSet = {
   mode: 'and',
   root: {
     case_id: {
@@ -161,7 +161,7 @@ export const Default: Story = {
       comparison_cohort: {
         name: 'Comparison',
         id: 'comparison',
-        filter: comparision,
+        filter: comparison,
       },
     },
   },

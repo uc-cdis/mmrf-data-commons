@@ -34,7 +34,7 @@ const DEFAULT_CHART_DATA = [
   { key: "S1_intersect_S2", value: "...", highlighted: false },
 ];
 
-const LABELS = ["S₁", "S₂"];
+export const LABELS = ["S₁", "S₂"];
 
 const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   cohorts,

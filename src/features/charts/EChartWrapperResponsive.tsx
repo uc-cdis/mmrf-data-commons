@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { init, EChartsOption, ECharts, getInstanceByDom } from "echarts";
-import { useDeepCompareEffect } from "use-deep-compare";
+import React, { useEffect, useState, useRef } from 'react';
+import { init, EChartsOption, ECharts, getInstanceByDom } from 'echarts';
+import { useDeepCompareEffect } from 'use-deep-compare';
 import { useResizeObserver } from '@mantine/hooks';
 
 export interface EChartWrapperResponsiveProps {
@@ -17,15 +17,15 @@ const EChartWrapperResponsive: React.FC<EChartWrapperResponsiveProps> = ({
   style,
   onDimensionsChange,
 }: EChartWrapperResponsiveProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  //  const containerRef = useRef<HTMLDivElement>(null);
   const [chartRoot, setChartRoot] = useState<ECharts | undefined>(undefined);
-  const [chartInstanceRef, rect] = useResizeObserver();
+  const [containerRef, rect] = useResizeObserver();
 
   useEffect(() => {
     const node = containerRef.current;
     if (!node) return;
 
-    const chart = init(node, null, { renderer: "svg" });
+    const chart = init(node, null, { renderer: 'svg' });
     setChartRoot(chart);
 
     return () => {
@@ -34,9 +34,9 @@ const EChartWrapperResponsive: React.FC<EChartWrapperResponsiveProps> = ({
   }, []);
 
   useDeepCompareEffect(() => {
-    if (chartInstanceRef.current) {
-      const chart = getInstanceByDom(chartInstanceRef.current);
-      chart?.setOption(option);
+    if (chartRoot) {
+      //  const chart = getInstanceByDom(chartInstanceRef.current);
+      chartRoot?.setOption(option);
     }
   }, [option]);
 
@@ -44,6 +44,8 @@ const EChartWrapperResponsive: React.FC<EChartWrapperResponsiveProps> = ({
   useDeepCompareEffect(() => {
     if (chartRoot && rect.height && rect.width) {
       chartRoot.resize();
+      if (onDimensionsChange)
+        onDimensionsChange({ width: rect.width, height: rect.height });
     }
   }, [rect]);
 
@@ -51,8 +53,8 @@ const EChartWrapperResponsive: React.FC<EChartWrapperResponsiveProps> = ({
     <div
       ref={containerRef}
       style={{
-        width: "100%",
-        aspectRatio: "4 / 3",
+        width: '100%',
+        aspectRatio: '4 / 3',
         ...style,
       }}
       role="img"
