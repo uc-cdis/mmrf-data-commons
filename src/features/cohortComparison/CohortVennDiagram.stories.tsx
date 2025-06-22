@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse } from 'msw';
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
