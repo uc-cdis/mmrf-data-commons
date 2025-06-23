@@ -6,7 +6,7 @@ import { useCohortFacetsQuery } from '@/core/features/cohortComparison';
 import { convertFilterSetToGqlFilter, FilterSet, GEN3_API, GEN3_AUTHZ_API, GEN3_FENCE_API } from '@gen3/core';
 import { CohortComparisonFields } from "../types";
 
-import cohortComparisionQueryData from '@/core/features/cohortComparison/test/cohortComparisonQuery.json';
+import cohortComparisonQueryData from '@/core/features/cohortComparison/test/cohortComparisonQuery.json';
 import pValueQueryResults from '@/core/features/cohortComparison/test/pValueQuery.json';
 
 import FacetCard from './index';
@@ -82,7 +82,7 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
 
 const meta = {
   component: FacetCardWrapped,
-  title: 'components/CohortComparison/FacetCard',
+  title: 'features/CohortComparison/FacetCard',
   /* --
   argTypes: {
     field: {
@@ -136,7 +136,7 @@ const handlers = {
     }),
 
       http.post(`${GEN3_COHORT_COMPARISON_API}/graphql`, () => {
-        return HttpResponse.json(cohortComparisionQueryData);
+        return HttpResponse.json(cohortComparisonQueryData);
       }),
 
       http.post(`${GEN3_COHORT_COMPARISON_API}/pvalue`, () => {
