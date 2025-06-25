@@ -1,62 +1,75 @@
 import React from 'react';
-import { Accordion, Table, ScrollArea } from '@mantine/core';
+import { Accordion, Table, ScrollArea, Box } from '@mantine/core';
+import isNumber from 'lodash/isNumber';
 
 interface BarChartTextVersionProps {
-  readonly data: {
-    x: string[];
-    y: number[];
-    customdata: [number, number][];
-    hovertemplate: string;
-  }[];
+  readonly data: { [key: string]: number | string }[];
+  readonly className?: string;
+  readonly horizontalScrollWidth?: number;
 }
 
 const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   data,
+  className,
+  horizontalScrollWidth,
 }: BarChartTextVersionProps) => {
-  const numberOfDecimalsPlacesToShow = 2;
   const maxHeightOfScrollArea = 300;
+  const numberOfDecimalsPlacesToShow = 2;
 
-  const transformedData = data[0]?.x?.map((name: string, index: number) => ({
-    name,
-    value: data[0].y[index],
-    customdata: data[0].customdata[index],
-  }));
+  const formatNumber = (num: number) =>
+    num
+      .toFixed(numberOfDecimalsPlacesToShow)
+      .replace(/\.00$/, '')
+      .replace(/\.0$/, '');
 
-  const rows = transformedData.map((rowData) => (
-    <Table.Tr key={rowData.name}>
-      <Table.Td>{rowData.name}</Table.Td>
-      <Table.Td>{rowData.value}</Table.Td>
-      <Table.Td>
-        {rowData.customdata[0]} / {rowData.customdata[1]} (
-        {rowData.value.toFixed(numberOfDecimalsPlacesToShow)})%
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const headerTitles = Object.keys(data[0]);
+
+  const rows = data.map((rowData, i) => {
+    const rowDataArr = Object.values(rowData);
+    return (
+      <Table.Tr key={i}>
+        {rowDataArr.map((value, i) => (
+          <Table.Td key={i}>
+            {isNumber(value) ? formatNumber(value) : (value as string)}
+          </Table.Td>
+        ))}
+      </Table.Tr>
+    );
+  });
 
   const ChartTextVersionTable = (
     <div data-testid="chart-text-version">
       <ScrollArea h={maxHeightOfScrollArea}>
-        <Table>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Name</Table.Th>
-              <Table.Th>Value</Table.Th>
-              <Table.Th>Cases Affected</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
+        <Box
+          w={horizontalScrollWidth ? horizontalScrollWidth : undefined}
+          tabIndex={0}
+        >
+          <Table>
+            <Table.Thead>
+              <Table.Tr>
+                {headerTitles.map((title, i) => (
+                  <Table.Th key={i} className="capitalize text-xs md:text-sm">
+                    {title}
+                  </Table.Th>
+                ))}
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Box>
       </ScrollArea>
     </div>
   );
 
   return (
-    <Accordion>
-      <Accordion.Item value="textVersion">
-        <Accordion.Control>Text Version</Accordion.Control>
-        <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
-      </Accordion.Item>
-    </Accordion>
+    <div className={`pt-2 ${className}`}>
+      <Accordion>
+        <Accordion.Item value="textVersion">
+          <Accordion.Control>Text Version</Accordion.Control>
+          <Accordion.Panel>{ChartTextVersionTable}</Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </div>
   );
 };
 
