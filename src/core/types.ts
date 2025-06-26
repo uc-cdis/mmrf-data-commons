@@ -300,3 +300,7 @@ export interface GraphqlApiSliceRequest {
 }
 
 export type GqlOperation = GQLFilter;
+
+// Expected indexes and subtypes of filters
+export type GQLDocType = "cases" | "files" | "genes" | "ssms" | "projects" | "annotations";
+export type GQLIndexType = "cases" | "files";
