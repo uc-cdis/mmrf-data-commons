@@ -1,3 +1,5 @@
+import { GQLFilter } from '@gen3/core';
+
 const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
@@ -13,6 +15,23 @@ const asAccessType = (x: unknown): AccessType => {
     throw new Error(`${x} is not a valid access type`);
   }
 };
+
+export interface HistogramDataAsStringKey {
+  key: string;
+  count: number;
+}
+
+type AnyJson = Record<string, any>;
+
+export interface GraphQLApiResponse<H = AnyJson> {
+  readonly data: H;
+  readonly errors: Record<string, string>;
+}
+
+export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
+
+// type alias for compatibility with GDC
+export type Bucket = HistogramDataAsStringKey;
 
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
@@ -274,3 +293,10 @@ export interface SSMSTableData {
   filteredCases: number;
   ssms: SSMSData[];
 }
+
+export interface GraphqlApiSliceRequest {
+  readonly graphQLQuery: string;
+  readonly graphQLFilters: Record<string, unknown>;
+}
+
+export type GqlOperation = GQLFilter;
