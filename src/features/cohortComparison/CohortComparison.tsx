@@ -7,8 +7,7 @@ import {
 } from '@gen3/core';
 import {
   useCohortFacetsQuery ,
-} from "@/core/features/cohortComparison";
-import { buildCohortGqlOperator } from "@/core/utils";
+} from "./mocks";
 import CohortCard from "./CohortCard/CohortCard";
 import SurvivalCard from "./SurvivalCard";
 import FacetCard from "./FacetCard";

@@ -24,7 +24,6 @@ const CohortCard: React.FC<CohortCardProps> = ({
   counts,
   cohorts,
   survivalPlotSelectable,
-  caseSetIds,
   casesFetching,
 }: CohortCardProps) => {
   return (
