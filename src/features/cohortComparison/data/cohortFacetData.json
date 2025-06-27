@@ -1,0 +1,196 @@
+{
+  "aggregations": [
+    {
+      "diagnoses.age_at_diagnosis": {
+        "buckets": [
+          {
+            "doc_count": 5,
+            "key": "10957.5"
+          },
+          {
+            "doc_count": 11,
+            "key": "14610.0"
+          },
+          {
+            "doc_count": 57,
+            "key": "18262.5"
+          },
+          {
+            "doc_count": 60,
+            "key": "21915.0"
+          },
+          {
+            "doc_count": 34,
+            "key": "25567.5"
+          },
+          {
+            "doc_count": 5,
+            "key": "29220.0"
+          }
+        ]
+      },
+      "demographic.gender": {
+        "buckets": [
+          {
+            "doc_count": 112,
+            "key": "male"
+          },
+          {
+            "doc_count": 61,
+            "key": "female"
+          }
+        ]
+      },
+      "demographic.ethnicity": {
+        "buckets": [
+          {
+            "doc_count": 173,
+            "key": "not hispanic or latino"
+          }
+        ]
+      },
+      "demographic.race": {
+        "buckets": [
+          {
+            "doc_count": 132,
+            "key": "white"
+          },
+          {
+            "doc_count": 33,
+            "key": "black or african american"
+          },
+          {
+            "doc_count": 3,
+            "key": "asian"
+          },
+          {
+            "doc_count": 3,
+            "key": "not allowed to collect"
+          },
+          {
+            "doc_count": 2,
+            "key": "not reported"
+          }
+        ]
+      },
+      "demographic.vital_status": {
+        "buckets": [
+          {
+            "doc_count": 124,
+            "key": "alive"
+          },
+          {
+            "doc_count": 49,
+            "key": "dead"
+          }
+        ]
+      }
+    },
+    {
+      "diagnoses.age_at_diagnosis": {
+        "buckets": [
+          {
+            "doc_count": 1,
+            "key": "7305.0"
+          },
+          {
+            "doc_count": 15,
+            "key": "10957.5"
+          },
+          {
+            "doc_count": 48,
+            "key": "14610.0"
+          },
+          {
+            "doc_count": 169,
+            "key": "18262.5"
+          },
+          {
+            "doc_count": 278,
+            "key": "21915.0"
+          },
+          {
+            "doc_count": 158,
+            "key": "25567.5"
+          },
+          {
+            "doc_count": 52,
+            "key": "29220.0"
+          }
+        ]
+      },
+      "demographic.gender": {
+        "buckets": [
+          {
+            "doc_count": 439,
+            "key": "male"
+          },
+          {
+            "doc_count": 283,
+            "key": "female"
+          }
+        ]
+      },
+      "demographic.ethnicity": {
+        "buckets": [
+          {
+            "doc_count": 636,
+            "key": "not hispanic or latino"
+          },
+          {
+            "doc_count": 63,
+            "key": "hispanic or latino"
+          },
+          {
+            "doc_count": 23,
+            "key": "not reported"
+          }
+        ]
+      },
+      "demographic.race": {
+        "buckets": [
+          {
+            "doc_count": 558,
+            "key": "white"
+          },
+          {
+            "doc_count": 119,
+            "key": "black or african american"
+          },
+          {
+            "doc_count": 15,
+            "key": "not reported"
+          },
+          {
+            "doc_count": 13,
+            "key": "asian"
+          },
+          {
+            "doc_count": 13,
+            "key": "not allowed to collect"
+          },
+          {
+            "doc_count": 4,
+            "key": "other"
+          }
+        ]
+      },
+      "demographic.vital_status": {
+        "buckets": [
+          {
+            "doc_count": 554,
+            "key": "alive"
+          },
+          {
+            "doc_count": 168,
+            "key": "dead"
+          }
+        ]
+      }
+    }
+  ],
+  "caseCounts": [
+    173,
+    722
+  ]
+}
