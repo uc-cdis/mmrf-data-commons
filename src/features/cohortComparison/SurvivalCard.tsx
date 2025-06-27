@@ -99,7 +99,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
 
   );
   //const [createSet] = useCreateCaseSetFromFiltersMutation();
-
+/*
   const generatePrimaryFilters = async () => {
         return {
           mode: "and",
@@ -125,7 +125,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
           },
         } as FilterSet;
   };
-
+  */
   const { data, isUninitialized, isFetching, isError } =
     useGetSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
