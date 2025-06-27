@@ -3,15 +3,11 @@ import { DAYS_IN_YEAR } from "../../core/constants";
 import { gen3Api, GEN3_API } from '@gen3/core';
 import { Survival, SurvivalApiResponse } from '@/core/survival/types';
 
-interface SurvivalApiRequest {
-    case_filters: Record<string, unknown>;
-    filters: Record<string, unknown>
-}
 
 export const survivalApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
-    getSurvivalPlot: builder.query<Survival, SurvivalApiRequest>({
-      query: (request: SurvivalApiRequest) => ({
+    getSurvivalPlot: builder.query<Survival, any>({
+      query: (request: any) => ({
         url: `${GEN3_API}/analysis/survival_plot`,
         method: 'POST',
         body: request,
