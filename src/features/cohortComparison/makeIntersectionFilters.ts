@@ -7,7 +7,7 @@ interface IntersectionFilters {
 }
 
 const makeIntersectionFilters = (
-  caseSetIds: string[],
+  caseSetIds: [string[], string[]],
   cohort1Filters?: GqlOperation,
   cohort2Filters?: GqlOperation,
 ): IntersectionFilters => {
@@ -28,21 +28,21 @@ const makeIntersectionFilters = (
   if (caseSetIds[0]) {
     cohort2Content.push({
       exclude:
-        { "cases.case_id" : [ `set_id:${caseSetIds[0]}` ] }
+        { "cases.case_id" : caseSetIds[0]  }
     });
 
     intersectionContent.push({
-      in: { "cases.case_id": [`set_id:${caseSetIds[0]}`] }
+      in: { "cases.case_id": caseSetIds[0] }
     }) ;
   }
 
   if (caseSetIds[1]) {
     cohort1Content.push({
-     exclude: { "cases.case_id" : [ `set_id:${caseSetIds[1]}` ] }
+     exclude: { "cases.case_id" : caseSetIds[1] }
     });
 
     intersectionContent.push({
-      in: { "cases.case_id": [`set_id:${caseSetIds[1]}`] }
+      in: { "cases.case_id": caseSetIds[1] }
     });
   }
 
