@@ -24,7 +24,7 @@ interface CohortVennDiagramProps {
       name: string;
     };
   };
-  readonly caseSetIds: string[];
+  readonly caseSetIds?: string[];
   readonly isLoading: boolean;
 }
 
@@ -44,7 +44,6 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   const filters = useDeepCompareMemo(
     () =>
       makeIntersectionFilters(
-        caseSetIds,
         buildCohortGqlOperator(cohorts?.primary_cohort.filter),
         buildCohortGqlOperator(cohorts?.comparison_cohort.filter),
 

@@ -44,7 +44,7 @@ const cohorts = {
 
 const meta = {
   component: CohortVennDiagram,
-  title: 'components/CohortComparison/CohortVennDiagram',
+  title: 'features/CohortComparison/CohortVennDiagram',
 } satisfies Meta<typeof CohortVennDiagram>;
 
 export default meta;

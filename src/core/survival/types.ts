@@ -14,17 +14,17 @@ export interface SurvivalElement {
 
 export interface SurvivalApiResponse {
   readonly results: ReadonlyArray<SurvivalElement>;
-  readonly overallStats: Record<string, number>;
+  readonly overallStats: Record<string, number | undefined>;
   readonly warnings: Record<string, string>;
 }
 
 export interface Survival {
   readonly survivalData: ReadonlyArray<SurvivalElement>;
-  readonly overallStats: Record<string, number>;
+  readonly overallStats: Record<string, number | undefined>;
 }
 
-export const emptySurvivalPlot = {
-  overallStats: { pValue: 0.0 },
+export const emptySurvivalPlot  : Survival= {
+  overallStats: { pValue: undefined },
   survivalData: [],
 };
 

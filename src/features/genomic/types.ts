@@ -7,12 +7,6 @@ export interface GenomicTableProps {
   ) => void;
 }
 
-// pass to Survival Plot when survivalPlotData data is undefined/not ready
-export const emptySurvivalPlot = {
-  overallStats: { pValue: undefined },
-  survivalData: [],
-};
-
 export interface ComparativeSurvival {
   symbol: string;
   name: string;
