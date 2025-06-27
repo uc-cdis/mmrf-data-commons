@@ -6,13 +6,17 @@ interface IntersectionFilters {
   intersection: GqlOperation;
 }
 
+/**
+ * This will be replaced by a Gen3 API endpoint
+ */
 const makeIntersectionFilters = (
-  caseSetIds: [string[], string[]],
-  cohort1Filters?: GqlOperation,
+   cohort1Filters?: GqlOperation,
   cohort2Filters?: GqlOperation,
 ): IntersectionFilters => {
   // Data should be in only one of the cohorts, not both so exclude cases ids from the other set
 
+
+  // TODO: Add Gen3 analysis API
   const cohort1Content:GqlOperation[] = [];
   const cohort2Content:GqlOperation[] = [];
   const intersectionContent : GqlOperation[] = [];
@@ -23,27 +27,6 @@ const makeIntersectionFilters = (
 
   if (cohort2Filters) {
     cohort2Content.push(cohort2Filters);
-  }
-
-  if (caseSetIds[0]) {
-    cohort2Content.push({
-      exclude:
-        { "cases.case_id" : caseSetIds[0]  }
-    });
-
-    intersectionContent.push({
-      in: { "cases.case_id": caseSetIds[0] }
-    }) ;
-  }
-
-  if (caseSetIds[1]) {
-    cohort1Content.push({
-     exclude: { "cases.case_id" : caseSetIds[1] }
-    });
-
-    intersectionContent.push({
-      in: { "cases.case_id": caseSetIds[1] }
-    });
   }
 
   return {

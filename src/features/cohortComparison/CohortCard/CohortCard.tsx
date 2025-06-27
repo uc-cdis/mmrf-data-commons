@@ -13,7 +13,7 @@ interface CohortCardProps {
   readonly options: Record<string, string>;
   readonly cohorts: CohortComparisonType;
   readonly survivalPlotSelectable: boolean;
-  readonly caseSetIds: string[];
+  readonly caseSetIds?: string[];
   readonly casesFetching: boolean;
 }
 
@@ -37,7 +37,6 @@ const CohortCard: React.FC<CohortCardProps> = ({
         />
 
         <CohortVennDiagram
-          caseSetIds={caseSetIds}
           cohorts={cohorts}
           isLoading={casesFetching || counts.length === 0}
         />

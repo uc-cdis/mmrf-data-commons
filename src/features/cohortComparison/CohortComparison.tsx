@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { pickBy } from "lodash";
 import { LoadingOverlay } from "@mantine/core";
 import {
+  convertFilterSetToGqlFilter,
   FilterSet,
-} from "@gen3/core";
+} from '@gen3/core';
 import {
   useCohortFacetsQuery ,
 } from "@/core/features/cohortComparison";
@@ -14,6 +15,7 @@ import FacetCard from "./FacetCard";
 import { DemoText } from "@/components/tailwindComponents";
 import { useDeepCompareEffect } from "use-deep-compare";
 import { CohortComparisonFields} from "./types";
+import { useCreateCaseSetFromFiltersMutation } from '@/features/cohortComparison/mocks';
 
 export interface CohortComparisonType {
   primary_cohort: {
@@ -71,8 +73,8 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
   } = useCohortFacetsQuery(
     {
       facetFields: fieldsToQuery,
-      primaryCohortSetId: primarySetResponse.data,
-      comparisonCohortSetId: comparisonSetResponse.data,
+      primaryCohort: convertFilterSetToGqlFilter(cohorts.primary_cohort.filter),
+      comparisonCohort: convertFilterSetToGqlFilter(cohorts.comparison_cohort.filter),
     },
     {
       skip:
@@ -85,14 +87,10 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
 
   useDeepCompareEffect(() => {
     createPrimaryCaseSet({
-      filters: buildCohortGqlOperator(cohorts.primary_cohort.filter) ?? {},
-      intent: "portal",
-      set_type: "ephemeral",
+      filters: cohorts.primary_cohort.filter ?? {},
     });
     createComparisonCaseSet({
-      filters: buildCohortGqlOperator(cohorts.comparison_cohort.filter) ?? {},
-      intent: "portal",
-      set_type: "ephemeral",
+      filters: cohorts.comparison_cohort.filter ?? {},
     });
   }, [
     cohorts.primary_cohort.filter,
@@ -107,10 +105,10 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     comparisonSetResponse.isUninitialized ||
     comparisonSetResponse.isLoading;
 
-  const caseSetIds =
+  const caseSetIds : [string[], string[]] =
     primarySetResponse.isSuccess && comparisonSetResponse.isSuccess
       ? [primarySetResponse.data, comparisonSetResponse.data]
-      : [];
+      : [[],[]];
 
   return (
     <div className="mt-6 px-4 mb-16">
@@ -154,7 +152,7 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
                 data={
                   cohortFacetsData?.aggregations
                     ? cohortFacetsData.aggregations.map(
-                        (d) => d[CohortComparisonFields[selectedCard]],
+                        (d:any) => d[CohortComparisonFields[selectedCard]],
                       )
                     : []
                 }
@@ -173,7 +171,6 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
             cohorts={cohorts}
             options={fields}
             survivalPlotSelectable={survivalPlotSelectable}
-            caseSetIds={caseSetIds}
             casesFetching={cohortFacetsFetching}
           />
         </div>
