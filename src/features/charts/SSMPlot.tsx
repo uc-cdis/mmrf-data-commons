@@ -5,6 +5,7 @@ import { FilterSet, useSsmPlotQuery } from '@/core';
 import ChartTitleBar from './ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import BarChartTextVersion from './BarChartTextVersion';
+import { PlotMouseEvent } from 'plotly.js';
 
 const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
@@ -65,16 +66,27 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
     return null;
   }
 
+  interface dataCase {
+    ssmCount: number;
+    project: string;
+    totalCount: number;
+    percent?: number;
+  }
   const sortedData = data.cases
-    .map((d: any) => ({ ...d, percent: (d.ssmCount / d.totalCount) * 100 }))
-    .sort((a: any, b: any) => (a.percent < b.percent ? 1 : -1))
+    .map((d: dataCase) => ({
+      ...d,
+      percent: (d.ssmCount / d.totalCount) * 100,
+    }))
+    .sort((a: dataCase, b: dataCase) =>
+      (a.percent as number) < (b.percent as number) ? 1 : -1,
+    )
     .slice(0, 20);
 
   const caseCount = (
     <CountSpan>
       {data.cases
-        .map((d: any) => d.ssmCount)
-        .reduce((a: any, b: any) => a + b, 0)
+        .map((d: dataCase) => d.ssmCount)
+        .reduce((a: number, b: number) => a + b, 0)
         .toLocaleString()}
     </CountSpan>
   );
@@ -99,9 +111,9 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   const chartData = {
     datasets: [
       {
-        x: sortedData.map((d: any) => d.project),
-        y: sortedData.map((d: any) => d.percent),
-        customdata: sortedData.map((d: any) => [d.ssmCount, d.totalCount]),
+        x: sortedData.map((d: dataCase) => d.project),
+        y: sortedData.map((d: dataCase) => d.percent),
+        customdata: sortedData.map((d: dataCase) => [d.ssmCount, d.totalCount]),
         hovertemplate:
           '%{customdata[0]} Cases Affected in <b>%{x}</b><br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)  <extra></extra>',
       },
@@ -111,9 +123,25 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
 
   const chartDivId = `${CHART_NAME}_${Math.floor(Math.random() * 100)}`;
 
-  const onClickHandler = (mouseEvent: any) => {
+  const onClickHandler = (mouseEvent: PlotMouseEvent) => {
     router.push(`/projects/${mouseEvent.points[0].x}`);
   };
+  const jsonData = [
+    ...sortedData.map(
+      ({
+        project: label,
+        percent: value,
+      }: {
+        project: string;
+        percent: number;
+      }) => {
+        return {
+          label,
+          value,
+        };
+      },
+    ),
+  ];
 
   return (
     <div
@@ -125,22 +153,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           title={title}
           filename="cancer-distribution-bar-chart"
           divId={chartDivId}
-          jsonData={[
-            ...sortedData.map(
-              ({
-                project: label,
-                percent: value,
-              }: {
-                project: any;
-                percent: any;
-              }) => {
-                return {
-                  label,
-                  value,
-                };
-              },
-            ),
-          ]}
+          jsonData={jsonData}
         />
       </div>
       <div>
@@ -150,7 +163,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
           onClickHandler={onClickHandler}
           height={height}
         />
-        <BarChartTextVersion data={chartData.datasets} />
+        <BarChartTextVersion className="mt-[20px]" data={jsonData} />
       </div>
     </div>
   );
