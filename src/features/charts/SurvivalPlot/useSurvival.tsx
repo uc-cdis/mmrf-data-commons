@@ -33,6 +33,7 @@ export const useSurvival: UseSurvivalType = (
   xDomain,
   setXDomain,
   height,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setTooltip = (_x?) => null,
   setEntityMetadata,
 ) => {

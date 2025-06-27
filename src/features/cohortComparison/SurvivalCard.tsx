@@ -91,11 +91,9 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
   counts,
   cohorts,
   setSurvivalPlotSelectable,
-  caseSetIds,
   isSetsloading,
 }: SurvivalCardProps) => {
   const filters = makeIntersectionFilters(
-    caseSetIds,
     buildCohortGqlOperator(cohorts?.primary_cohort.filter),
     buildCohortGqlOperator(cohorts?.comparison_cohort.filter),
 
@@ -108,7 +106,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
           root: {
             "cases.case_id": {
               field: "cases.case_id",
-              operands: caseSetIds[0],
+              operands: ["set0"],
               operator: "includes",
             },
           },
@@ -121,7 +119,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
           root: {
             "cases.case_id": {
               field: "cases.case_id",
-              operands: caseSetIds[0],
+              operands: ["set1"],
               operator: "includes",
             },
           },
