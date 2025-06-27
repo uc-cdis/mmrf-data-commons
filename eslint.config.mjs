@@ -3,6 +3,7 @@ import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import jsLint from '@eslint/js';
 import tsLint from 'typescript-eslint';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import next from '@next/eslint-plugin-next';
 import globals from 'globals';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
@@ -11,7 +12,7 @@ export default [
   reactRecommended,
   jsLint.configs.recommended,
   ...tsLint.configs.recommended,
-
+  jsxA11y.flatConfigs.recommended,
   {
     ignores: [
       '.nx/**/*',
