@@ -1,0 +1,17 @@
+{
+  "intersection": {
+    "hits": {
+      "total": 132
+    }
+  },
+  "set1": {
+    "hits": {
+      "total": 41
+    }
+  },
+  "set2": {
+    "hits": {
+      "total": 590
+    }
+  }
+}
