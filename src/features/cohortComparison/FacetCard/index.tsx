@@ -1,15 +1,20 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import { Paper } from "@mantine/core";
 import saveAs from "file-saver";
 import { Bucket, EmptyFilterSet } from "@/core";
 import { calculatePercentageAsNumber, humanify } from "@/core/utils";
-import BarChart from "../../charts/BarChart";
 import FunctionButton from "@/components/FunctionButton";
 import PValue from "../PValue";
 import CohortCreationButton from "@/components/CohortCreationButton";
 import { CohortComparisonType } from "../types";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
+
+
+const BarChart = dynamic(() => import("@/features/charts/BarChart"), {
+  ssr: false,
+});
 
 interface FacetCardProps {
   readonly data: { buckets: Bucket[] }[];

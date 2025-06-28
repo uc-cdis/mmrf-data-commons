@@ -1,4 +1,5 @@
 import React from 'react';
+import { FilterSet } from '@gen3/core';
 import CohortComparison from './CohortComparison';
 
 const PlaceHolderCohorts = {
@@ -28,8 +29,7 @@ const PlaceHolderCohorts = {
           ]
         }
       },
-      "isLoggedIn": false
-    },
+    } as FilterSet,
     "name": "MMRF agents4",
     "id": "ef9ae92d-746f-4a90-a7b4-bae2aed9d9ff"
   },
@@ -52,7 +52,7 @@ const PlaceHolderCohorts = {
           ]
         }
       }
-    },
+    } as FilterSet,
     "name": "MMRF agents1",
     "id": "a1b4d048-1d48-45f2-a6dd-f4c33352f7d1"
   }
@@ -60,7 +60,7 @@ const PlaceHolderCohorts = {
 
 const CohortComparisonApp = () => {
   return (
-    <CohortComparison cohorts={PlaceHolderCohorts}/>)
+    <CohortComparison cohorts={PlaceHolderCohorts} demoMode={false}/>)
 
 }
 

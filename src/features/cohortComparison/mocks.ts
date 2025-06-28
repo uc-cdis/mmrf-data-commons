@@ -1,7 +1,7 @@
 import { FilterSet } from '@gen3/core';
 import cohortFacetData from './data/cohortFacetData.json';
 import survivalPlotData from './data/survivalPlotData.json';
-import pValueResult from './data/pValueResult.json';
+import pValueResult from './data/pValueQueryResults.json';
 
 
 const test = 0;

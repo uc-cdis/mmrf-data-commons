@@ -84,19 +84,19 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
 
   const counts = cohortFacetsData?.caseCounts || [];
 
-  useDeepCompareEffect(() => {
-    createPrimaryCaseSet({
-      filters: cohorts.primary_cohort.filter ?? {},
-    });
-    createComparisonCaseSet({
-      filters: cohorts.comparison_cohort.filter ?? {},
-    });
-  }, [
-    cohorts.primary_cohort.filter,
-    cohorts.comparison_cohort.filter,
-    createComparisonCaseSet,
-    createPrimaryCaseSet,
-  ]);
+  // useDeepCompareEffect(() => {
+  //   createPrimaryCaseSet({
+  //     filters: cohorts.primary_cohort.filter ?? {},
+  //   });
+  //   createComparisonCaseSet({
+  //     filters: cohorts.comparison_cohort.filter ?? {},
+  //   });
+  // }, [
+  //   cohorts.primary_cohort.filter,
+  //   cohorts.comparison_cohort.filter,
+  //   createComparisonCaseSet,
+  //   createPrimaryCaseSet,
+  // ]);
 
   const isSetsloading =
     primarySetResponse.isUninitialized ||
