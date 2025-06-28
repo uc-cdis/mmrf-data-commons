@@ -27,6 +27,7 @@ const CohortCard: React.FC<CohortCardProps> = ({
 }: CohortCardProps) => {
 
   const theme = useMantineTheme();
+
   return (
     <div className="flex flex-col gap-y-4">
       <div className="border-1 border-base-lighter p-4">
@@ -41,7 +42,7 @@ const CohortCard: React.FC<CohortCardProps> = ({
           isLoading={casesFetching || counts.length === 0}
         />
 
-        <div className="text-center">
+        <div className="text-center hidden">
           <Link
             href={{
               pathname: "/analysis_page",
@@ -78,7 +79,7 @@ const CohortCard: React.FC<CohortCardProps> = ({
                   body: "flex justify-between items-center",
                   label:
                     "cursor-pointer text-sm text-black font-content font-medium",
-                  track: `cursor-pointer hover:bg-nci-orange-darker`,
+                  track: `cursor-pointer hover:bg-secondary-lighter`,
                 }}
                 checked={selectedCards[value]}
                 onChange={(e) =>

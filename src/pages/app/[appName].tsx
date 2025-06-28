@@ -16,6 +16,7 @@ import {
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
   ContentSource,
+  CohortManager,
 } from '@gen3/frontend';
 import { GeneSummary } from '@/features/GeneSummary/GeneSummary';
 
@@ -27,28 +28,29 @@ const AppsPage = ({ config }: AppConfig) => {
   const router = useRouter();
   const appName = getAppName(router);
 
-  const GdcApp = useCoreSelector(
+  const Gen3App = useCoreSelector(
     () => selectGen3AppByName(appName), // TODO update ById to ByName
   ) as React.ElementType;
 
-  if (!GdcApp)
+  if (!Gen3App)
     return (
       <Center>
-      <div className="text-utility-warning font-bold m-10 border-base-darkest">
-        App: {appName} not found
-      </div>
-        </Center>
+        <div className="text-utility-warning font-bold m-10 border-base-darkest">
+          App: {appName} not found
+        </div>
+      </Center>
     );
 
   return (
     <>
       <PageTitle pageName="Analysis Center" />
-      <div className="w-full flex-col flex gap-4 fixed z-10 bg-base-max">
+      <div className="w-full flex-col">
+      <div className="w-full flex-col flex gap-4 z-10 fixed top-0 bg-base-max">
         <MainNavigation />
+        <CohortManager index="cases"></CohortManager>
       </div>
-      <div className="flex">
-        <div className="w-full mt-[100px]">
-          {GdcApp && <GdcApp {...config} />}
+        <div className="mt-64 w-full overflow-y-auto">
+          {Gen3App && <Gen3App {...config} />}
         </div>
       </div>
     </>

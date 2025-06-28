@@ -7,7 +7,7 @@ import { calculatePercentageAsNumber, humanify } from "@/core/utils";
 import FunctionButton from "@/components/FunctionButton";
 import PValue from "../PValue";
 import CohortCreationButton from "@/components/CohortCreationButton";
-import { CohortComparisonType } from "../types";
+import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
 
@@ -78,7 +78,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
       cohorts[idx === 0 ? "primary_cohort" : "comparison_cohort"]?.name
     }</b><br /> %{y:.0f}% Cases (%{customdata:,})<extra></extra>`,
     marker: {
-      color: idx === 0 ? "#1F77B4" : "#BD5800",
+      color: idx === 0 ? COHORT_A_COLOR : COHORT_B_COLOR,
     },
   }));
 

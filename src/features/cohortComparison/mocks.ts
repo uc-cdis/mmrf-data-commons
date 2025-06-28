@@ -1,8 +1,8 @@
 import { FilterSet } from '@gen3/core';
 import cohortFacetData from './data/cohortFacetData.json';
 import survivalPlotData from './data/survivalPlotData.json';
-import pValueResult from './data/pValueQueryResults.json';
-
+import pValueResult from './data/pValueQueryData.json';
+import vennDiagramData from './data/vennDiagramData.json';
 
 const test = 0;
 
@@ -52,9 +52,21 @@ export const useCohortFacetsQuery = (
   };
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useVennDiagramQuery = (arg0: any): UseMutationResult<any> => {
+export const useGetSurvivalPlotQuery = (arg0: any): UseMutationResult<any> => {
   return {
     data: survivalPlotData,
+    isUninitialized: false,
+    isLoading: false,
+    isFetching: false,
+    isError: false,
+    isSuccess: true,
+  };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useVennDiagramQuery = (arg0: any): UseMutationResult<any> => {
+  return {
+    data: vennDiagramData,
     isUninitialized: false,
     isLoading: false,
     isFetching: false,

@@ -30,7 +30,7 @@ const PlaceHolderCohorts = {
         }
       },
     } as FilterSet,
-    "name": "MMRF agents4",
+    "name": "Cohort A",
     "id": "ef9ae92d-746f-4a90-a7b4-bae2aed9d9ff"
   },
   "comparison_cohort": {
@@ -53,7 +53,7 @@ const PlaceHolderCohorts = {
         }
       }
     } as FilterSet,
-    "name": "MMRF agents1",
+    "name": "Cohort B",
     "id": "a1b4d048-1d48-45f2-a6dd-f4c33352f7d1"
   }
 };

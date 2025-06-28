@@ -12,7 +12,6 @@ import CohortCard from "./CohortCard/CohortCard";
 import SurvivalCard from "./SurvivalCard";
 import FacetCard from "./FacetCard";
 import { DemoText } from "@/components/tailwindComponents";
-import { useDeepCompareEffect } from "use-deep-compare";
 import { CohortComparisonFields} from "./types";
 import { useCreateCaseSetFromFiltersMutation } from '@/features/cohortComparison/mocks';
 
