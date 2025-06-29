@@ -7,7 +7,8 @@ import makeIntersectionFilters from "./makeIntersectionFilters";
 import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { buildCohortGqlOperator } from "@/core/utils";
-import { useVennDiagramQuery } from '@/core/features/cohortComparison';
+// import { useVennDiagramQuery } from '@/core/features/cohortComparison';
+import { useVennDiagramQuery } from "./mocks";
 
 const VennDiagram = dynamic(() => import("@/features/charts/VennDiagram"), {
   ssr: false,

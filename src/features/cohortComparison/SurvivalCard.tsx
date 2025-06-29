@@ -7,7 +7,8 @@ import {
   buildCohortGqlOperator,
 } from "@/core/utils";
 import { GqlOperation } from "@/core/types";
-import { useGetSurvivalPlotQuery } from "@/core/survival";
+// import { useGetSurvivalPlotQuery } from "@/core/survival"; // TODO: uncomment when we have a survival endpoint
+import { useGetSurvivalPlotQuery } from "./mocks";
 import { GqlIntersection } from "./types";
 import SurvivalPlot from "../charts/SurvivalPlot/SurvivalPlot";
 import makeIntersectionFilters from "./makeIntersectionFilters";

@@ -1,9 +1,8 @@
 import React from "react";
-import { Switch } from "@mantine/core";
+import { Switch, useMantineTheme } from "@mantine/core";
 import CohortVennDiagram from "../CohortVennDiagram";
 import Link from "next/link";
 import { CohortComparisonType, FIELD_LABELS } from "../types";
-import tailwindConfig from "tailwind.config";
 import CohortTable from "./CohortTable";
 
 interface CohortCardProps {
@@ -24,9 +23,11 @@ const CohortCard: React.FC<CohortCardProps> = ({
   counts,
   cohorts,
   survivalPlotSelectable,
-  caseSetIds,
   casesFetching,
 }: CohortCardProps) => {
+
+  const theme = useMantineTheme();
+
   return (
     <div className="flex flex-col gap-y-4">
       <div className="border-1 border-base-lighter p-4">
@@ -41,7 +42,7 @@ const CohortCard: React.FC<CohortCardProps> = ({
           isLoading={casesFetching || counts.length === 0}
         />
 
-        <div className="text-center">
+        <div className="text-center hidden">
           <Link
             href={{
               pathname: "/analysis_page",
@@ -72,13 +73,13 @@ const CohortCard: React.FC<CohortCardProps> = ({
                 data-testid={`button-enable-${value}-cohort-comparison`}
                 id={`cohort-comparison-${value}`}
                 labelPosition="left"
-                color={tailwindConfig.theme.extend.colors["nci-orange"].DEFAULT}
+                color={theme.colors["accent"][4]}
                 classNames={{
                   root: "py-1",
                   body: "flex justify-between items-center",
                   label:
                     "cursor-pointer text-sm text-black font-content font-medium",
-                  track: `cursor-pointer hover:bg-nci-orange-darker`,
+                  track: `cursor-pointer hover:bg-secondary-lighter`,
                 }}
                 checked={selectedCards[value]}
                 onChange={(e) =>

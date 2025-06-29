@@ -33,10 +33,12 @@ interface QueryResponse {
  * @param {any} obj - The object to be checked.
  * @returns {boolean} Returns true if the object is a QueryResponse, false otherwise.
  */
-const isQueryResponse = (obj: any): obj is QueryResponse => {
+const isQueryResponse = (obj: unknown): obj is QueryResponse => {
   // Considering that the data property can be optional
   return (
+    obj !== null &&
     typeof obj === 'object' &&
+      "data" in obj &&
     (obj.data === undefined || typeof obj.data === 'object')
   );
 };
@@ -110,7 +112,7 @@ export const FileDetailsPanel = ({
       </td>
       <td>
         {/*
-          if field is one that we want a link for make it an Anchor otherwise
+          if the field is one that we want a link for, make it an Anchor otherwise
           render as text.
          */}
         {field === 'object_id' ? (

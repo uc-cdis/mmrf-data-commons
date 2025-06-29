@@ -21,25 +21,25 @@ export function getFormattedTimestamp(
   if (date === null) return undefined;
 
   const formatOptions: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
 
   if (includeTimes) {
     Object.assign(formatOptions, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
       hour12: false,
     });
   }
 
-  const formattedDate = date.toLocaleString("sv-SE", formatOptions);
+  const formattedDate = date.toLocaleString('sv-SE', formatOptions);
 
   if (includeTimes) {
-    return formattedDate.replace(" ", ".").replace(/[:]/g, "");
+    return formattedDate.replace(' ', '.').replace(/[:]/g, '');
   } else {
     return formattedDate;
   }

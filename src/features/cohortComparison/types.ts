@@ -18,6 +18,10 @@ export interface CohortComparisonType {
   };
 }
 
+export const COHORT_A_COLOR = "#8d3859";
+export const COHORT_B_COLOR = "#FCA88D";
+
+
 
 export const CohortComparisonFields : { [key: string]: string } = {
   survival: "Survival",

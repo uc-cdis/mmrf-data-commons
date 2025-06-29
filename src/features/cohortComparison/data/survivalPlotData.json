@@ -1,0 +1,5071 @@
+{
+  "survivalData": [
+  {
+    "meta": {
+      "id": 140456912848064
+    },
+    "donors": [
+      {
+        "time": 1.6892539356605065,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "b539f267-ccf2-4308-844d-1dc0e43f6d2f",
+        "submitter_id": "MMRF_2147",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7138945927446954,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "503dd7a3-4948-4510-a7c1-1e1b44099227",
+        "submitter_id": "MMRF_2503",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7768651608487338,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "3fa693fe-27d0-48da-8c41-d740747ec62a",
+        "submitter_id": "MMRF_2573",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8042436687200547,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "c27ab9c4-03ad-46de-abfb-2ffcb5a92790",
+        "submitter_id": "MMRF_2570",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8535249828884326,
+        "censored": false,
+        "survivalEstimate": 1,
+        "id": "cfe27fcc-864e-45bc-9b16-f736b9035e0e",
+        "submitter_id": "MMRF_1797",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9657768651608487,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "87e6abec-b58f-4b1c-acc5-7553e746efd2",
+        "submitter_id": "MMRF_1917",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9794661190965093,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "6ee3a6fb-773e-4678-9cab-28473bb17740",
+        "submitter_id": "MMRF_2363",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0150581793292264,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "1633986b-fede-4031-90de-f15287d591ae",
+        "submitter_id": "MMRF_2399",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1245722108145104,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "54321e01-7416-4d3f-ba95-904b40c8a97d",
+        "submitter_id": "MMRF_2429",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.209445585215606,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "316127f5-8d88-4434-a760-eb3caa8d383a",
+        "submitter_id": "MMRF_2237",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2477754962354553,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "98eb3354-e412-4996-9274-04cda4827dc1",
+        "submitter_id": "MMRF_2281",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2614647501711156,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "41b8e05c-b5fe-45b8-bc9e-214ea4b35e0a",
+        "submitter_id": "MMRF_1855",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2669404517453797,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "09d67a3e-d4d7-4a96-84c7-0c3af1d4a1da",
+        "submitter_id": "MMRF_2072",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3764544832306638,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "d3abb537-dc9e-4263-98c6-ce12b119fd85",
+        "submitter_id": "MMRF_2236",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.455852156057495,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "ea87a825-74ed-4454-b4c0-45ccb0a3e378",
+        "submitter_id": "MMRF_2091",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.458590006844627,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "1d503561-6913-4a0e-a1f1-615c6dc315a1",
+        "submitter_id": "MMRF_1985",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4668035592060233,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "3d5ebf3f-0cbd-458a-820d-65652e9682d7",
+        "submitter_id": "MMRF_2081",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4750171115674195,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "21a2751c-648d-4526-9b55-099cc1853788",
+        "submitter_id": "MMRF_2159",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.513347022587269,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "f5ab2d5f-a52b-4dd0-b75f-b23171ac5a66",
+        "submitter_id": "MMRF_2056",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6064339493497606,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "7330f575-6c5b-463a-9cd6-958cc16159d9",
+        "submitter_id": "MMRF_2005",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6639288158795345,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "380672b8-7ba4-4427-9252-7404b9e6b6dc",
+        "submitter_id": "MMRF_2021",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6885694729637235,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "b53d32bf-44fb-4135-9c10-037fe46ca1e9",
+        "submitter_id": "MMRF_1824",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8774811772758384,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "b032d68e-999f-4788-b486-6058541cfce4",
+        "submitter_id": "MMRF_1949",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.940451745379877,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "465022e3-bb64-4fd2-a28a-6191b73d01b6",
+        "submitter_id": "MMRF_1911",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.965092402464066,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "6e23a4a7-0f96-47c1-afb6-27699e7afd79",
+        "submitter_id": "MMRF_1775",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9787816563997263,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "0c052aa2-6f65-4c07-b319-41e7d520ac57",
+        "submitter_id": "MMRF_1825",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0198494182067077,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "67ba43b8-1bd5-4cf0-bea9-f8a624e85a7b",
+        "submitter_id": "MMRF_1835",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.030800821355236,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "83d2b57a-6f26-4a6a-adf2-25a4647e37ed",
+        "submitter_id": "MMRF_1795",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.033538672142368,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "7bec9473-a475-446e-a275-ad55590d3644",
+        "submitter_id": "MMRF_1733",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.14031485284052,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "3ec5b04e-4677-4573-b907-e386b84ab39d",
+        "submitter_id": "MMRF_1652",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1485284052019167,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "1365c987-1c56-474e-ab2b-7f53cabf3cb0",
+        "submitter_id": "MMRF_1690",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.164955509924709,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "770685f0-96ae-4f29-a748-e6593e10b931",
+        "submitter_id": "MMRF_1727",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.268993839835729,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "a5e50950-146d-45cf-adea-c9ae1366360e",
+        "submitter_id": "MMRF_1664",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3155373032169746,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "7cbe1fe9-2d1d-4771-ac2b-c8da10e9d27f",
+        "submitter_id": "MMRF_1630",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.34839151266256,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "2a4e21b2-79af-43de-9a17-58a12949757c",
+        "submitter_id": "MMRF_1628",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4496919917864477,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "d501e20b-a774-4362-917d-cbde9cbbd6c5",
+        "submitter_id": "MMRF_1520",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4743326488706368,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "7da8e250-ea31-4fb2-abc7-d1b1d27113cf",
+        "submitter_id": "MMRF_1608",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5318275154004106,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "b09aab3d-c7ed-49b8-814a-c4218d72f5aa",
+        "submitter_id": "MMRF_1541",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9890485968514717,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "05ba7768-7d72-4194-91ac-982e57a8b03d",
+        "submitter_id": "MMRF_1403",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.005475701574264,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "8b72ff50-1613-40d4-82ee-b84583002723",
+        "submitter_id": "MMRF_1386",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.041067761806982,
+        "censored": true,
+        "survivalEstimate": 0.972972972972973,
+        "id": "7dc31268-639a-487c-a031-76c2335c77c5",
+        "submitter_id": "MMRF_1393",
+        "project_id": "MMRF-COMMPASS"
+      }
+    ]
+  },
+  {
+    "meta": {
+      "id": 140456356319360
+    },
+    "donors": [
+      {
+        "time": 0.0027378507871321013,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "2b81d589-cadc-4f6c-8c23-e5311f758f01",
+        "submitter_id": "MMRF_2187",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.0027378507871321013,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "ce950fb2-be89-4061-a3af-a104d8021530",
+        "submitter_id": "MMRF_2226",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.0027378507871321013,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "7873c1f5-3175-4b68-b8e0-00c1d2b36801",
+        "submitter_id": "MMRF_1327",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.0027378507871321013,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "da7c1425-a8c7-4f9c-94a0-85ef517e9c2d",
+        "submitter_id": "MMRF_1601",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.0027378507871321013,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "8b86cd08-9096-4ba6-9167-e54a77e356b0",
+        "submitter_id": "MMRF_2602",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.019164955509924708,
+        "censored": true,
+        "survivalEstimate": 1,
+        "id": "15713a83-8a83-491e-9b6d-52538a3e8478",
+        "submitter_id": "MMRF_1584",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.03559206023271732,
+        "censored": false,
+        "survivalEstimate": 1,
+        "id": "8676efb6-126b-4206-b6d6-9fe311392693",
+        "submitter_id": "MMRF_2151",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.04380561259411362,
+        "censored": false,
+        "survivalEstimate": 0.9982876712328768,
+        "id": "f02a53a1-62c5-4e02-bae4-8b9ac0c443fc",
+        "submitter_id": "MMRF_1634",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.04380561259411362,
+        "censored": false,
+        "survivalEstimate": 0.9982876712328768,
+        "id": "735e67ee-112b-44aa-8c5e-5094954b7468",
+        "submitter_id": "MMRF_1450",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.05201916495550993,
+        "censored": false,
+        "survivalEstimate": 0.9948630136986303,
+        "id": "eed260ad-779e-468e-8313-9bde1f0d60c6",
+        "submitter_id": "MMRF_1778",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.057494866529774126,
+        "censored": false,
+        "survivalEstimate": 0.993150684931507,
+        "id": "79a3389c-279b-4589-aadc-4900c3e7638c",
+        "submitter_id": "MMRF_2115",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.06297056810403832,
+        "censored": false,
+        "survivalEstimate": 0.9914383561643838,
+        "id": "be90cdd9-b06b-4121-b02c-8ce0bfcc9f9a",
+        "submitter_id": "MMRF_1646",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.08487337440109514,
+        "censored": false,
+        "survivalEstimate": 0.9897260273972606,
+        "id": "9db4353c-207c-417d-a009-e40f4238c255",
+        "submitter_id": "MMRF_1851",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.11225188227241616,
+        "censored": false,
+        "survivalEstimate": 0.9880136986301372,
+        "id": "cb054f6b-8e68-4846-9bdf-01ad9039d45a",
+        "submitter_id": "MMRF_2272",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.11225188227241616,
+        "censored": false,
+        "survivalEstimate": 0.9880136986301372,
+        "id": "1aa3e9f5-ec54-4748-a046-9551fb00c8f1",
+        "submitter_id": "MMRF_1576",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.12320328542094455,
+        "censored": false,
+        "survivalEstimate": 0.9845890410958906,
+        "id": "3c13821d-8024-4b68-b927-014e00de6ddf",
+        "submitter_id": "MMRF_1270",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.12594113620807665,
+        "censored": false,
+        "survivalEstimate": 0.9828767123287674,
+        "id": "3a71752b-c040-4dc2-b3e2-fd5e5bb92f9d",
+        "submitter_id": "MMRF_2063",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.15879534565366188,
+        "censored": true,
+        "survivalEstimate": 0.9811643835616441,
+        "id": "ff7f4510-d7d6-4279-a01d-0c9409852b4e",
+        "submitter_id": "MMRF_1648",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.16153319644079397,
+        "censored": true,
+        "survivalEstimate": 0.9811643835616441,
+        "id": "7964181c-916b-4d83-817a-4d6e489f94c9",
+        "submitter_id": "MMRF_1945",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.17522245037645448,
+        "censored": true,
+        "survivalEstimate": 0.9811643835616441,
+        "id": "d81a6c52-6b59-4bd6-b5b1-a22093b0f051",
+        "submitter_id": "MMRF_2152",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.17522245037645448,
+        "censored": false,
+        "survivalEstimate": 0.9811643835616441,
+        "id": "c62170e0-7a82-4e36-b384-6fc0e7a18cfe",
+        "submitter_id": "MMRF_1720",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.1806981519507187,
+        "censored": true,
+        "survivalEstimate": 0.9794430425378517,
+        "id": "ce2364f6-fac4-43f2-9947-8c9d11c294a1",
+        "submitter_id": "MMRF_1644",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.1806981519507187,
+        "censored": false,
+        "survivalEstimate": 0.9794430425378517,
+        "id": "6dae99a7-88ab-4477-8228-efb00dd3bb8f",
+        "submitter_id": "MMRF_2300",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.1971252566735113,
+        "censored": true,
+        "survivalEstimate": 0.9777186709840878,
+        "id": "74736b86-8106-4c0e-a8d5-2b63090754cc",
+        "submitter_id": "MMRF_2291",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.1971252566735113,
+        "censored": false,
+        "survivalEstimate": 0.9777186709840878,
+        "id": "996ba5d0-c148-4f2b-9551-cbb746ad7322",
+        "submitter_id": "MMRF_1642",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2080766598220397,
+        "censored": false,
+        "survivalEstimate": 0.9759912528374728,
+        "id": "dbfe5764-c8e7-425e-9c97-85ab6eedf6d2",
+        "submitter_id": "MMRF_2444",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2108145106091718,
+        "censored": false,
+        "survivalEstimate": 0.9742638346908579,
+        "id": "4a5a1396-9e77-4c47-a15b-61b863ef950d",
+        "submitter_id": "MMRF_1716",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.216290212183436,
+        "censored": false,
+        "survivalEstimate": 0.9725364165442429,
+        "id": "f24cfd7d-1605-4df1-b705-db6694fe745f",
+        "submitter_id": "MMRF_2160",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.22176591375770022,
+        "censored": false,
+        "survivalEstimate": 0.970808998397628,
+        "id": "84d37b34-6a7e-4679-aa14-a53b4f20b956",
+        "submitter_id": "MMRF_1654",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2245037645448323,
+        "censored": true,
+        "survivalEstimate": 0.969081580251013,
+        "id": "b578282f-0222-4e0b-af52-39c68484ae4d",
+        "submitter_id": "MMRF_2197",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2327173169062286,
+        "censored": false,
+        "survivalEstimate": 0.969081580251013,
+        "id": "a2be2276-0af8-427d-8c64-f8ed8fa7a71a",
+        "submitter_id": "MMRF_1231",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2327173169062286,
+        "censored": true,
+        "survivalEstimate": 0.969081580251013,
+        "id": "c27c68d8-dc03-4be8-8254-e43cfc68e2f1",
+        "submitter_id": "MMRF_2410",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.23545516769336072,
+        "censored": true,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "0e6384ff-f974-4748-8248-87b3763268d2",
+        "submitter_id": "MMRF_2035",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.23545516769336072,
+        "censored": true,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "4ffcbb59-123b-4494-bd0a-b3932bbc0704",
+        "submitter_id": "MMRF_2341",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.24914442162902123,
+        "censored": true,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "251a82ec-0b29-4652-911d-5f07ee5a7ec3",
+        "submitter_id": "MMRF_2245",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.2518822724161533,
+        "censored": true,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "2989ecbc-89f5-428b-9b0e-c5ac32a0c309",
+        "submitter_id": "MMRF_1456",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.25735797399041754,
+        "censored": true,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "78dc4445-f0c6-4102-8893-190085c26397",
+        "submitter_id": "MMRF_2307",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.26283367556468173,
+        "censored": false,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "17c2388c-de15-4ad9-9a3c-83a8574f9578",
+        "submitter_id": "MMRF_1944",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.26283367556468173,
+        "censored": false,
+        "survivalEstimate": 0.9673479817174692,
+        "id": "96d05ad0-f794-48b8-811d-9506aecb5e26",
+        "submitter_id": "MMRF_2314",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.27652292950034224,
+        "censored": false,
+        "survivalEstimate": 0.9638494356714747,
+        "id": "c5ef6c5d-ca25-4975-aa27-0a21b3dc0cf7",
+        "submitter_id": "MMRF_1753",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.28473648186173856,
+        "censored": false,
+        "survivalEstimate": 0.9621001626484775,
+        "id": "b086e8b6-0a9c-47c7-8783-323650c7def6",
+        "submitter_id": "MMRF_2251",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.29021218343600275,
+        "censored": true,
+        "survivalEstimate": 0.9603508896254803,
+        "id": "18724e8a-1746-4420-8eba-eb716222722c",
+        "submitter_id": "MMRF_2002",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.32306639288158795,
+        "censored": false,
+        "survivalEstimate": 0.9603508896254803,
+        "id": "4319b1c8-927b-43d7-8c5b-63003292c841",
+        "submitter_id": "MMRF_1107",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.32854209445585214,
+        "censored": true,
+        "survivalEstimate": 0.9585984244984266,
+        "id": "e8280528-4fd6-44fc-b15b-72c78e4161bf",
+        "submitter_id": "MMRF_1721",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.33675564681724846,
+        "censored": false,
+        "survivalEstimate": 0.9585984244984266,
+        "id": "dba0dea2-ebf3-4222-a01e-bf6041d7ba8b",
+        "submitter_id": "MMRF_1580",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.36413415468856947,
+        "censored": true,
+        "survivalEstimate": 0.956842749728283,
+        "id": "2c3ee8e8-0819-47c1-b26f-3d30be31e17f",
+        "submitter_id": "MMRF_2368",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.3668720054757016,
+        "censored": false,
+        "survivalEstimate": 0.956842749728283,
+        "id": "a4c12827-4070-4964-b2e0-ccea378e1d0a",
+        "submitter_id": "MMRF_1890",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.3805612594113621,
+        "censored": false,
+        "survivalEstimate": 0.9550838476148119,
+        "id": "d00e73a5-08e5-42cf-9634-512e084d8d87",
+        "submitter_id": "MMRF_2596",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.3942505133470226,
+        "censored": true,
+        "survivalEstimate": 0.9533249455013408,
+        "id": "0b64552e-7610-446f-aa2d-79b10e034e13",
+        "submitter_id": "MMRF_2203",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4106776180698152,
+        "censored": false,
+        "survivalEstimate": 0.9533249455013408,
+        "id": "a051be7a-9069-408f-91aa-4722524595a1",
+        "submitter_id": "MMRF_1277",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4188911704312115,
+        "censored": false,
+        "survivalEstimate": 0.9515627921824844,
+        "id": "5bde0059-5b21-4696-bacd-825c2f489996",
+        "submitter_id": "MMRF_1281",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4216290212183436,
+        "censored": false,
+        "survivalEstimate": 0.949800638863628,
+        "id": "16c8cf8e-ea82-4185-9349-5218c03f0c75",
+        "submitter_id": "MMRF_1451",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4271047227926078,
+        "censored": false,
+        "survivalEstimate": 0.9480384855447715,
+        "id": "ab6678eb-ce53-4e9c-bbb5-749334674333",
+        "submitter_id": "MMRF_2364",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.42984257357973993,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "21c32fd0-13b2-4e72-8697-65180aa9edc9",
+        "submitter_id": "MMRF_2230",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.42984257357973993,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "7eb4b859-1c00-44a6-b771-c9cbc2cb43c4",
+        "submitter_id": "MMRF_2079",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.44353182751540043,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "c5111085-2ba4-4d1f-9e96-e7e7f39459a7",
+        "submitter_id": "MMRF_1505",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4490075290896646,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "9fb458b7-e7b4-4052-9da9-ddb2f6ef2463",
+        "submitter_id": "MMRF_2050",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.4517453798767967,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "59873ab0-7a19-4616-87d4-f9f515a73265",
+        "submitter_id": "MMRF_2365",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.47091033538672145,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "a6533b38-fe7d-4c1c-951c-c868e9377af6",
+        "submitter_id": "MMRF_1244",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5037645448323066,
+        "censored": true,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "ec647a73-b91a-4abb-96b2-7f897613884f",
+        "submitter_id": "MMRF_1445",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5092402464065708,
+        "censored": false,
+        "survivalEstimate": 0.9462763322259151,
+        "id": "b70aed1f-ffa9-4d0c-8a4c-f75f330a0d16",
+        "submitter_id": "MMRF_1339",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5229295003422314,
+        "censored": false,
+        "survivalEstimate": 0.9444909051839794,
+        "id": "27481a52-2d4e-49bd-8237-e04432ef6864",
+        "submitter_id": "MMRF_1169",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5338809034907598,
+        "censored": false,
+        "survivalEstimate": 0.9427054781420436,
+        "id": "c62f3da1-3ec4-46fb-8981-28a005a52655",
+        "submitter_id": "MMRF_2132",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5503080082135524,
+        "censored": false,
+        "survivalEstimate": 0.9409200511001079,
+        "id": "8047da06-f35e-4211-b218-60cfc2cc7309",
+        "submitter_id": "MMRF_2112",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5503080082135524,
+        "censored": false,
+        "survivalEstimate": 0.9409200511001079,
+        "id": "dd289ca0-d992-46af-b22b-22e4464f0a7d",
+        "submitter_id": "MMRF_2621",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.5776865160848734,
+        "censored": false,
+        "survivalEstimate": 0.9373491970162365,
+        "id": "aa03e560-54cd-4929-a290-e126dfaac8dc",
+        "submitter_id": "MMRF_1687",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.648870636550308,
+        "censored": false,
+        "survivalEstimate": 0.9355637699743009,
+        "id": "4fdd7e1f-a30d-44f4-8f1b-21d9c43a8572",
+        "submitter_id": "MMRF_1897",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.676249144421629,
+        "censored": true,
+        "survivalEstimate": 0.9337783429323653,
+        "id": "b817d3c9-6b5b-4ef9-b46f-02bf9d334f80",
+        "submitter_id": "MMRF_1633",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.6817248459958932,
+        "censored": true,
+        "survivalEstimate": 0.9337783429323653,
+        "id": "7fee4128-0366-41b1-b706-a83ecaa53cc0",
+        "submitter_id": "MMRF_2550",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.6844626967830253,
+        "censored": false,
+        "survivalEstimate": 0.9337783429323653,
+        "id": "b3a97996-7b5c-4f12-9a5e-c3f921081b06",
+        "submitter_id": "MMRF_1151",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.6926762491444216,
+        "censored": true,
+        "survivalEstimate": 0.9319860620438194,
+        "id": "463a106f-de45-4520-8122-aaed112641bb",
+        "submitter_id": "MMRF_1439",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7008898015058179,
+        "censored": true,
+        "survivalEstimate": 0.9319860620438194,
+        "id": "df55ecae-7871-42da-bd85-195425f539e0",
+        "submitter_id": "MMRF_1755",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.70362765229295,
+        "censored": true,
+        "survivalEstimate": 0.9319860620438194,
+        "id": "6a6c45d8-4196-42fd-a9c8-2f9f3879164e",
+        "submitter_id": "MMRF_1460",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7091033538672142,
+        "censored": false,
+        "survivalEstimate": 0.9319860620438194,
+        "id": "9cb60de9-3a22-4016-944a-68d5523c4e67",
+        "submitter_id": "MMRF_1970",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7227926078028748,
+        "censored": false,
+        "survivalEstimate": 0.9301833810727481,
+        "id": "684e30cb-0db5-4624-aa80-a99816e6a787",
+        "submitter_id": "MMRF_2455",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7227926078028748,
+        "censored": false,
+        "survivalEstimate": 0.9301833810727481,
+        "id": "a2c46427-006d-46bf-b499-0320b3e9c7eb",
+        "submitter_id": "MMRF_2335",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7337440109514032,
+        "censored": true,
+        "survivalEstimate": 0.9265780191306057,
+        "id": "1fc3d6db-29e4-4cfa-8746-93d867581d17",
+        "submitter_id": "MMRF_1364",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7419575633127995,
+        "censored": false,
+        "survivalEstimate": 0.9265780191306057,
+        "id": "2695fb06-0944-4f77-bae9-8230c38c8d0a",
+        "submitter_id": "MMRF_2554",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7501711156741958,
+        "censored": true,
+        "survivalEstimate": 0.9247718241615401,
+        "id": "8b150be2-76c9-40c9-a5c1-7f11b2f28613",
+        "submitter_id": "MMRF_1348",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7611225188227242,
+        "censored": true,
+        "survivalEstimate": 0.9247718241615401,
+        "id": "3ff111c9-5296-4977-88ba-22c933d2e9d4",
+        "submitter_id": "MMRF_1715",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.7994524298425736,
+        "censored": false,
+        "survivalEstimate": 0.9247718241615401,
+        "id": "fd98803b-0edf-42dc-b3f3-1780111fe48e",
+        "submitter_id": "MMRF_1998",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.8350444900752909,
+        "censored": true,
+        "survivalEstimate": 0.9229585460749489,
+        "id": "22487ec3-002f-4d29-8ed7-fd1d1ecec22c",
+        "submitter_id": "MMRF_1963",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.8843258042436687,
+        "censored": false,
+        "survivalEstimate": 0.9229585460749489,
+        "id": "d6e51aeb-799d-40b7-8a00-61220cf0f529",
+        "submitter_id": "MMRF_1879",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.8870636550308009,
+        "censored": true,
+        "survivalEstimate": 0.9211416985433053,
+        "id": "62d34e48-70e6-49be-a94e-390d2de2181e",
+        "submitter_id": "MMRF_1331",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.8980150581793293,
+        "censored": false,
+        "survivalEstimate": 0.9211416985433053,
+        "id": "1e80f582-1dcf-4a45-b1a2-0b6ab324a1a3",
+        "submitter_id": "MMRF_1939",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.9500342231348392,
+        "censored": false,
+        "survivalEstimate": 0.9193212604038916,
+        "id": "3bfb8a82-4b5f-49b6-bb27-5b756b1f3eed",
+        "submitter_id": "MMRF_1625",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.9555099247091033,
+        "censored": false,
+        "survivalEstimate": 0.9175008222644779,
+        "id": "1a014df7-5b60-45f7-9194-3cc53c40ca28",
+        "submitter_id": "MMRF_2490",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.9555099247091033,
+        "censored": true,
+        "survivalEstimate": 0.9175008222644779,
+        "id": "9128deb9-aaf1-44a3-a047-19d51120cc99",
+        "submitter_id": "MMRF_2507",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.9691991786447639,
+        "censored": false,
+        "survivalEstimate": 0.9156767649637533,
+        "id": "ebccc0e8-d456-40fc-894a-1152d2f4c0cc",
+        "submitter_id": "MMRF_1374",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 0.9856262833675564,
+        "censored": false,
+        "survivalEstimate": 0.9138527076630286,
+        "id": "1cdf1435-6fea-4fee-9d8a-35a7afdf51ac",
+        "submitter_id": "MMRF_2581",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.0184804928131417,
+        "censored": false,
+        "survivalEstimate": 0.912028650362304,
+        "id": "56765ee0-fa94-4758-b118-6cf940e90c16",
+        "submitter_id": "MMRF_1164",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.0266940451745379,
+        "censored": true,
+        "survivalEstimate": 0.9102045930615793,
+        "id": "57744ea1-673b-422a-bb9c-f06aed93b3b5",
+        "submitter_id": "MMRF_1365",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.0650239561943875,
+        "censored": false,
+        "survivalEstimate": 0.9102045930615793,
+        "id": "2ff5c839-e056-4fcc-a4a5-43f11535024e",
+        "submitter_id": "MMRF_2401",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.0677618069815196,
+        "censored": false,
+        "survivalEstimate": 0.9083768729951905,
+        "id": "ce2d88e3-4ab5-427e-9bd9-98e3c96036f2",
+        "submitter_id": "MMRF_1489",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.0978781656399725,
+        "censored": false,
+        "survivalEstimate": 0.9065491529288018,
+        "id": "ae7a8c0b-3157-4852-a8e5-302f1165882c",
+        "submitter_id": "MMRF_1432",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.106091718001369,
+        "censored": false,
+        "survivalEstimate": 0.904721432862413,
+        "id": "cded9579-0f99-483f-9358-fc88d358d67d",
+        "submitter_id": "MMRF_1491",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.1526351813826146,
+        "censored": false,
+        "survivalEstimate": 0.9028937127960243,
+        "id": "2ec27dee-37a7-4043-8bc1-a20c73d0e22b",
+        "submitter_id": "MMRF_2017",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.158110882956879,
+        "censored": false,
+        "survivalEstimate": 0.9010659927296356,
+        "id": "9e899f94-e865-421c-9c1b-b0a1900079ca",
+        "submitter_id": "MMRF_2201",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.160848733744011,
+        "censored": true,
+        "survivalEstimate": 0.899238272663247,
+        "id": "82a77e5c-96f6-43a3-b3c0-7ca35f4983f4",
+        "submitter_id": "MMRF_1373",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.163586584531143,
+        "censored": false,
+        "survivalEstimate": 0.899238272663247,
+        "id": "01489f5a-650e-4e15-aacf-a8463cbed03c",
+        "submitter_id": "MMRF_2174",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.1690622861054072,
+        "censored": true,
+        "survivalEstimate": 0.8974068301527311,
+        "id": "6708920e-ecd2-4682-8a33-52a64b710f03",
+        "submitter_id": "MMRF_1346",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.1991786447638604,
+        "censored": false,
+        "survivalEstimate": 0.8974068301527311,
+        "id": "7de402ad-469d-4ab4-bc9d-e546a9baf2dc",
+        "submitter_id": "MMRF_2546",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.215605749486653,
+        "censored": true,
+        "survivalEstimate": 0.8955716423610078,
+        "id": "44881089-7fa9-49e0-b71a-fd56bea9b5bd",
+        "submitter_id": "MMRF_1131",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.2292950034223136,
+        "censored": false,
+        "survivalEstimate": 0.8955716423610078,
+        "id": "6357d58b-499d-48ac-9195-d42d49fba16c",
+        "submitter_id": "MMRF_2089",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.2292950034223136,
+        "censored": false,
+        "survivalEstimate": 0.8955716423610078,
+        "id": "b1c7db25-0db6-4ebe-954a-c9c6aae39e88",
+        "submitter_id": "MMRF_2200",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.242984257357974,
+        "censored": false,
+        "survivalEstimate": 0.891893730072051,
+        "id": "7e828008-fa5c-45a7-80eb-910c4f5373a2",
+        "submitter_id": "MMRF_2149",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.2566735112936345,
+        "censored": false,
+        "survivalEstimate": 0.8900547739275725,
+        "id": "8d167bdf-0707-462c-9b9f-f54a19b17da6",
+        "submitter_id": "MMRF_1486",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.267624914442163,
+        "censored": false,
+        "survivalEstimate": 0.888215817783094,
+        "id": "e60b6e4c-852a-4d05-9619-5eb36788edf1",
+        "submitter_id": "MMRF_1252",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.273100616016427,
+        "censored": false,
+        "survivalEstimate": 0.8863768616386155,
+        "id": "833d9bc8-be66-43ff-aafa-4b9d90afff5f",
+        "submitter_id": "MMRF_2113",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.3004791238877482,
+        "censored": false,
+        "survivalEstimate": 0.884537905494137,
+        "id": "34621984-f804-4060-935e-887814ebda45",
+        "submitter_id": "MMRF_2039",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.3086926762491444,
+        "censored": true,
+        "survivalEstimate": 0.8826989493496586,
+        "id": "86a892e1-0cf8-4818-87f6-9d3b1bc97468",
+        "submitter_id": "MMRF_1768",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.322381930184805,
+        "censored": false,
+        "survivalEstimate": 0.8826989493496586,
+        "id": "3d76ac74-5848-4e34-90ce-33c1beb88912",
+        "submitter_id": "MMRF_1955",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.3278576317590691,
+        "censored": false,
+        "survivalEstimate": 0.8808561540483024,
+        "id": "3280a484-e31c-4566-a111-b9aee0c80e89",
+        "submitter_id": "MMRF_2477",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.3278576317590691,
+        "censored": true,
+        "survivalEstimate": 0.8808561540483024,
+        "id": "b10c1d2c-b468-4658-8a23-5b0945d47e0e",
+        "submitter_id": "MMRF_2181",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4017796030116358,
+        "censored": false,
+        "survivalEstimate": 0.8790094954444275,
+        "id": "5008c4c3-f17f-4d78-939f-2d94e07ad6ef",
+        "submitter_id": "MMRF_2085",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.404517453798768,
+        "censored": true,
+        "survivalEstimate": 0.8771628368405526,
+        "id": "eb102824-5bf4-4df3-b2a9-bfe3f9c1390c",
+        "submitter_id": "MMRF_2090",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4099931553730323,
+        "censored": true,
+        "survivalEstimate": 0.8771628368405526,
+        "id": "a993cdf7-3efd-476d-8168-d6fc4cd883c2",
+        "submitter_id": "MMRF_1332",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4182067077344285,
+        "censored": true,
+        "survivalEstimate": 0.8771628368405526,
+        "id": "0bd0961e-3381-4fbd-9cd6-f80640317a14",
+        "submitter_id": "MMRF_2271",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4209445585215605,
+        "censored": false,
+        "survivalEstimate": 0.8771628368405526,
+        "id": "5ac88dea-a26f-4af1-afb9-9bcfe937db6b",
+        "submitter_id": "MMRF_2266",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4236824093086926,
+        "censored": false,
+        "survivalEstimate": 0.8753044409997888,
+        "id": "09f98283-4505-4077-9e1c-b1d26f773a2c",
+        "submitter_id": "MMRF_1531",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.431895961670089,
+        "censored": true,
+        "survivalEstimate": 0.8734460451590249,
+        "id": "fbb21714-2fc5-47ad-8aae-118bc54612e3",
+        "submitter_id": "MMRF_1358",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.431895961670089,
+        "censored": false,
+        "survivalEstimate": 0.8734460451590249,
+        "id": "415c02bc-e6de-4eb7-9b5c-157cfb6aef0e",
+        "submitter_id": "MMRF_1656",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4428473648186173,
+        "censored": false,
+        "survivalEstimate": 0.8715836868537817,
+        "id": "2528b762-2df3-46fd-ae3c-2bf671c590fc",
+        "submitter_id": "MMRF_1540",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4428473648186173,
+        "censored": true,
+        "survivalEstimate": 0.8715836868537817,
+        "id": "cfccb7e5-b75f-4507-90d0-4daa457ced92",
+        "submitter_id": "MMRF_2383",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4428473648186173,
+        "censored": true,
+        "survivalEstimate": 0.8715836868537817,
+        "id": "4ff7bf7e-0993-4e3f-b722-caa928798afb",
+        "submitter_id": "MMRF_2590",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4428473648186173,
+        "censored": false,
+        "survivalEstimate": 0.8715836868537817,
+        "id": "701c3195-7d38-472e-a90d-4af5fc197d96",
+        "submitter_id": "MMRF_2228",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.45927446954141,
+        "censored": false,
+        "survivalEstimate": 0.867842984335096,
+        "id": "10a453ce-b0c4-4045-86c1-24d8fb08ac71",
+        "submitter_id": "MMRF_2015",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4647501711156743,
+        "censored": true,
+        "survivalEstimate": 0.8659726330757531,
+        "id": "3c6ff74a-c8d3-4002-8b52-0ce1fb3937e0",
+        "submitter_id": "MMRF_2622",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4647501711156743,
+        "censored": true,
+        "survivalEstimate": 0.8659726330757531,
+        "id": "ca26ccc6-86ac-4683-9d65-6c88e0198883",
+        "submitter_id": "MMRF_2153",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4729637234770705,
+        "censored": false,
+        "survivalEstimate": 0.8659726330757531,
+        "id": "083fc59d-32e0-4320-8f67-c8ccbf9ecf77",
+        "submitter_id": "MMRF_1910",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.4811772758384667,
+        "censored": true,
+        "survivalEstimate": 0.864094167494244,
+        "id": "ed886847-8c83-47dc-81c9-435e079a30d0",
+        "submitter_id": "MMRF_2566",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5030800821355237,
+        "censored": true,
+        "survivalEstimate": 0.864094167494244,
+        "id": "706d1666-1cd7-4636-b827-229a1293656f",
+        "submitter_id": "MMRF_2543",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5222450376454484,
+        "censored": true,
+        "survivalEstimate": 0.864094167494244,
+        "id": "9baff632-2024-4025-b6fd-0c425fe93226",
+        "submitter_id": "MMRF_2595",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.541409993155373,
+        "censored": true,
+        "survivalEstimate": 0.864094167494244,
+        "id": "5f1be704-5a13-44a6-8ba0-b277620c7d87",
+        "submitter_id": "MMRF_2614",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5468856947296372,
+        "censored": false,
+        "survivalEstimate": 0.864094167494244,
+        "id": "e2740d98-bca8-4721-82cb-66fb80d2c343",
+        "submitter_id": "MMRF_2535",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5496235455167693,
+        "censored": false,
+        "survivalEstimate": 0.8621992241444759,
+        "id": "62c565fb-13c2-479d-871c-697d4db8cb72",
+        "submitter_id": "MMRF_2126",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.571526351813826,
+        "censored": false,
+        "survivalEstimate": 0.8603042807947079,
+        "id": "6bcc0642-12f7-4e7b-93e3-383a7fc3d0c0",
+        "submitter_id": "MMRF_1771",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5742642026009583,
+        "censored": false,
+        "survivalEstimate": 0.8584093374449397,
+        "id": "090f36ef-3fc1-48fb-b4be-6450d7483487",
+        "submitter_id": "MMRF_1960",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5797399041752225,
+        "censored": false,
+        "survivalEstimate": 0.8565143940951716,
+        "id": "3c3f0b7d-6fdb-4b13-9e20-68b316a0cc94",
+        "submitter_id": "MMRF_2288",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.5879534565366187,
+        "censored": false,
+        "survivalEstimate": 0.8546194507454036,
+        "id": "6d6eb826-f637-4979-b9b3-73b3f7907238",
+        "submitter_id": "MMRF_1055",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.626283367556468,
+        "censored": true,
+        "survivalEstimate": 0.8527245073956355,
+        "id": "313c09b1-85b4-41eb-923d-a3756e6e6b2f",
+        "submitter_id": "MMRF_2592",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6427104722792607,
+        "censored": false,
+        "survivalEstimate": 0.8527245073956355,
+        "id": "d090e639-9e47-4e8d-b8d1-433bdaf1e148",
+        "submitter_id": "MMRF_1876",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6509240246406571,
+        "censored": false,
+        "survivalEstimate": 0.8508253436820595,
+        "id": "4750c9d8-fbf2-45e9-b4b1-89fc82942ad0",
+        "submitter_id": "MMRF_2183",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6563997262149213,
+        "censored": true,
+        "survivalEstimate": 0.8489261799684835,
+        "id": "83bcfb26-63a3-4837-b4dd-3ba8a3aab8a4",
+        "submitter_id": "MMRF_2577",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6591375770020533,
+        "censored": true,
+        "survivalEstimate": 0.8489261799684835,
+        "id": "c969e907-60dc-4cc3-a2ea-ea8794e1ce57",
+        "submitter_id": "MMRF_2526",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6700889801505818,
+        "censored": true,
+        "survivalEstimate": 0.8489261799684835,
+        "id": "f40a4d88-770b-4fd7-83c4-5809ebe17512",
+        "submitter_id": "MMRF_2317",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6700889801505818,
+        "censored": false,
+        "survivalEstimate": 0.8489261799684835,
+        "id": "917a7c76-8206-4204-a834-00ca88da38ef",
+        "submitter_id": "MMRF_1242",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.678302532511978,
+        "censored": true,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "56a06787-58e9-4cd4-a027-0c0fabcc0983",
+        "submitter_id": "MMRF_2445",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.678302532511978,
+        "censored": true,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "b2368a3a-0df8-4147-8a35-cad34f7df133",
+        "submitter_id": "MMRF_2538",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.678302532511978,
+        "censored": true,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "a08ab8f6-2bea-4109-92ce-96afbd4be98e",
+        "submitter_id": "MMRF_2560",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6865160848733745,
+        "censored": true,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "d64025cb-a2e5-4e06-a7c0-36876c355e92",
+        "submitter_id": "MMRF_2511",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6865160848733745,
+        "censored": true,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "607b4658-b81e-4190-a9a5-8bc3536e20e0",
+        "submitter_id": "MMRF_2580",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6865160848733745,
+        "censored": false,
+        "survivalEstimate": 0.8470141840676536,
+        "id": "703d6cbd-191b-48d3-8a6d-f7b860a9a634",
+        "submitter_id": "MMRF_2204",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6892539356605065,
+        "censored": true,
+        "survivalEstimate": 0.8450803617295997,
+        "id": "0866d285-58e7-4f73-a8b0-9cdba14a0e40",
+        "submitter_id": "MMRF_1080",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6974674880219027,
+        "censored": false,
+        "survivalEstimate": 0.8450803617295997,
+        "id": "383f9e8e-7814-4e2a-a66e-1fd1f90bdf62",
+        "submitter_id": "MMRF_1682",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.6974674880219027,
+        "censored": true,
+        "survivalEstimate": 0.8450803617295997,
+        "id": "6c2cc90b-022d-495f-9363-0242fd5130eb",
+        "submitter_id": "MMRF_2400",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.700205338809035,
+        "censored": false,
+        "survivalEstimate": 0.8431376482543592,
+        "id": "ce342792-0714-43d5-a342-8e7b3fac2f31",
+        "submitter_id": "MMRF_2613",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7138945927446954,
+        "censored": true,
+        "survivalEstimate": 0.8411949347791188,
+        "id": "413f58e8-677c-4776-b5f2-c68912dccbf9",
+        "submitter_id": "MMRF_2567",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7193702943189597,
+        "censored": false,
+        "survivalEstimate": 0.8411949347791188,
+        "id": "bac9570f-9aee-408f-b17c-c67665a0ccf6",
+        "submitter_id": "MMRF_1819",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7221081451060918,
+        "censored": true,
+        "survivalEstimate": 0.8392477242819449,
+        "id": "546debb0-ca49-46a1-ab23-0c06c8241edc",
+        "submitter_id": "MMRF_2608",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7221081451060918,
+        "censored": true,
+        "survivalEstimate": 0.8392477242819449,
+        "id": "0982a453-8ddd-40af-b03f-d0160226a0b4",
+        "submitter_id": "MMRF_2478",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7221081451060918,
+        "censored": false,
+        "survivalEstimate": 0.8392477242819449,
+        "id": "22a9556f-238b-46c1-a6d9-c57ed8cdc2b2",
+        "submitter_id": "MMRF_1587",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7248459958932238,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "3ef52c42-d0cf-4c42-8a76-e7e3b777fccf",
+        "submitter_id": "MMRF_2572",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.727583846680356,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "a7e19b05-b3a7-4fac-a483-0f20bd8d4382",
+        "submitter_id": "MMRF_2611",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.730321697467488,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "01a01acf-ed76-4f04-ad6a-2e66f29754dc",
+        "submitter_id": "MMRF_2559",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.730321697467488,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "75eb7a5c-f443-412d-8e8f-4b83606ff716",
+        "submitter_id": "MMRF_2487",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.73305954825462,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "bcc7d2bf-0093-4882-bd74-bdee0090fc2d",
+        "submitter_id": "MMRF_2504",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7385352498288844,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "55f38380-cd5f-4979-8280-e5aeae77dee1",
+        "submitter_id": "MMRF_1801",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7385352498288844,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "bc746271-9b4e-49fa-a96e-30bfd6c9001a",
+        "submitter_id": "MMRF_2498",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7412731006160165,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "e46ceb7d-7eda-451b-8f3d-07ea4768db91",
+        "submitter_id": "MMRF_2062",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7440109514031485,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "a68c53af-4359-4f9c-b9cd-de61a62bb922",
+        "submitter_id": "MMRF_1695",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7440109514031485,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "36bdcbfc-c5ad-4105-920e-87b1afcc8c68",
+        "submitter_id": "MMRF_2587",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7467488021902806,
+        "censored": false,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "8b6875ae-0e75-4d66-a5c4-ab88cc8da9e6",
+        "submitter_id": "MMRF_2427",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7467488021902806,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "3e11c72c-f141-4abc-9f04-dd8012a601a9",
+        "submitter_id": "MMRF_2593",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7467488021902806,
+        "censored": true,
+        "survivalEstimate": 0.8372914358803553,
+        "id": "b9eebd22-b66c-45dd-bc5d-4bc46423bb52",
+        "submitter_id": "MMRF_2601",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.757700205338809,
+        "censored": false,
+        "survivalEstimate": 0.835278716082566,
+        "id": "c82d659c-a845-4b01-8bbd-776783c3ccdc",
+        "submitter_id": "MMRF_1651",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7659137577002053,
+        "censored": true,
+        "survivalEstimate": 0.8332659962847767,
+        "id": "b9a0fbfd-dc87-4898-82a7-dfe771dbaed3",
+        "submitter_id": "MMRF_2548",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7659137577002053,
+        "censored": true,
+        "survivalEstimate": 0.8332659962847767,
+        "id": "f62ffd84-6300-4c41-9aa5-d50d29c30215",
+        "submitter_id": "MMRF_2597",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7713894592744694,
+        "censored": false,
+        "survivalEstimate": 0.8332659962847767,
+        "id": "cd91e38c-1d2a-4534-8765-bfb9f0541338",
+        "submitter_id": "MMRF_1519",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.782340862422998,
+        "censored": true,
+        "survivalEstimate": 0.8312435060025322,
+        "id": "e3bef2b4-bb08-480c-9a42-7ca1fe436469",
+        "submitter_id": "MMRF_2514",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7905544147843941,
+        "censored": true,
+        "survivalEstimate": 0.8312435060025322,
+        "id": "86144286-8390-4e67-9bbb-7d6fde5cc6eb",
+        "submitter_id": "MMRF_2539",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.7905544147843941,
+        "censored": false,
+        "survivalEstimate": 0.8312435060025322,
+        "id": "3e5df490-87dc-4968-b55d-aed8a396f3bd",
+        "submitter_id": "MMRF_2068",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8015058179329226,
+        "censored": true,
+        "survivalEstimate": 0.8292111257922571,
+        "id": "90b367af-c095-4e7c-9ec6-ebe4356ea4b6",
+        "submitter_id": "MMRF_2518",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8069815195071868,
+        "censored": true,
+        "survivalEstimate": 0.8292111257922571,
+        "id": "27a667a1-6a09-436d-b996-542333ac59cd",
+        "submitter_id": "MMRF_2605",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8069815195071868,
+        "censored": true,
+        "survivalEstimate": 0.8292111257922571,
+        "id": "2d13b839-d24a-4fb4-ba7b-d357e0237ca9",
+        "submitter_id": "MMRF_2579",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8234086242299794,
+        "censored": false,
+        "survivalEstimate": 0.8292111257922571,
+        "id": "d0bfbe4f-7930-4ea5-93f0-06b6457d8ea9",
+        "submitter_id": "MMRF_2523",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8288843258042438,
+        "censored": false,
+        "survivalEstimate": 0.8271636909137577,
+        "id": "ad34b217-0e49-4f18-9084-c07473461644",
+        "submitter_id": "MMRF_1099",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8316221765913758,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "6e823219-c3ad-4685-ae67-1b4812a74a4e",
+        "submitter_id": "MMRF_2459",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.834360027378508,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "b2fd8920-66d7-4496-991a-b79e2a50130e",
+        "submitter_id": "MMRF_2563",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.83709787816564,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "bbe20c05-d319-435b-b78b-7e47280357d6",
+        "submitter_id": "MMRF_2457",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.842573579739904,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "94b897d9-207d-4f74-b413-83452cf42172",
+        "submitter_id": "MMRF_2517",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8507871321013005,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "e80a5e1f-ead1-464c-8888-5171b622627e",
+        "submitter_id": "MMRF_2545",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8507871321013005,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "b5c025c8-845f-4952-9eb5-71e979b3f35e",
+        "submitter_id": "MMRF_1195",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8562628336755647,
+        "censored": true,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "e06995bc-96ff-4740-99ef-5593c03ba90e",
+        "submitter_id": "MMRF_2564",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.864476386036961,
+        "censored": false,
+        "survivalEstimate": 0.8251162560352583,
+        "id": "e60be9a5-3cf1-4537-a839-e107b0f4a844",
+        "submitter_id": "MMRF_1090",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8809034907597535,
+        "censored": true,
+        "survivalEstimate": 0.8230326291260783,
+        "id": "9c028615-f909-42c9-9dc3-602f424e4730",
+        "submitter_id": "MMRF_2515",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8836413415468858,
+        "censored": true,
+        "survivalEstimate": 0.8230326291260783,
+        "id": "d7c51323-ed06-4aeb-b8dc-cc2e97749fd1",
+        "submitter_id": "MMRF_2475",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8863791923340179,
+        "censored": false,
+        "survivalEstimate": 0.8230326291260783,
+        "id": "559c7791-2a92-46a5-95b7-25325e17b300",
+        "submitter_id": "MMRF_1738",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.894592744695414,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "3f6b75a7-1326-470b-8e3a-4558c813cd51",
+        "submitter_id": "MMRF_2436",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.8973305954825461,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "04493a15-abb5-4663-ad1b-de7e22601e3a",
+        "submitter_id": "MMRF_2464",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9028062970568105,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "61d762e7-60a8-486c-b8c2-ee4ba634088f",
+        "submitter_id": "MMRF_2549",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9028062970568105,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "12d3a070-42a0-4de5-a684-ffae512109a4",
+        "submitter_id": "MMRF_2493",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9055441478439425,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "b5d9c7af-3926-4a3f-a52b-9ae6e2255c5a",
+        "submitter_id": "MMRF_2519",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9110198494182067,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "8d1ca468-24e1-4469-ba23-a01cb2142dd4",
+        "submitter_id": "MMRF_2333",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9164955509924708,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "52964e75-33e0-48ca-bb2a-f5156c8cb87d",
+        "submitter_id": "MMRF_2425",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.919233401779603,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "41f3360a-b125-4031-8d28-693537109b4c",
+        "submitter_id": "MMRF_2516",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9247091033538672,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "21a0cabb-c588-4a2c-bd54-8a3047a3a077",
+        "submitter_id": "MMRF_2501",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9356605065023955,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "5a283046-afd5-4a09-b557-2cc1830f7ea3",
+        "submitter_id": "MMRF_2384",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9383983572895278,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "7da8f33a-e801-40b6-b2e5-431f2a59232f",
+        "submitter_id": "MMRF_2532",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.946611909650924,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "42e8c7ec-70d1-43ab-bf46-ee01eda4f8b6",
+        "submitter_id": "MMRF_2461",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.946611909650924,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "6112809d-a4f0-44dc-ab93-b0ed301c2dbc",
+        "submitter_id": "MMRF_2465",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.949349760438056,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "090e97b2-6ce5-47fe-a0fa-dad892d9f9cb",
+        "submitter_id": "MMRF_2468",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9548254620123204,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "5d29ee5d-666c-4112-a8b4-de9f7bcd52ce",
+        "submitter_id": "MMRF_2489",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9548254620123204,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "b4ef7988-c15f-4c65-92f6-23413d3bdc35",
+        "submitter_id": "MMRF_2433",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9548254620123204,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "46ee3fe1-0bf0-49cd-af4a-e0e888b92965",
+        "submitter_id": "MMRF_2413",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9575633127994525,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "a607741b-0df0-43ad-8c60-79e6d7b45a94",
+        "submitter_id": "MMRF_1389",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9603011635865846,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "7a085dbc-6737-4923-955a-6c7166a35864",
+        "submitter_id": "MMRF_2442",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9657768651608487,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "6372dd4a-2f71-4780-8144-83a574964db1",
+        "submitter_id": "MMRF_2412",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9767282683093772,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "7454fcff-7db7-4a0a-be8a-d12fa315c0e9",
+        "submitter_id": "MMRF_2440",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9794661190965093,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "20805efb-a12e-4351-b303-b57bcf7653f5",
+        "submitter_id": "MMRF_2499",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9904175222450375,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "0afc2090-c198-4ca6-b0c4-cb93b10b01f6",
+        "submitter_id": "MMRF_2485",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.9931553730321698,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "6ba33f7b-c952-4c39-b7b7-0599f5109263",
+        "submitter_id": "MMRF_2488",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.995893223819302,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "5610ff41-96a3-4e96-b301-d4d5761d10a7",
+        "submitter_id": "MMRF_2411",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.995893223819302,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "136f3992-fd0d-42d9-9061-6fdad29d13ff",
+        "submitter_id": "MMRF_2362",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.995893223819302,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "d7d3840a-b1bc-4ab4-8805-5c4bc4c6f354",
+        "submitter_id": "MMRF_2380",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 1.995893223819302,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "6dafa05a-8097-44a9-96eb-2b8131fb5731",
+        "submitter_id": "MMRF_2446",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.001368925393566,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "53618a76-992d-4e73-b5fb-d5f4b43f7662",
+        "submitter_id": "MMRF_2422",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.004106776180698,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "9232adfb-7715-45aa-b274-0f53518e65f5",
+        "submitter_id": "MMRF_2452",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0095824777549622,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "4f1712d0-6b02-42bf-a99b-ff870c148d60",
+        "submitter_id": "MMRF_2377",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0095824777549622,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "f484653f-cad1-4736-a25a-0eb567572de4",
+        "submitter_id": "MMRF_2472",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0150581793292264,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "61872186-77a2-44bc-a058-930d381491df",
+        "submitter_id": "MMRF_2469",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0177960301163584,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "e5e1049b-1566-4683-81e4-af1af5c94605",
+        "submitter_id": "MMRF_2453",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0314852840520192,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "c6c21cbd-97db-4cca-8715-1271101062b7",
+        "submitter_id": "MMRF_2082",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0342231348391513,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "6b8db43d-4236-4041-9eaf-78034ceb66f3",
+        "submitter_id": "MMRF_2458",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0561259411362083,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "2310d7bc-0e5a-4dc5-bf55-71d2336b843a",
+        "submitter_id": "MMRF_2449",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0698151950718686,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "9860a185-10db-48cc-94aa-320a8eafa930",
+        "submitter_id": "MMRF_2324",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0752908966461328,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "0ca48821-c238-4e18-a7aa-a650c3fb5e20",
+        "submitter_id": "MMRF_2214",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.080766598220397,
+        "censored": true,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "9c599920-9ed4-4810-9dab-ea23df6e1015",
+        "submitter_id": "MMRF_2289",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.088980150581793,
+        "censored": false,
+        "survivalEstimate": 0.8209383985176151,
+        "id": "9c3c8e77-676c-4bc4-9c29-8511d0528e71",
+        "submitter_id": "MMRF_1533",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0917180013689256,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "5acd53e7-d29a-492a-b5e4-236a1e9dc2e6",
+        "submitter_id": "MMRF_2239",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0944558521560577,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "fce7e24d-9c33-4219-b024-84e1e86b88a6",
+        "submitter_id": "MMRF_2301",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.0971937029431897,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "7de1d5bd-04a8-4170-be09-5459affd2f57",
+        "submitter_id": "MMRF_2437",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.099931553730322,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "dfec409b-10fc-43e3-9ca8-edb95d5419c7",
+        "submitter_id": "MMRF_2331",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.116358658453114,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "1711a2cb-96b5-4803-81b4-1987b0ccd672",
+        "submitter_id": "MMRF_1453",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.116358658453114,
+        "censored": true,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "d9a29ae3-2b22-4cca-8505-c059a28def8c",
+        "submitter_id": "MMRF_2339",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.130047912388775,
+        "censored": false,
+        "survivalEstimate": 0.8186061871581901,
+        "id": "0a0829db-261d-44ad-9910-784559c0f201",
+        "submitter_id": "MMRF_1342",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1492128678986995,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "4b8af8dd-e4e6-4d2e-b49b-f62827341f05",
+        "submitter_id": "MMRF_2284",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1492128678986995,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "9a243d87-c972-41e0-9485-1c9196cb8e2e",
+        "submitter_id": "MMRF_2397",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1492128678986995,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "2e1e1105-9a63-46c0-b50c-9c215383281f",
+        "submitter_id": "MMRF_2409",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1546885694729636,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "23937dd9-b307-45fa-8d6f-87451ee91993",
+        "submitter_id": "MMRF_2329",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1683778234086244,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "a8a046c7-0704-4afd-bbde-2a4223d30aad",
+        "submitter_id": "MMRF_2407",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1711156741957565,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "22cbce6e-fcf1-4e47-8566-30280fb87caa",
+        "submitter_id": "MMRF_2293",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1711156741957565,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "e84e1504-6f13-4ac8-a4ce-6af61b2c8786",
+        "submitter_id": "MMRF_2297",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1738535249828885,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "95e89871-bedd-4f62-97c8-f6bc08d86cb8",
+        "submitter_id": "MMRF_2313",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1793292265571527,
+        "censored": false,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "0d92dbf1-32cb-417a-ac08-f1595aa4a70a",
+        "submitter_id": "MMRF_1595",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.1793292265571527,
+        "censored": true,
+        "survivalEstimate": 0.8162334156012099,
+        "id": "bdf1bd48-33cb-4414-881c-2ad90a67823c",
+        "submitter_id": "MMRF_1710",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.190280629705681,
+        "censored": true,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "bf14ca10-5310-44a6-964c-99b13f0b2e11",
+        "submitter_id": "MMRF_2232",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.193018480492813,
+        "censored": true,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "8d70ba38-4181-4126-92d1-ff43c9d59b55",
+        "submitter_id": "MMRF_2326",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.195756331279945,
+        "censored": true,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "84ab30ee-2564-4623-95c5-eee659f50756",
+        "submitter_id": "MMRF_2378",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.195756331279945,
+        "censored": true,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "495ed739-8eda-41a3-ad63-45bf76568094",
+        "submitter_id": "MMRF_2268",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.198494182067077,
+        "censored": true,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "5c8deb7b-1745-4d3f-a324-6e4fe89d2fc5",
+        "submitter_id": "MMRF_2305",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.212183436002738,
+        "censored": false,
+        "survivalEstimate": 0.8137968979426988,
+        "id": "2ca3bbd6-7810-40f2-a05f-58252e7a14f0",
+        "submitter_id": "MMRF_1638",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.21492128678987,
+        "censored": true,
+        "survivalEstimate": 0.8113233511404414,
+        "id": "14469c41-becd-4e3b-8511-dd1ffca66087",
+        "submitter_id": "MMRF_2269",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.21492128678987,
+        "censored": true,
+        "survivalEstimate": 0.8113233511404414,
+        "id": "9f5b0c9f-c38c-4fea-817e-efb3ba8c4404",
+        "submitter_id": "MMRF_2353",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.220396988364134,
+        "censored": true,
+        "survivalEstimate": 0.8113233511404414,
+        "id": "edb78746-34ff-4caf-b0b5-ef9f6d48546d",
+        "submitter_id": "MMRF_2286",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2258726899383983,
+        "censored": false,
+        "survivalEstimate": 0.8113233511404414,
+        "id": "bfe2f81d-7c4a-4d54-b87a-b47401d52c4f",
+        "submitter_id": "MMRF_1726",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2286105407255303,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "73f727a8-d967-4fd2-824a-3b37e2c02271",
+        "submitter_id": "MMRF_2367",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2286105407255303,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "b06a2821-fb42-4f79-92ea-75f4e3118c61",
+        "submitter_id": "MMRF_2273",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.236824093086927,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "d1978fcd-fabc-4ce5-83bb-57a277777451",
+        "submitter_id": "MMRF_2257",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.239561943874059,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "55f82b91-02d2-488f-a054-d3a255820ed7",
+        "submitter_id": "MMRF_2344",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.242299794661191,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "4764ef54-cd8b-478f-9bc0-66ceaa98e9cd",
+        "submitter_id": "MMRF_2270",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.242299794661191,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "cb7bced1-ef63-41fe-be61-e2922571c621",
+        "submitter_id": "MMRF_2190",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.245037645448323,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "91bd88fa-1279-4afe-8be1-5f2ad7869c5d",
+        "submitter_id": "MMRF_2352",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2477754962354553,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "6a7edfbd-b367-4c26-96f8-cb62c7c0fe5c",
+        "submitter_id": "MMRF_2116",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2477754962354553,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "dab8b8e1-694b-4faa-bffd-a227b8526c13",
+        "submitter_id": "MMRF_2302",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2505133470225873,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "03e0bf5a-b0ae-41dc-94a9-9abab769f1d4",
+        "submitter_id": "MMRF_2388",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2559890485968515,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "6ce3b375-59a3-49fc-9d6f-1670450d4cf1",
+        "submitter_id": "MMRF_2328",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2614647501711156,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "5ce83d2f-4e92-4c21-95a2-d0ca5f58f466",
+        "submitter_id": "MMRF_2258",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2642026009582477,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "96342ad0-5028-4c81-88ac-ee61414c585a",
+        "submitter_id": "MMRF_2229",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2642026009582477,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "2a92bb6a-c860-4770-a20b-0738b94997d2",
+        "submitter_id": "MMRF_2220",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.269678302532512,
+        "censored": true,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "3f80c201-c9bb-46b8-ade1-ad047574a553",
+        "submitter_id": "MMRF_2107",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.272416153319644,
+        "censored": false,
+        "survivalEstimate": 0.8088269715984708,
+        "id": "e41ed7e6-7832-41a9-b816-23986df22808",
+        "submitter_id": "MMRF_1082",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2778918548939084,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "271eac13-c1c0-4708-bfff-7a86ac3261d8",
+        "submitter_id": "MMRF_2222",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2806297056810405,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "c14ebb1c-a429-4954-a7d2-0fbbd2236e39",
+        "submitter_id": "MMRF_2308",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.2888432580424367,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "15d6bcd0-5cf9-4971-84a3-3eaa990a7b37",
+        "submitter_id": "MMRF_2292",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.297056810403833,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "a25ce687-1d4a-4c58-a010-af8c648c9f79",
+        "submitter_id": "MMRF_2327",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.305270362765229,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "11f59fe3-0fd2-450a-8a98-153c56c6d769",
+        "submitter_id": "MMRF_2176",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3134839151266258,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "508e0922-9b00-479d-adf4-12684cf1700a",
+        "submitter_id": "MMRF_1338",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.31895961670089,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "fba1eb1f-7e57-46fc-a7d5-7f4cceadbc27",
+        "submitter_id": "MMRF_2279",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.321697467488022,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "c0a321ef-fcc6-429c-8b2c-98077a9fb317",
+        "submitter_id": "MMRF_2199",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.329911019849418,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "02008cce-b6fe-4922-ae6a-c76837df0509",
+        "submitter_id": "MMRF_2250",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3408624229979464,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "250eadda-919e-4267-a958-c9385068267c",
+        "submitter_id": "MMRF_2006",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.346338124572211,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "cc3cd8c6-d59f-4998-be47-520e331a4a54",
+        "submitter_id": "MMRF_2196",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.349075975359343,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "747d0455-f33f-44c3-b664-94298998e141",
+        "submitter_id": "MMRF_1807",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.351813826146475,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "e863eb6f-a0cb-419f-bee3-f5309ae3b7aa",
+        "submitter_id": "MMRF_2316",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3600273785078714,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "e6b5c105-1d12-47e0-b851-83aa6e9ca55a",
+        "submitter_id": "MMRF_2170",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3764544832306638,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "82ae44ab-73c5-4774-af31-d25996841252",
+        "submitter_id": "MMRF_2097",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3819301848049284,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "4870fbc0-ac61-4e70-96a8-4d1e0a082185",
+        "submitter_id": "MMRF_1698",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.3983572895277208,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "51cfbd41-2e79-474c-9e74-0ae13d8924fe",
+        "submitter_id": "MMRF_2265",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.401095140314853,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0165ada0-f393-4ffb-8f80-6d87f830584d",
+        "submitter_id": "MMRF_2168",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.401095140314853,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "34221dd7-2cfa-4856-8ba5-a2e1e4c1f279",
+        "submitter_id": "MMRF_2238",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.414784394250513,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0470e569-45b7-4ad8-bee1-1fc70059a74d",
+        "submitter_id": "MMRF_2231",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.425735797399042,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "5206e3f4-95f1-45c7-81bb-e93fbbeac5e3",
+        "submitter_id": "MMRF_2137",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.431211498973306,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0e41ffbc-d45a-4327-91bd-cdf42bdc405d",
+        "submitter_id": "MMRF_2213",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4421629021218343,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "be47e303-eb92-415d-b992-d59bbb6a2f8d",
+        "submitter_id": "MMRF_2141",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4449007529089664,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "1e298f2a-6617-4525-abde-08211e47dbe7",
+        "submitter_id": "MMRF_2215",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4503764544832305,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "63c48188-062c-411d-91c4-7c42764c6ba3",
+        "submitter_id": "MMRF_2224",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4503764544832305,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "d31acf65-2837-4b31-8077-4a74aca5f549",
+        "submitter_id": "MMRF_2195",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4503764544832305,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "f7542c01-7526-482f-b427-a1beabea6af2",
+        "submitter_id": "MMRF_2122",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.455852156057495,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "f347042c-6f4e-4277-973b-34f53bdc8e91",
+        "submitter_id": "MMRF_2223",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.458590006844627,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "cc6c27ff-2e4b-4fe0-97cc-e90a9fe2151c",
+        "submitter_id": "MMRF_2128",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4640657084188913,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "22773cc4-bc3b-48f6-8529-2f14b7dff462",
+        "submitter_id": "MMRF_1982",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4668035592060233,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "b8059fa5-8fa3-4a5f-aa8d-3bdf66cbb05f",
+        "submitter_id": "MMRF_2194",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4695414099931554,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "669ad8f2-5339-49b3-a885-ef00d3966be1",
+        "submitter_id": "MMRF_2173",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4695414099931554,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "8e39bdf0-044d-4e25-a7ac-14239117e580",
+        "submitter_id": "MMRF_1871",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4750171115674195,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0ff341b1-82f1-499d-8e8c-3d8561e65697",
+        "submitter_id": "MMRF_2129",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4777549623545516,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "4dd2a6b7-c0ae-4796-943b-1b41dae75a53",
+        "submitter_id": "MMRF_2095",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4777549623545516,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "baca798a-2fc1-4b78-9c66-78a4935b336b",
+        "submitter_id": "MMRF_2217",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4777549623545516,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0f98b1a9-13d4-41be-87dd-20f6bb76de52",
+        "submitter_id": "MMRF_2150",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4832306639288158,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "129a4a90-3414-4879-985a-c49bde58d837",
+        "submitter_id": "MMRF_2211",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4832306639288158,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "b6defce8-cf09-497d-b3c8-2a7ac831bcae",
+        "submitter_id": "MMRF_2001",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.48870636550308,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0a8fe688-f5aa-4ef2-bbff-5a42a052f57d",
+        "submitter_id": "MMRF_2186",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4941820670773445,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "b547ac6a-1df0-482a-af70-986b96b70af3",
+        "submitter_id": "MMRF_2118",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.4941820670773445,
+        "censored": true,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "0a6cb426-5baf-415c-9583-2b5908cf6357",
+        "submitter_id": "MMRF_2111",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.5023956194387407,
+        "censored": false,
+        "survivalEstimate": 0.8062094085835891,
+        "id": "742dda13-fd92-4b91-9832-9dfbbe94bd5c",
+        "submitter_id": "MMRF_1180",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.510609171800137,
+        "censored": true,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "93fe2dcd-74b6-4fc8-a0f0-5c21ca70302f",
+        "submitter_id": "MMRF_2026",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.513347022587269,
+        "censored": true,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "49ade113-aca0-4d2d-a783-54681fac24f9",
+        "submitter_id": "MMRF_1880",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.521560574948665,
+        "censored": true,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "abec123c-77e7-48b8-9054-41cd52fb1db8",
+        "submitter_id": "MMRF_2144",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.529774127310062,
+        "censored": true,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "24d247b5-90b8-4c21-a546-710da7756399",
+        "submitter_id": "MMRF_2140",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.54072553045859,
+        "censored": true,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "29c86960-4692-4fd3-b626-20595ec64e0a",
+        "submitter_id": "MMRF_2043",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.5571526351813825,
+        "censored": false,
+        "survivalEstimate": 0.8031785461453049,
+        "id": "12e4b465-9473-432f-a8e3-d5363cbb3960",
+        "submitter_id": "MMRF_1032",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.5626283367556466,
+        "censored": false,
+        "survivalEstimate": 0.8000893978909,
+        "id": "c7ea860a-5aa3-4204-9d5b-8701e34cff9f",
+        "submitter_id": "MMRF_1647",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.568104038329911,
+        "censored": true,
+        "survivalEstimate": 0.797000249636495,
+        "id": "f3664bcb-3446-4beb-a9d8-5d27326f51a9",
+        "submitter_id": "MMRF_2101",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.568104038329911,
+        "censored": false,
+        "survivalEstimate": 0.797000249636495,
+        "id": "eb9eaeb1-53b6-4013-8406-59c9e2665c89",
+        "submitter_id": "MMRF_2061",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.5735797399041753,
+        "censored": true,
+        "survivalEstimate": 0.7938990813499717,
+        "id": "f7e1c3b5-5120-4e07-a60d-498c2bd84573",
+        "submitter_id": "MMRF_1834",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.5735797399041753,
+        "censored": true,
+        "survivalEstimate": 0.7938990813499717,
+        "id": "fb200b79-fa20-48d4-82ea-23395005173b",
+        "submitter_id": "MMRF_1953",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6009582477754964,
+        "censored": false,
+        "survivalEstimate": 0.7938990813499717,
+        "id": "d932945e-727e-4d78-9ae3-1ea119ede6f5",
+        "submitter_id": "MMRF_1167",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6009582477754964,
+        "censored": true,
+        "survivalEstimate": 0.7938990813499717,
+        "id": "e8c3ab17-c1ce-40ad-ae9b-7b6ef11e4501",
+        "submitter_id": "MMRF_1941",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6064339493497606,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "9f18c922-5fcf-45f9-82fc-111d2aa6d6d7",
+        "submitter_id": "MMRF_1928",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6119096509240247,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "71d7cb4b-f82a-42f8-88a9-c4ed03466b6d",
+        "submitter_id": "MMRF_1997",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6338124572210813,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "a4b08d70-66f7-4236-abf1-17c2f4ad445d",
+        "submitter_id": "MMRF_2019",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6338124572210813,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "566c7e1c-5180-4518-8559-27563c7ad629",
+        "submitter_id": "MMRF_2080",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6611909650924024,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "fea6a14e-c84a-473e-b106-f00997f5bb22",
+        "submitter_id": "MMRF_1971",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6639288158795345,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "a90e9b42-dc3c-4916-ab66-6c967971cfa0",
+        "submitter_id": "MMRF_1802",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6639288158795345,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "e09a0b20-e83c-46f1-89bc-305b570ad285",
+        "submitter_id": "MMRF_2041",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6666666666666665,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "7e94e803-d2d4-477b-90c5-b48e342b581d",
+        "submitter_id": "MMRF_2074",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6694045174537986,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "26ff983c-83fe-46a0-a3d4-406e2110116a",
+        "submitter_id": "MMRF_1992",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6721423682409307,
+        "censored": false,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "d138a040-c9b8-411e-8997-f83f8a58ea34",
+        "submitter_id": "MMRF_1205",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6721423682409307,
+        "censored": true,
+        "survivalEstimate": 0.7907611403169679,
+        "id": "83a79d04-1c98-4fbd-b4c2-6ea747508e8f",
+        "submitter_id": "MMRF_2024",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.674880219028063,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "4530d2de-f148-49f2-b956-042630696607",
+        "submitter_id": "MMRF_2055",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6776180698151952,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0f00e9ca-b8ab-468f-a5f5-087e6b3718ee",
+        "submitter_id": "MMRF_2016",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6830937713894594,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "70304443-9430-4eda-93a3-02b2b23f22da",
+        "submitter_id": "MMRF_1570",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6858316221765914,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "275633c2-5aa6-4d7d-9a07-695fc5cffa49",
+        "submitter_id": "MMRF_1995",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6858316221765914,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "c6dab2e9-c103-4beb-bbf3-30dc49982a63",
+        "submitter_id": "MMRF_1777",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6858316221765914,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "e3dc30b8-ccfe-486d-964c-0237ca86591e",
+        "submitter_id": "MMRF_1940",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6913073237508556,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "12ade16c-661c-48cd-b959-30890afb1040",
+        "submitter_id": "MMRF_1915",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.6913073237508556,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "59af5b70-9d0d-48c7-ab20-1bcba14eb03b",
+        "submitter_id": "MMRF_1978",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.704996577686516,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "aef6c82a-78a3-4c65-baca-a79a2d71caa6",
+        "submitter_id": "MMRF_1965",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.707734428473648,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0b255f54-4366-40cf-a877-2cbf5aafd0f4",
+        "submitter_id": "MMRF_1740",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7104722792607805,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6384a5a9-7dc6-48f2-80b1-acb7b20978f0",
+        "submitter_id": "MMRF_1923",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7132101300479126,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0827cff2-e65b-4dfe-afe5-5f902390d4af",
+        "submitter_id": "MMRF_2000",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7214236824093088,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "4ebeb9ca-7d05-4a4c-9844-c063a96b4442",
+        "submitter_id": "MMRF_1882",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.724161533196441,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "d4444070-7705-4775-a720-12734dd88643",
+        "submitter_id": "MMRF_1988",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.724161533196441,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "28830b86-bd3d-4a7d-a477-e561ce92d531",
+        "submitter_id": "MMRF_1981",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.724161533196441,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6c61647c-968c-4f9a-9136-e984e8484525",
+        "submitter_id": "MMRF_1029",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.726899383983573,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "79b9b609-45a2-4781-a652-53a13843082c",
+        "submitter_id": "MMRF_2013",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.729637234770705,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "7fac98c8-5e59-4b35-8fc0-465621d2f921",
+        "submitter_id": "MMRF_1650",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.729637234770705,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "60fe51de-8ece-4f0d-a665-cc8140a6ab89",
+        "submitter_id": "MMRF_1977",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.729637234770705,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "01d7d3ec-10b6-4d78-b8ff-2c089bbc3d6e",
+        "submitter_id": "MMRF_1861",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.732375085557837,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "a2f2018e-c40c-4e4a-8542-86c07bd40841",
+        "submitter_id": "MMRF_1850",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.735112936344969,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0bce1225-a86e-40a2-95e4-2dd2096df43e",
+        "submitter_id": "MMRF_2076",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.737850787132101,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6033a5b8-684f-4951-a87e-ebafb69822bc",
+        "submitter_id": "MMRF_1929",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7433264887063653,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "798c8e5f-360a-48ac-bed1-4f49a186c7e0",
+        "submitter_id": "MMRF_2038",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7433264887063653,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "633aa310-32d7-4d53-9abd-ef127b6cf328",
+        "submitter_id": "MMRF_1900",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.751540041067762,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "963a7a46-f466-46e0-8e33-98986974b436",
+        "submitter_id": "MMRF_1895",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.754277891854894,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "09f10d15-16d9-49c0-973b-23082be323d7",
+        "submitter_id": "MMRF_1967",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.757015742642026,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "1d056d83-18b9-4d28-b1e8-91345a433963",
+        "submitter_id": "MMRF_1921",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7624914442162902,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6e77b994-947e-48b6-9db7-0be77be48faa",
+        "submitter_id": "MMRF_1782",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7652292950034223,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "edc63ede-c4e0-4aad-8a78-239cfd820083",
+        "submitter_id": "MMRF_2014",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7652292950034223,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "29818df5-ad86-4e33-8418-7d7be23812e1",
+        "submitter_id": "MMRF_1862",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7707049965776864,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "ccc6ebdb-618f-4a58-9bc3-c581868f6b29",
+        "submitter_id": "MMRF_1860",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7816563997262147,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "e3202caf-9076-48de-8fa3-437e545a6bda",
+        "submitter_id": "MMRF_1893",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7871321013004793,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0fb528c5-2bdb-494f-9f40-5a248043cda1",
+        "submitter_id": "MMRF_1881",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.7953456536618755,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "90cb3d92-24d4-4967-bba8-b19fe2de036a",
+        "submitter_id": "MMRF_1986",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8008213552361396,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "984da3eb-5dde-4a77-a143-3edb86a288c7",
+        "submitter_id": "MMRF_1805",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.811772758384668,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "635644ae-9179-42bc-a908-25ea0f5d0e8e",
+        "submitter_id": "MMRF_1950",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.817248459958932,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "fd4114d1-abf7-43ae-9da8-6fcf0ab26386",
+        "submitter_id": "MMRF_2007",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.817248459958932,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "43760600-29b3-44f0-8f83-6b3028dac88a",
+        "submitter_id": "MMRF_1814",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8227241615331966,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "7d0ffbcb-83fd-4bb1-8ef4-f2a6fbf1862a",
+        "submitter_id": "MMRF_1391",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8254620123203287,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "10e80d8a-797e-4efb-bda0-b3271f7207b4",
+        "submitter_id": "MMRF_1999",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.836413415468857,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "3d474556-8c72-4782-8c9f-97b68563b259",
+        "submitter_id": "MMRF_1922",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.839151266255989,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "29d5affc-89af-4c04-904e-b160dea59e10",
+        "submitter_id": "MMRF_1891",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.855578370978782,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "cfce9dc2-683b-46fc-bbf5-0e46bc20b2ae",
+        "submitter_id": "MMRF_1947",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.863791923340178,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "fdc2ef83-7244-4db6-a417-989c9625b927",
+        "submitter_id": "MMRF_1888",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8747433264887063,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "41c1b266-699e-463d-9107-d13790630da1",
+        "submitter_id": "MMRF_1484",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.8856947296372346,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "2d4eff51-ba20-4a3d-8628-f64fea7c5c99",
+        "submitter_id": "MMRF_1972",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.891170431211499,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6a0c44b2-497f-4df1-a9e9-8102269a20f7",
+        "submitter_id": "MMRF_1916",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9075975359342916,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "05b5c882-f3df-420b-846c-64e215f080bc",
+        "submitter_id": "MMRF_1952",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9075975359342916,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "1ebbf486-4cfa-44e1-a1a6-87ac0f09f0ce",
+        "submitter_id": "MMRF_1931",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.915811088295688,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "c890ba71-335c-48d6-a184-abf26948eef2",
+        "submitter_id": "MMRF_1845",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.915811088295688,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0467f89f-81ef-4888-bcd7-d3d00dc64591",
+        "submitter_id": "MMRF_1761",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.915811088295688,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "4e4989c0-f40e-4d8e-80c0-60d60e54e034",
+        "submitter_id": "MMRF_1803",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.915811088295688,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "0578011e-b7d6-40b2-996b-99ac29999d08",
+        "submitter_id": "MMRF_1930",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.91854893908282,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "fcf81ad6-734d-43a8-9803-6143cf8b8b77",
+        "submitter_id": "MMRF_1854",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.91854893908282,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "d8e3478c-0c99-4fda-b913-09a962a3dcbf",
+        "submitter_id": "MMRF_1719",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.91854893908282,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "1cd2b2e7-21d4-4e09-b7dc-2178411734b6",
+        "submitter_id": "MMRF_1817",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.91854893908282,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6bcbcb87-1c05-4200-a994-9bf9a8594b6a",
+        "submitter_id": "MMRF_1766",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.926762491444216,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "c3f1f36d-b86b-479c-8a1c-1f973f95c4fa",
+        "submitter_id": "MMRF_1787",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.926762491444216,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "a56024d4-beda-4739-9595-278a3e60a191",
+        "submitter_id": "MMRF_1857",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.926762491444216,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "c8e4e627-08ef-450b-938e-790c072b7803",
+        "submitter_id": "MMRF_1951",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9349760438056127,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "29d6fb90-cf93-4e01-b6c8-742c6e6b6dad",
+        "submitter_id": "MMRF_1833",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.945927446954141,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "e8cf0ba0-d90d-45df-ba6c-b90697c7b771",
+        "submitter_id": "MMRF_1832",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.951403148528405,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "119c1bf9-97a6-46ad-a22e-02425fb649f5",
+        "submitter_id": "MMRF_1867",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.951403148528405,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "bb3d98d2-166b-40d6-9974-a1b71b047c68",
+        "submitter_id": "MMRF_1927",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9568788501026693,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "73f46ad6-df9e-4525-b1fa-271cb85ba3dc",
+        "submitter_id": "MMRF_1839",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9568788501026693,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "3b119f1a-9f12-4629-9ee8-0a54cb69d28f",
+        "submitter_id": "MMRF_1796",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9623545516769334,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "ca5502c3-1fcb-411d-a1f0-f04280324ed9",
+        "submitter_id": "MMRF_1841",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.965092402464066,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "2c2fda4e-7cb5-4417-b5fe-530fa1c5b42a",
+        "submitter_id": "MMRF_1774",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.967830253251198,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "e4e7cbc4-5d41-4d20-8fdf-0328295662ab",
+        "submitter_id": "MMRF_1810",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.97056810403833,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "94e666dd-1748-4f6f-bdad-a7a1bc497466",
+        "submitter_id": "MMRF_1847",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.973305954825462,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "116f4352-4b34-4139-ba0d-84b99ef1beb9",
+        "submitter_id": "MMRF_1739",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.973305954825462,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "aa3aae0f-c433-486f-a48b-3dc341cf4ab4",
+        "submitter_id": "MMRF_1908",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.976043805612594,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "30738494-c141-4d90-801a-7fd2d70ae151",
+        "submitter_id": "MMRF_1723",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.976043805612594,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "7cb64eb5-ea4a-4461-b140-c8906454a624",
+        "submitter_id": "MMRF_1792",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.976043805612594,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "b7a0a4ed-f438-4b75-a1fa-80bc17e06b73",
+        "submitter_id": "MMRF_1786",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9787816563997263,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "f65642a5-65a1-49d6-b42f-6455c88f8c5e",
+        "submitter_id": "MMRF_1831",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9787816563997263,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "6cdab22e-1caa-46b2-ad50-ee4bb57a9cf8",
+        "submitter_id": "MMRF_1886",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9787816563997263,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "9b30e273-3fb2-4679-ba9b-06b738f67621",
+        "submitter_id": "MMRF_1794",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9897330595482545,
+        "censored": false,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "87165f32-1939-4050-ad6e-6e1ffa4f9d14",
+        "submitter_id": "MMRF_1137",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9897330595482545,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "31390787-8aaf-4aa2-bbd2-330e0ad4bfba",
+        "submitter_id": "MMRF_1837",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9897330595482545,
+        "censored": true,
+        "survivalEstimate": 0.7874935322991292,
+        "id": "74329eda-5808-47cf-a5b5-7a85b99f5e7a",
+        "submitter_id": "MMRF_1856",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9924709103353866,
+        "censored": true,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "8529a6ca-c536-46f3-a572-81eaf7633b75",
+        "submitter_id": "MMRF_1859",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9924709103353866,
+        "censored": true,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "f8fcf871-c397-4817-aaec-e0e2bf08ea9a",
+        "submitter_id": "MMRF_1846",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9924709103353866,
+        "censored": true,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "c28922f7-a2da-4fbc-9c6d-e4d6f540734a",
+        "submitter_id": "MMRF_1746",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9952087611225187,
+        "censored": true,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "f0b4f310-1d01-486e-bce5-ac3aebff0962",
+        "submitter_id": "MMRF_1705",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 2.9952087611225187,
+        "censored": true,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "7f47229a-3446-449e-b8db-9ac102b13f82",
+        "submitter_id": "MMRF_1842",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0116358658453115,
+        "censored": false,
+        "survivalEstimate": 0.7825716977222597,
+        "id": "0e0de479-ea3d-4472-a716-6f7fd7144d2c",
+        "submitter_id": "MMRF_1260",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0143737166324436,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "dde52f03-3a3f-4c39-92dd-02ebf1610481",
+        "submitter_id": "MMRF_1781",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0171115674195756,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "4b61e506-f40b-471b-8cbc-daa73cbade18",
+        "submitter_id": "MMRF_1830",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.033538672142368,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "4deed062-2b30-4cc6-868e-3a824decf8c9",
+        "submitter_id": "MMRF_1763",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.052703627652293,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "53f96aa4-cc38-43b2-babb-a758c5db6b63",
+        "submitter_id": "MMRF_1784",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0718685831622174,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "acf4c817-cf4f-4a52-b781-d8360e570b2f",
+        "submitter_id": "MMRF_1683",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0718685831622174,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "2dfbd9df-e7df-4bfd-9dff-8b0352763090",
+        "submitter_id": "MMRF_1714",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.077344284736482,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "b0c9eb44-47ca-43a8-b1e6-5baeb2682369",
+        "submitter_id": "MMRF_1694",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.0910335386721424,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "a1ee433f-b49b-485a-a4ef-58d4c284663d",
+        "submitter_id": "MMRF_1793",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1047227926078027,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "aace550c-5d98-4182-9711-db26a4b4d4a8",
+        "submitter_id": "MMRF_1722",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1074606433949348,
+        "censored": true,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "d30ea4c0-de06-4121-b070-55787d81b841",
+        "submitter_id": "MMRF_1760",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1129363449691994,
+        "censored": false,
+        "survivalEstimate": 0.7774900633214658,
+        "id": "cd65fe57-6e09-4436-aa93-6fb784372ef0",
+        "submitter_id": "MMRF_1542",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.134839151266256,
+        "censored": true,
+        "survivalEstimate": 0.7720530698716653,
+        "id": "05609743-ed5e-4e27-8ef7-c404afb0c3c2",
+        "submitter_id": "MMRF_1703",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.137577002053388,
+        "censored": true,
+        "survivalEstimate": 0.7720530698716653,
+        "id": "26cbfdd2-a32d-43ae-b97b-26abc9896c59",
+        "submitter_id": "MMRF_1736",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.14031485284052,
+        "censored": true,
+        "survivalEstimate": 0.7720530698716653,
+        "id": "69b4cb06-61d8-4976-91d3-5816ef6422bf",
+        "submitter_id": "MMRF_1750",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1485284052019167,
+        "censored": false,
+        "survivalEstimate": 0.7720530698716653,
+        "id": "8a0f04c5-3e9e-4869-a9e6-758f4f2e83ab",
+        "submitter_id": "MMRF_1349",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.154004106776181,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "0fb023d4-1952-45f7-a1da-aa38edb9c199",
+        "submitter_id": "MMRF_1730",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.162217659137577,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "3ae2782f-6478-4c9b-9310-655a9961c1f8",
+        "submitter_id": "MMRF_1735",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.164955509924709,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "a150b23a-7000-4e62-8cfd-8bcbe22cba48",
+        "submitter_id": "MMRF_1667",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.164955509924709,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "d6173c30-0467-458b-833c-b932ebbd5b21",
+        "submitter_id": "MMRF_1725",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.164955509924709,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "eb6fa8f1-a587-4883-9e84-8d699360f563",
+        "submitter_id": "MMRF_1645",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.167693360711841,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "79596d6d-0e0f-4955-9035-5008105deb45",
+        "submitter_id": "MMRF_1588",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1731690622861053,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "e1c03e0f-273e-4119-8fda-5631a361c16f",
+        "submitter_id": "MMRF_1680",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1786447638603694,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "2c15a017-e507-47d0-9ee2-ead299d542a9",
+        "submitter_id": "MMRF_1629",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1813826146475015,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "c08bd66a-e697-46cc-96fd-c2af679d94f4",
+        "submitter_id": "MMRF_1617",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.184120465434634,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "a207ae73-14c1-423a-8ecd-e5ea8b14ba94",
+        "submitter_id": "MMRF_1622",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1950718685831623,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "8dca2518-6012-42be-925e-ae7cd2b713f8",
+        "submitter_id": "MMRF_1618",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.1978097193702943,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "a9773efa-79a5-4137-ad21-27c9e808f1dd",
+        "submitter_id": "MMRF_1758",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2005475701574264,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "7cdd1fd1-ffd9-48af-8d58-5fda172919b1",
+        "submitter_id": "MMRF_1713",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2142368240930868,
+        "censored": true,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "44a131d8-88d4-4068-bc2f-6db35d7bddc0",
+        "submitter_id": "MMRF_1676",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2197125256673513,
+        "censored": false,
+        "survivalEstimate": 0.7664987312394951,
+        "id": "5c43e5c4-d371-481c-8763-542fea3f737d",
+        "submitter_id": "MMRF_1497",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2334017796030117,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "c78ec315-bf9a-4c27-9a0a-adcd8b493bf8",
+        "submitter_id": "MMRF_1603",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2334017796030117,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "0ed5c242-5432-462e-9fcb-13e4b6460840",
+        "submitter_id": "MMRF_1706",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.241615331964408,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "41245fe3-fb04-464b-9daa-48bec52665ac",
+        "submitter_id": "MMRF_1674",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.263518138261465,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "c7d6451a-8653-4fb8-a433-ba7e00047c8d",
+        "submitter_id": "MMRF_1686",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.271731690622861,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "e32bc34b-9732-4be4-b4dd-484ebcc57ff8",
+        "submitter_id": "MMRF_1672",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.2826830937713893,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "2cd3dbf9-9315-4a6d-b2d8-5f3b2e118308",
+        "submitter_id": "MMRF_1655",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3374401095140316,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "ba8c9c1a-9c21-49ae-bfa9-eab77f2d6384",
+        "submitter_id": "MMRF_1643",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3374401095140316,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "3c77321e-e681-4211-9e0c-816fecfe0544",
+        "submitter_id": "MMRF_1665",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3374401095140316,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "eb8a41f8-8e60-43fc-9013-284c9f012c9e",
+        "submitter_id": "MMRF_1640",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.353867214236824,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "7563241e-9cce-47ba-99c3-97c27eafce4c",
+        "submitter_id": "MMRF_1525",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.356605065023956,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "7e683316-3409-49ec-af3e-474d21edbeb5",
+        "submitter_id": "MMRF_1506",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.378507871321013,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "c0e899b6-8479-406e-aa39-1db7281992ee",
+        "submitter_id": "MMRF_1610",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3921971252566734,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "0f7bd3fb-8fe8-4c22-a9d1-945053dd213d",
+        "submitter_id": "MMRF_1537",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.3921971252566734,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "751d6828-9826-49ce-884e-7194755bfadb",
+        "submitter_id": "MMRF_1624",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.40041067761807,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "b7bea28f-ba89-44a1-a082-97d3755d5dfe",
+        "submitter_id": "MMRF_1539",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.403148528405202,
+        "censored": true,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "34e1585c-8b4e-4dbd-a637-aef6bb22dcc6",
+        "submitter_id": "MMRF_1547",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4086242299794662,
+        "censored": false,
+        "survivalEstimate": 0.7603172898585314,
+        "id": "44d76370-2d6f-4faf-a5f8-af9d4a185394",
+        "submitter_id": "MMRF_1431",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4168377823408624,
+        "censored": true,
+        "survivalEstimate": 0.753211520794433,
+        "id": "8165e3bf-4cef-427a-8a86-884a2269633e",
+        "submitter_id": "MMRF_1534",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4250513347022586,
+        "censored": true,
+        "survivalEstimate": 0.753211520794433,
+        "id": "e9b31ae7-734d-4915-a186-db19aaa7a55e",
+        "submitter_id": "MMRF_1613",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4277891854893907,
+        "censored": true,
+        "survivalEstimate": 0.753211520794433,
+        "id": "c07b285d-2532-4d71-9372-2da12f7a5a3f",
+        "submitter_id": "MMRF_1212",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.430527036276523,
+        "censored": true,
+        "survivalEstimate": 0.753211520794433,
+        "id": "8d708af1-fcc9-49c1-8c76-d797b2160031",
+        "submitter_id": "MMRF_1607",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4496919917864477,
+        "censored": true,
+        "survivalEstimate": 0.753211520794433,
+        "id": "421aa881-f90f-4ec7-87ee-6707bed4ffe8",
+        "submitter_id": "MMRF_1597",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4496919917864477,
+        "censored": false,
+        "survivalEstimate": 0.753211520794433,
+        "id": "4ee39eb6-8443-41e5-a916-5fe87f139370",
+        "submitter_id": "MMRF_1425",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4524298425735798,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "1c58074b-2bfd-4177-8fb4-22561402bbcc",
+        "submitter_id": "MMRF_1602",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.455167693360712,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "78eee2c8-6690-4bed-b82a-485f50da83b0",
+        "submitter_id": "MMRF_1627",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.457905544147844,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "11ae0cc0-7d9e-45ab-b3f3-854d1562f77d",
+        "submitter_id": "MMRF_1577",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.463381245722108,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "44ba04d6-7a2b-4d8f-8d52-6975e141c2ab",
+        "submitter_id": "MMRF_1543",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.468856947296372,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "8a90e712-3efe-4911-80f2-f030eca424b7",
+        "submitter_id": "MMRF_1589",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4715947980835042,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "6aa07ef6-e9cc-4850-87f3-ec14a387e1f6",
+        "submitter_id": "MMRF_1538",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4715947980835042,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "1531b2df-74e5-4201-8848-7bbbb8384245",
+        "submitter_id": "MMRF_1546",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.4715947980835042,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "ec71e12b-ead0-4dbb-96ce-5897906be766",
+        "submitter_id": "MMRF_1556",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.488021902806297,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "c034d0c6-4806-44a9-a620-602409ce18f3",
+        "submitter_id": "MMRF_1568",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.490759753593429,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "6ae7886e-1d06-4e9b-a6f5-19c31c8ce024",
+        "submitter_id": "MMRF_1572",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5017111567419574,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "60810d09-fee2-42a5-bd4a-865337ceeac5",
+        "submitter_id": "MMRF_1523",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5236139630390144,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "49b27462-f7bb-4cb6-940c-0158cf319c52",
+        "submitter_id": "MMRF_1512",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5318275154004106,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "606ab4e0-a03e-45f8-9773-82a27decda9e",
+        "submitter_id": "MMRF_1583",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5455167693360714,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "65990cba-9536-4c9b-bfbc-addde266b7a0",
+        "submitter_id": "MMRF_1573",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.5482546201232035,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "2fdff68c-7fcb-4c6e-8342-ec598f32c386",
+        "submitter_id": "MMRF_1490",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.567419575633128,
+        "censored": true,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "1457fce6-b646-4e86-a3a2-38b3081acd0a",
+        "submitter_id": "MMRF_1513",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6057494866529773,
+        "censored": false,
+        "survivalEstimate": 0.7457539809845871,
+        "id": "e5992503-81fd-4ba2-acbb-33901a9d498a",
+        "submitter_id": "MMRF_1335",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6249144421629023,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "ab7861e4-5034-417c-8d28-98b7c68252b3",
+        "submitter_id": "MMRF_1494",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6276522929500343,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "c58cb4f8-b1bc-4dc6-b7ed-b847efbb66ab",
+        "submitter_id": "MMRF_1522",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6331279945242985,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "d7c8c72f-7ca5-44f2-a1ad-ca139df3ac07",
+        "submitter_id": "MMRF_1474",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6440793976728267,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "d074356e-199c-49fd-8a2a-57419505bca2",
+        "submitter_id": "MMRF_1454",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.649555099247091,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "7d8b949a-9669-418e-8e7b-7846089775ce",
+        "submitter_id": "MMRF_1089",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6605065023956196,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "ee494e20-2254-4eee-a452-149d28ca330c",
+        "submitter_id": "MMRF_1478",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.6659822039698837,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "3c59ccac-7330-4034-a7f9-58984676bc31",
+        "submitter_id": "MMRF_1499",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.701574264202601,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "dfbc5887-a5a6-486f-b273-7c3718996975",
+        "submitter_id": "MMRF_1510",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.701574264202601,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "dca6ccf4-4840-4e29-84b8-e20a81e2b554",
+        "submitter_id": "MMRF_1504",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.728952772073922,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "6e327cc5-9247-4118-9d7b-9bb958f6bd64",
+        "submitter_id": "MMRF_1423",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.756331279945243,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "2555ccf0-8d72-448b-a307-9718a457ddbc",
+        "submitter_id": "MMRF_1434",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.7645448323066395,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "32ff98a4-d8b1-4a33-bd7f-e0f07511f454",
+        "submitter_id": "MMRF_1455",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.7782340862423,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "9153e4c2-37e9-4cc3-83a8-14d2cedaa819",
+        "submitter_id": "MMRF_1413",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.780971937029432,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "8cc7a02b-2714-40d2-a700-2aca6d715032",
+        "submitter_id": "MMRF_1352",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.7946611909650922,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "98e09af5-db0d-4243-8dbc-3fc40022fae7",
+        "submitter_id": "MMRF_1426",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.8357289527720737,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "6db6472e-a16d-4e85-90c6-dba794bc38d1",
+        "submitter_id": "MMRF_1452",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.871321013004791,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "db3f8b94-ddec-44c2-a20c-523901e5adf7",
+        "submitter_id": "MMRF_1360",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.8740588637919235,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "032ca0da-a89e-43fe-bcb0-e0802c9c24d5",
+        "submitter_id": "MMRF_1383",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.8822724161533197,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "d694fdee-c5fb-4316-bb4b-fe28901ae548",
+        "submitter_id": "MMRF_1344",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.890485968514716,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "abc979e5-dd84-4bfa-9727-b2f396f3a3c5",
+        "submitter_id": "MMRF_1447",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9014373716632442,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "ecc00d90-e5fe-45da-8d32-ba7cad671bd7",
+        "submitter_id": "MMRF_1377",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9069130732375084,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "e7f28687-fdb2-4dc9-9461-3a297f0860bd",
+        "submitter_id": "MMRF_1407",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9069130732375084,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "e6cbbc04-f3dc-496c-84eb-1f348e2196e0",
+        "submitter_id": "MMRF_1354",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.912388774811773,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "85e1a95c-030d-4e6a-ad2c-e468de783b41",
+        "submitter_id": "MMRF_1388",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.915126625598905,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "fca8ab62-4857-4bb0-9b24-a2d14b888067",
+        "submitter_id": "MMRF_1408",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.920602327173169,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "5d2836a9-633f-4403-b8cd-5861c132cee8",
+        "submitter_id": "MMRF_1395",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9315537303216974,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "2fa052cc-1555-4d1b-b495-d7444684d534",
+        "submitter_id": "MMRF_1312",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9452429842573578,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "34c9551c-f83e-447c-877b-b101208d07b6",
+        "submitter_id": "MMRF_1309",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9507186858316223,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "568c22f1-425b-4f99-811e-71554cfc7218",
+        "submitter_id": "MMRF_1345",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9644079397672827,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "20839430-0a98-44ba-bc76-5d40c4bf8796",
+        "submitter_id": "MMRF_1371",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9835728952772076,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "81f289f0-570f-4462-877d-2d2f16367ea0",
+        "submitter_id": "MMRF_1323",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9890485968514717,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "5bcce914-6efa-4c0e-a0d7-7806e28b919c",
+        "submitter_id": "MMRF_1266",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9890485968514717,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "0b61653c-1e82-4624-8c33-df8661782b40",
+        "submitter_id": "MMRF_1318",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.9890485968514717,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "025f47c1-81bc-4b9f-95e8-661487df6451",
+        "submitter_id": "MMRF_1293",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 3.997262149212868,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "23a54468-f08a-4c2c-b299-c97bc1cbeaff",
+        "submitter_id": "MMRF_1300",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.005475701574264,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "739d4e3c-536a-4760-8f57-1aef50ba3f09",
+        "submitter_id": "MMRF_1311",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.016427104722792,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "7903893f-3929-4086-93ce-caab4a211027",
+        "submitter_id": "MMRF_1325",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.134154688569473,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "5a29aaa2-1320-4e8b-b51d-a57431ca2c32",
+        "submitter_id": "MMRF_1286",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.167008898015058,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "173ab77d-dd7b-4ef7-b2c3-7179a9170a7b",
+        "submitter_id": "MMRF_1314",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.16974674880219,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "e9873dce-bece-45d0-98d3-556e449f6e07",
+        "submitter_id": "MMRF_1307",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.172484599589322,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "fa1557d6-e713-4e32-804b-3e9f8751a282",
+        "submitter_id": "MMRF_1308",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.199863107460644,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "590217ce-535c-483e-b866-4e383d075b41",
+        "submitter_id": "MMRF_1310",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.20807665982204,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "b381b197-292a-47ca-909c-be4b41d65a39",
+        "submitter_id": "MMRF_1295",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.20807665982204,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "4159c7b8-c8a4-435d-ac98-9205b6ac353d",
+        "submitter_id": "MMRF_1290",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.2217659137577,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "ae58bf4d-78b2-4e5b-8e58-30a64a519e72",
+        "submitter_id": "MMRF_1304",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.257357973990418,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "f1b12b03-6135-40a1-9aef-0a600e3b5b9a",
+        "submitter_id": "MMRF_1256",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.2792607802874745,
+        "censored": true,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "36df6041-8d49-4c46-88cc-ee1684bd78f7",
+        "submitter_id": "MMRF_1284",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.2819986310746065,
+        "censored": false,
+        "survivalEstimate": 0.7368759574014373,
+        "id": "85ac98f4-1e36-4340-95ab-24132db58d43",
+        "submitter_id": "MMRF_1193",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.292950034223135,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "359ffef9-902b-411f-b609-5ab6411f2406",
+        "submitter_id": "MMRF_1274",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.298425735797399,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "c81e90b8-083c-4948-8c4c-9abb1e262dfe",
+        "submitter_id": "MMRF_1285",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.301163586584531,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "de8855e5-4114-4faf-8134-f6f9ad27c694",
+        "submitter_id": "MMRF_1235",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.334017796030117,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "5178a832-10df-4dc2-8c8d-a8a0e7309a77",
+        "submitter_id": "MMRF_1188",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.347707049965777,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "c5221054-2494-4550-861f-090790b498e6",
+        "submitter_id": "MMRF_1171",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.361396303901437,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "aa308f50-2dd1-4327-a88c-cde8b35cd67b",
+        "submitter_id": "MMRF_1178",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.407939767282683,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "461bd31c-c782-44f7-bd3e-2120d613883c",
+        "submitter_id": "MMRF_1211",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.41615331964408,
+        "censored": true,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "7e67c911-7873-4714-bef5-f732f6bb29d6",
+        "submitter_id": "MMRF_1224",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.424366872005476,
+        "censored": false,
+        "survivalEstimate": 0.7164071808069529,
+        "id": "3a04411e-31eb-4fea-bd93-73deb4e6958f",
+        "submitter_id": "MMRF_1108",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.4490075290896645,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "2281b435-31fb-425f-82ea-c0248b0b55f5",
+        "submitter_id": "MMRF_1251",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.454483230663929,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "994fda2d-17af-451a-954a-95410558319b",
+        "submitter_id": "MMRF_1189",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.498288843258043,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "2dcda5a0-4cd2-4162-9bea-cc5f1433724b",
+        "submitter_id": "MMRF_1210",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.602327173169062,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "b9071bd7-8172-4eb2-8192-b28d4d9233a8",
+        "submitter_id": "MMRF_1153",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.607802874743326,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "56ed99a7-42bb-46a1-acd9-c66733fece55",
+        "submitter_id": "MMRF_1157",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.629705681040384,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "584d9cab-4f01-42a3-9cea-91ddb1062777",
+        "submitter_id": "MMRF_1128",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.65160848733744,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "680758e3-654f-4e26-acd3-cb06adcfb6bc",
+        "submitter_id": "MMRF_1100",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.6680355920602326,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "43967950-7bb0-4de4-a20a-635001c80aa5",
+        "submitter_id": "MMRF_1152",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.689938398357289,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "6356f1f3-7d56-4464-b70c-84eb69b7262c",
+        "submitter_id": "MMRF_1185",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.739219712525667,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "bb1cf2aa-db7a-4b2b-a646-daeaf89c302d",
+        "submitter_id": "MMRF_1143",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.744695414099931,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "7a369587-096f-463a-a196-3ce918fd2a57",
+        "submitter_id": "MMRF_1092",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.7529089664613275,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "f56298dc-d136-4676-9a11-d171d9cf52d8",
+        "submitter_id": "MMRF_1159",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.785763175906913,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "7414ddf1-8e7f-4393-8a76-5bc122bdc4a4",
+        "submitter_id": "MMRF_1098",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.7939767282683095,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "a2e0188e-8fca-4a4e-9da5-69ae7c2c68d6",
+        "submitter_id": "MMRF_1073",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.810403832991102,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "1778f74c-366b-48bb-9528-9ac10378389f",
+        "submitter_id": "MMRF_1071",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.824093086926762,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "9f08cfd6-ec10-41a0-aa8c-7e99a35e925a",
+        "submitter_id": "MMRF_1130",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.878850102669404,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "ea3cf008-6883-41ff-928a-aedb01128468",
+        "submitter_id": "MMRF_1086",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.8815879534565365,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "53ee9800-3efc-4b5e-b9d4-d6c440c17494",
+        "submitter_id": "MMRF_1078",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.906228610540725,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "ace7303c-286a-45f2-ac3f-f1a76810ebab",
+        "submitter_id": "MMRF_1048",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.906228610540725,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "71d62f8d-51db-4b5b-b3d3-a364b70f70a7",
+        "submitter_id": "MMRF_1077",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.922655715263518,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "d6742460-d3b9-41f0-98be-f117a8d1609c",
+        "submitter_id": "MMRF_1049",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.950034223134839,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "1ae87b38-ecbe-4e09-92d3-84a2c11f08fd",
+        "submitter_id": "MMRF_1061",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 4.952772073921971,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "74f00e60-0c8e-4d4d-b7d1-1cedcf836391",
+        "submitter_id": "MMRF_1112",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 5.004791238877481,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "00e9cfa7-d2e1-46b8-b0ff-d7f1da925097",
+        "submitter_id": "MMRF_1054",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 5.27583846680356,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "07d7c87a-409f-437d-bef8-36511773d540",
+        "submitter_id": "MMRF_1024",
+        "project_id": "MMRF-COMMPASS"
+      },
+      {
+        "time": 5.28952772073922,
+        "censored": true,
+        "survivalEstimate": 0.6898735815178064,
+        "id": "9b5dbbf9-dbb3-45ce-985e-be18c763c172",
+        "submitter_id": "MMRF_1021",
+        "project_id": "MMRF-COMMPASS"
+      }
+    ]
+  }
+],
+  "overallStats": {
+  "chiSquared": 7.674402957063867,
+    "degreesFreedom": 1,
+    "pValue": 0.00560096220566908
+}
+}

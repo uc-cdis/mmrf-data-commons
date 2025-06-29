@@ -1,14 +1,87 @@
 import { FilterSet } from '@gen3/core';
+import cohortFacetData from './data/cohortFacetData.json';
+import survivalPlotData from './data/survivalPlotData.json';
+import pValueResult from './data/pValueQueryData.json';
+import vennDiagramData from './data/vennDiagramData.json';
 
-type CreateCaseIdsTriggerFunction = ({ filters } : { filters: FilterSet }) => string[];
-type CreateCaseIdsResults = { data: string[], isUninitialized: boolean, isLoading: boolean, isFetching: boolean, isError: boolean, isSuccess: boolean };
+const test = 0;
 
-export const createCaseIdsFromQuery : CreateCaseIdsTriggerFunction = ()  => {
+type CreateCaseIdsTriggerFunction = () => string[];
+type UseMutationResult<T> = {
+  data: T;
+  isUninitialized: boolean;
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+};
 
+export const createCaseIdsFromQuery: CreateCaseIdsTriggerFunction = () => {
   return [] as string[];
-}
+};
 
-export const useCreateCaseSetFromFiltersMutation = ()  : [CreateCaseIdsTriggerFunction, CreateCaseIdsResults]=> {
+export const useCreateCaseSetFromFiltersMutation = (): [
+  CreateCaseIdsTriggerFunction,
+  UseMutationResult<string[]>,
+] => {
+  return [
+    createCaseIdsFromQuery,
+    {
+      data: [],
+      isUninitialized: false,
+      isLoading: false,
+      isFetching: false,
+      isError: false,
+      isSuccess: true,
+    },
+  ];
+};
 
-  return [createCaseIdsFromQuery, { data : [], isUninitialized: false, isLoading: false, isFetching: false, isError: false, isSuccess: true } ];
-}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useCohortFacetsQuery = (
+  arg0: any,
+  arg1: any,
+): UseMutationResult<any> => {
+  return {
+    data: cohortFacetData,
+    isUninitialized: false,
+    isLoading: false,
+    isFetching: false,
+    isError: false,
+    isSuccess: true,
+  };
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useGetSurvivalPlotQuery = (arg0: any): UseMutationResult<any> => {
+  return {
+    data: survivalPlotData,
+    isUninitialized: false,
+    isLoading: false,
+    isFetching: false,
+    isError: false,
+    isSuccess: true,
+  };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useVennDiagramQuery = (arg0: any): UseMutationResult<any> => {
+  return {
+    data: vennDiagramData,
+    isUninitialized: false,
+    isLoading: false,
+    isFetching: false,
+    isError: false,
+    isSuccess: true,
+  };
+};
+
+export const usePValueQuery = (arg0: any): UseMutationResult<any> => {
+  return {
+    data: pValueResult,
+    isUninitialized: false,
+    isLoading: false,
+    isFetching: false,
+    isError: false,
+    isSuccess: true,
+  };
+};

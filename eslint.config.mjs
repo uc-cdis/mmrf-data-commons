@@ -11,7 +11,7 @@ export default [
   reactRecommended,
   jsLint.configs.recommended,
   ...tsLint.configs.recommended,
-
+  next.flatConfig.recommended,
   {
     ignores: [
       '.nx/**/*',

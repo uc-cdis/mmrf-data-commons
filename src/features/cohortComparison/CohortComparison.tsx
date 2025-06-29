@@ -7,13 +7,11 @@ import {
 } from '@gen3/core';
 import {
   useCohortFacetsQuery ,
-} from "@/core/features/cohortComparison";
-import { buildCohortGqlOperator } from "@/core/utils";
+} from "./mocks";
 import CohortCard from "./CohortCard/CohortCard";
 import SurvivalCard from "./SurvivalCard";
 import FacetCard from "./FacetCard";
 import { DemoText } from "@/components/tailwindComponents";
-import { useDeepCompareEffect } from "use-deep-compare";
 import { CohortComparisonFields} from "./types";
 import { useCreateCaseSetFromFiltersMutation } from '@/features/cohortComparison/mocks';
 
@@ -85,19 +83,19 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
 
   const counts = cohortFacetsData?.caseCounts || [];
 
-  useDeepCompareEffect(() => {
-    createPrimaryCaseSet({
-      filters: cohorts.primary_cohort.filter ?? {},
-    });
-    createComparisonCaseSet({
-      filters: cohorts.comparison_cohort.filter ?? {},
-    });
-  }, [
-    cohorts.primary_cohort.filter,
-    cohorts.comparison_cohort.filter,
-    createComparisonCaseSet,
-    createPrimaryCaseSet,
-  ]);
+  // useDeepCompareEffect(() => {
+  //   createPrimaryCaseSet({
+  //     filters: cohorts.primary_cohort.filter ?? {},
+  //   });
+  //   createComparisonCaseSet({
+  //     filters: cohorts.comparison_cohort.filter ?? {},
+  //   });
+  // }, [
+  //   cohorts.primary_cohort.filter,
+  //   cohorts.comparison_cohort.filter,
+  //   createComparisonCaseSet,
+  //   createPrimaryCaseSet,
+  // ]);
 
   const isSetsloading =
     primarySetResponse.isUninitialized ||

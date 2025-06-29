@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { init, EChartsOption, ECharts, getInstanceByDom } from 'echarts';
+import React, { useEffect, useState } from 'react';
+import { init, EChartsOption, ECharts } from 'echarts';
 import { useDeepCompareEffect } from 'use-deep-compare';
 import { useResizeObserver } from '@mantine/hooks';
 
