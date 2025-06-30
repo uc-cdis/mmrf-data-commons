@@ -1,0 +1,76 @@
+{
+  "index" : "case",
+  "tabsConfiguration": {
+    "general": {
+      "label": "General",
+      "facets": [
+        "project_id",
+        "primary_site",
+        "disease_type",
+        "primary_diagnosis",
+        "tissue_or_organ_of_origin"
+      ],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "demographic": {
+      "label": "Demographic",
+      "facets": [
+        "gender",
+        "race",
+        "ethnicity",
+        "age_at_diagnosis",
+        "vital_status"
+      ],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "general_diagnosis": {
+      "label": "General Diagnosis",
+      "facets": ["tumor_grade", "morphology"],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "disease_status": {
+      "label": "Disease Status and History",
+      "facets": ["diagnoses.progression_or_recurrence"],
+      "queryOptions": {
+        "docType": "cases",
+        "indexType": "explore"
+      }
+    },
+    "treatment": {
+      "label": "Treatment",
+      "facets": ["therapeutic_agents", "treatment_type"],
+      "queryOptions": {
+        "docType": "cases",
+        "indexType": "explore"
+      }
+    },
+    "biospecimen": {
+      "label": "Biospecimen",
+      "facets": [
+        "samples.preservation_method",
+        "samples.sample_type",
+        "samples.specimen_type",
+        "samples.tissue_type",
+        "samples.tumor_descriptor"
+      ],
+      "queryOptions": {
+        "docType": "cases",
+        "indexType": "explore"
+      }
+    },
+    "custom": {
+      "label": "Custom Filters",
+      "facets": [],
+      "queryOptions": {
+        "docType": "cases",
+        "indexType": "explore"
+      }
+    }
+  }
+}
