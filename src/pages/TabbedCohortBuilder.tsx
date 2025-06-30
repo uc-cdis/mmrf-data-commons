@@ -23,7 +23,7 @@ const TabbedCohortBuilderPage = ({
         <CohortManager index="cases"></CohortManager>
       </div>
       <div className="flex">
-        <div className="w-full mt-80 mr-4">
+        <div className="w-full mt-72 mr-4">
           <TabbedCohortBuilder {...configuration} />
         </div>
       </div>
