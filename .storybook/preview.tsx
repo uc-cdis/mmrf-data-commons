@@ -1,10 +1,12 @@
 import React from 'react';
 import type { Preview } from '@storybook/react';
+import { initialize, mswLoader } from 'msw-storybook-addon';
+import { http, HttpResponse } from 'msw'
 import { MantineProvider } from '@mantine/core';
 import { Gen3Provider} from '@gen3/frontend';
 import '../src/styles/globals.css';
 import "../src/styles/survivalplot.css";
-import { initialize, mswLoader } from 'msw-storybook-addon';
+
 import theme from '../src/mantineTheme';
 import icons from './loadIcons';
 import '@fontsource/montserrat';
@@ -55,6 +57,26 @@ const preview: Preview = {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
+      },
+    },
+    msw: {
+      handlers: {
+        global: [
+          http.get('/_status', () => {
+            return HttpResponse.json(
+            {
+              "message": "Feelin good!",
+              "csrf": "4d84419a38ee14170382bdb93b70d6cc7710.0002025-06-29T22:26:01+00:00"
+
+            })
+          }),
+          http.get('/user/user', () => {
+            return HttpResponse.json(null, { status: 401 })
+          }),
+          http.get('/user/mapping', () => {
+            return HttpResponse.json({})
+          }),
+        ],
       },
     },
   },

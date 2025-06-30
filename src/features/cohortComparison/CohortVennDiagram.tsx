@@ -7,7 +7,8 @@ import makeIntersectionFilters from "./makeIntersectionFilters";
 import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { buildCohortGqlOperator } from "@/core/utils";
-import { useVennDiagramQuery } from '@/core/features/cohortComparison';
+// import { useVennDiagramQuery } from '@/core/features/cohortComparison';
+import { useVennDiagramQuery } from "./mocks";
 
 const VennDiagram = dynamic(() => import("@/features/charts/VennDiagram"), {
   ssr: false,
@@ -24,7 +25,7 @@ interface CohortVennDiagramProps {
       name: string;
     };
   };
-  readonly caseSetIds: string[];
+  readonly caseSetIds?: string[];
   readonly isLoading: boolean;
 }
 
@@ -44,7 +45,6 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   const filters = useDeepCompareMemo(
     () =>
       makeIntersectionFilters(
-        caseSetIds,
         buildCohortGqlOperator(cohorts?.primary_cohort.filter),
         buildCohortGqlOperator(cohorts?.comparison_cohort.filter),
 

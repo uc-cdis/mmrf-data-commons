@@ -2,7 +2,7 @@ import {
   FiExternalLink as LinkIcon,
   FiPlayCircle as PlayVideoIcon,
   FiChevronDown as DownArrowCollapseIcon,
-} from "react-icons/fi";
+} from 'react-icons/fi';
 import {
   AiFillCaretDown as CaretDownIcon,
   AiFillCaretUp as CaretUpIcon,
@@ -10,7 +10,7 @@ import {
   AiFillMinusCircle as CollapsedNodeIcon,
   AiOutlineFileAdd as FileAddIcon,
   AiTwotoneBoxPlot as BoxPlotIcon,
-} from "react-icons/ai";
+} from 'react-icons/ai';
 import {
   FaQuestion as QuestionIcon,
   FaFile as FileIcon,
@@ -31,7 +31,7 @@ import {
   FaUndo as UndoIcon,
   FaCaretDown as DropdownIcon,
   FaCut as CutIcon,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 import {
   MdClose as CloseIcon,
   MdPerson as PersonIcon,
@@ -77,11 +77,11 @@ import {
   MdOutlineViewComfy as TableIcon,
   MdFilterAlt as CohortFilterIcon,
   MdWarning as WarningTriangleIcon,
-} from "react-icons/md";
+} from 'react-icons/md';
 import {
   RiErrorWarningFill as WarningIconMessage,
   RiCloseCircleLine as CloseCircleIcon,
-} from "react-icons/ri";
+} from 'react-icons/ri';
 import {
   BsArrowRight as ArrowRight,
   BsTrashFill as TrashIcon,
@@ -91,28 +91,28 @@ import {
   BsX as XIcon,
   BsPin as StickyOffIcon,
   BsPinFill as StickyOnIcon,
-} from "react-icons/bs";
+} from 'react-icons/bs';
 import {
   IoIosArrowDropdownCircle as ExpandCircleIcon,
   IoIosArrowDropupCircle as CollapseCircleIcon,
-} from "react-icons/io";
-import { LuCopy as CopyIcon } from "react-icons/lu";
-import { HiOutlinePencilSquare as PencilSquareIcon } from "react-icons/hi2";
+} from 'react-icons/io';
+import { LuCopy as CopyIcon } from 'react-icons/lu';
+import { HiOutlinePencilSquare as PencilSquareIcon } from 'react-icons/hi2';
 import {
   HiPlus as StrandPlusIcon,
   HiMinus as StrandMinusIcon,
-} from "react-icons/hi";
-import { BiAddToQueue as AddToQueueIcon } from "react-icons/bi";
-import { GiMicroscope as MicroscopeIcon } from "react-icons/gi";
-import { ImCalendar as CalendarIcon } from "react-icons/im";
+} from 'react-icons/hi';
+import { BiAddToQueue as AddToQueueIcon } from 'react-icons/bi';
+import { GiMicroscope as MicroscopeIcon } from 'react-icons/gi';
+import { ImCalendar as CalendarIcon } from 'react-icons/im';
 import {
   PiCaretUpDownFill as SelectorIcon,
   PiCaretDownFill as SortDesIcon,
   PiCaretUpFill as SortAscIcon,
   PiPencilSimpleLineBold as PencilEditIcon,
-} from "react-icons/pi";
-import { IoOptions as OptionsIcon } from "react-icons/io5";
-import { VscFeedback as FeebackIcon } from "react-icons/vsc";
+} from 'react-icons/pi';
+import { IoOptions as OptionsIcon } from 'react-icons/io5';
+import { VscFeedback as FeebackIcon } from 'react-icons/vsc';
 
 export {
   LinkIcon,

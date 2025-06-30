@@ -1,25 +1,24 @@
-import App, { AppProps, AppContext, AppInitialProps } from 'next/app';
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { MantineProvider } from '@mantine/core';
-import { Faro, FaroErrorBoundary, withFaroProfiler } from '@grafana/faro-react';
-import { initGrafanaFaro } from '../lib/Grafana/grafana';
+
 import mantinetheme from '../mantineTheme';
 
 import {
   Gen3Provider,
   type ModalsConfig,
-  RegisteredIcons,
-  SessionConfiguration,
-  registerExplorerDefaultCellRenderers,
   registerCohortBuilderDefaultPreviewRenderers,
+  RegisteredIcons,
+  registerExplorerDefaultCellRenderers,
   registerMetadataSchemaApp,
+  SessionConfiguration,
 } from '@gen3/frontend';
 
 import { registerCohortTableCustomCellRenderers } from '@/lib/CohortBuilder/CustomCellRenderers';
 import { registerCustomExplorerDetailsPanels } from '@/lib/CohortBuilder/FileDetailsPanel';
 
 import '../styles/globals.css';
-import "../styles/survivalplot.css";
+import '../styles/survivalplot.css';
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
@@ -28,11 +27,13 @@ import { setDRSHostnames } from '@gen3/core';
 import drsHostnames from '../../config/drsHostnames.json';
 import { loadContent } from '@/lib/content/loadContent';
 import Loading from '../components/Loading';
+import { registerCohortComparisonApp } from '@/features/cohortComparison/registerApp';
+import Gen3GDCCompatabilityProvider from '@/utils/providers';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const ReactDOM = require('react-dom');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
@@ -51,17 +52,8 @@ const Gen3App = ({
   modalsConfig,
 }: AppProps & Gen3AppProps) => {
   const isFirstRender = useRef(true);
-  const faroRef = useRef<null | Faro>(null);
 
   useEffect(() => {
-    // one time init
-    // if (
-    //   process.env.NEXT_PUBLIC_FARO_COLLECTOR_URL &&
-    //   process.env.NEXT_PUBLIC_FARO_APP_ENVIRONMENT != "local" &&
-    //   !faroRef.current
-    // ) {
-
-    if (!faroRef.current) faroRef.current = initGrafanaFaro();
     if (isFirstRender.current) {
       setDRSHostnames(drsHostnames);
       registerMetadataSchemaApp();
@@ -69,6 +61,7 @@ const Gen3App = ({
       registerCohortBuilderDefaultPreviewRenderers();
       registerCohortTableCustomCellRenderers();
       registerCustomExplorerDetailsPanels();
+      registerCohortComparisonApp();
       isFirstRender.current = false;
       console.log('Gen3 App initialized');
     }
@@ -79,21 +72,22 @@ const Gen3App = ({
   useEffect(() => {
     setIsClient(true); // Only on client-side
   }, []);
+
   return (
     <React.Fragment>
       {isClient ? (
         <Suspense fallback={<Loading />}>
-          <FaroErrorBoundary>
-            <MantineProvider theme={mantinetheme}>
-              <Gen3Provider
-                icons={icons}
-                sessionConfig={sessionConfig}
-                modalsConfig={modalsConfig}
-              >
+          <MantineProvider theme={mantinetheme}>
+            <Gen3Provider
+              icons={icons}
+              sessionConfig={sessionConfig}
+              modalsConfig={modalsConfig}
+            >
+              <Gen3GDCCompatabilityProvider>
                 <Component {...pageProps} />
-              </Gen3Provider>
-            </MantineProvider>
-          </FaroErrorBoundary>
+              </Gen3GDCCompatabilityProvider>
+            </Gen3Provider>
+          </MantineProvider>
         </Suspense>
       ) : (
         // Show some fallback UI while waiting for the client to load
@@ -134,4 +128,4 @@ Gen3App.getInitialProps = async (
     sessionConfig: {},
   };
 };
-export default withFaroProfiler(Gen3App);
+export default Gen3App;
