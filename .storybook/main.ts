@@ -7,13 +7,7 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
-    '@storybook/addon-a11y',
-    {
-      name: 'storybook-addon-manual-mocks',
-      options: {
-        mocksFolder: '__mocks__',
-      },
-    },
+    '@storybook/addon-a11y'
   ],
   framework: {
     name: '@storybook/nextjs',
