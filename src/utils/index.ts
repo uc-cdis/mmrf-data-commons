@@ -3,7 +3,7 @@ import { CartFile, DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
 
-interface FilterSet {
+export interface FilterSet {
   readonly root: Record<string, any>;
   readonly mode: string;
   readonly isLoggedIn?: boolean;

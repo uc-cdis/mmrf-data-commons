@@ -1,0 +1,106 @@
+{
+  "casesTotal": 959,
+  "genesTotal": 701,
+  "geneCounts": [
+    {
+      "gene_id": "ENSG00000133703",
+      "numCases": 227,
+      "symbol": "KRAS"
+    },
+    {
+      "gene_id": "ENSG00000110987",
+      "numCases": 212,
+      "symbol": "BCL7A"
+    },
+    {
+      "gene_id": "ENSG00000213281",
+      "numCases": 183,
+      "symbol": "NRAS"
+    },
+    {
+      "gene_id": "ENSG00000183508",
+      "numCases": 115,
+      "symbol": "TENT5C"
+    },
+    {
+      "gene_id": "ENSG00000181143",
+      "numCases": 102,
+      "symbol": "MUC16"
+    },
+    {
+      "gene_id": "ENSG00000164796",
+      "numCases": 84,
+      "symbol": "CSMD3"
+    },
+    {
+      "gene_id": "ENSG00000196159",
+      "numCases": 84,
+      "symbol": "FAT4"
+    },
+    {
+      "gene_id": "ENSG00000165323",
+      "numCases": 78,
+      "symbol": "FAT3"
+    },
+    {
+      "gene_id": "ENSG00000168702",
+      "numCases": 73,
+      "symbol": "LRP1B"
+    },
+    {
+      "gene_id": "ENSG00000157764",
+      "numCases": 69,
+      "symbol": "BRAF"
+    },
+    {
+      "gene_id": "ENSG00000140538",
+      "numCases": 64,
+      "symbol": "NTRK3"
+    },
+    {
+      "gene_id": "ENSG00000083857",
+      "numCases": 54,
+      "symbol": "FAT1"
+    },
+    {
+      "gene_id": "ENSG00000185008",
+      "numCases": 50,
+      "symbol": "ROBO2"
+    },
+    {
+      "gene_id": "ENSG00000141510",
+      "numCases": 47,
+      "symbol": "TP53"
+    },
+    {
+      "gene_id": "ENSG00000149311",
+      "numCases": 46,
+      "symbol": "ATM"
+    },
+    {
+      "gene_id": "ENSG00000153707",
+      "numCases": 45,
+      "symbol": "PTPRD"
+    },
+    {
+      "gene_id": "ENSG00000178568",
+      "numCases": 44,
+      "symbol": "ERBB4"
+    },
+    {
+      "gene_id": "ENSG00000079102",
+      "numCases": 44,
+      "symbol": "RUNX1T1"
+    },
+    {
+      "gene_id": "ENSG00000187323",
+      "numCases": 40,
+      "symbol": "DCC"
+    },
+    {
+      "gene_id": "ENSG00000145012",
+      "numCases": 40,
+      "symbol": "LPP"
+    }
+  ]
+}
