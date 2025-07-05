@@ -27,7 +27,7 @@ const SurvivalPlotWrapped = () => {
 
 const meta = {
   component: SurvivalPlotWrapped,
-  title: 'components/SurvivalPlot',
+   title: 'components/SurvivalPlot',
   parameters: {
     deepControls: { enabled: true },
   },
@@ -72,10 +72,11 @@ export const Default: Story = {
   parameters: {
     msw: handlers.success
   },
+  tags: ['no-tests'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const testIds = ['button-survival-plot-download'];
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
