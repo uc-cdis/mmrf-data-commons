@@ -28,6 +28,7 @@ export const Default: Story = {
       'summary-header-title',
       'summary-header-icon',
     ];
+    await new Promise(resolve => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();

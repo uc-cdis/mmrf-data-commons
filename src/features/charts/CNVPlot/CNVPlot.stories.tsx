@@ -25,6 +25,7 @@ export const Default: Story = {
       'graph-cancer-distribution-cnv',
       'chart-text-version',
     ];
+    await new Promise(resolve => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
