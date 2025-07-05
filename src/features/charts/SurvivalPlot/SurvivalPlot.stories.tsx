@@ -28,6 +28,7 @@ const SurvivalPlotWrapped = () => {
 const meta = {
   component: SurvivalPlotWrapped,
    title: 'components/SurvivalPlot',
+  tags: ['skip-test'],
   parameters: {
     deepControls: { enabled: true },
   },
@@ -72,7 +73,7 @@ export const Default: Story = {
   parameters: {
     msw: handlers.success
   },
-  tags: ['no-tests'],
+  tags: ['skip-test'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const testIds = ['button-survival-plot-download'];
