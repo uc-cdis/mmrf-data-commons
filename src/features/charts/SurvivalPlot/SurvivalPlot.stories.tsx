@@ -21,7 +21,7 @@ const SurvivalPlotWrapped = () => {
     <SurvivalPlot
       plotType={SurvivalPlotTypes.cohortComparison}
       data={data === undefined ? emptySurvivalPlot : data}
-    isLoading={isFetching}/>
+    isLoading={false}/>
   );
 };
 
