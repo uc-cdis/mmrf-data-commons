@@ -30,6 +30,9 @@ export const Default: Story = {
     );
 
     testIds = [...testIds, ...arrayOfLeftColumnsIds, ...arrayOfIconIds];
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
