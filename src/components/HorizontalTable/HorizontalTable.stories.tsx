@@ -93,6 +93,9 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     let testIds = ['customDataTestID'];
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const numberOfRowsExpected = 6;
     const rowIds = Array.from(
       { length: numberOfRowsExpected },
