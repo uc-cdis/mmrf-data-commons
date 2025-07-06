@@ -28,7 +28,6 @@ const SurvivalPlotWrapped = () => {
 const meta = {
   component: SurvivalPlotWrapped,
    title: 'components/SurvivalPlot',
-  tags: ['skip-test'],
   parameters: {
     deepControls: { enabled: true },
   },
@@ -71,16 +70,18 @@ export const Default: Story = {
   args: {
   },
   parameters: {
-    msw: handlers.success
+    msw: handlers.success,
   },
-  tags: ['skip-test'],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const testIds = ['button-survival-plot-download'];
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    testIds.forEach((id) => {
-      const currEle = canvas.getByTestId(id);
-      expect(currEle).toBeInTheDocument();
-    });
-  },
+  // disable this test for now, since it's flaky
+
+  // play: async ({ canvasElement }) => {
+  //   const canvas = within(canvasElement);
+  //   const testIds = ['button-survival-plot-download'];
+  //   await new Promise(resolve => setTimeout(resolve, 5000));
+  //   testIds.forEach((id) => {
+  //     const currEle = canvas.getByTestId(id);
+  //     expect(currEle).toBeInTheDocument();
+  //   });
+  // },
+
 };
