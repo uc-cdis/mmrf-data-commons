@@ -4,83 +4,9 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import Link from 'next/link';
 import ExpandRowComponent from '@/components/Table/ExpandRowComponent';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
-// import CohortCreationButton from '@/components/CohortCreationButton';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
-// import { FilterSet, joinFilters } from '@/core'; * Omitting filtering as of 5/14/25
 import { FilterSet } from '@/core';
 import { CancerDistributionGeneType } from '../types';
-
-/*
-Omitting filtering as of 5/14/25
-const createSSMAffectedFilters = (
-  project: string,
-  gene_id: string,
-  cohortFilters: FilterSet,
-  genomicFilters: FilterSet,
-): FilterSet => {
-  return {
-    mode: 'and',
-    root: {
-      'cases.project.project_id': {
-        field: 'cases.project.project_id',
-        operator: 'includes',
-        operands: [project],
-      },
-      'genes.gene_id': {
-        field: 'genes.gene_id',
-        operator: 'includes',
-        operands: [gene_id],
-      },
-      'ssms.ssm_id': {
-        field: 'ssms.ssm_id',
-        operator: 'exists',
-      },
-      ...genomicFilters?.root,
-      ...cohortFilters?.root,
-    },
-  };
-};
-*/
-
-const createCNVFiltersForGene = ({
-  project,
-  cnvType,
-  genomicFilters,
-  gene_id,
-}: {
-  project: string;
-  cnvType: 'Loss' | 'Gain' | 'Amplification' | 'Homozygous Deletion';
-  genomicFilters: FilterSet;
-  gene_id: string;
-}): FilterSet => {
-  const baseFilters: FilterSet = {
-    mode: 'and',
-    root: {
-      'cases.project.project_id': {
-        field: 'cases.project.project_id',
-        operator: 'includes',
-        operands: [project],
-      },
-      'genes.gene_id': {
-        field: 'genes.gene_id',
-        operator: '=',
-        operand: gene_id,
-      },
-      'genes.cnv.cnv_change': {
-        field: 'genes.cnv.cnv_change_5_category',
-        operator: '=',
-        operand: cnvType,
-      },
-    },
-  };
-
-  /* Omitting filtering as of 5/14/25
-  return genomicFilters
-    ? joinFilters(genomicFilters, baseFilters)
-    : baseFilters;
-    */
-  return baseFilters;
-};
 
 const createSortingFn =
   (key: keyof CancerDistributionGeneType) =>
@@ -163,24 +89,6 @@ export const useGeneCancerDistributionColumns = ({
               denominator={row.original.ssm_affected_cases.denominator || 0}
               boldNumerator
             />
-            /*  Omitting CohortCreation as of 5/14/25
-            <CohortCreationButton
-              numCases={row.original.ssm_affected_cases.numerator || 0}
-              filters={createSSMAffectedFilters(
-                row.original.project,
-                gene_id,
-                cohortFilters,
-                genomicFilters,
-              )}
-              label={
-                <NumeratorDenominator
-                  numerator={row.original.ssm_affected_cases.numerator || 0}
-                  denominator={row.original.ssm_affected_cases.denominator || 0}
-                  boldNumerator
-                />
-              }
-              createStaticCohort
-            /> */
           ),
           meta: {
             sortingFn: createSortingFn('ssm_affected_cases_percent'),
@@ -205,25 +113,6 @@ export const useGeneCancerDistributionColumns = ({
               denominator={row.original.cnv_amplifications.denominator || 0}
               boldNumerator
             />
-            /*
-            <CohortCreationButton
-              numCases={row.original.cnv_amplifications.numerator || 0}
-              filters={createCNVFiltersForGene({
-                project: row.original.project,
-                cnvType: 'Amplification',
-                genomicFilters,
-                gene_id,
-              })}
-              caseFilters={cohortFilters}
-              createStaticCohort
-              label={
-                <NumeratorDenominator
-                  numerator={row.original.cnv_amplifications.numerator || 0}
-                  denominator={row.original.cnv_amplifications.denominator || 0}
-                  boldNumerator
-                />
-              }
-            />*/
           ),
           meta: {
             sortingFn: createSortingFn('cnv_amplifications_percent'),
@@ -246,24 +135,6 @@ export const useGeneCancerDistributionColumns = ({
             denominator={row.original.cnv_gains.denominator || 0}
             boldNumerator
           />
-          /* <CohortCreationButton
-            numCases={row.original.cnv_gains.numerator || 0}
-            filters={createCNVFiltersForGene({
-              project: row.original.project,
-              cnvType: 'Gain',
-              genomicFilters,
-              gene_id,
-            })}
-            caseFilters={cohortFilters}
-            createStaticCohort
-            label={
-              <NumeratorDenominator
-                numerator={row.original.cnv_gains.numerator || 0}
-                denominator={row.original.cnv_gains.denominator || 0}
-                boldNumerator
-              />
-            }
-          /> */
         ),
         meta: {
           sortingFn: createSortingFn('cnv_gains_percent'),
@@ -289,29 +160,6 @@ export const useGeneCancerDistributionColumns = ({
               }
               boldNumerator
             />
-            /*
-            <CohortCreationButton
-              numCases={row.original.cnv_heterozygous_deletions.numerator || 0}
-              filters={createCNVFiltersForGene({
-                project: row.original.project,
-                cnvType: 'Loss',
-                genomicFilters,
-                gene_id,
-              })}
-              caseFilters={cohortFilters}
-              createStaticCohort
-              label={
-                <NumeratorDenominator
-                  numerator={
-                    row.original.cnv_heterozygous_deletions.numerator || 0
-                  }
-                  denominator={
-                    row.original.cnv_heterozygous_deletions.denominator || 0
-                  }
-                  boldNumerator
-                />
-              }
-            />*/
           ),
           meta: {
             sortingFn: createSortingFn('cnv_heterozygous_deletions_percent'),
@@ -338,28 +186,6 @@ export const useGeneCancerDistributionColumns = ({
               }
               boldNumerator
             />
-            /*<CohortCreationButton
-              numCases={row.original.cnv_homozygous_deletions.numerator || 0}
-              filters={createCNVFiltersForGene({
-                project: row.original.project,
-                cnvType: 'Homozygous Deletion',
-                genomicFilters,
-                gene_id,
-              })}
-              caseFilters={cohortFilters}
-              createStaticCohort
-              label={
-                <NumeratorDenominator
-                  numerator={
-                    row.original.cnv_homozygous_deletions.numerator || 0
-                  }
-                  denominator={
-                    row.original.cnv_homozygous_deletions.denominator || 0
-                  }
-                  boldNumerator
-                />
-              }
-            />*/
           ),
           meta: {
             sortingFn: createSortingFn('cnv_homozygous_deletions_percent'),
