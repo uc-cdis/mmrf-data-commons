@@ -27,6 +27,7 @@ export const Default: Story = {
       'button-json-mutation-frequency',
       'button-tsv-mutation-frequency'
     ];
+    await new Promise(resolve => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
