@@ -36,3 +36,8 @@ export enum SurvivalPlotTypes {
   overall = "overall",
   cohortComparison = "cohortComparison",
 }
+
+export const EmptySurivalPlot : Survival = {
+  survivalData: [],
+  overallStats: {}
+}

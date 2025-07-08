@@ -1,4 +1,6 @@
-import { createContext, Dispatch } from "react";
+import React, { createContext, Dispatch } from "react";
+import { MantineThemeOverride } from "@mantine/core";
+import { ImageComponentType, LinkComponentType } from "@/core/types";
 
 // Chart download context
 
@@ -53,3 +55,19 @@ export const SelectionScreenContext =
     app: undefined,
     setActiveApp: undefined,
   });
+
+interface AppContextType {
+  readonly path?: string;
+  readonly theme?: MantineThemeOverride;
+  readonly Image: ImageComponentType;
+  readonly Link: LinkComponentType;
+}
+
+export const AppContext = createContext<AppContextType>({
+  path: undefined,
+  theme: undefined,
+  // eslint-disable-next-line
+  Image: (props) => <img {...props} />,
+// eslint-disable-next-line
+Link: (props) => <a {...props} />,
+});
