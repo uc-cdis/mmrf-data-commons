@@ -23,7 +23,7 @@ export interface Survival {
   readonly overallStats: Record<string, number | undefined>;
 }
 
-export const emptySurvivalPlot  : Survival= {
+export const EmptySurvivalPlot  : Survival= {
   overallStats: { pValue: undefined },
   survivalData: [],
 };
