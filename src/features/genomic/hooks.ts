@@ -41,7 +41,7 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 // import { humanify } from "@/utils/index";
 // import { useDeepCompareMemo } from "use-deep-compare";
 // import { appendSearchTermFilters } from "@/features/GenomicTables/utils";
-// import FilterFacets from "@/features/genomic/filters.json";
+import FilterFacets from "@/features/genomic/filters.json";
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -126,27 +126,49 @@ export const useAllFiltersCollapsed = () => {
   return useAppSelector((state: AppState) => selectAllFiltersCollapsed(state));
 };
 
-// export const useTotalGenomicCounts = ({ docType }: { docType: GQLDocType }) => {
-//   return useTotalCounts(FacetDocTypeToCountsIndexMap[docType]);
-// };
+export const useTotalGenomicCounts = ({ index }: { index: GQLDocType }) => {
+  return useGetCountsQuery();
+};
 
-// export const useGenesFacetValues = (field: string) => {
-//   // facet data is store in core
-//   const docType = FilterFacets?.find((f) => f.field === field).queryOptions
-//     .docType as GQLDocType;
-//   const facet: FacetBuckets = useCoreSelector((state) =>
-//     selectFacetByDocTypeAndField(state, docType, field),
-//   );
-//
-//   return {
-//     data: facet?.buckets,
-//     error: facet?.error,
-//     isUninitialized: facet === undefined,
-//     isFetching: facet?.status === "pending",
-//     isSuccess: facet?.status === "fulfilled",
-//     isError: facet?.status === "rejected",
-//   };
-// };
+export const useGenesFacetValues = (field: string) => {
+  // facet data is store in core
+  if (FilterFacets )  {
+  const index = FilterFacets?.find((f) => f.field === field).queryOptions
+    .index as GQLDocType;
+  const facet: FacetBuckets = useCoreSelector((state) =>
+    selectFacetByexport const useTotalGenomicCounts = ({ index }: { docType: GQLDocType }) => {
+      return useTotalCounts(index);
+    }
+  };
+
+  export const useGenesFacetValues = (field: string) => {
+    // facet data is store in core
+    const docType = FilterFacets?.find((f) => f.field === field).queryOptions
+      .docType as GQLDocType;
+    const facet: FacetBuckets = useCoreSelector((state) =>
+      selectIndexedFilterByName(state, docType, field),
+    );
+
+    return {
+      data: facet?.buckets,
+      error: facet?.error,
+      isUninitialized: facet === undefined,
+      isFetching: facet?.status === "pending",
+      isSuccess: facet?.status === "fulfilled",
+      isError: facet?.status === "rejected",
+    };
+  };DocTypeAndField(state, docType, field),
+  );
+
+  return {
+    data: facet?.buckets,
+    error: facet?.error,
+    isUninitialized: facet === undefined,
+    isFetching: facet?.status === "pending",
+    isSuccess: facet?.status === "fulfilled",
+    isError: facet?.status === "rejected",
+  };
+};
 
 export const useGenesFacets = (
   docType: GQLDocType,
