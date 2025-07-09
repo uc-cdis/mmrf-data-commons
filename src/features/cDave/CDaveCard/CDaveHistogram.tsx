@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { ActionIcon, Radio, Group, Loader, Menu, Tooltip } from "@mantine/core";
 import tailwindConfig from "tailwind.config";
 import OffscreenWrapper from "@/components/OffscreenWrapper";
@@ -64,8 +64,8 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
   const fieldType = field.split(".").at(-2);
   const variant =
     fieldType === "other_clinical_attributes" ? "darker" : "DEFAULT";
-  const color =
-    tailwindConfig.theme.extend.colors[COLOR_MAP[fieldType]]?.[variant];
+  const color = fieldType ?
+    tailwindConfig.theme.extend.colors[COLOR_MAP[fieldType]]?.[variant] : tailwindConfig.theme.extend.colors[COLOR_MAP['demographic']]?.[variant];
 
   const hideXTicks = barChartData.length > 20;
   const fieldName = toDisplayName(field);

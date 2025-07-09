@@ -1,6 +1,7 @@
 import React, { createContext, Dispatch } from "react";
 import { MantineThemeOverride } from "@mantine/core";
 import { ImageComponentType, LinkComponentType } from "@/core/types";
+import { DownloadType } from "./types";
 
 // Chart download context
 
@@ -26,18 +27,23 @@ export const chartDownloadReducer = (
   }
 };
 
+export const DownloadProgressContext = createContext<{
+  downloadInProgress: boolean;
+  downloadType: DownloadType;
+  setDownloadProgress:
+    | ((inProgress: boolean, type: DownloadType) => void)
+    | undefined;
+}>({
+  downloadInProgress: false,
+  downloadType: null,
+  setDownloadProgress: undefined,
+});
+
+
 export const DashboardDownloadContext = createContext<{
   state: ChartDownloadInfo[];
   dispatch: Dispatch<{ type: "add" | "remove"; payload: ChartDownloadInfo[] }>;
 }>({ state: [], dispatch: () => {} });
-
-export const DownloadProgressContext = createContext<{
-  downloadInProgress: boolean;
-  setDownloadInProgress: ((inProgress: boolean) => void) | undefined;
-}>({
-  downloadInProgress: false,
-  setDownloadInProgress: undefined,
-});
 
 // Selection screen context
 

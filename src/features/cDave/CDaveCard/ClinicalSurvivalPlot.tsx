@@ -6,7 +6,7 @@ import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
   GQLFilter as GqlOperation,
 } from "@gen3/core";
-import {, useGetSurvivalPlotQuery } from '@/core/survival';
+import { EmptySurivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
 import { getFormattedTimestamp } from "@/utils/date";
