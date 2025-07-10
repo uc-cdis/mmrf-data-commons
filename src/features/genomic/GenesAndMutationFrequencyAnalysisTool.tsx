@@ -101,7 +101,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
   const [tableXPosition, setTableXPosition] = useState<number|undefined>(undefined);
 
   return (
-    <div>Placeholder</div>
+    <div className="m-20 text-2xl text-accent-contrast">Placeholder</div>
   )
 }
 
