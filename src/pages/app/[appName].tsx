@@ -48,10 +48,10 @@ const AppsPage = ({ config }: AppConfig) => {
       <div className="w-full flex-col flex gap-4 z-10 fixed top-0 bg-base-max">
         <MainNavigation />
         <CohortManager index="cases"></CohortManager>
-      </div>
-        <div className="mt-64 w-full overflow-y-auto">
-          {Gen3App && <Gen3App {...config} />}
+        <div className="w-full overflow-y-auto">
+          {Gen3App ? <Gen3App {...config} /> : <div>App not found</div>}
         </div>
+      </div>
       </div>
     </>
   );
