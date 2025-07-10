@@ -13,6 +13,7 @@ import {
 } from "@/features/genomic/hooks";
 import { useGeneAndSSMPanelData } from "./mockedHooks";
 import dynamic from "next/dynamic";
+import { GeneFrequencyChart } from "../charts/GeneFrequencyChart";
 // import { GenesTableContainer } from "../GenomicTables/GenesTable/GenesTableContainer";
 
 
@@ -75,12 +76,11 @@ export const GenesPanel = ({
     <div className="flex flex-col">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
         <div className="w-full xl:w-1/2 border border-base-lighter p-4">
-          {/* <GeneFrequencyChart
+          <GeneFrequencyChart
             marginBottom={95}
             genomicFilters={genomicFilters}
             cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
-          /> */}
-          GENE FREQUENCY CHART PLACEHOLDER
+          />
         </div>
         <div className="w-full xl:w-1/2 relative border border-base-lighter p-4">
           <LoadingOverlay
