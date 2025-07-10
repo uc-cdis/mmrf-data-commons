@@ -16,3 +16,9 @@ export interface ComparativeSurvival {
 
 // Persist which tab is active
 export type AppModeState = "genes" | "ssms";
+
+// pass to Survival Plot when survivalPlotData data is undefined/not ready
+export const emptySurvivalPlot = {
+  overallStats: { pValue: undefined },
+  survivalData: [],
+};
