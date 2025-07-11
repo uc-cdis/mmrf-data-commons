@@ -393,6 +393,8 @@ export const useGenerateGenesTableColumns = ({
   return genesTableDefaultColumns;
 };
 
+import { ComparativeSurvival } from "@/features/genomic/types";
+import { Gene, GeneRowInfo } from "./types";
 
 
 export const getGene = (

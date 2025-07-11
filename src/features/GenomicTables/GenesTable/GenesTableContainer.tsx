@@ -32,6 +32,7 @@ import isEqual from "lodash/isEqual";
 import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
 import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
 import { joinFilters, statusBooleansToDataStatus } from "src/utils";
+// import download from "src/utils/download";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {
@@ -174,6 +175,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   // TODO: Causes type error TypeError: can't access property "genes", state.sets is undefined
   //const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
   const sets = '';
+
   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
 
