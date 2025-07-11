@@ -1,4 +1,4 @@
-import { FilterSet, convertFilterToGqlFilter } from "@gen3/core";
+import { CoreState, FilterSet, convertFilterToGqlFilter, selectIndexFilters } from "@gen3/core";
 import { GqlOperation, } from "@/core/types";
 
 
@@ -64,3 +64,8 @@ export const buildCohortGqlOperator = (
       };
   }
 };
+
+export const selectCurrentCohortCaseFilters = (
+  state: CoreState,
+  index: string = 'cases',
+): FilterSet => selectIndexFilters(state, index);
