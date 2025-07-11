@@ -14,6 +14,7 @@ import {
 import { useGeneAndSSMPanelData } from "./mockedHooks";
 import dynamic from "next/dynamic";
 import { GeneFrequencyChart } from "../charts/GeneFrequencyChart";
+import { GenesTableContainer } from "../GenomicTables/GenesTable/GenesTableContainer";
 // import { GenesTableContainer } from "../GenomicTables/GenesTable/GenesTableContainer";
 
 
@@ -109,7 +110,7 @@ export const GenesPanel = ({
         </div>
       </div>
       <h3>Genes Table Container Placeholder</h3>
-      {/* <GenesTableContainer
+      <GenesTableContainer
         selectedSurvivalPlot={comparativeSurvival}
         handleSurvivalPlotToggled={handleSurvivalPlotToggled}
         handleGeneToggled={handleGeneToggled}
@@ -118,7 +119,7 @@ export const GenesPanel = ({
         cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
         isDemoMode={isDemoMode}
         handleMutationCountClick={handleMutationCountClick}
-      /> */}
+      />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Survival } from "@/core/survival";
 
+export type GeneToggledHandler = (symbol: Record<string, any>) => void;
 
 export interface GeneRowInfo {
   readonly biotype: string;

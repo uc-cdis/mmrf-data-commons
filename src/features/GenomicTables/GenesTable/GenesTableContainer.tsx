@@ -2,6 +2,7 @@ import React from "react";
 import {
   // useGenesTable,
   FilterSet,
+  SET_COUNT_LIMIT,
 /*   usePrevious,
   useCreateGeneSetFromFiltersMutation,
   useCreateTopNGeneSetFromFiltersMutation,
@@ -22,7 +23,7 @@ import {
 } from "@/core";
 import { useGeneTable } from "../../genomic/mockedHooks";
 
-import { useCoreDispatch, useCoreSelector, usePrevious } from  "@gen3/core";
+import { filterSetToOperation, useCoreDispatch, useCoreSelector, usePrevious } from  "@gen3/core";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import FunctionButton from "@/components/FunctionButton";
@@ -31,7 +32,6 @@ import isEqual from "lodash/isEqual";
 import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
 import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
 import { joinFilters, statusBooleansToDataStatus } from "src/utils";
-// import download from "src/utils/download";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {
@@ -42,7 +42,7 @@ import {
 } from "@tanstack/react-table";
 import { HandleChangeInput } from "@/components/Table/types";
 import { CountsIcon } from "@/components/tailwindComponents";
-import { Gene, GeneToggledHandler } from "./types";
+import { Gene, GeneToggledHandler } from './types'
 //import { useGenerateGenesTableColumns, getGene } from "./utils";
 //import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
 //import GenesTableSubcomponent from "./GenesTableSubcomponent";
@@ -53,7 +53,9 @@ import TotalItems from "@/components/Table/TotalItem";
 import { buildGeneTableSearchFilters, CnvChange } from "@/core/genomic/genesTableSlice";
 import { extractFiltersWithPrefixFromFilterSet } from "@/core/features/cohort/utils";
 import { selectSetsByType } from "@/features/sets/setsSlice";
-import { getGene } from "./utils";
+import { getGene, useGenerateGenesTableColumns } from "./utils";
+import { buildCohortGqlOperator } from "@/core/utils";
+import { DropdownWithIcon } from "@gen3/frontend";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -169,9 +171,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   );
   // End Create Cohort /
 
-
-
-  const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
+  // TODO: Causes type error TypeError: can't access property "genes", state.sets is undefined
+  //const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
+  const sets = '';
   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
 
@@ -227,9 +229,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         };
   }, [pageSize, page, data?.genes?.genes_total, isSuccess]);
 
-return (<h3>GenesTableContainer placeholder from Component</h3>);
 
-  /*
+
+
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
     handleGeneToggled,
@@ -244,6 +246,8 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
     totalPages: Math.ceil(data?.genes?.genes_total / pageSize),
   });
 
+
+
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
   };
@@ -252,7 +256,7 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
     ([gene_id]) => gene_id,
   );
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
-    genesTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
+    genesTableDefaultColumns.map((column:any) => column.id as string), //must start out with populated columnOrder so we can splice
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     gene_id: false,
@@ -276,6 +280,9 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
         } as FilterSet)
       : genesTableFilters;
 
+
+  const handleTSVDownload = () => alert('refactor this like the other table without a modal');
+  /*
   const handleTSVDownload = async () => {
     setDownloadMutatedGenesTSVActive(true);
     await download({
@@ -283,7 +290,7 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
       method: "POST",
       params: {
         filters: buildCohortGqlOperator(genesTableFilters) ?? {},
-        case_filters: buildCohortGqlOperator(cohortFilters) ?? {},
+        case_filters: buildCohortGqlOperator(cohortFilters as any) ?? {},
         attachment: true,
         filename: `frequently-mutated-genes.${getFormattedTimestamp()}.tsv`,
       },
@@ -291,6 +298,7 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
       done: () => setDownloadMutatedGenesTSVActive(false),
     });
   };
+  */
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [rowId, setRowId] = useState(null);
@@ -301,9 +309,10 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
       row.original["#_ssm_affected_cases_across_the_gdc"].numerator !== 0
     ) {
       setExpanded({ [row.original.gene_id]: true });
-      setRowId(row.original.gene_id);
+      setRowId(row.original.gene_id as any);
     }
   };
+
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
@@ -339,12 +348,15 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
   );
 
   const operationCohortFilters = filterSetToOperation(cohortFilters);
-  const operationSetFilters = filterSetToOperation(setFilters);
+  const operationSetFilters = filterSetToOperation(setFilters as any);
 
+
+  /*
   return (
-    <>
+            {/*
       {isUninitialized || isFetching ? null : (
         <>
+
           <SaveSelectionAsSetModal
             opened={showSaveModal}
             closeModal={handleSaveSelectionAsSetModalClose}
@@ -408,6 +420,8 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
           />
         </>
       )}
+      */
+     return (<>
       <VerticalTable
         customDataTestID="table-genes"
         data={formattedTableData}
@@ -433,7 +447,7 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
               ]}
               TargetButtonChildren="Save/Edit Gene Set"
               targetButtonDisabled={isFetching && !isSuccess}
-              disableTargetWidth={true}
+              disableTargetWidth={true.toString()}
               LeftSection={
                 selectedGenes.length ? (
                   <CountsIcon $count={selectedGenes.length}>
@@ -473,7 +487,7 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
         rowSelection={rowSelection}
         getRowCanExpand={() => true}
         expandableColumnIds={["#_ssm_affected_cases_across_the_gdc"]}
-        renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
+        // renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}
@@ -484,5 +498,4 @@ return (<h3>GenesTableContainer placeholder from Component</h3>);
       />
     </>
   );
-  */
 };
