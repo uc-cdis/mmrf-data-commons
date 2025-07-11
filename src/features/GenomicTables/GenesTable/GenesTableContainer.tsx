@@ -1,7 +1,8 @@
+import React from "react";
 import {
-  useGenesTable,
+  // useGenesTable,
   FilterSet,
-  usePrevious,
+/*   usePrevious,
   useCreateGeneSetFromFiltersMutation,
   useCreateTopNGeneSetFromFiltersMutation,
   useCoreSelector,
@@ -17,17 +18,19 @@ import {
   buildGeneTableSearchFilters,
   filterSetToOperation,
   convertFilterToGqlFilter,
-  CnvChange,
-} from "@gff/core";
+  CnvChange, */
+} from "@/core";
+
+import { useCoreDispatch } from  "@gen3/core";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import FunctionButton from "@/components/FunctionButton";
 import isEqual from "lodash/isEqual";
-import SaveSelectionAsSetModal from "@/components/Modals/SetModals/SaveSelectionAsSetModal";
+/* import SaveSelectionAsSetModal from "@/components/Modals/SetModals/SaveSelectionAsSetModal";
 import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
-import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal";
+import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
 import { statusBooleansToDataStatus } from "src/utils";
-import download from "src/utils/download";
+// import download from "src/utils/download";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {
@@ -39,14 +42,14 @@ import {
 import { HandleChangeInput } from "@/components/Table/types";
 import { CountsIcon } from "@/components/tailwindComponents";
 import { Gene, GeneToggledHandler } from "./types";
-import { useGenerateGenesTableColumns, getGene } from "./utils";
-import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
-import GenesTableSubcomponent from "./GenesTableSubcomponent";
+//import { useGenerateGenesTableColumns, getGene } from "./utils";
+//import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
+//import GenesTableSubcomponent from "./GenesTableSubcomponent";
 import { getFormattedTimestamp } from "@/utils/date";
 import { ComparativeSurvival } from "@/features/genomic/types";
 import { appendSearchTermFilters } from "../utils";
 import TotalItems from "@/components/Table/TotalItem";
-import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
+//import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
   readonly selectedSurvivalPlot: ComparativeSurvival;
@@ -89,15 +92,19 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   /* Modal end */
 
-  const searchFilters = buildGeneTableSearchFilters(searchTerm);
+  return (<h3>GenesTableContainer placeholder from Component</h3>);
 
+
+
+ /*
+ const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
   const genesTableFilters = appendSearchTermFilters(
     genomicFilters,
     searchFilters,
   );
 
-  /* GeneTable call */
+  // GeneTable call
   const { data, isSuccess, isFetching, isError, isUninitialized } =
     useGenesTable({
       pageSize: pageSize,
@@ -107,9 +114,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       cohortFilters: cohortFilters,
       genesTableFilters,
     });
-  /* GeneTable call end */
+  // GeneTable call end
 
-  /* Extract only the "genes." filters */
+  // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
     genomicFilters,
     "genes.",
@@ -154,7 +161,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     },
     [genomicFilters, genesOnlyFilters],
   );
-  /* End Create Cohort */
+  // End Create Cohort /
 
   const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
   const prevGenomicFilters = usePrevious(genomicFilters);
@@ -462,4 +469,5 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       />
     </>
   );
+  */
 };
