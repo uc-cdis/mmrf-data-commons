@@ -20,8 +20,9 @@ import {
   convertFilterToGqlFilter,
   CnvChange, */
 } from "@/core";
+import { useGeneTable } from "../../genomic/mockedHooks";
 
-import { useCoreDispatch } from  "@gen3/core";
+import { useCoreDispatch, useCoreSelector, usePrevious } from  "@gen3/core";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import FunctionButton from "@/components/FunctionButton";
@@ -29,7 +30,7 @@ import isEqual from "lodash/isEqual";
 /* import SaveSelectionAsSetModal from "@/components/Modals/SetModals/SaveSelectionAsSetModal";
 import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
 import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
-import { statusBooleansToDataStatus } from "src/utils";
+import { joinFilters, statusBooleansToDataStatus } from "src/utils";
 // import download from "src/utils/download";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
@@ -49,6 +50,10 @@ import { getFormattedTimestamp } from "@/utils/date";
 import { ComparativeSurvival } from "@/features/genomic/types";
 import { appendSearchTermFilters } from "../utils";
 import TotalItems from "@/components/Table/TotalItem";
+import { buildGeneTableSearchFilters, CnvChange } from "@/core/genomic/genesTableSlice";
+import { extractFiltersWithPrefixFromFilterSet } from "@/core/features/cohort/utils";
+import { selectSetsByType } from "@/features/sets/setsSlice";
+import { getGene } from "./utils";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -92,21 +97,21 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   /* Modal end */
 
-  return (<h3>GenesTableContainer placeholder from Component</h3>);
 
 
 
- /*
+
+
  const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
   const genesTableFilters = appendSearchTermFilters(
-    genomicFilters,
-    searchFilters,
+    genomicFilters as any,
+    searchFilters as any,
   );
 
   // GeneTable call
   const { data, isSuccess, isFetching, isError, isUninitialized } =
-    useGenesTable({
+    useGeneTable({
       pageSize: pageSize,
       offset: (page - 1) * pageSize,
       searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
@@ -118,9 +123,10 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
-    genomicFilters,
+    genomicFilters as any,
     "genes.",
   );
+
 
   const generateFilters = useDeepCompareCallback(
     (cnvType: CnvChange, geneId: string) => {
@@ -143,7 +149,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       } else {
         // any other type will use all filters
-        return joinFilters(genomicFilters, {
+        return joinFilters(genomicFilters as any, {
           mode: "and",
           root: {
             "ssms.ssm_id": {
@@ -163,9 +169,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   );
   // End Create Cohort /
 
+
+
   const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
+
+
   useEffect(() => {
     if (
       !isEqual(prevGenomicFilters, genomicFilters) ||
@@ -173,6 +183,8 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     )
       setPage(1);
   }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]);
+
+
 
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
@@ -215,6 +227,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         };
   }, [pageSize, page, data?.genes?.genes_total, isSuccess]);
 
+return (<h3>GenesTableContainer placeholder from Component</h3>);
+
+  /*
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
     handleGeneToggled,
