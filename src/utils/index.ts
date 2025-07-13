@@ -2,8 +2,7 @@ import { KeyboardEventHandler } from 'react';
 import { CartFile, DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
-import { FilterSet } from '@gen3/core';
-
+import { FilterSet} from '@gen3/core';
 
 
 const DAYS_IN_YEAR = 365.25;

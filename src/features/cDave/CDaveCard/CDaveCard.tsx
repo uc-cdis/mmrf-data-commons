@@ -187,7 +187,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
         </div>
       </div>
       <DownloadProgressContext.Provider
-        value={{ downloadInProgress, downloadType, setDownloadInProgress }}
+        value={{ downloadInProgress, setDownloadInProgress }}
       >
         {noData ? (
           <div className="h-[32.1rem] w-full flex flex-col justify-start">
