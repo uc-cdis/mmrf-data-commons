@@ -3,13 +3,14 @@ import { Card, ActionIcon, Tooltip, SegmentedControlItem } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
 import {
   useCoreSelector,
-  selectFacetDefinitionByName,
+
   GQLFilter as GqlOperation,
 } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
 import {
   SegmentedControl,
 } from "@gen3/frontend";
+import {   selectFacetDefinitionByName } from '@/core/features/facets/selectors';
 import { DownloadProgressContext} from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";
@@ -52,10 +53,10 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
   const facet = useCoreSelector((state) =>
     selectFacetDefinitionByName(state, `cases.${field}`),
   );
-  const [dataDimension, setDataDimension] = useState<DataDimension | null>(
-    displayDataDimension && DATA_DIMENSIONS?.[field]?.toggleValue
+  const [dataDimension, setDataDimension] = useState<DataDimension>(
+    (displayDataDimension && DATA_DIMENSIONS?.[field]?.toggleValue
       ? DATA_DIMENSIONS?.[field]?.toggleValue
-      : DATA_DIMENSIONS?.[field]?.unit,
+      : DATA_DIMENSIONS?.[field]?.unit ?? "Unset"),
   );
 
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
@@ -150,7 +151,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
           {displayDataDimension && (
             <SegmentedControl
               data={[
-                DATA_DIMENSIONS?.[field]?.toggleValue,
+                DATA_DIMENSIONS?.[field]?.toggleValue ?? "Unset",
                 DATA_DIMENSIONS?.[field]?.unit,
               ]}
               onChange={(d) => setDataDimension(d as DataDimension)}

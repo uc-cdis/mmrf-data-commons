@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Alert, LoadingOverlay } from "@mantine/core";
 import {
   useCoreSelector,
-  selectCurrentCohortFilters,
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
   GQLFilter as GqlOperation,
 } from "@gen3/core";
+import { selectCurrentCohortCaseFilters as selectCurrentCohortFilters } from '@/core/utils';
 import { EmptySurivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
@@ -21,7 +21,7 @@ import { toDisplayName } from "../utils";
 interface ClinicalSurvivalPlotProps {
   readonly field: string;
   readonly selectedSurvivalPlots: string[];
-  readonly customBinnedData: CategoricalBins | NamedFromTo[] | CustomInterval;
+  readonly customBinnedData: CategoricalBins | NamedFromTo[] | CustomInterval | null;
   readonly continuous: boolean;
 }
 

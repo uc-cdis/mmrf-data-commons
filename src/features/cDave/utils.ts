@@ -3,7 +3,7 @@ import {
   FilterSet,
   isObject
 } from "@gen3/core";
-import { Buckets, Bucket, Stats } from "@/core/api/types";
+import { Buckets, Bucket, Stats } from "@/core/features/api/types";
 import { NumericFromTo, DAYS_IN_YEAR} from "@gen3/frontend";
 import {
   CAPITALIZED_TERMS,
@@ -18,7 +18,7 @@ import {
   NamedFromTo,
   SelectedFacet,
   CategoricalBins,
-  ContinuousCustomBinnedData, CustomBinData,
+  ContinuousCustomBinnedData, CustomBinData, isCategoricalBins,
 } from './types';
 
 export const filterUsefulFacets = (
@@ -66,7 +66,7 @@ export const toDisplayName = (field: string): string => {
 
   if (fieldName) {
 
-    if (fieldName in SPECIAL_CASE_FIELDS[fieldName]) {
+    if (fieldName in SPECIAL_CASE_FIELDS) {
       return SPECIAL_CASE_FIELDS[fieldName];
     }
 
@@ -77,6 +77,7 @@ export const toDisplayName = (field: string): string => {
       )
       .join(" ");
   }
+  return "Not Set";
 };
 
 export const parseFieldName = (
@@ -88,9 +89,9 @@ export const parseFieldName = (
     parsed.at(-2) === "treatments" ||
     parsed.at(-2) === "other_clinical_attributes"
   ) {
-    return { field_type: parsed.at(-2), field_name: parsed.at(-1), full };
+    return { field_type: parsed.at(-2) ?? "Not Set", field_name: parsed.at(-1) ?? "Not Set", full };
   }
-  return { field_type: parsed.at(0), field_name: parsed.at(-1), full };
+  return { field_type: parsed.at(0) ?? "Not Set", field_name: parsed.at(-1) ?? "Not Set", full };
 };
 
 export const parseContinuousBucket = (bucket: string): string[] => {
@@ -131,7 +132,7 @@ export const formatPercent = (count: number, yTotal: number): string =>
 export const isInterval = (
   customBinnedData: unknown,
 ): customBinnedData is CustomInterval => {
-  if (!Array.isArray(customBinnedData) && isObject(CustomBinData) && customBinnedData?.interval) {
+  if (!Array.isArray(customBinnedData) && isObject(customBinnedData) && customBinnedData?.interval) {
     return true;
   }
 
@@ -188,7 +189,7 @@ export const createFiltersFromSelectedValues = (
   continuous: boolean,
   field: string,
   selectedFacets: SelectedFacet[],
-  customBinnedData: CategoricalBins | NamedFromTo[] | CustomInterval,
+  customBinnedData: CategoricalBins | NamedFromTo[] | CustomInterval | null,
 ): FilterSet => {
   if (continuous) {
     return {
@@ -231,7 +232,7 @@ export const createFiltersFromSelectedValues = (
     const facetValues = customBinnedData
       ? flatten(
           selectedFacets.map((facet) =>
-            customBinnedData?.[facet.value] instanceof Object
+            isCategoricalBins(customBinnedData)
               ? Object.keys(customBinnedData[facet.value as string])
               : facet.value,
           ),
@@ -341,7 +342,7 @@ export const parseNestedQQResponseData = (
 ): { id: string; value: number }[] => {
   // Field examples: diagnoses.age_at_diagnosis, diagnoses.treatments.days_to_treatment_start
   const [clinicalType, clinicalField, clinicalNestedField] = field.split(".");
-  let parsedValues = [];
+  let parsedValues: any[] = [];
 
   data.forEach((caseEntry) => {
     if (Array.isArray(caseEntry[clinicalType])) {

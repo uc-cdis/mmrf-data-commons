@@ -5,19 +5,19 @@ import tw from "tailwind-styled-components";
 import { Menu, Tooltip, ActionIcon, Button } from "@mantine/core";
 import { useResizeObserver } from "@mantine/hooks";
 import {
-  useGetCaseSsmsQuery,
-  joinFilters,
   FilterSet,
   useCoreSelector,
-  selectCurrentCohortFilters,
-  buildCohortGqlOperator,
-  ClinicalContinuousStatsData,
-} from "@gff/core";
+  convertFilterSetToGqlFilter as buildCohortGqlOperator,
+
+} from '@gen3/core';
+import { useGetCaseSsmsQuery } from "@/core/features/api"
+import {   ClinicalContinuousStatsData } from '@/core/features/clinicalDataAnalysis';
 import tailwindConfig from "tailwind.config";
 import OffscreenWrapper from "@/components/OffscreenWrapper";
 import { handleDownloadPNG, handleDownloadSVG } from "@/features/charts/utils";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { DashboardDownloadContext } from "@gff/portal-components";
+import { DashboardDownloadContext } from "@/components/analysis";
+import { joinFilters, selectCurrentCohortCaseFilters as selectCurrentCohortFilters } from "@/core/utils";
 import { getFormattedTimestamp } from "@/utils/date";
 import { COLOR_MAP, DEMO_COHORT_FILTERS, DATA_DIMENSIONS } from "../constants";
 import {
@@ -55,8 +55,8 @@ const BoxQQSection: React.FC<BoxQQPlotProps> = ({
   const [qqPlotRef, boundingRectQQ] = useResizeObserver();
 
   const { dispatch } = useContext(DashboardDownloadContext);
-  const boxDownloadChartRef = useRef<HTMLElement>();
-  const qqDownloadChartRef = useRef<HTMLElement>();
+  const boxDownloadChartRef = useRef<HTMLElement>(null!);
+  const qqDownloadChartRef = useRef<HTMLElement>(null!);
   const fieldName = clinicalNestedField ?? clinicalField;
   const date = getFormattedTimestamp();
   const boxPlotDownloadName = `${fieldName}-box-plot-${date}`;
@@ -118,6 +118,7 @@ const BoxQQSection: React.FC<BoxQQPlotProps> = ({
       [`cases.${field}`]: {
         field: `cases.${field}`,
         operator: "exists",
+        operand: "cases.${field}"
       },
     },
     mode: "and",

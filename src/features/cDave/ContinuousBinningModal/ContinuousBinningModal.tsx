@@ -21,7 +21,7 @@ interface ContinuousBinningModalProps {
   readonly field: string;
   readonly stats: Statistics;
   readonly updateBins: (bins: NamedFromTo[] | CustomInterval | null) => void;
-  readonly customBins: NamedFromTo[] | CustomInterval;
+  readonly customBins: NamedFromTo[] | CustomInterval | null;
   readonly dataDimension?: DataDimension;
   readonly opened: boolean;
 }
@@ -52,12 +52,12 @@ const ContinuousBinningModal: React.FC<ContinuousBinningModalProps> = ({
   const binSize = formatValue((formattedStats.max - formattedStats.min) / 4);
 
   const initialBinMethod =
-    !customIntervalSet && customBins?.length > 0 ? "ranges" : "interval";
+    !customIntervalSet && customBins && customBins?.length > 0 ? "ranges" : "interval";
   const [binMethod, setBinMethod] = useState<"interval" | "ranges">(
     initialBinMethod,
   );
   const [savedRangeRows, setSavedRangeRows] = useState(
-    !customIntervalSet && customBins?.length > 0
+    !customIntervalSet && customBins && customBins?.length > 0
       ? customBins.map((bin) => ({
           ...bin,
           to: String(bin.to),
@@ -116,7 +116,7 @@ const ContinuousBinningModal: React.FC<ContinuousBinningModalProps> = ({
 
   const initialRangeForm = {
     ranges:
-      !customIntervalSet && customBins?.length > 0
+      !customIntervalSet && customBins && customBins?.length > 0
         ? [
             ...customBins.map((b) => ({
               name: b.name,

@@ -1,46 +1,57 @@
-import React, { useRef, useState } from "react";
-import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
-import {
-  useGetContinuousDataStatsQuery,
-  GQLFilter as GqlOperation,
-} from "@gen3/core";
-import { useRangeFacet } from "../../facets/hooks";
-import CDaveHistogram from "./CDaveHistogram";
-import CDaveTable from "./CDaveTable";
-import ClinicalSurvivalPlot from "./ClinicalSurvivalPlot";
-import CardControls from "./CardControls";
-import { isArray } from "lodash";
-import { Statistics } from '@/core/features/api/types'
+import React, { useRef, useState } from 'react';
+import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
+import { GQLFilter as GqlOperation } from '@gen3/core';
+import { useRangeFacet } from '../../facets/hooks';
+import CDaveHistogram from './CDaveHistogram';
+import CDaveTable from './CDaveTable';
+import ClinicalSurvivalPlot from './ClinicalSurvivalPlot';
+import CardControls from './CardControls';
+import { isArray } from 'lodash';
+import { Statistics } from '@/core/features/api/types';
+import { useGetContinuousDataStatsQuery } from '@/core/features/clinicalDataAnalysis';
 import {
   CustomInterval,
   NamedFromTo,
   ChartTypes,
   SelectedFacet,
   DataDimension,
-  DisplayData, CustomBinData,
+  DisplayData,
 } from '../types';
 import {
   SURVIVAL_PLOT_MIN_COUNT,
   DATA_DIMENSIONS,
   MISSING_KEY,
-} from "../constants";
+} from '../constants';
 import {
   isInterval,
   createBuckets,
   parseContinuousBucket,
   convertDataDimension,
   roundContinuousValue,
-} from "../utils";
-import ContinuousBinningModal from "../ContinuousBinningModal/ContinuousBinningModal";
-import BoxQQSection from "./BoxQQSection";
+} from '../utils';
+import ContinuousBinningModal from '../ContinuousBinningModal/ContinuousBinningModal';
+import BoxQQSection from './BoxQQSection';
 
+const EmptyContinuousStats = {
+  min: 0,
+  max: 0,
+  mean: 0,
+  median: 0,
+  stddev: 0,
+  std_dev: 0,
+  iqrL: 0,
+  q1L: 0,
+  q3: 0,
+  q1: 0,
+  iqr: 0,
+};
 const processContinuousResultData = (
   data: Record<string, number>,
-  customBinnedData: NamedFromTo[] | CustomInterval,
+  customBinnedData: NamedFromTo[] | CustomInterval | null,
   field: string,
   dataDimension: DataDimension,
 ): DisplayData => {
-  if (!isInterval(customBinnedData) && customBinnedData?.length > 0) {
+  if (customBinnedData && !isInterval(customBinnedData) && customBinnedData?.length > 0) {
     return Object.values(data).map((v, idx) => ({
       displayName: customBinnedData[idx]?.name,
       key: customBinnedData[idx]?.name,
@@ -90,7 +101,7 @@ interface ContinuousDataProps {
   readonly chartType: ChartTypes;
   readonly noData: boolean;
   readonly cohortFilters: GqlOperation;
-  readonly dataDimension?: DataDimension;
+  readonly dataDimension: DataDimension;
 }
 
 const ContinuousData: React.FC<ContinuousDataProps> = ({
@@ -103,7 +114,7 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
   dataDimension,
 }: ContinuousDataProps) => {
   const [customBinnedData, setCustomBinnedData] = useState<
-    CustomInterval | NamedFromTo[]
+    CustomInterval | NamedFromTo[] | null
   >([]);
   const [binningModalOpen, setBinningModalOpen] = useState(false);
   const [selectedSurvivalPlots, setSelectedSurvivalPlots] = useState<string[]>(
@@ -123,30 +134,27 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
             customBinnedData.interval,
           )
         : isArray(customBinnedData) && customBinnedData?.length > 0
-        ? customBinnedData.map((d) => ({
-            to: d.to,
-            from: d.from,
-          }))
-        : createBuckets(initialData?.min ?? 0, initialData?.max ?? 100),
+          ? customBinnedData.map((d) => ({
+              to: d.to,
+              from: d.from,
+            }))
+          : createBuckets(initialData?.min ?? 0, initialData?.max ?? 100),
     [customBinnedData, initialData],
   );
 
   const { data, isFetching, isSuccess } = useRangeFacet(
     field,
     ranges,
-    { docType: "cases", indexType: "repository" },
+    { indexType: 'cases' },
     cohortFilters,
   );
   const { data: statsData } = useGetContinuousDataStatsQuery({
-    field: field.replaceAll(".", "__"),
+    field: field.replaceAll('.', '__'),
     queryFilters: cohortFilters,
     rangeFilters: {
-      op: "range",
-      content: [
-        {
-          ranges,
-        },
-      ],
+      range: {
+        [field]: ranges as any, // TODO:fix this typing
+      },
     },
   });
 
@@ -186,18 +194,18 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
 
   return (
     <>
-      {chartType === "boxqq" ? (
+      {chartType === 'boxqq' ? (
         <BoxQQSection
           field={field}
           displayName={fieldName}
-          data={statsData}
+          data={statsData ?? EmptyContinuousStats}
           dataDimension={dataDimension}
           hasCustomBins={hasCustomBins}
         />
       ) : (
         <>
           <div className="flex-grow">
-            {chartType === "histogram" ? (
+            {chartType === 'histogram' ? (
               <CDaveHistogram
                 field={field}
                 data={displayedData}
@@ -233,7 +241,7 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
             yTotal={yTotal}
             displayedData={displayedData}
             hasCustomBins={customBinnedData !== null}
-            survival={chartType === "survival"}
+            survival={chartType === 'survival'}
             selectedSurvivalPlots={selectedSurvivalPlots}
             setSelectedSurvivalPlots={setSelectedSurvivalPlots}
             selectedFacets={selectedFacets}

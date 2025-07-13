@@ -2,12 +2,9 @@ import { KeyboardEventHandler } from 'react';
 import { CartFile, DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
+import { FilterSet } from '@gen3/core';
 
-export interface FilterSet {
-  readonly root: Record<string, any>;
-  readonly mode: string;
-  readonly isLoggedIn?: boolean;
-}
+
 
 const DAYS_IN_YEAR = 365.25;
 declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;

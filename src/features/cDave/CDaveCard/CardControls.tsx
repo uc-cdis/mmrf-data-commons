@@ -32,11 +32,11 @@ interface CardControlsProps {
   readonly displayedData: DisplayData;
   readonly yTotal: number;
   readonly setBinningModalOpen: (open: boolean) => void;
-  readonly customBinnedData: CustomBinData;
+  readonly customBinnedData: CustomBinData | null;
   readonly setCustomBinnedData:
     | ((bins: CategoricalBins) => void)
     | ((bins: NamedFromTo[] | CustomInterval) => void)
-    | ((bins?: any) => void)
+    | ((bins?: any ) => void)
   readonly selectedFacets: SelectedFacet[];
   readonly dataDimension?: string;
 }

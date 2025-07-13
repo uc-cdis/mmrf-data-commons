@@ -92,7 +92,7 @@ const ClinicalDataAnalysis: React.FC = () => {
         <Controls
           updateFields={updateFields}
           cDaveFields={cDaveFields}
-          fieldsWithData={filterUsefulFacets(cDaveResult)}
+          fieldsWithData={filterUsefulFacets(cDaveResult ?? {})}
           activeFields={activeFields}
           controlsExpanded={controlsExpanded}
           setControlsExpanded={setControlsExpanded}

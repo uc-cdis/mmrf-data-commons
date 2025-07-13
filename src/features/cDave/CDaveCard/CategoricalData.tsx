@@ -17,7 +17,7 @@ import { MISSING_KEY, SURVIVAL_PLOT_MIN_COUNT } from "../constants";
 import { flattenBinnedData } from "../utils";
 
 interface CategoricalDataProps {
-  readonly initialData: readonly Bucket[];
+  initialData: ReadonlyArray<Bucket>;
   readonly field: string;
   readonly fieldName: string;
   readonly chartType: ChartTypes;
@@ -133,7 +133,7 @@ const CategoricalData: React.FC<CategoricalDataProps> = ({
         field={fieldName}
         results={resultData}
         updateBins={setCustomBinnedData}
-        customBins={customBinnedData}
+        customBins={customBinnedData as CategoricalBins}
       />
     </>
   );

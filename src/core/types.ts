@@ -56,33 +56,7 @@ export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
 
-export interface ProjectDefaults {
-  readonly dbgap_accession_number: string;
-  readonly disease_type: Array<string>;
-  readonly name: string;
-  readonly primary_site: Array<string>;
-  readonly project_id: string;
-  readonly summary?: {
-    readonly case_count: number;
-    readonly file_count: number;
-    readonly file_size: number;
-    readonly data_categories?: Array<{
-      readonly case_count: number;
-      readonly data_category: string;
-      readonly file_count: number;
-    }>;
-    readonly experimental_strategies?: Array<{
-      readonly case_count: number;
-      readonly experimental_strategy: string;
-      readonly file_count: number;
-    }>;
-  };
-  readonly program?: {
-    readonly dbgap_accession_number: string;
-    readonly name: string;
-    readonly program_id: string;
-  };
-}
+
 
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
@@ -351,27 +325,3 @@ export interface GraphqlApiSliceRequest {
 }
 
 export type GqlOperation = GQLFilter;
-
-/**
- * The request for requesting data from the GDC API
- * @property filters - A FilterSet object
- * @property case_filters - A FilterSet object
- * @property fields - An array of fields to return
- * @property expand - An array of fields to expand
- * @property format - The format of the response
- * @property size - The number of cases to return
- * @property from - The offset from which to return cases
- * @property sortBy - An array of fields to sort by
- * @property facets - An array of fields to facet by
- * @category GDC API
- */
-export interface MMRFApiRequest {
-  readonly filters?: GqlOperation;
-  readonly case_filters?: GqlOperation;
-  readonly fields?: ReadonlyArray<string>;
-  readonly expand?: ReadonlyArray<string>;
-  readonly format?: "JSON" | "TSV" | "XML";
-  readonly size?: number;
-  readonly from?: number;
-  readonly facets?: ReadonlyArray<string>;
-}

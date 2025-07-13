@@ -3,7 +3,6 @@ import { Grid, Alert, Loader } from "@mantine/core";
 import {
   GQLFilter as GqlOperation,
   usePrevious,
-  useFacetDictionary,
 } from "@gen3/core";
 import { useGetSurvivalPlotQuery } from "@/core/survival";
 import { EmptySurvivalPlot } from "@/core/survival/types";
@@ -45,7 +44,6 @@ const Dashboard: React.FC<DashboardProps> = ({
   } = useGetSurvivalPlotQuery({
     filters,
   });
-  useFacetDictionary();
 
   useEffect(() => {
     if (lastDashboardRender) {

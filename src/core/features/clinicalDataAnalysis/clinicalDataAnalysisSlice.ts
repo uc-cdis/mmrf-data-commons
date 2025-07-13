@@ -1,5 +1,10 @@
 import { Reducer } from "@reduxjs/toolkit";
-import { MMRFApiRequest, ProjectDefaults } from '@/core';
+import {
+  Buckets,
+  Stats,
+  Gen3AnalysisApiRequest,
+  ProjectDefaults,
+} from '@/core/features/api';
 import { GEN3_API, gen3Api } from '@gen3/core';
 
 /**
@@ -8,8 +13,8 @@ import { GEN3_API, gen3Api } from '@gen3/core';
 
 export const clinicalAnalysisApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
-    getClinicalAnalysis: builder.query<ProjectDefaults, MMRFApiRequest>({
-      query: (request: MMRFApiRequest) => ({
+    getClinicalAnalysis: builder.query< Record<string, Buckets | Stats>, Gen3AnalysisApiRequest>({
+      query: (request: Gen3AnalysisApiRequest) => ({
         url: `${GEN3_API}/analysis/survival_plot`,
         method: 'POST',
         body: request,

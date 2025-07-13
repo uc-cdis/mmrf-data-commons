@@ -15,7 +15,7 @@ import makeIntersectionFilters from "./makeIntersectionFilters";
 import CohortCreationButton from "@/components/CohortCreationButton";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 import { useDeepCompareEffect } from "use-deep-compare";
-import { emptySurvivalPlot } from "@/core/survival/types";
+import { EmptySurvivalPlot } from "@/core/survival/types";
 
 const survivalDataCompletenessFilters: GqlOperation[] = [
   {
@@ -165,7 +165,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
               />
               <SurvivalPlot
                 plotType={SurvivalPlotTypes.cohortComparison}
-                data={isLoading ? emptySurvivalPlot : data ?? emptySurvivalPlot}
+                data={isLoading ? EmptySurvivalPlot : data ?? EmptySurvivalPlot}
                 hideLegend
                 noDataMessage="No Survival data available for this Cohort Comparison"
                 isLoading={isLoading}
