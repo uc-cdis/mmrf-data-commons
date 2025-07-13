@@ -29,12 +29,10 @@ export const chartDownloadReducer = (
 
 export const DownloadProgressContext = createContext<{
   downloadInProgress: boolean;
-  downloadType: DownloadType;
-  setDownloadProgress: ((inProgress: boolean, type: DownloadType) => void)
+  setDownloadInProgress: ((inProgress: boolean) => void)
 }>({
   downloadInProgress: false,
-  downloadType: null,
-  setDownloadProgress: () => {},
+  setDownloadInProgress: () => {},
 });
 
 
