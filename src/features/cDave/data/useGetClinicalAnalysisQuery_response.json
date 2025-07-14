@@ -1,0 +1,1017 @@
+{
+  "diagnoses.site_of_resection_or_biopsy": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "bone marrow"
+      }
+    ]
+  },
+  "diagnoses.ann_arbor_pathologic_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.cog_renal_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.vital_status": {
+    "buckets": [
+      {
+        "count": 804,
+        "key": "alive"
+      },
+      {
+        "count": 191,
+        "key": "dead"
+      }
+    ]
+  },
+  "diagnoses.ajcc_pathologic_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.premature_at_birth": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.comorbidities": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.ethnicity": {
+    "buckets": [
+      {
+        "count": 729,
+        "key": "not hispanic or latino"
+      },
+      {
+        "count": 199,
+        "key": "not reported"
+      },
+      {
+        "count": 67,
+        "key": "hispanic or latino"
+      }
+    ]
+  },
+  "diagnoses.treatments.number_of_cycles": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.esophageal_columnar_metaplasia_present": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.prior_treatment": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.figo_staging_edition_year": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.gender": {
+    "buckets": [
+      {
+        "count": 602,
+        "key": "male"
+      },
+      {
+        "count": 393,
+        "key": "female"
+      }
+    ]
+  },
+  "diagnoses.secondary_gleason_grade": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.icd_10_code": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.goblet_cells_columnar_mucosa_present": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.tissue_or_organ_of_origin": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "bone marrow"
+      }
+    ]
+  },
+  "diagnoses.uicc_clinical_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.race": {
+    "buckets": [
+      {
+        "count": 630,
+        "key": "white"
+      },
+      {
+        "count": 188,
+        "key": "not reported"
+      },
+      {
+        "count": 138,
+        "key": "black or african american"
+      },
+      {
+        "count": 19,
+        "key": "not allowed to collect"
+      },
+      {
+        "count": 14,
+        "key": "asian"
+      },
+      {
+        "count": 6,
+        "key": "other"
+      }
+    ]
+  },
+  "diagnoses.laterality": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.primary_diagnosis": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "multiple myeloma"
+      }
+    ]
+  },
+  "diagnoses.synchronous_malignancy": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.bmi": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.prior_malignancy": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.year_of_death": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "follow_ups.other_clinical_attributes.number_of_pregnancies": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "exposures.alcohol_history": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.days_to_birth": {
+    "stats": {
+      "count": 953,
+      "min": -32805,
+      "max": -10136,
+      "avg": -23138.525708289613,
+      "sum": -22051015
+    }
+  },
+  "diagnoses.ann_arbor_clinical_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "exposures.alcohol_days_per_week": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.days_to_last_known_disease_status": {
+    "stats": {
+      "count": 995,
+      "min": 1,
+      "max": 1984,
+      "avg": 776.7547738693468,
+      "sum": 772871
+    }
+  },
+  "diagnoses.treatments.days_to_treatment_end": {
+    "stats": {
+      "count": 5214,
+      "min": 1,
+      "max": 1738,
+      "avg": 326.3833908707326,
+      "sum": 1701763
+    }
+  },
+  "diagnoses.uicc_pathologic_t": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.method_of_diagnosis": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.gastric_esophageal_junction_involvement": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.treatment_dose": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "exposures.tobacco_smoking_status": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.burkitt_lymphoma_clinical_variant": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.tumor_grade": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "unknown"
+      }
+    ]
+  },
+  "diagnoses.uicc_clinical_t": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.figo_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.ajcc_clinical_m": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.residual_disease": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.treatment_anatomic_sites": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.age_at_index": {
+    "stats": {
+      "count": 995,
+      "min": 27,
+      "max": 89,
+      "avg": 62.521608040201,
+      "sum": 62209
+    }
+  },
+  "diagnoses.ajcc_pathologic_m": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.ajcc_pathologic_n": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.treatment_or_therapy": {
+    "buckets": [
+      {
+        "count": 994,
+        "key": "yes"
+      },
+      {
+        "key": "_missing",
+        "count": 1
+      }
+    ]
+  },
+  "diagnoses.international_prognostic_index": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "exposures.alcohol_intensity": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.days_to_death": {
+    "stats": {
+      "count": 191,
+      "min": 8,
+      "max": 1753,
+      "avg": 525.4973821989529,
+      "sum": 100370
+    }
+  },
+  "diagnoses.ann_arbor_b_symptoms": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.days_to_recurrence": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.primary_gleason_grade": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.chemo_concurrent_to_radiation": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.days_to_last_follow_up": {
+    "stats": {
+      "count": 995,
+      "min": -3,
+      "max": 1984,
+      "avg": 776.0844221105527,
+      "sum": 772204
+    }
+  },
+  "diagnoses.ajcc_clinical_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.masaoka_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.progression_or_recurrence": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "unknown"
+      }
+    ]
+  },
+  "diagnoses.treatments.treatment_frequency": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.therapeutic_agents": {
+    "buckets": [
+      {
+        "count": 957,
+        "key": "dexamethasone"
+      },
+      {
+        "count": 776,
+        "key": "lenalidomide"
+      },
+      {
+        "count": 722,
+        "key": "bortezomib"
+      },
+      {
+        "count": 499,
+        "key": "cyclophosphamide"
+      },
+      {
+        "count": 360,
+        "key": "carfilzomib"
+      },
+      {
+        "count": 442,
+        "key": "melphalan"
+      },
+      {
+        "count": 133,
+        "key": "other"
+      },
+      {
+        "count": 98,
+        "key": "pomalidomide"
+      },
+      {
+        "count": 72,
+        "key": "prednisone"
+      },
+      {
+        "count": 53,
+        "key": "daratumumab"
+      },
+      {
+        "count": 40,
+        "key": "ixazomib"
+      },
+      {
+        "count": 35,
+        "key": "thalidomide"
+      },
+      {
+        "count": 28,
+        "key": "elotuzumab"
+      },
+      {
+        "count": 22,
+        "key": "doxorubicin"
+      },
+      {
+        "count": 10,
+        "key": "bendamustine"
+      },
+      {
+        "count": 6,
+        "key": "panobinostat"
+      },
+      {
+        "count": 3,
+        "key": "vincristine"
+      },
+      {
+        "count": 2,
+        "key": "carmustine"
+      },
+      {
+        "key": "_missing",
+        "count": 1
+      }
+    ]
+  },
+  "diagnoses.year_of_diagnosis": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "exposures.tobacco_smoking_onset_year": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "exposures.pack_years_smoked": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.ann_arbor_extranodal_involvement": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.weight": {
+    "stats": {
+      "count": 995,
+      "min": 0,
+      "max": 185,
+      "avg": 80.30251256281407,
+      "sum": 79901
+    }
+  },
+  "diagnoses.ajcc_staging_system_edition": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.ajcc_pathologic_t": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.regimen_or_line_of_therapy": {
+    "buckets": [
+      {
+        "count": 994,
+        "key": "first line of therapy"
+      },
+      {
+        "count": 254,
+        "key": "second line of therapy"
+      },
+      {
+        "count": 100,
+        "key": "third line of therapy"
+      },
+      {
+        "count": 39,
+        "key": "fourth line of therapy"
+      },
+      {
+        "count": 14,
+        "key": "fifth line of therapy"
+      },
+      {
+        "count": 9,
+        "key": "sixth line of therapy"
+      },
+      {
+        "count": 3,
+        "key": "seventh line of therapy"
+      },
+      {
+        "count": 3,
+        "key": "liposomal doxorubicin regimen"
+      },
+      {
+        "count": 1,
+        "key": "eighth line of therapy"
+      },
+      {
+        "key": "_missing",
+        "count": 1
+      }
+    ]
+  },
+  "diagnoses.uicc_pathologic_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.uicc_clinical_m": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "exposures.cigarettes_per_day": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.ajcc_clinical_t": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.last_known_disease_status": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "unknown tumor status"
+      }
+    ]
+  },
+  "diagnoses.ajcc_clinical_n": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.age_is_obfuscated": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.year_of_birth": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.treatments.treatment_intent_type": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.pregnant_at_diagnosis": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.height": {
+    "stats": {
+      "count": 995,
+      "min": 0,
+      "max": 243,
+      "avg": 166.44120603015077,
+      "sum": 165609
+    }
+  },
+  "diagnoses.treatments.treatment_type": {
+    "buckets": [
+      {
+        "count": 511,
+        "key": "stem cell transplantation, autologous"
+      },
+      {
+        "count": 13,
+        "key": "stem cell transplantation, allogeneic"
+      },
+      {
+        "key": "_missing",
+        "count": 482
+      }
+    ]
+  },
+  "diagnoses.treatments.treatment_effect": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "exposures.tobacco_smoking_quit_year": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.age_at_diagnosis": {
+    "stats": {
+      "count": 953,
+      "min": 10136,
+      "max": 32805,
+      "avg": 23138.525708289613,
+      "sum": 22051015
+    }
+  },
+  "follow_ups.other_clinical_attributes.menopause_status": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.uicc_pathologic_m": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.risk_factors": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.uicc_pathologic_n": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.morphology": {
+    "buckets": [
+      {
+        "count": 995,
+        "key": "9732/3"
+      }
+    ]
+  },
+  "diagnoses.treatments.days_to_treatment_start": {
+    "stats": {
+      "count": 6163,
+      "min": 1,
+      "max": 1984,
+      "avg": 249.48174590296932,
+      "sum": 1537556
+    }
+  },
+  "diagnoses.days_to_diagnosis": {
+    "stats": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "avg": null,
+      "sum": 0
+    }
+  },
+  "diagnoses.treatments.treatment_outcome": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.treatments.initial_disease_status": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "demographic.cause_of_death": {
+    "buckets": [
+      {
+        "count": 103,
+        "key": "cancer related"
+      },
+      {
+        "count": 85,
+        "key": "not cancer related"
+      },
+      {
+        "key": "_missing",
+        "count": 807
+      }
+    ]
+  },
+  "diagnoses.iss_stage": {
+    "buckets": [
+      {
+        "count": 353,
+        "key": "ii"
+      },
+      {
+        "count": 348,
+        "key": "i"
+      },
+      {
+        "count": 266,
+        "key": "iii"
+      },
+      {
+        "count": 28,
+        "key": "unknown"
+      }
+    ]
+  },
+  "diagnoses.classification_of_tumor": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.igcccg_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "follow_ups.other_clinical_attributes.pregnancy_outcome": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.uicc_clinical_n": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.inss_stage": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.esophageal_columnar_dysplasia_degree": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  },
+  "diagnoses.metastasis_at_diagnosis": {
+    "buckets": [
+      {
+        "key": "_missing",
+        "count": 995
+      }
+    ]
+  }
+}
