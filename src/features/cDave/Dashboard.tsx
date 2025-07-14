@@ -4,7 +4,8 @@ import {
   GQLFilter as GqlOperation,
   usePrevious,
 } from "@gen3/core";
-import { useGetSurvivalPlotQuery } from "@/core/survival";
+//import { useGetSurvivalPlotQuery } from "@/core/survival";
+import { useGetSurvivalPlotQuery} from './mockedHooks';
 import { EmptySurvivalPlot } from "@/core/survival/types";
 
 import {   Buckets,
@@ -15,7 +16,6 @@ import SurvivalPlot from "../charts/SurvivalPlot/SurvivalPlot";
 import CDaveCard from "./CDaveCard/CDaveCard";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
-import { CategoricalBins } from '@/features/cDave/types';
 
 interface DashboardProps {
   readonly cohortFilters: GqlOperation;

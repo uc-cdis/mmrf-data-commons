@@ -15,17 +15,17 @@ describe("filterUsefulFacets", () => {
       filterUsefulFacets({
         "demographic.gender": {
           buckets: [
-            { doc_count: 10, key: "female" },
-            { doc_count: 25, key: "male" },
+            { count: 10, key: "female" },
+            { count: 25, key: "male" },
           ],
         },
-        "demographic.race": { buckets: [{ key: "_missing", doc_count: 35 }] },
+        "demographic.race": { buckets: [{ key: "_missing", count: 35 }] },
       }),
     ).toEqual({
       "demographic.gender": {
         buckets: [
-          { doc_count: 10, key: "female" },
-          { doc_count: 25, key: "male" },
+          { count: 10, key: "female" },
+          { count: 25, key: "male" },
         ],
       },
     });
@@ -289,7 +289,7 @@ describe("createFiltersFromSelectedValues", () => {
           numCases: 8,
         },
       ],
-      undefined,
+      null,
     );
 
     expect(filters).toEqual({
@@ -438,7 +438,7 @@ describe("createFiltersFromSelectedValues", () => {
           numCases: 6179,
         },
       ],
-      undefined,
+      null,
     );
 
     expect(filters).toEqual({
@@ -467,7 +467,7 @@ describe("createFiltersFromSelectedValues", () => {
           numCases: 20,
         },
       ],
-      undefined,
+      null,
     );
 
     expect(filters).toEqual({

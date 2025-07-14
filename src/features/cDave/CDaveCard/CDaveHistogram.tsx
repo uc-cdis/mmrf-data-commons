@@ -101,14 +101,14 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
               <Group className="px-2 flex flex-row gap-2">
                 <Radio
                   data-testid="radio-number-of-cases"
-                  classNames={{ label: "font-heading pl-1" }}
+                  classNames={{ label: "font-heading pl-1", icon: "hidden" }}
                   value="counts"
                   label="# of Cases"
-                  color="blue"
+                  color="primary.4"
                 />
                 <Radio
                   data-testid="radio-percent-of-cases"
-                  classNames={{ label: "font-heading pl-1" }}
+                  classNames={{ label: "font-heading pl-1", icon: "hidden" }}
                   value="percent"
                   label="% of Cases"
                   color="blue"

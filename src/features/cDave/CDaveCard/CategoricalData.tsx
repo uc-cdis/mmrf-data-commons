@@ -32,7 +32,7 @@ const CategoricalData: React.FC<CategoricalDataProps> = ({
   noData,
 }: CategoricalDataProps) => {
   const [customBinnedData, setCustomBinnedData] =
-    useState< CategoricalBins |  NamedFromTo[] | CustomInterval>([]);
+    useState< CategoricalBins |  NamedFromTo[] | CustomInterval | null>(null);
   const [binningModalOpen, setBinningModalOpen] = useState(false);
   const [selectedSurvivalPlots, setSelectedSurvivalPlots] = useState<string[]>(
     [],

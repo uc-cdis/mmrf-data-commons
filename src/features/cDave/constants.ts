@@ -40,20 +40,20 @@ export const HIDE_QQ_BOX_FIELDS = [
 ];
 
 export const COLOR_MAP : Record<string, string>= {
-  demographic: "nci-blue",
-  diagnoses: "nci-orange",
-  treatments: "nci-green",
-  exposures: "nci-purple",
-  other_clinical_attributes: "nci-red",
+  demographic: "plum",
+  diagnoses: "sand",
+  treatments: "platinum",
+  exposures: "blush",
+  other_clinical_attributes: "pricot",
 };
 
 // this is done so tailwind loads the classes properly
 export const COLOR_CLASS_HOVER_MAP : Record<string, string> = {
-  demographic: "hover:bg-nci-blue-darker",
-  diagnoses: "hover:bg-nci-orange-darker",
-  treatments: "hover:bg-nci-green-darker",
-  exposures: "hover:bg-nci-purple-darker",
-  other_clinical_attributes: "hover:bg-nci-red-darkest",
+  demographic: "hover:brightness-50",
+  diagnoses: "hover:brightness-50",
+  treatments: "hover:brightness-50",
+  exposures: "hover:brightness-50",
+  other_clinical_attributes: "brightness-50",
 };
 
 export const CAPITALIZED_TERMS = [

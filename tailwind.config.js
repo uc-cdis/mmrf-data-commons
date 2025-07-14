@@ -191,6 +191,12 @@ module.exports = {
     'text-tiny',
     'text-xxs',
     'text-xxxs',
+    'mmrf-plum',
+    'mmrf-sand',
+    'mmrf-platinum',
+    'mmrf-purple',
+    'mmrf-blush',
+
     'h-20',
     {
       pattern:

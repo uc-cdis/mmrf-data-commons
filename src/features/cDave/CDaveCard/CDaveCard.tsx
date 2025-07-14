@@ -3,14 +3,15 @@ import { Card, ActionIcon, Tooltip, SegmentedControlItem } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
 import {
   useCoreSelector,
-
   GQLFilter as GqlOperation,
 } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
 import {
   SegmentedControl,
 } from "@gen3/frontend";
-import {   selectFacetDefinitionByName } from '@/core/features/facets/selectors';
+// restore later when API and FacetDictionary is implemented
+//import { selectFacetDefinitionByName } from '@/core/features/facets/selectors';
+import { selectFacetDefinitionByName } from '../mockedHooks';
 import { DownloadProgressContext} from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";
@@ -174,7 +175,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
             <ActionIcon
               data-testid="button-remove-card"
               onClick={() => updateFields(field)}
-              className="border-primary text-primary-content"
+              className="border-primary bg-white"
               aria-label={`Remove ${fieldName} card`}
             >
               <CloseIcon
