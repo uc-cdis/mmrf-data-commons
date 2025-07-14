@@ -19,8 +19,7 @@ export interface ClinicalDataAnalysisPageProps extends NavPageLayoutProps {
   title: "cDave"
 }
 
-const ClinicalDataAnalysisPage = ({
-}: ClinicalDataAnalysisPageProps) => {
+const ClinicalDataAnalysisPage = () => {
   return (
     <>
       <PageTitle pageName="Clinical Data Analysis" />
