@@ -196,7 +196,11 @@ module.exports = {
     'mmrf-platinum',
     'mmrf-purple',
     'mmrf-blush',
-
+    'mmrf-gunmetal',
+    'mmrf-lightgray',
+    'mmrf-seashell',
+    'mmrf-rust',
+    'mmrf-apricot',
     'h-20',
     {
       pattern:
