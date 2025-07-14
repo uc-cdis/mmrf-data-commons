@@ -3,7 +3,8 @@
 
 const plugin = require('tailwindcss/plugin');
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { GEN3_COMMONS_NAME } = require('@gen3/core');
+const GEN3_COMMONS_NAME = process.env.GEN3_COMMONS_NAME || 'gen3';
+// const { GEN3_COMMONS_NAME } = require('@gen3/core');
 const themeColors = require(`./config/${GEN3_COMMONS_NAME}/themeColors.json`);
 const themeFonts = require(`./config/${GEN3_COMMONS_NAME}/themeFonts.json`);
 

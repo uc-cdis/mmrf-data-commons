@@ -5,7 +5,8 @@ import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
 } from "@gen3/core";
 
-import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
+// import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
+import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery} from './mockedHooks';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import Controls from "./Controls";
 import Dashboard from "./Dashboard";

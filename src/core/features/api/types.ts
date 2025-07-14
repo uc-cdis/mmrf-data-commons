@@ -14,9 +14,9 @@ export interface Stats {
 
 export interface Statistics {
   readonly count: number;
-  readonly min?: number;
-  readonly max?: number;
-  readonly avg?: number;
+  readonly min?: number|null;
+  readonly max?: number|null;
+  readonly avg?: number|null;
   readonly sum: number;
 }
 

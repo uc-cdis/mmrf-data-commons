@@ -37,7 +37,7 @@ import {
 interface CDaveField {
   readonly field_type: string;
   readonly field_name: string;
-  readonly description?: string;
+  readonly description?: string|null;
   readonly full: string;
 }
 
