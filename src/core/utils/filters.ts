@@ -1,4 +1,4 @@
-import { FilterSet, convertFilterToGqlFilter } from "@gen3/core";
+import { CoreState, FilterSet, convertFilterToGqlFilter, selectIndexFilters } from "@gen3/core";
 import { GqlOperation, } from "@/core/types";
 
 
@@ -63,4 +63,18 @@ export const buildCohortGqlOperator = (
         }),
       };
   }
+};
+
+export const selectCurrentCohortCaseFilters = (
+  state: CoreState,
+  index: string = 'cases',
+): FilterSet => selectIndexFilters(state, index);
+
+/**
+ * Merged two FilterSets returning the merged pair.
+ * @param a - first FilterSet
+ * @param b - other FilterSet
+ */
+export const joinFilters = (a: FilterSet, b: FilterSet): FilterSet => {
+  return { mode: a.mode, root: { ...a.root, ...b.root } };
 };

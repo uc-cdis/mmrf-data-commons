@@ -1,5 +1,5 @@
-import { ComparativeSurvival,  } from '@/features/genomic/types';
-import { FilterSet } from '../../utils';
+import { ComparativeSurvival  } from '@/features/genomic/types';
+import { FilterSet } from '@gen3/core';
 import type { Survival } from '@/core/survival';
 
 export interface GeneAndSSMPanelData {
@@ -21,7 +21,7 @@ export const useGeneAndSSMPanelData = (
   isGene: boolean,
 ): GeneAndSSMPanelData =>  {
 
-  return GeneAndSSMFilters;
+  return GeneAndSSMFilters as any;
 }
 
 export interface GeneFrequencyChartParameters {

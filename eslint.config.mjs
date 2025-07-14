@@ -6,6 +6,8 @@ import tsLint from 'typescript-eslint';
 import next from '@next/eslint-plugin-next';
 import globals from 'globals';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
+import reactHooks from 'eslint-plugin-react-hooks';
+
 
 export default [
   reactRecommended,
@@ -51,7 +53,8 @@ export default [
     plugins: {
       '@typescript-eslint': typescriptEslint,
       react: react,
-      next: next
+      next: next,
+      'react-hooks': reactHooks,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',

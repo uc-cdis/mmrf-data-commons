@@ -23,6 +23,9 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   basePath: process.env.BASE_PATH || '',
+  experimental: {
+    esmExternals: true
+  },
   transpilePackages: ['@gen3/core', '@gen3/frontend'],
   webpack: (config) => {
     config.infrastructureLogging = {

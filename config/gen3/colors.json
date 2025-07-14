@@ -7,5 +7,15 @@
   "accentCool": "#AFBBC3",
   "chart": "#B93004",
   "table": "#FFD4B6",
-  "navigation": "#FFE1CC"
+  "navigation": "#FFE1CC",
+  "plum": "#8b0053",
+  "sand": "#FFD4B6",
+  "platinum": "#F4F3F1",
+  "purple": "#60023E",
+  "blush": "#F58EB3",
+  "apricot": "#FCA88D",
+  "seashell": "#FFE1CC",
+  "gunmetal": "#20313B",
+  "lightgray": "#AFBBC3",
+  "rust": "#B93004"
 }
