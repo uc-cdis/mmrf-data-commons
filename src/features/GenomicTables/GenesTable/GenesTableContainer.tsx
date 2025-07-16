@@ -32,7 +32,6 @@ import isEqual from "lodash/isEqual";
 import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
 import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
 import { joinFilters, statusBooleansToDataStatus } from "src/utils";
-// import download from "src/utils/download";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {

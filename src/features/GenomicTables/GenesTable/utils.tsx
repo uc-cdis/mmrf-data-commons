@@ -1,4 +1,3 @@
-import React from "react";
 import { ComparativeSurvival } from "@/features/genomic/types";
 import { Gene, GeneRowInfo, GeneToggledHandler } from "./types";
 import { Dispatch, SetStateAction, useId } from "react";
@@ -393,8 +392,6 @@ export const useGenerateGenesTableColumns = ({
   return genesTableDefaultColumns;
 };
 
-import { ComparativeSurvival } from "@/features/genomic/types";
-import { Gene, GeneRowInfo } from "./types";
 
 
 export const getGene = (
@@ -448,3 +445,4 @@ export const getGene = (
     annotations: g.is_cancer_gene_census,
   };
 };
+

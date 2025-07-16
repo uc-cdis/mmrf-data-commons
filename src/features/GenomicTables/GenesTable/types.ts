@@ -1,9 +1,13 @@
 import { Survival } from "@/core/survival";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type GeneToggledHandler = (symbol: Record<string, any>) => void;
 =======
 >>>>>>> 4de00a4 ((feat)mutationFreqGenePanel: Added additional missing type and other declarations for GenesTableContainer)
+=======
+export type GeneToggledHandler = (symbol: Record<string, any>) => void;
+>>>>>>> d4bde44 (feat(mutationFreqGenePanel): Merged main)
 
 export interface GeneRowInfo {
   readonly biotype: string;
