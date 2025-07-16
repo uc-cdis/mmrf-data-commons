@@ -49,13 +49,14 @@ export const GenesPanel = ({
 }: GenesPanelProps): JSX.Element => {
   const {
     isDemoMode,
-    cohortFilters,
+    currentCohortFilters,
     genomicFilters,
     overwritingDemoFilter,
     survivalPlotData,
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
+  const cohortFilters = currentCohortFilters;
 
   const currentGenes = useSelectFilterContent("genes.gene_id");
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);

@@ -56,6 +56,7 @@ import { getGene, useGenerateGenesTableColumns } from "./utils";
 import { buildCohortGqlOperator } from "@/core/utils";
 import { DropdownWithIcon } from "@gen3/frontend";
 import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
+import { downloadTSV } from "@/components/Table/utils";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -246,8 +247,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     totalPages: Math.ceil(data?.genes?.genes_total / pageSize),
   });
 
-
-
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
   };
@@ -281,7 +280,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       : genesTableFilters;
 
 
-  const handleTSVDownload = () => alert('refactor this like the other table without a modal');
+  // const handleTSVDownload = () => alert('refactor this like the other table without a modal');
+  const handleTSVDownload = () => {
+    console.log('genesTableDefaultColumns',genesTableDefaultColumns)
+    const fileName = `genes-table.${getFormattedTimestamp()}.tsv`;
+    downloadTSV({formattedTableData, columns: genesTableDefaultColumns, columnOrder, columnVisibility, fileName});
+  };
+
   /*
   const handleTSVDownload = async () => {
     setDownloadMutatedGenesTSVActive(true);

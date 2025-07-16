@@ -243,7 +243,9 @@ export const ConsequenceTable = ({
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+
   const handleTSVDownload = () => {
+      console.log('consequenceTableDefaultColumns',consequenceTableDefaultColumns)
     const fileName = `consequences-table.${getFormattedTimestamp()}.tsv`;
     downloadTSV({
       tableData,
