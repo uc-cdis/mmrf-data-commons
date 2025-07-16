@@ -53,7 +53,6 @@ const AppsPage = ({ config }: AppConfig) => {
         </div>
       </div>
       </div>
-      <Footer />
     </>
   );
 };
