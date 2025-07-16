@@ -19,6 +19,7 @@ import {
   CohortManager,
 } from '@gen3/frontend';
 import { GeneSummary } from '@/features/GeneSummary/GeneSummary';
+import Footer from '@/components/Navigation/Footer/Footer';
 
 interface AppConfig extends NavPageLayoutProps {
   config?: object;
@@ -45,7 +46,7 @@ const AppsPage = ({ config }: AppConfig) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <div className="w-full flex-col">
-      <div className="w-full flex-col flex gap-4 z-10 fixed top-0 bg-base-max">
+      <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <MainNavigation />
         <CohortManager index="cases"></CohortManager>
         <div className="w-full overflow-y-auto">
@@ -53,6 +54,7 @@ const AppsPage = ({ config }: AppConfig) => {
         </div>
       </div>
       </div>
+      <Footer />
     </>
   );
 };
