@@ -16,3 +16,8 @@ export interface ComparativeSurvival {
 
 // Persist which tab is active
 export type AppModeState = "genes" | "ssms";
+
+export const emptySurvivalPlot = {
+  overallStats: { pValue: undefined },
+  survivalData: [],
+};
