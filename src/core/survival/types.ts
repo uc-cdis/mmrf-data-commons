@@ -23,7 +23,7 @@ export interface Survival {
   readonly overallStats: Record<string, number | undefined>;
 }
 
-export const emptySurvivalPlot  : Survival= {
+export const EmptySurvivalPlot  : Survival= {
   overallStats: { pValue: undefined },
   survivalData: [],
 };
@@ -35,4 +35,9 @@ export enum SurvivalPlotTypes {
   continuous = "continuous",
   overall = "overall",
   cohortComparison = "cohortComparison",
+}
+
+export const EmptySurivalPlot : Survival = {
+  survivalData: [],
+  overallStats: {}
 }

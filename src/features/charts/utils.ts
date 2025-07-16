@@ -85,12 +85,13 @@ const createSVG = async (ref: MutableRefObject<HTMLElement>): Promise<Blob> => {
   );
   chartWrapper.setAttribute(
     "width",
-    `${Number(ref.current.getBoundingClientRect().width) + EXTRA_PADDING}`,
+    `${Number(ref.current?.getBoundingClientRect().width) + EXTRA_PADDING}`,
   );
   chartWrapper.setAttribute(
     "height",
-    `${Number(ref.current.getBoundingClientRect().height) + EXTRA_PADDING}`,
+    `${Number(ref.current?.getBoundingClientRect().height) + EXTRA_PADDING}`,
   );
+  if (ref)
   chartWrapper.append(document.importNode(ref.current, true));
   svgElement.append(chartWrapper);
 
@@ -110,10 +111,10 @@ const createSVG = async (ref: MutableRefObject<HTMLElement>): Promise<Blob> => {
  * @param filename - name of file to save to, extension should be included e.g. chart1.svg
  */
 export const handleDownloadSVG = async (
-  ref: MutableRefObject<HTMLElement>,
+  ref: React.MutableRefObject<HTMLElement>,
   filename: string,
 ): Promise<void> => {
-  if (ref.current) {
+  if (ref && ref.current) {
     const svgBlob = await createSVG(ref);
     const href = URL.createObjectURL(svgBlob);
     handleDownload(href, filename);

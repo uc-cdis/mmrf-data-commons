@@ -1,4 +1,7 @@
-import { createContext, Dispatch } from "react";
+import React, { createContext, Dispatch } from "react";
+import { MantineThemeOverride } from "@mantine/core";
+import { ImageComponentType, LinkComponentType } from "@/core/types";
+import { DownloadType } from "./types";
 
 // Chart download context
 
@@ -24,18 +27,19 @@ export const chartDownloadReducer = (
   }
 };
 
+export const DownloadProgressContext = createContext<{
+  downloadInProgress: boolean;
+  setDownloadInProgress: ((inProgress: boolean) => void)
+}>({
+  downloadInProgress: false,
+  setDownloadInProgress: () => {},
+});
+
+
 export const DashboardDownloadContext = createContext<{
   state: ChartDownloadInfo[];
   dispatch: Dispatch<{ type: "add" | "remove"; payload: ChartDownloadInfo[] }>;
 }>({ state: [], dispatch: () => {} });
-
-export const DownloadProgressContext = createContext<{
-  downloadInProgress: boolean;
-  setDownloadInProgress: ((inProgress: boolean) => void) | undefined;
-}>({
-  downloadInProgress: false,
-  setDownloadInProgress: undefined,
-});
 
 // Selection screen context
 
@@ -53,3 +57,19 @@ export const SelectionScreenContext =
     app: undefined,
     setActiveApp: undefined,
   });
+
+interface AppContextType {
+  readonly path?: string;
+  readonly theme?: MantineThemeOverride;
+  readonly Image: ImageComponentType;
+  readonly Link: LinkComponentType;
+}
+
+export const AppContext = createContext<AppContextType>({
+  path: undefined,
+  theme: undefined,
+  // eslint-disable-next-line
+  Image: (props) => <img {...props} />,
+// eslint-disable-next-line
+Link: (props) => <a {...props} />,
+});
