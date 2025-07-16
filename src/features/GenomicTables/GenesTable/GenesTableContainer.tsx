@@ -23,7 +23,7 @@ import {
 } from "@/core";
 import { useGeneTable } from "../../genomic/mockedHooks";
 
-import { filterSetToOperation, useCoreDispatch, useCoreSelector, usePrevious } from  "@gen3/core";
+import { filterSetToOperation, useCoreDispatch, usePrevious } from  "@gen3/core";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import FunctionButton from "@/components/FunctionButton";
@@ -42,8 +42,7 @@ import {
 } from "@tanstack/react-table";
 import { HandleChangeInput } from "@/components/Table/types";
 import { CountsIcon } from "@/components/tailwindComponents";
-import { Gene, GeneToggledHandler } from './types'
-//import { useGenerateGenesTableColumns, getGene } from "./utils";
+import { Gene, GeneToggledHandler } from './types';
 //import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
 //import GenesTableSubcomponent from "./GenesTableSubcomponent";
 import { getFormattedTimestamp } from "@/utils/date";
@@ -51,11 +50,12 @@ import { ComparativeSurvival } from "@/features/genomic/types";
 import { appendSearchTermFilters } from "../utils";
 import TotalItems from "@/components/Table/TotalItem";
 import { buildGeneTableSearchFilters, CnvChange } from "@/core/genomic/genesTableSlice";
-import { extractFiltersWithPrefixFromFilterSet } from "@/core/features/cohort/utils";
-import { selectSetsByType } from "@/features/sets/setsSlice";
+// import { extractFiltersWithPrefixFromFilterSet } from
+// import { selectSetsByType } from "@/features/sets/setsSlice";
 import { getGene, useGenerateGenesTableColumns } from "./utils";
 import { buildCohortGqlOperator } from "@/core/utils";
 import { DropdownWithIcon } from "@gen3/frontend";
+import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
