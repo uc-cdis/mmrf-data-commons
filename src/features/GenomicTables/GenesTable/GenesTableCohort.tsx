@@ -1,8 +1,9 @@
-import React from "react";
-import CohortInactiveIcon from "public/icons/CohortSym_inactive.svg";
-import CohortActiveIcon from "public/icons/cohort-dna.svg";
-import { GeneToggledHandler } from "./types";
-import SwitchSpring from "@/components/SwitchSpring/shared/SwitchSpring";
+import React from 'react';
+import CohortInactiveIcon from 'public/icons/CohortSym_inactive.svg';
+import CohortActiveIcon from 'public/icons/cohort-dna.svg';
+import { GeneToggledHandler } from './types';
+import SwitchSpring from '@/components/SwitchSpring/shared/SwitchSpring';
+import Image from 'next/image';
 
 const GenesTableCohort = ({
   toggledGenes,
@@ -24,18 +25,18 @@ const GenesTableCohort = ({
       isActive={toggledGenes.includes(geneID)}
       icon={
         isDemoMode ? (
-          <CohortInactiveIcon
+          <Image
+            src={CohortInactiveIcon}
+            alt="Cohort Active Icon"
             width={16}
             height={16}
-            aria-label="inactive cohort icon"
-            viewBox="-4 -1 30 30"
           />
         ) : (
-          <CohortActiveIcon
+          <Image
+            src={CohortActiveIcon}
+            alt="Cohort Active Icon"
             width={16}
             height={16}
-            aria-label="active cohort icon"
-            viewBox="-4 -1 30 30"
           />
         )
       }
@@ -48,10 +49,10 @@ const GenesTableCohort = ({
       }
       tooltip={
         isDemoMode
-          ? "Feature not available in demo mode"
+          ? 'Feature not available in demo mode'
           : toggledGenes.includes(geneID)
-          ? `Remove ${symbol} from cohort filters`
-          : `Add ${symbol} to cohort filters`
+            ? `Remove ${symbol} from cohort filters`
+            : `Add ${symbol} to cohort filters`
       }
       disabled={isDemoMode}
     />

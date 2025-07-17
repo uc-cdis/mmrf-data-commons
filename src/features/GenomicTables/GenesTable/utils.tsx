@@ -92,16 +92,16 @@ export const useGenerateGenesTableColumns = ({
           />
         ),
         cell: ({ row }:any) => (
-            <>
-            <h3>Placeholder for GenesTableCohort!</h3>
-        {/* <GenesTableCohort
+          <>
+          <GenesTableCohort
             toggledGenes={toggledGenes}
             geneID={row.original.gene_id}
             isDemoMode={isDemoMode}
             cohort={row.original.cohort}
             handleGeneToggled={handleGeneToggled}
             symbol={row.original.symbol}
-          /> */}</>
+          />
+          </>
         ),
       }),
       genesTableColumnHelper.display({
