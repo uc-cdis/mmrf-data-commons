@@ -57,6 +57,7 @@ import { buildCohortGqlOperator } from "@/core/utils";
 import { DropdownWithIcon } from "@gen3/frontend";
 import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
 import { downloadTSV } from "@/components/Table/utils";
+import saveAs from 'file-saver';
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -280,30 +281,19 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       : genesTableFilters;
 
 
-  // const handleTSVDownload = () => alert('refactor this like the other table without a modal');
   const handleTSVDownload = () => {
-    console.log('genesTableDefaultColumns',genesTableDefaultColumns)
     const fileName = `genes-table.${getFormattedTimestamp()}.tsv`;
-    downloadTSV({formattedTableData, columns: genesTableDefaultColumns, columnOrder, columnVisibility, fileName});
+    downloadTSV({tableData:formattedTableData, columns: genesTableDefaultColumns, columnOrder, columnVisibility, fileName});
   };
-
-  /*
-  const handleTSVDownload = async () => {
-    setDownloadMutatedGenesTSVActive(true);
-    await download({
-      endpoint: "/analysis/top_mutated_genes",
-      method: "POST",
-      params: {
-        filters: buildCohortGqlOperator(genesTableFilters) ?? {},
-        case_filters: buildCohortGqlOperator(cohortFilters as any) ?? {},
-        attachment: true,
-        filename: `frequently-mutated-genes.${getFormattedTimestamp()}.tsv`,
-      },
-      dispatch,
-      done: () => setDownloadMutatedGenesTSVActive(false),
+  const handleJSONDownload = () => {
+    const fileName = `genes-table.${getFormattedTimestamp()}.json`;
+    const blob = new Blob([JSON.stringify(formattedTableData, null, 2)], {
+      type: 'application/json',
     });
-  };
-  */
+    saveAs(blob, fileName);
+   };
+
+
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [rowId, setRowId] = useState(null);
@@ -433,37 +423,16 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         columns={genesTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">
-            <DropdownWithIcon
-              dropdownElements={[
-                {
-                  title: "Save as new gene set",
-                  onClick: () => setShowSaveModal(true),
-                },
-                {
-                  title: "Add to existing gene set",
-                  disabled: Object.keys(sets || {}).length === 0,
-                  onClick: () => setShowAddModal(true),
-                },
-                {
-                  title: "Remove from existing gene set",
-                  disabled: Object.keys(sets || {}).length === 0,
-                  onClick: () => setShowRemoveModal(true),
-                },
-              ]}
-              TargetButtonChildren="Save/Edit Gene Set"
-              targetButtonDisabled={isFetching && !isSuccess}
-              disableTargetWidth={true.toString()}
-              LeftSection={
-                selectedGenes.length ? (
-                  <CountsIcon $count={selectedGenes.length}>
-                    {selectedGenes.length}
-                  </CountsIcon>
-                ) : null
-              }
-              menuLabelCustomClass="bg-primary text-primary-contrast font-heading font-bold mb-2"
-              customPosition="bottom-start"
-              customTargetButtonDataTestId="button-save-edit-gene-set"
-            />
+
+            <FunctionButton
+              onClick={handleJSONDownload}
+              data-testid="button-json-mutation-frequency"
+              disabled={isFetching}
+              isActive={downloadMutatedGenesTSVActive}
+              isDownload
+            >
+              JSON
+            </FunctionButton>
             <FunctionButton
               onClick={handleTSVDownload}
               data-testid="button-tsv-mutation-frequency"
