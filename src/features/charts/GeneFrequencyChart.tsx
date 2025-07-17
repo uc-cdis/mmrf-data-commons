@@ -1,13 +1,12 @@
-import React, { useState, useTransition } from "react";
-import { LoadingOverlay } from "@mantine/core";
-import dynamic from "next/dynamic";
-import {
-  FilterSet,
-} from "@/core";
-import ChartTitleBar from "./ChartTitleBar";
-import { BarChartData } from "./BarChart";
-import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
-import { useGeneFrequencyChartData } from "../genomic/mockedHooks";
+import React, { useState, useTransition } from 'react';
+import { LoadingOverlay } from '@mantine/core';
+import dynamic from 'next/dynamic';
+import { FilterSet } from '@/core';
+import ChartTitleBar from './ChartTitleBar';
+import { BarChartData } from './BarChart';
+import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
+import { useGeneFrequencyChartData } from '../genomic/mockedHooks';
+import BarChartTextVersion from './BarChartTextVersion';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -20,18 +19,18 @@ interface GenesFrequencyChart {
   readonly genesTotal: number;
 }
 
-const CHART_NAME = "most-frequently-mutated-genes-bar-chart";
+const CHART_NAME = 'most-frequently-mutated-genes-bar-chart';
 
-const BarChart = dynamic(() => import("./BarChart"), {
+const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
 });
 
 const hovertemplate =
-  "<b>%{x}</b> <br />%{customdata[0]} Cases Affected in Cohort<br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)<extra></extra>";
+  '<b>%{x}</b> <br />%{customdata[0]} Cases Affected in Cohort<br />%{customdata[0]} / %{customdata[1]} (%{y:.2f}%)<extra></extra>';
 
 const processChartData = (
   chartData: GenesFrequencyChart,
-  title = "Distribution of Most Frequently Mutated Genes",
+  title = 'Distribution of Most Frequently Mutated Genes',
   showXLabels = true,
 ): BarChartData => {
   if (!chartData)
@@ -50,7 +49,7 @@ const processChartData = (
           (x) => (x.numCases / chartData.casesTotal) * 100,
         ),
         marker: {
-          color: "#319fbe",
+          color: '#319fbe',
         },
         hovertemplate: hovertemplate,
         customdata: chartData.geneCounts.map((d) => [
@@ -64,7 +63,7 @@ const processChartData = (
     label_text: xvals,
     title: title,
     filename: title,
-    yAxisTitle: "% of Cases Affected",
+    yAxisTitle: '% of Cases Affected',
   };
 };
 
@@ -83,9 +82,9 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   genomicFilters = undefined,
   height = undefined,
   marginBottom = 100,
-  title = "Distribution of Most Frequently Mutated Genes",
+  title = 'Distribution of Most Frequently Mutated Genes',
   maxBins = 20,
-  orientation = "v",
+  orientation = 'v',
   cohortFilters = undefined,
 }: GeneFrequencyChartProps) => {
   const [isPending, startTransition] = useTransition();
@@ -101,8 +100,9 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     [maxBins, genomicFilters, cohortFilters],
   );
 
-  const { data, isFetching, isLoading } =
-    useGeneFrequencyChartData(queryParams as any);
+  const { data, isFetching, isLoading } = useGeneFrequencyChartData(
+    queryParams as any,
+  );
 
   const processedData = useDeepCompareMemo(
     () => processChartData(data),
@@ -152,6 +152,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
           onAfterPlot={handlePlotlyAfterPlot}
         />
       </div>
+      <BarChartTextVersion className="mt-[20px]" data={jsonData} />
     </div>
   );
 };
