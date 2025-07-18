@@ -59,6 +59,7 @@ import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
 import { downloadTSV } from "@/components/Table/utils";
 import saveAs from 'file-saver';
 import useStandardPagination from "@/hooks/useStandardPagination";
+import { GenesTableClientSideSearch } from "./GenesTableClientSideSearch";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -249,6 +250,19 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     updatedFullData,
   } = useStandardPagination(formattedTableData, genesTableDefaultColumns);
 
+  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
+    [] as any[],
+  );
+    useEffect(() => {
+      if (searchTerm.length > 0) {
+        setDisplayedDataAfterSearch(
+          GenesTableClientSideSearch(displayedData, searchTerm),
+        );
+      } else {
+        setDisplayedDataAfterSearch(displayedData);
+      }
+    }, [searchTerm, displayedData]);
+
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
   };
@@ -328,7 +342,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     }
   }; */
     const handleChange = (obj: HandleChangeInput) => {
+      console.log('Object.keys(obj)?.[0]',Object.keys(obj)?.[0])
       switch (Object.keys(obj)?.[0]) {
+        case 'newSearch':
+          setExpanded({});
+          setSearchTerm(obj.newSearch as string);
+          handlePageChange(1);
+        break;
         case 'newPageSize':
           handlePageSizeChange(obj.newPageSize as string);
           break;
@@ -338,7 +358,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       }
     };
 
-  const handleSaveSelectionAsSetModalClose = useCallback(
+/*   const handleSaveSelectionAsSetModalClose = useCallback(
     () => setShowSaveModal(false),
     [],
   );
@@ -351,7 +371,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const handleRemoveFromSetModalClose = useCallback(
     () => setShowRemoveModal(false),
     [],
-  );
+  ); */
 
   const operationCohortFilters = filterSetToOperation(cohortFilters);
   const operationSetFilters = filterSetToOperation(setFilters as any);
@@ -430,7 +450,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
      return (<>
       <VerticalTable
         customDataTestID="table-genes"
-        data={displayedData}
+        data={displayedDataAfterSearch}
         columns={genesTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">
