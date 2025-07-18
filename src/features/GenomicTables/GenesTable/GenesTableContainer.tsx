@@ -58,6 +58,7 @@ import { DropdownWithIcon } from "@gen3/frontend";
 import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
 import { downloadTSV } from "@/components/Table/utils";
 import saveAs from 'file-saver';
+import useStandardPagination from "@/hooks/useStandardPagination";
 //import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
 
 export interface GTableContainerProps {
@@ -86,25 +87,14 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   handleMutationCountClick,
 }: GTableContainerProps) => {
   /* States for table */
-  const [pageSize, setPageSize] = useState(10);
-  const [page, setPage] = useState(1);
+  // const [pageSize, setPageSize] = useState(10);
+  // const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [downloadMutatedGenesTSVActive, setDownloadMutatedGenesTSVActive] =
     useState(false);
   const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
-
-  /* Modal start */
-  const [showSaveModal, setShowSaveModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-  /* Modal end */
-
-
-
-
-
 
  const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
@@ -116,8 +106,8 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   // GeneTable call
   const { data, isSuccess, isFetching, isError, isUninitialized } =
     useGeneTable({
-      pageSize: pageSize,
-      offset: (page - 1) * pageSize,
+      pageSize: 0,
+      offset: 0,
       searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
       genomicFilters: genomicFilters,
       cohortFilters: cohortFilters,
@@ -180,13 +170,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const prevCohortFilters = usePrevious(cohortFilters);
 
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (
       !isEqual(prevGenomicFilters, genomicFilters) ||
       !isEqual(prevCohortFilters, cohortFilters)
     )
       setPage(1);
-  }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]);
+  }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]); */
 
 
 
@@ -208,7 +198,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     );
   }, [data?.genes, selectedSurvivalPlot]);
 
-  const pagination = useMemo(() => {
+  /* const pagination = useMemo(() => {
     return isSuccess
       ? {
           count: pageSize,
@@ -229,10 +219,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           total: undefined,
           label: undefined,
         };
-  }, [pageSize, page, data?.genes?.genes_total, isSuccess]);
-
-
-
+  }, [pageSize, page, data?.genes?.genes_total, isSuccess]); */
 
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
@@ -244,9 +231,23 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     genomicFilters,
     generateFilters,
     handleMutationCountClick,
-    currentPage: page,
-    totalPages: Math.ceil(data?.genes?.genes_total / pageSize),
+    currentPage: 0,
+    totalPages: Math.ceil(data?.genes?.genes_total / 1),
   });
+
+
+  const {
+    handlePageChange,
+    handlePageSizeChange,
+    handleSortByChange,
+    page,
+    pages,
+    size,
+    from,
+    total,
+    displayedData,
+    updatedFullData,
+  } = useStandardPagination(formattedTableData, genesTableDefaultColumns);
 
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
@@ -309,7 +310,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   };
 
 
-  const handleChange = (obj: HandleChangeInput) => {
+/*   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case "newPageSize":
         setPageSize(parseInt(obj.newPageSize));
@@ -325,7 +326,17 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         setExpanded({});
         break;
     }
-  };
+  }; */
+    const handleChange = (obj: HandleChangeInput) => {
+      switch (Object.keys(obj)?.[0]) {
+        case 'newPageSize':
+          handlePageSizeChange(obj.newPageSize as string);
+          break;
+        case 'newPageNumber':
+          handlePageChange(obj.newPageNumber as number);
+          break;
+      }
+    };
 
   const handleSaveSelectionAsSetModalClose = useCallback(
     () => setShowSaveModal(false),
@@ -419,11 +430,10 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
      return (<>
       <VerticalTable
         customDataTestID="table-genes"
-        data={formattedTableData}
+        data={displayedData}
         columns={genesTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">
-
             <FunctionButton
               onClick={handleJSONDownload}
               data-testid="button-json-mutation-frequency"
@@ -447,7 +457,14 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         tableTotalDetail={
           <TotalItems total={data?.genes?.genes_total} itemName="gene" />
         }
-        pagination={pagination}
+        pagination={ {
+        page,
+        pages,
+        size,
+        from,
+        total,
+        label: 'project',
+      }}
         showControls={true}
         search={{
           enabled: true,
