@@ -14,6 +14,9 @@ import { useAppDispatch } from "@/features/genomic/appApi";
 import { clearGeneAndSSMFilters } from "@/features/genomic/geneAndSSMFiltersSlice";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { ComparativeSurvival, AppModeState } from "./types";
+import { TableXPositionContext } from "@/components/Table/VerticalTable";
+import { SecondaryTabStyle } from "./constants";
+import { GenesPanel } from "./GenesPanel";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -43,6 +46,15 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
     geneSymbol: undefined,
   });
 
+// WILL NEED TO GET THIS DATA
+/*     const topGeneSSMSSuccess = useTopGeneSsms({
+    appMode,
+    comparativeSurvival,
+    setComparativeSurvival,
+    searchTermsForGene: searchTermsForGeneId,
+  }); */
+  const topGeneSSMSSuccess = {}
+
   const cohortId = useCoreSelector((state) => selectCurrentCohortId(state));
   const prevId = usePrevious(cohortId);
 
@@ -70,6 +82,43 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       }
     },
     [comparativeSurvival],
+  );
+
+ const handleGeneAndSSmToggled = useCallback(
+    (
+      cohortStatus: string[],
+      field: string,
+      idField: string,
+      payload: Record<string, any>,
+    ) => {
+      if (cohortStatus.includes(payload[idField])) {
+        // remove the id from the cohort
+        const update = cohortStatus.filter((x) => x != payload[idField]);
+        if (update.length > 0)
+          coreDispatch(
+            updateActiveCohortFilter({
+              field: field,
+              operation: {
+                field: field,
+                operator: "includes",
+                operands: update,
+              },
+            }),
+          );
+        else coreDispatch(removeCohortFilter(field));
+      } else
+        coreDispatch(
+          updateActiveCohortFilter({
+            field: field,
+            operation: {
+              field: field,
+              operator: "includes",
+              operands: [...cohortStatus, payload[idField]],
+            },
+          }),
+        );
+    },
+    [coreDispatch],
   );
 
   /**
@@ -101,8 +150,49 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
   const [tableXPosition, setTableXPosition] = useState<number|undefined>(undefined);
 
   return (
-    <div className="m-20 text-2xl text-accent-contrast">Placeholder</div>
-  )
+    <div >
+      <TableXPositionContext.Provider
+        value={{ xPosition: tableXPosition, setXPosition: setTableXPosition }}
+      >
+        <div className="flex gap-4 m-4">
+          <h3>GeneAndSSMFilterPanel placeholder</h3>
+          <Tabs
+            variant="pills"
+            value={appMode}
+            defaultValue="genes"
+            classNames={{
+              tab: SecondaryTabStyle,
+              list: "mt-2 border-0 gap-0 mb-2",
+              root: "bg-base-max border-0 w-full overflow-x-hidden",
+            }}
+            onChange={handleTabChanged}
+            keepMounted={false}
+          >
+            <Tabs.List>
+              <Tabs.Tab data-testid="button-genes-tab" value="genes">
+                Genes
+              </Tabs.Tab>
+              <Tabs.Tab data-testid="button-mutations-tab" value="ssms">
+                Mutations
+              </Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="genes" pt="xs">
+              <GenesPanel
+                topGeneSSMSSuccess={true}
+                comparativeSurvival={comparativeSurvival as ComparativeSurvival}
+                handleSurvivalPlotToggled={handleSurvivalPlotToggled}
+                handleGeneAndSSmToggled={handleGeneAndSSmToggled}
+                handleMutationCountClick={handleMutationCountClick}
+              />
+            </Tabs.Panel>
+            <Tabs.Panel value="ssms" pt="xs">
+              <h3>SSMSPanel placeholder</h3>
+            </Tabs.Panel>
+          </Tabs>
+        </div>
+      </TableXPositionContext.Provider>
+    </div>
+    )
 }
 
 export default GenesAndMutationFrequencyAnalysisTool;

@@ -62,7 +62,6 @@ export function downloadTSV<TData>({
             : humanify({ term: column.id as string }),
         )
         .join('\t');
-
       const body = (tableData || [])
         .map((datum: any) =>
           sortedColumns
