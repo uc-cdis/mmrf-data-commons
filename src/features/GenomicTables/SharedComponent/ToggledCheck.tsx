@@ -62,7 +62,7 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         classNames={{
           root: `${margin} bg-transparent gene-panel-table-survival`,
           input: ` cursor-pointer peer  hover:bg-mmrf-blush checked:bg-mmrf-rust`,
-          icon: "peer-hover:!text-white",
+          icon: "!text-white",
         }}
       />
     </Tooltip>
