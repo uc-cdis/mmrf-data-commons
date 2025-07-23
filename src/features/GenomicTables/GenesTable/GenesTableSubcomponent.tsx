@@ -1,8 +1,9 @@
 import React from "react";
-import { useGetGeneTableSubrowQuery } from "@gff/core";
+
 import { Row } from "@tanstack/react-table";
 import { Gene } from "./types";
 import CommonSubcomponent from "../SharedComponent/CommonSubcomponent";
+import { useGetGeneTableSubrowQuery } from "@/features/genomic/mockedHooks";
 
 function GenesTableSubcomponent({ row }: { row: Row<Gene> }): JSX.Element {
   const {

@@ -1,6 +1,14 @@
 import { ComparativeSurvival  } from '@/features/genomic/types';
 import { FilterSet } from '@gen3/core';
 import type { Survival } from '@/core/survival';
+import GeneAndSSMFilters from './data/useGeneAndSSMPanel_data.json';
+import GeneFrequencyChartData from './data/useGeneFrequencyChart_data.json';
+import GeneTableSubrowData from './data/useGetGeneTableSubrow_data.json';
+// for some of the MMRF Gene use this one
+// import GenesTableData from './data/useGenesTable_data.json';
+// for all of the MMRF Gene use this one
+import GenesTableData from './data/useGenesTable_data_all.json';
+
 
 export interface GeneAndSSMPanelData {
   isDemoMode: boolean;
@@ -11,12 +19,6 @@ export interface GeneAndSSMPanelData {
   survivalPlotFetching: boolean;
   survivalPlotReady: boolean;
 }
-
-import GeneAndSSMFilters from './data/useGeneAndSSMPanel_data.json';
-import GeneFrequencyChartData from './data/useGeneFrequencyChart_data.json';
-import GenesTableData from './data/useGenesTable_data.json';
-// for all of the MMRF Gene use this one
-//import GenesTableData from './data/useGenesTable_data_all.json';
 
 export const useGeneAndSSMPanelData = (
   comparativeSurvival: ComparativeSurvival,
@@ -35,7 +37,6 @@ export interface GeneFrequencyChartParameters {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useGeneFrequencyChartData = (_args: GeneFrequencyChartParameters) => {
-
   return {
     data: GeneFrequencyChartData,
     isFetching: false,
@@ -49,6 +50,39 @@ export const useGeneFrequencyChartData = (_args: GeneFrequencyChartParameters) =
 export const useGeneTable = (args: any) => {
   return {
     data: GenesTableData,
+    isFetching: false,
+    isLoading: false,
+    isSuccess: true,
+    isError: false,
+    isUninitialized: false,
+  }
+}
+
+const generateSubrowQueryData = () => {
+    const data = [];
+    const maxNumeratorDenominatorSize = 10;
+    const maxNumberOfObjects = 40;
+    const minNumberOfObjects = 5;
+    const numberOfObjects = Math.floor(Math.random() * (maxNumberOfObjects - minNumberOfObjects)) + minNumberOfObjects;
+    for (let i = 0; i < numberOfObjects; i++) {
+        const projectName = `name ${i}`;
+        const numerator = Math.floor(Math.random() * maxNumeratorDenominatorSize);
+        const denominator = Math.floor(Math.random() * maxNumeratorDenominatorSize) + numerator;
+        data.push({
+            project: projectName,
+            numerator,
+            denominator
+        });
+    }
+
+    return data;
+};
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useGetGeneTableSubrowQuery = (id: any) => {
+  return {
+    data: generateSubrowQueryData(),
     isFetching: false,
     isLoading: false,
     isSuccess: true,

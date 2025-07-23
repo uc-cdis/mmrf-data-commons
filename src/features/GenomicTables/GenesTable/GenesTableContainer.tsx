@@ -44,7 +44,7 @@ import { HandleChangeInput } from "@/components/Table/types";
 import { CountsIcon } from "@/components/tailwindComponents";
 import { Gene, GeneToggledHandler } from './types';
 //import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
-//import GenesTableSubcomponent from "./GenesTableSubcomponent";
+import GenesTableSubcomponent from "./GenesTableSubcomponent";
 import { getFormattedTimestamp } from "@/utils/date";
 import { ComparativeSurvival } from "@/features/genomic/types";
 import { appendSearchTermFilters } from "../utils";
@@ -498,7 +498,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         rowSelection={rowSelection}
         getRowCanExpand={() => true}
         expandableColumnIds={["#_ssm_affected_cases_across_the_gdc"]}
-        // renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
+        renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}
