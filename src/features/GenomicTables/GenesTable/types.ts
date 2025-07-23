@@ -56,3 +56,10 @@ export interface Gene {
     denominator: number;
   };
 }
+
+export interface Survival {
+  label: string;
+  name: string;
+  symbol: string;
+  checked: boolean;
+}

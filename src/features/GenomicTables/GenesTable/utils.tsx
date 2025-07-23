@@ -13,9 +13,10 @@ import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
 import NumeratorDenominator from "@/components/NumeratorDenominator";
 import { CollapseCircleIcon, ExpandCircleIcon } from "@/utils/icons";
 import RatioWithSpring from "@/components/RatioWithSpring";
-import {GenesTableSurvival,  AnnotationsIcon } from "./TableComponents";
+import { AnnotationsIcon } from "./TableComponents";
 import GenesTableCohort from "./GenesTableCohort";
 import { CountButton } from "./CountButton";
+import GenesTableSurvival from "./TableComponents/GenesTableSurvival";
 
 
 const genesTableColumnHelper:any = createColumnHelper<Gene>();
@@ -72,7 +73,7 @@ export const useGenerateGenesTableColumns = ({
           <Checkbox
             size="xs"
             classNames={{
-              input: "checked:bg-accent checked:border-accent",
+              input: "checked:bg-accent checked:border-accent gene-panel-table-row-select",
             }}
             aria-label={row.original.symbol}
             {...{

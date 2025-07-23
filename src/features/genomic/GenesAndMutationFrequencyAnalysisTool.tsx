@@ -70,6 +70,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
    */
   const handleSurvivalPlotToggled = useDeepCompareCallback(
     (symbol: string, name: string, field: string) => {
+      console.log('called handleSurvivalPlotToggled')
       if (comparativeSurvival && comparativeSurvival?.symbol === symbol) {
         setComparativeSurvival(undefined);
       } else {
