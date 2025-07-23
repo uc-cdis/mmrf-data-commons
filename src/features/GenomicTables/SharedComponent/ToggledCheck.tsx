@@ -31,7 +31,8 @@ const ToggledCheck: React.FC<ToggleProps> = ({
   const CheckboxIcon: CheckboxProps["icon"] = ({ className }) => {
     return React.cloneElement(icon, { className: className });
   };
-
+  if(disabled)
+  console.log('disabled',disabled)
   return (
     <Tooltip
       label={`${tooltip}`}
@@ -47,7 +48,7 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         aria-disabled={disabled}
         aria-label={ariaText}
         variant="outline"
-        color={isActive ? "white" : "black"}
+        // color={isActive ? "white" : "black"}
         onChange={() => {
           if (!disabled)
             if (icon) {
@@ -57,13 +58,10 @@ const ToggledCheck: React.FC<ToggleProps> = ({
               handleSwitch(selected);
             }
         }}
+        className="gene-panel-table-survival"
         classNames={{
-          root: margin,
-          input: `peer cursor-pointer ${
-            disabled
-              ? "bg-base-lighter hover:bg-primary-lighter"
-              : "hover:bg-primary checked:bg-primary-darkest"
-          }`,
+          root: `${margin} bg-transparent gene-panel-table-survival`,
+          input: ` cursor-pointer peer  hover:bg-mmrf-blush checked:bg-mmrf-rust`,
           icon: "peer-hover:!text-white",
         }}
       />
