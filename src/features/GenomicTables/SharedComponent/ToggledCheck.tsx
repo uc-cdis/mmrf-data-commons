@@ -7,7 +7,7 @@ interface ToggleProps {
   selected: string | Record<string, string>;
   disabled?: boolean;
   handleSwitch: any;
-  tooltip: string;
+  tooltip: string | undefined;
   margin: string;
   survivalProps?: {
     plot: string;
@@ -51,7 +51,7 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         // color={isActive ? "white" : "black"}
         onChange={() => {
           if (!disabled)
-            if (icon) {
+            if (icon && typeof selected === 'object') {
               // todo: if used for > 2 icons refactor to use switch(icon) statement
               handleSwitch(selected[`symbol`], selected[`label`], plot);
             } else {

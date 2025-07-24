@@ -43,8 +43,8 @@ export const useGenerateGenesTableColumns = ({
   toggledGenes: ReadonlyArray<string>;
   isDemoMode: boolean;
   setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>>;
-  cohortFilters: FilterSet;
-  genomicFilters: FilterSet;
+  cohortFilters: FilterSet | any;
+  genomicFilters: FilterSet | any;
   generateFilters: (cnvType: CnvChange, geneId: string) => FilterSet;
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
   currentPage: number;
