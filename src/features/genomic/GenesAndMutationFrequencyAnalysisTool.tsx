@@ -70,7 +70,6 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
    */
   const handleSurvivalPlotToggled = useDeepCompareCallback(
     (symbol: string, name: string, field: string) => {
-      console.log('called handleSurvivalPlotToggled')
       if (comparativeSurvival && comparativeSurvival?.symbol === symbol) {
         setComparativeSurvival(undefined);
       } else {
@@ -126,7 +125,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
    * remove comparative survival plot when tabs or filters change.
    */
   const handleTabChanged = useCallback(
-    (tabKey: string) => {
+    (tabKey: string | null) => {
       setAppMode(tabKey as AppModeState);
       setComparativeSurvival(undefined);
       if (searchTermsForGeneId.geneId || searchTermsForGeneId.geneSymbol) {
