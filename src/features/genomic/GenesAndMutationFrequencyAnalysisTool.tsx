@@ -1,18 +1,15 @@
 import React, { useCallback, useState } from "react";
-import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
+import { useDeepCompareCallback } from "use-deep-compare";
 import { Tabs } from "@mantine/core";
 import {
   FilterSet,
-  useCoreSelector,
   useCoreDispatch,
   removeCohortFilter,
   updateCohortFilter as updateActiveCohortFilter,
-  selectCurrentCohortId,
-  usePrevious,
 } from "@gen3/core";
-import { useAppDispatch } from "@/features/genomic/appApi";
+/* import { useAppDispatch } from "@/features/genomic/appApi";
 import { clearGeneAndSSMFilters } from "@/features/genomic/geneAndSSMFiltersSlice";
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
+import { useIsDemoApp } from "@/hooks/useIsDemoApp"; */
 import { ComparativeSurvival, AppModeState } from "./types";
 import { TableXPositionContext } from "@/components/Table/VerticalTable";
 import { SecondaryTabStyle } from "./constants";
@@ -35,9 +32,9 @@ interface GeneSearchTerms {
 }
 
 const GenesAndMutationFrequencyAnalysisTool = () => {
-  const isDemoMode = useIsDemoApp();
+  // const isDemoMode = useIsDemoApp();
   const coreDispatch = useCoreDispatch();
-  const appDispatch = useAppDispatch();
+  // const appDispatch = useAppDispatch();
   const [comparativeSurvival, setComparativeSurvival] =
     useState<ComparativeSurvival|undefined>(undefined);
   const [appMode, setAppMode] = useState<AppModeState>("genes");
@@ -53,10 +50,10 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
     setComparativeSurvival,
     searchTermsForGene: searchTermsForGeneId,
   }); */
-  const topGeneSSMSSuccess = {}
+  // const topGeneSSMSSuccess = {}
 
-  const cohortId = useCoreSelector((state) => selectCurrentCohortId(state));
-  const prevId = usePrevious(cohortId);
+  // const cohortId = useCoreSelector((state) => selectCurrentCohortId(state));
+  // const prevId = usePrevious(cohortId);
 
   /**
    * Update the survival plot in response to user actions. There are two "states"
@@ -91,7 +88,13 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       idField: string,
       payload: Record<string, any>,
     ) => {
-      if (cohortStatus.includes(payload[idField])) {
+      console.log(`called handleGeneAndSSmToggled,
+        logic commented out in GeneusAndMutationFrequencyAnalysisTool.tsx, called with:
+        cohortStatus: ${cohortStatus},
+        field: ${field},
+        idField: ${idField},
+        payload: ${payload}`);
+/*       if (cohortStatus.includes(payload[idField])) {
         // remove the id from the cohort
         const update = cohortStatus.filter((x) => x != payload[idField]);
         if (update.length > 0)
@@ -116,7 +119,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               operands: [...cohortStatus, payload[idField]],
             },
           }),
-        );
+        ); */
     },
     [coreDispatch],
   );

@@ -69,7 +69,7 @@ export const useGenerateGenesTableColumns = ({
             }}
           />
         ),
-        cell: ({ row }) => (
+        cell: ({ row }: any) => (
           <Checkbox
             size="xs"
             classNames={{
@@ -131,7 +131,7 @@ export const useGenerateGenesTableColumns = ({
       genesTableColumnHelper.display({
         id: "symbol",
         header: "Symbol",
-        cell: ({ row }) => (
+        cell: ({ row }: any) => (
           <PopupIconButton
             handleClick={() =>
               setEntityMetadata({

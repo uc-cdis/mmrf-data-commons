@@ -1,4 +1,6 @@
-import { Survival } from "@/core/survival";
+
+// Commenting out July 24, seems to be conflicts between versions of Survival type
+//import { Survival } from "@/core/survival";
 
 export type GeneToggledHandler = (symbol: Record<string, any>) => void;
 

@@ -3,6 +3,7 @@ import { SurvivalChartIcon } from "@/utils/icons";
 import ToggledCheck from "../../SharedComponent/ToggledCheck";
 import { Survival } from "../types";
 
+
 const GenesTableSurvival = ({
   SSMSAffectedCasesInCohort,
   survival,
