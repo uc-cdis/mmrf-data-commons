@@ -13,7 +13,7 @@ import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
 import NumeratorDenominator from "@/components/NumeratorDenominator";
 import { CollapseCircleIcon, ExpandCircleIcon } from "@/utils/icons";
 import RatioWithSpring from "@/components/RatioWithSpring";
-import { AnnotationsIcon } from "./TableComponents";
+import { Image } from '@/components/Image';
 import GenesTableCohort from "./GenesTableCohort";
 import { CountButton } from "./CountButton";
 import GenesTableSurvival from "./TableComponents/GenesTableSurvival";
@@ -265,7 +265,7 @@ export const useGenerateGenesTableColumns = ({
             }
           />
         ),
-        cell: ({ row }) => {
+        cell: ({ row }:any) => {
           const { numerator, denominator } = row.original["#_cnv_gains"] ?? {
             numerator: 0,
             denominator: 1,
@@ -368,7 +368,7 @@ export const useGenerateGenesTableColumns = ({
           <Tooltip label="Cancer Gene Census">
             <span>
               {row.original.annotations && (
-                <AnnotationsIcon label={"Cancer Gene Census"} />
+                <Image src="/icons/AnnotationsIcon.svg" height={20} width={20} />
               )}
             </span>
           </Tooltip>
