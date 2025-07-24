@@ -1,36 +1,11 @@
 import React from "react";
 import {
-  // useGenesTable,
   FilterSet,
-  SET_COUNT_LIMIT,
-/*   usePrevious,
-  useCreateGeneSetFromFiltersMutation,
-  useCreateTopNGeneSetFromFiltersMutation,
-  useCoreSelector,
-  selectSetsByType,
-  useGeneSetCountQuery,
-  useGeneSetCountsQuery,
-  useAppendToGeneSetMutation,
-  useRemoveFromGeneSetMutation,
-  joinFilters,
-  buildCohortGqlOperator,
-  useCoreDispatch,
-  extractFiltersWithPrefixFromFilterSet,
-  buildGeneTableSearchFilters,
-  filterSetToOperation,
-  convertFilterToGqlFilter,
-  CnvChange, */
 } from "@/core";
 import { useGeneTable } from "../../genomic/mockedHooks";
-
-import { filterSetToOperation, useCoreDispatch, usePrevious } from  "@gen3/core";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import FunctionButton from "@/components/FunctionButton";
-import isEqual from "lodash/isEqual";
-/* import SaveSelectionAsSetModal from "@/components/Modals/SetModals/SaveSelectionAsSetModal";
-import AddToSetModal from "@/components/Modals/SetModals/AddToSetModal";
-import RemoveFromSetModal from "@/components/Modals/SetModals/RemoveFromSetModal"; */
 import { joinFilters, statusBooleansToDataStatus } from "src/utils";
 import { SummaryModalContext } from "@/utils/contexts";
 import VerticalTable from "@/components/Table/VerticalTable";
@@ -41,26 +16,20 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { HandleChangeInput } from "@/components/Table/types";
-import { CountsIcon } from "@/components/tailwindComponents";
 import { Gene, GeneToggledHandler } from './types';
-//import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
 import GenesTableSubcomponent from "./GenesTableSubcomponent";
 import { getFormattedTimestamp } from "@/utils/date";
 import { ComparativeSurvival } from "@/features/genomic/types";
 import { appendSearchTermFilters } from "../utils";
 import TotalItems from "@/components/Table/TotalItem";
 import { buildGeneTableSearchFilters, CnvChange } from "@/core/genomic/genesTableSlice";
-// import { extractFiltersWithPrefixFromFilterSet } from
-// import { selectSetsByType } from "@/features/sets/setsSlice";
 import { getGene, useGenerateGenesTableColumns } from "./utils";
-import { buildCohortGqlOperator } from "@/core/utils";
-import { DropdownWithIcon } from "@gen3/frontend";
-import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/utils";
+import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/Utils";
 import { downloadTSV } from "@/components/Table/utils";
 import saveAs from 'file-saver';
 import useStandardPagination from "@/hooks/useStandardPagination";
 import { GenesTableClientSideSearch } from "./GenesTableClientSideSearch";
-//import { SET_COUNT_LIMIT } from "@/components/Modals/SetModals/constants";
+
 
 export interface GTableContainerProps {
   readonly selectedSurvivalPlot: ComparativeSurvival;
@@ -71,8 +40,8 @@ export interface GTableContainerProps {
   ) => void;
   handleGeneToggled: GeneToggledHandler;
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
-  genomicFilters?: FilterSet;
-  cohortFilters?: FilterSet;
+  genomicFilters: FilterSet;
+  cohortFilters: FilterSet;
   toggledGenes?: ReadonlyArray<string>;
   isDemoMode?: boolean;
 }
@@ -87,14 +56,10 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   isDemoMode = false,
   handleMutationCountClick,
 }: GTableContainerProps) => {
-  /* States for table */
-  // const [pageSize, setPageSize] = useState(10);
-  // const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [downloadMutatedGenesTSVActive, setDownloadMutatedGenesTSVActive] =
-    useState(false);
-  const dispatch = useCoreDispatch();
+
+  // const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
  const searchFilters = buildGeneTableSearchFilters(searchTerm);
@@ -105,7 +70,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   );
 
   // GeneTable call
-  const { data, isSuccess, isFetching, isError, isUninitialized } =
+  const { data, isSuccess, isFetching, isError } =
     useGeneTable({
       pageSize: 0,
       offset: 0,
@@ -149,7 +114,10 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           root: {
             "ssms.ssm_id": {
               field: "ssms.ssm_id",
-              operator: "exists",
+              // operator: "exists",
+              // TODO: Code added just to get application to compile July 24
+              operator: 'in',
+              operands: ['add'],
             },
             "genes.gene_id": {
               field: "genes.gene_id",
@@ -166,20 +134,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
   // TODO: Causes type error TypeError: can't access property "genes", state.sets is undefined
   //const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
+  /*
   const sets = '';
   const prevGenomicFilters = usePrevious(genomicFilters);
   const prevCohortFilters = usePrevious(cohortFilters);
-
-
-/*   useEffect(() => {
-    if (
-      !isEqual(prevGenomicFilters, genomicFilters) ||
-      !isEqual(prevCohortFilters, cohortFilters)
-    )
-      setPage(1);
-  }, [cohortFilters, genomicFilters, prevCohortFilters, prevGenomicFilters]); */
-
-
+  */
 
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
@@ -199,28 +158,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     );
   }, [data?.genes, selectedSurvivalPlot]);
 
-  /* const pagination = useMemo(() => {
-    return isSuccess
-      ? {
-          count: pageSize,
-          from: (page - 1) * pageSize,
-          page: page,
-          pages: Math.ceil(data?.genes?.genes_total / pageSize),
-          size: pageSize,
-          total: data?.genes?.genes_total,
-          sort: "None",
-          label: "gene",
-        }
-      : {
-          count: undefined,
-          from: undefined,
-          page: undefined,
-          pages: undefined,
-          size: undefined,
-          total: undefined,
-          label: undefined,
-        };
-  }, [pageSize, page, data?.genes?.genes_total, isSuccess]); */
 
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
@@ -240,14 +177,12 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const {
     handlePageChange,
     handlePageSizeChange,
-    handleSortByChange,
     page,
     pages,
     size,
     from,
     total,
     displayedData,
-    updatedFullData,
   } = useStandardPagination(formattedTableData, genesTableDefaultColumns);
 
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
@@ -281,7 +216,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     "#_cnv_heterozygous_deletions": false,
   });
 
-  const setFilters =
+/*   const setFilters =
     selectedGenes.length > 0
       ? ({
           root: {
@@ -293,7 +228,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           },
           mode: "and",
         } as FilterSet)
-      : genesTableFilters;
+      : genesTableFilters; */
 
 
   const handleTSVDownload = () => {
@@ -323,131 +258,31 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     }
   };
 
-
-/*   const handleChange = (obj: HandleChangeInput) => {
+  const handleChange = (obj: HandleChangeInput) => {
+    console.log('Object.keys(obj)?.[0]',Object.keys(obj)?.[0])
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
-        setPageSize(parseInt(obj.newPageSize));
-        setPage(1);
-        break;
-      case "newPageNumber":
-        setPage(obj.newPageNumber);
+      case 'newSearch':
         setExpanded({});
+        setSearchTerm(obj.newSearch as string);
+        handlePageChange(1);
+      break;
+      case 'newPageSize':
+        handlePageSizeChange(obj.newPageSize as string);
         break;
-      case "newSearch":
-        setSearchTerm(obj.newSearch);
-        setPage(1);
-        setExpanded({});
+      case 'newPageNumber':
+        handlePageChange(obj.newPageNumber as number);
         break;
     }
-  }; */
-    const handleChange = (obj: HandleChangeInput) => {
-      console.log('Object.keys(obj)?.[0]',Object.keys(obj)?.[0])
-      switch (Object.keys(obj)?.[0]) {
-        case 'newSearch':
-          setExpanded({});
-          setSearchTerm(obj.newSearch as string);
-          handlePageChange(1);
-        break;
-        case 'newPageSize':
-          handlePageSizeChange(obj.newPageSize as string);
-          break;
-        case 'newPageNumber':
-          handlePageChange(obj.newPageNumber as number);
-          break;
-      }
-    };
-
-/*   const handleSaveSelectionAsSetModalClose = useCallback(
-    () => setShowSaveModal(false),
-    [],
-  );
-
-  const handleAddToSetModalClose = useCallback(
-    () => setShowAddModal(false),
-    [],
-  );
-
-  const handleRemoveFromSetModalClose = useCallback(
-    () => setShowRemoveModal(false),
-    [],
-  ); */
-
-  const operationCohortFilters = filterSetToOperation(cohortFilters);
-  const operationSetFilters = filterSetToOperation(setFilters as any);
-
+  };
 
   /*
+  const operationCohortFilters = filterSetToOperation(cohortFilters);
+  const operationSetFilters = filterSetToOperation(setFilters as any);
+  */
+
+
   return (
-            {/*
-      {isUninitialized || isFetching ? null : (
-        <>
-
-          <SaveSelectionAsSetModal
-            opened={showSaveModal}
-            closeModal={handleSaveSelectionAsSetModalClose}
-            cohortFilters={
-              selectedGenes.length === 0 && operationCohortFilters
-                ? convertFilterToGqlFilter(operationCohortFilters)
-                : undefined
-            }
-            filters={
-              operationSetFilters
-                ? convertFilterToGqlFilter(operationSetFilters)
-                : undefined
-            }
-            sort="case.project.project_id"
-            isManualSelection={selectedGenes.length > 0}
-            saveCount={
-              selectedGenes.length === 0
-                ? data?.genes?.genes_total
-                : selectedGenes.length
-            }
-            setType="genes"
-            setTypeLabel="gene"
-            createSetHook={
-              selectedGenes.length === 0
-                ? useCreateTopNGeneSetFromFiltersMutation
-                : useCreateGeneSetFromFiltersMutation
-            }
-          />
-
-          <AddToSetModal
-            opened={showAddModal}
-            closeModal={handleAddToSetModalClose}
-            filters={setFilters}
-            addToCount={
-              selectedGenes.length === 0
-                ? data?.genes?.genes_total
-                : selectedGenes.length
-            }
-            setType="genes"
-            setTypeLabel="gene"
-            singleCountHook={useGeneSetCountQuery}
-            countHook={useGeneSetCountsQuery}
-            appendSetHook={useAppendToGeneSetMutation}
-            field={"genes.gene_id"}
-            sort="case.project.project_id"
-          />
-
-          <RemoveFromSetModal
-            opened={showRemoveModal}
-            closeModal={handleRemoveFromSetModalClose}
-            filters={setFilters}
-            removeFromCount={
-              selectedGenes.length === 0
-                ? data?.genes?.genes_total
-                : selectedGenes.length
-            }
-            setType="genes"
-            setTypeLabel="gene"
-            countHook={useGeneSetCountsQuery}
-            removeFromSetHook={useRemoveFromGeneSetMutation}
-          />
-        </>
-      )}
-      */
-     return (<>
+    <>
       <VerticalTable
         customDataTestID="table-genes"
         data={displayedDataAfterSearch}
@@ -458,8 +293,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
               onClick={handleJSONDownload}
               data-testid="button-json-mutation-frequency"
               disabled={isFetching}
-              isActive={downloadMutatedGenesTSVActive}
-              isDownload
             >
               JSON
             </FunctionButton>
@@ -467,8 +300,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
               onClick={handleTSVDownload}
               data-testid="button-tsv-mutation-frequency"
               disabled={isFetching}
-              isActive={downloadMutatedGenesTSVActive}
-              isDownload
             >
               TSV
             </FunctionButton>
