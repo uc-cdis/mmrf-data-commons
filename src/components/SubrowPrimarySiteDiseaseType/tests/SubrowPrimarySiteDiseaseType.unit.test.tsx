@@ -2,7 +2,6 @@ import React from "react";
 import SubrowPrimarySiteDiseaseType from "../SubrowPrimarySiteDiseaseType";
 import { Row } from "@tanstack/react-table";
 import { render } from "test-utils";
-import jest from "jest";
 
 jest.mock("react-use", () => ({
   useMeasure: jest.fn(() => [
