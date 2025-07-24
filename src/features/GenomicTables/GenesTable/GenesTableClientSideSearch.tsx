@@ -1,27 +1,26 @@
+import { Gene } from "./types";
 
 export const GenesTableClientSideSearch = (
-  data: object[],
+  data: Gene[],
   searchTerm: string,
 ): object[] => {
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
-  return data.filter((item) => {
+  return data.filter((item:Gene) => {
     return Object.keys(item).some((key) => {
-      // If the value is an object, check its properties
-      if (
-        typeof item[key] === 'object' &&
-        item[key] !== null
-      ) {
-        const processedResults = Object.values(item[key]).some((value) =>
+    const typedKey = key as keyof Gene;
+    // If the value is an object, check its properties
+    if (typeof item[typedKey] === 'object' && item[typedKey] !== null) {
+        const processedResults = Object.values(item[typedKey]).some((value) =>
           String(value).toLowerCase().includes(lowerCaseSearchTerm),
         );
         console.log('exec if statement, returns',processedResults);
 
-        return Object.values(item[key]).some((value) =>
+        return Object.values(item[typedKey]).some((value) =>
           String(value).toLowerCase().includes(lowerCaseSearchTerm),
         );
       }
       // Otherwise, check the value directly
-      return String(item[key])
+      return String(item[typedKey])
         .toLowerCase()
         .includes(lowerCaseSearchTerm);
     });
