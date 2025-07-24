@@ -1,0 +1,307 @@
+{
+  "ssmsTotal": 8867,
+  "cases": 16747,
+  "filteredCases": 959,
+  "ssms": [
+    {
+      "ssm_id": "6aebcc26-eef3-5a80-88cf-2d24dee29812",
+      "score": 65,
+      "id": "U3NtOjZhZWJjYzI2LWVlZjMtNWE4MC04OGNmLTJkMjRkZWUyOTgxMiNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr1:g.114713908T>C",
+      "occurrence": 188,
+      "filteredOccurrences": 65,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6NmFlYmNjMjYtZWVmMy01YTgwLTg4Y2YtMmQyNGRlZTI5ODEyOjY4YzNkMTI3LTYwMjgtNTc2Yi04MWFkLTVkZjRkMGFlMmFkNw==",
+          "transcript": {
+            "aa_change": "Q61R",
+            "annotation": {
+              "polyphen_impact": "benign",
+              "polyphen_score": 0.251,
+              "sift_impact": "tolerated",
+              "sift_score": 0.06,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000213281",
+              "symbol": "NRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "0b48f075-25a9-5edd-977d-83247204658c",
+      "score": 58,
+      "id": "U3NtOjBiNDhmMDc1LTI1YTktNWVkZC05NzdkLTgzMjQ3MjA0NjU4YyNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr12:g.25227341T>G",
+      "occurrence": 88,
+      "filteredOccurrences": 58,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6MGI0OGYwNzUtMjVhOS01ZWRkLTk3N2QtODMyNDcyMDQ2NThjOjYyMDFlNDIxLWUyMWItNWNjZi04Yjc3LWIwOWE3MGVlYTRkNQ==",
+          "transcript": {
+            "aa_change": "Q61H",
+            "annotation": {
+              "polyphen_impact": "benign",
+              "polyphen_score": 0.121,
+              "sift_impact": "deleterious",
+              "sift_score": 0,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000133703",
+              "symbol": "KRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "634532f4-76f3-5f82-b4e3-c76b027a0a18",
+      "score": 45,
+      "id": "U3NtOjYzNDUzMmY0LTc2ZjMtNWY4Mi1iNGUzLWM3NmIwMjdhMGExOCNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr1:g.114713909G>T",
+      "occurrence": 140,
+      "filteredOccurrences": 45,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6NjM0NTMyZjQtNzZmMy01ZjgyLWI0ZTMtYzc2YjAyN2EwYTE4OjIxM2RjZmY3LTYwMmYtNTlmYy04YjA2LWU1ODk4ODljYjNiNQ==",
+          "transcript": {
+            "aa_change": "Q61K",
+            "annotation": {
+              "polyphen_impact": "possibly_damaging",
+              "polyphen_score": 0.709,
+              "sift_impact": "deleterious",
+              "sift_score": 0.01,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000213281",
+              "symbol": "NRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "84aef48f-31e6-52e4-8e05-7d5b9ab15087",
+      "score": 31,
+      "id": "U3NtOjg0YWVmNDhmLTMxZTYtNTJlNC04ZTA1LTdkNWI5YWIxNTA4NyNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr7:g.140753336A>T",
+      "occurrence": 631,
+      "filteredOccurrences": 31,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6ODRhZWY0OGYtMzFlNi01MmU0LThlMDUtN2Q1YjlhYjE1MDg3OmY5YWMwMjg1LWU1N2MtNWZkOC05YzNmLTc1NzE1NTE3OGNhYQ==",
+          "transcript": {
+            "aa_change": "V640E",
+            "annotation": {
+              "polyphen_impact": "probably_damaging",
+              "polyphen_score": 0.955,
+              "sift_impact": "deleterious",
+              "sift_score": 0,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000157764",
+              "symbol": "BRAF"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "edd1ae2c-3ca9-52bd-a124-b09ed304fcc2",
+      "score": 28,
+      "id": "U3NtOmVkZDFhZTJjLTNjYTktNTJiZC1hMTI0LWIwOWVkMzA0ZmNjMiNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr12:g.25245350C>T",
+      "occurrence": 456,
+      "filteredOccurrences": 28,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6ZWRkMWFlMmMtM2NhOS01MmJkLWExMjQtYjA5ZWQzMDRmY2MyOmE5MjNmYTg1LWJkM2ItNTI5OS1iYzczLTFmMTI4YzU1OWUzMQ==",
+          "transcript": {
+            "aa_change": "G12D",
+            "annotation": {
+              "polyphen_impact": "benign",
+              "polyphen_score": 0.303,
+              "sift_impact": "deleterious",
+              "sift_score": 0,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000133703",
+              "symbol": "KRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "fa539267-db47-5b9d-8956-6863c0239acb",
+      "score": 28,
+      "id": "U3NtOmZhNTM5MjY3LWRiNDctNWI5ZC04OTU2LTY4NjNjMDIzOWFjYiNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr12:g.25245347C>T",
+      "occurrence": 225,
+      "filteredOccurrences": 28,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6ZmE1MzkyNjctZGI0Ny01YjlkLTg5NTYtNjg2M2MwMjM5YWNiOmI4NGQ2NmI1LWVjYmEtNWIyNy04Mzc4LWU4OTUyNGUxNjE4Mw==",
+          "transcript": {
+            "aa_change": "G13D",
+            "annotation": {
+              "polyphen_impact": "benign",
+              "polyphen_score": 0.44,
+              "sift_impact": "deleterious",
+              "sift_score": 0.04,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000133703",
+              "symbol": "KRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "244caab3-b15f-5b7c-b5b4-d75c78c2f887",
+      "score": 24,
+      "id": "U3NtOjI0NGNhYWIzLWIxNWYtNWI3Yy1iNWI0LWQ3NWM3OGMyZjg4NyNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr1:g.114716124C>G",
+      "occurrence": 40,
+      "filteredOccurrences": 24,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6MjQ0Y2FhYjMtYjE1Zi01YjdjLWI1YjQtZDc1Yzc4YzJmODg3OjY5MDQ3MzJhLTJlOWEtNTc3OS1iYjA3LWI3MGQxZGY2NWExNQ==",
+          "transcript": {
+            "aa_change": "G13R",
+            "annotation": {
+              "polyphen_impact": "probably_damaging",
+              "polyphen_score": 0.977,
+              "sift_impact": "deleterious",
+              "sift_score": 0,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000213281",
+              "symbol": "NRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "4fb37566-16d1-5697-9732-27c359828bc7",
+      "score": 15,
+      "id": "U3NtOjRmYjM3NTY2LTE2ZDEtNTY5Ny05NzMyLTI3YzM1OTgyOGJjNyNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr12:g.25245350C>A",
+      "occurrence": 320,
+      "filteredOccurrences": 15,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6NGZiMzc1NjYtMTZkMS01Njk3LTk3MzItMjdjMzU5ODI4YmM3OmIyYTc1M2U2LTVmZDItNWQwMC04YTJmLWFmYjE1ZjQ0YTc2Mg==",
+          "transcript": {
+            "aa_change": "G12V",
+            "annotation": {
+              "polyphen_impact": "probably_damaging",
+              "polyphen_score": 0.972,
+              "sift_impact": "deleterious",
+              "sift_score": 0,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000133703",
+              "symbol": "KRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "0a77b70b-ffd3-5140-8bd0-e9d16c5774c3",
+      "score": 11,
+      "id": "U3NtOjBhNzdiNzBiLWZmZDMtNTE0MC04YmQwLWU5ZDE2YzU3NzRjMyNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr12:g.25245351C>G",
+      "occurrence": 100,
+      "filteredOccurrences": 11,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6MGE3N2I3MGItZmZkMy01MTQwLThiZDAtZTlkMTZjNTc3NGMzOjY0ZDg1NGEwLTdmMDgtNTJlMC04Y2FjLTgyMGM4OTRkZGZjZQ==",
+          "transcript": {
+            "aa_change": "G12R",
+            "annotation": {
+              "polyphen_impact": "possibly_damaging",
+              "polyphen_score": 0.497,
+              "sift_impact": "deleterious",
+              "sift_score": 0.03,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000133703",
+              "symbol": "KRAS"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    },
+    {
+      "ssm_id": "2e6ab59b-997a-5740-886d-6191b66964df",
+      "score": 11,
+      "id": "U3NtOjJlNmFiNTliLTk5N2EtNTc0MC04ODZkLTYxOTFiNjY5NjRkZiNmNDk5OTdlNGVjZGFhNDBhODNmZTUwOWVlODRmNjAxMCM=",
+      "mutation_subtype": "Single base substitution",
+      "genomic_dna_change": "chr6:g.394972A>G",
+      "occurrence": 11,
+      "filteredOccurrences": 11,
+      "consequence": [
+        {
+          "id": "U1NNQ29uc2VxdWVuY2U6MmU2YWI1OWItOTk3YS01NzQwLTg4NmQtNjE5MWI2Njk2NGRmOjBjNmY1MTM0LWViMmMtNWUyOC1hZDE3LTYyZjkxMjhjNDYzZA==",
+          "transcript": {
+            "aa_change": "K123R",
+            "annotation": {
+              "polyphen_impact": "probably_damaging",
+              "polyphen_score": 0.978,
+              "sift_impact": "tolerated",
+              "sift_score": 0.05,
+              "vep_impact": "MODERATE"
+            },
+            "consequence_type": "missense_variant",
+            "gene": {
+              "gene_id": "ENSG00000137265",
+              "symbol": "IRF4"
+            },
+            "is_canonical": true
+          }
+        }
+      ]
+    }
+  ]
+}
