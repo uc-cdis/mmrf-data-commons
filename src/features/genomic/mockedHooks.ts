@@ -3,7 +3,6 @@ import { FilterSet } from '@gen3/core';
 import type { Survival } from '@/core/survival';
 import GeneAndSSMFilters from './data/useGeneAndSSMPanel_data.json';
 import GeneFrequencyChartData from './data/useGeneFrequencyChart_data.json';
-import GeneTableSubrowData from './data/useGetGeneTableSubrow_data.json';
 // for some of the MMRF Gene use this one
 // import GenesTableData from './data/useGenesTable_data.json';
 // for all of the MMRF Gene use this one
