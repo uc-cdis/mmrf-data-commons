@@ -368,7 +368,7 @@ export const useGenerateGenesTableColumns = ({
           <Tooltip label="Cancer Gene Census">
             <span>
               {row.original.annotations && (
-                <Image src="/icons/AnnotationsIcon.svg" height={20} width={20} />
+                <Image src="/icons/AnnotationsIcon.svg" height={20} width={20} alt='' />
               )}
             </span>
           </Tooltip>

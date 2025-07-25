@@ -72,7 +72,7 @@ export const GenesPanel = ({
   );
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
         <div className="w-full xl:w-1/2 border border-base-lighter p-4">
           <GeneFrequencyChart
