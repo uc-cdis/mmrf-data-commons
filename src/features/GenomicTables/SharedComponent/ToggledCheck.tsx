@@ -31,8 +31,6 @@ const ToggledCheck: React.FC<ToggleProps> = ({
   const CheckboxIcon: CheckboxProps["icon"] = ({ className }) => {
     return React.cloneElement(icon, { className: className });
   };
-  if(disabled)
-  console.log('disabled',disabled)
   return (
     <Tooltip
       label={`${tooltip}`}
@@ -48,7 +46,6 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         aria-disabled={disabled}
         aria-label={ariaText}
         variant="outline"
-        // color={isActive ? "white" : "black"}
         onChange={() => {
           if (!disabled)
             if (icon && typeof selected === 'object') {

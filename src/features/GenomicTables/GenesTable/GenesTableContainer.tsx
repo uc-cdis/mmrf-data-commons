@@ -87,7 +87,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     "genes.",
   );
 
-
   const generateFilters = useDeepCompareCallback(
     (cnvType: CnvChange, geneId: string) => {
       if (cnvType !== undefined) {
@@ -202,9 +201,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     return originalRow.gene_id;
   };
   const [rowSelection, setRowSelection] = useState({});
-  const selectedGenes = Object.entries(rowSelection)?.map(
+/*   const selectedGenes = Object.entries(rowSelection)?.map(
     ([gene_id]) => gene_id,
-  );
+  ); */
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     genesTableDefaultColumns.map((column:any) => column.id as string), //must start out with populated columnOrder so we can splice
   );
@@ -259,7 +258,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   };
 
   const handleChange = (obj: HandleChangeInput) => {
-    console.log('Object.keys(obj)?.[0]',Object.keys(obj)?.[0])
     switch (Object.keys(obj)?.[0]) {
       case 'newSearch':
         setExpanded({});
@@ -308,14 +306,14 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         tableTotalDetail={
           <TotalItems total={data?.genes?.genes_total} itemName="gene" />
         }
-        pagination={ {
-        page,
-        pages,
-        size,
-        from,
-        total,
-        label: 'project',
-      }}
+        pagination={{
+          page,
+          pages,
+          size,
+          from,
+          total,
+          label: 'project',
+        }}
         showControls={true}
         search={{
           enabled: true,

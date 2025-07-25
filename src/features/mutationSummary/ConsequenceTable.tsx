@@ -245,8 +245,6 @@ export const ConsequenceTable = ({
 
 
   const handleTSVDownload = () => {
-    console.log('consequenceTableDefaultColumns',consequenceTableDefaultColumns)
-    console.log('tableData',tableData)
     const fileName = `consequences-table.${getFormattedTimestamp()}.tsv`;
     downloadTSV({
       tableData,

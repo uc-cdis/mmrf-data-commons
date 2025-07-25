@@ -2,7 +2,6 @@ input.gene-panel-table-row-select + svg.mantine-Checkbox-icon {
  display: none;
 }
 
-
 .gene-panel-table-survival input[data-indeterminate]:not(:disabled) {
   background-color: rgb(245 142 179);
 }
