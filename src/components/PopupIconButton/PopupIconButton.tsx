@@ -33,7 +33,7 @@ export const PopupIconButton = forwardRef<
         aria-label={customAriaLabel ?? `Open ${label} information in modal`}
         leftSection={
           <Image
-            src="/user-flow/icons/OpenModal.svg"
+            src="/icons/OpenModal.svg"
             width={10}
             height={18}
             layout="fixed"
