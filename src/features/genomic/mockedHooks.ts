@@ -76,7 +76,6 @@ const generateSubrowQueryData = () => {
             denominator
         });
     }
-
     return data;
 };
 

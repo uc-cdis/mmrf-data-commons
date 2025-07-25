@@ -1,8 +1,7 @@
-import React from "react";
-import { SurvivalChartIcon } from "@/utils/icons";
-import ToggledCheck from "../../SharedComponent/ToggledCheck";
-import { Survival } from "../types";
-
+import React from 'react';
+import { SurvivalChartIcon } from '@/utils/icons';
+import ToggledCheck from '../../SharedComponent/ToggledCheck';
+import { Survival } from '../types';
 
 const GenesTableSurvival = ({
   SSMSAffectedCasesInCohort,
@@ -31,8 +30,8 @@ const GenesTableSurvival = ({
   const tooltip = disabled
     ? `Not enough data`
     : isActive
-    ? `Remove ${selected.symbol} from plot`
-    : `Plot ${selected.symbol}`;
+      ? `Remove ${selected.symbol} from plot`
+      : `Plot ${selected.symbol}`;
   // NOTE: If button is disabled then tooltips will not show up
   // https://floating-ui.com/docs/react#disabled-elements
   return (
@@ -43,8 +42,10 @@ const GenesTableSurvival = ({
       icon={<SurvivalChartIcon size={24} aria-hidden="true" />}
       selected={survival as unknown as Record<string, string>} // need to fix this
       // handleSwitch={handleSurvivalPlotToggled} DISABLING FOR NOW JULY 2025
-      handleSwitch = {()=>alert('called handleSwitch from GenesTableSurvival component')}
-      survivalProps={{ plot: "gene.symbol" }}
+      handleSwitch={() =>
+        alert('called handleSwitch from GenesTableSurvival component')
+      }
+      survivalProps={{ plot: 'gene.symbol' }}
       tooltip={tooltip}
       disabled={disabled}
     />

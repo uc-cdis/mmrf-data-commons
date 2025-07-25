@@ -1,4 +1,4 @@
-import { FilterSet, Intersection, Operation, Union } from "@gen3/core";
+import { FilterSet, Intersection, Operation, Union } from '@gen3/core';
 
 /**
  * Type guard for Union or Intersection
@@ -8,7 +8,7 @@ import { FilterSet, Intersection, Operation, Union } from "@gen3/core";
 export const isIntersectionOrUnion = (
   o: Operation,
 ): o is Intersection | Union =>
-  (o as Intersection).operator === "and" || (o as Union).operator === "or";
+  (o as Intersection).operator === 'and' || (o as Union).operator === 'or';
 
 /**
  * This function takes a FilterSet object and a prefix string as input.
@@ -26,7 +26,7 @@ export const extractFiltersWithPrefixFromFilterSet = (
   prefix: string,
 ): FilterSet => {
   if (fs === undefined || fs.root === undefined) {
-    return { mode: "and", root: {} } as FilterSet;
+    return { mode: 'and', root: {} } as FilterSet;
   }
   return Object.values(fs.root).reduce(
     (acc, filter: Operation | any) => {
@@ -37,6 +37,6 @@ export const extractFiltersWithPrefixFromFilterSet = (
       }
       return acc;
     },
-    { mode: "and", root: {} } as FilterSet,
+    { mode: 'and', root: {} } as FilterSet,
   );
 };

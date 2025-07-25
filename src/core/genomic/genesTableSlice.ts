@@ -1,6 +1,5 @@
 import { Union } from "@gen3/core";
 
-
 export type CnvChange =
   | "Amplification"
   | "Gain"

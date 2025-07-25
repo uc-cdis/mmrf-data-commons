@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { Center } from '@mantine/core';
@@ -8,17 +8,14 @@ import {
   GEN3_COMMONS_NAME,
 } from '@gen3/core';
 import { GetServerSideProps } from 'next';
-import { NextRouter, useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/dist/client/router';
 import { getAppName } from '../../utils/apps';
 import {
-  NavPageLayout,
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
   ContentSource,
   CohortManager,
 } from '@gen3/frontend';
-import { GeneSummary } from '@/features/GeneSummary/GeneSummary';
-import Footer from '@/components/Navigation/Footer/Footer';
 
 interface AppConfig extends NavPageLayoutProps {
   config?: object;

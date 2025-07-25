@@ -1,23 +1,23 @@
-import { LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay } from '@mantine/core';
 // import { GeneFrequencyChart } from "@/features/charts/GeneFrequencyChart";
-import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
-import React, { useCallback } from "react";
-import { useDeepCompareMemo } from "use-deep-compare";
+import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
+import React, { useCallback } from 'react';
+import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,
   emptySurvivalPlot,
-} from "@/features/genomic/types";
+} from '@/features/genomic/types';
 import {
   useSelectFilterContent,
   // useGeneAndSSMPanelData,
-} from "@/features/genomic/hooks";
-import { useGeneAndSSMPanelData } from "./mockedHooks";
-import dynamic from "next/dynamic";
-import { GeneFrequencyChart } from "../charts/GeneFrequencyChart";
-import { GenesTableContainer } from "../GenomicTables/GenesTable/GenesTableContainer";
+} from '@/features/genomic/hooks';
+import { useGeneAndSSMPanelData } from './mockedHooks';
+import dynamic from 'next/dynamic';
+import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
+import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 
 const SurvivalPlot = dynamic(
-  () => import("../charts/SurvivalPlot/SurvivalPlot"),
+  () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
     ssr: false,
   },
@@ -58,14 +58,14 @@ export const GenesPanel = ({
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
   const cohortFilters = currentCohortFilters;
 
-  const currentGenes = useSelectFilterContent("genes.gene_id");
+  const currentGenes = useSelectFilterContent('genes.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);
   const handleGeneToggled = useCallback(
     (idAndSymbol: Record<string, any>) =>
       handleGeneAndSSmToggled(
         toggledGenes,
-        "genes.gene_id",
-        "geneID",
+        'genes.gene_id',
+        'geneID',
         idAndSymbol,
       ),
     [handleGeneAndSSmToggled, toggledGenes],
@@ -107,15 +107,15 @@ export const GenesPanel = ({
           />
         </div>
       </div>
-        <GenesTableContainer
-            selectedSurvivalPlot={comparativeSurvival}
-            handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-            handleGeneToggled={handleGeneToggled}
-            toggledGenes={toggledGenes}
-            genomicFilters={genomicFilters}
-            cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
-            isDemoMode={isDemoMode}
-            handleMutationCountClick={handleMutationCountClick}
+      <GenesTableContainer
+        selectedSurvivalPlot={comparativeSurvival}
+        handleSurvivalPlotToggled={handleSurvivalPlotToggled}
+        handleGeneToggled={handleGeneToggled}
+        toggledGenes={toggledGenes}
+        genomicFilters={genomicFilters}
+        cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
+        isDemoMode={isDemoMode}
+        handleMutationCountClick={handleMutationCountClick}
       />
     </div>
   );

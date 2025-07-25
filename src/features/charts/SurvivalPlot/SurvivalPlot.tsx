@@ -117,7 +117,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   }
 
   const plotDataTextVersionJSON = plotData.map((group, index) => {
-    const caseIdentifier = index === 0 ? "S1" : "S2"; // Determine case based on index
+    const caseIdentifier = index === 0 ? "S1" : "S2";
     return group.donors.map(donor => ({
       case: caseIdentifier,
       time: donor.time,

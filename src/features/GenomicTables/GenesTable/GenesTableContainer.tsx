@@ -1,35 +1,35 @@
-import React from "react";
-import {
-  FilterSet,
-} from "@/core";
-import { useGeneTable } from "../../genomic/mockedHooks";
-import { useContext, useEffect, useState } from "react";
-import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
-import FunctionButton from "@/components/FunctionButton";
-import { joinFilters, statusBooleansToDataStatus } from "src/utils";
-import { SummaryModalContext } from "@/utils/contexts";
-import VerticalTable from "@/components/Table/VerticalTable";
+import React from 'react';
+import { FilterSet } from '@/core';
+import { useGeneTable } from '../../genomic/mockedHooks';
+import { useContext, useEffect, useState } from 'react';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
+import FunctionButton from '@/components/FunctionButton';
+import { joinFilters, statusBooleansToDataStatus } from 'src/utils';
+import { SummaryModalContext } from '@/utils/contexts';
+import VerticalTable from '@/components/Table/VerticalTable';
 import {
   ColumnOrderState,
   ExpandedState,
   Row,
   VisibilityState,
-} from "@tanstack/react-table";
-import { HandleChangeInput } from "@/components/Table/types";
+} from '@tanstack/react-table';
+import { HandleChangeInput } from '@/components/Table/types';
 import { Gene, GeneToggledHandler } from './types';
-import GenesTableSubcomponent from "./GenesTableSubcomponent";
-import { getFormattedTimestamp } from "@/utils/date";
-import { ComparativeSurvival } from "@/features/genomic/types";
-import { appendSearchTermFilters } from "../utils";
-import TotalItems from "@/components/Table/TotalItem";
-import { buildGeneTableSearchFilters, CnvChange } from "@/core/genomic/genesTableSlice";
-import { getGene, useGenerateGenesTableColumns } from "./utils";
-import { extractFiltersWithPrefixFromFilterSet } from "@/features/cohort/Utils";
-import { downloadTSV } from "@/components/Table/utils";
+import GenesTableSubcomponent from './GenesTableSubcomponent';
+import { getFormattedTimestamp } from '@/utils/date';
+import { ComparativeSurvival } from '@/features/genomic/types';
+import { appendSearchTermFilters } from '../utils';
+import TotalItems from '@/components/Table/TotalItem';
+import {
+  buildGeneTableSearchFilters,
+  CnvChange,
+} from '@/core/genomic/genesTableSlice';
+import { getGene, useGenerateGenesTableColumns } from './utils';
+import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/Utils';
+import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
-import useStandardPagination from "@/hooks/useStandardPagination";
-import { GenesTableClientSideSearch } from "./GenesTableClientSideSearch";
-
+import useStandardPagination from '@/hooks/useStandardPagination';
+import { GenesTableClientSideSearch } from './GenesTableClientSideSearch';
 
 export interface GTableContainerProps {
   readonly selectedSurvivalPlot: ComparativeSurvival;
@@ -56,13 +56,12 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   isDemoMode = false,
   handleMutationCountClick,
 }: GTableContainerProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState('');
 
   // const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
- const searchFilters = buildGeneTableSearchFilters(searchTerm);
+  const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
   const genesTableFilters = appendSearchTermFilters(
     genomicFilters as any,
@@ -70,21 +69,20 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   );
 
   // GeneTable call
-  const { data, isSuccess, isFetching, isError } =
-    useGeneTable({
-      pageSize: 0,
-      offset: 0,
-      searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-      genomicFilters: genomicFilters,
-      cohortFilters: cohortFilters,
-      genesTableFilters,
-    });
+  const { data, isSuccess, isFetching, isError } = useGeneTable({
+    pageSize: 0,
+    offset: 0,
+    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+    genomicFilters: genomicFilters,
+    cohortFilters: cohortFilters,
+    genesTableFilters,
+  });
   // GeneTable call end
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
     genomicFilters as any,
-    "genes.",
+    'genes.',
   );
 
   const generateFilters = useDeepCompareCallback(
@@ -92,16 +90,16 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       if (cnvType !== undefined) {
         // only genes filters
         return joinFilters(genesOnlyFilters, {
-          mode: "and",
+          mode: 'and',
           root: {
-            "genes.cnv.cnv_change": {
-              field: "genes.cnv.cnv_change_5_category",
-              operator: "=",
+            'genes.cnv.cnv_change': {
+              field: 'genes.cnv.cnv_change_5_category',
+              operator: '=',
               operand: cnvType,
             },
-            "genes.gene_id": {
-              field: "genes.gene_id",
-              operator: "=",
+            'genes.gene_id': {
+              field: 'genes.gene_id',
+              operator: '=',
               operand: geneId,
             },
           },
@@ -109,18 +107,18 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       } else {
         // any other type will use all filters
         return joinFilters(genomicFilters as any, {
-          mode: "and",
+          mode: 'and',
           root: {
-            "ssms.ssm_id": {
-              field: "ssms.ssm_id",
+            'ssms.ssm_id': {
+              field: 'ssms.ssm_id',
               // operator: "exists",
               // TODO: Code added just to get application to compile July 24
               operator: 'in',
               operands: ['add'],
             },
-            "genes.gene_id": {
-              field: "genes.gene_id",
-              operator: "includes",
+            'genes.gene_id': {
+              field: 'genes.gene_id',
+              operator: 'includes',
               operands: [geneId],
             },
           },
@@ -157,7 +155,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     );
   }, [data?.genes, selectedSurvivalPlot]);
 
-
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
     handleGeneToggled,
@@ -171,7 +168,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     currentPage: 0,
     totalPages: Math.ceil(data?.genes?.genes_total / 1),
   });
-
 
   const {
     handlePageChange,
@@ -187,35 +183,35 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
     [] as any[],
   );
-    useEffect(() => {
-      if (searchTerm.length > 0) {
-        setDisplayedDataAfterSearch(
-          GenesTableClientSideSearch(displayedData, searchTerm),
-        );
-      } else {
-        setDisplayedDataAfterSearch(displayedData);
-      }
-    }, [searchTerm, displayedData]);
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      setDisplayedDataAfterSearch(
+        GenesTableClientSideSearch(displayedData, searchTerm),
+      );
+    } else {
+      setDisplayedDataAfterSearch(displayedData);
+    }
+  }, [searchTerm, displayedData]);
 
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
   };
   const [rowSelection, setRowSelection] = useState({});
-/*   const selectedGenes = Object.entries(rowSelection)?.map(
+  /*   const selectedGenes = Object.entries(rowSelection)?.map(
     ([gene_id]) => gene_id,
   ); */
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
-    genesTableDefaultColumns.map((column:any) => column.id as string), //must start out with populated columnOrder so we can splice
+    genesTableDefaultColumns.map((column: any) => column.id as string), //must start out with populated columnOrder so we can splice
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     gene_id: false,
     cytoband: false,
     type: false,
-    "#_cnv_gains": false,
-    "#_cnv_heterozygous_deletions": false,
+    '#_cnv_gains': false,
+    '#_cnv_heterozygous_deletions': false,
   });
 
-/*   const setFilters =
+  /*   const setFilters =
     selectedGenes.length > 0
       ? ({
           root: {
@@ -229,10 +225,15 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         } as FilterSet)
       : genesTableFilters; */
 
-
   const handleTSVDownload = () => {
     const fileName = `genes-table.${getFormattedTimestamp()}.tsv`;
-    downloadTSV({tableData:formattedTableData, columns: genesTableDefaultColumns, columnOrder, columnVisibility, fileName});
+    downloadTSV({
+      tableData: formattedTableData,
+      columns: genesTableDefaultColumns,
+      columnOrder,
+      columnVisibility,
+      fileName,
+    });
   };
   const handleJSONDownload = () => {
     const fileName = `genes-table.${getFormattedTimestamp()}.json`;
@@ -240,9 +241,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
       type: 'application/json',
     });
     saveAs(blob, fileName);
-   };
-
-
+  };
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [rowId, setRowId] = useState(null);
@@ -250,7 +249,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     if (Object.keys(expanded).length > 0 && row.original.gene_id === rowId) {
       setExpanded({});
     } else if (
-      row.original["#_ssm_affected_cases_across_the_gdc"].numerator !== 0
+      row.original['#_ssm_affected_cases_across_the_gdc'].numerator !== 0
     ) {
       setExpanded({ [row.original.gene_id]: true });
       setRowId(row.original.gene_id as any);
@@ -263,7 +262,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         setExpanded({});
         setSearchTerm(obj.newSearch as string);
         handlePageChange(1);
-      break;
+        break;
       case 'newPageSize':
         handlePageSizeChange(obj.newPageSize as string);
         break;
@@ -277,7 +276,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const operationCohortFilters = filterSetToOperation(cohortFilters);
   const operationSetFilters = filterSetToOperation(setFilters as any);
   */
-
 
   return (
     <>
@@ -318,7 +316,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         search={{
           enabled: true,
           defaultSearchTerm: searchTerm,
-          tooltip: "e.g. TP53, ENSG00000141510, 17p13.1, tumor protein p53",
+          tooltip: 'e.g. TP53, ENSG00000141510, 17p13.1, tumor protein p53',
         }}
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
         handleChange={handleChange}
@@ -326,7 +324,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
         getRowCanExpand={() => true}
-        expandableColumnIds={["#_ssm_affected_cases_across_the_gdc"]}
+        expandableColumnIds={['#_ssm_affected_cases_across_the_gdc']}
         renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
