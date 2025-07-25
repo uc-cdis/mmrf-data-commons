@@ -1,7 +1,8 @@
 import { omitBy, some, capitalize, isNumber, flatten } from "lodash";
 import {
   FilterSet,
-  isObject
+  isObject,
+  AggregationsData,
 } from "@gen3/core";
 import { Buckets, Bucket, Stats } from "@/core/features/api/types";
 import { NumericFromTo, DAYS_IN_YEAR} from "@gen3/frontend";
@@ -20,6 +21,7 @@ import {
   CategoricalBins,
   ContinuousCustomBinnedData, CustomBinData, isCategoricalBins,
 } from './types';
+import { aggregationFns } from '@tanstack/table-core';
 
 export const filterUsefulFacets = (
   facets: Record<string, Buckets | Stats>,
@@ -34,6 +36,21 @@ export const filterUsefulFacets = (
     ]),
   );
 };
+
+export const combineAnalysisResults = (aggregations: AggregationsData) => {
+  return  Object.entries(aggregations).reduce((acc : Record<string, Buckets>, [field, data]) => {
+    const convertedData = data.reduce((results: Array<Bucket>, x ) => {
+      if (typeof x.key === 'string')
+        results.push({ key: x.key.toString(), count: x.count});
+      return results;
+    }, [])
+
+      acc[field]  = { buckets: convertedData }
+
+    return acc;
+
+  }, {});
+}
 
 export const createBuckets = (
   min: number,

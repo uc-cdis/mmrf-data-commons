@@ -3,7 +3,11 @@ import { LoadingOverlay } from "@mantine/core";
 import {
   useCoreSelector,
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
+  useGetAggsNoFilterSelfQuery,
+  useGetAggsQuery, Accessibility
 } from "@gen3/core";
+
+const CASE_INDEX = "case";
 
 // import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
 import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery} from './mockedHooks';
@@ -11,7 +15,7 @@ import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import Controls from "./Controls";
 import Dashboard from "./Dashboard";
 import { DEFAULT_FIELDS, DEMO_COHORT_FILTERS, FACET_SORT } from "./constants";
-import { filterUsefulFacets, parseFieldName } from "./utils";
+import { combineAnalysisResults, filterUsefulFacets, parseFieldName } from './utils';
 import { DemoText } from "@/components/tailwindComponents";
 import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
 import { selectCurrentCohortCaseFilters } from '@/core/utils';
@@ -19,6 +23,9 @@ import { selectCurrentCohortCaseFilters } from '@/core/utils';
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
   const [controlsExpanded, setControlsExpanded] = useState(true);
+  const [accessLevel, setAccessLevel] = useState<Accessibility>(
+    Accessibility.ALL,
+  );
   const [activeFields, setActiveFields] = useState(DEFAULT_FIELDS); // the fields that have been selected by the user
 
   const { data: fields } = useClinicalFieldsQuery();
@@ -52,14 +59,18 @@ const ClinicalDataAnalysis: React.FC = () => {
   );
 
   const {
-    data: cDaveResult,
-    isFetching,
+    data : cDaveResult,
     isSuccess,
-  } = useGetClinicalAnalysisQuery({
-    case_filters: cohortFilters,
-    facets,
-    size: 0,
+    isFetching,
+    isError,
+  } = useGetAggsQuery({
+    type: CASE_INDEX,
+    fields: facets,
+    filters:  isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
+    accessibility: accessLevel,
   });
+
+  const convertedData = useDeepCompareMemo(() => combineAnalysisResults(cDaveResult ?? {}), [cDaveResult]);
 
   const updateFields = useDeepCompareCallback(
     (field: string) => {
@@ -93,7 +104,7 @@ const ClinicalDataAnalysis: React.FC = () => {
         <Controls
           updateFields={updateFields}
           cDaveFields={cDaveFields}
-          fieldsWithData={filterUsefulFacets(cDaveResult ?? {})}
+          fieldsWithData={filterUsefulFacets(convertedData)}
           activeFields={activeFields}
           controlsExpanded={controlsExpanded}
           setControlsExpanded={setControlsExpanded}
@@ -102,7 +113,7 @@ const ClinicalDataAnalysis: React.FC = () => {
           <Dashboard
             activeFields={activeFields}
             cohortFilters={cohortFilters}
-            results={cDaveResult}
+            results={convertedData}
             updateFields={updateFields}
           />
         )}
