@@ -55,23 +55,16 @@ export const convertRangeToGql = <T = string>(range: Range<T>): string => {
 
 export const convertNumericFromToArrayToGQLFilters = (
   field: string,
-  ranges: Array<NumericFromTo>,
-): Operation => {
-  const root = ranges.map((range) => {
-    const { from, to } = range;
-    return {
-      operator: 'and',
-      operands: [
-        { operator: '>=', field, operand: from },
-        { operator: '<', field, operand: to },
-      ],
-    } satisfies Intersection;
-  });
-
+  range: NumericFromTo,
+): Intersection => {
+  const { from, to } = range;
   return {
-    operator: 'or',
-    operands: root,
-  } satisfies Union;
+    operator: 'and',
+    operands: [
+      { operator: '>=', field, operand: from },
+      { operator: '<', field, operand: to },
+    ],
+  } satisfies Intersection;
 };
 
 export const rawDataQueryStrForEachField = (field: string): string => {
@@ -81,9 +74,8 @@ export const rawDataQueryStrForEachField = (field: string): string => {
   if (splitFieldArray.length === 0) {
     middleQuery = `${splitField} { _totalCount }`;
   } else {
-    middleQuery = `${splitField} { ${rawDataQueryStrForEachField(splitFieldArray.join('.'))} _totalCount }`;
+    middleQuery = `${splitField} { ${rawDataQueryStrForEachField(splitFieldArray.join('.'))} }`;
   }
-
   return middleQuery;
 };
 
@@ -93,16 +85,13 @@ interface NamedFilterRawDataParams
   rangeName: string;
 }
 
-export const buildNestedCountsQuery = ({
+export const buildAliasedNestedCountsQuery = ({
   type,
   field,
   filters,
   rangeName,
   sort,
-  offset = 0,
-  size = 20,
   accessibility = Accessibility.ALL,
-  format = undefined,
 }: NamedFilterRawDataParams) => {
   const params = [
     ...(accessibility ? ['$accessibility: Accessibility'] : []),
@@ -118,4 +107,23 @@ export const buildNestedCountsQuery = ({
   const query = `${queryLine} ${dataTypeLine} ${processedFields} } } }`;
 
   return query;
+};
+
+export const buildRangeFilters = (
+  field: string,
+  rangeBaseName: string,
+  ranges: Array<NumericFromTo>,
+) => {
+  const filters = Object.entries(ranges).reduce(
+    (acc: Record<string, any>, [rangeKey, rangeValue], idx) => {
+      acc[`${rangeBaseName}_${idx}`] = convertNumericFromToArrayToGQLFilters(
+        field,
+        rangeValue,
+      );
+      return acc;
+    },
+    {},
+  );
+
+  return filters;
 };

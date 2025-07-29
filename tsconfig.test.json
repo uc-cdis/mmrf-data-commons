@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "preset": "ts-jest",
-  "isolatedModules": "true",
+  "isolatedModules": true,
   "testEnvironment": "node",
   "compilerOptions": {
     "jsx": "react-jsx",
