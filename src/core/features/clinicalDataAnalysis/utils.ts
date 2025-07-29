@@ -127,3 +127,29 @@ export const buildRangeFilters = (
 
   return filters;
 };
+
+export const buildRangeQuery = (
+  field: string, rangeBaseName: string, ranges: Array<NumericFromTo>,
+) => {
+  const rangeFilters = buildRangeFilters(field, rangeBaseName, ranges);
+
+  let query = '';
+  Object.keys(rangeFilters).forEach((rangeKey) => {
+    const rangeQuery = buildAliasedNestedCountsQuery({
+      type: 'case',
+      field,
+      filters: {
+        mode: 'and',
+        root: rangeFilters,
+      },
+      rangeName: rangeKey,
+      accessibility: Accessibility.ALL,
+    });
+    query += rangeQuery + ' \n';
+  });
+
+  return ({
+    query: query,
+    variables: rangeFilters
+    });
+}
