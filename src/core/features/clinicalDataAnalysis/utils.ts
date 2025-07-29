@@ -100,7 +100,7 @@ export const buildAliasedNestedCountsQuery = ({
   ].join(',');
   const gqlFilter = convertFilterSetToGqlFilter(filters);
   const queryLine = `query rangeQuery_${rangeName} (${params}) {`;
-  const dataParams = [...(gqlFilter ? ['filter: $filter'] : [])].join(',');
+  const dataParams = [...(gqlFilter ? [`filter: $${rangeName}`] : [])].join(',');
   const dataTypeLine = `_aggregation { ${rangeName} : ${type} (accessibility: $accessibility ${dataParams}) {`;
   const processedFields = rawDataQueryStrForEachField(field);
 

@@ -27,14 +27,14 @@ describe('build range queryies', () => {
   it('should build a query with all parameters', () => {
     const params = createParams('data_type');
     const result = buildAliasedNestedCountsQuery(params);
-    expect(result).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $filter) { data_type { _totalCount } } } }');
+    expect(result).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $range_0) { data_type { _totalCount } } } }');
   });
 
   it('should build a query with nested values with all parameters', () => {
     const params = createParams('demographic.race');
 
     const result = buildAliasedNestedCountsQuery(params);
-    expect(result).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $filter) { demographic { race { _totalCount } } } } }');
+    expect(result).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $range_0) { demographic { race { _totalCount } } } } }');
   });
 });
 
@@ -96,7 +96,10 @@ describe('build range queryies', () => {
       }
     ];
     const results = buildRangeQuery('demographic.race', "range", ranges)
-    expect(results.query).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $filter) { demographic { race { _totalCount } } } } }');
+
+    console.log(results)
+
+    expect(results.query).toContain('query rangeQuery_range_0 ($accessibility: Accessibility,$filter: JSON) { _aggregation { range_0 : case (accessibility: $accessibility filter: $range_0) { demographic { race { _totalCount } } } } }');
     expect(results.variables).toEqual({
       "range_0": {
         "operands": [
