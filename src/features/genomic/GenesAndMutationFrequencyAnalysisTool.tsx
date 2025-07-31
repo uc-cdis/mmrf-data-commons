@@ -14,6 +14,7 @@ import { ComparativeSurvival, AppModeState } from "./types";
 import { TableXPositionContext } from "@/components/Table/VerticalTable";
 import { SecondaryTabStyle } from "./constants";
 import { GenesPanel } from "./GenesPanel";
+import { SSMSPanel } from "./SSMSPanel";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -189,7 +190,14 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               />
             </Tabs.Panel>
             <Tabs.Panel value="ssms" pt="xs">
-              <h3>SSMSPanel placeholder</h3>
+              <SSMSPanel
+                topGeneSSMSSuccess={true}
+                comparativeSurvival={comparativeSurvival as ComparativeSurvival}
+                handleSurvivalPlotToggled={handleSurvivalPlotToggled}
+                handleGeneAndSSmToggled={handleGeneAndSSmToggled}
+                searchTermsForGene={searchTermsForGeneId}
+                clearSearchTermsForGene={clearSearchTermsForGene}
+              />
             </Tabs.Panel>
           </Tabs>
         </div>
