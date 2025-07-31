@@ -59,12 +59,12 @@
           "type": "application",
           "hasDemo": false,
           "loginRequired": false,
-          "description": "Display the survival analysis of your cohorts and compare characteristics such as gender, vital status and age at diagnosis.",
+          "description": "Use clinical variables to perform basic statistical analysis of your cohort.",
           "icon": "/icons/apps/ClinicalData.svg",
           "href": "/?app=cDave",
           "count": 1000,
           "appId" : "cDave",
-          "countUnits": "Case"
+          "countUnits": "Cases"
         },
         {
           "title": "Cohort Comparison",
@@ -76,7 +76,7 @@
           "href": "/?app=CohortComparison",
           "count": 1000,
           "appId" : "CohortComparison",
-          "countUnits": "Case"
+          "countUnits": "Cases"
         },
         {
           "title": "ProteinPaint",
