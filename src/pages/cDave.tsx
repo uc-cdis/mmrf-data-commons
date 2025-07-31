@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic'
 import {
   NavPageLayoutProps, CohortManager,
-  getNavPageLayoutPropsFromConfig,
+  getNavPageLayoutPropsFromConfig, QueryExpression,
 } from '@gen3/frontend';
 
 import PageTitle from '@/components/PageTitle';
@@ -26,6 +26,7 @@ const ClinicalDataAnalysisPage = () => {
       <div className="w-full flex-col flex gap-4 fixed z-50 bg-white">
         <MainNavigation />
         <CohortManager />
+        <QueryExpression index="cases"/>
       </div>
       <div className="flex">
         <div className="w-full mt-72 mr-4">
