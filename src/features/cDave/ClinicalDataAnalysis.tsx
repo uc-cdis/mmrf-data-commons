@@ -43,7 +43,7 @@ const ClinicalDataAnalysis: React.FC = () => {
   );
 
   const currentCohortFilters = useCoreSelector((state) =>
-    selectCurrentCohortCaseFilters(state),
+    selectCurrentCohortCaseFilters(state, 'case'),
   );
 
   const cohortFilters = useDeepCompareMemo(
@@ -63,7 +63,7 @@ const ClinicalDataAnalysis: React.FC = () => {
     isSuccess,
     isFetching,
     isError,
-  } = useGetAggsQuery({
+  } = useGetAggsNoFilterSelfQuery({
     type: CASE_INDEX,
     fields: facets,
     filters:  isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
@@ -100,16 +100,7 @@ const ClinicalDataAnalysis: React.FC = () => {
     )
   }
 
-  return isFetching ? (
-    <div className="flex relative justify-center items-center h-screen/2">
-      <LoadingOverlay
-        loaderProps={{ size: "xl", color: "primary" }}
-        visible={isFetching}
-        data-testid="please_wait_spinner"
-        zIndex={0}
-      />
-    </div>
-  ) : (
+   return (
     <>
       {isDemoMode && (
         <DemoText>
@@ -118,6 +109,12 @@ const ClinicalDataAnalysis: React.FC = () => {
       )}
 
       <div className="flex gap-4 pt-4 pb-16 px-4 w-full">
+        <LoadingOverlay
+          loaderProps={{ size: "xl", color: "primary" }}
+          visible={isFetching}
+          data-testid="please_wait_spinner"
+          zIndex={0}
+        />
         <Controls
           updateFields={updateFields}
           cDaveFields={cDaveFields}

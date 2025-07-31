@@ -95,7 +95,7 @@
     "darkest": "#111111",
     "min": "#111111"
   },
-  "accentWarm": {
+  "accent-warm": {
     "max": "#fda78b",
     "lightest": "#fda88c",
     "lighter": "#fca88d",
@@ -107,7 +107,21 @@
     "darkest": "#fda88c",
     "min": "#fda78b"
   },
-  "accentWarm-contrast": {
+
+  "accent-cool": {
+    "max": "#1f313c",
+    "lightest": "#1f313c",
+    "lighter": "#1f313c",
+    "light": "#1f313c",
+    "DEFAULT": "#1f313c",
+    "vivid": "#1f313c",
+    "dark": "#1f313c",
+    "darker": "#1f313c",
+    "darkest": "#1f313c",
+    "min": "#1f313c"
+  },
+
+  "accent-warm-contrast": {
     "max": "#111111",
     "lightest": "#111111",
     "lighter": "#111111",
@@ -119,17 +133,17 @@
     "darkest": "#111111",
     "min": "#111111"
   },
-  "accentCool-contrast": {
-    "max": "#111111",
-    "lightest": "#111111",
-    "lighter": "#111111",
-    "light": "#111111",
-    "DEFAULT": "#111111",
-    "vivid": "#111111",
-    "dark": "#111111",
-    "darker": "#111111",
-    "darkest": "#111111",
-    "min": "#111111"
+  "accent-cool-contrast": {
+    "max": "#FFFFFF",
+    "lightest": "#FFFFFF",
+    "lighter": "#FFFFFF",
+    "light": "#FFFFFF",
+    "DEFAULT": "#FFFFFF",
+    "vivid": "#FFFFFF",
+    "dark": "#FFFFFF",
+    "darker": "#FFFFFF",
+    "darkest": "#FFFFFF",
+    "min": "#FFFFFF"
   },
   "utility": {
     "link": "#155276",

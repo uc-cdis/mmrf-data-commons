@@ -35,7 +35,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <MainNavigation />
       <div className="flex flex-col ml-2">
         <CohortManager/>
-        <QueryExpression index="cases"/>
+        <QueryExpression index="case"/>
 
 
       {appInfo ?

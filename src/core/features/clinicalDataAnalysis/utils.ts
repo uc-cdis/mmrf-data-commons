@@ -4,6 +4,7 @@ import {
   Intersection,
   Accessibility,
   RawDataAndTotalCountsParams,
+  Operation,
   convertFilterSetToGqlFilter,
 } from '@gen3/core';
 
@@ -149,6 +150,6 @@ export const buildRangeQuery = (
 
   return ({
     query: query,
-    variables: rangeFilters
+    variables: rangeFilters as Operation
     });
 }

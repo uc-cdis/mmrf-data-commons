@@ -1,14 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
-import { GQLFilter as GqlOperation } from '@gen3/core';
-import { useRangeFacet } from '../../facets/hooks';
+import { GQLFilter as GqlOperation, useGeneralGQLQuery, convertFilterToGqlFilter } from '@gen3/core';
 import CDaveHistogram from './CDaveHistogram';
 import CDaveTable from './CDaveTable';
 import ClinicalSurvivalPlot from './ClinicalSurvivalPlot';
 import CardControls from './CardControls';
 import { isArray } from 'lodash';
 import { Statistics } from '@/core/features/api/types';
-import { useGetContinuousDataStatsQuery } from '@/core/features/clinicalDataAnalysis';
 import {
   CustomInterval,
   NamedFromTo,
@@ -143,30 +141,40 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
     [customBinnedData, initialData],
   );
 
-  const query = useMemo(() => {
+  const rangeQuery = useMemo(() => {
     return buildRangeQuery(field, ranges)
   }, [field, ranges])
 
+  console.log(rangeQuery)
+  const {
+    data: rangeData, isFetching, isSuccess
+  } = useGeneralGQLQuery(
+    {query: rangeQuery.query, variables: convertFilterToGqlFilter(rangeQuery.variables) as unknown as Record<string, unknown>},
+  )
 
-  const { data: statsData } = useGetContinuousDataStatsQuery({
-    field: field.replaceAll('.', '__'),
-    queryFilters: cohortFilters,
-    rangeFilters: {
-      range: {
-        [field]: ranges as any, // TODO:fix this typing
-      },
-    },
-  });
+  console.log("rangeData", rangeData)
+
+  // const { data: statsData } = useGetContinuousDataStatsQuery({
+  //   field: field.replaceAll('.', '__'),
+  //   queryFilters: cohortFilters,
+  //   rangeFilters: {
+  //     range: {
+  //       [field]: ranges as any, // TODO:fix this typing
+  //     },
+  //   },
+  // });
+
+  const statsData = null; // TODO: enable stats data
 
   const displayedData = useDeepCompareMemo(
     () =>
       processContinuousResultData(
-        isSuccess ? data : {},
+        isSuccess ? rangeData as unknown as Record<string, number> : {},
         customBinnedData,
         field,
         dataDimension,
       ),
-    [isSuccess, data, customBinnedData, field, dataDimension],
+    [isSuccess, rangeData, customBinnedData, field, dataDimension],
   );
 
   useDeepCompareEffect(() => {

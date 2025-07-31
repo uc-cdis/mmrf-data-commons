@@ -60,7 +60,11 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       : DATA_DIMENSIONS?.[field]?.unit ?? "Unset"),
   );
 
+  console.log("facet: ", facet)
+
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
+
+  console.log("continuous: ", continuous)
   let noData = true; // start off assuming no data
 
   if (data) { // check if we have enough data to display
