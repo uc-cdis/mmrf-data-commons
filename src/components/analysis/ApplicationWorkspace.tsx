@@ -7,13 +7,11 @@ import {
   SelectionScreenContext,
 } from "./context";
 import { AppRegistrationEntry } from "./types";
+import { AnalysisToolConfiguration } from '@gen3/frontend';
 
 interface AnalysisWorkspaceProps {
-  readonly app: string | undefined;
-  readonly registeredApps: AppRegistrationEntry[];
-  readonly recommendedApps: string[];
-  readonly CountHookRegistry: any;
-  readonly handleAppSelected: (app?: string, demoMode?: boolean) => void;
+  readonly appInfo: AnalysisToolConfiguration;
+  readonly handleAppSelected: (app: string, demoMode?: boolean) => void;
   readonly isDemoMode: boolean;
   readonly skipSelectionScreen: boolean;
   readonly ActiveAnalysisTool: React.ComponentType<{ appId: string }>;
@@ -22,7 +20,6 @@ interface AnalysisWorkspaceProps {
 /**
  * Component to handle the navigation and selecting of apps from the Analysis Tools grid. Routing
  * should be handled by the application.
- * @param app - appId of the current app
  * @param registeredApps - list of available apps
  * @param recommendedApps - apps to display more prominently in the Core Tools section
  * @param CountHookRegistry - collection of hooks used for fetching count data
@@ -32,18 +29,15 @@ interface AnalysisWorkspaceProps {
  * @param ActiveAnalysisTool - component wrapper to handle displaying the active analysis tool
  */
 
-const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
-  app,
-  registeredApps,
-  recommendedApps,
-  CountHookRegistry,
-  handleAppSelected,
+const ApplicationWorkspace: React.FC<AnalysisWorkspaceProps> = ({
+  appInfo,
+                                                               handleAppSelected,
   isDemoMode,
   skipSelectionScreen,
   ActiveAnalysisTool,
 }: AnalysisWorkspaceProps) => {
+  const { appId: app} = appInfo;
   const [cohortSelectionOpen, setCohortSelectionOpen] = useState(false);
-  const appInfo = registeredApps.find((a) => a.id === app);
 
   useEffect(() => {
     setCohortSelectionOpen(
@@ -57,41 +51,36 @@ const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
     return undefined;
   }
 
-  return (
-    <div>
-      {app && (
-        <SelectionScreenContext.Provider
-          value={{
-            selectionScreenOpen: cohortSelectionOpen,
-            setSelectionScreenOpen: setCohortSelectionOpen,
-            app,
-            setActiveApp: handleAppSelected,
-          }}
-        >
-          <DashboardDownloadContext.Provider
-            value={{ state: chartDownloadState, dispatch }}
+  if (app ) {
+    return (
+      <div>
+          <SelectionScreenContext.Provider
+            value={{
+              selectionScreenOpen: cohortSelectionOpen,
+              setSelectionScreenOpen: setCohortSelectionOpen,
+              app,
+              setActiveApp: handleAppSelected,
+            }}
           >
-            <AnalysisBreadcrumbs
-              onDemoApp={isDemoMode}
-              skipSelectionScreen={skipSelectionScreen}
-              rightComponent={
-                appInfo?.rightComponent && <appInfo.rightComponent />
-              }
-              registeredApps={registeredApps}
-            />
-            <ActiveAnalysisTool appId={app} />
-          </DashboardDownloadContext.Provider>
-        </SelectionScreenContext.Provider>
-      )}
-      {!app && (
-        <AnalysisGrid
-          CountHookRegistry={CountHookRegistry}
-          registeredApps={registeredApps}
-          recommendedApps={recommendedApps}
-        />
-      )}
-    </div>
-  );
+            <DashboardDownloadContext.Provider
+              value={{ state: chartDownloadState, dispatch }}
+            >
+              <AnalysisBreadcrumbs
+                onDemoApp={isDemoMode}
+                skipSelectionScreen={skipSelectionScreen}
+                rightComponent={
+                  appInfo?.rightComponent && <appInfo.rightComponent />
+                }
+                appInfo={appInfo}
+              />
+              <ActiveAnalysisTool appId={app} />
+            </DashboardDownloadContext.Provider>
+          </SelectionScreenContext.Provider>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
-export default AnalysisWorkspace;
+export default ApplicationWorkspace;
