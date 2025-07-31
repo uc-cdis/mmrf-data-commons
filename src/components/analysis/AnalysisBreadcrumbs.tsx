@@ -19,7 +19,7 @@ const AnalysisBreadcrumbs: React.FC<AnalysisBreadcrumbsProps> = ({
   onDemoApp,
   skipSelectionScreen,
 }: AnalysisBreadcrumbsProps) => {
-  const { selectionScreenOpen, setSelectionScreenOpen, app, setActiveApp } =
+  const { selectionScreenOpen, setSelectionScreenOpen, setActiveApp } =
     useContext(SelectionScreenContext);
 
   const displayAdditionalSteps =

@@ -2,10 +2,8 @@ import React, { useMemo} from 'react';
 import { useRouter } from "next/router";
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-import { Center } from '@mantine/core';
 import {
   AnalysisPageLayoutProps,
-  ErrorCard,
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
   CohortManager, QueryExpression,
@@ -30,13 +28,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     }
     return []
   }, []);
-
-  console.log(REGISTERED_APPS);
-  console.log(app);
-
   const appInfo = app ? REGISTERED_APPS.find((a : AnalysisToolConfiguration) =>a?.appId === app) : undefined;
-
-  console.log("appInfo",appInfo);
   return (
     <>
       <PageTitle pageName="Analysis Center" />

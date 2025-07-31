@@ -26,7 +26,7 @@ const AnalysisWorkspace: React.FC<AnalysisWorkspaceProps> = ({
     router?.query?.skipSelectionScreen === "true" || isDemoMode;
 
   const handleAppSelected = (app: string | undefined, demoMode?: boolean) => {
-    if (app) router.push({ query: { app, ...(demoMode && { demoMode }) } });
+    router.push({ query: { app, ...(demoMode && { demoMode }) } });
   };
 
   return (
