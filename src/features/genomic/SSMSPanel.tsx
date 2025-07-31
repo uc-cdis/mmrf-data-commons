@@ -8,11 +8,12 @@ import {
   ComparativeSurvival,
 } from "@/features/genomic/types";
 import {
-  // useGeneAndSSMPanelData,
   useSelectFilterContent,
 } from "@/features/genomic/hooks";
+
 import { useScrollIntoView } from "@mantine/hooks";
 import { SMTableContainer } from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
+import { useGeneAndSSMPanelData } from "./mockedHooks";
 const SurvivalPlot = dynamic(
   () => import("../charts/SurvivalPlot/SurvivalPlot"),
   {
@@ -47,30 +48,7 @@ export const SSMSPanel = ({
   clearSearchTermsForGene,
 }: SSMSPanelProps): JSX.Element => {
 
-  const useGeneAndSSMPanelData = (a,b) => ({
-    isDemoMode: false,
-    cohortFilters: {},
-    genomicFilters: {},
-    overwritingDemoFilter: {},
-    survivalPlotData: {
-    survivalData: [
-      {
-        "meta": {
-          "id": 139891465780800
-        },
-        "donors": [
-          {
-            "time": 0.0027378507871321013,
-            "censored": true,
-            "survivalEstimate": 1,
-            "id": "ce950fb2-be89-4061-a3af-a104d8021530",
-            "submitter_id": "MMRF_2226",
-            "project_id": "MMRF-COMMPASS"
-          }]
-          }]},
-    survivalPlotFetching: false,
-    survivalPlotReady: true,
-  });
+
   const {
     isDemoMode,
     cohortFilters,
@@ -114,6 +92,8 @@ export const SSMSPanel = ({
   }, []);
   /* Scroll for gene search end */
 
+
+  console.log('survivalPlotData',survivalPlotData)
   return (
     <div className="flex flex-col">
       <div className="bg-base-max relative mb-4 border border-base-lighter p-4">
@@ -124,6 +104,7 @@ export const SSMSPanel = ({
           }
           zIndex={0}
         />
+        <h1>Survival Plot Placeholder</h1>
         <SurvivalPlot
           plotType={SurvivalPlotTypes.mutation}
           data={

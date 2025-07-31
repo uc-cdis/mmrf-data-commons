@@ -125,6 +125,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
     }));
   }).flat();
 
+  console.log('plotDataTextVersionJSON',plotDataTextVersionJSON);
 
   const handleDownloadJSON = async () => {
     const blob = new Blob(
@@ -413,7 +414,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
         </div>
       </OffscreenWrapper>
       <BarChartTextVersion className="mt-[40px]" data={plotDataTextVersionJSON} />
-    </div>
+     </div>
   );
 };
 
