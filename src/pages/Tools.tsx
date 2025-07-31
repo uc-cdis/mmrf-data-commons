@@ -7,7 +7,7 @@ import {
   ErrorCard,
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
-  CohortManager,
+  CohortManager, QueryExpression,
 } from '@gen3/frontend';
 
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
@@ -22,7 +22,8 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       )}
       {sections && (
         <div className="flex flex-col ml-2">
-          <CohortManager index="cases"></CohortManager>
+          <CohortManager />
+          <QueryExpression index="cases"/>
           <div className="ml-2 pr-[300px]">
             <AnalysisCenterWithSections
               sections={sections}

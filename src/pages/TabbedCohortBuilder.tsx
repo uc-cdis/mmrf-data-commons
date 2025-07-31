@@ -2,7 +2,7 @@ import {
   NavPageLayoutProps,
   TabbedCohortBuilderConfiguration,
   TabbedCohortBuilder,
-  TabbedCohortBuilderPageGetServerSideProps as getServerSideProps, CohortManager,
+  TabbedCohortBuilderPageGetServerSideProps as getServerSideProps, CohortManager, QueryExpression,
 } from '@gen3/frontend';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
@@ -20,7 +20,8 @@ const TabbedCohortBuilderPage = ({
       <PageTitle pageName="Gene Summary" />
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
-        <CohortManager index={configuration.index}></CohortManager>
+        <CohortManager/>
+          <QueryExpression index="cases"/>
       </div>
       <div className="flex">
         <div className="w-full mt-72 mr-4">

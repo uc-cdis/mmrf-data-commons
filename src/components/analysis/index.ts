@@ -1,4 +1,4 @@
-import AnalysisWorkspace from "./AnalysisWorkspace";
+import ApplicationWorkspace from "./ApplicationWorkspace";
 import {
   SelectionScreenContext,
   DashboardDownloadContext,
@@ -11,7 +11,7 @@ import { type DownloadType } from "./types";
 import type { AppRegistrationEntry } from "./types";
 
 export {
-  AnalysisWorkspace,
+  ApplicationWorkspace,
   SelectionScreenContext,
   DashboardDownloadContext,
   DownloadProgressContext,

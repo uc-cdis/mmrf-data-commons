@@ -8,7 +8,7 @@ import {
   GEN3_COMMONS_NAME,
 } from '@gen3/core';
 import { GetServerSideProps } from 'next';
-import { NextRouter, useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 import { getAppName } from '../../utils/apps';
 
 import {
@@ -16,7 +16,7 @@ import {
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
   ContentSource,
-  CohortManager,
+  CohortManager, QueryExpression,
 } from '@gen3/frontend';
 import { GeneSummary } from '@/features/GeneSummary/GeneSummary';
 
@@ -47,9 +47,10 @@ const AppsPage = ({ config }: AppConfig) => {
       <div className="w-full flex-col">
       <div className="w-full flex-col flex gap-4 z-10 fixed top-0 bg-base-max">
         <MainNavigation />
-        <CohortManager index="cases"></CohortManager>
+        <CohortManager/>
+        <QueryExpression index="cases"/>
         <div className="w-full overflow-y-auto">
-          {Gen3App ? <Gen3App {...config} /> : <div>App not found</div>}
+          <Gen3App {...config} />
         </div>
       </div>
       </div>

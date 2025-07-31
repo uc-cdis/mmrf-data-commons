@@ -12,7 +12,8 @@
           "icon": "/icons/apps/Projects.svg",
           "href": "/",
           "count": 1000,
-          "countUnits": "Cases"
+          "countUnits": "Cases",
+          "appId" : "Projects"
         },
         {
           "title": "Cohort Builder",
@@ -21,8 +22,9 @@
           "loginRequired": false,
           "description": "Build and define your custom cohorts using a variety of clinical and biospecimen features.",
           "icon": "/icons/apps/CohortBuilder.svg",
-          "href": "/",
+          "href": "/?app=CohortBuilder",
           "count": 1000,
+          "appId" : "CohortBuilder",
           "countUnits": "Cases"
         },
         {
@@ -44,29 +46,42 @@
         {
           "title": "Mutation Frequency",
           "type": "application",
-          "hasDemo": true,
+          "hasDemo": false,
           "loginRequired": false,
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
           "href": "/",
           "count": 1000,
-          "countUnits": "Cases"
+          "countUnits": "Case"
+        },
+        {
+          "title": "Clinical Data Analysis",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Display the survival analysis of your cohorts and compare characteristics such as gender, vital status and age at diagnosis.",
+          "icon": "/icons/apps/ClinicalData.svg",
+          "href": "/?app=cDave",
+          "count": 1000,
+          "appId" : "cDave",
+          "countUnits": "Case"
         },
         {
           "title": "Cohort Comparison",
           "type": "application",
-          "hasDemo": true,
+          "hasDemo": false,
           "loginRequired": false,
           "description": "Display the survival analysis of your cohorts and compare characteristics such as gender, vital status and age at diagnosis.",
           "icon": "/icons/apps/CohortComparison.svg",
-          "href": "/app/CohortComparison",
+          "href": "/?app=CohortComparison",
           "count": 1000,
-          "countUnits": "Cases"
+          "appId" : "CohortComparison",
+          "countUnits": "Case"
         },
         {
           "title": "ProteinPaint",
           "type": "application",
-          "hasDemo": true,
+          "hasDemo": false,
           "loginRequired": false,
           "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
           "icon": "/icons/apps/ProteinPaint.svg",
@@ -77,7 +92,7 @@
         {
           "title": "OncoMatrix",
           "type": "application",
-          "hasDemo": true,
+          "hasDemo": false,
           "loginRequired": false,
           "description": "Visualize the top most mutated cases and genes affected by high impact mutations in your cohort.",
           "icon": "/icons/apps/OncoMatrix.svg",
@@ -88,7 +103,7 @@
         {
           "title": "Set Operations",
           "type": "application",
-          "hasDemo": true,
+          "hasDemo": false,
           "loginRequired": false,
           "description": "Display a Venn diagram and compare/contrast your cohorts or sets of the same type.",
           "icon": "/icons/apps/SetOperations.svg",
