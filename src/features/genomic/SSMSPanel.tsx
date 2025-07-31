@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect } from "react";
-import { useDeepCompareMemo } from "use-deep-compare";
-import dynamic from "next/dynamic";
-import { LoadingOverlay } from "@mantine/core";
-import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
+import React, { useCallback, useEffect } from 'react';
+import { useDeepCompareMemo } from 'use-deep-compare';
+import dynamic from 'next/dynamic';
+import { LoadingOverlay } from '@mantine/core';
+import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
 import {
   emptySurvivalPlot,
   ComparativeSurvival,
-} from "@/features/genomic/types";
-import {
-  useSelectFilterContent,
-} from "@/features/genomic/hooks";
+} from '@/features/genomic/types';
+import { useSelectFilterContent } from '@/features/genomic/hooks';
 
-import { useScrollIntoView } from "@mantine/hooks";
-import { SMTableContainer } from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
-import { useGeneAndSSMPanelData } from "./mockedHooks";
+import { useScrollIntoView } from '@mantine/hooks';
+import { SMTableContainer } from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
+import {
+  generateSurvivalPlotMutationData,
+  useGeneAndSSMPanelData,
+} from './mockedHooks';
 const SurvivalPlot = dynamic(
-  () => import("../charts/SurvivalPlot/SurvivalPlot"),
+  () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
     ssr: false,
   },
@@ -47,14 +48,12 @@ export const SSMSPanel = ({
   searchTermsForGene,
   clearSearchTermsForGene,
 }: SSMSPanelProps): JSX.Element => {
-
-
   const {
     isDemoMode,
     cohortFilters,
     genomicFilters,
-    overwritingDemoFilter,
     survivalPlotData,
+    overwritingDemoFilter,
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, false);
@@ -62,7 +61,7 @@ export const SSMSPanel = ({
   /**
    * Get the mutations in cohort
    */
-  const currentMutations = useSelectFilterContent("ssms.ssm_id");
+  const currentMutations = useSelectFilterContent('ssms.ssm_id');
   const toggledMutations = useDeepCompareMemo(
     () => currentMutations,
     [currentMutations],
@@ -71,8 +70,8 @@ export const SSMSPanel = ({
     (idAndSymbol: Record<string, any>) =>
       handleGeneAndSSmToggled(
         toggledMutations,
-        "ssms.ssm_id",
-        "mutationID",
+        'ssms.ssm_id',
+        'mutationID',
         idAndSymbol,
       ),
     [handleGeneAndSSmToggled, toggledMutations],
@@ -92,8 +91,6 @@ export const SSMSPanel = ({
   }, []);
   /* Scroll for gene search end */
 
-
-  console.log('survivalPlotData',survivalPlotData)
   return (
     <div className="flex flex-col">
       <div className="bg-base-max relative mb-4 border border-base-lighter p-4">
@@ -104,13 +101,10 @@ export const SSMSPanel = ({
           }
           zIndex={0}
         />
-        <h1>Survival Plot Placeholder</h1>
         <SurvivalPlot
           plotType={SurvivalPlotTypes.mutation}
           data={
-            survivalPlotReady &&
-            comparativeSurvival &&
-            survivalPlotData.survivalData.length > 1
+            survivalPlotReady && survivalPlotData.survivalData.length > 1
               ? survivalPlotData
               : emptySurvivalPlot
           }
