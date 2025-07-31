@@ -47,7 +47,7 @@ interface SelectionScreenContextProps {
   readonly selectionScreenOpen: boolean;
   readonly setSelectionScreenOpen?: (open: boolean) => void;
   readonly app?: string;
-  readonly setActiveApp?: (app?: string, demoMode?: boolean) => void;
+  readonly setActiveApp?: (app: string | undefined, demoMode?: boolean) => void;
 }
 
 export const SelectionScreenContext =
