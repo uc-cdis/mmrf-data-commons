@@ -72,7 +72,7 @@
     "min": "#111111"
   },
   "base": {
-    "max": "#f4f3f1",
+    "max": "#FFFFFF",
     "lightest": "#f4f3f1",
     "lighter": "#e3e2e0",
     "light": "#cdccca",
