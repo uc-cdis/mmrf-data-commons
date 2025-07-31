@@ -1,8 +1,6 @@
 import { FromToRange } from '@gen3/frontend';
-import { NumericFromTo } from '@gen3/frontend';
 import {
-  Operation,
-  Union,
+  NumericFromTo,
   Intersection,
   Accessibility,
   RawDataAndTotalCountsParams,

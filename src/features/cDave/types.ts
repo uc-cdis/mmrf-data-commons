@@ -1,4 +1,4 @@
-import { NumericFromTo } from "@gen3/frontend";
+import { NumericFromTo } from "@gen3/core";
 
 export interface CustomInterval {
   readonly interval: number;

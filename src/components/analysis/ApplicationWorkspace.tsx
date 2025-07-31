@@ -11,7 +11,7 @@ import { AnalysisToolConfiguration } from '@gen3/frontend';
 
 interface AnalysisWorkspaceProps {
   readonly appInfo: AnalysisToolConfiguration;
-  readonly handleAppSelected: (app: string, demoMode?: boolean) => void;
+  readonly handleAppSelected: (app: string | undefined, demoMode?: boolean) => void;
   readonly isDemoMode: boolean;
   readonly skipSelectionScreen: boolean;
   readonly ActiveAnalysisTool: React.ComponentType<{ appId: string }>;

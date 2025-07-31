@@ -25,7 +25,7 @@ const ClinicalDataAnalysisPage = () => {
       <PageTitle pageName="Clinical Data Analysis" />
       <div className="w-full flex-col flex gap-4 fixed z-50 bg-white">
         <MainNavigation />
-        <CohortManager index={"case"}></CohortManager>
+        <CohortManager />
       </div>
       <div className="flex">
         <div className="w-full mt-72 mr-4">
