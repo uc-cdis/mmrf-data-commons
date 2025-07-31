@@ -1,5 +1,5 @@
 
-import { NumericFromTo} from '@gen3/frontend';
+import { NumericFromTo} from '@gen3/core';
 import { GqlOperation } from "@/core/types";
 
 const EmptyRangeFacetResponse = {

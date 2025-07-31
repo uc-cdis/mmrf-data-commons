@@ -36,16 +36,16 @@
     "min": "#60023e"
   },
   "secondary-contrast": {
-    "max": "#111111",
-    "lightest": "#111111",
+    "max": "#fefefe",
+    "lightest": "#fefefe",
     "lighter": "#fefefe",
     "light": "#fefefe",
     "DEFAULT": "#fefefe",
     "vivid": "#fefefe",
     "dark": "#fefefe",
     "darker": "#fefefe",
-    "darkest": "#111111",
-    "min": "#111111"
+    "darkest": "#fefefe",
+    "min": "#fefefe"
   },
   "accent": {
     "max": "#f78cb3",
@@ -72,7 +72,7 @@
     "min": "#111111"
   },
   "base": {
-    "max": "#f4f3f1",
+    "max": "#FFFFFF",
     "lightest": "#f4f3f1",
     "lighter": "#e3e2e0",
     "light": "#cdccca",

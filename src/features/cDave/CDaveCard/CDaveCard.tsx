@@ -61,10 +61,17 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
   );
 
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
-  const noData = continuous
-    ? (data as Stats)?.stats?.count === 0
-    : data !== undefined &&
-      (data as Buckets)?.buckets?.every((bucket) => bucket.key === MISSING_KEY);
+  let noData = true; // start off assuming no data
+
+  if (data) { // check if we have enough data to display
+    if (continuous) {
+      noData = (data as Stats)?.stats?.count === 0;
+    } else {
+      noData = (data as Buckets)?.buckets?.every((bucket) => bucket.key === MISSING_KEY);
+    }
+  }
+
+  console.log("no data: ", noData)
 
   const fieldName = toDisplayName(field);
 
