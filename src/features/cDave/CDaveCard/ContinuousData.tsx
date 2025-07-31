@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import { GQLFilter as GqlOperation } from '@gen3/core';
 import { useRangeFacet } from '../../facets/hooks';
@@ -31,6 +31,7 @@ import {
 } from '../utils';
 import ContinuousBinningModal from '../ContinuousBinningModal/ContinuousBinningModal';
 import BoxQQSection from './BoxQQSection';
+import { buildRangeQuery } from '@/core/features/clinicalDataAnalysis';
 
 const EmptyContinuousStats = {
   min: 0,
@@ -142,12 +143,11 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
     [customBinnedData, initialData],
   );
 
-  const { data, isFetching, isSuccess } = useRangeFacet(
-    field,
-    ranges,
-    { indexType: 'cases' },
-    cohortFilters,
-  );
+  const query = useMemo(() => {
+    return buildRangeQuery(field, ranges)
+  }, [field, ranges])
+
+
   const { data: statsData } = useGetContinuousDataStatsQuery({
     field: field.replaceAll('.', '__'),
     queryFilters: cohortFilters,

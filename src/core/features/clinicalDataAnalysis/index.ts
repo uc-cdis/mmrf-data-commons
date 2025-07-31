@@ -9,10 +9,13 @@ import {
   type ClinicalContinuousStatsData,
 } from "./clinicalContinuousStatsSlice";
 
+import { buildRangeQuery} from './utils';
+
 export {
   useClinicalFieldsQuery,
   useGetClinicalAnalysisQuery,
   useGetContinuousDataStatsQuery,
+  buildRangeQuery,
   ClinicalContinuousStatsData,
 };
 

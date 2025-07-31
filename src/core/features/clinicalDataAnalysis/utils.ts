@@ -1,8 +1,6 @@
 import { FromToRange } from '@gen3/frontend';
-import { NumericFromTo } from '@gen3/frontend';
+import { NumericFromTo } from '@gen3/core';
 import {
-  Operation,
-  Union,
   Intersection,
   Accessibility,
   RawDataAndTotalCountsParams,
@@ -13,7 +11,7 @@ import {
  * Given a range compute the key if possibly matches a predefined range
  * otherwise classify as "custom"
  * @param range - Range to classify
- * @param precision - number of values after .
+ * @param precision - number of values after the decimal point
  */
 export const classifyRangeType = (
   range?: FromToRange<number>,
@@ -129,7 +127,7 @@ export const buildRangeFilters = (
 };
 
 export const buildRangeQuery = (
-  field: string, rangeBaseName: string, ranges: Array<NumericFromTo>,
+  field: string, ranges: Array<NumericFromTo>, rangeBaseName: string = "range"
 ) => {
   const rangeFilters = buildRangeFilters(field, rangeBaseName, ranges);
 

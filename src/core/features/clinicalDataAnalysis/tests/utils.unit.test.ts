@@ -95,7 +95,7 @@ describe('build range queryies', () => {
         "to": 32873
       }
     ];
-    const results = buildRangeQuery('demographic.race', "range", ranges)
+    const results = buildRangeQuery('demographic.race', ranges,"range" )
 
     console.log(results)
 

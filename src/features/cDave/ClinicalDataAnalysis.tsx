@@ -83,6 +83,23 @@ const ClinicalDataAnalysis: React.FC = () => {
     [activeFields],
   );
 
+  if (isError) {
+    return (
+      <div className="flex relative justify-center items-center h-screen/2">
+        <div className="flex flex-col items-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold">Something&apos;s gone wrong</h1>
+          </div>
+          <div className="text-center">
+            <p className="text-lg">
+              Please try again later or contact support.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return isFetching ? (
     <div className="flex relative justify-center items-center h-screen/2">
       <LoadingOverlay

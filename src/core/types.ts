@@ -57,7 +57,6 @@ export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 export type Bucket = HistogramDataAsStringKey;
 
 
-
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
   readonly acl: Array<string>;

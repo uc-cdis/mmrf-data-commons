@@ -15,7 +15,7 @@ export const clinicalAnalysisApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
     getClinicalAnalysis: builder.query< Record<string, Buckets | Stats>, Gen3AnalysisApiRequest>({
       query: (request: Gen3AnalysisApiRequest) => ({
-        url: `${GEN3_API}/analysis/survival_plot`,
+        url: `${GEN3_API}/analysis/survival/`,
         method: 'POST',
         body: request,
       }),
