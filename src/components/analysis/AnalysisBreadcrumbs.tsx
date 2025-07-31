@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { CircleIcon, CloseIcon } from "src/commonIcons";
 import { SelectionScreenContext } from "./context";
-import { AppRegistrationEntry } from "./types";
+import { AnalysisToolConfiguration } from '@gen3/frontend';
 
 interface AnalysisBreadcrumbsProps {
-  readonly registeredApps: AppRegistrationEntry[];
+  readonly appInfo: AnalysisToolConfiguration;
   readonly rightComponent: React.ReactNode;
   readonly onDemoApp: boolean;
   readonly skipSelectionScreen: boolean;
@@ -14,14 +14,13 @@ const focusStyles =
   "focus-visible:outline-none focus-visible:ring-offset-2 focus:ring-offset-white rounded-md focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-focusColor";
 
 const AnalysisBreadcrumbs: React.FC<AnalysisBreadcrumbsProps> = ({
-  registeredApps,
+  appInfo,
   rightComponent,
   onDemoApp,
   skipSelectionScreen,
 }: AnalysisBreadcrumbsProps) => {
   const { selectionScreenOpen, setSelectionScreenOpen, app, setActiveApp } =
     useContext(SelectionScreenContext);
-  const appInfo = registeredApps.find((a) => a.id === app);
 
   const displayAdditionalSteps =
     !skipSelectionScreen && appInfo?.selectionScreen !== undefined;
@@ -40,7 +39,7 @@ const AnalysisBreadcrumbs: React.FC<AnalysisBreadcrumbsProps> = ({
           !displayAdditionalSteps ? "font-bold" : ""
         }`}
       >
-        {onDemoApp ? `${appInfo?.name} Demo` : appInfo?.name}
+        {onDemoApp ? `${appInfo?.title} Demo` : appInfo?.title}
       </span>
       {displayAdditionalSteps && (
         <>

@@ -1,10 +1,9 @@
 import ClinicalFieldQueryData from './data/useClinicalFieldsQuery_response.json';
 import ClinicalAnalysisQueryData from './data/useGetClinicalAnalysisQuery_response.json';
 import FacetDefinitions from './data/useFacetDictionary_response.json'
-import MainSuvivialPlotData from './data/survivalPlot_response_dashboard.json'
+import MainSurvivalPlotData from './data/survivalPlot_response_dashboard.json'
 import { Gen3AnalysisApiRequest } from '@/core/features/api';
-import { CoreState } from '@gen3/core';
-import { FacetDefinition } from '@gen3/frontend';
+import { CoreState, FacetDefinition } from '@gen3/core';
 
 export const useClinicalFieldsQuery = () => ({
   data: ClinicalFieldQueryData });
@@ -17,8 +16,9 @@ isError: false,
 error: null,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useGetSurvivalPlotQuery = (_args: any) => ({
-  data: MainSuvivialPlotData,
+  data: MainSurvivalPlotData,
 isFetching: false,
 isSuccess: true,
   isError: false,

@@ -5,7 +5,8 @@ import {
   AggregationsData,
 } from "@gen3/core";
 import { Buckets, Bucket, Stats } from "@/core/features/api/types";
-import { NumericFromTo, DAYS_IN_YEAR} from "@gen3/frontend";
+import { NumericFromTo } from "@gen3/core";
+import { DAYS_IN_YEAR} from "@gen3/frontend";
 import {
   CAPITALIZED_TERMS,
   SPECIAL_CASE_FIELDS,
