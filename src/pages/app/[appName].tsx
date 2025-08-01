@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { Center } from '@mantine/core';
@@ -10,15 +10,12 @@ import {
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getAppName } from '../../utils/apps';
-
 import {
-  NavPageLayout,
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
   ContentSource,
   CohortManager, QueryExpression,
 } from '@gen3/frontend';
-import { GeneSummary } from '@/features/GeneSummary/GeneSummary';
 
 interface AppConfig extends NavPageLayoutProps {
   config?: object;
@@ -45,7 +42,7 @@ const AppsPage = ({ config }: AppConfig) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <div className="w-full flex-col">
-      <div className="w-full flex-col flex gap-4 z-10 fixed top-0 bg-base-max">
+      <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <MainNavigation />
         <CohortManager/>
         <QueryExpression index="cases"/>
