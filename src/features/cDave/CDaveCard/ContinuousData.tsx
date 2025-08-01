@@ -1,6 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
-import { GQLFilter as GqlOperation, useGeneralGQLQuery, convertFilterToGqlFilter } from '@gen3/core';
+import {
+  GQLFilter as GqlOperation,
+  useGeneralGQLQuery,
+  convertFilterToGqlFilter,
+  Operation,
+  GQLFilter,
+} from '@gen3/core';
 import CDaveHistogram from './CDaveHistogram';
 import CDaveTable from './CDaveTable';
 import ClinicalSurvivalPlot from './ClinicalSurvivalPlot';
@@ -146,10 +152,16 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
   }, [field, ranges])
 
   console.log(rangeQuery)
+
+  const gqlFilters = Object.entries(rangeQuery.variables).reduce((acc: Record<string, GQLFilter>, [key, filter] : [string, Operation]) => {
+    acc[key] = convertFilterToGqlFilter(filter);
+    return acc;
+  }, {})
+
   const {
     data: rangeData, isFetching, isSuccess
   } = useGeneralGQLQuery(
-    {query: rangeQuery.query, variables: convertFilterToGqlFilter(rangeQuery.variables) as unknown as Record<string, unknown>},
+    {query: rangeQuery.query, variables: gqlFilters},
   )
 
   console.log("rangeData", rangeData)

@@ -51,6 +51,8 @@ const Dashboard: React.FC<DashboardProps> = ({
     }
   });
 
+  console.log("results: ", results)
+
   return (
     <Grid gutter={24} overflow="hidden" className="flex-grow">
       <Grid.Col span={{ base: 12, lg: 6 }}>

@@ -1,24 +1,29 @@
-import React, { useState } from "react";
-import { LoadingOverlay } from "@mantine/core";
+import React, { useState } from 'react';
+import { LoadingOverlay } from '@mantine/core';
 import {
   useCoreSelector,
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  useGetAggsNoFilterSelfQuery,
-  useGetAggsQuery, Accessibility
-} from "@gen3/core";
+  Accessibility,
+} from '@gen3/core';
 
-const CASE_INDEX = "case";
+import { useClinicalAnalysisQuery } from './useClinicalAnalysisQuery';
+
+const CASE_INDEX = 'case';
 
 // import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
-import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery} from './mockedHooks';
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import Controls from "./Controls";
-import Dashboard from "./Dashboard";
-import { DEFAULT_FIELDS, DEMO_COHORT_FILTERS, FACET_SORT } from "./constants";
-import { combineAnalysisResults, filterUsefulFacets, parseFieldName } from './utils';
-import { DemoText } from "@/components/tailwindComponents";
-import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
+import { useIsDemoApp } from '@/hooks/useIsDemoApp';
+import Controls from './Controls';
+import Dashboard from './Dashboard';
+import { DEFAULT_FIELDS, DEMO_COHORT_FILTERS, FACET_SORT } from './constants';
+import {
+  combineAnalysisResults,
+  filterUsefulFacets,
+  parseFieldName,
+} from './utils';
+import { DemoText } from '@/components/tailwindComponents';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { selectCurrentCohortCaseFilters } from '@/core/utils';
+import fields from './data/clinicalFields.json';
 
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
@@ -28,7 +33,6 @@ const ClinicalDataAnalysis: React.FC = () => {
   );
   const [activeFields, setActiveFields] = useState(DEFAULT_FIELDS); // the fields that have been selected by the user
 
-  const { data: fields } = useClinicalFieldsQuery();
 
   const cDaveFields = useDeepCompareMemo(
     () =>
@@ -40,6 +44,11 @@ const ClinicalDataAnalysis: React.FC = () => {
             FACET_SORT[d.field_type].includes(d.field_name),
         ),
     [fields],
+  );
+
+  const cDaveStatsFields = useDeepCompareMemo(
+    () => cDaveFields.filter((f) => f.type.name == 'NumericAggregations').map(x => x.full),
+    [cDaveFields],
   );
 
   const currentCohortFilters = useCoreSelector((state) =>
@@ -58,19 +67,47 @@ const ClinicalDataAnalysis: React.FC = () => {
     [cDaveFields],
   );
 
-  const {
-    data : cDaveResult,
-    isSuccess,
-    isFetching,
-    isError,
-  } = useGetAggsNoFilterSelfQuery({
+  // const {
+  //   data: cDaveResult,
+  //   isSuccess,
+  //   isFetching,
+  //   isError,
+  // } = useGetAggsNoFilterSelfQuery({
+  //   type: CASE_INDEX,
+  //   fields: facets,
+  //   filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
+  //   accessibility: accessLevel,
+  // });
+
+  // const {
+  //   data: cDaveStatsResults, isSuccess: isStatsSuccess, isFetching: isStatsFetching, isError: isStatsError } = useGetStatsAggregationsQuery({
+  //     type: CASE_INDEX,
+  //     fields: facets,
+  //     filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
+  //     accessibility: accessLevel,
+  //   filterSelf: true
+  //   }
+  // );
+
+  const { cDaveAggResults, cDaveStatsResults, isFetching, isError, isSuccess}  =
+  useClinicalAnalysisQuery({
     type: CASE_INDEX,
-    fields: facets,
-    filters:  isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-    accessibility: accessLevel,
+    aggFields: facets,
+    statsFields: cDaveStatsFields,
+    filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
+    accessibility: accessLevel
   });
 
-  const convertedData = useDeepCompareMemo(() => combineAnalysisResults(cDaveResult ?? {}), [cDaveResult]);
+
+  const convertedData = useDeepCompareMemo(
+    () => combineAnalysisResults(cDaveAggResults ?? {}, cDaveStatsResults ?? {}),
+    [cDaveAggResults, cDaveStatsResults],
+  );
+
+  console.log("cDaveStatsResults", cDaveStatsResults);
+
+  console.log("cpnverted:", convertedData);
+
 
   const updateFields = useDeepCompareCallback(
     (field: string) => {
@@ -97,10 +134,10 @@ const ClinicalDataAnalysis: React.FC = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-   return (
+  return (
     <>
       {isDemoMode && (
         <DemoText>
@@ -110,7 +147,7 @@ const ClinicalDataAnalysis: React.FC = () => {
 
       <div className="flex gap-4 pt-4 pb-16 px-4 w-full">
         <LoadingOverlay
-          loaderProps={{ size: "xl", color: "primary" }}
+          loaderProps={{ size: 'xl', color: 'primary' }}
           visible={isFetching}
           data-testid="please_wait_spinner"
           zIndex={0}
@@ -123,7 +160,7 @@ const ClinicalDataAnalysis: React.FC = () => {
           controlsExpanded={controlsExpanded}
           setControlsExpanded={setControlsExpanded}
         />
-        {isSuccess && Object.keys(cDaveResult).length > 0 && (
+        {isSuccess && Object.keys(convertedData).length > 0 && (
           <Dashboard
             activeFields={activeFields}
             cohortFilters={cohortFilters}

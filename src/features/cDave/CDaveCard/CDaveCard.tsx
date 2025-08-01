@@ -11,7 +11,6 @@ import {
 } from "@gen3/frontend";
 // restore later when API and FacetDictionary is implemented
 //import { selectFacetDefinitionByName } from '@/core/features/facets/selectors';
-import { selectFacetDefinitionByName } from '../mockedHooks';
 import { DownloadProgressContext} from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";
@@ -23,7 +22,7 @@ import {
   DATA_DIMENSIONS,
   MISSING_KEY,
 } from "../constants";
-import { toDisplayName, useDataDimension } from "../utils";
+import { selectFacetDefinitionByName, toDisplayName, useDataDimension } from '../utils';
 import {
   BarChartIcon,
   BoxPlotIcon,
@@ -66,6 +65,10 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
 
   console.log("continuous: ", continuous)
   let noData = true; // start off assuming no data
+
+  if (continuous) {
+    console.log("continuous data: ", data)
+  }
 
   if (data) { // check if we have enough data to display
     if (continuous) {
