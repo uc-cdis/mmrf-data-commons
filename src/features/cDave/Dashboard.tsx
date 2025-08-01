@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Grid, Alert, Loader } from "@mantine/core";
 import {
-  GQLFilter as GqlOperation,
+  Operation,
   usePrevious,
 } from "@gen3/core";
 //import { useGetSurvivalPlotQuery } from "@/core/survival";
@@ -18,7 +18,7 @@ import { useDeepCompareMemo } from "use-deep-compare";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 
 interface DashboardProps {
-  readonly cohortFilters: GqlOperation;
+  readonly cohortFilters: Operation;
   readonly activeFields: string[];
   readonly results: Record<string, Buckets | Stats>;
   readonly updateFields: (field: string) => void;
@@ -50,8 +50,6 @@ const Dashboard: React.FC<DashboardProps> = ({
       initialDashboardRender.current = false;
     }
   });
-
-  console.log("results: ", results)
 
   return (
     <Grid gutter={24} overflow="hidden" className="flex-grow">

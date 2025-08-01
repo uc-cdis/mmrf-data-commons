@@ -1,12 +1,46 @@
-import { FromToRange } from '@gen3/frontend';
+import { FromToRange, } from '@gen3/frontend';
 import {
-  Accessibility,
-  convertFilterSetToGqlFilter, GQLFilter,
   Intersection,
   NumericFromTo,
   Operation,
-  RawDataAndTotalCountsParams,
+  isOperationWithField
 } from '@gen3/core';
+
+
+/**
+ * Constructs a nested operation object based on the provided field and leaf operand.
+ * If the field does not contain a dot '.', it either assigns the field to the leaf operand (if applicable)
+ * or returns the leaf operand as is. When the field contains dots, it splits the field into parts,
+ * creates a "nested" operation for the root field, and recursively constructs the nested structure
+ * for the remaining portion of the field.
+ *
+ * @param {string} field - The hierarchical field path, with segments separated by dots (e.g., "root.child").
+ * @param {Operation} leafOperand - The operation to be nested within the specified path.
+ * @returns {Operation} A nested operation object that represents the structured path and operand.
+ */
+export const buildNested = (
+  field: string,
+  leafOperand: Operation,
+): Operation => {
+  if (!field.includes('.')) {
+    if (isOperationWithField(leafOperand))
+      return {
+        ...leafOperand,
+        field: field,
+      } as Operation;
+    else return leafOperand;
+  }
+
+  const splitFieldArray = field.split('.');
+  const rootField = splitFieldArray.shift();
+
+  return {
+    operator: 'nested',
+    path: rootField ?? '',
+    operand: buildNested(splitFieldArray.join('.'), leafOperand),
+  };
+};
+
 
 
 /**
@@ -63,8 +97,8 @@ export const convertNumericFromToArrayToFilters = (
     operator: 'and',
     operands: [
       case_filters,
-      { operator: '>=', field, operand: from },
-      { operator: '<', field, operand: to },
+      buildNested(field, { operator: '>=', field, operand: from }),
+      buildNested(field, { operator: '<', field, operand: to }),
     ],
   } satisfies Intersection;
 };
@@ -74,7 +108,7 @@ export const rawDataQueryStrForEachField = (field: string): string => {
   const splitField = splitFieldArray.shift();
   let middleQuery: string = '';
   if (splitFieldArray.length === 0) {
-    middleQuery = `${splitField} { _totalCount }`;
+    middleQuery = `${splitField} { histogram { count } }`;
   } else {
     middleQuery = `${splitField} { ${rawDataQueryStrForEachField(splitFieldArray.join('.'))} }`;
   }

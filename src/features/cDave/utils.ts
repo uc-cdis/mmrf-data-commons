@@ -28,6 +28,16 @@ import {
 } from './types';
 import FacetDefinitions from '@/features/cDave/data/facetDefinitions.json';
 
+const RANGE_DECIMAL_PRECISION = 1;
+
+
+const createFromToKeyAndLabel = (v: NumericFromTo, units: string)=> {
+  return {
+    key: `${v.from.toFixed(RANGE_DECIMAL_PRECISION)}-${v.to.toFixed(
+      RANGE_DECIMAL_PRECISION)}`,
+    label: `\u2265 ${v.from} to < ${v.to} ${units}`,
+  }
+}
 
 const ZeroStats : Stats = {
     stats: {

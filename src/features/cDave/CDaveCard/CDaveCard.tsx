@@ -3,7 +3,7 @@ import { Card, ActionIcon, Tooltip, SegmentedControlItem } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
 import {
   useCoreSelector,
-  GQLFilter as GqlOperation,
+  Operation,
 } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
 import {
@@ -35,7 +35,7 @@ interface CDaveCardProps {
   readonly data: Buckets | Stats;
   readonly updateFields: (field: string) => void;
   readonly initialDashboardRender: boolean;
-  readonly cohortFilters: GqlOperation;
+  readonly cohortFilters: Operation;
 }
 
 const CDaveCard: React.FC<CDaveCardProps> = ({
@@ -59,17 +59,9 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       : DATA_DIMENSIONS?.[field]?.unit ?? "Unset"),
   );
 
-  console.log("facet: ", facet)
-
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
 
-  console.log("continuous: ", continuous)
   let noData = true; // start off assuming no data
-
-  if (continuous) {
-    console.log("continuous data: ", data)
-  }
-
   if (data) { // check if we have enough data to display
     if (continuous) {
       noData = (data as Stats)?.stats?.count === 0;
@@ -77,8 +69,6 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       noData = (data as Buckets)?.buckets?.every((bucket) => bucket.key === MISSING_KEY);
     }
   }
-
-  console.log("no data: ", noData)
 
   const fieldName = toDisplayName(field);
 

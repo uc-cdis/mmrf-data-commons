@@ -98,17 +98,17 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
               onChange={(value) => setDisplayPercent(value === "percent")}
               defaultValue={"counts"}
             >
-              <Group className="px-2 flex flex-row gap-2">
+              <Group className="px-2 flex flex-row items-center gap-2">
                 <Radio
                   data-testid="radio-number-of-cases"
-                  classNames={{ label: "font-heading pl-1", icon: "hidden" }}
+                  classNames={{ label: "font-heading pl-1 pt-1", icon: "hidden" }}
                   value="counts"
                   label="# of Cases"
                   color="primary.4"
                 />
                 <Radio
                   data-testid="radio-percent-of-cases"
-                  classNames={{ label: "font-heading pl-1", icon: "hidden" }}
+                  classNames={{ label: "font-heading pl-1 pt-1", icon: "hidden" }}
                   value="percent"
                   label="% of Cases"
                   color="blue"

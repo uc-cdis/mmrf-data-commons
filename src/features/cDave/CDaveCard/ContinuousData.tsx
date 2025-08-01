@@ -1,11 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
-  GQLFilter as GqlOperation,
+  Operation,
   useGeneralGQLQuery,
   convertFilterToGqlFilter,
-  Operation,
-  GQLFilter,
+  GQLFilter, NumericFromTo,
 } from '@gen3/core';
 import CDaveHistogram from './CDaveHistogram';
 import CDaveTable from './CDaveTable';
@@ -36,6 +35,9 @@ import {
 import ContinuousBinningModal from '../ContinuousBinningModal/ContinuousBinningModal';
 import BoxQQSection from './BoxQQSection';
 import { buildRangeQuery } from '@/core/features/clinicalDataAnalysis';
+import { JSONPath } from 'jsonpath-plus';
+
+const RANGE_BASE_NAME = 'range';
 
 const EmptyContinuousStats = {
   min: 0,
@@ -51,20 +53,34 @@ const EmptyContinuousStats = {
   iqr: 0,
 };
 const processContinuousResultData = (
-  data: Record<string, number>,
-  customBinnedData: NamedFromTo[] | CustomInterval | null,
+  data: Record<string, any>,
+  customBinnedData: NumericFromTo[],
   field: string,
   dataDimension: DataDimension,
 ): DisplayData => {
-  if (customBinnedData && !isInterval(customBinnedData) && customBinnedData?.length > 0) {
-    return Object.values(data).map((v, idx) => ({
-      displayName: customBinnedData[idx]?.name,
-      key: customBinnedData[idx]?.name,
-      count: v,
-    }));
-  }
 
-  return Object.entries(data).map(([k, v]) => ({
+  // convert data to buckets
+  const countByRangeBucket = Object.values(data?.data?._aggregation ?? {}).reduce((acc: Record<string, number>, value, idx) => {
+    const r = customBinnedData[idx];
+    const bucket = `${r.from}-${r.to}`;
+
+    const valueData = JSONPath({
+      json: value as any,
+      path: '$..count',
+      resultType: 'value',
+    });
+
+    const countValue = isArray(valueData) ? valueData[0] : valueData;
+    if (acc[bucket]) {
+      acc[bucket] += countValue;
+    } else
+      acc[bucket] = countValue;
+
+    return acc;
+
+  },  {});
+
+  return Object.entries(countByRangeBucket).map(([k, v]) => ({
     displayName: toBucketDisplayName(
       k,
       field,
@@ -105,7 +121,7 @@ interface ContinuousDataProps {
   readonly fieldName: string;
   readonly chartType: ChartTypes;
   readonly noData: boolean;
-  readonly cohortFilters: GqlOperation;
+  readonly cohortFilters: Operation;
   readonly dataDimension: DataDimension;
 }
 
@@ -148,10 +164,8 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
   );
 
   const rangeQuery = useMemo(() => {
-    return buildRangeQuery(field, ranges)
+    return buildRangeQuery(field, cohortFilters, ranges)
   }, [field, ranges])
-
-  console.log(rangeQuery)
 
   const gqlFilters = Object.entries(rangeQuery.variables).reduce((acc: Record<string, GQLFilter>, [key, filter] : [string, Operation]) => {
     acc[key] = convertFilterToGqlFilter(filter);
@@ -164,25 +178,13 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
     {query: rangeQuery.query, variables: gqlFilters},
   )
 
-  console.log("rangeData", rangeData)
-
-  // const { data: statsData } = useGetContinuousDataStatsQuery({
-  //   field: field.replaceAll('.', '__'),
-  //   queryFilters: cohortFilters,
-  //   rangeFilters: {
-  //     range: {
-  //       [field]: ranges as any, // TODO:fix this typing
-  //     },
-  //   },
-  // });
-
   const statsData = null; // TODO: enable stats data
 
   const displayedData = useDeepCompareMemo(
     () =>
       processContinuousResultData(
-        isSuccess ? rangeData as unknown as Record<string, number> : {},
-        customBinnedData,
+        isSuccess ? rangeData  : {},
+        ranges,
         field,
         dataDimension,
       ),

@@ -17,19 +17,19 @@ const createParams = (field: string, rangeName: string = "range_0") => {
   };
 };
 
-describe('build range queryies', () => {
+describe('build range queries', () => {
 
   it('should build a query with all parameters', () => {
     const params = createParams('data_type');
     const result = buildAliasedNestedCountsQuery(params);
-    expect(result).toContain('range_0 : case (accessibility: $accessibility filter: $range_0) { data_type { _totalCount } }');
+    expect(result).toContain('range_0 : case (accessibility: $accessibility filter: $range_0) { data_type ( histogram { count } } }');
   });
 
   it('should build a query with nested values with all parameters', () => {
     const params = createParams('demographic.race');
 
     const result = buildAliasedNestedCountsQuery(params);
-    expect(result).toContain('range_0 : case (accessibility: $accessibility filter: $range_0) { demographic { race { _totalCount } } }');
+    expect(result).toContain('range_0 : case (accessibility: $accessibility filter: $range_0) { demographic { race { histogram { count } } } }');
   });
 });
 
@@ -200,7 +200,7 @@ describe('build range queries', () => {
         "to": 32873
       }
     ];
-    const results = buildRangeQuery('data_type', case_filters,ranges, 'range');
+    const results = buildRangeQuery('files.data_type', case_filters,ranges, 'range');
 
     console.log(JSON.stringify(results, null, 2))
 

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { LoadingOverlay } from '@mantine/core';
 import {
   useCoreSelector,
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  Accessibility,
+  filterSetToOperation,
+  Accessibility, Operation,
 } from '@gen3/core';
 
 import { useClinicalAnalysisQuery } from './useClinicalAnalysisQuery';
@@ -28,7 +28,7 @@ import fields from './data/clinicalFields.json';
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
   const [controlsExpanded, setControlsExpanded] = useState(true);
-  const [accessLevel, setAccessLevel] = useState<Accessibility>(
+  const [accessLevel ] = useState<Accessibility>(
     Accessibility.ALL,
   );
   const [activeFields, setActiveFields] = useState(DEFAULT_FIELDS); // the fields that have been selected by the user
@@ -57,9 +57,9 @@ const ClinicalDataAnalysis: React.FC = () => {
 
   const cohortFilters = useDeepCompareMemo(
     () =>
-      buildCohortGqlOperator(
+      filterSetToOperation(
         isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-      ),
+      ) ?? { operator: 'and', operands: [] } satisfies Operation,
     [isDemoMode, currentCohortFilters],
   );
   const facets = useDeepCompareMemo(
@@ -103,11 +103,6 @@ const ClinicalDataAnalysis: React.FC = () => {
     () => combineAnalysisResults(cDaveAggResults ?? {}, cDaveStatsResults ?? {}),
     [cDaveAggResults, cDaveStatsResults],
   );
-
-  console.log("cDaveStatsResults", cDaveStatsResults);
-
-  console.log("cpnverted:", convertedData);
-
 
   const updateFields = useDeepCompareCallback(
     (field: string) => {
