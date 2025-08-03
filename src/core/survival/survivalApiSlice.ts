@@ -1,20 +1,23 @@
 import type { Middleware, Reducer } from "@reduxjs/toolkit";
-import { DAYS_IN_YEAR } from "../../core/constants";
-import { gen3Api, GEN3_API } from '@gen3/core';
-import { Survival, SurvivalApiResponse } from '@/core/survival/types';
+import { DAYS_IN_YEAR, GEN3_ANALYSIS_API } from "../../core/constants";
+import { gen3Api, isFetchBaseQueryError, GQLFilter } from '@gen3/core';
+import { SurvivalPlotData, SurvivalApiResponse } from '@/core/survival/types';
 
+interface SurvivalPlotRequest {
+  filters: Array<GQLFilter>;
+}
 
 export const survivalApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
-    getSurvivalPlot: builder.query<Survival, any>({
-      query: (request: any) => ({
-        url: `${GEN3_API}/analysis/survival_plot`,
+    getSurvivalPlot: builder.query<SurvivalPlotData, SurvivalPlotRequest>({
+      query: (request) => ({
+        url: `${GEN3_ANALYSIS_API}/survival/`,
         method: 'POST',
         body: request,
       }),
       transformResponse: (response: SurvivalApiResponse) => {
         return {
-          survivalData: (response?.results || []).map((r) => ({
+          survivalData: (response?.survivalData|| []).map((r) => ({
             ...r,
             donors: r.donors.map((d) => ({
               ...d,
@@ -23,6 +26,11 @@ export const survivalApiSlice = gen3Api.injectEndpoints({
           })),
           overallStats: response?.overallStats || {},
         };
+      },
+      transformErrorResponse: (response ) => {
+        if (isFetchBaseQueryError(response))
+          return { error: response.status };
+        return { error: 'An unknown error occurred.' };
       },
     }),
   }),
