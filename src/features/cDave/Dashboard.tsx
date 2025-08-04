@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Grid, Alert, Loader } from "@mantine/core";
 import {
+  convertFilterToGqlFilter,
   Operation,
   usePrevious,
-} from "@gen3/core";
-//import { useGetSurvivalPlotQuery } from "@/core/survival";
-import { useGetSurvivalPlotQuery} from './mockedHooks';
+} from '@gen3/core';
+import { useGetSurvivalPlotQuery} from '@/core/survival';
 import { EmptySurvivalPlot } from "@/core/survival/types";
 
 import {   Buckets,
@@ -42,7 +42,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     isFetching,
     isUninitialized,
   } = useGetSurvivalPlotQuery({
-    filters,
+    filters : filters.map((x: Operation) => convertFilterToGqlFilter(x)),
   });
 
   useEffect(() => {

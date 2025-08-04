@@ -1,13 +1,13 @@
 import { ComparativeSurvival  } from '@/features/genomic/types';
 import { FilterSet } from '@gen3/core';
-import type { Survival } from '@/core/survival';
+import type { SurvivalPlotData } from '@/core/survival';
 
 export interface GeneAndSSMPanelData {
   isDemoMode: boolean;
   genomicFilters: FilterSet;
   currentCohortFilters: FilterSet;
   overwritingDemoFilter: FilterSet;
-  survivalPlotData: Survival;
+  survivalPlotData: SurvivalPlotData;
   survivalPlotFetching: boolean;
   survivalPlotReady: boolean;
 }

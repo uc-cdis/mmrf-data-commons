@@ -6,7 +6,7 @@ import {
   GQLFilter as GqlOperation,
 } from "@gen3/core";
 import { selectCurrentCohortCaseFilters as selectCurrentCohortFilters } from '@/core/utils';
-import { EmptySurivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
+import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
 import { getFormattedTimestamp } from "@/utils/date";
@@ -122,7 +122,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
     <div className="relative">
       <LoadingOverlay data-testid="loading-spinner" visible={isFetching} />
       <ExternalDownloadStateSurvivalPlot
-        data={data?? EmptySurivalPlot}
+        data={data?? EmptySurvivalPlot}
         height={150}
         title={toDisplayName(field)}
         showTitleOnlyOnDownload
