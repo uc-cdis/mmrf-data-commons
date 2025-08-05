@@ -67,28 +67,6 @@ const ClinicalDataAnalysis: React.FC = () => {
     [cDaveFields],
   );
 
-  // const {
-  //   data: cDaveResult,
-  //   isSuccess,
-  //   isFetching,
-  //   isError,
-  // } = useGetAggsNoFilterSelfQuery({
-  //   type: CASE_INDEX,
-  //   fields: facets,
-  //   filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-  //   accessibility: accessLevel,
-  // });
-
-  // const {
-  //   data: cDaveStatsResults, isSuccess: isStatsSuccess, isFetching: isStatsFetching, isError: isStatsError } = useGetStatsAggregationsQuery({
-  //     type: CASE_INDEX,
-  //     fields: facets,
-  //     filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-  //     accessibility: accessLevel,
-  //   filterSelf: true
-  //   }
-  // );
-
   const { cDaveAggResults, cDaveStatsResults, isFetching, isError, isSuccess}  =
   useClinicalAnalysisQuery({
     type: CASE_INDEX,

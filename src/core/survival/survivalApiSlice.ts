@@ -10,14 +10,15 @@ interface SurvivalPlotRequest {
 export const survivalApiSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
     getSurvivalPlot: builder.query<SurvivalPlotData, SurvivalPlotRequest>({
-      query: (request) => ({
+      query: (request) => {
+        return ({
         url: `${GEN3_ANALYSIS_API}/survival/`,
         method: 'POST',
-        body: request,
-      }),
+        body:  JSON.stringify(request),
+      }) },
       transformResponse: (response: SurvivalApiResponse) => {
         return {
-          survivalData: (response?.survivalData|| []).map((r) => ({
+          survivalData: (response?.results|| []).map((r) => ({
             ...r,
             donors: r.donors.map((d) => ({
               ...d,
