@@ -7,10 +7,28 @@
       {
         "biotype": "protein_coding",
         "cytoband": [
+          "7q31.2"
+        ],
+        "gene_id": "ENSG00000123456",
+        "id": "R3VuZTpFT",
+        "is_cancer_gene_census": false,
+        "name": "Synthetic datum TP53 tumor protein p53",
+        "numCases": 312,
+        "symbol": "SDTP53",
+        "cnv_case": 1,
+        "case_cnv_amplification": 0,
+        "case_cnv_loss": 1,
+        "case_cnv_gain": 0,
+        "case_cnv_homozygous_deletion": 0,
+        "ssm_case": 1450
+      },
+      {
+        "biotype": "protein_coding",
+        "cytoband": [
           "12p12.1"
         ],
         "gene_id": "ENSG00000133703",
-        "id": "R2VuZTpFTlNHMDAwMDAxMzM3MDMjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "QxZGJjYmY2ZDg5OWExNzJkMzIj",
         "is_cancer_gene_census": true,
         "name": "KRAS proto-oncogene, GTPase",
         "numCases": 227,
@@ -28,7 +46,7 @@
           "12q24.31"
         ],
         "gene_id": "ENSG00000110987",
-        "id": "R2VuZTpFTlNHMDAwMDAxMTA5ODcjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "mY2ZDg5OWJkMjA3OTNiY2ViMzIj",
         "is_cancer_gene_census": true,
         "name": "BAF chromatin remodeling complex subunit BCL7A",
         "numCases": 212,
@@ -46,7 +64,7 @@
           "1p13.2"
         ],
         "gene_id": "ENSG00000213281",
-        "id": "R2VuZTpFTlNHMDAwMDAyMTMyODEjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "RJjYmY2ZDg5OWExNzJkMjAY2ViMzIj",
         "is_cancer_gene_census": true,
         "name": "NRAS proto-oncogene, GTPase",
         "numCases": 183,
@@ -64,7 +82,7 @@
           "1p12"
         ],
         "gene_id": "ENSG00000183508",
-        "id": "R2VuZTpFTlNHMDAwMDAxODM1MDgjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "RuZTpFTlNHMMzIj",
         "is_cancer_gene_census": true,
         "name": "terminal nucleotidyltransferase 5C",
         "numCases": 115,
@@ -82,7 +100,7 @@
           "19p13.2"
         ],
         "gene_id": "ENSG00000181143",
-        "id": "R2VuZTpFTlNHMDAwMDAxODExNDMjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "OWExNzJkMjA3OTNiY2ViMzIj",
         "is_cancer_gene_census": true,
         "name": "mucin 16, cell surface associated",
         "numCases": 102,
@@ -100,7 +118,7 @@
           "8q23.3"
         ],
         "gene_id": "ENSG00000164796",
-        "id": "R2VuZTpFTlNHMDAwMDAxNjQ3OTYjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "GJjYmY2ZDg5OWExNz",
         "is_cancer_gene_census": true,
         "name": "CUB and Sushi multiple domains 3",
         "numCases": 84,
@@ -118,7 +136,7 @@
           "4q28.1"
         ],
         "gene_id": "ENSG00000196159",
-        "id": "R2VuZTpFTlNHMDAwMDAxOTYxNTkjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "j",
         "is_cancer_gene_census": true,
         "name": "FAT atypical cadherin 4",
         "numCases": 84,
@@ -136,7 +154,7 @@
           "11q14.3"
         ],
         "gene_id": "ENSG00000165323",
-        "id": "R2VuZTpFTlNHMDAwMDAxNjUzMjMjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "zIj",
         "is_cancer_gene_census": true,
         "name": "FAT atypical cadherin 3",
         "numCases": 78,
@@ -155,7 +173,7 @@
           "2q22.2"
         ],
         "gene_id": "ENSG00000168702",
-        "id": "R2VuZTpFTlNHMDAwMDAxNjg3MDIjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "iMzIj",
         "is_cancer_gene_census": true,
         "name": "LDL receptor related protein 1B",
         "numCases": 73,
@@ -173,7 +191,7 @@
           "7q34"
         ],
         "gene_id": "ENSG00000157764",
-        "id": "R2VuZTpFTlNHMDAwMDAxNTc3NjQjMmNhNzQxZGJjYmY2ZDg5OWExNzJkMjA3OTNiY2ViMzIj",
+        "id": "2ViMzIj",
         "is_cancer_gene_census": true,
         "name": "B-Raf proto-oncogene, serine/threonine kinase",
         "numCases": 69,
@@ -197,7 +215,8 @@
       "ENSG00000181143": "123",
       "ENSG00000168702": "80",
       "ENSG00000183508": "127",
-      "ENSG00000213281": "21"
+      "ENSG00000213281": "21",
+      "ENSG00000123456": "314"
     }
   },
   "status": "fulfilled",

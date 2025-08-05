@@ -27,6 +27,7 @@ import {
 import { handleDownloadPNG, handleDownloadSVG } from '../utils';
 import { DAYS_IN_YEAR } from '@/core/constants';
 import { DownloadIcon, ResetIcon, SurvivalChartIcon } from '@/utils/icons';
+import BarChartTextVersion from '../BarChartTextVersion';
 
 const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   data,
@@ -114,6 +115,16 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
       legend = buildTwoPlotLegend(plotData, names[0], plotType);
       break;
   }
+
+  const plotDataTextVersionJSON = plotData.map((group, index) => {
+    const caseIdentifier = index === 0 ? "S1" : "S2";
+    return group.donors.map(donor => ({
+      case: caseIdentifier,
+      time: donor.time,
+      survivalEstimate: donor.survivalEstimate
+    }));
+  }).flat();
+
 
   const handleDownloadJSON = async () => {
     const blob = new Blob(
@@ -401,6 +412,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
           <div className="survival-plot" ref={containerForDownload} />
         </div>
       </OffscreenWrapper>
+      <BarChartTextVersion className="mt-[40px]" data={plotDataTextVersionJSON} />
     </div>
   );
 };
