@@ -6,7 +6,7 @@ import { FilterSet} from '@gen3/core';
 
 
 const DAYS_IN_YEAR = 365.25;
-declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;
+export declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;
 
 export const toggleFullScreen = async (
   ref: React.MutableRefObject<any>,
