@@ -47,22 +47,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        heal: {
-          primary: '#99286B',
-          secondary: '#402264',
-          light_purple: '#F6EFF1',
-          purple: '#532565',
-          magenta: '#982568',
-          red: '#981F32',
-          coral: '#BF362E',
-          orange: '#E07C3E',
-          dark_gray: '#373A3C',
-          medium_gray: '#818A91',
-          light_gray: '#DDDDDD',
-          blue: '#0044B3',
-        },
-        midrc: {
-          secondary: '#421C52',
+        "gdc-survival": {
+          0: "#8d3859",
+          1: "#FCA88D",
+          2: "#20313B",
+          3: "#D62728",
+          4: "#B94BB9",
+          5: "#8C564B",
+          6: "#D42BA1",
+          7: "#757575",
+          8: "#7A7A15",
+          9: "#10828E",
         },
         gen3: {
           secondary: '#3283C8',
@@ -210,6 +205,27 @@ module.exports = {
     'mmrf-rust',
     'mmrf-apricot',
     'h-20',
+    // survival plot colors
+    "bg-gdc-survival-0",
+    "bg-gdc-survival-1",
+    "bg-gdc-survival-2",
+    "bg-gdc-survival-3",
+    "bg-gdc-survival-4",
+    "bg-gdc-survival-5",
+    "bg-gdc-survival-6",
+    "bg-gdc-survival-7",
+    "bg-gdc-survival-8",
+    "bg-gdc-survival-9",
+    "text-gdc-survival-0",
+    "text-gdc-survival-1",
+    "text-gdc-survival-2",
+    "text-gdc-survival-3",
+    "text-gdc-survival-4",
+    "text-gdc-survival-5",
+    "text-gdc-survival-6",
+    "text-gdc-survival-7",
+    "text-gdc-survival-8",
+    "text-gdc-survival-9",
     {
       pattern:
         /bg-(primary|secondary|accent|accent-warm|accent-cool|base)-(min|lightest|lighter|light|dark|darker|darkest|max)/,

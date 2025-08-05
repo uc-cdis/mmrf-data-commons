@@ -126,20 +126,25 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
   ];
 
   if (continuous && !HIDE_QQ_BOX_FIELDS.includes(field)) {
+    // TODO: Re-enable when API are completed
+    /* ----
     chartButtons.push({
       value: "boxqq",
       label: (
         <Tooltip label={"Box/QQ Plot"} withArrow arrowSize={7}>
           <div
+            className="opacity-50"
             data-testid="button-box-qq-plot"
-            role="button"
+            aria-disabled={true}
             aria-label={`Select ${fieldName} Box/QQ Plot`}
+            style={{ cursor: "not-allowed" }}
           >
             <BoxPlotIcon size={20} className={"rotate-90"} aria-hidden="true" />
           </div>
         </Tooltip>
       ),
     });
+     */
   }
 
   return (

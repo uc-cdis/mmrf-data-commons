@@ -202,8 +202,6 @@ describe('build range queries', () => {
     ];
     const results = buildRangeQuery('files.data_type', case_filters,ranges, 'range');
 
-    console.log(JSON.stringify(results, null, 2))
-
     expect(results.query).toContain("query rangeQuery ($accessibility: Accessibility, $range_0: JSON,$range_1: JSON,$range_2: JSON,$range_3: JSON,$range_4: JSON ) { _aggregation {range_0 : case (accessibility: $accessibility filter: $range_0) { data_type { _totalCount } } \nrange_1 : case (accessibility: $accessibility filter: $range_1) { data_type { _totalCount } } \nrange_2 : case (accessibility: $accessibility filter: $range_2) { data_type { _totalCount } } \nrange_3 : case (accessibility: $accessibility filter: $range_3) { data_type { _totalCount } } \nrange_4 : case (accessibility: $accessibility filter: $range_4) { data_type { _totalCount } } \n}}",
   );
     expect(results.variables).toEqual({

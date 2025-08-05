@@ -136,7 +136,7 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
 }: ContinuousDataProps) => {
   const [customBinnedData, setCustomBinnedData] = useState<
     CustomInterval | NamedFromTo[] | null
-  >([]);
+  >(null);
   const [binningModalOpen, setBinningModalOpen] = useState(false);
   const [selectedSurvivalPlots, setSelectedSurvivalPlots] = useState<string[]>(
     [],

@@ -4,8 +4,7 @@ import {
   Intersection,
   useCoreSelector,
   convertFilterToGqlFilter,
-  convertFilterSetToGqlFilter,
-  Operation, isFilterSet,
+  Operation,
 } from '@gen3/core';
 import {
   convertFilterSetToOperation,
@@ -79,30 +78,30 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
                 content.push(buildNested(field, {
                   operator: ">=",
                   field: field,
-                  operand:  dataPoint.from ,
+                  operand: dataPoint.from,
                 }));
 
                 content.push(buildNested(field, {
                   operator: "<",
                   field,
-                  operand:dataPoint.to,
+                  operand: dataPoint.to,
                 }));
               }
             } else {
-              const [fromValue, toValue] = parseContinuousBucket(value);
+                const [fromValue, toValue] = parseContinuousBucket(value);
 
-              content.push(buildNested(field, {
-                operator: ">=",
-                field,
-                operand: fromValue,
-              }));
+                content.push(buildNested(field, {
+                  operator: ">=",
+                  field,
+                  operand: fromValue,
+                }));
 
-              content.push(buildNested(field, {
-                operator: "<",
-                field,
-                operand: toValue,
-              }));
-            }
+                content.push(buildNested(field, {
+                  operator: "<",
+                  field,
+                  operand: toValue,
+                }));
+              }
           } else {
               if (typeof customBinnedData?.[value as keyof typeof customBinnedData] === "object") {
                 content.push(buildNested(field, {
@@ -110,27 +109,25 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
                   field: field,
                   operand: Object.keys(customBinnedData[value as keyof typeof customBinnedData])[0]
                 }));
-            } else {
+              } else {
                 content.push(buildNested(field, {
                   operator: '=',
                   field: field,
                   operand: value
                 }));
+              }
             }
-          }
 
           return ({
             operator: 'and', operands: content,
           } satisfies Intersection);
-        });
+      });
 
   const { data, isError, isFetching } = useGetSurvivalPlotQuery({
     filters: filters?.map((x) => {
     return convertFilterToGqlFilter(x)
     }) ?? []
   });
-
-  console.log("useGetSurvivalPlotQuery", data, isError, isFetching);
 
   return isError ? (
     <div className="h-64">

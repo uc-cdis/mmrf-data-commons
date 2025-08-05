@@ -23,7 +23,9 @@ export interface SurvivalPlotData {
   readonly overallStats: Record<string, number | undefined>;
 }
 
-export interface SurvivalApiResponse extends SurvivalPlotData {
+export interface SurvivalApiResponse {
+  results: ReadonlyArray<SurvivalElement>;
+  readonly overallStats: Partial<Record<string, number>>
   readonly warnings: Record<string, string>;
 }
 
