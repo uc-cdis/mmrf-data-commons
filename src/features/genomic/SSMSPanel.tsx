@@ -89,7 +89,7 @@ export const SSMSPanel = ({
   /* Scroll for gene search end */
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" data-testid="ssms-panel">
       <div className="bg-base-max relative mb-4 border border-base-lighter p-4">
         <LoadingOverlay
           data-testid="loading-spinner"
