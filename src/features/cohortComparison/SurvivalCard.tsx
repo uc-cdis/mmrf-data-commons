@@ -83,7 +83,7 @@ interface SurvivalCardProps {
     };
   };
   readonly setSurvivalPlotSelectable: (selectable: boolean) => void;
-  readonly caseSetIds: [string[], string[]]; // set of case id for primary and comparison cohorts
+  readonly caseSetIds?: [string[], string[]]; // set of case id for primary and comparison cohorts
   readonly isSetsloading: boolean;
 }
 

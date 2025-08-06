@@ -38,7 +38,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
         const formattedCohort = cohort.buckets.map((facet : any) => {
           return {
             key: formatBucket(facet.key, field),
-            count: facet.doc_count, // TODO change to match Gen3 APIs
+            count: facet.count,
             filter: createFilters(field, facet.key),
           };
         });

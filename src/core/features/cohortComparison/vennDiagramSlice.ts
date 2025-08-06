@@ -1,6 +1,5 @@
 import { graphQLAPI, type GQLFilter } from '@gen3/core';
 import { GEN3_ANALYSIS_API } from '@/core/constants';
-import { GraphQLApiResponse } from '@/core';
 
 
 
