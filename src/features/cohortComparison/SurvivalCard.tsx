@@ -7,8 +7,6 @@ import {
   buildCohortGqlOperator,
 } from "@/core/utils";
 import { GqlOperation } from "@/core/types";
-// import { useGetSurvivalPlotQuery } from "@/core/survival"; // TODO: uncomment when we have a survival endpoint
-import { useGetSurvivalPlotQuery } from "./mocks";
 import { GqlIntersection } from "./types";
 import SurvivalPlot from "../charts/SurvivalPlot/SurvivalPlot";
 import makeIntersectionFilters from "./makeIntersectionFilters";
@@ -16,6 +14,7 @@ import CohortCreationButton from "@/components/CohortCreationButton";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 import { useDeepCompareEffect } from "use-deep-compare";
 import { EmptySurvivalPlot } from "@/core/survival/types";
+import { useGetComparisonSurvivalPlotQuery } from '@/core/survival/survivalApiSlice';
 
 const survivalDataCompletenessFilters: GqlOperation[] = [
   {
@@ -99,37 +98,12 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
     buildCohortGqlOperator(cohorts?.comparison_cohort.filter),
 
   );
-  //const [createSet] = useCreateCaseSetFromFiltersMutation();
-/*
-  const generatePrimaryFilters = async () => {
-        return {
-          mode: "and",
-          root: {
-            "cases.case_id": {
-              field: "cases.case_id",
-              operands: ["set0"],
-              operator: "includes",
-            },
-          },
-        } as FilterSet;
-  };
 
-  const generateComparisonFilters = async () => {
-        return {
-          mode: "and",
-          root: {
-            "cases.case_id": {
-              field: "cases.case_id",
-              operands: ["set1"],
-              operator: "includes",
-            },
-          },
-        } as FilterSet;
-  };
-  */
   const { data, isUninitialized, isFetching, isError } =
-    useGetSurvivalPlotQuery({
+    useGetComparisonSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
+      index: 'case',
+      field: "_case_id",
     });
 
   useDeepCompareEffect(() => {

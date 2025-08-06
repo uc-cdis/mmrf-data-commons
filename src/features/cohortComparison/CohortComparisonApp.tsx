@@ -1,33 +1,21 @@
 import React from 'react';
 import { FilterSet } from '@gen3/core';
+import { buildNested } from "@gen3/frontend"
 import CohortComparison from './CohortComparison';
+import { fromArc } from 'zrender/lib/core/bbox';
 
 const PlaceHolderCohorts = {
   "primary_cohort": {
     "filter": {
       "mode": "and",
       "root": {
-        "cases.project.project_id": {
+        "demographic.race": buildNested("demographic.race",  {
           "operator": "includes",
-          "field": "cases.project.project_id",
+          "field": "demographic.race",
           "operands": [
-            "MMRF-COMMPASS"
+            "white"
           ]
-        },
-        "cases.diagnoses.treatments.therapeutic_agents": {
-          "operator": "includes",
-          "field": "cases.diagnoses.treatments.therapeutic_agents",
-          "operands": [
-            "carfilzomib"
-          ]
-        },
-        "cases.demographic.ethnicity": {
-          "operator": "includes",
-          "field": "cases.demographic.ethnicity",
-          "operands": [
-            "not hispanic or latino"
-          ]
-        }
+        })
       },
     } as FilterSet,
     "name": "Cohort A",
@@ -37,20 +25,14 @@ const PlaceHolderCohorts = {
     "filter": {
       "mode": "and",
       "root": {
-        "cases.project.project_id": {
+        "demographic.gender": buildNested("demographic.gender", {
+
           "operator": "includes",
-          "field": "cases.project.project_id",
+          "field": "demographic.gender",
           "operands": [
-            "MMRF-COMMPASS"
+            "male"
           ]
-        },
-        "cases.diagnoses.treatments.therapeutic_agents": {
-          "operator": "includes",
-          "field": "cases.diagnoses.treatments.therapeutic_agents",
-          "operands": [
-            "bortezomib"
-          ]
-        }
+        })
       }
     } as FilterSet,
     "name": "Cohort B",

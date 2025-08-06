@@ -7,8 +7,7 @@ import makeIntersectionFilters from "./makeIntersectionFilters";
 import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { buildCohortGqlOperator } from "@/core/utils";
-// import { useVennDiagramQuery } from '@/core/features/cohortComparison';
-import { useVennDiagramQuery } from "./mocks";
+import { useVennDiagramQuery } from '@/core/features/cohortComparison';
 
 const VennDiagram = dynamic(() => import("@/features/charts/VennDiagram"), {
   ssr: false,
@@ -55,7 +54,7 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   const { data, isLoading: dataLoading } = useVennDiagramQuery({
     set1Filters: filters.cohort1,
     set2Filters: filters.cohort2,
-    intersectionFilters: filters.intersection,
+    index: "case"
   });
 
   const isLoading = externalLoading || dataLoading;
@@ -66,17 +65,17 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
     return [
       {
         key: "S1_minus_S2",
-        value: data.set1?.hits?.total || 0,
+        value: data.set1 || 0,
         highlighted: false,
       },
       {
         key: "S2_minus_S1",
-        value: data.set2?.hits?.total || 0,
+        value: data.set2 || 0,
         highlighted: false,
       },
       {
         key: "S1_intersect_S2",
-        value: data.intersection?.hits?.total || 0,
+        value: data.intersection || 0,
         highlighted: false,
       },
     ];
