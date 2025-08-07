@@ -1,15 +1,17 @@
-import React, { useMemo} from 'react';
-import { useRouter } from "next/router";
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import {
-  AnalysisPageLayoutProps,
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
-  CohortManager, QueryExpression,
-  AnalysisToolConfiguration
+  AnalysisPageLayoutProps,
+  AnalysisToolConfiguration,
+  CohortManager,
+  QueryExpression,
 } from '@gen3/frontend';
 import AnalysisWorkspace from '@/components/analysis/AnalysisWorkspace';
+import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCohortSelection';
 
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
 
@@ -21,14 +23,19 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   const REGISTERED_APPS = useMemo(() => {
 
     if (sections) {
-      const a = sections.reduce((acc: Array<AnalysisToolConfiguration>, section) => {
+      return sections.reduce((acc: Array<AnalysisToolConfiguration>, section) => {
         return [...acc, ...section.tools];
-      }, [])
-      return a;
+      }, []);
     }
     return []
   }, []);
-  const appInfo = app ? REGISTERED_APPS.find((a : AnalysisToolConfiguration) =>a?.appId === app) : undefined;
+  let appInfo = app ? REGISTERED_APPS.find((a : AnalysisToolConfiguration) =>a?.appId === app) : undefined;
+
+  if (appInfo && appInfo.appId === 'CohortComparison') {
+    appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any} // TODO: remove this cast
+  }
+
+
   return (
     <>
       <PageTitle pageName="Analysis Center" />

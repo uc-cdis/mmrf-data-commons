@@ -6,7 +6,7 @@ import {
   FilterSet,
 } from '@gen3/core';
 import {
-  useCohortFacetsQuery, useVennDiagramQuery,
+  useCohortFacetsQuery,
 } from '@/core/features/cohortComparison';
 
 import CohortCard from "./CohortCard/CohortCard";
@@ -20,11 +20,13 @@ export interface CohortComparisonType {
     filter: FilterSet;
     name: string;
     id: string;
+    counts: number;
   };
   comparison_cohort: {
     filter: FilterSet;
     name: string;
     id: string;
+    counts: number;
   };
 }
 
@@ -55,6 +57,8 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     age_at_diagnosis: true,
   } as Record<string, boolean>);
 
+  console.log("CohortComparison", cohorts);
+
   const [survivalPlotSelectable, setSurvivalPlotSelectable] = useState(true);
   const fieldsToQuery = Object.values(fields).filter((v) => v !== "Survival");
 
@@ -73,19 +77,7 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     },
   );
 
-  const { data: countData, isSuccess: isCountsSuccess, isFetching: isCountsFetching } = useVennDiagramQuery({
-    set1Filters: convertFilterSetToGqlFilter(cohorts.primary_cohort.filter),
-    set2Filters: convertFilterSetToGqlFilter(cohorts.comparison_cohort.filter),
-    index: "case"
-  });
-
-  const counts = useMemo(() => {
-      if (isCountsSuccess) {
-        return [countData?.set1 ?? 0, countData?.set2 ??0]
-      }
-      else
-        return [0, 0]
-  }, [countData, isCountsSuccess]);
+  const counts = [ cohorts.primary_cohort.counts, cohorts.comparison_cohort.counts]
 
   return (
     <div className="mt-6 px-4 mb-16">
@@ -104,7 +96,7 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
                 cohorts={cohorts}
                 counts={counts}
                 setSurvivalPlotSelectable={setSurvivalPlotSelectable}
-                isSetsloading={isCountsFetching}
+                isSetsloading={false}
               />
             </div>
           )}

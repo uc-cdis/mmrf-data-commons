@@ -197,7 +197,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
           </tbody>
         </table>
         <div className="mt-2 cursor-default self-end">
-          {formattedData.length > 0 && <PValue data={formattedData} />}
+          {/* formattedData.length > 0 && <PValue data={formattedData} /> */}
         </div>
       </div>
     </Paper>
