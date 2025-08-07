@@ -22,6 +22,7 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
       .replace(/\.00$/, '')
       .replace(/\.0$/, '');
 
+  if (!data || data.length === 0) return <></>;
   const headerTitles = Object.keys(data[0]);
 
   const rows = data.map((rowData, i) => {

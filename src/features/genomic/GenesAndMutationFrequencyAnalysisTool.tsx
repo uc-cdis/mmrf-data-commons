@@ -1,27 +1,28 @@
-import React, { useCallback, useState } from "react";
-import { useDeepCompareCallback } from "use-deep-compare";
-import { Tabs } from "@mantine/core";
+import React, { useCallback, useState } from 'react';
+import { useDeepCompareCallback } from 'use-deep-compare';
+import { Tabs } from '@mantine/core';
 import {
   FilterSet,
   useCoreDispatch,
   removeCohortFilter,
   updateCohortFilter as updateActiveCohortFilter,
-} from "@gen3/core";
+} from '@gen3/core';
 /* import { useAppDispatch } from "@/features/genomic/appApi";
 import { clearGeneAndSSMFilters } from "@/features/genomic/geneAndSSMFiltersSlice";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp"; */
-import { ComparativeSurvival, AppModeState } from "./types";
-import { TableXPositionContext } from "@/components/Table/VerticalTable";
-import { SecondaryTabStyle } from "./constants";
-import { GenesPanel } from "./GenesPanel";
+import { ComparativeSurvival, AppModeState } from './types';
+import { TableXPositionContext } from '@/components/Table/VerticalTable';
+import { SecondaryTabStyle } from './constants';
+import { GenesPanel } from './GenesPanel';
+import { SSMSPanel } from './SSMSPanel';
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
-  mode: "and",
+  mode: 'and',
   root: {
-    "cases.project.project_id": {
-      operator: "includes",
-      field: "cases.project.project_id",
-      operands: ["TCGA-LGG"],
+    'cases.project.project_id': {
+      operator: 'includes',
+      field: 'cases.project.project_id',
+      operands: ['TCGA-LGG'],
     },
   },
 };
@@ -35,16 +36,18 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
   // const isDemoMode = useIsDemoApp();
   const coreDispatch = useCoreDispatch();
   // const appDispatch = useAppDispatch();
-  const [comparativeSurvival, setComparativeSurvival] =
-    useState<ComparativeSurvival|undefined>(undefined);
-  const [appMode, setAppMode] = useState<AppModeState>("genes");
-  const [searchTermsForGeneId, setSearchTermsForGeneId] = useState<GeneSearchTerms>({
-    geneId: undefined,
-    geneSymbol: undefined,
-  });
+  const [comparativeSurvival, setComparativeSurvival] = useState<
+    ComparativeSurvival | undefined
+  >(undefined);
+  const [appMode, setAppMode] = useState<AppModeState>('genes');
+  const [searchTermsForGeneId, setSearchTermsForGeneId] =
+    useState<GeneSearchTerms>({
+      geneId: undefined,
+      geneSymbol: undefined,
+    });
 
-// WILL NEED TO GET THIS DATA
-/*     const topGeneSSMSSuccess = useTopGeneSsms({
+  // WILL NEED TO GET THIS DATA
+  /*     const topGeneSSMSSuccess = useTopGeneSsms({
     appMode,
     comparativeSurvival,
     setComparativeSurvival,
@@ -81,7 +84,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
     [comparativeSurvival],
   );
 
- const handleGeneAndSSmToggled = useCallback(
+  const handleGeneAndSSmToggled = useCallback(
     (
       cohortStatus: string[],
       field: string,
@@ -94,7 +97,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
         field: ${field},
         idField: ${idField},
         payload: ${payload}`);
-/*       if (cohortStatus.includes(payload[idField])) {
+      /*       if (cohortStatus.includes(payload[idField])) {
         // remove the id from the cohort
         const update = cohortStatus.filter((x) => x != payload[idField]);
         if (update.length > 0)
@@ -140,7 +143,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
 
   const handleMutationCountClick = useCallback(
     (geneId: string, geneSymbol: string) => {
-      setAppMode("ssms");
+      setAppMode('ssms');
       setSearchTermsForGeneId({ geneId: geneId, geneSymbol: geneSymbol });
     },
     [],
@@ -150,10 +153,12 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
     setSearchTermsForGeneId({ geneId: undefined, geneSymbol: undefined });
   }, [setSearchTermsForGeneId]);
 
-  const [tableXPosition, setTableXPosition] = useState<number|undefined>(undefined);
+  const [tableXPosition, setTableXPosition] = useState<number | undefined>(
+    undefined,
+  );
 
   return (
-    <div >
+    <div>
       <TableXPositionContext.Provider
         value={{ xPosition: tableXPosition, setXPosition: setTableXPosition }}
       >
@@ -165,8 +170,8 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
             defaultValue="genes"
             classNames={{
               tab: SecondaryTabStyle,
-              list: "mt-2 border-0 gap-0 mb-2",
-              root: "bg-base-max border-0 w-full overflow-x-hidden",
+              list: 'mt-2 border-0 gap-0 mb-2',
+              root: 'bg-base-max border-0 w-full overflow-x-hidden',
             }}
             onChange={handleTabChanged}
             keepMounted={false}
@@ -189,13 +194,20 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               />
             </Tabs.Panel>
             <Tabs.Panel value="ssms" pt="xs">
-              <h3>SSMSPanel placeholder</h3>
+              <SSMSPanel
+                topGeneSSMSSuccess={true}
+                comparativeSurvival={comparativeSurvival as ComparativeSurvival}
+                handleSurvivalPlotToggled={handleSurvivalPlotToggled}
+                handleGeneAndSSmToggled={handleGeneAndSSmToggled}
+                searchTermsForGene={searchTermsForGeneId}
+                clearSearchTermsForGene={clearSearchTermsForGene}
+              />
             </Tabs.Panel>
           </Tabs>
         </div>
       </TableXPositionContext.Provider>
     </div>
-    )
-}
+  );
+};
 
 export default GenesAndMutationFrequencyAnalysisTool;
