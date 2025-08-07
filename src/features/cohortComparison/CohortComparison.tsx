@@ -73,8 +73,6 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     },
   );
 
-  console.log(cohortFacetsData);
-
   const { data: countData, isSuccess: isCountsSuccess, isFetching: isCountsFetching } = useVennDiagramQuery({
     set1Filters: convertFilterSetToGqlFilter(cohorts.primary_cohort.filter),
     set2Filters: convertFilterSetToGqlFilter(cohorts.comparison_cohort.filter),

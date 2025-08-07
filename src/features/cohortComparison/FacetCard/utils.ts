@@ -1,20 +1,20 @@
 import { DAYS_IN_YEAR, FilterSet } from "@/core";
 
 export const formatBucket = (
-  bucket: number | string,
+  bucket: [number, number] | string,
   field: string,
 ): string => {
   if (field === "diagnoses.age_at_diagnosis") {
-    const age = (bucket as number) / DAYS_IN_YEAR;
+    const age = Math.round((bucket as [number, number])[0] / DAYS_IN_YEAR);
     return age === 80 ? "80+ years" : `${age} to <${age + 10} years`;
   }
 
   return bucket === "_missing" ? "missing" : (bucket as string);
 };
 
-export const createFilters = (field: string, bucket: string): FilterSet => {
+export const createFilters = (field: string , bucket: string | [number, number]): FilterSet => {
   if (field === "diagnoses.age_at_diagnosis") {
-    const numericBucket = Number(bucket);
+    const numericBucket = Number(bucket[0]);
     if (numericBucket === 80 * DAYS_IN_YEAR) {
       return {
         mode: "and",

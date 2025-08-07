@@ -2,7 +2,6 @@ import React from 'react';
 import { FilterSet } from '@gen3/core';
 import { buildNested } from "@gen3/frontend"
 import CohortComparison from './CohortComparison';
-import { fromArc } from 'zrender/lib/core/bbox';
 
 const PlaceHolderCohorts = {
   "primary_cohort": {
