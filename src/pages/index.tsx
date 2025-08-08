@@ -8,10 +8,59 @@ import {
   AnalysisPageLayoutProps,
   AnalysisToolConfiguration,
   CohortManager,
-  QueryExpression,
+  QueryExpression,CountsValue
 } from '@gen3/frontend';
+import {
+  useLazyGetCountsQuery,
+  Accessibility,
+  CoreState,
+  useCoreSelector,
+  selectCurrentCohortId,
+  selectIndexFilters
+} from '@gen3/core';
 import AnalysisWorkspace from '@/components/analysis/AnalysisWorkspace';
 import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCohortSelection';
+
+
+import { useDeepCompareEffect } from 'use-deep-compare';
+
+interface CountsPanelProps {
+  index: string;
+  accessibility?: Accessibility;
+}
+
+const CountsPanel: React.FC<CountsPanelProps> = ({
+                                                   index,
+                                                   accessibility = Accessibility.ALL,
+                                                 }: CountsPanelProps) => {
+  const [getCounts, { data: counts, isFetching, isError, isSuccess }] =
+    useLazyGetCountsQuery();
+  const currentCohortId = useCoreSelector((state: CoreState) =>
+    selectCurrentCohortId(state),
+  );
+  const cohortFilters = useCoreSelector((state: CoreState) =>
+    selectIndexFilters(state, index),
+  );
+
+  useDeepCompareEffect(() => {
+    getCounts({
+      type: index,
+      filters: cohortFilters,
+      accessibility: accessibility,
+      queryId: currentCohortId,
+    });
+  }, [cohortFilters, currentCohortId, accessibility]);
+
+  return (
+      <CountsValue
+        label="Case"
+        counts={counts}
+        isFetching={isFetching}
+        isError={isError}
+      />
+  );
+};
+
 
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
 
@@ -41,7 +90,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <PageTitle pageName="Analysis Center" />
       <MainNavigation />
       <div className="flex flex-col ml-2">
-        <CohortManager/>
+        <CohortManager rightPanel={<CountsPanel index="case" />}/>
         <QueryExpression index="case"/>
 
 

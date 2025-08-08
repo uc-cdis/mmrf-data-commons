@@ -1,7 +1,7 @@
 // hooks/useClinicalData.ts
 import { useDeepCompareMemo } from 'use-deep-compare';
 import {
-  useGetAggsNoFilterSelfQuery,
+  useGetAggsQuery,
   useGetStatsAggregationsQuery,
   Accessibility,
   FilterSet, AggregationsData, StatsData,
@@ -41,11 +41,12 @@ export const useClinicalAnalysisQuery = ({
     isFetching: isAggsFetching,
     isError: isAggsError,
     error: aggsError,
-  } = useGetAggsNoFilterSelfQuery({
+  } = useGetAggsQuery({
     type,
     fields: aggFields,
     filters,
     accessibility,
+    filterSelf: true,
   });
 
   const {
