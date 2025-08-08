@@ -1,6 +1,6 @@
 import { ComparativeSurvival  } from '@/features/genomic/types';
 import { FilterSet } from '@gen3/core';
-import type { Survival } from '@/core/survival';
+import type { SurvivalPlotData } from '@/core/survival';
 import GeneAndSSMFilters from './data/useGeneAndSSMPanel_data.json';
 import GeneFrequencyChartData from './data/useGeneFrequencyChart_data.json';
 import SSMSTableData from './data/useGetSssmTableDataQuery_data.json';
@@ -15,7 +15,7 @@ export interface GeneAndSSMPanelData {
   genomicFilters: FilterSet;
   currentCohortFilters: FilterSet;
   overwritingDemoFilter: FilterSet;
-  survivalPlotData: Survival;
+  survivalPlotData: SurvivalPlotData;
   survivalPlotFetching: boolean;
   survivalPlotReady: boolean;
 }

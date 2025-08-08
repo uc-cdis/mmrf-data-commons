@@ -6,7 +6,6 @@ import {
   DashboardDownloadContext,
   SelectionScreenContext,
 } from "./context";
-import { AppRegistrationEntry } from "./types";
 import { AnalysisToolConfiguration } from '@gen3/frontend';
 
 interface AnalysisWorkspaceProps {

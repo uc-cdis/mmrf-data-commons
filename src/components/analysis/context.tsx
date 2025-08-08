@@ -45,17 +45,17 @@ export const DashboardDownloadContext = createContext<{
 
 interface SelectionScreenContextProps {
   readonly selectionScreenOpen: boolean;
-  readonly setSelectionScreenOpen?: (open: boolean) => void;
+  readonly setSelectionScreenOpen: (open: boolean) => void;
   readonly app?: string;
-  readonly setActiveApp?: (app: string | undefined, demoMode?: boolean) => void;
+  readonly setActiveApp: (app: string | undefined, demoMode?: boolean) => void;
 }
 
 export const SelectionScreenContext =
   createContext<SelectionScreenContextProps>({
     selectionScreenOpen: false,
-    setSelectionScreenOpen: undefined,
+    setSelectionScreenOpen: () => null,
     app: undefined,
-    setActiveApp: undefined,
+    setActiveApp: () => null,
   });
 
 interface AppContextType {

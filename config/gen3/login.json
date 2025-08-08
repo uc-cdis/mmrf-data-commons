@@ -18,5 +18,5 @@
     }
   ],
   "image": "images/empty.svg",
-  "showCredentialsLogin" : false
+  "showCredentialsLogin" : true
 }

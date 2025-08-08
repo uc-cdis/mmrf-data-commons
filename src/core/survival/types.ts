@@ -12,21 +12,23 @@ export interface SurvivalElement {
   readonly donors: ReadonlyArray<SurvivalDonor>;
 }
 
-export interface SurvivalApiResponse {
-  readonly results: ReadonlyArray<SurvivalElement>;
-  readonly overallStats: Record<string, number | undefined>;
-  readonly warnings: Record<string, string>;
+export interface OverallStats {
+  chiSquared: number;
+  degreesFreedom: number;
+  pValue: number;
 }
 
-export interface Survival {
+export interface SurvivalPlotData {
   readonly survivalData: ReadonlyArray<SurvivalElement>;
   readonly overallStats: Record<string, number | undefined>;
 }
 
-export const EmptySurvivalPlot  : Survival= {
-  overallStats: { pValue: undefined },
-  survivalData: [],
-};
+export interface SurvivalApiResponse {
+  results: ReadonlyArray<SurvivalElement>;
+  readonly overallStats: Partial<Record<string, number>>
+  readonly warnings: Record<string, string>;
+}
+
 
 export enum SurvivalPlotTypes {
   gene = "gene",
@@ -37,7 +39,7 @@ export enum SurvivalPlotTypes {
   cohortComparison = "cohortComparison",
 }
 
-export const EmptySurivalPlot : Survival = {
+export const EmptySurvivalPlot : SurvivalPlotData = {
   survivalData: [],
   overallStats: {}
 }

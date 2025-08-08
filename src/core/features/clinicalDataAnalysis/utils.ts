@@ -1,18 +1,53 @@
-import { FromToRange } from '@gen3/frontend';
+import { FromToRange, } from '@gen3/frontend';
 import {
-  NumericFromTo,
   Intersection,
-  Accessibility,
-  RawDataAndTotalCountsParams,
-  convertFilterSetToGqlFilter,
+  NumericFromTo,
+  Operation,
+  isOperationWithField
 } from '@gen3/core';
+
+
+/**
+ * Constructs a nested operation object based on the provided field and leaf operand.
+ * If the field does not contain a dot '.', it either assigns the field to the leaf operand (if applicable)
+ * or returns the leaf operand as is. When the field contains dots, it splits the field into parts,
+ * creates a "nested" operation for the root field, and recursively constructs the nested structure
+ * for the remaining portion of the field.
+ *
+ * @param {string} field - The hierarchical field path, with segments separated by dots (e.g., "root.child").
+ * @param {Operation} leafOperand - The operation to be nested within the specified path.
+ * @returns {Operation} A nested operation object that represents the structured path and operand.
+ */
+export const buildNested = (
+  field: string,
+  leafOperand: Operation,
+): Operation => {
+  if (!field.includes('.')) {
+    if (isOperationWithField(leafOperand))
+      return {
+        ...leafOperand,
+        field: field,
+      } as Operation;
+    else return leafOperand;
+  }
+
+  const splitFieldArray = field.split('.');
+  const rootField = splitFieldArray.shift();
+
+  return {
+    operator: 'nested',
+    path: rootField ?? '',
+    operand: buildNested(splitFieldArray.join('.'), leafOperand),
+  };
+};
+
 
 
 /**
  * Given a range compute the key if possibly matches a predefined range
  * otherwise classify as "custom"
  * @param range - Range to classify
- * @param precision - number of values after .
+ * @param precision - number of values after the decimal point
  */
 export const classifyRangeType = (
   range?: FromToRange<number>,
@@ -52,16 +87,18 @@ export const convertRangeToGql = <T = string>(range: Range<T>): string => {
   return gql.join(' OR ');
 };
 
-export const convertNumericFromToArrayToGQLFilters = (
+export const convertNumericFromToArrayToFilters = (
   field: string,
   range: NumericFromTo,
+  case_filters: Operation,
 ): Intersection => {
   const { from, to } = range;
   return {
     operator: 'and',
     operands: [
-      { operator: '>=', field, operand: from },
-      { operator: '<', field, operand: to },
+      case_filters,
+      buildNested(field, { operator: '>=', field, operand: from }),
+      buildNested(field, { operator: '<', field, operand: to }),
     ],
   } satisfies Intersection;
 };
@@ -71,15 +108,15 @@ export const rawDataQueryStrForEachField = (field: string): string => {
   const splitField = splitFieldArray.shift();
   let middleQuery: string = '';
   if (splitFieldArray.length === 0) {
-    middleQuery = `${splitField} { _totalCount }`;
+    middleQuery = `${splitField} { histogram { count } }`;
   } else {
     middleQuery = `${splitField} { ${rawDataQueryStrForEachField(splitFieldArray.join('.'))} }`;
   }
   return middleQuery;
 };
 
-interface NamedFilterRawDataParams
-  extends Omit<RawDataAndTotalCountsParams, 'fields'> {
+interface NamedFilterRawDataParams {
+  type: string;
   field: string;
   rangeName: string;
 }
@@ -87,37 +124,26 @@ interface NamedFilterRawDataParams
 export const buildAliasedNestedCountsQuery = ({
   type,
   field,
-  filters,
   rangeName,
-  sort,
-  accessibility = Accessibility.ALL,
 }: NamedFilterRawDataParams) => {
-  const params = [
-    ...(accessibility ? ['$accessibility: Accessibility'] : []),
-    ...(sort ? ['$sort: JSON'] : []),
-    ...(rangeName ? ['$filter: JSON'] : []),
-  ].join(',');
-  const gqlFilter = convertFilterSetToGqlFilter(filters);
-  const queryLine = `query rangeQuery_${rangeName} (${params}) {`;
-  const dataParams = [...(gqlFilter ? [`filter: $${rangeName}`] : [])].join(',');
-  const dataTypeLine = `_aggregation { ${rangeName} : ${type} (accessibility: $accessibility ${dataParams}) {`;
+  const dataParams = [`filter: $${rangeName}`];
+  const dataTypeLine = `${rangeName} : ${type} (accessibility: $accessibility ${dataParams}) {`;
   const processedFields = rawDataQueryStrForEachField(field);
-
-  const query = `${queryLine} ${dataTypeLine} ${processedFields} } } }`;
-
-  return query;
+  return `${dataTypeLine} ${processedFields} }`;
 };
 
 export const buildRangeFilters = (
   field: string,
-  rangeBaseName: string,
+  case_filters: Operation,
   ranges: Array<NumericFromTo>,
+  rangeBaseName: string,
 ) => {
   const filters = Object.entries(ranges).reduce(
     (acc: Record<string, any>, [rangeKey, rangeValue], idx) => {
-      acc[`${rangeBaseName}_${idx}`] = convertNumericFromToArrayToGQLFilters(
+      acc[`${rangeBaseName}_${idx}`] = convertNumericFromToArrayToFilters(
         field,
         rangeValue,
+        case_filters
       );
       return acc;
     },
@@ -128,27 +154,24 @@ export const buildRangeFilters = (
 };
 
 export const buildRangeQuery = (
-  field: string, rangeBaseName: string, ranges: Array<NumericFromTo>,
+  field: string,  case_filters: Operation, ranges: Array<NumericFromTo>, rangeBaseName: string = "range"
 ) => {
-  const rangeFilters = buildRangeFilters(field, rangeBaseName, ranges);
+  const rangeFilters = buildRangeFilters(field,case_filters, ranges,  rangeBaseName  );
 
-  let query = '';
+  let query = `query rangeQuery ($accessibility: Accessibility, ${Object.keys(rangeFilters).map((rangeKey) => `$${rangeKey}: JSON`).join(',')} ) { _aggregation {`;
   Object.keys(rangeFilters).forEach((rangeKey) => {
     const rangeQuery = buildAliasedNestedCountsQuery({
       type: 'case',
       field,
-      filters: {
-        mode: 'and',
-        root: rangeFilters,
-      },
       rangeName: rangeKey,
-      accessibility: Accessibility.ALL,
     });
     query += rangeQuery + ' \n';
   });
 
+  query += `}}`;
+
   return ({
     query: query,
-    variables: rangeFilters
+    variables: rangeFilters as Operation
     });
 }

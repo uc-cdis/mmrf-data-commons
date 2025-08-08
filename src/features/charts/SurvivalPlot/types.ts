@@ -1,4 +1,4 @@
-import { Survival } from '@/core/survival';
+import { SurvivalPlotData } from '@/core/survival';
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { entityMetadataType } from '@/utils/contexts';
 
@@ -21,7 +21,7 @@ export type UseSurvivalType = (
 ) => MutableRefObject<any>;
 
 export interface SurvivalPlotProps {
-  readonly data: Survival;
+  readonly data: SurvivalPlotData;
   readonly names?: ReadonlyArray<string>;
   readonly plotType?: SurvivalPlotTypes;
   readonly title?: string;

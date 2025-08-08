@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { pickBy } from "lodash";
 import { LoadingOverlay } from "@mantine/core";
 import {
@@ -6,25 +6,27 @@ import {
   FilterSet,
 } from '@gen3/core';
 import {
-  useCohortFacetsQuery ,
-} from "./mocks";
+  useCohortFacetsQuery,
+} from '@/core/features/cohortComparison';
+
 import CohortCard from "./CohortCard/CohortCard";
 import SurvivalCard from "./SurvivalCard";
 import FacetCard from "./FacetCard";
 import { DemoText } from "@/components/tailwindComponents";
 import { CohortComparisonFields} from "./types";
-import { useCreateCaseSetFromFiltersMutation } from '@/features/cohortComparison/mocks';
 
 export interface CohortComparisonType {
   primary_cohort: {
     filter: FilterSet;
     name: string;
     id: string;
+    counts: number;
   };
   comparison_cohort: {
     filter: FilterSet;
     name: string;
     id: string;
+    counts: number;
   };
 }
 
@@ -55,13 +57,10 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     age_at_diagnosis: true,
   } as Record<string, boolean>);
 
+  console.log("CohortComparison", cohorts);
+
   const [survivalPlotSelectable, setSurvivalPlotSelectable] = useState(true);
   const fieldsToQuery = Object.values(fields).filter((v) => v !== "Survival");
-
-  const [createPrimaryCaseSet, primarySetResponse] =
-    useCreateCaseSetFromFiltersMutation();
-  const [createComparisonCaseSet, comparisonSetResponse] =
-    useCreateCaseSetFromFiltersMutation();
 
   const {
     data: cohortFacetsData,
@@ -70,43 +69,15 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     isUninitialized: cohortFacetsUninitialized,
   } = useCohortFacetsQuery(
     {
+      index: "case",
+      continuousFacets: ["diagnoses.age_at_diagnosis"],
       facetFields: fieldsToQuery,
       primaryCohort: convertFilterSetToGqlFilter(cohorts.primary_cohort.filter),
       comparisonCohort: convertFilterSetToGqlFilter(cohorts.comparison_cohort.filter),
     },
-    {
-      skip:
-        primarySetResponse.data === undefined ||
-        comparisonSetResponse.data === undefined,
-    },
   );
 
-  const counts = cohortFacetsData?.caseCounts || [];
-
-  // useDeepCompareEffect(() => {
-  //   createPrimaryCaseSet({
-  //     filters: cohorts.primary_cohort.filter ?? {},
-  //   });
-  //   createComparisonCaseSet({
-  //     filters: cohorts.comparison_cohort.filter ?? {},
-  //   });
-  // }, [
-  //   cohorts.primary_cohort.filter,
-  //   cohorts.comparison_cohort.filter,
-  //   createComparisonCaseSet,
-  //   createPrimaryCaseSet,
-  // ]);
-
-  const isSetsloading =
-    primarySetResponse.isUninitialized ||
-    primarySetResponse.isLoading ||
-    comparisonSetResponse.isUninitialized ||
-    comparisonSetResponse.isLoading;
-
-  const caseSetIds : [string[], string[]] =
-    primarySetResponse.isSuccess && comparisonSetResponse.isSuccess
-      ? [primarySetResponse.data, comparisonSetResponse.data]
-      : [[],[]];
+  const counts = [ cohorts.primary_cohort.counts, cohorts.comparison_cohort.counts]
 
   return (
     <div className="mt-6 px-4 mb-16">
@@ -124,9 +95,8 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
               <SurvivalCard
                 cohorts={cohorts}
                 counts={counts}
-                caseSetIds={caseSetIds}
                 setSurvivalPlotSelectable={setSurvivalPlotSelectable}
-                isSetsloading={isSetsloading}
+                isSetsloading={false}
               />
             </div>
           )}

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Alert, LoadingOverlay } from "@mantine/core";
 import {
+  Intersection,
   useCoreSelector,
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  GQLFilter as GqlOperation,
-} from "@gen3/core";
-import { selectCurrentCohortCaseFilters as selectCurrentCohortFilters } from '@/core/utils';
-import { EmptySurivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
+  convertFilterToGqlFilter,
+  Operation,
+} from '@gen3/core';
+import {
+  convertFilterSetToOperation,
+  selectCurrentCohortCaseFilters as selectCurrentCohortFilters,
+} from '@/core/utils';
+import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
+import { buildNested} from '@gen3/frontend';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
 import { getFormattedTimestamp } from "@/utils/date";
@@ -16,6 +21,8 @@ import { DEMO_COHORT_FILTERS } from "../constants";
 import { ExternalDownloadStateSurvivalPlot } from "@/features/charts/SurvivalPlot/SurvivalPlot";
 import { toDisplayName } from "../utils";
 
+export const isIntersection = (o: Operation): o is Intersection =>
+  (o as Intersection).operator === 'and';
 
 
 interface ClinicalSurvivalPlotProps {
@@ -34,9 +41,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
   const isDemoMode = useIsDemoApp();
   const [plotType, setPlotType] = useState<SurvivalPlotTypes | undefined>(undefined);
   const cohortFilters = useCoreSelector((state) =>
-    buildCohortGqlOperator(
-      isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state),
-    ),
+      convertFilterSetToOperation( isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state, "case")),
   );
 
   useEffect(() => {
@@ -55,7 +60,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
     selectedSurvivalPlots.length === 0
       ? cohortFilters && [cohortFilters]
       : selectedSurvivalPlots.map((value) => {
-          const content = [];
+          const content : Array<Operation> = [];
           if (cohortFilters) {
             content.push(cohortFilters);
           }
@@ -70,48 +75,58 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
               );
 
               if (dataPoint !== undefined) {
-                content.push({
-                  op: ">=",
-                  content: { field, value: [dataPoint.from] },
-                });
+                content.push(buildNested(field, {
+                  operator: ">=",
+                  field: field,
+                  operand: dataPoint.from,
+                }));
 
-                content.push({
-                  op: "<",
-                  content: { field, value: [dataPoint.to] },
-                });
+                content.push(buildNested(field, {
+                  operator: "<",
+                  field,
+                  operand: dataPoint.to,
+                }));
               }
             } else {
-              const [fromValue, toValue] = parseContinuousBucket(value);
+                const [fromValue, toValue] = parseContinuousBucket(value);
 
-              content.push({
-                op: ">=",
-                content: { field, value: [fromValue] },
-              });
+                content.push(buildNested(field, {
+                  operator: ">=",
+                  field,
+                  operand: fromValue,
+                }));
 
-              content.push({
-                op: "<",
-                content: { field, value: [toValue] },
-              });
-            }
+                content.push(buildNested(field, {
+                  operator: "<",
+                  field,
+                  operand: toValue,
+                }));
+              }
           } else {
-            if (typeof customBinnedData?.[value as keyof typeof customBinnedData] === "object") {
-              content.push({
-                "=": { [field]: Object.keys(customBinnedData[value as keyof typeof customBinnedData]) }
-              });
-            } else {
-              content.push({
-                "=": { [field]: value },
-              });
+              if (typeof customBinnedData?.[value as keyof typeof customBinnedData] === "object") {
+                content.push(buildNested(field, {
+                  operator: '=',
+                  field: field,
+                  operand: Object.keys(customBinnedData[value as keyof typeof customBinnedData])[0]
+                }));
+              } else {
+                content.push(buildNested(field, {
+                  operator: '=',
+                  field: field,
+                  operand: value
+                }));
+              }
             }
-          }
 
-          return {
-            "and" : content,
-          } as GqlOperation;
-        });
+          return ({
+            operator: 'and', operands: content,
+          } satisfies Intersection);
+      });
 
   const { data, isError, isFetching } = useGetSurvivalPlotQuery({
-    filters,
+    filters: filters?.map((x) => {
+    return convertFilterToGqlFilter(x)
+    }) ?? []
   });
 
   return isError ? (
@@ -122,7 +137,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
     <div className="relative">
       <LoadingOverlay data-testid="loading-spinner" visible={isFetching} />
       <ExternalDownloadStateSurvivalPlot
-        data={data?? EmptySurivalPlot}
+        data={data?? EmptySurvivalPlot}
         height={150}
         title={toDisplayName(field)}
         showTitleOnlyOnDownload

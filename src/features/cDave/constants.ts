@@ -16,7 +16,6 @@ export const DEFAULT_FIELDS = [
   "demographic.gender",
   "demographic.race",
   "demographic.ethnicity",
-  "diagnoses.age_at_diagnosis",
   "diagnoses.primary_diagnosis",
 ];
 
