@@ -18,7 +18,7 @@ interface AdditionalCohortSelectionProps {
   readonly app?: string;
   readonly setActiveApp: (id?: string, demoMode?: boolean) => void;
   readonly setOpen: (open: boolean) => void;
-  readonly setComparisonCohort: (cohort: Cohort|null) => void;
+  readonly setComparisonCohort: (cohort?: Cohort) => void;
   readonly index: string;
 }
 
@@ -38,7 +38,7 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
     [primaryCohort, availableCohorts],
   );
 
-  const [selectedCohort, setSelectedCohort] = useState<Cohort|null>(null);
+  const [selectedCohort, setSelectedCohort] = useState<Cohort|undefined>();
 
   const cohortListTableColumnHelper = createColumnHelper<(typeof cohorts)[0]>();
 
@@ -175,6 +175,7 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
           data-testid="button-run-cohort-comparison"
           disabled={selectedCohort === null}
           onClick={() => {
+            console.log("selectedCohort")
             setOpen(false);
             setComparisonCohort(selectedCohort);
           }}

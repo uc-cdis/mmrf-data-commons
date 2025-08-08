@@ -1,9 +1,9 @@
-import React, { useContext,useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   useCoreSelector,
   type Cohort,
   usePrevious,
-  selectAllCohorts,
+  selectCohortIds,
   selectCohortById,
   EmptyFilterSet,
   selectCurrentCohort,
@@ -18,13 +18,11 @@ const CohortComparisonApp = () => {
   const { selectionScreenOpen, setSelectionScreenOpen, app, setActiveApp } =
     useContext(SelectionScreenContext);
 
-  const allCohorts = useCoreSelector(selectAllCohorts);
-  const allCohortsIds = Object.keys(allCohorts);
+  const allCohortsIds =useCoreSelector(selectCohortIds);
 
   const primaryCohort = useCoreSelector((state) => selectCurrentCohort(state));
 
-  const [comparisonCohort, setComparisonCohort] = useState<Cohort | null>();
-  const comparisonCohortId = comparisonCohort?.id;
+  const [comparisonCohort, setComparisonCohort] = useState<Cohort>();
   const comparisonCohortObj: Cohort | null = useCoreSelector((state) =>
     comparisonCohort?.id ? selectCohortById(state, comparisonCohort.id) : null,
   );
@@ -38,32 +36,32 @@ const CohortComparisonApp = () => {
   const cohorts = {
     primary_cohort: {
       filter: primaryCohort.filters && 'case' in  primaryCohort.filters ?  primaryCohort.filters['case'] : EmptyFilterSet,
-      name: primaryCohort.name ?? 'unidentified cohort',
-      id: primaryCohort.id ?? 'unidentified cohort',
+      name: primaryCohort.name ?? 'uninitialize',
+      id: primaryCohort.id ?? 'uninitialized',
       counts: primaryCohort.counts?.['case'] ?? 0,
     },
     comparison_cohort: {
       filter: comparisonCohortFilter && 'case' in comparisonCohortFilter
         ? comparisonCohortFilter['case']
         : EmptyFilterSet,
-      name: comparisonCohort?.name ?? 'unidentified cohort',
-      id: comparisonCohort?.id ?? 'unidentified cohort',
+      name: comparisonCohort?.name ?? 'uninitialize',
+      id: comparisonCohort?.id ?? 'uninitialize',
       counts: comparisonCohort?.counts?.['case'] ?? 0,
     },
   };
 
   console.log("CohortComparisonApp", cohorts);
 
-  const prevPrimaryCohortId = usePrevious( primaryCohort.id);
-  const prevComparisonCohortId = usePrevious(comparisonCohortId);
+  const prevPrimaryCohortId  = usePrevious<string|undefined>( primaryCohort?.id);
+  const prevComparisonCohortId = usePrevious<string|undefined>(comparisonCohort?.id);
 
   useDeepCompareEffect(() => {
     if (
-      (prevPrimaryCohortId && !allCohortsIds.includes(prevPrimaryCohortId)) ||
-      !prevComparisonCohortId ||
-      !allCohortsIds.includes(prevComparisonCohortId)
+      (prevPrimaryCohortId && !allCohortsIds.includes(prevPrimaryCohortId) ||
+        prevComparisonCohortId&&  !allCohortsIds.includes(prevComparisonCohortId))
     ) {
-      if (setSelectionScreenOpen) setSelectionScreenOpen(true);
+      if (setSelectionScreenOpen)
+        setSelectionScreenOpen(true);
     }
   }, [
     allCohortsIds,
