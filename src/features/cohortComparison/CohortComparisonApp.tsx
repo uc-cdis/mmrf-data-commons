@@ -29,10 +29,6 @@ const CohortComparisonApp = () => {
   const comparisonCohortFilter = comparisonCohortObj?.filters;
   /* Comparison Cohort Details End */
 
-  useEffect(() => {
-    console.log("CohortComparisonApp", comparisonCohort);
-  }, [comparisonCohort]);
-
   const cohorts = {
     primary_cohort: {
       filter: primaryCohort.filters && 'case' in  primaryCohort.filters ?  primaryCohort.filters['case'] : EmptyFilterSet,
@@ -49,8 +45,6 @@ const CohortComparisonApp = () => {
       counts: comparisonCohort?.counts?.['case'] ?? 0,
     },
   };
-
-  console.log("CohortComparisonApp", cohorts);
 
   const prevPrimaryCohortId  = usePrevious<string|undefined>( primaryCohort?.id);
   const prevComparisonCohortId = usePrevious<string|undefined>(comparisonCohort?.id);
