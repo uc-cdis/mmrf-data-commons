@@ -1,34 +1,38 @@
-import React, { useState } from "react";
-import { LoadingOverlay } from "@mantine/core";
+import React, { useState } from 'react';
+import { LoadingOverlay } from '@mantine/core';
 import {
   useCoreSelector,
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  useGetAggsNoFilterSelfQuery,
-  useGetAggsQuery, Accessibility
-} from "@gen3/core";
+  filterSetToOperation,
+  Accessibility, Operation,
+} from '@gen3/core';
 
-const CASE_INDEX = "case";
+import { useClinicalAnalysisQuery } from './useClinicalAnalysisQuery';
+
+const CASE_INDEX = 'case';
 
 // import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
-import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery} from './mockedHooks';
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import Controls from "./Controls";
-import Dashboard from "./Dashboard";
-import { DEFAULT_FIELDS, DEMO_COHORT_FILTERS, FACET_SORT } from "./constants";
-import { combineAnalysisResults, filterUsefulFacets, parseFieldName } from './utils';
-import { DemoText } from "@/components/tailwindComponents";
-import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
+import { useIsDemoApp } from '@/hooks/useIsDemoApp';
+import Controls from './Controls';
+import Dashboard from './Dashboard';
+import { DEFAULT_FIELDS, DEMO_COHORT_FILTERS, FACET_SORT } from './constants';
+import {
+  combineAnalysisResults,
+  filterUsefulFacets,
+  parseFieldName,
+} from './utils';
+import { DemoText } from '@/components/tailwindComponents';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { selectCurrentCohortCaseFilters } from '@/core/utils';
+import fields from './data/clinicalFields.json';
 
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
   const [controlsExpanded, setControlsExpanded] = useState(true);
-  const [accessLevel, setAccessLevel] = useState<Accessibility>(
+  const [accessLevel ] = useState<Accessibility>(
     Accessibility.ALL,
   );
   const [activeFields, setActiveFields] = useState(DEFAULT_FIELDS); // the fields that have been selected by the user
 
-  const { data: fields } = useClinicalFieldsQuery();
 
   const cDaveFields = useDeepCompareMemo(
     () =>
@@ -42,15 +46,20 @@ const ClinicalDataAnalysis: React.FC = () => {
     [fields],
   );
 
+  const cDaveStatsFields = useDeepCompareMemo(
+    () => cDaveFields.filter((f) => f.type.name == 'NumericAggregations').map(x => x.full),
+    [cDaveFields],
+  );
+
   const currentCohortFilters = useCoreSelector((state) =>
-    selectCurrentCohortCaseFilters(state),
+    selectCurrentCohortCaseFilters(state, 'case'),
   );
 
   const cohortFilters = useDeepCompareMemo(
     () =>
-      buildCohortGqlOperator(
+      filterSetToOperation(
         isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-      ),
+      ) ?? { operator: 'and', operands: [] } satisfies Operation,
     [isDemoMode, currentCohortFilters],
   );
   const facets = useDeepCompareMemo(
@@ -58,19 +67,20 @@ const ClinicalDataAnalysis: React.FC = () => {
     [cDaveFields],
   );
 
-  const {
-    data : cDaveResult,
-    isSuccess,
-    isFetching,
-    isError,
-  } = useGetAggsQuery({
+  const { cDaveAggResults, cDaveStatsResults, isFetching, isError, isSuccess}  =
+  useClinicalAnalysisQuery({
     type: CASE_INDEX,
-    fields: facets,
-    filters:  isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-    accessibility: accessLevel,
+    aggFields: facets,
+    statsFields: cDaveStatsFields,
+    filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
+    accessibility: accessLevel
   });
 
-  const convertedData = useDeepCompareMemo(() => combineAnalysisResults(cDaveResult ?? {}), [cDaveResult]);
+
+  const convertedData = useDeepCompareMemo(
+    () => combineAnalysisResults(cDaveAggResults ?? {}, cDaveStatsResults ?? {}),
+    [cDaveAggResults, cDaveStatsResults],
+  );
 
   const updateFields = useDeepCompareCallback(
     (field: string) => {
@@ -83,16 +93,24 @@ const ClinicalDataAnalysis: React.FC = () => {
     [activeFields],
   );
 
-  return isFetching ? (
-    <div className="flex relative justify-center items-center h-screen/2">
-      <LoadingOverlay
-        loaderProps={{ size: "xl", color: "primary" }}
-        visible={isFetching}
-        data-testid="please_wait_spinner"
-        zIndex={0}
-      />
-    </div>
-  ) : (
+  if (isError) {
+    return (
+      <div className="flex relative justify-center items-center h-screen/2">
+        <div className="flex flex-col items-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold">Something&apos;s gone wrong</h1>
+          </div>
+          <div className="text-center">
+            <p className="text-lg">
+              Please try again later or contact support.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <>
       {isDemoMode && (
         <DemoText>
@@ -101,6 +119,12 @@ const ClinicalDataAnalysis: React.FC = () => {
       )}
 
       <div className="flex gap-4 pt-4 pb-16 px-4 w-full">
+        <LoadingOverlay
+          loaderProps={{ size: 'xl', color: 'primary' }}
+          visible={isFetching}
+          data-testid="please_wait_spinner"
+          zIndex={0}
+        />
         <Controls
           updateFields={updateFields}
           cDaveFields={cDaveFields}
@@ -109,7 +133,7 @@ const ClinicalDataAnalysis: React.FC = () => {
           controlsExpanded={controlsExpanded}
           setControlsExpanded={setControlsExpanded}
         />
-        {isSuccess && Object.keys(cDaveResult).length > 0 && (
+        {isSuccess && Object.keys(convertedData).length > 0 && (
           <Dashboard
             activeFields={activeFields}
             cohortFilters={cohortFilters}

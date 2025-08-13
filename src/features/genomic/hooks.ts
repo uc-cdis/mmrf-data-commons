@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import {  useCallback } from "react";
 import {
   FacetBucket as FacetBuckets,
   FilterSet,
@@ -13,7 +13,7 @@ import {
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
 } from "@gen3/core";
-import { type Survival } from '@/core/survival';
+import { type SurvivalPlotData } from '@/core/survival';
 // import { useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from "lodash/isEqual";
 import { GQLDocType, GQLIndexType} from '@/core/features/facets/types';
@@ -171,7 +171,7 @@ export interface GeneAndSSMPanelData {
   genomicFilters: FilterSet;
   cohortFilters: IndexedFilterSet;
   overwritingDemoFilter: FilterSet;
-  survivalPlotData: Survival;
+  survivalPlotData: SurvivalPlotData;
   survivalPlotFetching: boolean;
   survivalPlotReady: boolean;
 }

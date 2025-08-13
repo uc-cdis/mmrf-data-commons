@@ -3,7 +3,7 @@ import { Card, ActionIcon, Tooltip, SegmentedControlItem } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
 import {
   useCoreSelector,
-  GQLFilter as GqlOperation,
+  Operation,
 } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
 import {
@@ -11,7 +11,6 @@ import {
 } from "@gen3/frontend";
 // restore later when API and FacetDictionary is implemented
 //import { selectFacetDefinitionByName } from '@/core/features/facets/selectors';
-import { selectFacetDefinitionByName } from '../mockedHooks';
 import { DownloadProgressContext} from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";
@@ -23,7 +22,7 @@ import {
   DATA_DIMENSIONS,
   MISSING_KEY,
 } from "../constants";
-import { toDisplayName, useDataDimension } from "../utils";
+import { selectFacetDefinitionByName, toDisplayName, useDataDimension } from '../utils';
 import {
   BarChartIcon,
   BoxPlotIcon,
@@ -36,7 +35,7 @@ interface CDaveCardProps {
   readonly data: Buckets | Stats;
   readonly updateFields: (field: string) => void;
   readonly initialDashboardRender: boolean;
-  readonly cohortFilters: GqlOperation;
+  readonly cohortFilters: Operation;
 }
 
 const CDaveCard: React.FC<CDaveCardProps> = ({
@@ -61,8 +60,8 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
   );
 
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
-  let noData = true; // start off assuming no data
 
+  let noData = true; // start off assuming no data
   if (data) { // check if we have enough data to display
     if (continuous) {
       noData = (data as Stats)?.stats?.count === 0;
@@ -70,8 +69,6 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       noData = (data as Buckets)?.buckets?.every((bucket) => bucket.key === MISSING_KEY);
     }
   }
-
-  console.log("no data: ", noData)
 
   const fieldName = toDisplayName(field);
 
@@ -129,20 +126,25 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
   ];
 
   if (continuous && !HIDE_QQ_BOX_FIELDS.includes(field)) {
+    // TODO: Re-enable when API are completed
+    /* ----
     chartButtons.push({
       value: "boxqq",
       label: (
         <Tooltip label={"Box/QQ Plot"} withArrow arrowSize={7}>
           <div
+            className="opacity-50"
             data-testid="button-box-qq-plot"
-            role="button"
+            aria-disabled={true}
             aria-label={`Select ${fieldName} Box/QQ Plot`}
+            style={{ cursor: "not-allowed" }}
           >
             <BoxPlotIcon size={20} className={"rotate-90"} aria-hidden="true" />
           </div>
         </Tooltip>
       ),
     });
+     */
   }
 
   return (

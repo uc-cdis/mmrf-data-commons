@@ -13,8 +13,7 @@ import { http, HttpResponse } from 'msw';
 const SurvivalPlotWrapped = () => {
   const { data, isUninitialized, isFetching, isError } =
     useGetSurvivalPlotQuery({
-      case_filters: {},
-      filters: { } ,
+      filters: [] ,
     });
 
   return (

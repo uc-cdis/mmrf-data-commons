@@ -1,28 +1,52 @@
-import { omitBy, some, capitalize, isNumber, flatten } from "lodash";
+import { capitalize, flatten, isNumber, omitBy, some } from 'lodash';
 import {
+  AggregationsData,
+  CoreState,
+  FacetDefinition,
   FilterSet,
   isObject,
-  AggregationsData,
-} from "@gen3/core";
-import { Buckets, Bucket, Stats } from "@/core/features/api/types";
-import { NumericFromTo } from "@gen3/core";
-import { DAYS_IN_YEAR} from "@gen3/frontend";
+  NumericFromTo,
+  StatsData,
+} from '@gen3/core';
+import { Bucket, Buckets, Stats } from '@/core/features/api/types';
+import { DAYS_IN_YEAR } from '@gen3/frontend';
 import {
   CAPITALIZED_TERMS,
-  SPECIAL_CASE_FIELDS,
   DATA_DIMENSIONS,
   MISSING_KEY,
-} from "./constants";
+  SPECIAL_CASE_FIELDS,
+} from './constants';
 import {
+  CategoricalBins,
+  ContinuousCustomBinnedData,
   CustomInterval,
   DataDimension,
   DisplayData,
+  isCategoricalBins,
   NamedFromTo,
   SelectedFacet,
-  CategoricalBins,
-  ContinuousCustomBinnedData, CustomBinData, isCategoricalBins,
 } from './types';
-import { aggregationFns } from '@tanstack/table-core';
+import FacetDefinitions from '@/features/cDave/data/facetDefinitions.json';
+
+const RANGE_DECIMAL_PRECISION = 1;
+
+
+const createFromToKeyAndLabel = (v: NumericFromTo, units: string)=> {
+  return {
+    key: `${v.from.toFixed(RANGE_DECIMAL_PRECISION)}-${v.to.toFixed(
+      RANGE_DECIMAL_PRECISION)}`,
+    label: `\u2265 ${v.from} to < ${v.to} ${units}`,
+  }
+}
+
+const ZeroStats : Stats = {
+    stats: {
+      count: 0,
+      max: 0,
+      min: 0,
+      sum: 0,
+    },
+}
 
 export const filterUsefulFacets = (
   facets: Record<string, Buckets | Stats>,
@@ -31,27 +55,47 @@ export const filterUsefulFacets = (
     some([
       (aggregation as Buckets).buckets &&
         (aggregation as Buckets).buckets.filter(
-          (bucket: Bucket) => bucket.key !== "_missing",
+          (bucket: Bucket) => bucket.key !== '_missing',
         ).length === 0,
       (aggregation as Stats).stats && (aggregation as Stats).stats.count === 0,
     ]),
   );
 };
 
-export const combineAnalysisResults = (aggregations: AggregationsData) => {
-  return  Object.entries(aggregations).reduce((acc : Record<string, Buckets>, [field, data]) => {
-    const convertedData = data.reduce((results: Array<Bucket>, x ) => {
-      if (typeof x.key === 'string')
-        results.push({ key: x.key.toString(), count: x.count});
-      return results;
-    }, [])
+export const combineAnalysisResults = (
+  aggregations: AggregationsData,
+  stats: StatsData,
+): Record<string, Buckets | Stats> => {
+  const processedAggregations = Object.entries(aggregations).reduce(
+    (acc: Record<string, Buckets>, [field, data]) => {
+      const convertedData = data.reduce((results: Array<Bucket>, x) => {
+        if (typeof x.key === 'string')
+          results.push({ key: x.key.toString(), count: x.count });
+        return results;
+      }, []);
 
-      acc[field]  = { buckets: convertedData }
+      acc[field] = { buckets: convertedData };
 
-    return acc;
+      return acc;
+    },
+    {},
+  );
 
-  }, {});
-}
+  const processStats = Object.entries(stats).reduce(
+    (acc: Record<string, Stats>, [field, data]) => {
+      const convertedData = data.map((x) => {
+        return { count: x.count ?? 0, max: x.max ?? 0, min: x.min ?? 0, sum: x.sum ?? 0 };
+      }, []);
+
+      acc[field] = { stats: convertedData.length > 0 ? convertedData[0] : ZeroStats.stats};
+
+      return acc;
+    },
+    {},
+  );
+
+  return { ...processedAggregations, ...processStats };
+};
 
 export const createBuckets = (
   min: number,
@@ -79,44 +123,51 @@ export const createBuckets = (
 };
 
 export const toDisplayName = (field: string): string => {
-  const parsed = field.split(".");
+  const parsed = field.split('.');
   const fieldName = parsed.at(-1);
 
   if (fieldName) {
-
     if (fieldName in SPECIAL_CASE_FIELDS) {
       return SPECIAL_CASE_FIELDS[fieldName];
     }
 
     return fieldName
-      .split("_")
+      .split('_')
       .map((w) =>
         CAPITALIZED_TERMS.includes(w) ? w.toUpperCase() : capitalize(w),
       )
-      .join(" ");
+      .join(' ');
   }
-  return "Not Set";
+  return 'Not Set';
 };
 
 export const parseFieldName = (
   field: string,
 ): { field_type: string; field_name: string; full: string } => {
-  const parsed = field.split("__");
-  const full = field.replaceAll("__", ".");
+  const parsed = field.split('__');
+  const full = field.replaceAll('__', '.');
   if (
-    parsed.at(-2) === "treatments" ||
-    parsed.at(-2) === "other_clinical_attributes"
+    parsed.at(-2) === 'treatments' ||
+    parsed.at(-2) === 'other_clinical_attributes'
   ) {
-    return { field_type: parsed.at(-2) ?? "Not Set", field_name: parsed.at(-1) ?? "Not Set", full };
+    return {
+      field_type: parsed.at(-2) ?? 'Not Set',
+      field_name: parsed.at(-1) ?? 'Not Set',
+      full,
+    };
   }
-  return { field_type: parsed.at(0) ?? "Not Set", field_name: parsed.at(-1) ?? "Not Set", full };
+  return {
+    field_type: parsed.at(0) ?? 'Not Set',
+    field_name: parsed.at(-1) ?? 'Not Set',
+    full,
+  };
 };
 
 export const parseContinuousBucket = (bucket: string): string[] => {
   return bucket
-    .split("-")
-    .map((val, idx, src) => (src[idx - 1] === "" ? `-${val}` : val))
-    .filter((val) => val !== "");
+    .split('-')
+    .map((val, idx, src) => (src[idx - 1] === '' ? `-${val}` : val))
+    .filter((val) => val !== '');
 };
 
 export const flattenBinnedData = (
@@ -141,16 +192,20 @@ export const flattenBinnedData = (
 
 export const formatPercent = (count: number, yTotal: number): string =>
   yTotal === 0
-    ? "0.00%"
+    ? '0.00%'
     : (count / yTotal).toLocaleString(undefined, {
-        style: "percent",
+        style: 'percent',
         minimumFractionDigits: 2,
       });
 
 export const isInterval = (
   customBinnedData: unknown,
 ): customBinnedData is CustomInterval => {
-  if (!Array.isArray(customBinnedData) && isObject(customBinnedData) && customBinnedData?.interval) {
+  if (
+    !Array.isArray(customBinnedData) &&
+    isObject(customBinnedData) &&
+    customBinnedData?.interval
+  ) {
     return true;
   }
 
@@ -172,7 +227,7 @@ export const roundContinuousValue = (
     return formatValue(value);
   } else {
     const unit = DATA_DIMENSIONS?.[field]?.unit;
-    if (unit === "Days" || unit === "Years") {
+    if (unit === 'Days' || unit === 'Years') {
       return Math.round(value);
     } else {
       if (value < 1 && value > -1) {
@@ -189,14 +244,13 @@ export const convertDataDimension = (
   currentDataDimension?: DataDimension,
   newDataDimension?: DataDimension,
 ): number => {
-
   if (!currentDataDimension || !newDataDimension) {
     return value;
   }
 
-  if (currentDataDimension === "Days" && newDataDimension === "Years") {
+  if (currentDataDimension === 'Days' && newDataDimension === 'Years') {
     return value / DAYS_IN_YEAR;
-  } else if (currentDataDimension === "Years" && newDataDimension === "Days") {
+  } else if (currentDataDimension === 'Years' && newDataDimension === 'Days') {
     return value * DAYS_IN_YEAR;
   }
 
@@ -211,10 +265,10 @@ export const createFiltersFromSelectedValues = (
 ): FilterSet => {
   if (continuous) {
     return {
-      mode: "and",
+      mode: 'and',
       root: {
         [field]: {
-          operator: "or",
+          operator: 'or',
           operands: selectedFacets.map((facet) => {
             const customBin =
               customBinnedData &&
@@ -227,16 +281,16 @@ export const createFiltersFromSelectedValues = (
               ? [customBin.from, customBin.to]
               : parseContinuousBucket(facet.value);
             return {
-              operator: "and",
+              operator: 'and',
               operands: [
                 {
                   field,
-                  operator: ">=",
+                  operator: '>=',
                   operand: from,
                 },
                 {
                   field,
-                  operator: "<",
+                  operator: '<',
                   operand: to,
                 },
               ],
@@ -260,26 +314,26 @@ export const createFiltersFromSelectedValues = (
     if (hasMissingValue) {
       const restOfFacets = facetValues.filter((v) => v !== MISSING_KEY);
       return {
-        mode: "and",
+        mode: 'and',
         root: {
           [field]:
             restOfFacets.length > 0
               ? {
-                  operator: "or",
+                  operator: 'or',
                   operands: [
                     {
-                      operator: "includes",
+                      operator: 'includes',
                       operands: restOfFacets,
                       field,
                     },
                     {
-                      operator: "missing",
+                      operator: 'missing',
                       field,
                     },
                   ],
                 }
               : {
-                  operator: "missing",
+                  operator: 'missing',
                   field,
                 },
         },
@@ -287,10 +341,10 @@ export const createFiltersFromSelectedValues = (
     }
 
     return {
-      mode: "and",
+      mode: 'and',
       root: {
         [field]: {
-          operator: "includes",
+          operator: 'includes',
           operands: facetValues,
           field,
         },
@@ -359,7 +413,7 @@ export const parseNestedQQResponseData = (
   field: string,
 ): { id: string; value: number }[] => {
   // Field examples: diagnoses.age_at_diagnosis, diagnoses.treatments.days_to_treatment_start
-  const [clinicalType, clinicalField, clinicalNestedField] = field.split(".");
+  const [clinicalType, clinicalField, clinicalNestedField] = field.split('.');
   let parsedValues: any[] = [];
 
   data.forEach((caseEntry) => {
@@ -391,4 +445,11 @@ export const parseNestedQQResponseData = (
   return parsedValues
     .filter((c) => isNumber(c.value))
     .sort((a, b) => a.value - b.value);
+};
+
+export const selectFacetDefinitionByName = (
+  _state: CoreState,
+  field: string,
+): FacetDefinition => {
+  return (FacetDefinitions as Record<string, any>)?.[field];
 };

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Grid, Alert, Loader } from "@mantine/core";
 import {
-  GQLFilter as GqlOperation,
+  convertFilterToGqlFilter,
+  Operation,
   usePrevious,
-} from "@gen3/core";
-//import { useGetSurvivalPlotQuery } from "@/core/survival";
-import { useGetSurvivalPlotQuery} from './mockedHooks';
+} from '@gen3/core';
+import { useGetSurvivalPlotQuery} from '@/core/survival';
 import { EmptySurvivalPlot } from "@/core/survival/types";
 
 import {   Buckets,
@@ -18,7 +18,7 @@ import { useDeepCompareMemo } from "use-deep-compare";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 
 interface DashboardProps {
-  readonly cohortFilters: GqlOperation;
+  readonly cohortFilters: Operation;
   readonly activeFields: string[];
   readonly results: Record<string, Buckets | Stats>;
   readonly updateFields: (field: string) => void;
@@ -42,7 +42,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     isFetching,
     isUninitialized,
   } = useGetSurvivalPlotQuery({
-    filters,
+    filters : filters.map((x: Operation) => convertFilterToGqlFilter(x)),
   });
 
   useEffect(() => {

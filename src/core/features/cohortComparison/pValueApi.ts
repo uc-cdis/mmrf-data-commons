@@ -1,5 +1,6 @@
 import { graphQLAPI } from "@gen3/core";
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
+import { GEN3_ANALYSIS_API } from '@/core';
 
 const graphQLQuery = `
     query pValue($data: [[Int]]!) {
@@ -21,7 +22,7 @@ const pValueSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
     pValue: builder.query<number | undefined, number[][]>({
       query: (data) => ({
-        url: `${GEN3_COHORT_COMPARISON_API}/pvalue`,
+        url: `${GEN3_ANALYSIS_API}/pvalue`,
         method: 'POST',
           body: {
               query: graphQLQuery,

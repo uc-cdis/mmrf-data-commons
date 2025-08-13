@@ -10,6 +10,7 @@ import CohortCreationButton from "@/components/CohortCreationButton";
 import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
+import { HistogramDataArray } from '@gen3/core';
 
 
 const BarChart = dynamic(() => import("@/features/charts/BarChart"), {
@@ -17,7 +18,7 @@ const BarChart = dynamic(() => import("@/features/charts/BarChart"), {
 });
 
 interface FacetCardProps {
-  readonly data: { buckets: Bucket[] }[];
+  readonly data: { buckets: HistogramDataArray }[];
   readonly field: string;
   readonly counts: number[];
   readonly cohorts: CohortComparisonType;
@@ -35,10 +36,10 @@ export const FacetCard: React.FC<FacetCardProps> = ({
   let formattedData = useDeepCompareMemo(
     () =>
       data.map((cohort) => {
-        const formattedCohort = cohort.buckets.map((facet : any) => {
+        const formattedCohort = cohort.buckets.map((facet ) => {
           return {
             key: formatBucket(facet.key, field),
-            count: facet.doc_count, // TODO change to match Gen3 APIs
+            count: facet.count, // TODO change to match Gen3 APIs
             filter: createFilters(field, facet.key),
           };
         });
@@ -196,7 +197,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
           </tbody>
         </table>
         <div className="mt-2 cursor-default self-end">
-          {formattedData.length > 0 && <PValue data={formattedData} />}
+          {/* formattedData.length > 0 && <PValue data={formattedData} /> */}
         </div>
       </div>
     </Paper>

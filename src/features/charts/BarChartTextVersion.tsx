@@ -16,6 +16,10 @@ const BarChartTextVersion: React.FC<BarChartTextVersionProps> = ({
   const maxHeightOfScrollArea = 300;
   const numberOfDecimalsPlacesToShow = 2;
 
+
+  if (!data || data.length === 0)
+    return <div className={`pt-2 ${className}`}>No data to display</div>;
+
   const formatNumber = (num: number) =>
     num
       .toFixed(numberOfDecimalsPlacesToShow)

@@ -67,7 +67,7 @@ const CDaveTable: React.FC<CDaveTableProps> = ({
       >
         <thead className="bg-base-max font-heading text-sm text-base-contrast-max z-10">
           <tr>
-            <th className="bg-base-max sticky top-0 border-b-4 border-max z-10 border-t-1 pl-2">
+            <th className="bg-base-max sticky top-0 border-b-4 pb-2.5 border-max z-10 border-t-1 pl-2">
               <Checkbox
                 color="accent"
                 size="xs"
