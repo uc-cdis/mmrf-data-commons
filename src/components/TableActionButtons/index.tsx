@@ -1,5 +1,5 @@
 import React from 'react';
-import { addToCart, removeFromCart } from '@/features/cart/updateCart';
+// import { addToCart, removeFromCart } from '@/features/cart/updateCart';
 import { CartIcon } from '@/utils/icons';
 import {
   useCoreSelector,
@@ -7,9 +7,13 @@ import {
   useCoreDispatch,
   CartFile,
   GdcFile,
-} from '@gff/core';
+} from '@/core';
 import { Button } from '@mantine/core';
 import { DownloadFile } from '../DownloadButtons';
+
+const addToCart = () => console.log('called addToCart in table action buttons');
+const removeFromCart = () =>
+  console.log('called removeFromCart in table action buttons');
 
 export const TableActionButtons = ({
   isOutputFileInCart,

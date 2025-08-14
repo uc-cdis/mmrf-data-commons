@@ -79,12 +79,12 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   </div>
 );
 
-const ImageViewer = dynamic(
+/* const ImageViewer = dynamic(
   () => import('../../components/ImageViewer/ImageViewer'),
   {
     ssr: false,
   },
-);
+); */
 
 export interface FileViewProps {
   readonly file?: GdcFile | any;
@@ -301,7 +301,7 @@ export const FileView: React.FC<FileViewProps> = ({
             />
           </div>
         </div>
-
+        {/*
         {get(file, 'data_type') === 'Slide Image' && (
           <DivWithMargin data-testid="table-slide-image-file-summary">
             <HeaderTitle>Slide Image Viewer</HeaderTitle>
@@ -310,7 +310,7 @@ export const FileView: React.FC<FileViewProps> = ({
               tableData={parseSlideDetailsInfo(file)}
             />
           </DivWithMargin>
-        )}
+        )} */}
         <DivWithMargin data-testid="table-associated-cases-biospecimens-file-summary">
           {file?.associated_entities?.length > 0 ? (
             <AssociatedCB
@@ -370,6 +370,7 @@ export const FileView: React.FC<FileViewProps> = ({
                 </div>
               </div>
 
+              {/*
               {shouldDisplayRefGenome && (
                 <div className="flex-1">
                   <SummaryCard
@@ -381,7 +382,7 @@ export const FileView: React.FC<FileViewProps> = ({
                     ]}
                   />
                 </div>
-              )}
+              )} */}
             </div>
             {file?.analysis?.input_files?.length > 0 && (
               <DivWithMargin>
@@ -399,8 +400,8 @@ export const FileView: React.FC<FileViewProps> = ({
               </DivWithMargin>
             )}
           </>
-        )}
-        {file?.downstream_analyses?.some(
+        )} */}
+        {/*         {file?.downstream_analyses?.some(
           (byWorkflowType: any) => byWorkflowType?.output_files?.length > 0,
         ) && (
           <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
@@ -410,16 +411,16 @@ export const FileView: React.FC<FileViewProps> = ({
               setFileToDownload={setFileToDownload}
             />
           </DivWithMargin>
-        )}
-        <FileVersions file_id={file.file_id} />
-        {file?.annotations?.length > 0 && (
+        )} */}
+        {/*  <FileVersions file_id={file.file_id} /> */}
+        {/* {file?.annotations?.length > 0 && (
           <div
             className={`mb-16 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
             id="annotations"
           >
             <AnnnotationsTable annotations={file.annotations} />
           </div>
-        )}
+        )} */}
 
         {modal === Modals.NoAccessToProjectModal && (
           // <NoAccessToProjectModal openModal />

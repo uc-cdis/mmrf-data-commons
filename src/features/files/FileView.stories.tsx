@@ -6,6 +6,7 @@ import Gen3GDCCompatabilityProvider from '@/utils/providers';
 import { Gen3Provider } from '@gen3/frontend';
 // import { ComparativeSurvival } from './types';
 import { FileView } from './FileView';
+import { GdcFile } from '@/core';
 
 const meta = {
   component: FileView,
@@ -19,9 +20,25 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const exampleGdcFile: GdcFile = {
+  submitterId: 'submitter456',
+  access: 'open', // Assuming "open" is a valid value from accessTypes
+  acl: ['read', 'write'],
+  createdDatetime: '2025-01-01T12:00:00Z',
+  updatedDatetime: '2025-01-10T12:00:00Z',
+  data_category: 'genomic',
+  data_format: 'FASTQ',
+  data_type: 'sequence',
+  file_id: 'file789',
+  file_name: 'sample_data.fastq',
+  file_size: 2048000, // Size in bytes
+  md5sum: '123',
+  state: 'available',
+};
+
 export const Default: Story = {
   args: {
-    file: {},
+    file: exampleGdcFile,
     isModal: false,
   },
   render: (args) => (

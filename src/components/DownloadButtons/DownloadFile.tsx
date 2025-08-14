@@ -1,15 +1,15 @@
-import { userCanDownloadFile } from "src/utils/userProjectUtils";
+import { userCanDownloadFile } from 'src/utils/userProjectUtils';
 import {
   GdcFile,
   useCoreDispatch,
   showModal,
   Modals,
   useLazyFetchUserDetailsQuery,
-} from "@gff/core";
-import { DownloadButton } from "./DownloadButton";
-import { useState } from "react";
-import { useDeepCompareCallback } from "use-deep-compare";
-import { FunctionButtonVariants } from "../FunctionButton";
+} from '@/core';
+import { DownloadButton } from './DownloadButton';
+import { useState } from 'react';
+import { useDeepCompareCallback } from 'use-deep-compare';
+import { FunctionButtonVariants } from '../FunctionButton';
 
 interface DownloadFileProps {
   file: GdcFile;
@@ -56,7 +56,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
 
   // TODO: need to send set active to agreement modal in a better way
   // TODO: rethink of a better architecture for it
-  if (file.access === "open") {
+  if (file.access === 'open') {
     return (
       <DownloadButton
         data-testid={customDataTestID}
