@@ -370,7 +370,6 @@ export const FileView: React.FC<FileViewProps> = ({
                 </div>
               </div>
 
-              {/*
               {shouldDisplayRefGenome && (
                 <div className="flex-1">
                   <SummaryCard
@@ -382,7 +381,7 @@ export const FileView: React.FC<FileViewProps> = ({
                     ]}
                   />
                 </div>
-              )} */}
+              )}
             </div>
             {file?.analysis?.input_files?.length > 0 && (
               <DivWithMargin>
@@ -400,8 +399,8 @@ export const FileView: React.FC<FileViewProps> = ({
               </DivWithMargin>
             )}
           </>
-        )} */}
-        {/*         {file?.downstream_analyses?.some(
+        )}
+        {file?.downstream_analyses?.some(
           (byWorkflowType: any) => byWorkflowType?.output_files?.length > 0,
         ) && (
           <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
@@ -411,7 +410,7 @@ export const FileView: React.FC<FileViewProps> = ({
               setFileToDownload={setFileToDownload}
             />
           </DivWithMargin>
-        )} */}
+        )}
         {/*  <FileVersions file_id={file.file_id} /> */}
         {/* {file?.annotations?.length > 0 && (
           <div
