@@ -56,19 +56,19 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   <div className="flex gap-4">
     {!isFileInCart ? (
       // <AddToCartButton files={mapGdcFileToCartFile([file])} />
-      <h4>Placeholder for AddToCartButton</h4>
+      <h4 className="text-gen3-white">Placeholder for AddToCartButton</h4>
     ) : (
-      <h4>Placeholder for RemoveFromCartButton</h4>
+      <h4 className="text-gen3-white">Placeholder for RemoveFromCartButton</h4>
       // <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />
     )}
     {file.data_format === 'BAM' &&
       file.data_type === 'Aligned Reads' &&
       file?.index_files?.length > 0 && (
-        <h4>Placeholder for BAMSlicingButton</h4>
+        <h4 className="text-gen3-white">Placeholder for BAMSlicingButton</h4>
         // <BAMSlicingButton isActive={bamActive} file={file} />
       )}
 
-    <h4>Placeholder for Download File Button</h4>
+    <h4 className="text-gen3-white">Placeholder for Download File Button</h4>
     {/*     <DownloadFile
       customDataTestID="button-download-file-summary"
       buttonLabel="Download"
@@ -285,7 +285,7 @@ export const FileView: React.FC<FileViewProps> = ({
         }
       />
       <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
-        <div className="flex flex-col lg:flex-row gap-8 xl:gap-4">
+        <div className="flex flex-col lg:flex-row gap-8 xl:gap-4 pt-36">
           <div className="flex-1">
             <SummaryCard
               customDataTestID="table-file-properties-file-summary"
@@ -403,13 +403,14 @@ export const FileView: React.FC<FileViewProps> = ({
         {file?.downstream_analyses?.some(
           (byWorkflowType: any) => byWorkflowType?.output_files?.length > 0,
         ) && (
-          <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
+          <h4>Placeholder for DownstreamAnalyses</h4>
+          /*           <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
             <DownstreamAnalyses
               downstream_analyses={file?.downstream_analyses}
               currentCart={currentCart}
               setFileToDownload={setFileToDownload}
             />
-          </DivWithMargin>
+          </DivWithMargin> */
         )}
         {/*  <FileVersions file_id={file.file_id} /> */}
         {/* {file?.annotations?.length > 0 && (

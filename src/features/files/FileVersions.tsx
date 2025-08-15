@@ -1,14 +1,15 @@
-import { useMemo } from "react";
-import { useGetHistoryQuery } from "@gff/core";
-import saveAs from "file-saver";
-import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import { createColumnHelper } from "@tanstack/react-table";
-import TotalItems from "@/components/Table/TotalItem";
-import { statusBooleansToDataStatus } from "@/utils/index";
-import { useDeepCompareMemo } from "use-deep-compare";
-import { DownloadIcon } from "@/utils/icons";
+import React from 'react';
+import { useMemo } from 'react';
+// import { useGetHistoryQuery } from '@gff/core';
+import saveAs from 'file-saver';
+import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import { createColumnHelper } from '@tanstack/react-table';
+import TotalItems from '@/components/Table/TotalItem';
+import { statusBooleansToDataStatus } from '@/utils/index';
+import { useDeepCompareMemo } from 'use-deep-compare';
+import { DownloadIcon } from '@/utils/icons';
 
 type FileVersionsDataType = {
   version: string;
@@ -19,6 +20,9 @@ type FileVersionsDataType = {
 };
 
 const fileVersionsColumnHelper = createColumnHelper<FileVersionsDataType>();
+
+// TODO -> add this missing func
+const useGetHistoryQuery = () => null as any;
 
 const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
   const {
@@ -38,21 +42,21 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
   );
 
   const handleDownloadTSV = () => {
-    const header = ["Version", "File UUID", "Release Date", "Release Number"];
+    const header = ['Version', 'File UUID', 'Release Date', 'Release Number'];
 
     const body = sortedFileHistory
       .map((obj, index, { length }) =>
         [
           obj.version,
-          `${obj.uuid}${index + 1 === length ? " Current Version" : ""}`,
+          `${obj.uuid}${index + 1 === length ? ' Current Version' : ''}`,
           obj.release_date,
           obj.data_release,
-        ].join("\t"),
+        ].join('\t'),
       )
-      .join("\n");
+      .join('\n');
 
-    const tsv = [header.join("\t"), body].join("\n");
-    const blob = new Blob([tsv], { type: "text/csv" });
+    const tsv = [header.join('\t'), body].join('\n');
+    const blob = new Blob([tsv], { type: 'text/csv' });
 
     saveAs(blob, `file-history-${file_id}.tsv`);
   };
@@ -63,7 +67,7 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
 
     saveAs(
       new Blob([jsonData], {
-        type: "application/json",
+        type: 'application/json',
       }),
       `${file_id}_history.${currentDate}.json`,
     );
@@ -84,12 +88,12 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
 
   const readGroupsColumns = useMemo(
     () => [
-      fileVersionsColumnHelper.accessor("version", {
-        header: "Version",
+      fileVersionsColumnHelper.accessor('version', {
+        header: 'Version',
       }),
       fileVersionsColumnHelper.display({
-        id: "file_uuid",
-        header: "File UUID",
+        id: 'file_uuid',
+        header: 'File UUID',
         cell: ({ row }) => (
           <>
             {row.original.file_id}
@@ -101,11 +105,11 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
           </>
         ),
       }),
-      fileVersionsColumnHelper.accessor("release_date", {
-        header: "Release Date",
+      fileVersionsColumnHelper.accessor('release_date', {
+        header: 'Release Date',
       }),
-      fileVersionsColumnHelper.accessor("data_release", {
-        header: "Release Number",
+      fileVersionsColumnHelper.accessor('data_release', {
+        header: 'Release Number',
       }),
     ],
     [],
@@ -123,12 +127,12 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
                 <DropdownWithIcon
                   dropdownElements={[
                     {
-                      title: "TSV",
+                      title: 'TSV',
                       icon: <DownloadIcon size={16} aria-label="download" />,
                       onClick: handleDownloadTSV,
                     },
                     {
-                      title: "JSON",
+                      title: 'JSON',
                       icon: <DownloadIcon size={16} aria-label="download" />,
                       onClick: downloadVersionJSON,
                     },

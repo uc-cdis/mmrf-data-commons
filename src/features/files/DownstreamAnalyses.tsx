@@ -1,22 +1,23 @@
-import GenericLink from "@/components/GenericLink";
-import { fileInCart } from "@/utils/index";
-import { GdcFile, GdcCartFile, CartFile, AccessType } from "@gff/core";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import fileSize from "filesize";
-import { Dispatch, SetStateAction, useMemo } from "react";
-import { mapGdcFileToCartFile } from "./utils";
-import { TableActionButtons } from "@/components/TableActionButtons";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { FileAccessBadge } from "@/components/FileAccessBadge";
-import TotalItems from "@/components/Table/TotalItem";
-import { HeaderTitle } from "@/components/tailwindComponents";
+import React from 'react';
+import GenericLink from '@/components/GenericLink';
+import { fileInCart } from '@/utils/index';
+import { GdcFile, GdcCartFile, CartFile, AccessType } from '@gff/core';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import fileSize from 'filesize';
+import { Dispatch, SetStateAction, useMemo } from 'react';
+import { mapGdcFileToCartFile } from './utils';
+import { TableActionButtons } from '@/components/TableActionButtons';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { FileAccessBadge } from '@/components/FileAccessBadge';
+import TotalItems from '@/components/Table/TotalItem';
+import { HeaderTitle } from '@/components/tailwindComponents';
 
 const DownstreamAnalyses = ({
   downstream_analyses,
   currentCart,
   setFileToDownload,
 }: {
-  downstream_analyses: GdcFile["downstream_analyses"];
+  downstream_analyses: GdcFile['downstream_analyses'];
   currentCart: CartFile[];
   setFileToDownload: Dispatch<SetStateAction<GdcFile>>;
 }): JSX.Element => {
@@ -60,14 +61,14 @@ const DownstreamAnalyses = ({
     ColumnDef<DownstreamAnalysesType>[]
   >(
     () => [
-      downstreamAnalysesColumnHelper.accessor("access", {
-        id: "access",
-        header: "Access",
+      downstreamAnalysesColumnHelper.accessor('access', {
+        id: 'access',
+        header: 'Access',
         cell: ({ getValue }) => <FileAccessBadge access={getValue()} />,
       }),
       downstreamAnalysesColumnHelper.display({
-        id: "file_name",
-        header: "File Name",
+        id: 'file_name',
+        header: 'File Name',
         cell: ({ row }) => (
           <GenericLink
             path={`/files/${row.original?.file_id}`}
@@ -75,29 +76,29 @@ const DownstreamAnalyses = ({
           />
         ),
       }),
-      downstreamAnalysesColumnHelper.accessor("data_category", {
-        id: "data_category",
-        header: "Data Category",
+      downstreamAnalysesColumnHelper.accessor('data_category', {
+        id: 'data_category',
+        header: 'Data Category',
       }),
-      downstreamAnalysesColumnHelper.accessor("data_type", {
-        id: "data_type",
-        header: "Data Type",
+      downstreamAnalysesColumnHelper.accessor('data_type', {
+        id: 'data_type',
+        header: 'Data Type',
       }),
-      downstreamAnalysesColumnHelper.accessor("data_format", {
-        id: "data_format",
-        header: "Data Format",
+      downstreamAnalysesColumnHelper.accessor('data_format', {
+        id: 'data_format',
+        header: 'Data Format',
       }),
-      downstreamAnalysesColumnHelper.accessor("analysis_workflow", {
-        id: "analysis_workflow",
-        header: "Analysis Workflow",
+      downstreamAnalysesColumnHelper.accessor('analysis_workflow', {
+        id: 'analysis_workflow',
+        header: 'Analysis Workflow',
       }),
-      downstreamAnalysesColumnHelper.accessor("size", {
-        id: "size",
-        header: "Size",
+      downstreamAnalysesColumnHelper.accessor('size', {
+        id: 'size',
+        header: 'Size',
       }),
       downstreamAnalysesColumnHelper.display({
-        id: "action",
-        header: "Action",
+        id: 'action',
+        header: 'Action',
         cell: ({ row }) => {
           const isOutputFileInCart = fileInCart(
             currentCart,

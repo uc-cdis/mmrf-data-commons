@@ -7,6 +7,8 @@ import { Gen3Provider } from '@gen3/frontend';
 // import { ComparativeSurvival } from './types';
 import { FileView } from './FileView';
 import { GdcFile } from '@/core';
+import { useGetFilesQuery } from './mockedHooks';
+import { FilterSet } from '@gen3/core';
 
 const meta = {
   component: FileView,
@@ -19,6 +21,14 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+const firstExampleGdcFile = useGetFilesQuery({
+  filters: {} as FilterSet,
+  fields: [],
+  index: 0,
+});
+
+console.log(firstExampleGdcFile.data[0]);
 
 const exampleGdcFile: GdcFile = {
   submitterId: 'submitter456',
@@ -38,7 +48,7 @@ const exampleGdcFile: GdcFile = {
 
 export const Default: Story = {
   args: {
-    file: exampleGdcFile,
+    file: firstExampleGdcFile.data[0],
     isModal: false,
   },
   render: (args) => (
