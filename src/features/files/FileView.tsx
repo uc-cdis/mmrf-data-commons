@@ -79,13 +79,6 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   </div>
 );
 
-/* const ImageViewer = dynamic(
-  () => import('../../components/ImageViewer/ImageViewer'),
-  {
-    ssr: false,
-  },
-); */
-
 export interface FileViewProps {
   readonly file?: GdcFile | any;
   readonly isModal?: boolean;
@@ -301,16 +294,7 @@ export const FileView: React.FC<FileViewProps> = ({
             />
           </div>
         </div>
-        {/*
-        {get(file, 'data_type') === 'Slide Image' && (
-          <DivWithMargin data-testid="table-slide-image-file-summary">
-            <HeaderTitle>Slide Image Viewer</HeaderTitle>
-            <ImageViewer
-              imageId={file?.file_id}
-              tableData={parseSlideDetailsInfo(file)}
-            />
-          </DivWithMargin>
-        )} */}
+
         <DivWithMargin data-testid="table-associated-cases-biospecimens-file-summary">
           {file?.associated_entities?.length > 0 ? (
             <AssociatedCB
