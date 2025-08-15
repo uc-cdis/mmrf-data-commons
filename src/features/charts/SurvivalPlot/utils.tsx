@@ -10,7 +10,10 @@ export const enoughData = (data: ReadonlyArray<SurvivalElement>) =>
 export const enoughDataOnSomeCurves = (data: ReadonlyArray<SurvivalElement>) =>
   data && data.length && data.some((r) => r.donors.length >= MINIMUM_CASES);
 
-export const buildOnePlotLegend = (data: readonly SurvivalElement[], name: string) : SurvivalPlotLegend[] => {
+export const buildOnePlotLegend = (
+  data: readonly SurvivalElement[],
+  name: string,
+): SurvivalPlotLegend[] => {
   const hasMultipleCurves = data.length > 0;
   const hasEnoughData = hasMultipleCurves
     ? enoughDataOnSomeCurves(data)
@@ -39,7 +42,7 @@ export const buildTwoPlotLegend = (
   data: readonly SurvivalElement[],
   name: string,
   plotType: string,
-) : SurvivalPlotLegend[] => {
+): SurvivalPlotLegend[] => {
   const hasEnoughData = enoughData(data);
   const results1 = data.length > 0 ? data[0].donors : [];
   const results2 = data.length > 1 ? data[1].donors : [];
@@ -70,7 +73,7 @@ export const buildTwoPlotLegend = (
         {
           key: `${name}-mutated`,
           value: (
-            <div className="text-gdc-survival-1 font-content">
+            <div className="text-gdc-survival-5 font-content">
               S<sub>2</sub>
               {` (N = ${getCaseCount(results2.length === 0)})`}
               {['mutation', 'gene'].includes(plotType) && (
