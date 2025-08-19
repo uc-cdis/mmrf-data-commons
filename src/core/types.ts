@@ -4,6 +4,11 @@ const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
 
+export interface GraphQLApiResponse<H = AnyJson> {
+  readonly data: H;
+  readonly errors: Record<string, string>;
+}
+
 const isAccessType = (x: unknown): x is AccessType => {
   return accessTypes.some((t) => t === x);
 };
