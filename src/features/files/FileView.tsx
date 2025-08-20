@@ -91,7 +91,7 @@ export const FileView: React.FC<FileViewProps> = ({
   isModal,
 }: FileViewProps) => {
   // const currentCart = useCoreSelector((state) => selectCart(state));
-  const currentCart = {} as any;
+  const currentCart = [] as any;
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
   const modal = {} as any;
 
@@ -387,14 +387,13 @@ export const FileView: React.FC<FileViewProps> = ({
         {file?.downstream_analyses?.some(
           (byWorkflowType: any) => byWorkflowType?.output_files?.length > 0,
         ) && (
-          <h4>Placeholder for DownstreamAnalyses</h4>
-          /*           <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
+          <DivWithMargin data-testid="table-downstream-analyses-files-file-summary">
             <DownstreamAnalyses
               downstream_analyses={file?.downstream_analyses}
               currentCart={currentCart}
               setFileToDownload={setFileToDownload}
             />
-          </DivWithMargin> */
+          </DivWithMargin>
         )}
         {/*  <FileVersions file_id={file.file_id} /> */}
         {/* {file?.annotations?.length > 0 && (

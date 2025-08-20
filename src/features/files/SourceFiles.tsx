@@ -1,16 +1,17 @@
-import { Dispatch, SetStateAction } from "react";
-import GenericLink from "@/components/GenericLink";
-import { TableActionButtons } from "@/components/TableActionButtons";
-import { AccessType, CartFile, GdcCartFile, GdcFile } from "@gff/core";
-import { createColumnHelper } from "@tanstack/react-table";
-import fileSize from "filesize";
-import { mapGdcFileToCartFile } from "./utils";
-import { fileInCart } from "@/utils/index";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import { FileAccessBadge } from "@/components/FileAccessBadge";
-import TotalItems from "@/components/Table/TotalItem";
-import { useDeepCompareMemo } from "use-deep-compare";
+import React from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import GenericLink from '@/components/GenericLink';
+import { TableActionButtons } from '@/components/TableActionButtons';
+import { AccessType, CartFile, GdcCartFile, GdcFile } from '@/core';
+import { createColumnHelper } from '@tanstack/react-table';
+import { filesize } from 'filesize';
+import { mapGdcFileToCartFile } from './utils';
+import { fileInCart } from '@/utils/index';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import { FileAccessBadge } from '@/components/FileAccessBadge';
+import TotalItems from '@/components/Table/TotalItem';
+import { useDeepCompareMemo } from 'use-deep-compare';
 
 type SourceFilesItems = {
   file: GdcCartFile;
@@ -43,19 +44,19 @@ const SourceFiles = ({
       data_category: ipFile.data_category,
       data_type: ipFile.data_type,
       data_format: ipFile.data_format,
-      file_size: fileSize(ipFile.file_size),
+      file_size: filesize(ipFile.file_size),
     }));
   }, [inputFiles]);
 
   const columns = useDeepCompareMemo(
     () => [
-      SourceFilesTableColumnHelper.accessor("access", {
-        id: "access",
-        header: "Access",
+      SourceFilesTableColumnHelper.accessor('access', {
+        id: 'access',
+        header: 'Access',
         cell: ({ getValue }) => <FileAccessBadge access={getValue()} />,
       }),
-      SourceFilesTableColumnHelper.accessor("file_name", {
-        header: "File Name",
+      SourceFilesTableColumnHelper.accessor('file_name', {
+        header: 'File Name',
         cell: ({ row }) => (
           <GenericLink
             path={`/files/${row.original.file_id}`}
@@ -63,21 +64,21 @@ const SourceFiles = ({
           />
         ),
       }),
-      SourceFilesTableColumnHelper.accessor("data_category", {
-        header: "Data Category",
+      SourceFilesTableColumnHelper.accessor('data_category', {
+        header: 'Data Category',
       }),
-      SourceFilesTableColumnHelper.accessor("data_type", {
-        header: "Data Type",
+      SourceFilesTableColumnHelper.accessor('data_type', {
+        header: 'Data Type',
       }),
-      SourceFilesTableColumnHelper.accessor("data_format", {
-        header: "Data Format",
+      SourceFilesTableColumnHelper.accessor('data_format', {
+        header: 'Data Format',
       }),
-      SourceFilesTableColumnHelper.accessor("file_size", {
-        header: "Size",
+      SourceFilesTableColumnHelper.accessor('file_size', {
+        header: 'Size',
       }),
       SourceFilesTableColumnHelper.display({
-        id: "action",
-        header: "Action",
+        id: 'action',
+        header: 'Action',
         cell: ({ row }) => (
           <TableActionButtons
             isOutputFileInCart={fileInCart(currentCart, row.original.file_id)}

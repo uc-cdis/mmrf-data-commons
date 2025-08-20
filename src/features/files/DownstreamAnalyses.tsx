@@ -1,9 +1,9 @@
 import React from 'react';
 import GenericLink from '@/components/GenericLink';
 import { fileInCart } from '@/utils/index';
-import { GdcFile, GdcCartFile, CartFile, AccessType } from '@gff/core';
+import { GdcFile, GdcCartFile, CartFile, AccessType } from '@/core';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import fileSize from 'filesize';
+import { filesize } from 'filesize';
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import { mapGdcFileToCartFile } from './utils';
 import { TableActionButtons } from '@/components/TableActionButtons';
@@ -46,7 +46,7 @@ const DownstreamAnalyses = ({
           data_type: outputFile.data_type,
           data_format: outputFile.data_format,
           analysis_workflow: byWorkflowType?.workflow_type,
-          size: fileSize(outputFile.file_size),
+          size: filesize(outputFile.file_size),
           outputFile: outputFile,
         };
         downstreamTableData.push(transformedFile);
@@ -106,12 +106,13 @@ const DownstreamAnalyses = ({
           );
           const mappedFileObj = mapGdcFileToCartFile([row.original.outputFile]);
           return (
-            <TableActionButtons
+            <h4>Table Action Buttons Placeholder</h4>
+            /*             <TableActionButtons
               isOutputFileInCart={isOutputFileInCart}
               file={mappedFileObj}
               downloadFile={row.original.outputFile}
               setFileToDownload={setFileToDownload}
-            />
+            /> */
           );
         },
       }),
@@ -119,15 +120,30 @@ const DownstreamAnalyses = ({
     [downstreamAnalysesColumnHelper, currentCart, setFileToDownload],
   );
 
-  return (
-    <VerticalTable
+  console.log(
+    'downstremAnalysesDefaultColumns',
+    downstremAnalysesDefaultColumns,
+  );
+  /* <VerticalTable
       data={downstreamTableData}
       columns={downstremAnalysesDefaultColumns}
       tableTotalDetail={
         <TotalItems total={downstreamTableData?.length} itemName="file" />
       }
       tableTitle={<HeaderTitle>Downstream Analyses Files</HeaderTitle>}
-    />
+    /> */
+  return (
+    <>
+      <h4>⌐▨_▨ Downstream analysis placeholder ⌐▨_▨</h4>
+      <VerticalTable
+        data={downstreamTableData}
+        columns={downstremAnalysesDefaultColumns}
+        tableTotalDetail={
+          <TotalItems total={downstreamTableData?.length} itemName="file" />
+        }
+        tableTitle={<HeaderTitle>Downstream Analyses Files</HeaderTitle>}
+      />
+    </>
   );
 };
 
