@@ -22,13 +22,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const firstExampleGdcFile = useGetFilesQuery({
-  filters: {} as FilterSet,
-  fields: [],
-  index: 0,
-});
-
-console.log(firstExampleGdcFile.data[0]);
+const firstExampleGdcFile = () =>
+  useGetFilesQuery({ filters: {} as FilterSet, fields: [], index: 0 });
 
 const exampleGdcFile: GdcFile = {
   submitterId: 'submitter456',
@@ -48,7 +43,7 @@ const exampleGdcFile: GdcFile = {
 
 export const Default: Story = {
   args: {
-    file: firstExampleGdcFile.data[0],
+    file: exampleGdcFile,
     isModal: false,
   },
   render: (args) => (

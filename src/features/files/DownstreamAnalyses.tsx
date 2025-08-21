@@ -106,13 +106,12 @@ const DownstreamAnalyses = ({
           );
           const mappedFileObj = mapGdcFileToCartFile([row.original.outputFile]);
           return (
-            <h4>Table Action Buttons Placeholder</h4>
-            /*             <TableActionButtons
+            <TableActionButtons
               isOutputFileInCart={isOutputFileInCart}
               file={mappedFileObj}
               downloadFile={row.original.outputFile}
               setFileToDownload={setFileToDownload}
-            /> */
+            />
           );
         },
       }),
@@ -120,30 +119,15 @@ const DownstreamAnalyses = ({
     [downstreamAnalysesColumnHelper, currentCart, setFileToDownload],
   );
 
-  console.log(
-    'downstremAnalysesDefaultColumns',
-    downstremAnalysesDefaultColumns,
-  );
-  /* <VerticalTable
+  return (
+    <VerticalTable
       data={downstreamTableData}
       columns={downstremAnalysesDefaultColumns}
       tableTotalDetail={
         <TotalItems total={downstreamTableData?.length} itemName="file" />
       }
       tableTitle={<HeaderTitle>Downstream Analyses Files</HeaderTitle>}
-    /> */
-  return (
-    <>
-      <h4>⌐▨_▨ Downstream analysis placeholder ⌐▨_▨</h4>
-      <VerticalTable
-        data={downstreamTableData}
-        columns={downstremAnalysesDefaultColumns}
-        tableTotalDetail={
-          <TotalItems total={downstreamTableData?.length} itemName="file" />
-        }
-        tableTitle={<HeaderTitle>Downstream Analyses Files</HeaderTitle>}
-      />
-    </>
+    />
   );
 };
 

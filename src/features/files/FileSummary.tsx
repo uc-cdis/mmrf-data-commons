@@ -1,7 +1,8 @@
-import { useGetFilesQuery } from "@gff/core";
-import { FileView } from "./FileView";
-import { LoadingOverlay } from "@mantine/core";
-import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
+import React from 'react';
+// import { useGetFilesQuery } from "@gff/core";
+import { FileView } from './FileView';
+import { LoadingOverlay } from '@mantine/core';
+import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 
 export interface FileSummaryProps {
   readonly file_id: string;
@@ -12,31 +13,34 @@ export const FileSummary: React.FC<FileSummaryProps> = ({
   file_id,
   isModal,
 }: FileSummaryProps) => {
+  const useGetFilesQuery = (a: any) =>
+    ({ data: null, isFetching: false }) as any;
+
   const { data: { files } = {}, isFetching } = useGetFilesQuery({
     filters: {
-      op: "=",
+      op: '=',
       content: {
-        field: "file_id",
+        field: 'file_id',
         value: file_id,
       },
     },
     expand: [
-      "annotations",
-      "cases",
-      "cases.annotations",
-      "cases.project",
-      "cases.samples",
-      "cases.samples.portions",
-      "cases.samples.portions.analytes",
-      "cases.samples.portions.slides",
-      "cases.samples.portions.analytes.aliquots",
-      "associated_entities",
-      "analysis",
-      "analysis.input_files",
-      "analysis.metadata.read_groups",
-      "downstream_analyses",
-      "downstream_analyses.output_files",
-      "index_files",
+      'annotations',
+      'cases',
+      'cases.annotations',
+      'cases.project',
+      'cases.samples',
+      'cases.samples.portions',
+      'cases.samples.portions.analytes',
+      'cases.samples.portions.slides',
+      'cases.samples.portions.analytes.aliquots',
+      'associated_entities',
+      'analysis',
+      'analysis.input_files',
+      'analysis.metadata.read_groups',
+      'downstream_analyses',
+      'downstream_analyses.output_files',
+      'index_files',
     ],
   });
 

@@ -1,19 +1,15 @@
 import React from 'react';
 // import { addToCart, removeFromCart } from '@/features/cart/updateCart';
-import { CartIcon } from '@/utils/icons';
+// import { CartIcon } from '@/utils/icons';
 import {
-  useCoreSelector,
-  selectCart,
-  useCoreDispatch,
+  // useCoreSelector,
+  // selectCart,
+  // useCoreDispatch,
   CartFile,
   GdcFile,
 } from '@/core';
-import { Button } from '@mantine/core';
+// import { Button } from '@mantine/core';
 import { DownloadFile } from '../DownloadButtons';
-
-const addToCart = () => console.log('called addToCart in table action buttons');
-const removeFromCart = () =>
-  console.log('called removeFromCart in table action buttons');
 
 export const TableActionButtons = ({
   isOutputFileInCart,
@@ -26,12 +22,13 @@ export const TableActionButtons = ({
   downloadFile: GdcFile;
   setFileToDownload: React.Dispatch<React.SetStateAction<GdcFile>>;
 }): JSX.Element => {
-  const currentCart = useCoreSelector((state) => selectCart(state));
-  const dispatch = useCoreDispatch();
+  // const currentCart = useCoreSelector((state) => selectCart(state));
+  // const currentCart = [] as any;
+  // const dispatch = useCoreDispatch();
 
   return (
     <div className="flex gap-3">
-      <Button
+      {/*       <Button
         className={`${
           isOutputFileInCart
             ? 'bg-primary text-base-max'
@@ -39,7 +36,8 @@ export const TableActionButtons = ({
         } border border-primary rounded px-2 h-6 w-8
          hover:bg-primary hover:text-base-lightest`}
         onClick={() => {
-          if (isOutputFileInCart) {
+          alert('onclick fired in table actions buttons for cart. ')
+                   if (isOutputFileInCart) {
             removeFromCart(file, currentCart, dispatch);
           } else {
             addToCart(file, currentCart, dispatch);
@@ -48,7 +46,7 @@ export const TableActionButtons = ({
         data-testid="button-add-remove-cart"
       >
         <CartIcon title="Add to Cart" size={16} />
-      </Button>
+      </Button>*/}
       <DownloadFile
         customDataTestID="button-download-file"
         file={downloadFile}

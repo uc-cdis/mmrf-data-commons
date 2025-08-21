@@ -1,12 +1,13 @@
-import GenericLink from "@/components/GenericLink";
-import { HandleChangeInput } from "@/components/Table/types";
-import useStandardPagination from "@/hooks/useStandardPagination";
-import { GdcFile } from "@gff/core";
-import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import VerticalTable from "@/components/Table/VerticalTable";
-import TotalItems from "@/components/Table/TotalItem";
+import React from 'react';
+import GenericLink from '@/components/GenericLink';
+import { HandleChangeInput } from '@/components/Table/types';
+import useStandardPagination from '@/hooks/useStandardPagination';
+// import { GdcFile } from "@gff/core";
+import { createColumnHelper } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import VerticalTable from '@/components/Table/VerticalTable';
+import TotalItems from '@/components/Table/TotalItem';
 
 type AssociatedCBType = {
   entity_id: JSX.Element;
@@ -23,10 +24,13 @@ const AssociatedCB = ({
   cases,
   associated_entities,
 }: {
-  cases: GdcFile["cases"];
-  associated_entities: GdcFile["associated_entities"];
+  // cases: GdcFile['cases'];
+  cases: any['cases'];
+
+  // associated_entities: GdcFile["associated_entities"];
+  associated_entities: any['associated_entities'];
 }): JSX.Element => {
-  const [associatedCBSearchTerm, setAssociatedCBSearchTerm] = useState("");
+  const [associatedCBSearchTerm, setAssociatedCBSearchTerm] = useState('');
 
   const data: AssociatedCBType[] = useMemo(() => {
     const tableRows = [];
@@ -55,13 +59,13 @@ const AssociatedCB = ({
       });
 
       let entityQuery;
-      if (entity.entity_type !== "case") {
+      if (entity.entity_type !== 'case') {
         entityQuery = { bioId: entity.entity_id };
       }
 
       if (
         caseData?.submitter_id &&
-        (associatedCBSearchTerm === "" ||
+        (associatedCBSearchTerm === '' ||
           entity.entity_submitter_id
             .toLowerCase()
             .includes(associatedCBSearchTerm.toLowerCase()) ||
@@ -78,8 +82,8 @@ const AssociatedCB = ({
             />
           ),
           entity_type: entity.entity_type,
-          tissue_type: matched_entity?.tissue_type ?? "--",
-          tumor_descriptor: matched_entity?.tumor_descriptor ?? "--",
+          tissue_type: matched_entity?.tissue_type ?? '--',
+          tumor_descriptor: matched_entity?.tumor_descriptor ?? '--',
           case_id: (
             <GenericLink
               path={`/cases/${entity.case_id}`}
@@ -107,13 +111,13 @@ const AssociatedCB = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         handlePageSizeChange(obj.newPageSize);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         handlePageChange(obj.newPageNumber);
         break;
-      case "newSearch":
+      case 'newSearch':
         setAssociatedCBSearchTerm(obj.newSearch);
         break;
     }
@@ -121,25 +125,25 @@ const AssociatedCB = ({
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor("entity_id", {
-        header: "Entity ID",
+      columnHelper.accessor('entity_id', {
+        header: 'Entity ID',
         cell: ({ getValue }) => getValue(),
       }),
-      columnHelper.accessor("entity_type", {
-        header: "Entity Type",
+      columnHelper.accessor('entity_type', {
+        header: 'Entity Type',
       }),
-      columnHelper.accessor("tissue_type", {
-        header: "Tissue Type",
+      columnHelper.accessor('tissue_type', {
+        header: 'Tissue Type',
       }),
-      columnHelper.accessor("tumor_descriptor", {
-        header: "Tumor Descriptor",
+      columnHelper.accessor('tumor_descriptor', {
+        header: 'Tumor Descriptor',
       }),
-      columnHelper.accessor("case_id", {
-        header: "Case ID",
+      columnHelper.accessor('case_id', {
+        header: 'Case ID',
         cell: ({ getValue }) => getValue(),
       }),
-      columnHelper.accessor("annotations", {
-        header: "Annotations",
+      columnHelper.accessor('annotations', {
+        header: 'Annotations',
         cell: ({ getValue }) => getValue(),
       }),
     ],
@@ -156,11 +160,11 @@ const AssociatedCB = ({
         size,
         from,
         total,
-        label: "associated cases/biospecimen",
+        label: 'associated cases/biospecimen',
       }}
       search={{
         enabled: true,
-        tooltip: "e.g. TCGA-AR-A24Z, TCGA-AR-A24Z-10A-01D-A167-09",
+        tooltip: 'e.g. TCGA-AR-A24Z, TCGA-AR-A24Z-10A-01D-A167-09',
       }}
       tableTotalDetail={
         <TotalItems

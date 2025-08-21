@@ -37,6 +37,7 @@ import FileVersions from './FileVersions';
 import AnnnotationsTable from './AnnotationsTable';
 // import FilesIcon from 'public/icons/files.svg';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
+import { useGetFilesQuery } from './mockedHooks';
 
 const Modals = {} as any;
 
@@ -90,6 +91,24 @@ export const FileView: React.FC<FileViewProps> = ({
   file,
   isModal,
 }: FileViewProps) => {
+  /******TEST CODE TO CHECK DATA OUTPUTS */
+
+  const exampleGdcFile0 = useGetFilesQuery({
+    filters: {} as FilterSet,
+    fields: [],
+    index: 0,
+  });
+
+  console.log('file0 in FileView', exampleGdcFile0.data[0]);
+
+  const exampleGdcFile1 = useGetFilesQuery({
+    filters: {} as FilterSet,
+    fields: [],
+    index: 1,
+  });
+  console.log('file1 in FileView', exampleGdcFile1.data[0]);
+  /*****END TEST CODE */
+
   // const currentCart = useCoreSelector((state) => selectCart(state));
   const currentCart = [] as any;
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
@@ -262,7 +281,7 @@ export const FileView: React.FC<FileViewProps> = ({
   );
 
   return (
-    <div className="relative">
+    <div className="relative" data-testid="file-view">
       <SummaryHeader
         iconPath={'public/icons/files.svg'}
         headerTitleLeft="File"
@@ -395,15 +414,16 @@ export const FileView: React.FC<FileViewProps> = ({
             />
           </DivWithMargin>
         )}
-        {/*  <FileVersions file_id={file.file_id} /> */}
-        {/* {file?.annotations?.length > 0 && (
+        <FileVersions file_id={file.file_id} />
+        <h4>Annotations ↓</h4>
+        {file?.annotations?.length > 0 && (
           <div
             className={`mb-16 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
             id="annotations"
           >
             <AnnnotationsTable annotations={file.annotations} />
           </div>
-        )} */}
+        )}
 
         {modal === Modals.NoAccessToProjectModal && (
           // <NoAccessToProjectModal openModal />

@@ -1,91 +1,93 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   VisibilityState,
   ColumnOrderState,
   ColumnDef,
-} from "@tanstack/react-table";
-import Link from "next/link";
+} from '@tanstack/react-table';
+import Link from 'next/link';
 import {
   FileAnnotationsType,
-  useCoreDispatch,
-  GqlUnion,
+  // useCoreDispatch,
+  // GqlUnion,
   GqlOperation,
-  useGetAnnotationsQuery,
-  SortBy,
-  Pagination,
-  AnnotationDefaults,
-  GqlIncludes,
-} from "@gff/core";
-import { createColumnHelper, SortingState } from "@tanstack/react-table";
-import { getFormattedTimestamp } from "src/utils/date";
-import download from "src/utils/download";
-import FunctionButton from "@/components/FunctionButton";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { HandleChangeInput } from "@/components/Table/types";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import { downloadTSV } from "@/components/Table/utils";
-import TotalItems from "@/components/Table/TotalItem";
-import { useDeepCompareMemo } from "use-deep-compare";
+  // useGetAnnotationsQuery,
+  // SortBy,
+  // Pagination,
+  // AnnotationDefaults,
+  // GqlIncludes,
+} from '@/core';
+import { useCoreDispatch } from '@gen3/core';
+import { createColumnHelper, SortingState } from '@tanstack/react-table';
+import { getFormattedTimestamp } from 'src/utils/date';
+import download from 'src/utils/download';
+import FunctionButton from '@/components/FunctionButton';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { HandleChangeInput } from '@/components/Table/types';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import { downloadTSV } from '@/components/Table/utils';
+import TotalItems from '@/components/Table/TotalItem';
+import { useDeepCompareMemo } from 'use-deep-compare';
 
 interface AnnotationsTableProps {
   readonly annotations: ReadonlyArray<FileAnnotationsType>;
 }
 type AnnotationTableData = Pick<
   FileAnnotationsType,
-  | "annotation_id"
-  | "case_id"
-  | "case_submitter_id"
-  | "entity_type"
-  | "entity_id"
-  | "entity_submitter_id"
-  | "category"
-  | "classification"
-  | "created_datetime"
-  | "status"
-  | "notes"
+  | 'annotation_id'
+  | 'case_id'
+  | 'case_submitter_id'
+  | 'entity_type'
+  | 'entity_id'
+  | 'entity_submitter_id'
+  | 'category'
+  | 'classification'
+  | 'created_datetime'
+  | 'status'
+  | 'notes'
 >;
 
 const buildSearchFilters = (searchTerm: string) => {
   return {
-    op: "or",
+    op: 'or',
     content: [
       {
-        op: "=",
+        op: '=',
         content: {
-          field: "annotation_id",
+          field: 'annotation_id',
           value: `*${searchTerm}*`,
         },
       },
       {
-        op: "=",
+        op: '=',
         content: {
-          field: "entity_id",
+          field: 'entity_id',
           value: `*${searchTerm}*`,
         },
       },
       {
-        op: "=",
+        op: '=',
         content: {
-          field: "entity_submitter_id",
+          field: 'entity_submitter_id',
           value: `*${searchTerm}*`,
         },
       },
       {
-        op: "=",
+        op: '=',
         content: {
-          field: "case_id",
+          field: 'case_id',
           value: `*${searchTerm}*`,
         },
       },
       {
-        op: "=",
+        op: '=',
         content: {
-          field: "case_submitter_id",
+          field: 'case_submitter_id',
           value: `*${searchTerm}*`,
         },
       },
     ],
-  } as GqlUnion;
+    // } as GqlUnion;
+  } as any;
 };
 
 const annotationsTableColumnHelper = createColumnHelper<AnnotationTableData>();
@@ -95,8 +97,10 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
 }: AnnotationsTableProps) => {
   const [pageSize, setPageSize] = useState(10);
   const [activePage, setActivePage] = useState(1);
-  const [sortBy, setSortBy] = useState<SortBy[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  // const [sortBy, setSortBy] = useState<SortBy[]>([]);
+  const [sortBy, setSortBy] = useState<any[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     case_id: false,
     entity_id: false,
@@ -110,15 +114,16 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
     setSortBy(
       sorting.map((sort) => ({
         field: sort.id,
-        direction: sort.desc ? "desc" : "asc",
+        direction: sort.desc ? 'desc' : 'asc',
       })),
     );
   }, [sorting]);
 
-  const filters: GqlIncludes = {
-    op: "in",
+  // const filters: GqlIncludes = {
+  const filters: any = {
+    op: 'in',
     content: {
-      field: "annotation_id",
+      field: 'annotation_id',
       value: annotations.map((annotation) => annotation.annotation_id),
     },
   };
@@ -126,7 +131,7 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
   const tableFilters: GqlOperation = searchTerm
     ? filters
       ? {
-          op: "and",
+          op: 'and',
           content: [buildSearchFilters(searchTerm), filters],
         }
       : buildSearchFilters(searchTerm)
@@ -142,7 +147,8 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
   });
 
   const [formattedTableData, pagination] = useDeepCompareMemo<
-    [AnnotationDefaults[], Pagination]
+    // [AnnotationDefaults[], Pagination]
+    [any[], any]
   >(() => {
     if (isSuccess && !isFetching) {
       return [data?.hits ? [...data.hits] : [], data.pagination];
@@ -164,9 +170,9 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
 
   const columns = useMemo<ColumnDef<AnnotationTableData>[]>(
     () => [
-      annotationsTableColumnHelper.accessor("annotation_id", {
-        id: "annotation_id",
-        header: "UUID",
+      annotationsTableColumnHelper.accessor('annotation_id', {
+        id: 'annotation_id',
+        header: 'UUID',
         cell: ({ getValue }) => (
           <Link
             href={`/annotations/${getValue()}`}
@@ -176,15 +182,15 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
           </Link>
         ),
       }),
-      annotationsTableColumnHelper.accessor("case_id", {
-        id: "case_id",
-        header: "Case UUID",
+      annotationsTableColumnHelper.accessor('case_id', {
+        id: 'case_id',
+        header: 'Case UUID',
         enableSorting: false,
-        cell: ({ getValue }) => getValue() ?? "--",
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("case_submitter_id", {
-        id: "case_submitter_id",
-        header: "Case ID",
+      annotationsTableColumnHelper.accessor('case_submitter_id', {
+        id: 'case_submitter_id',
+        header: 'Case ID',
         cell: ({ getValue, row }) =>
           getValue() ? (
             <Link
@@ -194,51 +200,51 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
               {getValue()}
             </Link>
           ) : (
-            "--"
+            '--'
           ),
       }),
-      annotationsTableColumnHelper.accessor("entity_type", {
-        id: "entity_type",
-        header: "Entity Type",
-        cell: ({ getValue }) => getValue() ?? "--",
+      annotationsTableColumnHelper.accessor('entity_type', {
+        id: 'entity_type',
+        header: 'Entity Type',
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("entity_id", {
-        id: "entity_id",
-        header: "Entity UUID",
+      annotationsTableColumnHelper.accessor('entity_id', {
+        id: 'entity_id',
+        header: 'Entity UUID',
         enableSorting: false,
-        cell: ({ getValue }) => getValue() ?? "--",
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("entity_submitter_id", {
-        id: "entity_submitter_id",
-        header: "Entity ID",
-        cell: ({ getValue }) => getValue() ?? "--",
+      annotationsTableColumnHelper.accessor('entity_submitter_id', {
+        id: 'entity_submitter_id',
+        header: 'Entity ID',
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("category", {
-        id: "category",
-        header: "Category",
-        cell: ({ getValue }) => getValue() ?? "--",
+      annotationsTableColumnHelper.accessor('category', {
+        id: 'category',
+        header: 'Category',
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("classification", {
-        id: "classification",
-        header: "Classification",
-        cell: ({ getValue }) => getValue() ?? "--",
+      annotationsTableColumnHelper.accessor('classification', {
+        id: 'classification',
+        header: 'Classification',
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("created_datetime", {
-        id: "created_datetime",
-        header: "Created Datetime",
-        cell: ({ getValue }) => getValue() ?? "--",
+      annotationsTableColumnHelper.accessor('created_datetime', {
+        id: 'created_datetime',
+        header: 'Created Datetime',
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("status", {
-        id: "status",
-        header: "Status",
+      annotationsTableColumnHelper.accessor('status', {
+        id: 'status',
+        header: 'Status',
         enableSorting: false,
-        cell: ({ getValue }) => getValue() ?? "--",
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
-      annotationsTableColumnHelper.accessor("notes", {
-        id: "notes",
-        header: "Notes",
+      annotationsTableColumnHelper.accessor('notes', {
+        id: 'notes',
+        header: 'Notes',
         enableSorting: false,
-        cell: ({ getValue }) => getValue() ?? "--",
+        cell: ({ getValue }) => getValue() ?? '--',
       }),
     ],
     [],
@@ -250,14 +256,14 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         setPageSize(parseInt(obj.newPageSize));
         setActivePage(1);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         setActivePage(obj.newPageNumber);
         break;
-      case "newSearch":
+      case 'newSearch':
         setSearchTerm(obj.newSearch);
         setActivePage(1);
         break;
@@ -269,28 +275,28 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
   const handleDownloadJSON = async () => {
     setJsonDownloadInProgress(true);
     await download({
-      endpoint: "annotations",
-      method: "POST",
+      endpoint: 'annotations',
+      method: 'POST',
       params: {
         filters: tableFilters,
         attachment: true,
-        format: "JSON",
+        format: 'JSON',
         pretty: true,
         fields: [
-          "annotation_id",
-          "case_id",
-          "case_submitter_id",
-          "project.program.name",
-          "project.project_id",
-          "entity_type",
-          "entity_id",
-          "entity_submitter_id",
-          "category",
-          "classification",
-          "created_datetime",
-          "status",
-          "notes",
-        ].join(","),
+          'annotation_id',
+          'case_id',
+          'case_submitter_id',
+          'project.program.name',
+          'project.project_id',
+          'entity_type',
+          'entity_id',
+          'entity_submitter_id',
+          'category',
+          'classification',
+          'created_datetime',
+          'status',
+          'notes',
+        ].join(','),
       },
       dispatch: coreDispatch,
       done: () => setJsonDownloadInProgress(false),
@@ -309,8 +315,9 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
 
   return (
     <div className="flex flex-col gap-2">
+      <h2>Annotations</h2>
       <HeaderTitle>Annotations</HeaderTitle>
-      <VerticalTable
+      {/* <VerticalTable
         customDataTestID="table-annotations-file-summary"
         tableTotalDetail={
           <TotalItems total={annotations?.length} itemName="annotation" />
@@ -320,8 +327,8 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
             <FunctionButton
               data-testid="button-json-projects-table"
               onClick={handleDownloadJSON}
-              isDownload
-              isActive={jsonDownloadInProgress}
+              // isDownload
+              // isActive={jsonDownloadInProgress}
             >
               JSON
             </FunctionButton>
@@ -338,12 +345,12 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
         showControls
         search={{
           enabled: true,
-          tooltip: "e.g. TCGA-ZX-AA5X, c8449103-afb0-4e43-ac04-c4ef54a8cdb0",
+          tooltip: 'e.g. TCGA-ZX-AA5X, c8449103-afb0-4e43-ac04-c4ef54a8cdb0',
         }}
         baseZIndex={400}
         pagination={{
           ...pagination,
-          label: "annotation",
+          label: 'annotation',
         }}
         handleChange={handleChange}
         columnVisibility={columnVisibility}
@@ -353,7 +360,7 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
         columnSorting="enable"
         sorting={sorting}
         setSorting={setSorting}
-      />
+      /> */}
     </div>
   );
 };

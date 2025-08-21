@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMemo } from 'react';
-// import { useGetHistoryQuery } from '@gff/core';
+// import { useGetHistoryQuery } from '@/core';
 import saveAs from 'file-saver';
 import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
 import VerticalTable from '@/components/Table/VerticalTable';
@@ -10,6 +10,7 @@ import TotalItems from '@/components/Table/TotalItem';
 import { statusBooleansToDataStatus } from '@/utils/index';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { DownloadIcon } from '@/utils/icons';
+import { useGetHistoryQuery } from './mockedHooks';
 
 type FileVersionsDataType = {
   version: string;
@@ -20,9 +21,6 @@ type FileVersionsDataType = {
 };
 
 const fileVersionsColumnHelper = createColumnHelper<FileVersionsDataType>();
-
-// TODO -> add this missing func
-const useGetHistoryQuery = () => null as any;
 
 const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
   const {

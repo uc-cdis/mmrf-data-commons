@@ -1,14 +1,15 @@
-import { userCanDownloadFile } from 'src/utils/userProjectUtils';
+import React from 'react';
+// import { userCanDownloadFile } from 'src/utils/userProjectUtils';
 import {
   GdcFile,
-  useCoreDispatch,
-  showModal,
-  Modals,
-  useLazyFetchUserDetailsQuery,
+  // useCoreDispatch,
+  //  showModal,
+  //  Modals,
+  //  useLazyFetchUserDetailsQuery,
 } from '@/core';
 import { DownloadButton } from './DownloadButton';
-import { useState } from 'react';
-import { useDeepCompareCallback } from 'use-deep-compare';
+// import { useState } from 'react';
+// import { useDeepCompareCallback } from 'use-deep-compare';
 import { FunctionButtonVariants } from '../FunctionButton';
 
 interface DownloadFileProps {
@@ -26,12 +27,12 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
   customDataTestID,
   displayVariant,
 }: DownloadFileProps) => {
-  const dispatch = useCoreDispatch();
-  const [fetchUserDetails] = useLazyFetchUserDetailsQuery();
+  // const dispatch = useCoreDispatch();
+  // const [fetchUserDetails] = useLazyFetchUserDetailsQuery();
 
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
 
-  const onClick = useDeepCompareCallback(async () => {
+  /*   const onClick = useDeepCompareCallback(async () => {
     fetchUserDetails()
       .unwrap()
       .then((userInfo) => {
@@ -52,11 +53,11 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
           dispatch(showModal({ modal: Modals.NoAccessModal }));
         }
       });
-  }, [fetchUserDetails, file, dispatch, setfileToDownload]);
+  }, [fetchUserDetails, file, dispatch, setfileToDownload]); */
 
   // TODO: need to send set active to agreement modal in a better way
   // TODO: rethink of a better architecture for it
-  if (file.access === 'open') {
+  /* if (file.access === 'open') {
     return (
       <DownloadButton
         data-testid={customDataTestID}
@@ -75,15 +76,16 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
       />
     );
   }
+  */
 
   return (
     <DownloadButton
       data-testid={customDataTestID}
-      buttonLabel={buttonLabel}
-      onClick={onClick}
-      setActive={setActive}
-      active={active}
-      displayVariant={displayVariant}
+      // buttonLabel={buttonLabel}
+      // onClick={() => onClick}
+      // setActive={setActive}
+      // active={active}
+      // displayVariant={displayVariant}
     />
   );
 };
