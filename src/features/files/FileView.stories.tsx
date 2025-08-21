@@ -139,7 +139,7 @@ export const Default: Story = {
   ),
 };
 
-export const ExampleGdcFile0: Story = {
+export const ExampleGdcFile0BAM: Story = {
   args: {
     file: exampleGdcFile0.data[0],
     isModal: false,
