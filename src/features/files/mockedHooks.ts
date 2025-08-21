@@ -27,7 +27,22 @@ export const useGetFilesQuery = ({
 };
 
 export const useGetHistoryQuery = (file_id: any) => ({
-  data: [file_id],
+  data: [
+    {
+      uuid: file_id,
+      version: '0.123',
+      file_change: '12/13/21',
+      release_date: '11/13/12',
+      data_release: '01/21/21',
+    },
+    {
+      uuid: file_id + 1,
+      version: '0.321',
+      file_change: '11/12/21',
+      release_date: '1/1/12',
+      data_release: '2/31/21',
+    },
+  ],
   isFetching: false,
   isSuccess: true,
   isError: false,

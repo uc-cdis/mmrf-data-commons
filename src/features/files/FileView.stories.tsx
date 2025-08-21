@@ -174,31 +174,3 @@ export const ExampleGdcFile2: Story = {
     </Wrapper>
   ),
 };
-
-/*
-// Another story for a different file type
-export const ImageFile: Story = {
-  render: (args) => (
-    <Wrapper>
-      <FileView {...args} />
-    </Wrapper>
-  ),
-  args: {
-    fileName: 'Picture.png',
-    fileType: 'Image',
-  },
-};
-
-// Story for a text file
-export const TextFile: Story = {
-  render: (args) => (
-    <Wrapper>
-      <FileView {...args} />
-    </Wrapper>
-  ),
-  args: {
-    fileName: 'Notes.txt',
-    fileType: 'Text',
-  },
-};
-*/
