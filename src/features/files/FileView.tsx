@@ -91,10 +91,7 @@ export const FileView: React.FC<FileViewProps> = ({
   file,
   isModal,
 }: FileViewProps) => {
-  /******TEST CODE TO CHECK DATA OUTPUTS */
-
-  console.log('file in FileView', file);
-  /*****END TEST CODE */
+  console.log('file?.annotations?', file?.annotations);
 
   // const currentCart = useCoreSelector((state) => selectCart(state));
   const currentCart = [] as any;
@@ -270,7 +267,7 @@ export const FileView: React.FC<FileViewProps> = ({
   return (
     <div className="relative" data-testid="file-view">
       <SummaryHeader
-        iconPath={'public/icons/files.svg'}
+        iconPath={'/icons/files.svg'}
         headerTitleLeft="File"
         headerTitle={file.file_name}
         isModal={isModal}
