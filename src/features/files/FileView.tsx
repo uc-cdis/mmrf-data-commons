@@ -93,20 +93,7 @@ export const FileView: React.FC<FileViewProps> = ({
 }: FileViewProps) => {
   /******TEST CODE TO CHECK DATA OUTPUTS */
 
-  const exampleGdcFile0 = useGetFilesQuery({
-    filters: {} as FilterSet,
-    fields: [],
-    index: 0,
-  });
-
-  console.log('file0 in FileView', exampleGdcFile0.data[0]);
-
-  const exampleGdcFile1 = useGetFilesQuery({
-    filters: {} as FilterSet,
-    fields: [],
-    index: 1,
-  });
-  console.log('file1 in FileView', exampleGdcFile1.data[0]);
+  console.log('file in FileView', file);
   /*****END TEST CODE */
 
   // const currentCart = useCoreSelector((state) => selectCart(state));

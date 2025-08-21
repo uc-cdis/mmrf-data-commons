@@ -22,9 +22,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const firstExampleGdcFile = () =>
-  useGetFilesQuery({ filters: {} as FilterSet, fields: [], index: 0 });
-
 const exampleGdcFile: GdcFile = {
   submitterId: 'submitter456',
   access: 'open', // Assuming "open" is a valid value from accessTypes
@@ -41,9 +38,25 @@ const exampleGdcFile: GdcFile = {
   state: 'available',
 };
 
+const exampleGdcFile0 = useGetFilesQuery({
+  filters: {} as FilterSet,
+  fields: [],
+  index: 0,
+});
+const exampleGdcFile1 = useGetFilesQuery({
+  filters: {} as FilterSet,
+  fields: [],
+  index: 1,
+});
+const exampleGdcFile2 = useGetFilesQuery({
+  filters: {} as FilterSet,
+  fields: [],
+  index: 2,
+});
+/*
 export const Default: Story = {
   args: {
-    file: exampleGdcFile,
+    file: exampleGdcFile0.data[0],
     isModal: false,
   },
   render: (args) => (
@@ -82,4 +95,110 @@ export const Default: Story = {
       expect(currEle).toBeInTheDocument();
     });
   },
+}; */
+
+/**** NEW VERSION */
+
+// Wrapper component for the story
+const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ padding: '20px' }}>
+    <Gen3Provider
+      icons={[]}
+      sessionConfig={{
+        updateSessionTime: 5,
+        inactiveTimeLimit: 20,
+        logoutInactiveUsers: false,
+        monitorWorkspace: false,
+      }}
+      modalsConfig={{
+        systemUseModal: {
+          title: '',
+          content: {
+            text: [''],
+          },
+          expireDays: 0,
+          showOnlyOnLogin: true,
+        },
+      }}
+    >
+      <Gen3GDCCompatabilityProvider>{children}</Gen3GDCCompatabilityProvider>
+    </Gen3Provider>
+  </div>
+);
+
+// Default story
+export const Default: Story = {
+  args: {
+    file: exampleGdcFile,
+    isModal: false,
+  },
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
 };
+
+export const ExampleGdcFile0: Story = {
+  args: {
+    file: exampleGdcFile0.data[0],
+    isModal: false,
+  },
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
+};
+
+export const ExampleGdcFile1: Story = {
+  args: {
+    file: exampleGdcFile1.data[0],
+    isModal: false,
+  },
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
+};
+
+export const ExampleGdcFile2: Story = {
+  args: {
+    file: exampleGdcFile2.data[0],
+    isModal: false,
+  },
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
+};
+
+/*
+// Another story for a different file type
+export const ImageFile: Story = {
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
+  args: {
+    fileName: 'Picture.png',
+    fileType: 'Image',
+  },
+};
+
+// Story for a text file
+export const TextFile: Story = {
+  render: (args) => (
+    <Wrapper>
+      <FileView {...args} />
+    </Wrapper>
+  ),
+  args: {
+    fileName: 'Notes.txt',
+    fileType: 'Text',
+  },
+};
+*/
