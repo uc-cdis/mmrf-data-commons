@@ -146,7 +146,7 @@ export const FileView: React.FC<FileViewProps> = ({
         {
           field: 'project_id',
           name: 'Project',
-          modifier: (v) => <GenericLink path={`/projects/${v}`} text={v} />,
+          modifier: (v) => v && <GenericLink path={`/projects/${v}`} text={v} />,
         },
       ]),
     [file],

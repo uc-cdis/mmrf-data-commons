@@ -35,7 +35,6 @@ export const intersectsWithFileAcl = ({
   user,
 }: {
   file: GdcFile | CartFile;
-  // user: UserInfo;
   user: any;
 }): boolean =>
   intersection(
