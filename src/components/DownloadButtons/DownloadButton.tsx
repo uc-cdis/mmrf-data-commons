@@ -8,6 +8,7 @@ import FunctionButton, {
 } from '@/components/FunctionButton';
 import { ADDITIONAL_DOWNLOAD_MESSAGE } from '@/utils/constants';
 import { Button } from '@mantine/core';
+import { DownloadIcon } from '@/utils/icons';
 
 /**
  * Properties for the DownloadButton component.
@@ -84,7 +85,14 @@ interface DownloadButtonProps {
  */
 
 export const DownloadButton = () => (
-  <Button>Placeholder for download button</Button>
+  <Button
+      variant="outline"
+      leftSection={<DownloadIcon  aria-hidden="true" />}
+      onClick={()=>alert('click event for Download button')}
+      className={"font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker"}
+  >
+    Download
+    </Button>
 );
 
 /* export const DownloadButton = forwardRef<

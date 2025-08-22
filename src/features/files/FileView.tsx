@@ -20,7 +20,7 @@ import {
 } from './utils';
 // import { BAMSlicingModal } from '@/components/Modals/BAMSlicingModal/BAMSlicingModal';
 // import { NoAccessToProjectModal } from '@/components/Modals/NoAccessToProjectModal';
-// import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
+import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
 // import { DownloadFile } from '@/components/DownloadButtons';
 // import { AgreementModal } from '@/components/Modals/AgreementModal';
 // import { fileInCart } from 'src/utils';
@@ -38,6 +38,9 @@ import AnnnotationsTable from './AnnotationsTable';
 // import FilesIcon from 'public/icons/files.svg';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { useGetFilesQuery } from './mockedHooks';
+import { DownloadFile } from '@/components/DownloadButtons';
+import { Button } from '@mantine/core';
+import { CartIcon } from '@/utils/icons';
 
 const Modals = {} as any;
 
@@ -57,7 +60,14 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   <div className="flex gap-4">
     {!isFileInCart ? (
       // <AddToCartButton files={mapGdcFileToCartFile([file])} />
-      <h4 className="text-gen3-white">Placeholder for AddToCartButton</h4>
+    <Button
+      variant="outline"
+      leftSection={<CartIcon  aria-hidden="true" />}
+      onClick={()=>alert('click event for Download button')}
+      className={"font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker"}
+  >
+    Add to Cart
+    </Button>
     ) : (
       <h4 className="text-gen3-white">Placeholder for RemoveFromCartButton</h4>
       // <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />
@@ -65,18 +75,15 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
     {file.data_format === 'BAM' &&
       file.data_type === 'Aligned Reads' &&
       (file?.index_files?.length as number) > 0 && (
-        <h4 className="text-gen3-white">Placeholder for BAMSlicingButton</h4>
-        // <BAMSlicingButton isActive={bamActive} file={file} />
+         <BAMSlicingButton isActive={bamActive} file={file} />
       )}
-
-    <h4 className="text-gen3-white">Placeholder for Download File Button</h4>
-    {/*     <DownloadFile
+    <DownloadFile
       customDataTestID="button-download-file-summary"
       buttonLabel="Download"
       file={file}
       displayVariant="header-subtle"
       setfileToDownload={setFileToDownload}
-    /> */}
+    />
   </div>
 );
 
@@ -398,15 +405,6 @@ export const FileView: React.FC<FileViewProps> = ({
           </DivWithMargin>
         )}
         <FileVersions file_id={file.file_id} />
-        <h4>Annotations ↓</h4>
-        {file?.annotations?.length > 0 && (
-          <div
-            className={`mb-16 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
-            id="annotations"
-          >
-            <AnnnotationsTable annotations={file.annotations} />
-          </div>
-        )}
 
         {modal === Modals.NoAccessToProjectModal && (
           // <NoAccessToProjectModal openModal />
@@ -425,11 +423,6 @@ export const FileView: React.FC<FileViewProps> = ({
         }
 
         {modal === Modals.AgreementModal && (
-          /* <AgreementModal
-            openModal
-            file={fileToDownload}
-            dbGapList={fileToDownload.acl}
-          /> */
           <h4>Placeholder for AgreementModal</h4>
         )}
       </div>

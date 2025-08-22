@@ -1,6 +1,6 @@
 import React from 'react';
 // import { useCallback } from 'react';
-//import { CutIcon } from '@/utils/icons';
+import { CutIcon } from '@/utils/icons';
 //import { showModal, Modals, GdcFile } from '@/core';
 //import { useFetchUserDetailsQuery, useCoreDispatch } from '@gen3/core';
 import { Button } from '@mantine/core';
@@ -11,9 +11,15 @@ export const BAMSlicingButton = ({
   file,
 }: {
   isActive: boolean;
-  file: GdcFile;
+  // file: GdcFile;
+  file: any;
 }): JSX.Element => {
-  return <Button>Placeholder BAMSlicing Button</Button>;
+  return <Button className="font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker"
+      leftSection={<CutIcon aria-hidden="true" />}
+      loading={isActive}
+      variant="outline"
+      onClick={()=>alert('click event for BAM Slicing button')}
+      data-testid="button-bam-slicing">BAM Slicing</Button>;
 
   /*
   const dispatch = useCoreDispatch();
