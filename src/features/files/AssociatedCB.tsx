@@ -2,7 +2,6 @@ import React from 'react';
 import GenericLink from '@/components/GenericLink';
 import { HandleChangeInput } from '@/components/Table/types';
 import useStandardPagination from '@/hooks/useStandardPagination';
-// import { GdcFile } from "@gff/core";
 import { createColumnHelper } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { HeaderTitle } from '@/components/tailwindComponents';
@@ -24,14 +23,10 @@ const AssociatedCB = ({
   cases,
   associated_entities,
 }: {
-  // cases: GdcFile['cases'];
   cases: any['cases'];
-
-  // associated_entities: GdcFile["associated_entities"];
   associated_entities: any['associated_entities'];
 }): JSX.Element => {
   const [associatedCBSearchTerm, setAssociatedCBSearchTerm] = useState('');
-
   const data: AssociatedCBType[] = useMemo(() => {
     const tableRows: any[] = [];
 
