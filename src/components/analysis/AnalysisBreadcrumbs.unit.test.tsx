@@ -52,10 +52,10 @@ describe("<AnalysisBreadcrumb />", () => {
         }}
       >
         <AnalysisBreadcrumbs
+          appInfo={undefined as any}
           rightComponent={null}
           onDemoApp={false}
           skipSelectionScreen={true}
-          registeredApps={REGISTERED_APPS}
         />
       </SelectionScreenContext.Provider>,
     );
@@ -78,7 +78,7 @@ describe("<AnalysisBreadcrumb />", () => {
           onDemoApp={true}
           rightComponent={null}
           skipSelectionScreen={true}
-          registeredApps={REGISTERED_APPS}
+          appInfo={undefined as any}
         />
       </SelectionScreenContext.Provider>,
     );
@@ -101,7 +101,7 @@ describe("<AnalysisBreadcrumb />", () => {
           onDemoApp={false}
           rightComponent={null}
           skipSelectionScreen={false}
-          registeredApps={REGISTERED_APPS}
+          appInfo={undefined as any}
         />
       </SelectionScreenContext.Provider>,
     );
@@ -122,10 +122,10 @@ describe("<AnalysisBreadcrumb />", () => {
         }}
       >
         <AnalysisBreadcrumbs
+          appInfo={undefined as any}
           onDemoApp={false}
           rightComponent={null}
           skipSelectionScreen={false}
-          registeredApps={REGISTERED_APPS}
         />
       </SelectionScreenContext.Provider>,
     );

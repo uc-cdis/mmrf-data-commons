@@ -33,16 +33,16 @@ const AssociatedCB = ({
   const [associatedCBSearchTerm, setAssociatedCBSearchTerm] = useState('');
 
   const data: AssociatedCBType[] = useMemo(() => {
-    const tableRows = [];
+    const tableRows: any[] = [];
 
-    associated_entities?.forEach((entity) => {
+    associated_entities?.forEach((entity:any) => {
       // find matching id from cases
       const caseData = cases?.find(
-        (caseObj) => caseObj.case_id === entity.case_id,
+        (caseObj:any) => caseObj.case_id === entity.case_id,
       );
 
       // get tissue_type and tumor_descriptor from casedata through matching its submitter_id
-      const matched_entity = caseData?.samples?.find((sample) => {
+      const matched_entity = caseData?.samples?.find((sample:any) => {
         // match entity_submitter_id
 
         // get submitter_id from diferent paths
@@ -112,13 +112,13 @@ const AssociatedCB = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        handlePageSizeChange(obj.newPageSize);
+        handlePageSizeChange(obj.newPageSize as string);
         break;
       case 'newPageNumber':
-        handlePageChange(obj.newPageNumber);
+        handlePageChange(obj.newPageNumber as number);
         break;
       case 'newSearch':
-        setAssociatedCBSearchTerm(obj.newSearch);
+        setAssociatedCBSearchTerm(obj.newSearch as string);
         break;
     }
   };

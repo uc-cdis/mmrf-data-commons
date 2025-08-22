@@ -18,13 +18,7 @@ import {
   parseSlideDetailsInfo,
   shouldDisplayReferenceGenome,
 } from './utils';
-// import { BAMSlicingModal } from '@/components/Modals/BAMSlicingModal/BAMSlicingModal';
-// import { NoAccessToProjectModal } from '@/components/Modals/NoAccessToProjectModal';
 import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
-// import { DownloadFile } from '@/components/DownloadButtons';
-// import { AgreementModal } from '@/components/Modals/AgreementModal';
-// import { fileInCart } from 'src/utils';
-// import { GeneralErrorModal } from '@/components/Modals/GeneraErrorModal';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
@@ -34,10 +28,7 @@ import DownstreamAnalyses from './DownstreamAnalyses';
 import SourceFiles from './SourceFiles';
 import ReadGroups from './ReadGroups';
 import FileVersions from './FileVersions';
-import AnnnotationsTable from './AnnotationsTable';
-// import FilesIcon from 'public/icons/files.svg';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
-import { useGetFilesQuery } from './mockedHooks';
 import { DownloadFile } from '@/components/DownloadButtons';
 import { Button } from '@mantine/core';
 import { CartIcon } from '@/utils/icons';

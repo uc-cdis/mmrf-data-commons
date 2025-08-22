@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactNode, useRef } from 'react';
 import { Button, Menu, Tooltip } from '@mantine/core';
-import { FloatingPosition } from '@mantine/core/lib/components/Floating/types';
+import { FloatingPosition } from '@mantine/core';
 import { focusStyles } from 'src/utils';
 import { DropdownIcon } from '@/utils/icons';
 import { ADDITIONAL_DOWNLOAD_MESSAGE } from '@/utils/constants';
@@ -120,7 +120,7 @@ export const DropdownWithIcon = ({
             classNames={{
               root: `${fullHeight ? 'h-full' : undefined}`,
             }}
-            ref={targetRef}
+            ref={targetRef as any}
             aria-label={buttonAriaLabel}
             data-testid={customTargetButtonDataTestId ?? 'menu-elem'}
           >

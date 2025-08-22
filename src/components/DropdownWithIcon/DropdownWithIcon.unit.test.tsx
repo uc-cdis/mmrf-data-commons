@@ -97,7 +97,7 @@ describe('<DropdownWithIcon />', () => {
     const firstMenuItem = getByTestId('test-0');
     await userEvent.click(firstMenuItem);
 
-    expect(mockOnClickCallBack1).toBeCalled();
+    expect(mockOnClickCallBack1).toHaveBeenCalled();
   });
 
   it('test menu item disabled', async () => {
