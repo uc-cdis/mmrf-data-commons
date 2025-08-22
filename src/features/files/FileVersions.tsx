@@ -1,6 +1,5 @@
 import React from 'react';
 import { useMemo } from 'react';
-// import { useGetHistoryQuery } from '@/core';
 import saveAs from 'file-saver';
 import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
 import VerticalTable from '@/components/Table/VerticalTable';
