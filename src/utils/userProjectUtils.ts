@@ -1,6 +1,14 @@
 import { CartFile, GdcFile } from '@/core';
 import { get, intersection } from 'lodash';
 
+interface UserInfo {
+  projects: {
+    phs_ids: Record<string, Array<string>>;
+    gdc_ids: Record<string, Array<string>>;
+  };
+  username: string;
+}
+
 export const isUserProject = ({
   file,
   user,
@@ -14,7 +22,7 @@ export const isUserProject = ({
   const projectIds = Array.from(
     new Set([
       file.project_id,
-      ...((file as GdcFile)?.cases || []).map((e) => e.project.project_id),
+      ...((file as GdcFile)?.cases || []).map((e: any) => e.project.project_id),
     ]),
   );
 
@@ -27,7 +35,8 @@ export const intersectsWithFileAcl = ({
   user,
 }: {
   file: GdcFile | CartFile;
-  user: UserInfo;
+  // user: UserInfo;
+  user: any;
 }): boolean =>
   intersection(
     Object.keys(get(user, 'projects.phs_ids', {})).filter(

@@ -181,13 +181,13 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
             {getValue()}
           </Link>
         ),
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('case_id', {
         id: 'case_id',
         header: 'Case UUID',
         enableSorting: false,
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('case_submitter_id', {
         id: 'case_submitter_id',
         header: 'Case ID',
@@ -202,18 +202,18 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
           ) : (
             '--'
           ),
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('entity_type', {
         id: 'entity_type',
         header: 'Entity Type',
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('entity_id', {
         id: 'entity_id',
         header: 'Entity UUID',
         enableSorting: false,
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('entity_submitter_id', {
         id: 'entity_submitter_id',
         header: 'Entity ID',
@@ -223,29 +223,29 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
         id: 'category',
         header: 'Category',
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('classification', {
         id: 'classification',
         header: 'Classification',
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('created_datetime', {
         id: 'created_datetime',
         header: 'Created Datetime',
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('status', {
         id: 'status',
         header: 'Status',
         enableSorting: false,
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
       annotationsTableColumnHelper.accessor('notes', {
         id: 'notes',
         header: 'Notes',
         enableSorting: false,
         cell: ({ getValue }) => getValue() ?? '--',
-      }),
+      }) as ColumnDef<AnnotationTableData>,
     ],
     [],
   );
@@ -257,14 +257,14 @@ const AnnotationsTable: React.FC<AnnotationsTableProps> = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        setPageSize(parseInt(obj.newPageSize));
+        setPageSize(parseInt(obj.newPageSize as string));
         setActivePage(1);
         break;
       case 'newPageNumber':
-        setActivePage(obj.newPageNumber);
+        setActivePage(obj.newPageNumber as number);
         break;
       case 'newSearch':
-        setSearchTerm(obj.newSearch);
+        setSearchTerm(obj.newSearch as string);
         setActivePage(1);
         break;
     }

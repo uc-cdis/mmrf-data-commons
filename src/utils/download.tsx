@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
 // import { GDC_APP_API_AUTH, Modals, showModal } from '@/core';
-// import { useCoreDispatch } from '@gen3/core';
+import { useCoreDispatch } from '@gen3/core';
 import { Button } from '@mantine/core';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { includes, isPlainObject, reduce, uniqueId } from 'lodash';
@@ -109,10 +109,13 @@ const download = async ({
   endpoint: string;
   params: Record<string, any>;
   method: string;
-  dispatch: CoreDispatch;
+  // dispatch: CoreDispatch;
+  dispatch: any;
   done?: () => void;
-  Modal403?: Modals;
-  Modal400?: Modals;
+  // Modal403?: Modals;
+  Modal403?: any;
+  Modal400?: any;
+  //Modal400?: Modals;
   customErrorMessage?: string;
   hideNotification?: boolean;
 }): Promise<void> => {
@@ -132,6 +135,7 @@ const download = async ({
   }
 
   // place notification in timeout to avoid flicker on fast calls
+  /*
   const showNotificationTimeout = setTimeout(
     () =>
       showNotification({
@@ -187,8 +191,9 @@ const download = async ({
 
   // Appending to document body to allow navigation away from the current
   // page and downloads in the background
-  document.body.appendChild(iFrame);
+  // document.body.appendChild(iFrame);
 
+  /*
   const pollForDownloadResult = async () => {
     const executePoll = async (resolve: (value?: unknown) => void) => {
       // Request has been canceled
@@ -200,7 +205,8 @@ const download = async ({
 
       const content = body?.textContent;
       // Download has started
-      if (!cookies.get(cookieKey)) {
+
+      if (!cookies.get(cookieKey as string)) {
         clearTimeout(showNotificationTimeout);
         cleanNotifications();
         if (done) {
@@ -263,8 +269,9 @@ const download = async ({
   };
 
   addFormAndSubmit();
-  await pollForDownloadResult();
+  // await pollForDownloadResult();
   iFrame.remove();
+  */
 };
 
 export default download;

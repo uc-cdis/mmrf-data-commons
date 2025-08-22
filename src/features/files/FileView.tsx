@@ -64,7 +64,7 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
     )}
     {file.data_format === 'BAM' &&
       file.data_type === 'Aligned Reads' &&
-      file?.index_files?.length > 0 && (
+      (file?.index_files?.length as number) > 0 && (
         <h4 className="text-gen3-white">Placeholder for BAMSlicingButton</h4>
         // <BAMSlicingButton isActive={bamActive} file={file} />
       )}
@@ -313,7 +313,6 @@ export const FileView: React.FC<FileViewProps> = ({
             </>
           )}
         </DivWithMargin>
-
         {file.data_format === 'BAM' &&
           file.data_type === 'Aligned Reads' &&
           !isAllMetricsValUndefined && (
@@ -426,7 +425,7 @@ export const FileView: React.FC<FileViewProps> = ({
         }
 
         {modal === Modals.AgreementModal && (
-          /*           <AgreementModal
+          /* <AgreementModal
             openModal
             file={fileToDownload}
             dbGapList={fileToDownload.acl}

@@ -1,10 +1,11 @@
-import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo } from "react";
-import VerticalTable from "@/components/Table/VerticalTable";
-import TotalItems from "@/components/Table/TotalItem";
-import { HeaderTitle } from "@/components/tailwindComponents";
-import useStandardPagination from "@/hooks/useStandardPagination";
-import { HandleChangeInput } from "@/components/Table/types";
+import React from 'react';
+import { createColumnHelper } from '@tanstack/react-table';
+import { useMemo } from 'react';
+import VerticalTable from '@/components/Table/VerticalTable';
+import TotalItems from '@/components/Table/TotalItem';
+import { HeaderTitle } from '@/components/tailwindComponents';
+import useStandardPagination from '@/hooks/useStandardPagination';
+import { HandleChangeInput } from '@/components/Table/types';
 
 type ReadGroupsDataType = {
   read_group_id: string;
@@ -31,12 +32,12 @@ const ReadGroups = ({
 }): JSX.Element => {
   const data: ReadGroupsDataType[] = useMemo(() => {
     return readGroups.map((read_group) => ({
-      read_group_id: read_group.read_group_id ?? "--",
-      is_paired_end: read_group.is_paired_end ? "true" : "false",
-      read_length: read_group.read_length ?? "--",
-      library_name: read_group.library_name ?? "--",
-      sequencing_center: read_group.sequencing_center ?? "--",
-      sequencing_date: read_group.sequencing_date ?? "--",
+      read_group_id: read_group.read_group_id ?? '--',
+      is_paired_end: read_group.is_paired_end ? 'true' : 'false',
+      read_length: read_group.read_length ?? '--',
+      library_name: read_group.library_name ?? '--',
+      sequencing_center: read_group.sequencing_center ?? '--',
+      sequencing_date: read_group.sequencing_date ?? '--',
     }));
   }, [readGroups]);
 
@@ -53,34 +54,34 @@ const ReadGroups = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
-        handlePageSizeChange(obj.newPageSize);
+      case 'newPageSize':
+        handlePageSizeChange(obj.newPageSize as string);
         break;
-      case "newPageNumber":
-        handlePageChange(obj.newPageNumber);
+      case 'newPageNumber':
+        handlePageChange(obj.newPageNumber as number);
         break;
     }
   };
 
   const readGroupsColumns = useMemo(
     () => [
-      readGroupsColumnHelper.accessor("read_group_id", {
-        header: "Read Group ID",
+      readGroupsColumnHelper.accessor('read_group_id', {
+        header: 'Read Group ID',
       }),
-      readGroupsColumnHelper.accessor("is_paired_end", {
-        header: "Is Paired End",
+      readGroupsColumnHelper.accessor('is_paired_end', {
+        header: 'Is Paired End',
       }),
-      readGroupsColumnHelper.accessor("read_length", {
-        header: "Read Length",
+      readGroupsColumnHelper.accessor('read_length', {
+        header: 'Read Length',
       }),
-      readGroupsColumnHelper.accessor("library_name", {
-        header: "Library Name",
+      readGroupsColumnHelper.accessor('library_name', {
+        header: 'Library Name',
       }),
-      readGroupsColumnHelper.accessor("sequencing_center", {
-        header: "Sequencing Center",
+      readGroupsColumnHelper.accessor('sequencing_center', {
+        header: 'Sequencing Center',
       }),
-      readGroupsColumnHelper.accessor("sequencing_date", {
-        header: "Sequencing Date",
+      readGroupsColumnHelper.accessor('sequencing_date', {
+        header: 'Sequencing Date',
       }),
     ],
     [],
@@ -99,7 +100,7 @@ const ReadGroups = ({
         size,
         from,
         total,
-        label: "read group",
+        label: 'read group',
       }}
       tableTitle={<HeaderTitle>Read Groups</HeaderTitle>}
       handleChange={handleChange}

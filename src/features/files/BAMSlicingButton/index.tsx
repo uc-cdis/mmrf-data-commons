@@ -1,14 +1,10 @@
-import { useCallback } from "react";
-import { CutIcon } from "@/utils/icons";
-import {
-  useCoreDispatch,
-  useFetchUserDetailsQuery,
-  showModal,
-  Modals,
-  GdcFile,
-} from "@gff/core";
-import { Button } from "@mantine/core";
-import { userCanDownloadFile } from "src/utils/userProjectUtils";
+import React from 'react';
+// import { useCallback } from 'react';
+//import { CutIcon } from '@/utils/icons';
+//import { showModal, Modals, GdcFile } from '@/core';
+//import { useFetchUserDetailsQuery, useCoreDispatch } from '@gen3/core';
+import { Button } from '@mantine/core';
+// import { userCanDownloadFile } from 'src/utils/userProjectUtils';
 
 export const BAMSlicingButton = ({
   isActive,
@@ -17,6 +13,9 @@ export const BAMSlicingButton = ({
   isActive: boolean;
   file: GdcFile;
 }): JSX.Element => {
+  return <Button>Placeholder BAMSlicing Button</Button>;
+
+  /*
   const dispatch = useCoreDispatch();
   const { data: userInfo } = useFetchUserDetailsQuery();
   const { username } = userInfo?.data || {};
@@ -26,7 +25,7 @@ export const BAMSlicingButton = ({
       dispatch(showModal({ modal: Modals.BAMSlicingModal }));
     } else if (
       username &&
-      !userCanDownloadFile({ user: userInfo?.data, file })
+      !userCanDownloadFile({ user: userInfo?.data: userInfo, file })
     ) {
       dispatch(showModal({ modal: Modals.NoAccessToProjectModal }));
     } else {
@@ -43,7 +42,8 @@ export const BAMSlicingButton = ({
       onClick={onClick}
       data-testid="button-bam-slicing"
     >
-      {isActive ? "Slicing" : "BAM Slicing"}
+      {isActive ? 'Slicing' : 'BAM Slicing'}
     </Button>
   );
+  */
 };

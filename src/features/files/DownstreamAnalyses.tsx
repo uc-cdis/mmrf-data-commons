@@ -65,7 +65,7 @@ const DownstreamAnalyses = ({
         id: 'access',
         header: 'Access',
         cell: ({ getValue }) => <FileAccessBadge access={getValue()} />,
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.display({
         id: 'file_name',
         header: 'File Name',
@@ -79,23 +79,23 @@ const DownstreamAnalyses = ({
       downstreamAnalysesColumnHelper.accessor('data_category', {
         id: 'data_category',
         header: 'Data Category',
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.accessor('data_type', {
         id: 'data_type',
         header: 'Data Type',
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.accessor('data_format', {
         id: 'data_format',
         header: 'Data Format',
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.accessor('analysis_workflow', {
         id: 'analysis_workflow',
         header: 'Analysis Workflow',
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.accessor('size', {
         id: 'size',
         header: 'Size',
-      }),
+      }) as ColumnDef<DownstreamAnalysesType>,
       downstreamAnalysesColumnHelper.display({
         id: 'action',
         header: 'Action',
