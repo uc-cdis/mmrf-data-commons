@@ -1,10 +1,9 @@
 import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
   FilterSet,
-  graphQLAPI,
+  guppyApi,
   GQLIntersection as GqlIntersection,
   EmptyFilterSet,
-  gen3Api,
 } from '@gen3/core';
 import { Bucket } from "@/core/types";
 
@@ -60,7 +59,7 @@ interface SsmPlotRequest {
   genomicFilters?: FilterSet;
 }
 
-const ssmPlotSlice = graphQLAPI.injectEndpoints({
+const ssmPlotSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     ssmPlot: builder.query<SsmPlotData, SsmPlotRequest>({
       query: ({ gene, ssms, cohortFilters, genomicFilters }) => {
@@ -167,8 +166,8 @@ const ssmPlotSlice = graphQLAPI.injectEndpoints({
             };
 
         return {
-          graphQLQuery,
-          graphQLFilters,
+          query: graphQLQuery,
+          variables: graphQLFilters,
         };
       },
       transformResponse: (response) => {

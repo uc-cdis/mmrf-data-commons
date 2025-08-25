@@ -3,7 +3,8 @@ import {
   Intersection,
   NumericFromTo,
   Operation,
-  isOperationWithField
+  isOperationWithField,
+  GQLFilter,
 } from '@gen3/core';
 
 
@@ -41,6 +42,39 @@ export const buildNested = (
   };
 };
 
+/**
+ * Constructs a nested operation object based on the provided field and leaf operand.
+ * If the field does not contain a dot '.', it either assigns the field to the leaf operand (if applicable)
+ * or returns the leaf operand as is. When the field contains dots, it splits the field into parts,
+ * creates a "nested" operation for the root field, and recursively constructs the nested structure
+ * for the remaining portion of the field.
+ *
+ * @param {string} field - The hierarchical field path, with segments separated by dots (e.g., "root.child").
+ * @param {Operation} leafOperand - The operation to be nested within the specified path.
+ * @returns {Operation} A nested operation object that represents the structured path and operand.
+ */
+export const buildGqlNested = (
+  field: string,
+  leafOperand: GQLFilter,
+): Operation => {
+  if (!field.includes('.')) {
+    if (isOperationWithField(leafOperand))
+      return {
+        ...leafOperand,
+        field: field,
+      } as Operation;
+    else return leafOperand;
+  }
+
+  const splitFieldArray = field.split('.');
+  const rootField = splitFieldArray.shift();
+
+  return {
+    operator: 'nested',
+    path: rootField ?? '',
+    operand: buildNested(splitFieldArray.join('.'), leafOperand),
+  };
+};
 
 
 /**

@@ -61,6 +61,9 @@ export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
 
+export interface Buckets {
+  readonly buckets: ReadonlyArray<Bucket>;
+}
 
 export interface caseFileType {
   readonly access: 'open' | 'controlled';

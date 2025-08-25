@@ -1,5 +1,5 @@
-import { GEN3_GUPPY_API, gen3Api } from '@gen3/core';
-import { GEN3_ANALYSIS_API, GraphQLApiResponse } from '@/core';
+import { GEN3_GUPPY_API, guppyApi } from '@gen3/core';
+import { GraphQLApiResponse } from '@/core';
 
 const geneSummary_query = `
 query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
@@ -92,7 +92,7 @@ export interface GeneSummaryData {
   };
 }
 
-const geneSummarySlice = gen3Api.injectEndpoints({
+const geneSummarySlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     geneSummary: builder.query<
       GeneSummaryData | undefined,
@@ -126,12 +126,8 @@ const geneSummarySlice = gen3Api.injectEndpoints({
         };
 
         return {
-          url: `${GEN3_GUPPY_API}`,
-          method: 'POST',
-          body: JSON.stringify({
             query: geneSummary_query,
             variables: filters,
-          }),
         };
       },
       transformResponse: (
