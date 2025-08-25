@@ -1,9 +1,9 @@
-import { gen3Api } from '@gen3/core';
+import { GEN3_GUPPY_API, gen3Api } from '@gen3/core';
 import { GEN3_ANALYSIS_API, GraphQLApiResponse } from '@/core';
 
 const geneSummary_query = `
 query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
-    gene(filter: $geneFilter) {
+    Gene_gene(filter: $geneFilter) {
         biotype
         description
         external_db_ids {
@@ -21,16 +21,18 @@ query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
         synonyms
         is_cancer_gene_census
     }
-    ssm(filter: $ssmFilter, first: 1) {
-        clinical_annotations {
-            civic {
-                gene_id
-            }
-        }
-    }
-    _aggregation {
+    Ssm__aggregation {
         ssm(filter: $ssmFilter) {
-            _totalCount
+            clinical_annotations {
+                civic {
+                    gene_id {
+                        histogram {
+                            key
+                            count
+                        }
+                    }
+                }
+            }
         }
     }
 }`;
@@ -124,7 +126,7 @@ const geneSummarySlice = gen3Api.injectEndpoints({
         };
 
         return {
-          url: `${GEN3_ANALYSIS_API}/compare/intersection`,
+          url: `${GEN3_GUPPY_API}`,
           method: 'POST',
           body: JSON.stringify({
             query: geneSummary_query,
