@@ -8,7 +8,6 @@ import {
   guppyApi,
   TablePageOffsetProps
 } from '@gen3/core';
-import { Reducer } from "@reduxjs/toolkit";
 import { DataStatus } from "../../dataAccess";
 import { getSSMTestedCases } from "./utils";
 
@@ -293,7 +292,7 @@ const generateFilter = ({
   return graphQlFilters;
 };
 
-export const smtableslice = guppyApi.injectEndpoints({
+export const ssmTableSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     getSsmTableData: builder.mutation<TopSsm, SsmsTableRequestParameters>({
       query: (request: SsmsTableRequestParameters) => ({
@@ -358,5 +357,4 @@ export const smtableslice = guppyApi.injectEndpoints({
 });
 
 export const { useGetSssmTableDataQuery, useGetSsmTableDataMutation } =
-  smtableslice;
-export const ssmsTableReducer: Reducer = smtableslice.reducer as Reducer;
+  ssmTableSlice;

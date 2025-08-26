@@ -25,7 +25,7 @@ import {
   CnvChange,
 } from '@/core/genomic/genesTableSlice';
 import { getGene, useGenerateGenesTableColumns } from './utils';
-import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/Utils';
+import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
 import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
 import useStandardPagination from '@/hooks/useStandardPagination';
