@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 import { ContextModalProps } from '@mantine/modals';
-import { hideModal, useCoreDispatch } from "@gen3/core";
-import { Button, Modal } from "@mantine/core";
-import { theme } from "../../../tailwind.config";
+import { hideModal, useCoreDispatch } from '@gen3/core';
+import { Button, Modal } from '@mantine/core';
+import { theme } from '../../../tailwind.config';
 
 interface ButtonOptions {
   onClick?: () => void;
@@ -12,11 +12,11 @@ interface ButtonOptions {
 }
 
 const isNonNullRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null;
+  typeof value === 'object' && value !== null;
 
 const isButtonOptions = (button: unknown): button is ButtonOptions => {
   if (!isNonNullRecord(button)) return false;
-  return !!(typeof button === "object" && 'title' in button && button?.title);
+  return !!(typeof button === 'object' && 'title' in button && button?.title);
 };
 
 interface Props {
@@ -71,10 +71,10 @@ export const BaseModal: React.FC<Props> = ({
       }}
       styles={{
         header: {
-          marginBottom: "5px",
+          marginBottom: '5px',
         },
         close: {
-          color: theme.extend.colors["gdc-grey"].darkest,
+          color: theme.extend.colors['gdc-grey'].darkest,
         },
       }}
       withCloseButton={withCloseButton ?? true}
@@ -117,44 +117,50 @@ export const BaseModal: React.FC<Props> = ({
   );
 };
 
-
+interface BaseContextModalProps {
+  contents: ReactNode;
+  buttons?: Array<ButtonOptions | JSX.Element>;
+}
 
 export const BaseContextModal = ({
-                     context,
-                     id,
-                     innerProps,
-                   }: ContextModalProps<Props>) => {
-                    const { children, buttons } = innerProps;
-                      return (
-                     <>
-                       {children}
-                       {buttons && (
-                         <div className="flex justify-end mt-2.5 gap-2">
-                           {buttons.map((button) => {
-                             if (isButtonOptions(button)) {
-                               const { onClick, title, hideModalOnClick, dataTestId } = button;
+  context,
+  id,
+  innerProps,
+}: ContextModalProps<BaseContextModalProps>) => {
+  const { contents, buttons } = innerProps;
+  return (
+    <>
+      {contents}
+      {buttons && (
+        <div className="flex justify-end mt-2.5 gap-2">
+          {buttons.map((button) => {
+            if (isButtonOptions(button)) {
+              const { onClick, title, hideModalOnClick, dataTestId } = button;
 
-                               return (
-                                 <Button
-                                   data-testid={dataTestId}
-                                   key={title}
-                                   onClick={() => {
-                                     if (onClick) {
-                                       onClick();
+              return (
+                <Button
+                  data-testid={dataTestId}
+                  key={title}
+                  onClick={() => {
+                    if (onClick) {
+                      onClick();
 
-                                       if (hideModalOnClick) {
-                                         context.closeModal(id);
-                                       }
-                                     } else {
-                                       context.closeModal(id);
-                                     }
-                                   }}
-                                   className="!bg-primary hover:!bg-primary-darker"
-                                 >
-                                   {title}
-                                 </Button>
-                               );
-                             } else return button;
-                           })}
-                         </div>)}
-                     </>);}
+                      if (hideModalOnClick) {
+                        context.closeModal(id);
+                      }
+                    } else {
+                      context.closeModal(id);
+                    }
+                  }}
+                  className="!bg-primary hover:!bg-primary-darker"
+                >
+                  {title}
+                </Button>
+              );
+            } else return button;
+          })}
+        </div>
+      )}
+    </>
+  );
+};

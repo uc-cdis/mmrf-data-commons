@@ -1,7 +1,7 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-import { Center } from '@mantine/core';
+import { Button, Center } from '@mantine/core';
 import {
   AnalysisPageLayoutProps,
   ErrorCard,
@@ -9,12 +9,19 @@ import {
   AnalysisPageGetServerSideProps as getServerSideProps,
   CohortManager, QueryExpression,
 } from '@gen3/frontend';
+import { openModal } from '@/components/modals/openers';
+
+
 
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   return (
     <>
       <PageTitle pageName="Analysis Center" />
       <MainNavigation />
+      <Button onClick={
+        () => openModal()
+
+      }>NoLogin</Button>
       {!sections && (
         <Center className="mt-20">
           <ErrorCard message="No sections found in config file" />
