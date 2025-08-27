@@ -95,7 +95,8 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
           <>
             {row.original.file_id}
             {row.original.isCurrent && (
-              <span className="inline-block ml-2 border rounded-full bg-primary-darker text-base-max font-bold text-xs py-0.5 px-1">
+              <span className={`inline-block ml-2 border rounded-full bg-primary-darker
+                text-base-max font-bold text-xs py-0.5 px-1`}>
                 Current Version
               </span>
             )}

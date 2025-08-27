@@ -1,7 +1,6 @@
 import React from 'react';
 import { ReactNode, useRef } from 'react';
 import { Button, Menu, Tooltip } from '@mantine/core';
-import { FloatingPosition } from '@mantine/core';
 import { focusStyles } from 'src/utils';
 import { DropdownIcon } from '@/utils/icons';
 import { ADDITIONAL_DOWNLOAD_MESSAGE } from '@/utils/constants';
@@ -113,7 +112,8 @@ export const DropdownWithIcon = ({
           <Button
             variant="outline"
             color="primary"
-            className={`flex items-center bg-base-max border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary ${focusStyles}`}
+            className={`flex items-center bg-base-max border-primary data-disabled:opacity-50
+               data-disabled:bg-base-max data-disabled:text-primary ${focusStyles}`}
             {...(LeftSection && { leftSection: LeftSection })}
             rightSection={RightSection}
             disabled={targetButtonDisabled}

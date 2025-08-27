@@ -8,7 +8,8 @@ export const BAMSlicingButton = ({
 }: {
   isActive: boolean;
 }): JSX.Element => {
-  return <Button className="font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker"
+  return <Button className={`font-medium text-sm text-primary
+    bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker`}
       leftSection={<CutIcon aria-hidden="true" />}
       loading={isActive}
       variant="outline"

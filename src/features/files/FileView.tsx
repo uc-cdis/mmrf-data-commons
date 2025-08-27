@@ -54,8 +54,9 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
     <Button
       variant="outline"
       leftSection={<CartIcon  aria-hidden="true" />}
-      onClick={()=>alert('click event for Download button')}
-      className={"font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal hover:text-primary-contrast-darker"}
+      onClick={()=>alert('click event for Add to Cart button')}
+      className={`font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal
+        hover:text-primary-contrast-darker`}
   >
     Add to Cart
     </Button>
