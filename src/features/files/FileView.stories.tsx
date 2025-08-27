@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 const exampleGdcFile: GdcFile = {
   submitterId: 'submitter456',
-  access: 'open', // Assuming "open" is a valid value from accessTypes
+  access: 'open',
   acl: ['read', 'write'],
   createdDatetime: '2025-01-01T12:00:00Z',
   updatedDatetime: '2025-01-10T12:00:00Z',
@@ -30,7 +30,7 @@ const exampleGdcFile: GdcFile = {
   data_type: 'sequence',
   file_id: 'file789',
   file_name: 'sample_data.fastq',
-  file_size: 2048000, // Size in bytes
+  file_size: 2048000,
   md5sum: '123',
   state: 'available',
 };

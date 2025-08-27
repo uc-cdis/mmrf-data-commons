@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useGetFilesQuery } from "@gff/core";
 import { FileView } from './FileView';
 import { LoadingOverlay } from '@mantine/core';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
