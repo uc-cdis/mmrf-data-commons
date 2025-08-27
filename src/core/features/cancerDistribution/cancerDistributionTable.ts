@@ -82,7 +82,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
         cohortFilters: FilterSet | undefined;
         genomicFilters: FilterSet | undefined;
       }) => {
-        const genomicWithGene = {
+        const genomicWithGene : FilterSet = {
           mode: "and",
           root: {
             ...request.genomicFilters?.root,
@@ -117,85 +117,94 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
             : [];
 
         return {
-          query: `
-        query CancerDistributionTable(
-          $cohortFilters: FiltersArgument
-          $ssmTested: FiltersArgument
-          $ssmCountsFilters: FiltersArgument
-          $caseAggsFilter: FiltersArgument
-          $cnvAmplificationFilter: FiltersArgument
-          $cnvGainFilter: FiltersArgument
-          $cnvLossFilter: FiltersArgument
-          $cnvHomozygousDeletionFilter: FiltersArgument
-          $cnvTested: FiltersArgument
-        ) {
-          viewer {
-            explore {
-              ssms {
-                aggregations(case_filters: $cohortFilters, filters: $ssmCountsFilters) {
-                  occurrence__case__project__project_id {
-                    buckets {
-                      key
-                      doc_count
+          query: `query CancerDistributionTable($ssmTested: JSON, $ssmCountsFilters: JSON, $caseAggsFilter: JSON, $cnvAmplificationFilter: JSON, $cnvGainFilter: JSON, $cnvLossFilter: JSON, $cnvHomozygousDeletionFilter: JSON, $cnvTested: JSON) {
+          Ssm__aggregation {
+            ssm(filter: $ssmCountsFilters) {
+              occurrence {
+                case {
+                  project {
+                    project_id {
+                      histogram {
+                        key
+                        count
+                      }
                     }
                   }
                 }
               }
-              cases {
-                filtered: aggregations(case_filters: $cohortFilters, filters: $caseAggsFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+            }
+          }
+          CaseCentric__aggregation {
+            filtered: case_centric(filter: $caseAggsFilter) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                cnvAmplification: aggregations(case_filters: $cohortFilters, filters: $cnvAmplificationFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            cnvAmplification: case_centric(
+              filter: $cnvAmplificationFilter
+            ) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                cnvGain: aggregations(case_filters: $cohortFilters, filters: $cnvGainFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            cnvGain: case_centric(filter: $cnvGainFilter) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                cnvLoss: aggregations(case_filters: $cohortFilters, filters: $cnvLossFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            cnvLoss: case_centric(filter: $cnvLossFilter) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                cnvHomozygousDeletion: aggregations(case_filters: $cohortFilters, filters: $cnvHomozygousDeletionFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            cnvHomozygousDeletion: case_centric(
+              filter: $cnvHomozygousDeletionFilter
+            ) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                cnvTotal: aggregations(filters: $cnvTested) {
-                   project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            cnvTotal: case_centric(filter: $cnvTested) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
-                total: aggregations(filters: $ssmTested) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
+              }
+            }
+            total: case_centric(filter: $ssmTested) {
+              project {
+                project_id {
+                  histogram {
+                    key
+                    count
                   }
                 }
               }
@@ -396,45 +405,51 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
     }),
     getSSMSCancerDistributionTable: builder.query({
       query: (request) => ({
-        graphQLQuery: `query CancerDistributionSsmTable(
-          $ssmTested: FiltersArgument
-          $ssmCountsFilters: FiltersArgument
-          $caseAggsFilter: FiltersArgument
+        query: `query CancerDistributionSsmTable(
+            $ssmTested: JSON
+            $ssmCountsFilters: JSON
+            $caseAggsFilter: JSON
         ) {
-          viewer {
-            explore {
-              ssms {
-                aggregations(filters: $ssmCountsFilters) {
-                  occurrence__case__project__project_id {
-                    buckets {
-                      key
-                      doc_count
+            Ssm__aggregation {
+                ssm(filter: $ssmCountsFilters) {
+                    occurrence {
+                        case {
+                            project {
+                                project_id {
+                                    histogram {
+                                        key
+                                        count
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
-              cases {
-                filtered: aggregations(filters: $caseAggsFilter) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
-                  }
-                }
-                total: aggregations(filters: $ssmTested) {
-                  project__project_id {
-                    buckets {
-                      doc_count
-                      key
-                    }
-                  }
-                }
-              }
             }
-          }
+            CaseCentric__aggregation {
+                filtered: case_centric(filter: $caseAggsFilter) {
+                    project {
+                        project_id {
+                            histogram {
+                                key
+                                count
+                            }
+                        }
+                    }
+                }
+                total: case_centric(filter: $ssmTested) {
+                    project {
+                        project_id {
+                            histogram {
+                                key
+                                count
+                            }
+                        }
+                    }
+                }
+            }
         }`,
-        graphQLFilters: {
+        variables: {
           ssmTested: {
             content: [
               {
