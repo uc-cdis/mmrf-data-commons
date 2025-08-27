@@ -4113,20 +4113,6 @@ interface GeneSummaryQueryParams {
   gene_id: string;
 }
 
-export const useGeneSummaryQuery = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  gene_id,
-}: GeneSummaryQueryParams) => {
-  return {
-    data: geneSummaryData,
-    error: 'none',
-    isUninitialized: false,
-    isError: false,
-    isFetching: false,
-    isSuccess: true,
-  };
-};
-
 interface CNVPlotRequest {
   gene: string;
   cohortFilters?: FilterSet;
