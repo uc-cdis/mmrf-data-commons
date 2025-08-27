@@ -1,4 +1,4 @@
-import { CoreState, FilterSet, convertFilterToGqlFilter, selectIndexFilters, Operation } from "@gen3/core";
+import { CoreState, FilterSet, convertFilterToGqlFilter, selectIndexFilters, Operation, GQLFilter, isGQLUnion, isGQLIntersection } from "@gen3/core";
 import { GqlOperation, } from "@/core/types";
 
 
@@ -93,6 +93,18 @@ export const convertFilterSetToOperation = (
             return fs.root[k];
           }),
         };
+  }
+  return undefined;
+};
+
+export const extractContents = (
+  filter: GQLFilter,
+): readonly GQLFilter[] | undefined => {
+  if (isGQLUnion(filter)) {
+    return filter.or;
+  }
+  if (isGQLIntersection(filter)) {
+    return filter.and;
   }
   return undefined;
 };

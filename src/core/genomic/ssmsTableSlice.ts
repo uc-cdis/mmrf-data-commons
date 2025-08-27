@@ -2,89 +2,67 @@ import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
   FilterSet,
   Union,
-  GQLIntersection as GqlIntersection,
-  Includes,
-  EmptyFilterSet,
+  DataStatus,
   guppyApi,
   TablePageOffsetProps
 } from '@gen3/core';
-import { DataStatus } from "../../dataAccess";
 import { getSSMTestedCases } from "./utils";
+import { GraphQLApiResponse } from '@/core';
 
 const SSMSTableGraphQLQuery = `query SsmsTable(
-  $ssmTested: FiltersArgument
-$ssmCaseFilter: FiltersArgument
-$ssmsTable_size: Int
-$consequenceFilters: FiltersArgument
-$ssmsTable_offset: Int
-$ssmsTable_filters: FiltersArgument
-$caseFilters: FiltersArgument
-$score: String
-$sort: [Sort]
+    $ssmTested: JSON
+    $ssmCaseFilter: JSON
+    $ssmsTable_size: Int
+    $ssmsTable_offset: Int
+    $ssmsTable_filters: JSON
+    $sort: JSON
 ) {
-  viewer {
-    explore {
-      cases {
-        hits(first: 0, case_filters: $ssmTested) {
-          total
+    CaseCentric__aggregation {
+        case_centric(filter: $ssmTested) {
+            _totalCount
         }
-      }
-      filteredCases: cases {
-        hits(first: 0, case_filters: $caseFilters,  filters: $ssmCaseFilter) {
-          total
+        filteredCases: case_centric(filter: $ssmCaseFilter) {
+            _totalCount
         }
-      }
-      ssms {
-        hits(first: $ssmsTable_size, offset: $ssmsTable_offset, case_filters: $caseFilters, filters: $ssmsTable_filters, score: $score, sort: $sort) {
-          total
-          edges {
-            node {
-              id
-              score
-              genomic_dna_change
-              mutation_subtype
-              ssm_id
-              consequence {
-                hits(first: 1, case_filters: $caseFilters, filters: $consequenceFilters) {
-                  edges {
-                    node {
-                      transcript {
-                        is_canonical
-                        annotation {
-                          vep_impact
-                          polyphen_impact
-                          polyphen_score
-                          sift_score
-                          sift_impact
-                        }
-                        consequence_type
-                        gene {
-                          gene_id
-                          symbol
-                        }
-                        aa_change
-                      }
-                      id
-                    }
-                  }
-                }
-              }
-              filteredOccurences: occurrence {
-                hits(first: 0, case_filters: $caseFilters,  filters: $ssmCaseFilter) {
-                  total
-                }
-              }
-              occurrence {
-                hits(first: 0, filters: $ssmTested) {
-                  total
-                }
-              }
-            }
-          }
-        }
-      }
     }
-  }
+    Ssm_ssm(
+        first: $ssmsTable_size
+        offset: $ssmsTable_offset
+        filter: $ssmsTable_filters
+        sort: $sort
+    ) {
+        genomic_dna_change
+        mutation_subtype
+        ssm_id
+        consequence {
+            transcript {
+                is_canonical
+                annotation {
+                    vep_impact
+                    polyphen_impact
+                    polyphen_score
+                    sift_score
+                    sift_impact
+                }
+                consequence_type
+                gene {
+                    gene_id
+                    symbol
+                }
+                aa_change
+            }
+        }
+    }
+    filteredOccurences: Ssm__aggregation {
+        ssm(filter: $ssmCaseFilter) {
+            _totalCount
+        }
+    }
+    Ssm__aggregation {
+        ssm(filter: $ssmTested) {
+            _totalCount
+        }
+    }
 }`;
 
 export interface SSMSConsequence {
@@ -313,8 +291,8 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
     }),
     getSssmTableData: builder.query({
       query: (request: SsmsTableRequestParameters) => ({
-        graphQLQuery: SSMSTableGraphQLQuery,
-        graphQLFilters: generateFilter(request),
+        query: SSMSTableGraphQLQuery,
+        variables: generateFilter(request),
       }),
       transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
         const data = response.data.viewer.explore;
