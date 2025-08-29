@@ -3,7 +3,8 @@ import { useCallback, useState } from 'react';
 import { orderBy } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { FilterSet, useCnvPlotQuery } from '@/core';
+import { FilterSet } from '@gen3/core';
+import { useCnvPlotQuery} from '@/core/features/cancerDistribution';
 import ChartTitleBar from '../ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import { LoadingOverlay, Tooltip } from '@mantine/core';
@@ -105,7 +106,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
 
   const chartData = useDeepCompareMemo(() => {
     return projectKeys.map((project) => {
-      const cnv: any = data.cnvs[project as keyof typeof data.cnvs];
+      const cnv: any = data?.cnvs[project as keyof typeof data.cnvs];
       const valueSum = anyCheckboxSelected
         ? Object.keys(cnvMapping).reduce((sum, key) => {
             return checkboxState[key as keyof CheckboxState]

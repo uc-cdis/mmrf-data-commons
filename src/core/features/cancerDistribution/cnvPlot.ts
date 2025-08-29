@@ -9,8 +9,6 @@ import {
 import { Buckets, Bucket, GraphQLApiResponse } from '@/core/types';
 
 interface CancerDistributionChartResponse {
-  viewer: {
-    explore: {
       cases: {
         amplification: {
           project__project_id: Buckets;
@@ -31,8 +29,6 @@ interface CancerDistributionChartResponse {
           total: number;
         };
       };
-    };
-  };
 }
 
 const graphQLQuery = `query CancerDistributionCNV(
@@ -43,7 +39,7 @@ const graphQLQuery = `query CancerDistributionCNV(
     $cnvTotalFilter: JSON
     $cnvCasesFilter: JSON
 ) {
-    CaseCentric__aggregation {
+   cases: CaseCentric__aggregation {
         amplification: case_centric(filter: $cnvAmplificationFilter) {
             project {
                 project_id {
@@ -149,87 +145,101 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
             : [];
 
         const graphQLFilters = {
-          cnvAmplificationFilter: {
-            op: "and",
-            content: [
-              {
-                op: "in",
-                content: {
-                  field: "cnvs.cnv_change_5_category",
-                  value: ["Amplification"],
-                },
-              },
-              ...gqlContextIntersection,
-            ],
-          },
+          cnvAmplificationFilter:
+            {
+              "and": [
+                {
+                  "nested": {
+                    "path": "gene",
+                    "nested": {
+                      "path": "gene.cnvs",
+                      "in": {
+                        "cnv_change_5_category": [
+                          "Amplification"
+                        ]
+                      }
+                    }
+                  }
+                },  ...gqlContextIntersection,
+              ]
+            },
           cnvGainFilter: {
-            op: "and",
-            content: [
+            "and": [
               {
-                op: "in",
-                content: {
-                  field: "cnvs.cnv_change_5_category",
-                  value: ["Gain"],
-                },
-              },
-              ...gqlContextIntersection,
-            ],
+                "nested": {
+                  "path": "gene",
+                  "nested": {
+                    "path": "gene.cnvs",
+                    "in": {
+                      "cnv_change_5_category": [
+                        "Gain"
+                      ]
+                    }
+                  }
+                }
+              },  ...gqlContextIntersection,
+            ]
           },
           cnvLossFilter: {
-            op: "and",
-            content: [
+            "and": [
               {
-                op: "in",
-                content: {
-                  field: "cnvs.cnv_change_5_category",
-                  value: ["Loss"],
-                },
-              },
-              ...gqlContextIntersection,
-            ],
+                "nested": {
+                  "path": "gene",
+                  "nested": {
+                    "path": "gene.cnvs",
+                    "in": {
+                      "cnv_change_5_category": [
+                        "Loss"
+                      ]
+                    }
+                  }
+                }
+              },  ...gqlContextIntersection,
+            ]
           },
           cnvHomozygousDeletionFilter: {
-            op: "and",
-            content: [
-              {
-                op: "in",
-                content: {
-                  field: "cnvs.cnv_change_5_category",
-                  value: ["Homozygous Deletion"],
-                },
-              },
-              ...gqlContextIntersection,
-            ],
-          },
+              "and": [
+                {
+                  "nested": {
+                    "path": "gene",
+                    "nested": {
+                      "path": "gene.cnvs",
+                      "in": {
+                        "cnv_change_5_category": ["Homozygous Deletion"]
+                      }
+                    }
+                  }
+                },  ...gqlContextIntersection,
+              ]
+            },
           cnvTotalFilter: {
-            op: "and",
-            content: [
+            and: [
               {
-                op: "in",
-                content: {
-                  field: "cases.available_variation_data",
-                  value: ["cnv"],
+                in: {
+                  available_variation_data: ['cnv'],
                 },
               },
             ],
           },
           cnvCasesFilter: {
-            op: "and",
-            content: [
+            "and": [
               {
-                op: "in",
-                content: {
-                  field: "cnvs.cnv_change_5_category",
-                  value: [
-                    "Amplification",
-                    "Gain",
-                    "Loss",
-                    "Homozygous Deletion",
-                  ],
-                },
-              },
-              ...gqlContextIntersection,
-            ],
+                "nested": {
+                  "path": "gene",
+                  "nested": {
+                    "path": "gene.cnvs",
+                    "in": {
+                      "cnv_change_5_category": [
+                        "Amplification",
+                        "Gain",
+                        "Loss",
+                        "Homozygous Deletion"
+                      ]
+                    }
+                  }
+                }
+              }, ...gqlContextIntersection,
+            ]
           },
           caseFilters,
         };
@@ -242,27 +252,27 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
         response: GraphQLApiResponse<CancerDistributionChartResponse>,
       ): CNVData => {
         const amplification = Object.fromEntries(
-          response?.data?.viewer?.explore?.cases?.amplification?.project__project_id?.buckets?.map(
+          response?.data?.cases?.amplification?.project__project_id?.buckets?.map(
             (b) => [b.key, b.count],
           ),
         );
         const gain = Object.fromEntries(
-          response?.data?.viewer?.explore?.cases?.gain?.project__project_id?.buckets?.map(
+          response?.data?.cases?.gain?.project__project_id?.buckets?.map(
             (b) => [b.key, b.count],
           ),
         );
         const loss = Object.fromEntries(
-          response?.data?.viewer?.explore?.cases?.loss?.project__project_id?.buckets?.map(
+          response?.data?.cases?.loss?.project__project_id?.buckets?.map(
             (b) => [b.key, b.count],
           ),
         );
         const homozygousDeletion = Object.fromEntries(
-          response?.data?.viewer?.explore?.cases?.homozygousDeletion?.project__project_id?.buckets?.map(
+          response?.data?.cases?.homozygousDeletion?.project__project_id?.buckets?.map(
             (b) => [b.key, b.count],
           ),
         );
         const total = Object.fromEntries(
-          response?.data?.viewer?.explore?.cases?.cnvTotal?.project__project_id?.buckets?.map(
+          response?.data?.cases?.cnvTotal?.project__project_id?.buckets?.map(
             (b) => [b.key, b.count],
           ),
         );
@@ -296,7 +306,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
 
         return {
           cnvs: cnvsByProject,
-          caseTotal: response?.data?.viewer?.explore?.cases.cnvCases?.total,
+          caseTotal: response?.data?.cases.cnvCases?.total,
         };
       },
     }),

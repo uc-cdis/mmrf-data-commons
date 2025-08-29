@@ -4007,107 +4007,107 @@ interface DataResponse {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useSsmPlotQuery = (_: SsmPlotRequest): DataResponse => {
-  const data = {
-    cases: [
-      {
-        ssmCount: 283,
-        project: 'TCGA-THCA',
-        totalCount: 490,
-      },
-      {
-        ssmCount: 200,
-        project: 'TCGA-SKCM',
-        totalCount: 470,
-      },
-      {
-        ssmCount: 50,
-        project: 'TCGA-COAD',
-        totalCount: 428,
-      },
-      {
-        ssmCount: 31,
-        project: 'MMRF-COMMPASS',
-        totalCount: 959,
-      },
-      {
-        ssmCount: 17,
-        project: 'HCMI-CMDC',
-        totalCount: 274,
-      },
-      {
-        ssmCount: 13,
-        project: 'CPTAC-2',
-        totalCount: 328,
-      },
-      {
-        ssmCount: 8,
-        project: 'TCGA-LUAD',
-        totalCount: 559,
-      },
-      {
-        ssmCount: 7,
-        project: 'CPTAC-3',
-        totalCount: 1317,
-      },
-      {
-        ssmCount: 4,
-        project: 'TCGA-GBM',
-        totalCount: 374,
-      },
-      {
-        ssmCount: 2,
-        project: 'TCGA-KIRP',
-        totalCount: 278,
-      },
-      {
-        ssmCount: 1,
-        project: 'CDDP_EAGLE-1',
-        totalCount: 50,
-      },
-      {
-        ssmCount: 1,
-        project: 'EXCEPTIONAL_RESPONDERS-ER',
-        totalCount: 19,
-      },
-      {
-        ssmCount: 1,
-        project: 'TCGA-BLCA',
-        totalCount: 408,
-      },
-      {
-        ssmCount: 1,
-        project: 'TCGA-CHOL',
-        totalCount: 51,
-      },
-      {
-        ssmCount: 1,
-        project: 'TCGA-HNSC',
-        totalCount: 509,
-      },
-      {
-        ssmCount: 1,
-        project: 'TCGA-LGG',
-        totalCount: 513,
-      },
-      {
-        ssmCount: 1,
-        project: 'TCGA-READ',
-        totalCount: 155,
-      },
-    ],
-    ssmCount: 2940240,
-  };
-
-  return {
-    data,
-    error: 'none',
-    isUninitialized: false,
-    isError: false,
-    isFetching: false,
-    isSuccess: true,
-  };
-};
+// export const useSsmPlotQuery = (_: SsmPlotRequest): DataResponse => {
+//   const data = {
+//     cases: [
+//       {
+//         ssmCount: 283,
+//         project: 'TCGA-THCA',
+//         totalCount: 490,
+//       },
+//       {
+//         ssmCount: 200,
+//         project: 'TCGA-SKCM',
+//         totalCount: 470,
+//       },
+//       {
+//         ssmCount: 50,
+//         project: 'TCGA-COAD',
+//         totalCount: 428,
+//       },
+//       {
+//         ssmCount: 31,
+//         project: 'MMRF-COMMPASS',
+//         totalCount: 959,
+//       },
+//       {
+//         ssmCount: 17,
+//         project: 'HCMI-CMDC',
+//         totalCount: 274,
+//       },
+//       {
+//         ssmCount: 13,
+//         project: 'CPTAC-2',
+//         totalCount: 328,
+//       },
+//       {
+//         ssmCount: 8,
+//         project: 'TCGA-LUAD',
+//         totalCount: 559,
+//       },
+//       {
+//         ssmCount: 7,
+//         project: 'CPTAC-3',
+//         totalCount: 1317,
+//       },
+//       {
+//         ssmCount: 4,
+//         project: 'TCGA-GBM',
+//         totalCount: 374,
+//       },
+//       {
+//         ssmCount: 2,
+//         project: 'TCGA-KIRP',
+//         totalCount: 278,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'CDDP_EAGLE-1',
+//         totalCount: 50,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'EXCEPTIONAL_RESPONDERS-ER',
+//         totalCount: 19,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'TCGA-BLCA',
+//         totalCount: 408,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'TCGA-CHOL',
+//         totalCount: 51,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'TCGA-HNSC',
+//         totalCount: 509,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'TCGA-LGG',
+//         totalCount: 513,
+//       },
+//       {
+//         ssmCount: 1,
+//         project: 'TCGA-READ',
+//         totalCount: 155,
+//       },
+//     ],
+//     ssmCount: 2940240,
+//   };
+//
+//   return {
+//     data,
+//     error: 'none',
+//     isUninitialized: false,
+//     isError: false,
+//     isFetching: false,
+//     isSuccess: true,
+//   };
+// };
 
 interface GeneSummaryQueryParams {
   gene_id: string;

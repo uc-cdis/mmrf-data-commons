@@ -5,15 +5,15 @@ import {
   GQLIntersection as GqlIntersection,
   EmptyFilterSet,
 } from '@gen3/core';
-import { Bucket } from "@/core/types";
+import { Bucket } from '@/core/types';
 
 const graphQLQuery = `query CancerDistribution(
     $caseAggsFilters: JSON
     $ssmTested: JSON
     $ssmFilters: JSON
 ) {
-    Ssm__aggregation {
-        ssm(filter: $ssmFilters) {
+    SsmOccurrence__aggregation {
+        ssm_occurrence(filter: $ssmFilters) {
             _totalCount
         }
     }
@@ -39,7 +39,7 @@ const graphQLQuery = `query CancerDistribution(
             }
         }
     }
-}}`;
+}`;
 
 interface SsmPlotPoint {
   readonly project: string;
@@ -63,69 +63,72 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     ssmPlot: builder.query<SsmPlotData, SsmPlotRequest>({
       query: ({ gene, ssms, cohortFilters, genomicFilters }) => {
-        const gqlGenomicFilters = buildCohortGqlOperator(genomicFilters ?? EmptyFilterSet);
+        const gqlGenomicFilters = buildCohortGqlOperator(
+          genomicFilters ?? EmptyFilterSet,
+        );
         const gqlContextIntersection =
-          gqlGenomicFilters && (gqlGenomicFilters as GqlIntersection).and.length > 0
+          gqlGenomicFilters &&
+          (gqlGenomicFilters as GqlIntersection).and.length > 0
             ? (gqlGenomicFilters as GqlIntersection).and
             : [];
         const graphQLFilters = gene
           ? {
-              caseFilters: buildCohortGqlOperator(cohortFilters ?? EmptyFilterSet),
+              caseFilters: buildCohortGqlOperator(
+                cohortFilters ?? EmptyFilterSet,
+              ),
               caseAggsFilters: {
-                op: "and",
-                content: [
+                and: [
                   {
-                    op: "in",
-                    content: {
-                      field: "available_variation_data",
-                      value: ["ssm"],
+                    in: {
+                      available_variation_data: ['ssm'],
                     },
                   },
                   {
-                    op: "in",
-                    content: {
-                      field: "genes.gene_id",
-                      value: [gene],
-                    },
-                  },
-                  {
-                    op: "!=",
-                    content: {
-                      field: "gene.ssm.observation.observation_id",
-                      value: "MISSING",
+                    nested: {
+                      path: 'gene',
+                      in: {
+                        gene_id: [gene],
+                      },
                     },
                   },
                   ...gqlContextIntersection,
                 ],
               },
               ssmFilters: {
-                op: "and",
-                content: [
+                and: [
                   {
-                    op: "in",
-                    content: {
-                      field: "available_variation_data",
-                      value: ["ssm"],
+                    nested: {
+                      path: 'case',
+                      in: {
+                        available_variation_data: ['ssm'],
+                      },
                     },
                   },
                   {
-                    op: "in",
-                    content: {
-                      field: "genes.gene_id",
-                      value: [gene],
+                    nested: {
+                      path: 'ssm',
+                      nested: {
+                        path: 'ssm.consequence',
+                        nested: {
+                          path: 'ssm.consequence.transcript',
+                          nested: {
+                            path: 'ssm.consequence.transcript.gene',
+                            in: {
+                              gene_id: [gene],
+                            },
+                          },
+                        },
+                      },
                     },
                   },
                   ...gqlContextIntersection,
                 ],
               },
               ssmTested: {
-                op: "and",
-                content: [
+                and: [
                   {
-                    op: "in",
-                    content: {
-                      field: "available_variation_data",
-                      value: ["ssm"],
+                    in: {
+                      available_variation_data: ['ssm'],
                     },
                   },
                 ],
@@ -133,32 +136,27 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
             }
           : {
               caseAggsFilters: {
-                op: "and",
-                content: [
+                and: [
                   {
-                    op: "in",
-                    content: {
-                      field: "cases.available_variation_data",
-                      value: ["ssm"],
+                    in: {
+                      available_variation_data: ['ssm'],
                     },
                   },
                   {
-                    op: "in",
-                    content: {
-                      field: "ssms.ssm_id",
-                      value: [ssms],
+                    nested: {
+                      path: 'ssms',
+                      in: {
+                        ssm_id: [ssms],
+                      },
                     },
                   },
                 ],
               },
               ssmTested: {
-                op: "and",
-                content: [
+                and: [
                   {
-                    op: "in",
-                    content: {
-                      field: "cases.available_variation_data",
-                      value: ["ssm"],
+                    in: {
+                      available_variation_data: ['ssm'],
                     },
                   },
                 ],
