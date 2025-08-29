@@ -12,12 +12,12 @@ const graphQLQuery = `query CancerDistribution(
     $ssmTested: JSON
     $ssmFilters: JSON
 ) {
-    SsmOccurrence__aggregation {
+    ssms: SsmOccurrence__aggregation {
         ssm_occurrence(filter: $ssmFilters) {
             _totalCount
         }
     }
-    CaseCentric__aggregation {
+    cases: CaseCentric__aggregation {
         ssmFiltered: case_centric(filter: $caseAggsFilters) {
             project {
                 project_id {
@@ -170,11 +170,11 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
       },
       transformResponse: (response) => {
         const ssm =
-          response?.data?.viewer?.explore?.cases?.ssmFiltered?.project__project_id?.buckets.map(
+          response?.data?.cases?.ssmFiltered?.project?.project_id?.histogram?.map(
             (d: Bucket) => ({ ssmCount: d.count, project: d.key }),
           ) || [];
         const total =
-          response?.data?.viewer?.explore?.cases?.total?.project__project_id?.buckets.map(
+          response?.data?.cases?.total?.project.project_id?.histogram?.map(
             (d: Bucket) => ({ totalCount: d.count, project: d.key }),
           );
 
@@ -184,7 +184,7 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
         }));
         return {
           cases: merged,
-          ssmCount: response?.data?.viewer?.explore?.ssms?.hits?.total,
+          ssmCount: response?.data?.ssms?.ssm_occurrence?._totalCount,
         };
       },
     }),

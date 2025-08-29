@@ -1,32 +1,34 @@
 import {
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
   FilterSet,
   GQLIntersection as GqlIntersection,
   Includes,
   EmptyFilterSet,
   guppyApi,
 } from '@gen3/core';
-import { Buckets, Bucket, GraphQLApiResponse } from '@/core/types';
+import {  GraphQLApiResponse } from '@/core/types';
+import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
+import { ProjectData } from './types';
+
 
 interface CancerDistributionChartResponse {
       cases: {
         amplification: {
-          project__project_id: Buckets;
+          project: ProjectData;
         };
         gain: {
-          project__project_id: Buckets;
+          project: ProjectData;
         };
         loss: {
-          project__project_id: Buckets;
+          project: ProjectData;
         };
         homozygousDeletion: {
-          project__project_id: Buckets;
+          project: ProjectData;
         };
         cnvTotal: {
-          project__project_id: Buckets;
+          project: ProjectData;
         };
         cnvCases: {
-          total: number;
+          _totalCount: number;
         };
       };
 }
@@ -123,22 +125,22 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
     cnvPlot: builder.query<CNVData, CNVPlotRequest>({
       query: ({ gene, cohortFilters, genomicFilters }) => {
         const contextGene =
-          ((genomicFilters?.root["genes.gene_id"] as Includes)
+          ((genomicFilters?.root["gene.gene_id"] as Includes)
             ?.operands as string[]) ?? [];
         const contextWithGene : FilterSet = {
           mode: "and",
           root: {
             ...genomicFilters?.root,
-            ["genes.gene_id"]: {
+            ["gene.gene_id"]: {
               operator: "includes",
-              field: "genes.gene_id",
+              field: "gene.gene_id",
               operands: [gene, ...contextGene],
             } as Includes,
           },
         };
 
-        const caseFilters = buildCohortGqlOperator(cohortFilters ?? EmptyFilterSet);
-        const gqlContextFilter = buildCohortGqlOperator(contextWithGene ?? EmptyFilterSet);
+        const caseFilters = convertFilterSetToNestedGqlFilter(cohortFilters ?? EmptyFilterSet);
+        const gqlContextFilter = convertFilterSetToNestedGqlFilter(contextWithGene ?? EmptyFilterSet);
         const gqlContextIntersection =
           gqlContextFilter && (gqlContextFilter as GqlIntersection)?.and
             ? (gqlContextFilter as GqlIntersection).and
@@ -152,7 +154,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
                   "nested": {
                     "path": "gene",
                     "nested": {
-                      "path": "gene.cnvs",
+                      "path": "gene.cnv",
                       "in": {
                         "cnv_change_5_category": [
                           "Amplification"
@@ -169,7 +171,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
                 "nested": {
                   "path": "gene",
                   "nested": {
-                    "path": "gene.cnvs",
+                    "path": "gene.cnv",
                     "in": {
                       "cnv_change_5_category": [
                         "Gain"
@@ -186,7 +188,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
                 "nested": {
                   "path": "gene",
                   "nested": {
-                    "path": "gene.cnvs",
+                    "path": "gene.cnv",
                     "in": {
                       "cnv_change_5_category": [
                         "Loss"
@@ -203,7 +205,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
                   "nested": {
                     "path": "gene",
                     "nested": {
-                      "path": "gene.cnvs",
+                      "path": "gene.cnv",
                       "in": {
                         "cnv_change_5_category": ["Homozygous Deletion"]
                       }
@@ -227,7 +229,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
                 "nested": {
                   "path": "gene",
                   "nested": {
-                    "path": "gene.cnvs",
+                    "path": "gene.cnv",
                     "in": {
                       "cnv_change_5_category": [
                         "Amplification",
@@ -252,27 +254,27 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
         response: GraphQLApiResponse<CancerDistributionChartResponse>,
       ): CNVData => {
         const amplification = Object.fromEntries(
-          response?.data?.cases?.amplification?.project__project_id?.buckets?.map(
+          response?.data?.cases?.amplification?.project.project_id?.histogram?.map(
             (b) => [b.key, b.count],
           ),
         );
         const gain = Object.fromEntries(
-          response?.data?.cases?.gain?.project__project_id?.buckets?.map(
+          response?.data?.cases?.gain?.project.project_id?.histogram?.map(
             (b) => [b.key, b.count],
           ),
         );
         const loss = Object.fromEntries(
-          response?.data?.cases?.loss?.project__project_id?.buckets?.map(
+          response?.data?.cases?.loss?.project.project_id?.histogram?.map(
             (b) => [b.key, b.count],
           ),
         );
         const homozygousDeletion = Object.fromEntries(
-          response?.data?.cases?.homozygousDeletion?.project__project_id?.buckets?.map(
+          response?.data?.cases?.homozygousDeletion?.project.project_id?.histogram?.map(
             (b) => [b.key, b.count],
           ),
         );
         const total = Object.fromEntries(
-          response?.data?.cases?.cnvTotal?.project__project_id?.buckets?.map(
+          response?.data?.cases?.cnvTotal?.project.project_id?.histogram?.map(
             (b) => [b.key, b.count],
           ),
         );
@@ -306,7 +308,7 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
 
         return {
           cnvs: cnvsByProject,
-          caseTotal: response?.data?.cases.cnvCases?.total,
+          caseTotal: response?.data?.cases.cnvCases?._totalCount,
         };
       },
     }),

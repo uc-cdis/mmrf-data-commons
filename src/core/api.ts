@@ -4135,28 +4135,6 @@ export const useCnvPlotQuery = ({
   };
 };
 
-export const useGetGeneCancerDistributionTableQuery = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  gene,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  genomicFilters,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  cohortFilters,
-}: {
-  gene: any;
-  genomicFilters: any;
-  cohortFilters: any;
-}) => {
-  return {
-    data: CancerDistributionTableData,
-    error: 'none',
-    isUninitialized: false,
-    isError: false,
-    isFetching: false,
-    isSuccess: true,
-  };
-};
-
 export interface SortOption {
   field: string;
   order: string;

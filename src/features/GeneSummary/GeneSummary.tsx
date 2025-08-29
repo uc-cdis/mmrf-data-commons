@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { FilterSet } from '@gen3/core';
 import { AnchorLink } from '@/components/AnchorLink';
 import { CollapsibleTextArea } from '@/components/CollapsibleTextArea';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
@@ -6,7 +7,6 @@ import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import {
   useGeneSummaryQuery,
-  FilterSet,
   // useCoreSelector,
   // selectCurrentCohortFilters,
 } from '@/core';
