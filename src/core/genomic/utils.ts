@@ -1,30 +1,51 @@
-import { GQLIncludes as GqlIncludes} from '@gen3/core';
+import {
+  GQLIncludes as GqlIncludes,
+  GQLFilter as GqlOperation,
+  GQLNestedFilter,
+} from '@gen3/core';
+
 
 
 export const getSSMTestedCases = (geneSymbol?: string): GqlOperation => {
   return {
-    content: [
+    "and": [
       ...[
         {
-          in: {
-            'available_variation_data': ['ssm'],
-          },
-        } as GqlIncludes,
+          "nested": {
+            "path": "occurrence",
+            "nested": {
+              "path": "occurrence.case",
+              "in": {
+                "available_variation_data": [
+                  "ssm"
+                ]
+              }
+            }
+          }
+        } as GQLNestedFilter,
         ...(geneSymbol
           ? [
-              {
-                content: {
-                  field: 'genes.symbol',
-                  value: [geneSymbol],
-                },
-                op: 'in',
-              } as GqlIncludes,
+            {
+              "nested": {
+                "path": "consequence",
+                "nested": {
+                  "path": "consequence.transcript",
+                  "nested": {
+                    "path": "consequence.transcript.gene",
+                    "in": {
+                      "symbol": [
+                        geneSymbol
+                      ]
+                    }
+                  }
+                }
+              }
+            }
             ]
           : []),
       ],
       // For case filter only use cohort filter and not genomic filter
       // ...gqlCohortIntersection,
     ],
-    op: 'and',
   };
 };

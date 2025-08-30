@@ -8,24 +8,27 @@ import {
 } from '@gen3/core';
 import { getSSMTestedCases } from "./utils";
 import { GraphQLApiResponse } from '@/core';
+import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
 
 const SSMSTableGraphQLQuery = `query SsmsTable(
     $ssmTested: JSON
     $ssmCaseFilter: JSON
+    $ssmTotalFilter: JSON
+    $caseTotalFilter: JSON
     $ssmsTable_size: Int
     $ssmsTable_offset: Int
     $ssmsTable_filters: JSON
     $sort: JSON
 ) {
-    CaseCentric__aggregation {
+    cases: CaseCentric__aggregation {
         case_centric(filter: $ssmTested) {
             _totalCount
         }
-        filteredCases: case_centric(filter: $ssmCaseFilter) {
+        filteredCases: case_centric(filter: $caseTotalFilter) {
             _totalCount
         }
     }
-    Ssm_ssm(
+    ssm: Ssm_ssm(
         first: $ssmsTable_size
         offset: $ssmsTable_offset
         filter: $ssmsTable_filters
@@ -58,8 +61,8 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
             _totalCount
         }
     }
-    Ssm__aggregation {
-        ssm(filter: $ssmTested) {
+    ssms: Ssm__aggregation {
+        ssm(filter: $ssmTotalFilter) {
             _totalCount
         }
     }
@@ -154,8 +157,6 @@ export interface SsmsTableRequestParameters extends TablePageOffsetProps {
 }
 
 interface ssmtableResponse {
-  viewer: {
-    explore: {
       cases: {
         hits: {
           total: number;
@@ -197,8 +198,6 @@ interface ssmtableResponse {
           total: number;
         };
       };
-    };
-  };
 }
 
 export interface SsmsTableState {
@@ -222,48 +221,97 @@ const generateFilter = ({
 }: SsmsTableRequestParameters) => {
   const cohortFiltersGQL = buildCohortGqlOperator(cohortFilters);
 
+  console.log("tableFilters", tableFilters);
+  const ssmsTable_filters = convertFilterSetToNestedGqlFilter(tableFilters) ?? {};
   const graphQlFilters = {
     ssmCaseFilter: getSSMTestedCases(geneSymbol),
     // for table filters use both cohort and genomic filter along with search filter
     // for case summary we need to not use case filter
     caseFilters: cohortFiltersGQL,
-    ssmsTable_filters: buildCohortGqlOperator(tableFilters) ?? {},
+
     consequenceFilters: {
-      content: [
+      "and": [
         {
-          content: {
-            field: "consequence.transcript.is_canonical",
-            value: ["true"],
-          },
-          op: "in",
+          "nested": {
+            "path": "consequence",
+            "nested": {
+              "path": "consequence.transcript",
+              "eq": {
+                "is_canonical": true
+              }
+            }
+          }
         },
-      ],
-      op: "and",
+        {
+          "nested": {
+            "path": "consequence",
+            "nested": {
+              "path": "consequence.transcript",
+              "nested": {
+                "path": "consequence.transcript.gene",
+                "in": {
+                  "symbol": [
+                    geneSymbol
+                  ]
+                }}
+            }
+          }
+        },
+        ssmsTable_filters
+      ]
+    },
+    caseTotalFilter: {
+      "and": [
+        {
+          "in": {
+            "available_variation_data": [
+              "ssm"
+            ]
+          }
+        },
+        {
+          "nested": {
+            "path": "gene",
+            "in": {
+              "symbol": [
+                geneSymbol
+              ]
+            }
+          }
+        }
+      ]
     },
     ssmTested: {
-      content: [
+      "and": [
         {
-          content: {
-            field: "cases.available_variation_data",
-            value: ["ssm"],
-          },
-          op: "in",
-        },
-      ],
-      op: "and",
+          "in": {
+            "available_variation_data": [
+              "ssm"
+            ]
+          }
+        }
+      ]
+    },
+    ssmTotalFilter : {
+      "and": [
+        {
+          "nested": {
+            "path": "occurrence",
+            "nested": {
+              "path": "occurrence.case",
+              "in": {
+                "available_variation_data": [
+                  "ssm"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     ssmsTable_size: pageSize,
     ssmsTable_offset: offset,
-    score: "occurrence.case.project.project_id",
     sort: [
-      {
-        field: "_score",
-        order: "desc",
-      },
-      {
-        field: "_uid",
-        order: "asc",
-      },
     ],
   };
 
@@ -278,7 +326,7 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         variables: generateFilter(request),
       }),
       transformResponse: (response: { data: ssmtableResponse }) => {
-        const { consequence, ssm_id } = response?.data?.viewer?.explore?.ssms
+        const { consequence, ssm_id } = response?.data?.ssms
           ?.hits?.edges?.[0]?.node ?? { consequence: {}, ssm_id: "" };
         const { aa_change, consequence_type } = consequence?.hits?.edges?.[0]
           ?.node?.transcript ?? { aa_change: "", consequence_type: "" };
@@ -289,13 +337,13 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         };
       },
     }),
-    getSssmTableData: builder.query({
+    getSsmsTableData: builder.query({
       query: (request: SsmsTableRequestParameters) => ({
         query: SSMSTableGraphQLQuery,
         variables: generateFilter(request),
       }),
       transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
-        const data = response.data.viewer.explore;
+        const data = response.data;
         const ssmsTotal = data.ssms.hits.total;
         const cases = data.cases.hits.total;
         const filteredCases = data.filteredCases.hits.total;
@@ -334,5 +382,5 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
   }),
 });
 
-export const { useGetSssmTableDataQuery, useGetSsmTableDataMutation } =
+export const { useGetSsmsTableDataQuery, useGetSsmTableDataMutation } =
   ssmTableSlice;

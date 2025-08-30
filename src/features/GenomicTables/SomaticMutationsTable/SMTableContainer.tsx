@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { FilterSet, useGetSssmTableDataQuery } from '@/core';
+import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
+import {
+  buildSSMSTableSearchFilters,
+  useGetSsmsTableDataQuery,
+} from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
@@ -20,6 +24,8 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 import TotalItems from '@/components/Table/TotalItem';
 import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
+import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
+import { joinFilters } from '@/core/utils';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -89,10 +95,33 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
-  const tableFilters = {};
+  const genomicFiltersWithPossibleGeneSymbol = geneSymbol
+    ? joinFilters(
+      {
+        mode: "and",
+        root: {
+          "genes.symbol": {
+            field: "genes.symbol",
+            operator: "includes",
+            operands: [geneSymbol],
+          },
+        },
+      },
+      genomicFilters,
+    )
+    : genomicFilters;
+
+  const searchFilters = buildSSMSTableSearchFilters(searchTerm) ?? { operator: "or" , operands: []} satisfies Union;
+  const genomicTableFilters = appendSearchTermFilters(
+    genomicFiltersWithPossibleGeneSymbol,
+    searchFilters,
+  );
+  const caseTableFilters = appendSearchTermFilters(caseFilter ?? EmptyFilterSet, searchFilters);
+
+  const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
   /* SM Table Call */
-  const { data, isSuccess, isFetching, isError } = useGetSssmTableDataQuery({
+  const { data, isSuccess, isFetching, isError } = useGetSsmsTableDataQuery({
     pageSize: pageSize,
     offset: 0,
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
