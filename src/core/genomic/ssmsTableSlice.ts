@@ -55,8 +55,13 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
                 aa_change
             }
         }
+        occurrence {
+            case {
+                case_id
+            }
+        }
     }
-    filteredOccurences: Ssm__aggregation {
+    filteredOccurrences: Ssm__aggregation {
         ssm(filter: $ssmCaseFilter) {
             _totalCount
         }
@@ -67,6 +72,12 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
         }
     }
 }`;
+
+interface CaseIdData {
+  case : {
+        case_id: string;
+  }
+}
 
 export interface SSMSConsequence {
   readonly id: string;
@@ -92,13 +103,18 @@ export interface SSMSConsequence {
 }
 export interface SSMSData {
   readonly ssm_id: string;
-  readonly occurrence: number;
   readonly filteredOccurrences: number;
   readonly id: string;
   readonly score: number;
   readonly genomic_dna_change: string;
   readonly mutation_subtype: string;
   readonly consequence: ReadonlyArray<SSMSConsequence>;
+  readonly occurrence: number
+}
+
+export interface SSMSDataResponse extends Omit<SSMSData, "occurrence" | "filteredOccurrences"> {
+  readonly occurrence: ReadonlyArray<CaseIdData>;
+  readonly filteredOccurrences: { ssm: { _totalCount: number } };
 }
 
 export interface GDCSsmsTable {
@@ -158,44 +174,18 @@ export interface SsmsTableRequestParameters extends TablePageOffsetProps {
 
 interface ssmtableResponse {
       cases: {
-        hits: {
-          total: number;
+        case_centric: {
+          _totalCount: number;
+        };
+        filteredCases: {
+          _totalCount: number;
         };
       };
-      filteredCases: {
-        hits: {
-          total: number;
-        };
-      };
+      ssm: SSMSDataResponse[];
+      filteredOccurrences: { ssm : { _totalCount: number;  }};
       ssms: {
-        hits: {
-          edges: ReadonlyArray<{
-            node: {
-              readonly consequence: {
-                hits: {
-                  edges: ReadonlyArray<{
-                    node: SSMSConsequence;
-                  }>;
-                };
-              };
-              filteredOccurences: {
-                hits: {
-                  total: number;
-                };
-              };
-              genomic_dna_change: string;
-              id: string;
-              mutation_subtype: string;
-              occurrence: {
-                hits: {
-                  total: number;
-                };
-              };
-              score: number;
-              ssm_id: string;
-            };
-          }>;
-          total: number;
+        ssm: {
+          _totalCount: number;
         };
       };
 }
@@ -222,14 +212,14 @@ const generateFilter = ({
   const cohortFiltersGQL = buildCohortGqlOperator(cohortFilters);
 
   console.log("tableFilters", tableFilters);
-  const ssmsTable_filters = convertFilterSetToNestedGqlFilter(tableFilters) ?? {};
+  const contextFilters = convertFilterSetToNestedGqlFilter(tableFilters) ?? {};
   const graphQlFilters = {
     ssmCaseFilter: getSSMTestedCases(geneSymbol),
     // for table filters use both cohort and genomic filter along with search filter
     // for case summary we need to not use case filter
     caseFilters: cohortFiltersGQL,
 
-    consequenceFilters: {
+    ssmsTable_filters: {
       "and": [
         {
           "nested": {
@@ -257,7 +247,7 @@ const generateFilter = ({
             }
           }
         },
-        ssmsTable_filters
+        contextFilters
       ]
     },
     caseTotalFilter: {
@@ -326,10 +316,8 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         variables: generateFilter(request),
       }),
       transformResponse: (response: { data: ssmtableResponse }) => {
-        const { consequence, ssm_id } = response?.data?.ssms
-          ?.hits?.edges?.[0]?.node ?? { consequence: {}, ssm_id: "" };
-        const { aa_change, consequence_type } = consequence?.hits?.edges?.[0]
-          ?.node?.transcript ?? { aa_change: "", consequence_type: "" };
+        const { consequence, ssm_id } = response?.data?.ssm[0] ?? { consequence: {}, ssm_id: "" };
+        const { aa_change, consequence_type } = consequence?.[0]?.transcript ?? { aa_change: "", consequence_type: "" };
         return {
           ssm_id,
           aa_change,
@@ -344,21 +332,25 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
       }),
       transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
         const data = response.data;
-        const ssmsTotal = data.ssms.hits.total;
-        const cases = data.cases.hits.total;
-        const filteredCases = data.filteredCases.hits.total;
-        const ssms = data.ssms.hits.edges.map(({ node }): SSMSData => {
+        console.log("data", data);
+        const ssmsTotal = data.ssms.ssm._totalCount;
+        const cases = data.cases.case_centric._totalCount;
+        const filteredCases = data.cases.filteredCases._totalCount;
+
+        const ssms  = data.ssm.map(( node ): SSMSData => {
           return {
             ssm_id: node.ssm_id,
-            score: node.score,
-            id: node.id,
+            score: 1.0,
+            id:  node.ssm_id,
             mutation_subtype: node.mutation_subtype,
             genomic_dna_change: node.genomic_dna_change,
-            occurrence: node.occurrence.hits.total,
-            filteredOccurrences: node.filteredOccurences.hits.total,
-            consequence: node.consequence.hits.edges.map(({ node }) => {
+            occurrence: node.occurrence.length,
+            filteredOccurrences: node.occurrence.length,
+            consequence: node.consequence.reduce((acc : SSMSConsequence[],  node ) => {
               const transcript = node.transcript;
-              return {
+              if (!transcript.is_canonical)  // only return canonical
+                return acc;
+              acc.push( {
                 id: node.id,
                 transcript: {
                   aa_change: node.transcript.aa_change,
@@ -367,8 +359,9 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
                   gene: { ...transcript.gene },
                   is_canonical: transcript.is_canonical,
                 },
-              };
-            }),
+              });
+              return acc;
+            }, []),
           };
         });
         return {

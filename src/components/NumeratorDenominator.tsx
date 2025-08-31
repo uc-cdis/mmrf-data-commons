@@ -14,7 +14,7 @@ const NumeratorDenominator = ({
     data-testid="numeratorDenominatorTest"
   >
     <span className={boldNumerator ? 'font-bold flex-none' : 'flex-none'}>
-      {denominator === 0 ? 0 : numerator.toLocaleString()}
+      {denominator === 0 ? 0 : numerator?.toLocaleString() ?? 0}
     </span>
     <span className="mx-1 flex-none">&#47;</span>
     <span className="mr-1 flex-none">{denominator.toLocaleString()}</span>
