@@ -3,15 +3,17 @@ import { ClinicalAnnotation, SSMSSummaryData } from '@/core';
 import { SSMSConsequence } from '@/core/genomic/ssmsTableSlice';
 
 const SSMSummaryQuery = `
-query Ssm_ssm($filter: JSON) {
+query SSMSummaryQuery($filter: JSON) {
     ssm: Ssm_ssm(filter: $filter, first: 1) {
         cosmic_id
         reference_allele
         mutation_subtype
+        genomic_dna_change
         ncbi_build
         clinical_annotations {
            civic {
              gene_id
+             variant_id
             }
         }
         consequence {
@@ -93,7 +95,7 @@ export const ssmsSummarySlice = guppyApi.injectEndpoints({
           reference_genome_assembly: hit.ncbi_build,
           cosmic_id: hit.cosmic_id,
           allele_in_the_reference_assembly: hit.reference_allele,
-          civic: hit?.clinical_annotations?.civic.variant_id,
+          civic: hit?.clinical_annotations?.civic.gene_id,
           transcript:
             hit?.consequence
               .filter((con) => con.transcript.is_canonical)
