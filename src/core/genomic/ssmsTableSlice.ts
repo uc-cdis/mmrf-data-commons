@@ -90,6 +90,7 @@ export interface SSMSConsequence {
       readonly sift_score: string;
       readonly vep_impact: string;
       readonly hgvsc?: string;
+      readonly dbsnp_rs: string;
     };
     readonly consequence_type: string;
     readonly gene: {

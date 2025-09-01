@@ -1,4 +1,4 @@
-import { GEN3_GUPPY_API, guppyApi } from '@gen3/core';
+import { guppyApi } from '@gen3/core';
 import { GraphQLApiResponse } from '@/core';
 
 const geneSummary_query = `
