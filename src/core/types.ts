@@ -366,3 +366,31 @@ export interface GraphqlApiSliceRequest {
 }
 
 export type GqlOperation = GQLFilter;
+
+export interface ProjectDefaults {
+  readonly dbgap_accession_number: string;
+  readonly disease_type: Array<string>;
+  readonly name: string;
+  readonly primary_site: Array<string>;
+  readonly project_id: string;
+  readonly summary?: {
+    readonly case_count: number;
+    readonly file_count: number;
+    readonly file_size: number;
+    readonly data_categories?: Array<{
+      readonly case_count: number;
+      readonly data_category: string;
+      readonly file_count: number;
+    }>;
+    readonly experimental_strategies?: Array<{
+      readonly case_count: number;
+      readonly experimental_strategy: string;
+      readonly file_count: number;
+    }>;
+  };
+  readonly program?: {
+    readonly dbgap_accession_number: string;
+    readonly name: string;
+    readonly program_id: string;
+  };
+}
