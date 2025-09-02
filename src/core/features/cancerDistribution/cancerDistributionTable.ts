@@ -11,8 +11,7 @@ import { ProjectData } from '@/core/features/cancerDistribution/types';
 
 interface GeneCancerDistributionTableResponse {
   ssms: {
-      ssm : { occurrence : {case : { project: ProjectData; } }
-   }
+    ssm: { occurrence: { case: { project: ProjectData } } };
   };
   cases: {
     filtered: {
@@ -40,9 +39,7 @@ interface GeneCancerDistributionTableResponse {
 }
 
 interface SSMSCancerDistributionTableResponse {
-  ssms: {
-    ssm : { occurrence : {case : { project: ProjectData; } }
-    }
+  ssms: { ssm_occurrence: { case: { project: ProjectData } } ;
   };
   cases: {
     filtered: {
@@ -105,7 +102,6 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
             } as Includes,
           },
         });
-
 
         const gqlContextFilter = convertFilterSetToNestedGqlFilter(
           genomicWithGene ?? EmptyFilterSet,
@@ -241,10 +237,12 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
                     path: 'occurrence',
                     nested: {
                       path: 'occurrence.case',
-                  in: {
-                    available_variation_data: ['ssm'],
+                      in: {
+                        available_variation_data: ['ssm'],
+                      },
+                    },
                   },
-                }}},
+                },
                 ...geneSSMGqlContextIntersection,
               ],
             },
@@ -259,7 +257,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
               ],
             },
             cnvAmplificationFilter: {
-              'and': [
+              and: [
                 {
                   in: {
                     available_variation_data: ['cnv'],
@@ -280,7 +278,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
               ],
             },
             cnvGainFilter: {
-              'and': [
+              and: [
                 {
                   in: {
                     available_variation_data: ['cnv'],
@@ -301,7 +299,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
               ],
             },
             cnvLossFilter: {
-             'and': [
+              and: [
                 {
                   in: {
                     available_variation_data: ['cnv'],
@@ -322,7 +320,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
               ],
             },
             cnvHomozygousDeletionFilter: {
-             'and': [
+              and: [
                 {
                   in: {
                     available_variation_data: ['cnv'],
@@ -359,8 +357,10 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
       ): CancerDistributionTableData => {
         return {
           projects:
-            response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id?.histogram.length > 0
-              ? response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id?.histogram
+            response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id
+              ?.histogram.length > 0
+              ? response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id
+                  ?.histogram
               : response?.data?.cases?.cnvTotal.project?.project_id.histogram,
           ssmFiltered: Object.fromEntries(
             response?.data?.cases?.filtered?.project?.project_id?.histogram.map(
@@ -403,114 +403,96 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
     getSSMSCancerDistributionTable: builder.query({
       query: (request) => ({
         query: `query CancerDistributionSsmTable(
-            $ssmTested: JSON
-            $ssmCountsFilters: JSON
-            $caseAggsFilter: JSON
-        ) {
-           ssms: Ssm__aggregation {
-                ssm(filter: $ssmCountsFilters) {
-                    occurrence {
-                        case {
-                            project {
-                                project_id {
-                                    histogram {
-                                        key
-                                        count
-                                    }
-                                }
-                            }
+    $ssmTested: JSON
+    $ssmCountsFilters: JSON
+    $caseAggsFilter: JSON
+) {
+    ssms: SsmOccurrence__aggregation {
+        ssm_occurrence(filter: $ssmCountsFilters) {
+            case {
+                project {
+                    project_id {
+                        histogram {
+                            key
+                            count
                         }
                     }
                 }
             }
-           cases: CaseCentric__aggregation {
-                filtered: case_centric(filter: $caseAggsFilter) {
-                    project {
-                        project_id {
-                            histogram {
-                                key
-                                count
-                            }
-                        }
-                    }
-                }
-                total: case_centric(filter: $ssmTested) {
-                    project {
-                        project_id {
-                            histogram {
-                                key
-                                count
-                            }
-                        }
+        }
+    }
+    cases: CaseCentric__aggregation {
+        filtered: case_centric(filter: $caseAggsFilter) {
+            project {
+                project_id {
+                    histogram {
+                        key
+                        count
                     }
                 }
             }
-        }`,
+        }
+        total: case_centric(filter: $ssmTested) {
+            project {
+                project_id {
+                    histogram {
+                        key
+                        count
+                    }
+                }
+            }
+        }
+    }
+}`,
         variables: {
           ssmTested: {
-            content: [
+            and: [
               {
-                content: {
-                  field: 'cases.available_variation_data',
-                  value: ['ssm'],
-                },
-                op: 'in',
+                in: { available_variation_data: ['ssm'] },
               },
             ],
-            op: 'and',
           },
           ssmCountsFilters: {
-            content: [
+            and: [
               {
-                content: {
-                  field: 'ssms.ssm_id',
-                  value: [request.ssms],
+                nested: {
+                  path: 'ssm',
+                  in: {
+                    ssm_id: [request.ssms],
+                  },
                 },
-                op: 'in',
               },
               {
-                content: {
-                  field: 'cases.available_variation_data',
-                  value: ['ssm'],
+                nested: {
+                  path: 'case',
+                  in: {
+                    available_variation_data: ['ssm'],
+                  },
                 },
-                op: 'in',
               },
             ],
-            op: 'and',
           },
           caseAggsFilter: {
-            content: [
+            and: [
               {
-                content: {
-                  field: 'ssms.ssm_id',
-                  value: [request.ssms],
+                in: {
+                  available_variation_data: ['ssm'],
                 },
-                op: 'in',
-              },
-              {
-                content: {
-                  field: 'cases.available_variation_data',
-                  value: ['ssm'],
-                },
-                op: 'in',
               },
             ],
-            op: 'and',
           },
         },
       }),
       transformResponse: (
         response: GraphQLApiResponse<SSMSCancerDistributionTableResponse>,
       ): CancerDistributionTableData => {
-        console.log("response", response)
         return {
           projects:
-            response?.data?.ssms
-              ?.ssm.occurrence?.case?.project?.project_id?.histogram,
+          response?.data?.cases?.filtered?.project?.project_id?.histogram,
           ssmFiltered: Object.fromEntries(
-            (
-              response?.data?.cases?.filtered?.project?.project_id
-            )?.histogram.map((b: any) => [b.key, b.count]),
+            response?.data?.ssms?.ssm_occurrence?.case?.project?.project_id?.histogram.map(
+              (b: any) => [b.key, b.count],
+            ),
           ),
           ssmTotal: Object.fromEntries(
             response?.data?.cases?.total?.project?.project_id?.histogram.map(
