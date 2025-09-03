@@ -4,7 +4,8 @@ import { useGeneTable } from '../../genomic/mockedHooks';
 import { useContext, useEffect, useState } from 'react';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import FunctionButton from '@/components/FunctionButton';
-import { joinFilters, statusBooleansToDataStatus } from 'src/utils';
+import { joinFilters } from '@/core/utils';
+import { statusBooleansToDataStatus } from 'src/utils';
 import { SummaryModalContext } from '@/utils/contexts';
 import VerticalTable from '@/components/Table/VerticalTable';
 import {

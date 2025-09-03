@@ -55,7 +55,7 @@ export const buildNested = (
  */
 export const buildGqlNested = (
   field: string,
-  leafOperand: GQLFilter,
+  leafOperand: Operation,
 ): Operation => {
   if (!field.includes('.')) {
     if (isOperationWithField(leafOperand))
