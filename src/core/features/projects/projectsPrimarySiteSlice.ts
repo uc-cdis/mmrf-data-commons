@@ -1,7 +1,7 @@
 import { Reducer } from "@reduxjs/toolkit";
 import { guppyApi } from "@gen3/core";
 import Queue from "queue";
-import { graphqlAPISlice, GraphQLApiResponse } from "../gdcapi/gdcgraphql";
+import {  GraphQLApiResponse } from "@/core";
 export interface ProjectPrimarySites {
   readonly primary_site: string;
   readonly disease_types: string[];
@@ -92,14 +92,14 @@ export const projectsPrimarySiteSlice = guppyApi.injectEndpoints({
       { projectId: string; primary_sites: string[] }
     >({
       queryFn: async (_arg, _queryApi, _extraOptions, fetchWithBQ) => {
-        const queryMutiple = async (): Promise<ProjectPrimarySites[]> => {
+        const queryMultiple = async (): Promise<ProjectPrimarySites[]> => {
           let result = [] as ProjectPrimarySites[];
           const queue = Queue({ concurrency: 15 });
           for (const primary_site of _arg.primary_sites) {
             queue.push((callback) => {
               fetchWithBQ({
-                graphQLQuery: primaryQuery,
-                graphQLFilters: {
+                query: primaryQuery,
+                variables: {
                   filters: {
                     content: [
                       {
@@ -148,7 +148,7 @@ export const projectsPrimarySiteSlice = guppyApi.injectEndpoints({
           });
         };
 
-        const result = await queryMutiple();
+        const result = await queryMultiple();
 
         return { data: result };
       },
