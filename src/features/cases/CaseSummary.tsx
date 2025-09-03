@@ -3,7 +3,7 @@ import React from 'react';
 import { LoadingOverlay } from '@mantine/core';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import { caseSummaryFields } from './utils';
-// import { CaseView } from './CaseView';
+import { CaseView } from './CaseView';
 import { useContext, useEffect, useState } from 'react';
 import { URLContext } from 'src/utils/contexts';
 
@@ -12,7 +12,7 @@ const useGetCasesQuery = (request: any) => ({
   isFetching: false,
 });
 const useGetAnnotationsQuery = (request: any) => ({
-  annotationCountData: { hits: [] },
+  annotationCountData: 1,
   isAnnotationCallFetching: false,
 });
 
@@ -71,8 +71,7 @@ export const CaseSummary = ({
       {isFetching || isAnnotationCallFetching ? (
         <LoadingOverlay visible data-testid="loading-spinner" />
       ) : data && data.hits.length > 0 && annotationCountData !== undefined ? (
-        /**
-         *  <CaseView
+        <CaseView
           case_id={case_id}
           bio_id={bio_id as string}
           data={data?.hits?.[0]}
@@ -80,8 +79,6 @@ export const CaseSummary = ({
           isModal={isModal}
           shouldScrollToBio={shouldScrollToBio}
         />
-         */
-        <h4 className="mt-96">CaseView Placeholder</h4>
       ) : (
         <div className="mt-10">
           <SummaryErrorHeader label="Case Not Found" />

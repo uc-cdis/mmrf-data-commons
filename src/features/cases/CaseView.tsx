@@ -1,48 +1,49 @@
-import { useEffect, useRef } from "react";
-import Link from "next/link";
+import { React, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import {
   useCoreDispatch,
   useCoreSelector,
-  selectCart,
-  Demographic,
+  // selectCart,
+  // Demographic,
   FilterSet,
-  CaseDefaults,
-} from "@gff/core";
-import { SummaryCard } from "@/components/Summary/SummaryCard";
-import { SummaryHeader } from "@/components/Summary/SummaryHeader";
-import { ActionIcon, Button, Tooltip } from "@mantine/core";
-import { useScrollIntoView, useViewportSize } from "@mantine/hooks";
-import { Biospecimen } from "../biospecimen/Biospecimen";
-import { addToCart, removeFromCart } from "../cart/updateCart";
+  // CaseDefaults,
+} from '@gen3/core';
+import { SummaryCard } from '@/components/Summary/SummaryCard';
+import { SummaryHeader } from '@/components/Summary/SummaryHeader';
+import { ActionIcon, Button, Tooltip } from '@mantine/core';
+import { useScrollIntoView, useViewportSize } from '@mantine/hooks';
+// import { Biospecimen } from '../biospecimen/Biospecimen';
+// import { addToCart, removeFromCart } from '../cart/updateCart';
 import {
   formatDataForHorizontalTable,
   mapGdcFileToCartFile,
-} from "../files/utils";
+} from '../files/utils';
 import {
   allFilesInCart,
   focusStyles,
   humanify,
   LG_BREAKPOINT,
-} from "src/utils";
-import CategoryTableSummary from "@/components/Summary/CategoryTableSummary";
-import { ClinicalSummary } from "./ClinicalSummary/ClinicalSummary";
-import { ImageSlideCount } from "@/components/ImageSlideCount";
+} from 'src/utils';
+import CategoryTableSummary from '@/components/Summary/CategoryTableSummary';
+// import { ClinicalSummary } from './ClinicalSummary/ClinicalSummary';
+// import { ImageSlideCount } from '@/components/ImageSlideCount';
 import {
   formatDataForDataCateogryTable,
   formatDataForExpCateogryTable,
   getSlideCountFromCaseSummary,
   ITEMS_PER_COLUMN,
-} from "./utils";
-import SMTableContainer from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
-import FilesTable from "./FilesTable";
-import UsersIcon from "public/user-flow/icons/summary/users.svg";
-import AnnotationsTable from "./AnnotationsTable";
-import { useScrollToHash } from "@gff/portal-components";
-import { useSynchronizedRowHeights } from "@/components/HorizontalTable/useSynchronizedRowHeights";
-import { CartIcon, EditIcon, FileIcon } from "@/utils/icons";
+} from './utils';
+import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
+// import FilesTable from './FilesTable';
+// import UsersIcon from 'public/user-flow/icons/summary/users.svg';
+// import AnnotationsTable from './AnnotationsTable';
+// import { useScrollToHash } from '@gff/portal-components';
+// import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
+import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
 
 export interface CaseViewProps {
-  readonly data: CaseDefaults;
+  // readonly data: CaseDefaults;
+  readonly data: any;
   readonly isModal: boolean;
   readonly annotationCountData: number;
   readonly bio_id: string;
@@ -60,8 +61,11 @@ export const CaseView: React.FC<CaseViewProps> = ({
 }: CaseViewProps) => {
   const filesCountTotal = data?.files?.length ?? 0;
   const headerTitle = `${data?.project?.project_id} / ${data?.submitter_id}`;
-  const currentCart = useCoreSelector((state) => selectCart(state));
-  const dispatch = useCoreDispatch();
+  const selectCart = () => null;
+  // const currentCart = useCoreSelector((state) => selectCart(state));
+  const currentCart = {} as any;
+  const dispatch = () => null;
+  // const dispatch = useCoreDispatch();
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
@@ -69,15 +73,16 @@ export const CaseView: React.FC<CaseViewProps> = ({
     ? allFilesInCart(currentCart, mapGdcFileToCartFile(data?.files))
     : false;
   const { width } = useViewportSize();
-  useScrollToHash(["files", "annotations"]);
+  // useScrollToHash(['files', 'annotations']);
   const leftSummaryTableRef = useRef<HTMLTableElement>(null);
   const rightSummaryTableRef = useRef<HTMLTableElement>(null);
 
-  useSynchronizedRowHeights([leftSummaryTableRef, rightSummaryTableRef]);
+  // useSynchronizedRowHeights([leftSummaryTableRef, rightSummaryTableRef]);
 
   const {
     diagnoses = [],
-    demographic = {} as Demographic,
+    // demographic = {} as Demographic,
+    demographic = {} as any,
     family_histories = [],
     follow_ups = [],
     exposures = [],
@@ -107,7 +112,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
     const slideCount = getSlideCountFromCaseSummary(experimental_strategies);
 
     const imageFiles = files?.filter(
-      (file) => file.data_type === "Slide Image",
+      (file) => file.data_type === 'Slide Image',
     );
 
     // TODO: type it properly
@@ -149,13 +154,14 @@ export const CaseView: React.FC<CaseViewProps> = ({
                 passHref
                 legacyBehavior
               >
-                <ImageSlideCount slideCount={slideCount} />
+                <h4>Placeholder for ImageSlideCount</h4>
+                {/* <ImageSlideCount slideCount={slideCount} /> */}
               </Link>
             </div>
           </Tooltip>
 
           <Tooltip
-            label={!isAllImagesFilesInCart ? "Add to Cart" : "Remove from Cart"}
+            label={!isAllImagesFilesInCart ? 'Add to Cart' : 'Remove from Cart'}
             withinPortal={true}
             withArrow
           >
@@ -165,22 +171,25 @@ export const CaseView: React.FC<CaseViewProps> = ({
               size="sm"
               className={`hover:bg-primary hover:text-base-max border-primary ${
                 isAllImagesFilesInCart
-                  ? "bg-primary text-base-max"
-                  : "text-primary bg-base-max"
+                  ? 'bg-primary text-base-max'
+                  : 'text-primary bg-base-max'
               }`}
               onClick={() => {
                 if (isAllImagesFilesInCart) {
-                  removeFromCart(
+                  console.log('placeholder for removeFromCart');
+                  /*                   removeFromCart(
                     mapGdcFileToCartFile(imageFiles),
                     currentCart,
                     dispatch,
-                  );
+                  ); */
                 } else {
-                  addToCart(
+                  console.log('placeholder for addToCart');
+                  /*                   addToCart(
                     mapGdcFileToCartFile(imageFiles),
                     currentCart,
                     dispatch,
                   );
+ */
                 }
               }}
             >
@@ -217,7 +226,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
       ) : (
         <span className="font-bold">{filesCountTotal.toLocaleString()}</span>
       )}
-      {filesCountTotal > 1 ? "Files" : "File"}
+      {filesCountTotal > 1 ? 'Files' : 'File'}
     </span>
   );
 
@@ -240,27 +249,27 @@ export const CaseView: React.FC<CaseViewProps> = ({
           {annotationCountData.toLocaleString()}
         </span>
       )}
-      {annotationCountData == 1 ? "Annotation" : "Annotations"}
+      {annotationCountData == 1 ? 'Annotation' : 'Annotations'}
     </span>
   );
 
   const projectFilter: FilterSet = {
-    mode: "and",
+    mode: 'and',
     root: {
-      "cases.project.project_id": {
-        operator: "includes",
-        field: "cases.project.project_id",
+      'cases.project.project_id': {
+        operator: 'includes',
+        field: 'cases.project.project_id',
         operands: [data.project.project_id],
       },
     },
   };
 
   const caseFilter: FilterSet = {
-    mode: "and",
+    mode: 'and',
     root: {
-      "cases.case_id": {
-        operator: "includes",
-        field: "cases.case_id",
+      'cases.case_id': {
+        operator: 'includes',
+        field: 'cases.case_id',
         operands: [data.case_id],
       },
     },
@@ -275,7 +284,8 @@ export const CaseView: React.FC<CaseViewProps> = ({
   return (
     <>
       <SummaryHeader
-        Icon={UsersIcon}
+        // Icon={UsersIcon}
+        iconPath="placeholderForIconPath"
         headerTitleLeft="Case"
         headerTitle={headerTitle}
         leftElement={
@@ -288,28 +298,30 @@ export const CaseView: React.FC<CaseViewProps> = ({
               leftSection={<CartIcon />}
               className={`${
                 isAllFilesInCart
-                  ? "bg-nci-red-darker text-base-max hover:bg-removeButtonHover"
-                  : "text-primary bg-base-max hover:bg-primary-darkest hover:text-base-max"
+                  ? 'bg-nci-red-darker text-base-max hover:bg-removeButtonHover'
+                  : 'text-primary bg-base-max hover:bg-primary-darkest hover:text-base-max'
               } ${focusStyles} data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary `}
               onClick={() =>
                 isAllFilesInCart
-                  ? removeFromCart(
+                  ? console.log('placeholder forremoveFromCar')
+                  : /*                   ? removeFromCart(
                       mapGdcFileToCartFile(data.files),
                       currentCart,
                       dispatch,
-                    )
-                  : addToCart(
+                    ) */
+                    /* addToCart(
                       mapGdcFileToCartFile(data.files),
                       currentCart,
                       dispatch,
-                    )
+                    ) */
+                    console.log('placeholder for addToCart')
               }
               disabled={filesCountTotal === 0}
-              classNames={{ label: "font-medium text-sm" }}
+              classNames={{ label: 'font-medium text-sm' }}
             >
               {!isAllFilesInCart
-                ? "Add all files to the cart"
-                : "Remove all files from the cart"}
+                ? 'Add all files to the cart'
+                : 'Remove all files from the cart'}
             </Button>
           </Tooltip>
         }
@@ -321,7 +333,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
         isModal={isModal}
       />
 
-      <div className={`${!isModal ? "mt-6" : "mt-4"} mx-4`}>
+      <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
         <div data-testid="table-summary-case-summary" className="flex">
           <div className="basis-full lg:basis-1/2">
             <SummaryCard
@@ -355,7 +367,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
                     filesCountTotal,
                   )}
                   tooltip={
-                    "A detailed list of the files is located in the Files section of this page."
+                    'A detailed list of the files is located in the Files section of this page.'
                   }
                 />
               </div>
@@ -370,7 +382,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
                     filesCountTotal,
                   )}
                   tooltip={
-                    "A detailed list of the files is located in the Files section of this page."
+                    'A detailed list of the files is located in the Files section of this page.'
                   }
                 />
               </div>
@@ -379,7 +391,8 @@ export const CaseView: React.FC<CaseViewProps> = ({
         )}
 
         <div data-testid="table-clinical-case-summary" className="mt-8">
-          <ClinicalSummary
+          <h4>Clinical Summary Placeholder</h4>
+          {/*           <ClinicalSummary
             diagnoses={diagnoses}
             follow_ups={follow_ups}
             demographic={demographic}
@@ -388,7 +401,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
             case_id={case_id}
             submitter_id={data?.submitter_id}
             project_id={data?.project?.project_id}
-          />
+          /> */}
         </div>
 
         <div
@@ -397,22 +410,24 @@ export const CaseView: React.FC<CaseViewProps> = ({
           id="biospecimen"
           className="mt-8"
         >
-          <Biospecimen
+          <h4>Placeholder for Biospecimen</h4>
+          {/*           <Biospecimen
             caseId={case_id}
             bioId={bio_id}
             isModal={isModal}
             submitter_id={data?.submitter_id}
             project_id={data?.project?.project_id}
-          />
+          /> */}
         </div>
         <div
-          className={`mt-8 ${isModal ? "scroll-mt-36" : "scroll-mt-72"}`}
+          className={`mt-8 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
           id="files"
         >
-          <FilesTable caseId={case_id} />
+          <h4>FilesTable Placeholder</h4>
+          {/* <FilesTable caseId={case_id} /> */}
         </div>
 
-        <div className={`mt-8 ${annotationCountData === 0 ? "mb-16" : ""}`}>
+        <div className={`mt-8 ${annotationCountData === 0 ? 'mb-16' : ''}`}>
           <SMTableContainer
             projectId={data.project.project_id}
             case_id={case_id}
@@ -425,11 +440,12 @@ export const CaseView: React.FC<CaseViewProps> = ({
         {annotationCountData > 0 && (
           <div
             className={`mt-8 mb-16 ${
-              isModal ? "scroll-mt-36" : "scroll-mt-72"
+              isModal ? 'scroll-mt-36' : 'scroll-mt-72'
             }`}
             id="annotations"
           >
-            <AnnotationsTable case_id={case_id} />
+            <h4>Placeholder for Annotations Table</h4>
+            {/* <AnnotationsTable case_id={case_id} /> */}
           </div>
         )}
       </div>
