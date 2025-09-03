@@ -8,12 +8,12 @@ import { useContext, useEffect, useState } from 'react';
 import { URLContext } from 'src/utils/contexts';
 
 const useGetCasesQuery = (request: any) => ({
-  data: { hits: [] },
+  data: { hits: [1] },
   isFetching: false,
 });
 const useGetAnnotationsQuery = (request: any) => ({
-  data: { hits: [] },
-  isFetching: false,
+  annotationCountData: { hits: [] },
+  isAnnotationCallFetching: false,
 });
 
 export const CaseSummary = ({
@@ -83,9 +83,9 @@ export const CaseSummary = ({
          */
         <h4 className="mt-96">CaseView Placeholder</h4>
       ) : (
-        <h4 className="mt-96">SummaryErrorHeader Placeholder</h4>
-        /*
-         <SummaryErrorHeader label="Case Not Found" /> */
+        <div className="mt-10">
+          <SummaryErrorHeader label="Case Not Found" />
+        </div>
       )}
     </>
   );
