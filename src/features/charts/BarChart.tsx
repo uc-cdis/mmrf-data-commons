@@ -110,6 +110,7 @@ const BarChart: React.FC<BarChartProps> = ({
             },
             tickangle:
               (data?.datasets?.[0]?.x?.length as number) > 6 ? 35 : undefined,
+            fixedrange: true,
           },
           yaxis: {
             title: data.yAxisTitle,
@@ -122,6 +123,7 @@ const BarChart: React.FC<BarChartProps> = ({
               color: 'rgb(107, 107, 107)',
               family: 'Noto Sans, sans-serif',
             },
+            fixedrange: true,
           },
           margin: {
             l: 80,
@@ -153,6 +155,7 @@ const BarChart: React.FC<BarChartProps> = ({
               color: 'rgb(107, 107, 107)',
               family: 'Noto Sans, sans-serif',
             },
+            fixedrange: true,
           },
           xaxis: {
             title: data.yAxisTitle,
@@ -165,6 +168,7 @@ const BarChart: React.FC<BarChartProps> = ({
               color: 'rgb(107, 107, 107)',
               family: 'Noto Sans, sans-serif',
             },
+            fixedrange: true,
           },
           margin: {
             l: 120,
