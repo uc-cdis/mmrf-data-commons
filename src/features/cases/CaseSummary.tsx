@@ -1,18 +1,15 @@
 import React from 'react';
 // import { useGetCasesQuery, useGetAnnotationsQuery } from '@gff/core';
-import { LoadingOverlay } from '@mantine/core';
+import { LoadingOverlay, Pagination } from '@mantine/core';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import { caseSummaryFields } from './utils';
 import { CaseView } from './CaseView';
 import { useContext, useEffect, useState } from 'react';
 import { URLContext } from 'src/utils/contexts';
+import { useGetCasesQuery } from './mockedHooks';
 
-const useGetCasesQuery = (request: any) => ({
-  data: { hits: [1] },
-  isFetching: false,
-});
 const useGetAnnotationsQuery = (request: any) => ({
-  annotationCountData: 1,
+  data: { pagination: { total: 0 } },
   isAnnotationCallFetching: false,
 });
 
@@ -41,6 +38,9 @@ export const CaseSummary = ({
     },
   });
 
+  const response = useGetCasesQuery(1);
+  console.log('response', response.data.hits);
+
   const { data: annotationCountData, isFetching: isAnnotationCallFetching } =
     useGetAnnotationsQuery({
       request: {
@@ -66,8 +66,13 @@ export const CaseSummary = ({
     }
   }, [prevPathValue]);
 
+  console.log('annotationCountData', annotationCountData);
+  console.log(
+    'data && data.hits.length > 0 && annotationCountData !== undefined',
+    data && data.hits.length > 0 && annotationCountData !== undefined,
+  );
   return (
-    <>
+    <div className="mt-5">
       {isFetching || isAnnotationCallFetching ? (
         <LoadingOverlay visible data-testid="loading-spinner" />
       ) : data && data.hits.length > 0 && annotationCountData !== undefined ? (
@@ -84,6 +89,6 @@ export const CaseSummary = ({
           <SummaryErrorHeader label="Case Not Found" />
         </div>
       )}
-    </>
+    </div>
   );
 };

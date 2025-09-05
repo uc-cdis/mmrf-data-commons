@@ -35,7 +35,7 @@ import {
 } from './utils';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 // import FilesTable from './FilesTable';
-// import UsersIcon from 'public/user-flow/icons/summary/users.svg';
+
 // import AnnotationsTable from './AnnotationsTable';
 // import { useScrollToHash } from '@gff/portal-components';
 // import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
@@ -59,6 +59,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
   case_id,
   shouldScrollToBio,
 }: CaseViewProps) => {
+  console.log('data in caseView', data);
   const filesCountTotal = data?.files?.length ?? 0;
   const headerTitle = `${data?.project?.project_id} / ${data?.submitter_id}`;
   const selectCart = () => null;
@@ -284,8 +285,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
   return (
     <>
       <SummaryHeader
-        // Icon={UsersIcon}
-        iconPath="placeholderForIconPath"
+        iconPath="/icons/user.svg"
         headerTitleLeft="Case"
         headerTitle={headerTitle}
         leftElement={
