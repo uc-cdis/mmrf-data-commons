@@ -334,7 +334,8 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
       transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
         const data = response.data;
         console.log("data", data);
-        const ssmsTotal = data.ssms.ssm._totalCount;
+        const ssmsTotal = data.filteredOccurrences.ssm._totalCount;
+        console.log("ssmsTotal", ssmsTotal);
         const cases = data.cases.case_centric._totalCount;
         const filteredCases = data.cases.filteredCases._totalCount;
 
