@@ -37,9 +37,6 @@ const SSMSCancerDistributionTable: React.FC<
     useGetSSMSCancerDistributionTableQuery({ ssms });
   // Added Apr 10 25 to get build to work
   const ssmCancerDistributionData = data as SSMCancerDistributionData;
-
-  console.log("ssmCancerDistributionData", data)
-
   const projectKeys = useDeepCompareMemo(
     () => ssmCancerDistributionData?.projects.map((p: any) => p.key) || [],
     [ssmCancerDistributionData],

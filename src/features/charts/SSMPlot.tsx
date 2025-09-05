@@ -60,8 +60,6 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
     );
   }
 
-  console.log("SSMPLot", data)
-
   if (!data || data?.cases?.length < 5) {
     return null;
   }

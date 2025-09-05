@@ -132,9 +132,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     tableFilters,
   });
 
-  const ssmsTotal = data?.ssmsTotal ?? 0;
-  console.log("ssmsTotal", ssmsTotal);
-
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
 
@@ -220,26 +217,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     mutation_id: false,
   });
-
-  // const handleChange = (obj: HandleChangeInput) => {
-  //   switch (Object.keys(obj)?.[0]) {
-  //     case 'newSearch':
-  //       setExpanded({});
-  //       setSearchTerm(obj.newSearch as string);
-  //       handlePageChange(1);
-  //       break;
-  //     case 'newPageSize':
-  //       if (obj.newPageSize !== undefined) {
-  //         handlePageSizeChange(obj.newPageSize);
-  //       }
-  //       break;
-  //     case 'newPageNumber':
-  //       if (obj.newPageNumber !== undefined) {
-  //         handlePageChange(obj.newPageNumber);
-  //       }
-  //       break;
-  //   }
-  // };
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {

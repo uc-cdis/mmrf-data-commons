@@ -52,8 +52,6 @@ const GeneCancerDistributionTable: React.FC<
     cohortFilters,
   });
 
-  console.log("GeneCancerDistributionTable", geneCancerDistributionData)
-
   const projectKeys = useDeepCompareMemo(
     () => geneCancerDistributionData?.projects?.map((p: any) => p.key) || [],
     [geneCancerDistributionData],

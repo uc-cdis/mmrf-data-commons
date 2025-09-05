@@ -24,8 +24,6 @@ export const SSMSSummary = ({
 }): JSX.Element => {
   const { data: summaryData, isFetching } = useSsmsSummaryQuery(ssm_id);
 
-  console.log('summaryData', summaryData)
-
   const formatDataForSummary = (): HorizontalTableProps['tableData'] => {
     const obj = pick(summaryData, [
       'uuid',
