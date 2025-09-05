@@ -30,6 +30,11 @@ export interface Pagination {
   readonly pages: number;
 }
 
+export interface SortBy {
+  readonly field: string;
+  readonly direction: "asc" | "desc";
+}
+
 export type UnknownJson = Record<string, unknown>;
 
 export interface Gen3AnalysisApiData<H> {
@@ -65,6 +70,12 @@ export interface Gen3AnalysisApiRequest {
   readonly size?: number;
   readonly from?: number;
   readonly facets?: ReadonlyArray<string>;
+}
+
+export interface GdcApiData<H> {
+  readonly hits: ReadonlyArray<H>;
+  readonly aggregations?: Record<string, Buckets | Stats>;
+  readonly pagination: Pagination;
 }
 
 
