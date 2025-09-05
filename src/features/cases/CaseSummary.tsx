@@ -6,7 +6,7 @@ import { caseSummaryFields } from './utils';
 import { CaseView } from './CaseView';
 import { useContext, useEffect, useState } from 'react';
 import { URLContext } from 'src/utils/contexts';
-import { useGetCasesQuery } from './mockedHooks';
+import { useGetCasesQuery } from '@/core/cases/casesSlice';
 
 const useGetAnnotationsQuery = (request: any) => ({
   data: { pagination: { total: 0 } },

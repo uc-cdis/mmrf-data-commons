@@ -70,9 +70,11 @@ export const CaseView: React.FC<CaseViewProps> = ({
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
-  const isAllFilesInCart = data?.files
+  /*   const isAllFilesInCart = data?.files
     ? allFilesInCart(currentCart, mapGdcFileToCartFile(data?.files))
-    : false;
+    : false; */
+  const isAllFilesInCart = false;
+
   const { width } = useViewportSize();
   // useScrollToHash(['files', 'annotations']);
   const leftSummaryTableRef = useRef<HTMLTableElement>(null);
