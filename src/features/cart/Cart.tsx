@@ -27,8 +27,10 @@ const Cart: React.FC = () => {
 
   const { data: userDetails, isFetching: userDetailsFetching } =
     useFetchUserDetailsQuery();
-  // const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);
-  const filesByCanAccess: any = {};
+
+  console.log("userDetails", userDetails);
+   const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);
+  // const filesByCanAccess: any = {};
   const dbGapList = Array.from(
     new Set(
       (filesByCanAccess?.true || [])
