@@ -4,7 +4,8 @@ import { useGeneTable } from '../../genomic/mockedHooks';
 import { useContext, useEffect, useState } from 'react';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import FunctionButton from '@/components/FunctionButton';
-import { joinFilters, statusBooleansToDataStatus } from 'src/utils';
+import { joinFilters } from '@/core/utils';
+import { statusBooleansToDataStatus } from 'src/utils';
 import { SummaryModalContext } from '@/utils/contexts';
 import VerticalTable from '@/components/Table/VerticalTable';
 import {
@@ -25,7 +26,7 @@ import {
   CnvChange,
 } from '@/core/genomic/genesTableSlice';
 import { getGene, useGenerateGenesTableColumns } from './utils';
-import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/Utils';
+import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
 import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
 import useStandardPagination from '@/hooks/useStandardPagination';

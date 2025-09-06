@@ -5,6 +5,11 @@ const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
 
+export interface GraphQLApiResponse<H = AnyJson> {
+  readonly data: H;
+  readonly errors: Record<string, string>;
+}
+
 const isAccessType = (x: unknown): x is AccessType => {
   return accessTypes.some((t) => t === x);
 };
@@ -57,6 +62,9 @@ export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
 
+export interface Buckets {
+  readonly buckets: ReadonlyArray<Bucket>;
+}
 
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
@@ -282,6 +290,7 @@ interface SSMSConsequence {
       readonly sift_score: number;
       readonly vep_impact: string;
       readonly hgvsc?: string;
+      readonly dbsnp_rs: string;
     };
     readonly consequence_type: string;
     readonly gene: {
@@ -294,15 +303,48 @@ interface SSMSConsequence {
   };
 }
 
+export interface ClinicalAnnotation {
+  civic: {
+    gene_id: string;
+    variant_id: string;
+  }
+}
+
 export interface SSMSData {
-  readonly ssm_id: string;
-  readonly occurrence: number;
-  readonly filteredOccurrences: number;
-  readonly id: string;
-  readonly score: number;
-  readonly genomic_dna_change: string;
-  readonly mutation_subtype: string;
-  readonly consequence: ReadonlyArray<SSMSConsequence>;
+  ncbi_build: any;
+  ssm_id: string;
+  occurrence: number;
+  filteredOccurrences: number;
+  id: string;
+  score: number;
+  genomic_dna_change: string;
+  mutation_subtype: string;
+  cosmic_id: string[];
+  reference_allele: string;
+  clinical_annotations: ClinicalAnnotation;
+  consequence: ReadonlyArray<SSMSConsequence>;
+}
+
+export interface SSMSSummaryData {
+  uuid: string;
+  dna_change: string;
+  type: string;
+  reference_genome_assembly: string;
+  cosmic_id: string[];
+  allele_in_the_reference_assembly: string;
+  civic: string;
+  transcript: {
+    is_canonical: boolean;
+    transcript_id?: string;
+    annotation: {
+      polyphen_impact: string;
+      polyphen_score: number;
+      sift_impact: string;
+      sift_score: string;
+      vep_impact: string;
+      dbsnp: string;
+    };
+  };
 }
 
 interface TableSubrowItem {
@@ -347,3 +389,31 @@ export type FilesTableDataType = {
   file_size: string;
   annotations: FileAnnotationsType[];
 };
+
+export interface ProjectDefaults {
+  readonly dbgap_accession_number: string;
+  readonly disease_type: Array<string>;
+  readonly name: string;
+  readonly primary_site: Array<string>;
+  readonly project_id: string;
+  readonly summary?: {
+    readonly case_count: number;
+    readonly file_count: number;
+    readonly file_size: number;
+    readonly data_categories?: Array<{
+      readonly case_count: number;
+      readonly data_category: string;
+      readonly file_count: number;
+    }>;
+    readonly experimental_strategies?: Array<{
+      readonly case_count: number;
+      readonly experimental_strategy: string;
+      readonly file_count: number;
+    }>;
+  };
+  readonly program?: {
+    readonly dbgap_accession_number: string;
+    readonly name: string;
+    readonly program_id: string;
+  };
+}

@@ -52,7 +52,6 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
           const counts = row.original?.counts?.[index];
           const disabled = !(counts && counts > 0);
 
-          console.log(counts, disabled, )
           return (
           <Tooltip
             label="Cohort is empty"
@@ -175,7 +174,6 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
           data-testid="button-run-cohort-comparison"
           disabled={selectedCohort === null}
           onClick={() => {
-            console.log("selectedCohort")
             setOpen(false);
             setComparisonCohort(selectedCohort);
           }}

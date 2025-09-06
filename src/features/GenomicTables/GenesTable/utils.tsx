@@ -194,7 +194,7 @@ export const useGenerateGenesTableColumns = ({
         header: () => (
           <HeaderTooltip
             title={`# SSM Affected Cases
-          Across the GDC`}
+          Across MMRF`}
             tooltip={`# Cases where Gene contains Simple Somatic Mutations / # Cases tested for Simple Somatic Mutations portal wide.
          Expand to see breakdown by project`}
           />
