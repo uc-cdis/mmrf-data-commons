@@ -14,7 +14,7 @@ function GenesTableSubcomponent({ row }: { row: Row<Gene> }): JSX.Element {
   return (
     <CommonSubcomponent
       subData={subData}
-      subrowTitle="# SSMS Affected Cases Across The GDC"
+      subrowTitle="# SSMS Affected Cases Across MMRF"
       isFetching={isFetching}
       isError={isError}
       isSuccess={isSuccess}

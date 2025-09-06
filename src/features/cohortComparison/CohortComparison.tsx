@@ -57,8 +57,6 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     age_at_diagnosis: true,
   } as Record<string, boolean>);
 
-  console.log("CohortComparison", cohorts);
-
   const [survivalPlotSelectable, setSurvivalPlotSelectable] = useState(true);
   const fieldsToQuery = Object.values(fields).filter((v) => v !== "Survival");
 
