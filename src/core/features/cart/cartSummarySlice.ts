@@ -75,8 +75,6 @@ const cartSummarySlice = guppyApi.injectEndpoints({
           key: root?.cases?.project?.project_id?.histogram[0]?.key ?? ""
         }];
 
-        console.log("byProject", byProject)
-
         return {
           total_case_count: byProject
             .map((project) => project.case_count)
