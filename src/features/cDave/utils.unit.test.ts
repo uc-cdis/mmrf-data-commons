@@ -35,7 +35,7 @@ describe("filterUsefulFacets", () => {
     expect(
       filterUsefulFacets({
         "exposures.height": {
-          stats: { count: 0, min: null, max: null, sum: 0 },
+          stats: { count: 0, min: undefined, max: undefined, sum: 0 },
         },
         "exposures.years_smoked": {
           stats: { count: 947, min: 0, max: 68, sum: 32170 },

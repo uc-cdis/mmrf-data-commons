@@ -26,6 +26,8 @@ describe("<AdditionalCohortSelection />", () => {
 
     const { getByLabelText } = render(
       <AdditionalCohortSelection
+        setActiveApp={(id)=> {return id}}
+        index={'0'}
         app={""}
         setOpen={jest.fn()}
         setComparisonCohort={jest.fn()}
@@ -45,6 +47,8 @@ describe("<AdditionalCohortSelection />", () => {
 
     const { getAllByLabelText } = render(
       <AdditionalCohortSelection
+        setActiveApp={(id)=> {return id}}
+        index={'0'}
         app={""}
         setOpen={jest.fn()}
         setComparisonCohort={jest.fn()}
@@ -63,6 +67,8 @@ describe("<AdditionalCohortSelection />", () => {
 
     const { getByLabelText } = render(
       <AdditionalCohortSelection
+        setActiveApp={(id)=> {return id}}
+        index={'0'}
         app={""}
         setOpen={jest.fn()}
         setComparisonCohort={jest.fn()}
