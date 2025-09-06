@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
- // CartSummaryData,
+  // CartSummaryData,
   showModal,
   useCoreDispatch,
   CoreDispatch,
@@ -8,13 +8,13 @@ import {
   selectCurrentModal,
   Modals,
   useFetchUserDetailsQuery,
-} from "@gen3/core";
+  CartItem,
+} from '@gen3/core';
 import { filesize } from "filesize";
-import { CartFile} from '@/core';
 import { Button, Loader, Menu, Tooltip } from "@mantine/core";
 //import CartSizeLimitModal from "@/components/Modals/CartSizeLimitModal";
 // import CartDownloadModal from "@/components/Modals/CartDownloadModal";
-import { DownloadButton } from "@/components/DownloadButtons";
+import { DownloadButton } from "@gen3/frontend";
 // import download from "src/utils/download";
 import { removeFromCart } from "./updateCart";
 import { focusStyles } from '@/utils';
@@ -36,7 +36,7 @@ const buttonStyle =
   "bg-base-max text-primary border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary";
 
 const downloadCart = (
-  filesByCanAccess: Record<string, CartFile[]>,
+  filesByCanAccess: Record<string, CartItem[]>,
   dbGapList: string[],
   setActive: (active: boolean) => void,
   dispatch: CoreDispatch,
@@ -64,7 +64,7 @@ const downloadCart = (
 };
 
 const downloadManifest = (
-  cart: CartFile[],
+  cart: CartItem[],
   setActive: (active: boolean) => void,
   dispatch: CoreDispatch,
 ) => {
@@ -93,8 +93,8 @@ const downloadManifest = (
 interface CartHeaderProps {
  // summaryData: CartSummaryData;
   summaryData: any;
-  cart: CartFile[];
-  filesByCanAccess: Record<string, CartFile[]>;
+  cart: CartItem[];
+  filesByCanAccess: Record<string, CartItem[]>;
   dbGapList: string[];
 }
 
@@ -249,58 +249,28 @@ const CartHeader: React.FC<CartHeaderProps> = ({
               <Menu.Item
                 component={DownloadButton}
                 classNames={{ item: "font-normal" }}
-                displayVariant="subtle"
-                buttonLabel="JSON"
+                inactiveText="JSON"
+                activeText="JSON"
                 preventClickEvent
                 endpoint="biospecimen_tar"
                 setActive={setBiospecimenJSONDownloadActive}
                 active={biospecimenJSONDownloadActive}
-                filename={`biospecimen.cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.json`}
                 format="json"
                 method="POST"
-                downloadSize={summaryData?.total_case_count}
-                filters={{
-                  content: [
-                    {
-                      content: {
-                        field: "files.file_id",
-                        value: cart.map((file) => file.file_id),
-                      },
-                      op: "in",
-                    },
-                  ],
-                  op: "and",
-                }}
+                params={{}}
               />
               <Menu.Item
                 component={DownloadButton}
                 classNames={{ item: "font-normal" }}
-                displayVariant="subtle"
-                buttonLabel="TSV"
+                inactiveText="TSV"
+                activeText="TSV"
                 preventClickEvent
                 endpoint="biospecimen_tar"
                 setActive={setBiospecimenTSVDownloadActive}
                 active={biospecimenTSVDownloadActive}
-                filename={`biospecimen.cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.tar.gz`}
                 format="tsv"
                 method="POST"
-                downloadSize={summaryData?.total_case_count}
-                filters={{
-                  content: [
-                    {
-                      content: {
-                        field: "files.file_id",
-                        value: cart.map((file) => file.file_id),
-                      },
-                      op: "in",
-                    },
-                  ],
-                  op: "and",
-                }}
+                params={{}}
               />
             </Menu.Dropdown>
           </Menu>
@@ -332,171 +302,111 @@ const CartHeader: React.FC<CartHeaderProps> = ({
               <Menu.Item
                 component={DownloadButton}
                 classNames={{ item: "font-normal" }}
-                displayVariant="subtle"
-                buttonLabel="JSON"
+                inactiveText="JSON"
+                activeText="JSON"
                 preventClickEvent
                 endpoint="clinical_tar"
                 setActive={setClinicalJSONDownloadActive}
                 active={clinicalJSONDownloadActive}
-                filename={`clinical.cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.json`}
                 format="json"
                 method="POST"
-                downloadSize={summaryData?.total_case_count}
-                filters={{
-                  content: [
-                    {
-                      content: {
-                        field: "files.file_id",
-                        value: cart.map((file) => file.file_id),
-                      },
-                      op: "in",
-                    },
-                  ],
-                  op: "and",
-                }}
+                params={{}}
               />
               <Menu.Item
                 component={DownloadButton}
                 classNames={{ item: "font-normal" }}
-                displayVariant="subtle"
-                buttonLabel="TSV"
+                inactiveText="TSV"
+                activeText="TSV"
                 preventClickEvent
                 endpoint="clinical_tar"
                 setActive={setClinicalTSVDownloadActive}
                 active={clinicalTSVDownloadActive}
-                filename={`clinical.cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.tar.gz`}
                 format="tsv"
                 method="POST"
-                downloadSize={summaryData?.total_case_count}
-                filters={{
-                  content: [
-                    {
-                      content: {
-                        field: "files.file_id",
-                        value: cart.map((file) => file.file_id),
-                      },
-                      op: "in",
-                    },
-                  ],
-                  op: "and",
-                }}
+                params={{}}
               />
             </Menu.Dropdown>
           </Menu>
           {/* Sample Sheet */}
           <DownloadButton
-            displayVariant="header"
-            buttonLabel="Sample Sheet"
+            inactiveText="Sample Sheet"
+            activeText="Sample Sheet"
             preventClickEvent
             endpoint="files"
             setActive={setSampleSheetDownloadActive}
             active={sampleSheetDownloadActive}
-            filename={`gdc_sample_sheet.${new Date()
-              .toISOString()
-              .slice(0, 10)}.tsv`}
             format="tsv"
             method="POST"
-            fields={[
-              "file_id",
-              "file_name",
-              "data_category",
-              "data_type",
-              "cases.project.project_id",
-              "cases.submitter_id",
-              "cases.samples.submitter_id",
-              "cases.samples.tissue_type",
-              "cases.samples.tumor_descriptor",
-              "cases.samples.specimen_type",
-              "cases.samples.preservation_method",
-            ]}
-            filters={{
-              content: [
-                {
-                  content: {
-                    field: "files.file_id",
-                    value: cart.map((file) => file.file_id),
-                  },
-                  op: "in",
-                },
-              ],
-              op: "and",
-            }}
-            extraParams={{
+            params={{
               tsv_format: "sample-sheet",
             }}
           />
           {/* Metadata */}
           <DownloadButton
-            buttonLabel="Metadata"
-            displayVariant="header"
             preventClickEvent
             endpoint="files"
             setActive={setMetadataDownloadActive}
             active={metadataDownloadActive}
-            filename={`metadata.cart.${new Date()
-              .toISOString()
-              .slice(0, 10)}.json`}
+            inactiveText="Download Metadata"
+            activeText="Download Metadata"
+            format="json"
             method="POST"
-            filters={{
+            params={{
+              fields:[
+                  "state",
+                "access",
+                "md5sum",
+                "data_format",
+                "data_type",
+                "data_category",
+                "file_name",
+                "file_size",
+                "file_id",
+                "platform",
+                "experimental_strategy",
+                "center.short_name",
+                "annotations.annotation_id",
+                "annotations.entity_id",
+                "tags",
+                "submitter_id",
+                "archive.archive_id",
+                "archive.submitter_id",
+                "archive.revision",
+                "associated_entities.entity_id",
+                "associated_entities.entity_type",
+                "associated_entities.case_id",
+                "analysis.analysis_id",
+                "analysis.workflow_type",
+                "analysis.updated_datetime",
+                "analysis.input_files.file_id",
+                "analysis.metadata.read_groups.read_group_id",
+                "analysis.metadata.read_groups.is_paired_end",
+                "analysis.metadata.read_groups.read_length",
+                "analysis.metadata.read_groups.library_name",
+                "analysis.metadata.read_groups.sequencing_center",
+                "analysis.metadata.read_groups.sequencing_date",
+                "downstream_analyses.output_files.access",
+                "downstream_analyses.output_files.file_id",
+                "downstream_analyses.output_files.file_name",
+                "downstream_analyses.output_files.data_category",
+                "downstream_analyses.output_files.data_type",
+                "downstream_analyses.output_files.data_format",
+                "downstream_analyses.workflow_type",
+                "downstream_analyses.output_files.file_size",
+                "index_files.file_id",
+              ],
+              filters:{
               content: [
-                {
-                  content: {
-                    field: "files.file_id",
-                    value: cart.map((file) => file.file_id),
-                  },
-                  op: "in",
-                },
+            {
+              content: {
+              field: "files.file_id",
+              value: cart.map((file) => file.file_id),
+            },
+              op: "in",
+            },
               ],
               op: "and",
-            }}
-            fields={[
-              "state",
-              "access",
-              "md5sum",
-              "data_format",
-              "data_type",
-              "data_category",
-              "file_name",
-              "file_size",
-              "file_id",
-              "platform",
-              "experimental_strategy",
-              "center.short_name",
-              "annotations.annotation_id",
-              "annotations.entity_id",
-              "tags",
-              "submitter_id",
-              "archive.archive_id",
-              "archive.submitter_id",
-              "archive.revision",
-              "associated_entities.entity_id",
-              "associated_entities.entity_type",
-              "associated_entities.case_id",
-              "analysis.analysis_id",
-              "analysis.workflow_type",
-              "analysis.updated_datetime",
-              "analysis.input_files.file_id",
-              "analysis.metadata.read_groups.read_group_id",
-              "analysis.metadata.read_groups.is_paired_end",
-              "analysis.metadata.read_groups.read_length",
-              "analysis.metadata.read_groups.library_name",
-              "analysis.metadata.read_groups.sequencing_center",
-              "analysis.metadata.read_groups.sequencing_date",
-              "downstream_analyses.output_files.access",
-              "downstream_analyses.output_files.file_id",
-              "downstream_analyses.output_files.file_name",
-              "downstream_analyses.output_files.data_category",
-              "downstream_analyses.output_files.data_type",
-              "downstream_analyses.output_files.data_format",
-              "downstream_analyses.workflow_type",
-              "downstream_analyses.output_files.file_size",
-              "index_files.file_id",
-            ]}
-            extraParams={{
+            },
               expand: [
                 "metadata_files",
                 "annotations",

@@ -1,16 +1,17 @@
+import React from "react";
 import { ActionIcon, Button } from "@mantine/core";
 import { showNotification, cleanNotifications } from "@mantine/notifications";
 import { fileInCart, focusStyles } from "src/utils";
 import {
   CART_LIMIT,
-  removeFilesFromCart,
-  addFilesToCart,
+  removeItemsFromCart,
+  addItemsToCart,
   CoreDispatch,
   selectCart,
   useCoreSelector,
   useCoreDispatch,
-  CartFile,
-} from "@gff/core";
+  CartItem,
+} from "@gen3/core";
 import { useEffect } from "react";
 import { CartIcon, TrashIcon, UndoIcon } from "@/utils/icons";
 
@@ -49,8 +50,8 @@ const UndoButton: React.FC<UndoButtonProps> = ({ action }: UndoButtonProps) => {
 };
 
 interface AddNotificationProps {
-  readonly files: CartFile[];
-  readonly currentCart: CartFile[];
+  readonly files: CartItem[];
+  readonly currentCart: CartItem[];
   dispatch: CoreDispatch;
 }
 const AddNotification: React.FC<AddNotificationProps> = ({
@@ -70,7 +71,7 @@ const AddNotification: React.FC<AddNotificationProps> = ({
 
   useEffect(() => {
     if (filesToAdd.length > 0) {
-      dispatch(addFilesToCart(filesToAdd));
+      dispatch(addItemsToCart(filesToAdd));
     }
   }, [filesToAdd, dispatch]);
 
@@ -127,8 +128,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({
 };
 
 interface RemoveNotificationProps {
-  files: readonly CartFile[];
-  readonly currentCart: CartFile[];
+  files: readonly CartItem[];
+  readonly currentCart: CartItem[];
   dispatch: CoreDispatch;
 }
 const RemoveNotification: React.FC<RemoveNotificationProps> = ({
@@ -137,7 +138,7 @@ const RemoveNotification: React.FC<RemoveNotificationProps> = ({
   dispatch,
 }: RemoveNotificationProps) => {
   const filesToRemove = files.filter((f) =>
-    currentCart.map((cartFile) => cartFile.file_id).includes(f.file_id),
+    currentCart.map((CartItem) => CartItem.file_id).includes(f.file_id),
   );
 
   const newCart = files.filter((f) => !filesToRemove.includes(f));
@@ -166,8 +167,8 @@ const RemoveNotification: React.FC<RemoveNotificationProps> = ({
 };
 
 export const removeFromCart = (
-  files: readonly CartFile[],
-  currentCart: CartFile[],
+  files: CartItem[],
+  currentCart: CartItem[],
   dispatch: CoreDispatch,
 ): void => {
   cleanNotifications();
@@ -185,7 +186,7 @@ export const removeFromCart = (
     closeButtonProps: { "aria-label": "Close notification" },
   });
   const filesToRemove = files.map((f) => f.file_id);
-  dispatch(removeFilesFromCart(filesToRemove));
+  dispatch(removeItemsFromCart(filesToRemove));
 };
 
 export const showCartOverLimitNotification = (numFilesInCart: number): void => {
@@ -199,8 +200,8 @@ export const showCartOverLimitNotification = (numFilesInCart: number): void => {
 };
 
 export const addToCart = (
-  files: CartFile[],
-  currentCart: CartFile[],
+  files: CartItem[],
+  currentCart: CartItem[],
   dispatch: CoreDispatch,
 ): void => {
   const newCartSize = files.length + currentCart.length;
@@ -226,7 +227,7 @@ export const addToCart = (
 };
 
 interface CartButtonProps {
-  readonly files: CartFile[];
+  readonly files: CartItem[];
   readonly iconOnly?: boolean;
 }
 
@@ -290,7 +291,7 @@ export const RemoveFromCartButton: React.FC<CartButtonProps> = ({
 };
 
 interface SingleItemCartButtonProps {
-  readonly file: CartFile;
+  readonly file: CartItem;
 }
 
 export const SingleItemAddToCartButton: React.FC<SingleItemCartButtonProps> = ({

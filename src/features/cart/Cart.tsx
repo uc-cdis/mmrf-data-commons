@@ -8,6 +8,7 @@ import {
   UserProfile,
   CoreState,
   AuthzMapping,
+  selectCart,
 } from '@gen3/core';
 import FilesTable from "./FilesTable";
 import ProjectTable from "./ProjectTable";
@@ -19,8 +20,8 @@ import DownloadInfo from "./DownloadInfo";
 import { CartIcon } from "@/utils/icons";
 
 const Cart: React.FC = () => {
- // const cart = useCoreSelector((state:CoreState) => selectCart(state));
-  const cart : any[] = [];
+   const cart = useCoreSelector((state:CoreState) => selectCart(state));
+
  // const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f.file_id));
   const summaryData : any  = {};
   const { data: userDetails, isFetching: userDetailsFetching } =

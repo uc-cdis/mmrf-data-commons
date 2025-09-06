@@ -1,12 +1,12 @@
-import { UserProfile } from '@gen3/core';
-import { CartFile, GdcFile } from "@/core";
+import { CartItem, UserProfile } from '@gen3/core';
+import {  MMRFFile } from "@/core/features/files/filesSlice";
 import { get, intersection } from "lodash";
 
 export const isUserProject = ({
   file,
   user,
 }: {
-  file: GdcFile | CartFile;
+  file: MMRFFile | CartItem;
   user: UserProfile;
 }): boolean => {
   if (!user) {
@@ -15,7 +15,7 @@ export const isUserProject = ({
   const projectIds = Array.from(
     new Set([
       file.project_id,
-      ...((file as GdcFile)?.cases || []).map((e: any) => e.project.project_id),
+      ...((file as MMRFFile)?.cases || []).map((e: any) => e.project.project_id),
     ]),
   );
 
@@ -27,7 +27,7 @@ export const intersectsWithFileAcl = ({
   file,
   user,
 }: {
-  file: GdcFile | CartFile;
+  file: MMRFFile | CartItem;
   user: UserProfile;
 }): boolean =>
   intersection(
@@ -41,7 +41,7 @@ export const userCanDownloadFiles = ({
   files,
   user,
 }: {
-  files: GdcFile[] | CartFile[];
+  files: MMRFFile[] | CartItem[];
   user: UserProfile;
 }): boolean =>
   files.every((file) => {
@@ -74,9 +74,9 @@ export const userCanDownloadFile = ({
   user,
 }: {
   user: UserProfile;
-  file: GdcFile | CartFile;
+  file: MMRFFile | CartItem;
 }): boolean =>
   userCanDownloadFiles({
-    files: [file],
+    files: [file] as MMRFFile[],
     user,
   });

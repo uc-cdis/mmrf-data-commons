@@ -1,4 +1,5 @@
 import { GQLFilter } from '@gen3/core';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 const accessTypes = ['open', 'controlled'] as const;
 
@@ -339,7 +340,7 @@ export interface CartAggregation {
 }
 
 export type FilesTableDataType = {
-  file: GdcFile;
+  file: MMRFFile;
   file_uuid: string;
   access: AccessType;
   file_name: string;

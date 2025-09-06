@@ -50,7 +50,7 @@
     "showTableHeaderControls": true,
     "columnSorting": true,
     "columnHiding": true,
-    "rowIdField": "_data_file_id",
+    "rowIdField": "file_id",
     "pageLimit": {
       "limit": 10000,
       "label": "Maximum of 10,000 Total Records. Records per Page:"
@@ -59,7 +59,7 @@
       "enabled": true,
       "action" : "cart",
       "idField": "file_id",
-      "itemFields": ["file_size", "file_name", "data_category", "data_format"]
+      "itemFields": ["file_size", "file_name", "data_category", "data_format", "file_id"]
     },
     "fields": [
       "access",

@@ -1,13 +1,20 @@
-import { guppyApi, FilterSet, convertFilterSetToGqlFilter } from '@gen3/core';
+import {
+  guppyApi,
+  FilterSet,
+  convertFilterSetToGqlFilter,
+  GQLFilter,
+  GQLIntersection,
+} from '@gen3/core';
 import { CartAggregation, CartSummaryData } from '@/core/features/cart';
 import { FileDefaults } from '@/core/features/api';
 import { castDraft } from 'immer';
+import { SortBy } from '@/core';
 
 const graphQLQuery = `
 query File_file (
     $fileFilters: JSON
   ) {
-    File_file {
+    files:  File_file (filter: $fileFilters) {
         access
         acl
         average_base_quality
@@ -112,10 +119,15 @@ query File_file (
             updated_datetime
         }
     }
+    fileTotal: File__aggregation {
+         file(filter: $fileFilters) {
+            _totalCount
+        }
+    }
 }
 `;
 
-const accessTypes = ["open", "controlled"] as const;
+const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
 
@@ -344,15 +356,15 @@ export const mapFileData = (files: ReadonlyArray<FileDefaults>): MMRFFile[] => {
         ),
         project: caseObj?.project
           ? {
-            dbgap_accession_number: caseObj.project.dbgap_accession_number,
-            disease_type: caseObj.project.disease_type,
-            name: caseObj.project.name,
-            primary_site: caseObj.project.primary_site,
-            project_id: caseObj.project.project_id,
-            releasable: caseObj.project.releasable,
-            released: caseObj.project.released,
-            state: caseObj.project.state,
-          }
+              dbgap_accession_number: caseObj.project.dbgap_accession_number,
+              disease_type: caseObj.project.disease_type,
+              name: caseObj.project.name,
+              primary_site: caseObj.project.primary_site,
+              project_id: caseObj.project.project_id,
+              releasable: caseObj.project.releasable,
+              released: caseObj.project.released,
+              state: caseObj.project.state,
+            }
           : undefined,
         samples: caseObj.samples?.map((sample) => {
           return {
@@ -379,20 +391,20 @@ export const mapFileData = (files: ReadonlyArray<FileDefaults>): MMRFFile[] => {
                 slides: portion.slides?.map((slide) => {
                   return {
                     number_proliferating_cells:
-                    slide.number_proliferating_cells,
+                      slide.number_proliferating_cells,
                     percent_eosinophil_infiltration:
-                    slide.percent_eosinophil_infiltration,
+                      slide.percent_eosinophil_infiltration,
                     percent_granulocyte_infiltration:
-                    slide.percent_granulocyte_infiltration,
+                      slide.percent_granulocyte_infiltration,
                     percent_inflam_infiltration:
-                    slide.percent_inflam_infiltration,
+                      slide.percent_inflam_infiltration,
                     percent_lymphocyte_infiltration:
-                    slide.percent_lymphocyte_infiltration,
+                      slide.percent_lymphocyte_infiltration,
                     percent_monocyte_infiltration:
-                    slide.percent_monocyte_infiltration,
+                      slide.percent_monocyte_infiltration,
                     percent_necrosis: slide.percent_necrosis,
                     percent_neutrophil_infiltration:
-                    slide.percent_neutrophil_infiltration,
+                      slide.percent_neutrophil_infiltration,
                     percent_normal_cells: slide.percent_normal_cells,
                     percent_stromal_cells: slide.percent_stromal_cells,
                     percent_tumor_cells: slide.percent_tumor_cells,
@@ -419,40 +431,40 @@ export const mapFileData = (files: ReadonlyArray<FileDefaults>): MMRFFile[] => {
     })),
     analysis: hit.analysis
       ? {
-        workflow_type: hit.analysis.workflow_type,
-        input_files: hit.analysis.input_files?.map((file) => {
-          return {
-            file_name: file.file_name,
-            data_category: file.data_category,
-            data_type: file.data_type,
-            data_format: file.data_format,
-            file_size: file.file_size,
-            file_id: file.file_id,
-            acl: hit.acl,
-            access: asAccessType(file.access),
-            project_id: hit.cases?.[0].project?.project_id,
-            state: file.state,
-            submitterId: file.submitter_id,
-            createdDatetime: file.created_datetime,
-            updatedDatetime: file.updated_datetime,
-            md5sum: file.md5sum,
-          };
-        }),
-        metadata: hit.analysis.metadata
-          ? {
-            read_groups: hit.analysis.metadata.read_groups.map(
-              (read_group) => ({
-                read_group_id: read_group.read_group_id,
-                is_paired_end: read_group.is_paired_end,
-                read_length: read_group.read_length,
-                library_name: read_group.library_name,
-                sequencing_center: read_group.sequencing_center,
-                sequencing_date: read_group.sequencing_date,
-              }),
-            ),
-          }
-          : undefined,
-      }
+          workflow_type: hit.analysis.workflow_type,
+          input_files: hit.analysis.input_files?.map((file) => {
+            return {
+              file_name: file.file_name,
+              data_category: file.data_category,
+              data_type: file.data_type,
+              data_format: file.data_format,
+              file_size: file.file_size,
+              file_id: file.file_id,
+              acl: hit.acl,
+              access: asAccessType(file.access),
+              project_id: hit.cases?.[0].project?.project_id,
+              state: file.state,
+              submitterId: file.submitter_id,
+              createdDatetime: file.created_datetime,
+              updatedDatetime: file.updated_datetime,
+              md5sum: file.md5sum,
+            };
+          }),
+          metadata: hit.analysis.metadata
+            ? {
+                read_groups: hit.analysis.metadata.read_groups.map(
+                  (read_group) => ({
+                    read_group_id: read_group.read_group_id,
+                    is_paired_end: read_group.is_paired_end,
+                    read_length: read_group.read_length,
+                    library_name: read_group.library_name,
+                    sequencing_center: read_group.sequencing_center,
+                    sequencing_date: read_group.sequencing_date,
+                  }),
+                ),
+              }
+            : undefined,
+        }
       : undefined,
     downstream_analyses: hit.downstream_analyses?.map((analysis) => {
       return {
@@ -496,17 +508,40 @@ export const mapFileData = (files: ReadonlyArray<FileDefaults>): MMRFFile[] => {
 interface FilesResponse {
   files: ReadonlyArray<MMRFFile>;
   pagination?: any;
+  total: number;
+}
+
+interface FileRequest {
+  size: number;
+  from: number;
+  filters: GQLIntersection;
+  searchTerm?: string;
+  sortBy: SortBy[];
 }
 
 const filesSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
-    getFiles: builder.query<FilesResponse, FilterSet>({
-      query: (tableFilters) => {
-        const graphQLFilters = convertFilterSetToGqlFilter(tableFilters);
+    getFiles: builder.query<FilesResponse, FileRequest>({
+      query: ({
+        size,
+        from,
+        filters: tableFilters,
+        sortBy,
+        searchTerm,
+      }: FileRequest) => {
         return {
           query: graphQLQuery,
-          variables: graphQLFilters as any,
-
+          variables: {
+            fileFilters: { and : [...tableFilters.and,  (searchTerm
+                ? {
+                  search: {
+                    keyword: searchTerm,
+                  },
+                }
+                : {}),] },
+            size,
+            from,
+          },
         };
       },
       transformResponse: (response) => {
@@ -514,11 +549,13 @@ const filesSlice = guppyApi.injectEndpoints({
           return {
             files: [],
             pagination: undefined,
+            total: 0
           };
 
         return {
-          files: castDraft(mapFileData(response?.data?.hits ?? [])),
+          files: castDraft(mapFileData(response?.data?.files ?? [])),
           pagination: response.data.pagination,
+          total: response?.data?.fileTotal?.file?._totalCount ?? 0
         };
       },
     }),
