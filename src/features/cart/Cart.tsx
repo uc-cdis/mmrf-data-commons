@@ -18,12 +18,13 @@ import { groupByAccess } from "./utils";
 import { HeaderTitle } from "@/components/tailwindComponents";
 import DownloadInfo from "./DownloadInfo";
 import { CartIcon } from "@/utils/icons";
+import {useCartSummaryQuery  } from "@/core";
 
 const Cart: React.FC = () => {
    const cart = useCoreSelector((state:CoreState) => selectCart(state));
 
- // const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f.file_id));
-  const summaryData : any  = {};
+  const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f.file_id));
+
   const { data: userDetails, isFetching: userDetailsFetching } =
     useFetchUserDetailsQuery();
   // const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);

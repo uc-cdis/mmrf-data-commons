@@ -332,13 +332,6 @@ export interface SortBy {
 
 }
 
-export interface CartAggregation {
-  case_count: number;
-  doc_count: number;
-  file_size: number;
-  key: string;
-}
-
 export type FilesTableDataType = {
   file: MMRFFile;
   file_uuid: string;

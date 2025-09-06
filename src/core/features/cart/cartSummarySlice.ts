@@ -1,24 +1,32 @@
 import { guppyApi } from "@gen3/core";
 
 const graphQLQuery = `
-  query CartSummary(
-    $fileFilters: FiltersArgument
-  ) {
-    viewer {
-      cart_summary {
-        aggregations(filters: $fileFilters) {
-          project__project_id {
-            buckets {
-              case_count
-              doc_count
-              file_size
-              key
+  query File__aggregation($fileFilters: JSON) {
+    cartSummary: File__aggregation {
+       file(filter: $fileFilters) {
+            cases {
+                case_id {
+                    _totalCount
+                }
+                project {
+                    project_id {
+                        histogram {
+                            key
+                        }
+                    }
+                }
             }
-          }
+            file_id {
+                _totalCount
+            }
+            file_size {
+                histogram {
+                    sum
+                }
+            }
         }
-      }
     }
-  }
+}
 `;
 
 export interface CartAggregation {
@@ -38,19 +46,16 @@ export interface CartSummaryData {
 const cartSummarySlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     cartSummary: builder.query<CartSummaryData, string[]>({
-      query: (cart) => {
+      query: (cart) => { // TODO: This will need to be refactored to support multiple projects
         const graphQLFilters = {
           fileFilters: {
-            op: "and",
-            content: [
+            "and": [
               {
-                op: "in",
-                content: {
-                  field: "files.file_id",
-                  value: cart,
-                },
-              },
-            ],
+                "in": {
+                  "file_id": cart
+                }
+              }
+            ]
           },
         };
         return {
@@ -60,9 +65,17 @@ const cartSummarySlice = guppyApi.injectEndpoints({
         };
       },
       transformResponse: (response) => {
-        const byProject: CartAggregation[] =
-          response.data.viewer.cart_summary?.aggregations.project__project_id
-            .buckets || [];
+        // TODO: This is setup for just one project
+        //  need to support multiple projects
+        const { file: root }  = response.data.cartSummary;
+        const byProject: CartAggregation[] = [{
+          case_count : root?.cases?.case_id?._totalCount ?? 0,
+          doc_count: root?.file_id?._totalCount ?? 0,
+          file_size: root?.file_size?.histogram[0]?.sum ?? 0,
+          key: root?.cases?.project?.project_id?.histogram[0]?.key ?? ""
+        }];
+
+        console.log("byProject", byProject)
 
         return {
           total_case_count: byProject

@@ -55,11 +55,26 @@
       "limit": 10000,
       "label": "Maximum of 10,000 Total Records. Records per Page:"
     },
-    "selectableRowsConfiguration" : {
+    "selectableRowsConfiguration": {
       "enabled": true,
-      "action" : "cart",
+      "action": "cart",
       "idField": "file_id",
-      "itemFields": ["file_size", "file_name", "data_category", "data_format", "file_id"]
+      "itemFields": [
+        "file_size",
+        "file_name",
+        "data_category",
+        "data_format",
+        "file_id",
+        "data_type",
+        "state",
+        "access",
+        "acl",
+        "project_id",
+        "createdDatetime",
+        "updatedDatetime",
+        "submitterId",
+        "md5sum"
+      ]
     },
     "fields": [
       "access",
@@ -102,7 +117,7 @@
   },
   "guppyConfig": {
     "dataType": "file",
-    "indexPrefix" : "File_",
+    "indexPrefix": "File_",
     "nodeCountTitle": "File",
     "fieldMapping": [
       {

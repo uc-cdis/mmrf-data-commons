@@ -1,12 +1,12 @@
 import React from "react";
 import { filesize } from 'filesize';
-import { CartFile } from "@/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { CartItem } from '@gen3/core';
 import VerticalTable from "@/components/Table/VerticalTable";
 
 interface AuthorizationTableProps {
-  readonly filesByCanAccess: Record<string, CartFile[]>;
+  readonly filesByCanAccess: Record<string, CartItem[]>;
   readonly loading: boolean;
   readonly customDataTestID: string;
 }
