@@ -30,6 +30,7 @@ import Loading from '../components/Loading';
 import { registerCohortComparisonApp } from '@/features/cohortComparison/registerApp';
 import { registerGenesAndMutationFrequencyAnalysisTool} from '@/features/genomic/registerApp';
 import Gen3GDCCompatabilityProvider from '@/utils/providers';
+import { registerMMRFTableCellRenderers } from '@/components/ExplorerCellRenderers';
 
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
@@ -62,9 +63,11 @@ const Gen3App = ({
       registerExplorerDefaultCellRenderers();
       registerCohortBuilderDefaultPreviewRenderers();
       registerCohortTableCustomCellRenderers();
+      registerMMRFTableCellRenderers();
       registerCustomExplorerDetailsPanels();
       registerCohortComparisonApp();
       registerGenesAndMutationFrequencyAnalysisTool();
+
       isFirstRender.current = false;
       console.log('Gen3 App initialized');
     }

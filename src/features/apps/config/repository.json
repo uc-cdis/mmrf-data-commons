@@ -100,7 +100,7 @@
       },
       "file_name": {
         "type": "link",
-        "cellRenderFunction": "linkWithIcon",
+        "cellRenderFunction": "modalLink",
         "params": {
           "classNames": { "text": "text-primary" },
           "linkField": "file_id"
@@ -115,10 +115,14 @@
         "lockVisible": "filesize"
       },
       "cases.case_id": {
+        "type": "link",
+        "cellRenderFunction": "modalLink",
         "title": "Cases",
         "accessorPath" : "cases.length"
       },
       "cases.project.project_id": {
+        "type": "link",
+        "cellRenderFunction": "modalLink",
         "title": "Project",
         "accessorPath" : "cases[0].project.project_id"
       }

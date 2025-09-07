@@ -27,11 +27,13 @@ import { useDeepCompareEffect } from 'use-deep-compare';
 interface CountsPanelProps {
   index: string;
   accessibility?: Accessibility;
+  indexPrefix?: string;
 }
 
 const CountsPanel: React.FC<CountsPanelProps> = ({
                                                    index,
                                                    accessibility = Accessibility.ALL,
+                                                   indexPrefix = "Case_"
                                                  }: CountsPanelProps) => {
   const [getCounts, { data: counts, isFetching, isError, isSuccess }] =
     useLazyGetCountsQuery();
@@ -48,6 +50,7 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
       filters: cohortFilters,
       accessibility: accessibility,
       queryId: currentCohortId,
+      indexPrefix: indexPrefix,
     });
   }, [cohortFilters, currentCohortId, accessibility]);
 
@@ -90,7 +93,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <PageTitle pageName="Analysis Center" />
       <MainNavigation />
       <div className="flex flex-col ml-2">
-        <CohortManager rightPanel={<CountsPanel index="case" />}/>
+        <CohortManager rightPanel={<CountsPanel index="case"  indexPrefix="Case_" />}/>
         <QueryExpression index="case"/>
 
 

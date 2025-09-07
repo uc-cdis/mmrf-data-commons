@@ -13,7 +13,7 @@ const CartPage: NextPage = () => {
       </div>
       <h1 className="sr-only">Cart</h1>
       <div className="flex">
-        <div className="w-full mt-[100px]">
+        <div className="w-full mt-[150px]">
           <Cart />
         </div>
       </div>
