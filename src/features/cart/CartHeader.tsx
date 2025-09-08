@@ -15,6 +15,8 @@ import { Button, Loader, Menu, Tooltip } from "@mantine/core";
 //import CartSizeLimitModal from "@/components/Modals/CartSizeLimitModal";
 // import CartDownloadModal from "@/components/Modals/CartDownloadModal";
 import { DownloadButton } from "@gen3/frontend";
+import { downloadFromGuppyToBlob } from "@gen3/core";
+import { download } from '@/utils/downloads';
 // import download from "src/utils/download";
 import { removeFromCart } from "./updateCart";
 import { focusStyles } from '@/utils';
@@ -214,6 +216,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                         <DownloadIcon aria-hidden="true" />
                       )
                     }
+                    disabled={true}
                   >
                     Cart
                   </Menu.Item>
