@@ -90,7 +90,7 @@ export const RepositoryPanel = ({
               id="cohort-builder-content"
               className="flex flex-col md:w-3/4 lg:w-4/5 pl-4"
             >
-              <RepositoryDownloadsPanel
+              <RepositoryDownloadsPanel localFilters={repositoryFilters}  fileDataFetching={isFileSizeFetching}
 
               />
               {/* Table Section */}

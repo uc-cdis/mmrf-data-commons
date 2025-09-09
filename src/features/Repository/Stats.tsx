@@ -1,5 +1,5 @@
 import React from 'react';
-import { PersonIcon, SaveIcon } from '../../../types/icons';
+import { PersonIcon, SaveIcon } from '@/utils/icons';
 import { filesize } from 'filesize';
 
 interface FileStatsProps {

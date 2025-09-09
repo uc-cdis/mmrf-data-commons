@@ -15,12 +15,12 @@ import {
   useCoreSelector,
 } from '@gen3/core';
 
-import DropdownPanel from '../../../components/facets/Panels/DropdownPanel';
 import {
   classifyFacets,
   EnumFacetDataHooks,
   FacetDataHooks,
   FieldToName,
+  DropdownPanel,
   getAllFieldsFromFilterConfigs,
   processBucketData,
   removeIntersectionFromEnum,
@@ -28,17 +28,31 @@ import {
   useFieldNameToTitle,
   useGetFacetFilters,
   useUpdateFilters,
-} from '../../../components/facets';
+  FacetSortType,
+  ErrorCard
+} from '@gen3/frontend';
 import { partial } from 'lodash';
 import {
   useCohortFilterCombineState,
   useFilterExpandedState,
   useSetCohortFilterCombineState,
   useToggleExpandFilter,
-} from '../hooks';
+} from './hooks';
 import { useGetFacetValuesQuery } from './hooks';
-import { TabsConfig } from '../types';
-import { ErrorCard } from '../../../components/MessageCards';
+import { StylingOverride} from '@/features/types/styling';
+
+
+export interface TabConfig {
+  title: string;
+  fields: ReadonlyArray<string>; // list of fields
+  fieldsConfig: Record<string, FacetDefinition>; // extra/override configuration
+  classNames?: StylingOverride;
+  defaultSort?: FacetSortType;
+}
+
+export interface TabsConfig {
+  readonly tabs: ReadonlyArray<TabConfig>;
+}
 
 interface FileFacetPanelProps {
   filters: TabsConfig;
@@ -88,7 +102,7 @@ export const FileFacetPanel = ({
   useDeepCompareEffect(() => {
     if (isFacetsQuerySuccess && Object.keys(facetDefinitions).length === 0) {
       const configFacetDefs = filters?.tabs.reduce(
-        (acc: Record<string, FacetDefinition>, tab) => {
+        (acc: Record<string, FacetDefinition>, tab: any) => {
           return { ...tab.fieldsConfig, ...acc };
         },
         {},

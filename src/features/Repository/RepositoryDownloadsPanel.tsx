@@ -2,29 +2,34 @@ import {
   useCoreDispatch,
   useCoreSelector,
   selectCart,
-  GQLFilter,
+  FilterSet,
   selectCurrentCohortFilters,
   EmptyFilterSet,
+  convertFilterSetToGqlFilter
 } from '@gen3/core';
 import { CartIcon } from '@/utils/icons';
 import React,  {useState} from 'react';
 import { DownloadButton} from '@/components/DownloadButtons';
 import FunctionButton from '@/components/FunctionButton';
+import FunctionButtonRemove from '@/components/FunctionButton';
 import { getFormattedTimestamp } from '@/utils/date';
+import { focusStyles } from '@/utils';
+import { useLazyGetAllFilesQuery} from '@/core/features/files/allFilesSlice';
+import { addToCart, removeFromCart } from '@/features/cart/updateCart';
+import { MMRFFile } from '@/core/features/files/filesSlice';
+import { mapFileToCartFile } from '@/features/files/utils';
 
 export const MANIFEST_DOWNLOAD_MESSAGE = `Download a manifest for use with the Gen3 Data Transfer Tool. The Gen3
           Data Transfer Tool is recommended for transferring large volumes of data.`;
 
 interface RepositoryDownloadsPanelProps {
-  localFilters: GQLFilter;
+  localFilters: FilterSet;
   fileDataFetching: boolean;
-  handleCartOperation: (operation: string) => void;
 }
 
 const RepositoryDownloadsPanel = ({
   localFilters: repositoryFilters,
   fileDataFetching,
-  handleCartOperation,
                                   } : RepositoryDownloadsPanelProps) => {
 
   const [manifestActive, setManifestActive] = useState(false);
@@ -35,8 +40,34 @@ const RepositoryDownloadsPanel = ({
     useState(false);
   const currentCart = useCoreSelector((state) => selectCart(state));
   const dispatch = useCoreDispatch();
+  const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
+   const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
 
- //  const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
+  const handleCartOperation = (operationType: "add" | "remove") => {
+    const isAdd = operationType === "add";
+    const setLoading = isAdd ? setAddFilesLoading : setRemoveFilesLoading;
+    const callback = isAdd ? addToCart : removeFromCart;
+    const filters = isAdd
+      ? convertFilterSetToGqlFilter(repositoryFilters)
+      : convertFilterSetToGqlFilter(EmptyFilterSet);
+
+    setLoading(true);
+
+    getFileSizeSliceData({
+      caseFilters: convertFilterSetToGqlFilter(cohortFilters['case']),
+      filters: filters,
+    })
+      .unwrap()
+      .then((data: MMRFFile[]) => {
+        return mapFileToCartFile(data);
+      })
+      .then((cartFiles: any) => {
+        callback(cartFiles, currentCart, dispatch);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <div className="flex flex-wrap xl2:justify-end gap-2 mt-8 mb-4">
@@ -177,7 +208,7 @@ const RepositoryDownloadsPanel = ({
         variant="outline"
         disabled={fileDataFetching}
         onClick={() => {
-          // check number of files selected before making call
+          // check the number of files selected before making call
             handleCartOperation("add");
         }}
       >

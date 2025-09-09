@@ -1,7 +1,8 @@
 
-import React, { Dispatch, SetStateAction, forwardRef } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useCallback } from "react";
 import { ButtonProps } from "@mantine/core";
-import download from '../../utils/downloads';
+import { download } from '../../utils/downloads';
+import { FilterSet, EmptyFilterSet } from "@gen3/core";
 import FunctionButton, {
   FunctionButtonVariants,
 } from "@/components/FunctionButton";
@@ -32,15 +33,15 @@ import { modals } from '@mantine/modals';
  * @property toolTip - The tooltip to display.
  */
 interface DownloadButtonProps {
-  endpoint?: string;
+  endpoint: string;
   disabled?: boolean;
   buttonLabel: string;
   filename?: string;
   downloadSize?: number;
   format?: string;
   fields?: Array<string>;
-  caseFilters?: Record<string, any>;
-  filters?: Record<string, any>;
+  caseFilters?: FilterSet;
+  filters?: FilterSet;
   extraParams?: Record<string, any>;
   method?: string;
   customStyle?: string;
@@ -92,8 +93,8 @@ export const DownloadButton = forwardRef<
       downloadSize = 10000,
       format = "JSON",
       fields = [],
-      caseFilters = {},
-      filters = {},
+      caseFilters = EmptyFilterSet,
+      filters = EmptyFilterSet,
       buttonLabel,
       extraParams,
       method = "POST",
@@ -111,6 +112,31 @@ export const DownloadButton = forwardRef<
   ) => {
     const tooltipContent = active ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
 
+    const handleClick = useCallback(() => {
+        if (!preventClickEvent && onClick) {
+          onClick();
+          return;
+        }
+        modals.closeAll();
+        const params = {
+          size: downloadSize,
+          attachment: true,
+          format,
+          fields: fields,
+          index: endpoint,
+          cohortFilters: caseFilters,
+          filters,
+          filename: filename ?? "download.txt",
+        };
+        if (setActive) {
+          setActive(true);
+        }
+        download({
+          params,
+          done: () => setActive && setActive(false),
+        });
+      }, [])
+
     return (
       <FunctionButton
         $variant={displayVariant}
@@ -123,31 +149,7 @@ export const DownloadButton = forwardRef<
         multilineTooltip={multilineTooltip}
         disabled={disabled}
         variant="outline"
-        onClick={() => {
-          if (!preventClickEvent && onClick) {
-            onClick();
-            return;
-          }
-         modals.closeAll();
-          const params = {
-            size: downloadSize,
-            attachment: true,
-            format,
-            fields: fields.join(),
-            case_filters: caseFilters,
-            filters,
-            pretty: true,
-            ...(filename ? { filename } : {}),
-            ...extraParams,
-          };
-          if (setActive) {
-            setActive(true);
-          }
-          download({
-            params,
-            done: () => setActive && setActive(false),
-          });
-        }}
+        onClick={handleClick}
         {...buttonProps}
       >
         {buttonLabel}

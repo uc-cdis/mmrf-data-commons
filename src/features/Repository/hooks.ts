@@ -10,10 +10,17 @@ import {
   customQueryStrForField,
   useGeneralGQLQuery,
   useGetAggsQuery,
+  useCoreSelector,
+  useCoreDispatch,
+  CoreState,
+  selectCohortFilterExpanded,
+  CombineMode,
+  setCohortFilterCombineMode,selectCohortFilterCombineMode,toggleCohortBuilderCategoryFilter
 } from '@gen3/core';
+import { getByPath} from '@gen3/frontend';
 import { useState } from 'react';
 import { useDeepCompareEffect } from 'use-deep-compare';
-import { getByPath } from '../../../components/facets/utils';
+
 
 export const useGetFacetValuesQuery = (
   args: FacetQueryParameters,
@@ -114,5 +121,31 @@ export const useTotalFileSizeQuery = ({
     isError,
     isFetching,
     isSuccess,
+  };
+};
+
+export const useFilterExpandedState = (index: string, field: string) => {
+  return useCoreSelector((state: CoreState) =>
+    selectCohortFilterExpanded(state, index, field),
+  );
+};
+
+export const useSetCohortFilterCombineState = (index: string) => {
+  const dispatch = useCoreDispatch();
+  return (field: string, mode: CombineMode) => {
+    dispatch(setCohortFilterCombineMode({ index, field, mode }));
+  };
+};
+
+export const useCohortFilterCombineState = (index: string, field: string) => {
+  return useCoreSelector((state: CoreState) =>
+    selectCohortFilterCombineMode(state, index, field),
+  );
+};
+
+export const useToggleExpandFilter = (index: string) => {
+  const dispatch = useCoreDispatch();
+  return (field: string, expanded: boolean) => {
+    dispatch(toggleCohortBuilderCategoryFilter({ index, field, expanded }));
   };
 };

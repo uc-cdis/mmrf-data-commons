@@ -2,6 +2,7 @@ import { CartFile, GdcFile, caseFileType } from '@/core';
 import { get, omit, pick } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';
 import { JSONObject } from '../types';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 /*
 formatDataForHorizontalTable searches for data in an object and applies any modifiers provided to the located data. It then outputs data ready for the HorizontalTable component to use
@@ -141,12 +142,12 @@ export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
   return formatImageDetailsInfo(slideDetailsInfo);
 };
 
-export const mapGdcFileToCartFile = (
-  files: GdcFile[] | caseFileType[] | undefined,
+export const mapFileToCartFile = (
+  files: MMRFFile[] | caseFileType[] | undefined,
 ): CartFile[] => {
   // Updated April 10 25 to get build to work
-  /*
-  files?.map((file: GdcFile | caseFileType) =>
+
+  files?.map((file: MMRFFile | caseFileType) =>
     pick(file, [
       'access',
       'acl',
@@ -157,7 +158,7 @@ export const mapGdcFileToCartFile = (
       'file_name',
     ]),
   );
-  */
+
   return (files as (GdcFile | caseFileType)[]).map((file) =>
     pick(file, [
       'access',

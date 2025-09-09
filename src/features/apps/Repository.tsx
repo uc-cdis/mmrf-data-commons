@@ -1,5 +1,5 @@
 import React from "react";
-import{ Repository, RepositoryConfiguration } from '@gen3/frontend';
+import{ Repository, RepositoryConfiguration } from '@/features/Repository';
 import configuration from './config/repository.json';
 
 
