@@ -69,14 +69,14 @@ const Gen3App = ({
       registerGenesAndMutationFrequencyAnalysisTool();
 
       isFirstRender.current = false;
-      console.log('Gen3 App initialized');
+      console.log('MMRF Portal initialized');
     }
   }, []);
 
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Only on client-side
+    setIsClient(true); // Only on the client-side
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState, ReactNode } from 'react';
 import { Loader } from "@mantine/core";
 
-const importApplication = (app : any) =>
+const importApplication = async (app : any) =>
   lazy(() =>
     import(`@/features/apps/${app}`).catch(
       () => import(`@/features/apps/NullApp`),
@@ -25,6 +25,8 @@ const ActiveAnalysisTool: React.FC<AnalysisToolInfo> = ({
 
     loadApp().then((app) => setAnalysisApp(app));
   }, [appId]);
+
+  console.log('appId', appId);
 
   return (
     <Suspense

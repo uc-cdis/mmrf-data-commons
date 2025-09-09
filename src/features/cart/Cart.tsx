@@ -29,8 +29,8 @@ const Cart: React.FC = () => {
     useFetchUserDetailsQuery();
 
   console.log("userDetails", userDetails);
-   const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);
-  // const filesByCanAccess: any = {};
+ //  const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);
+   const filesByCanAccess: any = {};
   const dbGapList = Array.from(
     new Set(
       (filesByCanAccess?.true || [])
@@ -73,7 +73,7 @@ const Cart: React.FC = () => {
             <HeaderTitle>File counts by project</HeaderTitle>
             <ProjectTable
               customDataTestID="table-file-counts-by-project"
-              projectData={summaryData?.byProject}
+              projectData={summaryData?.byProject ?? []}
             />
           </div>
         </div>
