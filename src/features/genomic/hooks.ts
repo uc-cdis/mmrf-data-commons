@@ -12,7 +12,10 @@ import {
   GQLFilter as GqlOperation,
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
-} from "@gen3/core";
+  CombineMode,
+  setCohortFilterCombineMode,
+  selectCohortFilterCombineMode,
+} from '@gen3/core';
 import { type SurvivalPlotData } from '@/core/survival';
 // import { useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from "lodash/isEqual";
@@ -427,4 +430,17 @@ export const useUploadFilterItems = (uploadField: string) => {
   const field = uploadField.split(".upload").join("");
   const items = useGenomicFilterValueByName(field);
   return { items, noData: items === undefined };
+};
+
+export const useSetCohortFilterCombineState = (index: string) => {
+  const dispatch = useCoreDispatch();
+  return (field: string, mode: CombineMode) => {
+    dispatch(setCohortFilterCombineMode({ index, field, mode }));
+  };
+};
+
+export const useCohortFilterCombineState = (index: string, field: string) => {
+  return useCoreSelector((state: CoreState) =>
+    selectCohortFilterCombineMode(state, index, field),
+  );
 };

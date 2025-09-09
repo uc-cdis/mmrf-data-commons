@@ -1,3 +1,5 @@
+import { FacetDefinition } from '@gen3/core';
+
 export interface GenomicTableProps {
   readonly selectedSurvivalPlot?: Record<string, string>;
   readonly handleSurvivalPlotToggled?: (
