@@ -1,6 +1,10 @@
 import React from 'react';
 import RepositoryPanel from './RepositoryPanel';
-import {  ErrorCard, MessagePage, validateObjectHasRequiredFields } from '@gen3/frontend';
+import {
+  ErrorCard,
+  MessagePage,
+  validateObjectHasRequiredFields,
+} from '@gen3/frontend';
 import { RepositoryProps } from './types';
 
 const Repository = ({

@@ -2,10 +2,10 @@ import {
   DataTypeConfigWithManifest,
   DownloadButtonConfig,
   DropdownsWithButtonsProps,
+  SummaryTable,
+  Gen3AppConfigData,
   TabsConfig,
-} from '../types';
-import { SummaryTable } from '../ExplorerTable/types';
-import { Gen3AppConfigData } from '../../../lib/content/types';
+} from '@gen3/frontend';
 import { Accessibility, AggregationsData, FilterSet } from '@gen3/core';
 import React from 'react';
 
