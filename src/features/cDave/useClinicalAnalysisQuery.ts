@@ -47,6 +47,7 @@ export const useClinicalAnalysisQuery = ({
     filters,
     accessibility,
     filterSelf: true,
+    indexPrefix: 'Case_',
   });
 
   const {
@@ -61,6 +62,7 @@ export const useClinicalAnalysisQuery = ({
     filters,
     accessibility,
     filterSelf: true,
+    indexPrefix: 'Case_',
   });
 
   // Memoized combined states

@@ -55,9 +55,9 @@
     "DEFAULT": "#F58EB3",
     "vivid": "#fb88b1",
     "dark": "#f58eb3",
-    "darker": "#f58eb3",
-    "darkest": "#f68db3",
-    "min": "#f78cb3"
+    "darker": "#5e2a36",
+    "darkest": "#4a1f38",
+    "min": "#361721"
   },
   "accent-contrast": {
     "max": "#111111",
@@ -80,8 +80,8 @@
     "vivid": "#f5f3f0",
     "dark": "#f4f3f1",
     "darker": "#f4f3f1",
-    "darkest": "#f4f3f1",
-    "min": "#f4f3f1"
+    "darkest": "#403f3d",
+    "min": "#1d1d1d"
   },
   "base-contrast": {
     "max": "#111111",
@@ -92,8 +92,8 @@
     "vivid": "#111111",
     "dark": "#111111",
     "darker": "#111111",
-    "darkest": "#111111",
-    "min": "#111111"
+    "darkest": "#eeeeee",
+    "min": "#eeeeee"
   },
   "accent-warm": {
     "max": "#fff6f4",
