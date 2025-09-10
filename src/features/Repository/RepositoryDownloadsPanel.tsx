@@ -27,6 +27,7 @@ interface RepositoryDownloadsPanelProps {
   fileDataFetching: boolean;
 }
 
+
 const RepositoryDownloadsPanel = ({
   localFilters: repositoryFilters,
   fileDataFetching,
@@ -43,6 +44,8 @@ const RepositoryDownloadsPanel = ({
   const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
    const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
 
+  console.log("removeFilesLoading", removeFilesLoading)
+
   const handleCartOperation = (operationType: "add" | "remove") => {
     const isAdd = operationType === "add";
     const setLoading = isAdd ? setAddFilesLoading : setRemoveFilesLoading;
@@ -51,10 +54,11 @@ const RepositoryDownloadsPanel = ({
       ? convertFilterSetToGqlFilter(repositoryFilters)
       : convertFilterSetToGqlFilter(EmptyFilterSet);
 
+    console.log("setLoading")
     setLoading(true);
 
     getFileSizeSliceData({
-      caseFilters: convertFilterSetToGqlFilter(cohortFilters['case']),
+      caseFilters: convertFilterSetToGqlFilter(cohortFilters['case'] ?? EmptyFilterSet),
       filters: filters,
     })
       .unwrap()
@@ -77,11 +81,11 @@ const RepositoryDownloadsPanel = ({
         setActive={setSampleSheetDownloadActive}
         active={sampleSheetDownloadActive}
         preventClickEvent
-        endpoint="files"
+        endpoint="file"
         filename={`mmrf_sample_sheet.${new Date()
           .toISOString()
-          .slice(0, 10)}.tsv`}
-        format="tsv"
+          .slice(0, 10)}.json`}
+        format="json"
         method="POST"
         fields={[
           "file_id",
@@ -98,9 +102,6 @@ const RepositoryDownloadsPanel = ({
         ]}
         caseFilters={EmptyFilterSet}
         filters={repositoryFilters}
-        extraParams={{
-          tsv_format: "sample-sheet",
-        }}
       />
       <DownloadButton
         data-testid="button-metadata-files-table"
@@ -108,7 +109,7 @@ const RepositoryDownloadsPanel = ({
         setActive={setMetadataDownloadActive}
         active={metadataDownloadActive}
         preventClickEvent
-        endpoint="files"
+        endpoint="file"
         filename={`metadata.repository.${new Date()
           .toISOString()
           .slice(0, 10)}.json`}
@@ -158,41 +159,32 @@ const RepositoryDownloadsPanel = ({
           "downstream_analyses.output_files.file_size",
           "index_files.file_id",
         ]}
-        extraParams={{
-          expand: [
-            "metadata_files",
-            "annotations",
-            "archive",
-            "associated_entities",
-            "center",
-            "analysis",
-            "analysis.input_files",
-            "analysis.metadata",
-            "analysis.metadata_files",
-            "analysis.downstream_analyses",
-            "analysis.downstream_analyses.output_files",
-            "reference_genome",
-            "index_file",
-          ].join(","),
-        }}
       />
       <DownloadButton
         data-testid="button-manifest-files-table"
         buttonLabel="Manifest"
         toolTip={MANIFEST_DOWNLOAD_MESSAGE}
         multilineTooltip
-        endpoint="files"
+        endpoint="file"
         method="POST"
+        format="manifest"
+        fields={[
+          "file_id",
+          "file_name",
+          "file_size",
+          "md5sum",
+          "cases.case_id"
+          ]}
         extraParams={{
-          return_type: "manifest",
+          isManifest: true
         }}
         caseFilters={EmptyFilterSet}
         filters={repositoryFilters}
         setActive={setManifestActive}
         active={manifestActive}
-        filename={`gdc_manifest.${getFormattedTimestamp({
+        filename={`mmrf_manifest.${getFormattedTimestamp({
           includeTimes: true,
-        })}.txt`}
+        })}.json`}
       />
 
       <FunctionButton

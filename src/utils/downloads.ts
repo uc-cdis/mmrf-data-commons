@@ -1,7 +1,7 @@
 import { JSONPath } from 'jsonpath-plus';
 import { getCookie } from 'cookies-next';
 import {GuppyDownloadDataParams, GEN3_GUPPY_API, convertFilterSetToGqlFilter, DownloadFromGuppyParams, selectCSRFToken, coreStore,
-  FilterSet
+  FilterSet, jsonToFormat, isJSONObject,
 } from '@gen3/core';
 
 /**
@@ -81,7 +81,8 @@ export const downloadFromGuppyToBlob = async ({
                                                 onError = (_: Error) => null,
                                                 onAbort = () => null,
                                                 signal = undefined,
-                                              }: DownloadFromGuppyParams) => {
+  isManifest = false,
+                                              }: DownloadFromGuppyParams & { isManifest?: boolean}) => {
   const csrfToken = selectCSRFToken(coreStore.getState());
   onStart?.();
 
@@ -106,19 +107,33 @@ export const downloadFromGuppyToBlob = async ({
           resultType: 'value',
         });
       }
+
+      if (isManifest) {
+        jsonData = jsonData.map((x: any) => ({
+            file_name: x.file_name,
+            file_size: x.file_size,
+          cases: x.cases, md5sum: x.md5sum,
+            object_id: x.file_id
+        }));
+      }
       // convert the data to the specified format and return a Blob
       let str = '';
-      if (parameters.format === 'json') {
+      if (parameters?.format === undefined || parameters.format === 'json' || isManifest) {
         str = JSON.stringify(jsonData);
       }
-      // else {
-      //   const convertedData = await jsonToFormat(jsonData, parameters.format);
-      //   if (isJSONObject(convertedData)) {
-      //     str = JSON.stringify(convertedData, null, 2);
-      //   } else {
-      //     str = convertedData;
-      //   }
-      // }
+      else {
+        try {
+        const convertedData = await jsonToFormat(jsonData, parameters.format);
+        if (isJSONObject(convertedData)) {
+          str = JSON.stringify(convertedData, null, 2);
+        } else {
+          str = convertedData;
+        }
+        } catch (error) {
+          console.error('Error converting data to format:', error);
+          throw new Error('Error converting data to format');
+        }
+      }
       return new Blob([str], {
         type: 'application/json',
       });
@@ -188,32 +203,56 @@ export const handleDownload = (data: Blob, filename: string) => {
   URL.revokeObjectURL(href);
 };
 
+export interface DownloadArgs {
+  fields: Array<string>;
+  cohortFilters: FilterSet;
+  filters: FilterSet;
+  index: string;
+  filename: string;
+  format: 'tsv' | 'json' |'csv';
+  isManifest?: boolean;
+}
 
 interface DownloadParams {
-  params: {
-    fields: Array<string>;
-    cohortFilters: FilterSet;
-    filters: FilterSet;
-    index: string;
-    filename: string;
-  };
+  params: DownloadArgs;
   done?: () => void;
 }
 export const download = async ({
   params,
   done
 }: DownloadParams) => {
-    const { fields, cohortFilters, filters, index, filename } = params;
-    downloadFromGuppyToBlob({
+    const { fields, cohortFilters, filters, index, filename, format, isManifest } = params;
+    await downloadFromGuppyToBlob({
       parameters: {
         filter: filters,
         type: index,
         fields: fields,
-        format: 'json'
+        format: format
       },
     onDone: (data: Blob) => {
       handleDownload(data, filename);
       if (done) done();
     },
+      isManifest: isManifest,
+  });
+}
+
+export const downloadWithArgs = async (
+  params: Record<string, any>,
+done?: () => void
+                              ) => {
+  const { fields, cohortFilters, filters, index, filename, format, isManifest } = params;
+  await downloadFromGuppyToBlob({
+    parameters: {
+      filter: filters,
+      type: index,
+      fields: fields,
+      format: format
+    },
+    onDone: (data: Blob) => {
+      handleDownload(data, filename);
+      if (done) done();
+    },
+    isManifest: isManifest,
   });
 }

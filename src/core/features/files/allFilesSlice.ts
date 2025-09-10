@@ -1,4 +1,4 @@
-import { GQLIntersection, downloadRequestApi } from '@gen3/core';
+import { GQLIntersection, guppyDownloadApi } from '@gen3/core';
 import { SortBy } from '@/core';
 
 interface AllFilesRequest {
@@ -12,7 +12,7 @@ interface FilesResponse {
   files: ReadonlyArray<any>;
 }
 
-const allFilesSlide = downloadRequestApi.injectEndpoints({
+const allFilesSlide = guppyDownloadApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllFiles: builder.query<FilesResponse, AllFilesRequest>({
       query: ({

@@ -44,9 +44,9 @@ ${(p: FunctionButtonProps) =>
 ${(p: FunctionButtonProps) =>
   p.loading !== true
     ? (p.$variant === "filled"
-    ? "hover:bg-primary-darker"
+    ? "hover:bg-primary-lighter"
     : p.$variant === "header" || p.$variant === "header-subtle"
-      ? "hover:bg-primary-darkest"
+      ? "hover:bg-primary-dark"
       : "hover:bg-primary") + " hover:text-base-max"
     : ""}
 

@@ -1,8 +1,13 @@
 
 import React, { Dispatch, SetStateAction, forwardRef, useCallback } from "react";
 import { ButtonProps } from "@mantine/core";
-import { download } from '../../utils/downloads';
+import {
+  download,
+  DownloadArgs,
+  downloadWithArgs,
+} from '../../utils/downloads';
 import { FilterSet, EmptyFilterSet } from "@gen3/core";
+import { useGuppyActionButton } from '@gen3/frontend';
 import FunctionButton, {
   FunctionButtonVariants,
 } from "@/components/FunctionButton";
@@ -110,38 +115,28 @@ export const DownloadButton = forwardRef<
     }: DownloadButtonProps,
     ref,
   ) => {
-    const tooltipContent = active ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
 
-    const handleClick = useCallback(() => {
-        if (!preventClickEvent && onClick) {
-          onClick();
-          return;
-        }
-        modals.closeAll();
-        const params = {
-          size: downloadSize,
-          attachment: true,
-          format,
+    const { handleClick, active: downloadActive }  = useGuppyActionButton(
+      {
+        actionFunction: downloadWithArgs, actionArgs: {
+          format: format,
           fields: fields,
           index: endpoint,
           cohortFilters: caseFilters,
           filters,
           filename: filename ?? "download.txt",
-        };
-        if (setActive) {
-          setActive(true);
+          ...extraParams
         }
-        download({
-          params,
-          done: () => setActive && setActive(false),
-        });
-      }, [])
+      }
+    )
+
+    const tooltipContent = downloadActive ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
 
     return (
       <FunctionButton
         $variant={displayVariant}
         ref={ref}
-        isActive={active}
+        isActive={downloadActive}
         isDownload
         disableResponsiveIcon={disableResponsiveIcon}
         showDownloadIcon
