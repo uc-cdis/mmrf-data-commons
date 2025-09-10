@@ -91,7 +91,6 @@ const Gen3App = ({
               contextModals={mmrfModals}
             >
               <Gen3GDCCompatabilityProvider>
-
                 <Component {...pageProps} />
               </Gen3GDCCompatabilityProvider>
             </Gen3Provider>

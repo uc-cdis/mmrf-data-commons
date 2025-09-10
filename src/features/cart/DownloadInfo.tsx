@@ -22,14 +22,14 @@ function DownloadInfo() {
       variant="contained"
       chevron={<ExpandMoreIcon size="1.75em" />}
       classNames={{
-        item: "border-cartDarkerOrange border-l-[3rem]",
-        chevron: "text-cartDarkerOrange",
+        item: "border-accent-warm border-l-[3rem]",
+        chevron: "text-accent",
         label: "text-sm font-bold uppercase font-heading py-2 ml-4",
       }}
     >
       <Accordion.Item
         value="howTo"
-        className="border border-cartDarkerOrange rounded-none text-secondary-contrast-lighter bg-cartLighterOrange"
+        className="border border-secondary rounded-none text-secondary-contrast-lighter bg-accent-lighter"
       >
         <Accordion.Control
           className="hover:bg-[#FFFFFF50] pl-0 relative"
@@ -40,49 +40,35 @@ function DownloadInfo() {
             className="h-6 w-6 absolute left-[-2.2rem] top-[0.4rem]"
             aria-label="Warning"
           />
+          <span className="text-black font-bold">
           How to download files in my cart?
+          </span>
         </Accordion.Control>
         <Accordion.Panel>
           <div data-testid="text-download-information">
-            <div className="mb-2">
+            <div className="mb-2 text-black">
               <H2>Download Manifest:</H2>
               <P>
                 Download a manifest for use with the{" "}
                 <a
-                  data-testid="link-gdc-data-transfer-tool"
-                  href="https://gdc.cancer.gov/access-data/gdc-data-transfer-tool"
+                  data-testid="link-gen3-sdk-tool"
+                  href="https://github.com/uc-cdis/gen3sdk-python?tab=readme-ov-file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-linkDarkerColor font-bold underline"
+                  className="text-blue-600 font-bold underline"
                 >
-                  <LinkIcon className="inline" /> GDC Data Transfer Tool
+                  <LinkIcon className="inline" /> Gen3 SDK
                 </a>
-                . The GDC Data Transfer Tool is recommended for transferring
+                . The Gen3 SDK is recommended for transferring
                 large volumes of data.
               </P>
             </div>
 
-            <div className="mb-2">
+            <div className="mb-2 text-black">
               <H2>Download Cart:</H2>
               <P>Download Files in your Cart directly from the Web Browser.</P>
             </div>
 
-            <div className="mb-2">
-              <H2>Download Reference Files:</H2>
-              <P>
-                Download{" "}
-                <a
-                  data-testid="link-gdc-reference-files"
-                  href="https://gdc.cancer.gov/about-data/gdc-data-processing/gdc-reference-files"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-linkDarkerColor font-bold"
-                >
-                  <LinkIcon className="inline" /> GDC Reference Files
-                </a>{" "}
-                for use in your genomic data analysis.
-              </P>
-            </div>
           </div>
         </Accordion.Panel>
       </Accordion.Item>

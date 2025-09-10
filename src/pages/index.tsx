@@ -8,7 +8,7 @@ import {
   AnalysisPageLayoutProps,
   AnalysisToolConfiguration,
   CohortManager,
-  QueryExpression,CountsValue
+  QueryExpression,CountsValue, ProtectedContent
 } from '@gen3/frontend';
 import {
   useLazyGetCountsQuery,
@@ -92,6 +92,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <MainNavigation />
+      <ProtectedContent>
       <div className="flex flex-col ml-2">
         <CohortManager rightPanel={<CountsPanel index="case"  indexPrefix="Case_" />}/>
         <QueryExpression index="case"/>
@@ -109,6 +110,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
           </div>
       ) : <div className="mt-20">No sections found in config file</div>}
         </div>
+      </ProtectedContent>
     </>);
 
 };

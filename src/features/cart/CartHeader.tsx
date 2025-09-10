@@ -557,7 +557,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   </div>
                 }
                 classNames={{
-                  root: `bg-primary-darker text-base-max hover:bg-removeButtonHover ${focusStyles}`,
+                  root: `bg-white text-primary hover:bg-removeButtonHover ${focusStyles}`,
                 }}
               >
                 Remove From Cart

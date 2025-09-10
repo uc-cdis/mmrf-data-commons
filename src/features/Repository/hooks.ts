@@ -6,7 +6,6 @@ import {
 } from './types';
 import {
   Accessibility,
-  convertFilterSetToGqlFilter,
   customQueryStrForField,
   useGeneralGQLQuery,
   useGetAggsQuery,
@@ -20,6 +19,9 @@ import {
 import { getByPath} from '@gen3/frontend';
 import { useState } from 'react';
 import { useDeepCompareEffect } from 'use-deep-compare';
+import {
+  convertFilterSetToNestedGqlFilter,
+} from '@/core/utils/filters';
 
 
 export const useGetFacetValuesQuery = (
@@ -88,7 +90,7 @@ export const useTotalFileSizeQuery = ({
     query,
     variables: {
       accessibility,
-      filter: convertFilterSetToGqlFilter(repositoryFilters),
+      filter: convertFilterSetToNestedGqlFilter(repositoryFilters),  // Must used nested for MMRF
     },
   });
 

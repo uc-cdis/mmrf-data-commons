@@ -1,14 +1,15 @@
-import { CartFile, GdcFile, caseFileType } from '@/core';
+import { GdcFile, caseFileType } from '@/core';
 import { get, omit, pick } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';
 import { JSONObject } from '../types';
 import { MMRFFile } from '@/core/features/files/filesSlice';
+import { CartItem } from '@gen3/core';
 
 /*
 formatDataForHorizontalTable searches for data in an object and applies any modifiers provided to the located data. It then outputs data ready for the HorizontalTable component to use
 */
 export const formatDataForHorizontalTable = (
-  file: GdcFile | JSONObject,
+  file: MMRFFile | JSONObject,
   headersConfig: ReadonlyArray<{
     readonly field: string;
     readonly name: string;
@@ -142,10 +143,9 @@ export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
   return formatImageDetailsInfo(slideDetailsInfo);
 };
 
-export const mapFileToCartFile = (
+export const mapFileToCartItem = (
   files: MMRFFile[] | caseFileType[] | undefined,
-): CartFile[] => {
-  // Updated April 10 25 to get build to work
+): CartItem[] => {
 
   files?.map((file: MMRFFile | caseFileType) =>
     pick(file, [
@@ -159,8 +159,9 @@ export const mapFileToCartFile = (
     ]),
   );
 
-  return (files as (GdcFile | caseFileType)[]).map((file) =>
-    pick(file, [
+  return (files as (MMRFFile | caseFileType)[]).map((file) => (
+  {
+    ...pick(file, [
       'access',
       'acl',
       'file_id',
@@ -169,6 +170,8 @@ export const mapFileToCartFile = (
       'project_id',
       'file_name',
     ]),
+    id: file.file_id
+    })
   );
 };
 

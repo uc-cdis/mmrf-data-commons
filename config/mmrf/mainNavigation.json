@@ -25,7 +25,7 @@
       },
       {
         "icon": "/icons/apps/Repository.svg",
-        "href": "/?app=Repository",
+        "href": "/?app=Downloads",
         "name": "Repository"
       }
     ],

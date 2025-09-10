@@ -5,7 +5,8 @@ import {
   FilterSet,
   selectCurrentCohortFilters,
   EmptyFilterSet,
-  convertFilterSetToGqlFilter
+  convertFilterSetToGqlFilter,
+  Accessibility,
 } from '@gen3/core';
 import { CartIcon } from '@/utils/icons';
 import React,  {useState} from 'react';
@@ -16,16 +17,19 @@ import { getFormattedTimestamp } from '@/utils/date';
 import { focusStyles } from '@/utils';
 import { useLazyGetAllFilesQuery} from '@/core/features/files/allFilesSlice';
 import { addToCart, removeFromCart } from '@/features/cart/updateCart';
-import { MMRFFile } from '@/core/features/files/filesSlice';
-import { mapFileToCartFile } from '@/features/files/utils';
+import {  mapFileToCartItem } from '@/features/files/utils';
+import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
+import { joinFilters} from '@/core/utils';
+import { GqlOperation } from '@/core';
 
-export const MANIFEST_DOWNLOAD_MESSAGE = `Download a manifest for use with the Gen3 Data Transfer Tool. The Gen3
-          Data Transfer Tool is recommended for transferring large volumes of data.`;
+export const MANIFEST_DOWNLOAD_MESSAGE = `Download a manifest for use with the Gen3 SDK. The Gen3
+          SDK is recommended for transferring large volumes of data.`;
 
 interface RepositoryDownloadsPanelProps {
   localFilters: FilterSet;
   fileDataFetching: boolean;
 }
+
 
 
 const RepositoryDownloadsPanel = ({
@@ -44,33 +48,58 @@ const RepositoryDownloadsPanel = ({
   const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
    const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
 
-  console.log("removeFilesLoading", removeFilesLoading)
 
-  const handleCartOperation = (operationType: "add" | "remove") => {
+  const buildCohortGqlOperatorWithCart = (): GqlOperation => {
+    // create filter with current cart file ids
+    const cartFilterSet: FilterSet = {
+      root: {
+        "file_id": {
+          operator: "includes",
+          field: "file_id",
+          operands: currentCart.map((obj) => obj.file_id),
+        },
+      },
+      mode: "and",
+    };
+    return convertFilterSetToNestedGqlFilter(joinFilters(repositoryFilters, cartFilterSet));
+  };
+
+  const handleCartOperation = async (operationType: "add" | "remove") => {
     const isAdd = operationType === "add";
     const setLoading = isAdd ? setAddFilesLoading : setRemoveFilesLoading;
     const callback = isAdd ? addToCart : removeFromCart;
     const filters = isAdd
       ? convertFilterSetToGqlFilter(repositoryFilters)
-      : convertFilterSetToGqlFilter(EmptyFilterSet);
+      : buildCohortGqlOperatorWithCart();
 
-    console.log("setLoading")
     setLoading(true);
 
-    getFileSizeSliceData({
-      caseFilters: convertFilterSetToGqlFilter(cohortFilters['case'] ?? EmptyFilterSet),
-      filters: filters,
-    })
-      .unwrap()
-      .then((data: MMRFFile[]) => {
-        return mapFileToCartFile(data);
-      })
-      .then((cartFiles: any) => {
-        callback(cartFiles, currentCart, dispatch);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const data = await getFileSizeSliceData({
+        cohortFilter: convertFilterSetToNestedGqlFilter(cohortFilters['case'] ?? EmptyFilterSet),
+        filter: filters,
+        type: "file",
+        fields: [
+          'access',
+          'acl',
+          'file_id',
+          'file_size',
+          'state',
+          'cases.project.project_id',
+          'file_name',
+        ],
+        accessibility: Accessibility.ALL,
+      }).unwrap();
+      const cartFiles = (!data || data.length === 0)
+        ? []
+        : mapFileToCartItem(data);
+
+      callback(cartFiles, currentCart, dispatch);
+    } catch (err) {
+      console.error('Failed to fetch files for cart operation:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -218,9 +247,10 @@ const RepositoryDownloadsPanel = ({
           )
         }
         classNames={{
-          root: `bg-nci-red-darker text-base-max hover:bg-removeButtonHover border-0 ${focusStyles}`,
+          root: `bg-base-min text-base-max hover:bg-removeButtonHover border-1 ${focusStyles}`,
         }}
         isActive={removeFilesLoading}
+        disabled={fileDataFetching}
         onClick={() => {
           handleCartOperation("remove");
         }}

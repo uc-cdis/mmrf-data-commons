@@ -3,10 +3,10 @@ import {  DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
 import { FilterSet, CartItem} from '@gen3/core';
+import { joinFilters } from '@/core/utils';
 
 
 const DAYS_IN_YEAR = 365.25;
-export declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;
 
 export const toggleFullScreen = async (
   ref: React.MutableRefObject<any>,

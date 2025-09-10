@@ -7,14 +7,13 @@ import {
   useCoreDispatch,
   GQLFilter as GqlOperation,
 } from '@gen3/core';
-import { CartFile, GdcFile } from '@/core';
+import { CartFile } from '@/core';
 import { MMRFFile, useGetFilesQuery } from '@/core/features/files/filesSlice';
 import { SortBy } from '@/core';
 import { RemoveFromCartButton } from './updateCart';
 import FunctionButton from '@/components/FunctionButton';
 import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
 import { getFormattedTimestamp } from 'src/utils/date';
-//import download from "src/utils/download";
 import { FileAccessBadge } from '@/components/FileAccessBadge';
 import { statusBooleansToDataStatus } from 'src/utils';
 import { SummaryModalContext } from 'src/utils/contexts';
