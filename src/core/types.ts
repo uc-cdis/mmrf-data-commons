@@ -1,4 +1,5 @@
 import { GQLFilter } from '@gen3/core';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 const accessTypes = ['open', 'controlled'] as const;
 
@@ -153,7 +154,7 @@ export type FileCaseType = ReadonlyArray<{
   }>;
 }>;
 
-export interface GdcCartFile {
+export interface MMRFCartFile {
   readonly file_name: string;
   readonly data_category: string;
   readonly data_type: string;
@@ -217,7 +218,7 @@ export interface GdcFile {
   }>;
   readonly analysis?: {
     readonly workflow_type: string;
-    readonly input_files?: GdcCartFile[];
+    readonly input_files?: [];
     readonly metadata?: {
       readonly read_groups: Array<{
         readonly read_group_id: string;
@@ -231,7 +232,7 @@ export interface GdcFile {
   };
   readonly downstream_analyses?: ReadonlyArray<{
     readonly workflow_type: string;
-    readonly output_files?: GdcCartFile[];
+    readonly output_files?: [];
   }>;
   readonly index_files?: ReadonlyArray<{
     readonly submitterId: string;
@@ -366,6 +367,28 @@ export interface GraphqlApiSliceRequest {
 }
 
 export type GqlOperation = GQLFilter;
+
+export interface SortBy {
+  readonly field: string;
+  readonly direction: 'asc' | 'desc';
+
+}
+
+export type FilesTableDataType = {
+  file: MMRFFile;
+  file_uuid: string;
+  access: AccessType;
+  file_name: string;
+  project: string;
+  cases: FileCaseType;
+  data_category: string;
+  data_type: string;
+  data_format: string;
+  experimental_strategy?: string;
+  platform: string;
+  file_size: string;
+  annotations: FileAnnotationsType[];
+};
 
 export interface ProjectDefaults {
   readonly dbgap_accession_number: string;

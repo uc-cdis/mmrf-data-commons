@@ -1,0 +1,156 @@
+{
+  "tabTitle": "Files",
+  "filters": {
+    "tabs": [
+      {
+        "title": "Filters",
+        "fields": [
+          "experimental_strategy",
+          "wgs_coverage",
+          "data_category",
+          "data_type",
+          "data_format",
+          "platform",
+          "access",
+          "cases.samples.tissue_type",
+          "cases.samples.tumor_descriptor",
+          "cases.samples.specimen_type",
+          "cases.samples.preservation_method"
+        ]
+      }
+    ]
+  },
+  "buttons": [
+    {
+      "enabled": true,
+      "type": "data-json",
+      "title": "JSON",
+      "dropdownId": "download-table",
+      "leftIcon": "datafile",
+      "rightIcon": "download",
+      "actionArgs": {
+        "filename": "data_table.json"
+      }
+    },
+    {
+      "enabled": true,
+      "type": "data-tsv",
+      "title": "TSV",
+      "dropdownId": "download-table",
+      "leftIcon": "datafile",
+      "rightIcon": "download",
+      "actionArgs": {
+        "filename": "data_table.tsv"
+      }
+    }
+  ],
+  "loginForDownload": false,
+  "table": {
+    "enabled": true,
+    "showTableHeaderControls": true,
+    "columnSorting": true,
+    "columnHiding": true,
+    "rowIdField": "file_id",
+    "pageLimit": {
+      "limit": 10000,
+      "label": "Maximum of 10,000 Total Records. Records per Page:"
+    },
+    "selectableRowsConfiguration": {
+      "enabled": true,
+      "action": "cart",
+      "idField": "file_id",
+      "itemFields": [
+        "file_size",
+        "file_name",
+        "data_category",
+        "data_format",
+        "file_id",
+        "data_type",
+        "state",
+        "access",
+        "acl",
+        "project_id",
+        "createdDatetime",
+        "updatedDatetime",
+        "submitterId",
+        "md5sum"
+      ]
+    },
+    "fields": [
+      "access",
+      "file_name",
+      "cases.case_id",
+      "cases.project.project_id",
+      "data_category",
+      "data_format",
+      "file_size",
+      "file_id"
+    ],
+    "columns": {
+      "access": {
+        "title": "Access",
+        "type": "access",
+        "cellRenderFunction": "openControlledAccess",
+        "params": {
+          "colorTable": {
+            "open": "primary.4",
+            "controlled": "accent.3"
+          }
+        }
+      },
+      "file_name": {
+        "type": "link",
+        "cellRenderFunction": "linkWithIcon",
+        "params": {
+          "classNames": { "text": "text-primary" },
+          "linkField": "file_id"
+        }
+      },
+      "file_size": {
+        "type": "value",
+        "cellRenderFunction": "filesize"
+      },
+      "file_id": {
+        "visible": false,
+        "lockVisible": "filesize"
+      },
+      "cases.case_id": {
+        "title": "Cases",
+        "accessorPath" : "cases.length"
+      },
+      "cases.project.project_id": {
+        "title": "Project",
+        "accessorPath" : "cases[0].project.project_id"
+      }
+    }
+  },
+  "guppyConfig": {
+    "dataType": "file",
+    "indexPrefix": "File_",
+    "nodeCountTitle": "File",
+    "fieldMapping": [
+      {
+        "field": "submitter_id",
+        "name": "Case ID"
+      }
+    ],
+    "manifestMapping": {
+      "resourceIndexType": "case",
+      "resourceIdField": "submitter_id",
+      "referenceIdFieldInResourceIndex": "submitter_id",
+      "referenceIdFieldInDataIndex": "submitter_id"
+    },
+    "accessibleFieldCheckList": ["authz"],
+    "accessibleValidationField": "auth_resource_path"
+  },
+  "fileStatsConfiguration": {
+    "cohortIndex": "case",
+    "repositoryIndex": "file",
+    "cohortItemIdField": "cases.case_id",
+    "fileItemIdField": "file_id",
+    "fileSizeField": "file_size"
+  },
+  "detailsConfig": {
+    "idField": "file_id"
+  }
+}
