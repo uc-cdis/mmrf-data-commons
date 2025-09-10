@@ -1,3 +1,4 @@
+import React from "react";
 import { render } from "test-utils";
 import Cart from "./Cart";
 import {

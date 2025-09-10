@@ -84,6 +84,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
       onClick={onClick}
       setActive={setActive}
       active={active}
+      endpoint={`data/${file.file_id}`}
       displayVariant={displayVariant}
     />
   );
