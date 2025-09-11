@@ -1,67 +1,80 @@
-import React from 'react';
-import { FilterSet } from '@gen3/core';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  useCoreSelector,
+  type Cohort,
+  usePrevious,
+  selectCohortIds,
+  selectCohortById,
+  EmptyFilterSet,
+  selectCurrentCohort,
+} from '@gen3/core';
+import { useDeepCompareEffect } from 'use-deep-compare';
+import { SelectionScreenContext } from '@/components/analysis';
 import CohortComparison from './CohortComparison';
+import AdditionalCohortSelection from './AdditionalCohortSelection';
 
-const PlaceHolderCohorts = {
-  "primary_cohort": {
-    "filter": {
-      "mode": "and",
-      "root": {
-        "cases.project.project_id": {
-          "operator": "includes",
-          "field": "cases.project.project_id",
-          "operands": [
-            "MMRF-COMMPASS"
-          ]
-        },
-        "cases.diagnoses.treatments.therapeutic_agents": {
-          "operator": "includes",
-          "field": "cases.diagnoses.treatments.therapeutic_agents",
-          "operands": [
-            "carfilzomib"
-          ]
-        },
-        "cases.demographic.ethnicity": {
-          "operator": "includes",
-          "field": "cases.demographic.ethnicity",
-          "operands": [
-            "not hispanic or latino"
-          ]
-        }
-      },
-    } as FilterSet,
-    "name": "Cohort A",
-    "id": "ef9ae92d-746f-4a90-a7b4-bae2aed9d9ff"
-  },
-  "comparison_cohort": {
-    "filter": {
-      "mode": "and",
-      "root": {
-        "cases.project.project_id": {
-          "operator": "includes",
-          "field": "cases.project.project_id",
-          "operands": [
-            "MMRF-COMMPASS"
-          ]
-        },
-        "cases.diagnoses.treatments.therapeutic_agents": {
-          "operator": "includes",
-          "field": "cases.diagnoses.treatments.therapeutic_agents",
-          "operands": [
-            "bortezomib"
-          ]
-        }
-      }
-    } as FilterSet,
-    "name": "Cohort B",
-    "id": "a1b4d048-1d48-45f2-a6dd-f4c33352f7d1"
-  }
-};
 
 const CohortComparisonApp = () => {
-  return (
-    <CohortComparison cohorts={PlaceHolderCohorts} demoMode={false}/>)
+  const { selectionScreenOpen, setSelectionScreenOpen, app, setActiveApp } =
+    useContext(SelectionScreenContext);
 
-}
+  const allCohortsIds =useCoreSelector(selectCohortIds);
+
+  const primaryCohort = useCoreSelector((state) => selectCurrentCohort(state));
+
+  const [comparisonCohort, setComparisonCohort] = useState<Cohort>();
+  const comparisonCohortObj: Cohort | null = useCoreSelector((state) =>
+    comparisonCohort?.id ? selectCohortById(state, comparisonCohort.id) : null,
+  );
+  const comparisonCohortFilter = comparisonCohortObj?.filters;
+  /* Comparison Cohort Details End */
+
+  const cohorts = {
+    primary_cohort: {
+      filter: primaryCohort.filters && 'case' in  primaryCohort.filters ?  primaryCohort.filters['case'] : EmptyFilterSet,
+      name: primaryCohort.name ?? 'uninitialize',
+      id: primaryCohort.id ?? 'uninitialized',
+      counts: primaryCohort.counts?.['case'] ?? 0,
+    },
+    comparison_cohort: {
+      filter: comparisonCohortFilter && 'case' in comparisonCohortFilter
+        ? comparisonCohortFilter['case']
+        : EmptyFilterSet,
+      name: comparisonCohort?.name ?? 'uninitialize',
+      id: comparisonCohort?.id ?? 'uninitialize',
+      counts: comparisonCohort?.counts?.['case'] ?? 0,
+    },
+  };
+
+  const prevPrimaryCohortId  = usePrevious<string|undefined>( primaryCohort?.id);
+  const prevComparisonCohortId = usePrevious<string|undefined>(comparisonCohort?.id);
+
+  useDeepCompareEffect(() => {
+    if (
+      (prevPrimaryCohortId && !allCohortsIds.includes(prevPrimaryCohortId) ||
+        prevComparisonCohortId&&  !allCohortsIds.includes(prevComparisonCohortId))
+    ) {
+      if (setSelectionScreenOpen)
+        setSelectionScreenOpen(true);
+    }
+  }, [
+    allCohortsIds,
+    prevPrimaryCohortId,
+    prevComparisonCohortId,
+    setSelectionScreenOpen,
+  ]);
+
+  return selectionScreenOpen ? (
+    <AdditionalCohortSelection
+      app={app}
+      setOpen={setSelectionScreenOpen}
+      setActiveApp={setActiveApp}
+      setComparisonCohort={setComparisonCohort}
+      index="case"
+    />
+  ) : (
+    <CohortComparison cohorts={cohorts} demoMode={false} />
+  );
+};
 
 export default CohortComparisonApp;

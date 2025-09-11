@@ -61,13 +61,15 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
       cohorts.comparison_cohort.filter,
     ),
     facetFields: facetFields,
+    index: "case",
+    continuousFacets: ["diagnoses.age_at_diagnosis"],
   });
 
   const counts = cohortFacetsData?.caseCounts || [];
   return (
     <FacetCard
       cohorts={cohorts}
-      counts={counts}
+      counts={[20, 30]}
       data={
         cohortFacetsData?.aggregations
           ? cohortFacetsData.aggregations.map(

@@ -27,6 +27,7 @@ import {
 import { handleDownloadPNG, handleDownloadSVG } from '../utils';
 import { DAYS_IN_YEAR } from '@/core/constants';
 import { DownloadIcon, ResetIcon, SurvivalChartIcon } from '@/utils/icons';
+import BarChartTextVersion from '../BarChartTextVersion';
 
 const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   data,
@@ -66,8 +67,8 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   const shouldPlot =
     hasEnoughData &&
     plotData
-      .map(({ donors }) => donors)
-      .every(({ length }) => length >= MINIMUM_CASES);
+      .map(({ donors } : {donors: any}) => donors)
+      .every(({ length } : { length: any }) => length >= MINIMUM_CASES);
   // hook to call renderSurvivalPlot
   const shouldUsePlotData =
     (['gene', 'mutation'].includes(plotType) && shouldPlot) ||
@@ -115,13 +116,23 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
       break;
   }
 
+  const plotDataTextVersionJSON = plotData.map((group, index) => {
+    const caseIdentifier = index === 0 ? "S1" : "S2";
+    return group.donors.map(donor => ({
+      case: caseIdentifier,
+      time: donor.time,
+      survivalEstimate: donor.survivalEstimate
+    }));
+  }).flat();
+
+
   const handleDownloadJSON = async () => {
     const blob = new Blob(
       [
         JSON.stringify(
-          plotData.map((element, index) => ({
+          plotData.map((element: any, index: any) => ({
             meta: { ...element.meta, label: `S${index + 1}` },
-            donors: element.donors.map((donor) => ({
+            donors: element.donors.map((donor: any) => ({
               ...donor,
               time: Math.round(donor.time * DAYS_IN_YEAR), // Converting to actual days from API
             })),
@@ -159,9 +170,9 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
     }
 
     const body = plotData
-      .map((element, index) =>
+      .map((element: any, index: any) =>
         element.donors
-          .map((row) => {
+          .map((row: any) => {
             const timeDays = Math.round(row.time * DAYS_IN_YEAR); // Converting to actual days from API
             const timeMonths = Math.round(timeDays / DAYS_IN_MONTH_ROUNDED);
             const timeYears = row.time.toFixed(1);
@@ -401,6 +412,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
           <div className="survival-plot" ref={containerForDownload} />
         </div>
       </OffscreenWrapper>
+      <BarChartTextVersion className="mt-[40px]" data={plotDataTextVersionJSON} />
     </div>
   );
 };

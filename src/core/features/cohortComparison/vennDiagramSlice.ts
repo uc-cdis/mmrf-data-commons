@@ -1,72 +1,45 @@
 import { graphQLAPI, type GQLFilter } from '@gen3/core';
-import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
-import { GraphQLApiResponse } from '@/core';
+import { GEN3_ANALYSIS_API } from '@/core/constants';
 
-const graphQLQuery = `
-  query VennDiagram(
-    $set1Filters: FiltersArgument
-    $set2Filters: FiltersArgument
-    $intersectionFilters: FiltersArgument
-  ) {
-    viewer {
-      explore {
-        set1: cases {
-          hits(filters: $set1Filters, first: 0) {
-            total
-          }
-        }
-        set2: cases {
-          hits(filters: $set2Filters,  first: 0) {
-            total
-          }
-        }
-        intersection: cases {
-          hits(filters: $intersectionFilters,  first: 0) {
-            total
-          }
-        }
-      }
-    }
-  }
-`;
 
-interface CountData {
-  readonly hits?: {
-    readonly total: number;
-  };
-}
 
 interface CohortVennDiagramData {
-  readonly set1: CountData;
-  readonly set2: CountData;
-  readonly intersection: CountData;
+  readonly set1?: number;
+  readonly set2?: number;
+  readonly intersection?: number;
 }
 
 interface VennDiagramRequest {
   set1Filters: GQLFilter;
   set2Filters: GQLFilter;
-  intersectionFilters: GQLFilter;
+  index: string;
+}
+
+interface VennDiagramResponse {
+  cohort1?: number;
+  cohort2?: number;
+  intersection?: number;
 }
 
 const vennDiagramApiSlice = graphQLAPI.injectEndpoints({
   endpoints: (builder) => ({
     vennDiagram: builder.query<CohortVennDiagramData, VennDiagramRequest>({
-      query: ({ set1Filters, set2Filters, intersectionFilters }) => {
-        const graphQLFilters = {
-          set1Filters,
-          set2Filters,
-          intersectionFilters,
-        };
+      query: (queryParameters) => {
         return {
-          url: `${GEN3_COHORT_COMPARISON_API}/venn`,
+          url: `${GEN3_ANALYSIS_API}/compare/intersection`,
           method: 'POST',
-          body: {
-            query: graphQLQuery,
-            variables: graphQLFilters,
-          }
+          body: JSON.stringify({
+            cohort1: queryParameters.set1Filters,
+            cohort2: queryParameters.set2Filters,
+            doc_type: queryParameters.index,
+          }),
         };
       },
-      transformResponse: (response: GraphQLApiResponse) => response?.data?.viewer?.explore,
+      transformResponse: (response: VennDiagramResponse) => ({
+          set1:  response?.cohort1,
+          set2:  response?.cohort2,
+          intersection: response?.intersection
+        })
     }),
   }),
 });

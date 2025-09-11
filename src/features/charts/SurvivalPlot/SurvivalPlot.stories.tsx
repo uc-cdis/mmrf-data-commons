@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext} from '@/utils/contexts';
 import { GEN3_API} from '@gen3/core';
-import { useGetSurvivalPlotQuery, emptySurvivalPlot, SurvivalPlotTypes} from '@/core/survival';
+import { useGetSurvivalPlotQuery, EmptySurvivalPlot, SurvivalPlotTypes} from '@/core/survival';
 import survivalApiData from "@/core/survival/test/data.json";
 
 import SurvivalPlot from './SurvivalPlot';
@@ -13,14 +13,13 @@ import { http, HttpResponse } from 'msw';
 const SurvivalPlotWrapped = () => {
   const { data, isUninitialized, isFetching, isError } =
     useGetSurvivalPlotQuery({
-      case_filters: {},
-      filters: { } ,
+      filters: [] ,
     });
 
   return (
     <SurvivalPlot
       plotType={SurvivalPlotTypes.cohortComparison}
-      data={data === undefined ? emptySurvivalPlot : data}
+      data={data === undefined ? EmptySurvivalPlot : data}
     isLoading={false}/>
   );
 };

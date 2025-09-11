@@ -3,7 +3,8 @@
 
 const plugin = require('tailwindcss/plugin');
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { GEN3_COMMONS_NAME } = require('@gen3/core');
+const GEN3_COMMONS_NAME = process.env.GEN3_COMMONS_NAME || 'gen3';
+// const { GEN3_COMMONS_NAME } = require('@gen3/core');
 const themeColors = require(`./config/${GEN3_COMMONS_NAME}/themeColors.json`);
 const themeFonts = require(`./config/${GEN3_COMMONS_NAME}/themeFonts.json`);
 
@@ -46,22 +47,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        heal: {
-          primary: '#99286B',
-          secondary: '#402264',
-          light_purple: '#F6EFF1',
-          purple: '#532565',
-          magenta: '#982568',
-          red: '#981F32',
-          coral: '#BF362E',
-          orange: '#E07C3E',
-          dark_gray: '#373A3C',
-          medium_gray: '#818A91',
-          light_gray: '#DDDDDD',
-          blue: '#0044B3',
-        },
-        midrc: {
-          secondary: '#421C52',
+        "gdc-survival": {
+          0: "#8d3859",
+          1: "#FCA88D",
+          2: "#20313B",
+          3: "#D62728",
+          4: "#B94BB9",
+          5: "#8C564B",
+          6: "#D42BA1",
+          7: "#757575",
+          8: "#7A7A15",
+          9: "#10828E",
         },
         gen3: {
           secondary: '#3283C8',
@@ -111,7 +107,6 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms')({
       strategy: 'class',
@@ -126,6 +121,15 @@ module.exports = {
       addVariant('api-in-range', '&[api-in-range]');
       addVariant('api-first-in-range', '&[api-first-in-range]');
       addVariant('api-last-in-range', '&[api-last-in-range]');
+      addVariant('data-checked', '&[data-checked]');
+      addVariant('data-active', '&[data-active]');
+      addVariant('data-selected', '&[data-selected]');
+      addVariant('data-hovered', '&[data-hovered]');
+      addVariant('data-disabled', '&[data-disabled]');
+      addVariant('data-in-range', '&[data-in-range]');
+      addVariant('data-first-in-range', '&[data-first-in-range]');
+      addVariant('data-last-in-range', '&[data-last-in-range]');
+      addVariant('data-with-icon', '&[data-with-icon]');
     }),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
@@ -190,7 +194,49 @@ module.exports = {
     'text-tiny',
     'text-xxs',
     'text-xxxs',
+    'mmrf-plum',
+    'mmrf-sand',
+    'mmrf-platinum',
+    'mmrf-purple',
+    'mmrf-blush',
+    'mmrf-gunmetal',
+    'mmrf-lightgray',
+    'mmrf-seashell',
+    'mmrf-rust',
+    'mmrf-apricot',
     'h-20',
+    'text-tiny',
+    'text-xxs',
+    'text-xxxs',
+    'mt-10',
+    'mb-10',
+    'focus-visible:outline-none',
+    'focus-visible:ring-offset-2',
+    'focus:ring-offset-white',
+    'focus-visible:ring-inset',
+    'focus-visible:ring-2',
+    'focus-visible:ring-focusColor',
+    // survival plot colors
+    "bg-gdc-survival-0",
+    "bg-gdc-survival-1",
+    "bg-gdc-survival-2",
+    "bg-gdc-survival-3",
+    "bg-gdc-survival-4",
+    "bg-gdc-survival-5",
+    "bg-gdc-survival-6",
+    "bg-gdc-survival-7",
+    "bg-gdc-survival-8",
+    "bg-gdc-survival-9",
+    "text-gdc-survival-0",
+    "text-gdc-survival-1",
+    "text-gdc-survival-2",
+    "text-gdc-survival-3",
+    "text-gdc-survival-4",
+    "text-gdc-survival-5",
+    "text-gdc-survival-6",
+    "text-gdc-survival-7",
+    "text-gdc-survival-8",
+    "text-gdc-survival-9",
     {
       pattern:
         /bg-(primary|secondary|accent|accent-warm|accent-cool|base)-(min|lightest|lighter|light|dark|darker|darkest|max)/,
@@ -198,6 +244,10 @@ module.exports = {
     {
       pattern:
         /text-(primary|secondary|accent|accent-warm|accent-cool|base)-(min|lightest|lighter|light|dark|darker|darkest|max)/,
+    },
+    {
+      pattern:
+        /text-(primary|secondary|accent|accent-warm|accent-cool|base)-contrast-(min|lightest|lighter|light|dark|darker|darkest|max)/,
     },
     {
       pattern:

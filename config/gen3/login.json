@@ -17,6 +17,6 @@
       "className": "text-center text-sm mt-10"
     }
   ],
-  "image": "images/gene_side_texture.svg",
+  "image": "images/empty.svg",
   "showCredentialsLogin" : true
 }

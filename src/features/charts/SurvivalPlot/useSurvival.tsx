@@ -11,9 +11,9 @@ import { SurvivalElement, SurvivalDonor } from '@/core/survival';
 const textColors = [
   "#8d3859",
   "#FCA88D",
-  "#258825",
+  "#20313B",
   "#D62728",
-  "#8E5FB9",
+  "#B94BB9",
   "#8C564B",
   "#D42BA1",
   "#757575",

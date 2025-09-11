@@ -50,7 +50,7 @@ describe('<SwitchSpring />', () => {
 
     await userEvent.click(getByTestId('button-switchspring'));
 
-    expect(mockHandleSwitch).not.toBeCalled();
+    expect(mockHandleSwitch).not.toHaveBeenCalled();
   });
 
   it('switch spring should not have cursor-not-allowed class and have border-activeColor class when disabled prop is false', async () => {
@@ -69,6 +69,6 @@ describe('<SwitchSpring />', () => {
 
     await userEvent.click(getByTestId('button-switchspring'));
 
-    expect(mockHandleSwitch).toBeCalled();
+    expect(mockHandleSwitch).toHaveBeenCalled();
   });
 });

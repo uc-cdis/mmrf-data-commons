@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetSomaticMutationTableSubrowQuery } from '@/core';
+import { useGetSomaticMutationTableSubrowQuery } from '@/core/features/subrows';
 import { Row } from '@tanstack/react-table';
 import { SomaticMutation } from './types';
 import CommonSubcomponent from '../SharedComponent/CommonSubcomponent';
@@ -17,8 +17,8 @@ function SMTableSubcomponent({
   } = useGetSomaticMutationTableSubrowQuery({ id: row.original.mutation_id });
   return (
     <CommonSubcomponent
-      subData={subData}
-      subrowTitle="# Affected Cases Across The GDC"
+      subData={subData ?? []}
+      subrowTitle="# Affected Cases Across MMRF"
       isFetching={isFetching}
       isError={isError}
       isSuccess={isSuccess}

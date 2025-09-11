@@ -1,16 +1,12 @@
 import { KeyboardEventHandler } from 'react';
-import { CartFile, DataStatus } from '@/core';
+import {  DataStatus } from '@/core';
 import { replace, sortBy } from 'lodash';
 import { DocumentWithWebkit } from '@/features/types';
+import { FilterSet, CartItem} from '@gen3/core';
+import { joinFilters } from '@/core/utils';
 
-export interface FilterSet {
-  readonly root: Record<string, any>;
-  readonly mode: string;
-  readonly isLoggedIn?: boolean;
-}
 
 const DAYS_IN_YEAR = 365.25;
-declare const joinFilters: (a: FilterSet, b: FilterSet) => FilterSet;
 
 export const toggleFullScreen = async (
   ref: React.MutableRefObject<any>,
@@ -121,10 +117,10 @@ export const calculatePercentageAsString = (
   total: number,
 ): string => `${((count / total) * 100).toFixed(2)}%`;
 
-export const allFilesInCart = (carts: CartFile[], files: CartFile[]): boolean =>
+export const allFilesInCart = (carts: CartItem[], files: CartItem[]): boolean =>
   files?.every((file) => carts.some((cart) => cart.file_id === file.file_id));
 
-export const fileInCart = (cart: CartFile[], newId: string): boolean =>
+export const fileInCart = (cart: CartItem[], newId: string): boolean =>
   cart.map((f) => f.file_id).some((id) => id === newId);
 
 /**

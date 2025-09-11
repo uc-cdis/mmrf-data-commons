@@ -168,7 +168,7 @@ export const useGenerateSMTableColumns = ({
         header: () => (
           <HeaderTooltip
             title={`# Affected Cases
-          Across the GDC`}
+          Across MMRF`}
             tooltip={`# Cases where Mutation is observed /
            # Cases tested for Simple Somatic Mutations portal wide
            Expand to see breakdown by project`}

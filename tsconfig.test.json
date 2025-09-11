@@ -1,5 +1,10 @@
 {
   "extends": "./tsconfig.json",
-"compilerOptions": {
-"jsx": "react-jsx"
-}}
+  "preset": "ts-jest",
+  "isolatedModules": true,
+  "testEnvironment": "node",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node", "jest"] // Add "jest" here
+  }
+}
