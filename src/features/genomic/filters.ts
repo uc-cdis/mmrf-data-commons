@@ -1,52 +1,52 @@
-[
+import { FacetDefinition } from '@gen3/core';
+
+export const FilterFacets : Array<FacetDefinition> = [
   {
     "field": "genes.upload.gene_id",
-    "name": "Mutated Gene",
+    "label": "Mutated Gene",
     "type": "upload",
-    "index": "genes",
-    "toolTip": "Filter Mutation Frequency by entering/uploading specific genes or selecting gene sets"
+    "index": "gene",
   },
   {
     "field": "ssms.upload.ssm_id",
-    "name": "Somatic Mutation",
+    "label": "Somatic Mutation",
     "type": "upload",
-    "index": "ssms",
-    "toolTip": "Filter Mutation Frequency by entering/uploading specific Simple Somatic Mutations (SSMs) or selecting mutation sets"
+    "index": "ssm",
   },
   {
     "field": "genes.biotype",
-    "name": "Biotype",
+    "label": "Biotype",
     "type": "enum",
     "index": "genes"
   },
   {
     "field": "ssms.consequence.transcript.annotation.vep_impact",
-    "name": "VEP Impact",
+    "label": "VEP Impact",
     "type": "enum",
-    "index": "ssms"
+    "index": "ssm"
   },
   {
     "field": "ssms.consequence.transcript.annotation.sift_impact",
-    "name": "SIFT Impact",
+    "label": "SIFT Impact",
     "type": "enum",
-    "index": "ssms"
+    "index": "ssm"
   },
   {
     "field": "ssms.consequence.transcript.annotation.polyphen_impact",
-    "name": "Polyphen Impact",
+    "label": "Polyphen Impact",
     "type": "enum",
-    "index": "ssms"
+    "index": "ssm"
   },
   {
     "field": "ssms.consequence.transcript.consequence_type",
-    "name": "Consequence Type",
+    "label": "Consequence Type",
     "type": "enum",
-    "index": "ssms"
+    "index": "ssm"
   },
   {
     "field": "ssms.mutation_subtype",
-    "name": "Type",
+    "label": "Type",
     "type": "enum",
-    "index": "ssms"
+    "index": "ssm"
   }
 ]

@@ -41,7 +41,7 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 // import { humanify } from "@/utils/index";
 // import { useDeepCompareMemo } from "use-deep-compare";
 // import { appendSearchTermFilters } from "@/features/GenomicTables/utils";
-import FilterFacets from "@/features/genomic/filters.json";
+import FilterFacets from "@/features/genomic/filters";
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -171,10 +171,10 @@ export const useGenesFacetValues = (field: string) => {
 };
 
 export const useGenesFacets = (
-  docType: GQLDocType,
-  indexType: GQLIndexType,
+  index: string,
   fields: ReadonlyArray<string>,
   isDemoMode: boolean,
+  indexPrefix?: string,
 ): void => {
 };
 

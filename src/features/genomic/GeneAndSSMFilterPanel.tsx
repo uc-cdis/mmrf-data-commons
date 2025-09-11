@@ -1,6 +1,6 @@
 import React from "react";
 import { useCoreSelector, Modals, selectCurrentModal, FacetDefinition } from '@gen3/core';
-import FilterFacets from "@/features/genomic/filters.json";
+import { FilterFacets } from "@/features/genomic/filters";
 import {
   useClearGenomicFilters,
   useGenesFacets,
@@ -15,8 +15,8 @@ import {
   useTotalGenomicCounts,
   useClearAllGenomicFilters,
 } from "@/features/genomic/hooks";
-import { FacetDocTypeToLabelsMap } from "@/features/facets/hooks";
-import FiltersPanel as FilterPanel, useFieldNameToTitle }  from "@gen3/frontend";
+import { useGetAggsQuery } from '@gen3/core';
+import { DropdownPanel, useFieldNameToTitle, FacetDataHooks, EnumFacetDataHooks } from "@gen3/frontend";
 import { useAppSelector } from "./appApi";
 import { selectFiltersAppliedCount } from "./geneAndSSMFiltersSlice";
 import { useSearchEnumTerms } from "../cohortBuilder/hooks";
@@ -24,6 +24,23 @@ import {
   useOpenUploadModal,
   useUploadFilterItems,
 } from "@/features/genomic/hooks";
+import {
+  FacetQueryParameters,
+  FacetQueryResponse,
+} from '@/features/Repository/types';
+
+export const useGetFacetValuesQuery = (
+  args: FacetQueryParameters,
+): FacetQueryResponse => {
+  const { data, isSuccess, isFetching, isError } = useGetAggsQuery(args);
+
+  return {
+    data: data ?? {},
+    isError,
+    isFetching,
+    isSuccess,
+  };
+};
 
 const GeneAndSSMFilterPanel = ({
   isDemoMode,
@@ -33,30 +50,46 @@ const GeneAndSSMFilterPanel = ({
   const modal = useCoreSelector((state) => selectCurrentModal(state));
   const updateFilters = useUpdateGenomicEnumFacetFilter();
 
+  const {
+    data: geneFacetData,
+    isSuccess: isGeneFacetsQuerySuccess,
+    isFetching: isGeneFacetsQueryFetching,
+    isError: isGeneFacetsQueryError,
+  } = useGetFacetValuesQuery({
+    type: index,
+    fields: fields,
+    filters: repositoryFilters,
+    indexPrefix: indexPrefix,
+  });
+
+
   useGenesFacets(
-    "genes",
-    "explore",
-    FilterFacets.filter((f) => f.queryOptions.docType === "genes").map((x) =>
+    "gene",
+    FilterFacets.filter((f) => f.index === "genes").map((x) =>
       x.field.includes("upload") ? x.field.split(".upload").join("") : x.field,
     ),
     isDemoMode,
   );
   useGenesFacets(
-    "ssms",
-    "explore",
-    FilterFacets.filter((f) => f.queryOptions.docType === "ssms").map((x) =>
+    "ssm",
+    FilterFacets.filter((f) => f.index === "ssms").map((x) =>
       x.field.includes("upload") ? x.field.split(".upload").join("") : x.field,
     ),
     isDemoMode,
   );
+
+  const facetDefinitions = (FilterFacets satisfies Array<FacetDefinition>).reduce((acc: Record<string, FacetDefinition>, facet) => {
+    acc[facet.field] = facet;
+    return acc;
+  }, {})
 
   const allFiltersCollapsed = useAllFiltersCollapsed();
   const toggleAllFiltersExpanded = useToggleAllFilters();
   const filtersAppliedCount = useAppSelector(selectFiltersAppliedCount);
   const clearAllFilters = useClearAllGenomicFilters();
 
-  const GenomicFilterHooks = {
-    useGetEnumFacetData: useGenesFacetValues,
+  const GenomicFilterHooks : Record<'enum', FacetDataHooks | EnumFacetDataHooks> = { enum : {
+    useGetFacetData: useGenesFacetValues,
     useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
     useClearFilter: useClearGenomicFilters,
     useTotalCounts: useTotalGenomicCounts,
@@ -67,17 +100,14 @@ const GeneAndSSMFilterPanel = ({
     useSearchEnumTerms,
     useOpenUploadModal,
     useFilterItems: useUploadFilterItems,
-    useFormatValue,
-  };
+  }};
 
   return (
     <>
-      <FiltersPanel
-        facetDefinitions={FilterFacets as FacetDefinition[]}
-        facetHooks={GenomicFilterHooks}
-        valueLabel={({ index }: { index: string }) =>
-          FacetDocTypeToLabelsMap[docType]
-        }
+      <DropdownPanel<'enum'>
+        facetDefinitions={facetDefinitions}
+        facetDataHooks={GenomicFilterHooks}
+        valueLabel="Mutations"
         app="genes-mutations-app"
         toggleAllFiltersExpanded={toggleAllFiltersExpanded}
         allFiltersCollapsed={allFiltersCollapsed}
