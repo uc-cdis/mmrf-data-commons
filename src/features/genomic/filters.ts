@@ -1,6 +1,6 @@
 import { FacetDefinition } from '@gen3/core';
 
-export const FilterFacets : Array<FacetDefinition> = [
+const FilterFacets : Array<FacetDefinition> = [
   {
     "field": "genes.upload.gene_id",
     "label": "Mutated Gene",
@@ -50,3 +50,5 @@ export const FilterFacets : Array<FacetDefinition> = [
     "index": "ssm"
   }
 ]
+
+export default FilterFacets;
