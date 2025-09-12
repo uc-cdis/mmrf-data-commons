@@ -36,6 +36,6 @@ export const FIELD_LABELS  : { [key: string]: string } = {
   "demographic.gender": "Gender",
   "demographic.ethnicity": "Ethnicity",
   "demographic.race": "Race",
-  "demographic.vital_status": "Vital Status",
+  "demographic.vital_status": "Patient Status",
   "diagnoses.age_at_diagnosis": "Age at Diagnosis",
 };
