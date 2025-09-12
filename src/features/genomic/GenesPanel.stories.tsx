@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { expect, within } from 'storybook/test';
 import { GenesPanel } from './GenesPanel';
 import { registerGenesAndMutationFrequencyAnalysisTool } from '@/features/genomic/registerApp';
 import Gen3GDCCompatabilityProvider from '@/utils/providers';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext} from '@/utils/contexts';
 import { GEN3_API} from '@gen3/core';
@@ -7,7 +7,7 @@ import { useGetSurvivalPlotQuery, EmptySurvivalPlot, SurvivalPlotTypes} from '@/
 import survivalApiData from "@/core/survival/test/data.json";
 
 import SurvivalPlot from './SurvivalPlot';
-import { expect, within } from '@storybook/test';
+import { expect, within } from 'storybook/test';
 import { http, HttpResponse } from 'msw';
 
 const SurvivalPlotWrapped = () => {
