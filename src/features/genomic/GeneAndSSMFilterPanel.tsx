@@ -35,15 +35,19 @@ import {
 } from '@/features/Repository/types';
 
 export const useGetFacetValuesQuery = (
-  args: FacetQueryParameters,
+  geneFacets: FacetQueryParameters,
+  ssmFacets: FacetQueryParameters,
 ): FacetQueryResponse => {
-  const { data, isSuccess, isFetching, isError } = useGetAggsQuery(args);
 
+
+
+  const { data: geneData, isSuccess: geneIsSuccess, isFetching: geneIsFetching, isError: geneIsError } = useGetAggsQuery(geneFacets);
+  const { data: ssmData, isSuccess: ssmIsSuccess, isFetching: ssmIsFetching, isError: ssmIsError } = useGetAggsQuery(ssmFacets);
   return {
-    data: data ?? {},
-    isError,
-    isFetching,
-    isSuccess,
+    data: geneData ?? {},
+    isError : geneIsError || ssmIsError,
+    isFetching: geneIsFetching || ssmIsFetching,
+    isSuccess: geneIsSuccess || ssmIsSuccess,
   };
 };
 
@@ -60,12 +64,26 @@ const GeneAndSSMFilterPanel = ({
     isSuccess: isGeneFacetsQuerySuccess,
     isFetching: isGeneFacetsQueryFetching,
     isError: isGeneFacetsQueryError,
-  } = useGetFacetValuesQuery({
-    type: "genomic",
-    fields: [],
-    filters: EmptyFilterSet,
-    indexPrefix: "Genes_",
-  });
+  } = useGetFacetValuesQuery(
+    {
+      type: 'gene',
+      fields: ['biotype'],
+      filters: EmptyFilterSet,
+      indexPrefix: 'Gene_',
+    },
+    {
+      type: 'ssm',
+      fields: [
+        'consequence.transcript.annotation.vep_impact',
+        'consequence.transcript.annotation.sift_impact',
+        'consequence.transcript.annotation.polyphen_impact',
+        'consequence.transcript.annotation.sift_impact',
+        'mutation_subtype'
+      ],
+      filters: EmptyFilterSet,
+      indexPrefix: 'Ssm_',
+    },
+  );
 
   const filters = {
     tabs: [
