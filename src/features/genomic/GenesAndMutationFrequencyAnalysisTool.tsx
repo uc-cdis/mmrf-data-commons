@@ -15,6 +15,7 @@ import { TableXPositionContext } from '@/components/Table/VerticalTable';
 import { SecondaryTabStyle } from './constants';
 import { GenesPanel } from './GenesPanel';
 import { SSMSPanel } from './SSMSPanel';
+import GeneAndSSMFilterPanel from '@/features/genomic/GeneAndSSMFilterPanel';
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: 'and',
@@ -163,7 +164,13 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
         value={{ xPosition: tableXPosition, setXPosition: setTableXPosition }}
       >
         <div className="flex gap-4 m-4">
-          <h3>GeneAndSSMFilterPanel placeholder</h3>
+          <div
+            id="mutation-frequency-analysis-tool-filters"
+            data-testid="mutation-frequency-analysis-tool-filters"
+            className="flex-shrink-0 md:w-1/5 lg:w-1/6"
+          >
+          <GeneAndSSMFilterPanel />
+          </div>
           <Tabs
             variant="pills"
             value={appMode}

@@ -1,6 +1,12 @@
 import React from "react";
-import { useCoreSelector, Modals, selectCurrentModal, FacetDefinition } from '@gen3/core';
-import { FilterFacets } from "@/features/genomic/filters";
+import {
+  useCoreSelector,
+  Modals,
+  selectCurrentModal,
+  FacetDefinition,
+  EmptyFilterSet,
+} from '@gen3/core';
+import  FilterFacets from "@/features/genomic/filters";
 import {
   useClearGenomicFilters,
   useGenesFacets,
@@ -19,7 +25,6 @@ import { useGetAggsQuery } from '@gen3/core';
 import { DropdownPanel, useFieldNameToTitle, FacetDataHooks, EnumFacetDataHooks } from "@gen3/frontend";
 import { useAppSelector } from "./appApi";
 import { selectFiltersAppliedCount } from "./geneAndSSMFiltersSlice";
-import { useSearchEnumTerms } from "../cohortBuilder/hooks";
 import {
   useOpenUploadModal,
   useUploadFilterItems,
@@ -43,9 +48,9 @@ export const useGetFacetValuesQuery = (
 };
 
 const GeneAndSSMFilterPanel = ({
-  isDemoMode,
+  isDemoMode = false,
 }: {
-  isDemoMode: boolean;
+  isDemoMode?: boolean;
 }): JSX.Element => {
   const modal = useCoreSelector((state) => selectCurrentModal(state));
   const updateFilters = useUpdateGenomicEnumFacetFilter();
@@ -56,11 +61,24 @@ const GeneAndSSMFilterPanel = ({
     isFetching: isGeneFacetsQueryFetching,
     isError: isGeneFacetsQueryError,
   } = useGetFacetValuesQuery({
-    type: index,
-    fields: fields,
-    filters: repositoryFilters,
-    indexPrefix: indexPrefix,
+    type: "genomic",
+    fields: [],
+    filters: EmptyFilterSet,
+    indexPrefix: "Genes_",
   });
+
+  const filters = {
+    tabs: [
+      {
+        title: "Genes",
+        fields: [
+          "genes.biotype",
+          "ssms.consequence.transcript.annotation.vep_impact"
+        ],
+        fieldsConfig: {}
+      }
+    ]
+  }
 
 
   useGenesFacets(
@@ -97,24 +115,17 @@ const GeneAndSSMFilterPanel = ({
     useToggleExpandFilter: useToggleExpandFilter,
     useFilterExpanded: useFilterExpandedState,
     useFieldNameToTitle,
-    useSearchEnumTerms,
-    useOpenUploadModal,
-    useFilterItems: useUploadFilterItems,
   }};
 
   return (
     <>
       <DropdownPanel<'enum'>
+        index="genomic"
+        filters={filters}
         facetDefinitions={facetDefinitions}
         facetDataHooks={GenomicFilterHooks}
-        valueLabel="Mutations"
-        app="genes-mutations-app"
-        toggleAllFiltersExpanded={toggleAllFiltersExpanded}
-        allFiltersCollapsed={allFiltersCollapsed}
-        hideIfEmpty={false}
-        showPercent={false}
-        filtersAppliedCount={filtersAppliedCount}
-        handleClearAll={clearAllFilters}
+        showAccessLevel={false}
+        tabTitle={"Genomic Filters"}
       />
     </>
   );

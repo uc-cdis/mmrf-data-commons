@@ -127,9 +127,9 @@ export const useAllFiltersCollapsed = () => {
 };
 
 export const useTotalGenomicCounts = () => {
-  return () => {
+
     return 0;
-  };
+
 };
 
 
@@ -142,6 +142,7 @@ export const useTotalGenomicCounts = () => {
     error: null,
     isLoading: false,
     isSuccess: true,
+    isFetching: false,
     isError: false,
   };
 };

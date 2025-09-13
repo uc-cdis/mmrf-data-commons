@@ -51,7 +51,7 @@
           "loginRequired": false,
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
-          "href": "/app?=MutationFrequency",
+          "href": "/?app=MutationFrequency",
           "count": 1000,
           "countUnits": "Case"
         },
