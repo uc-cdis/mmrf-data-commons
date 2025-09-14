@@ -5,6 +5,11 @@ import {
   selectCurrentModal,
   FacetDefinition,
   EmptyFilterSet,
+  CombineMode,
+  isIntersection,
+  extractEnumFilterValue,
+  CoreState,
+  selectIndexFilters,
 } from '@gen3/core';
 import  FilterFacets from "@/features/genomic/filters";
 import {
@@ -22,9 +27,20 @@ import {
   useClearAllGenomicFilters,
 } from "@/features/genomic/hooks";
 import { useGetAggsQuery } from '@gen3/core';
-import { DropdownPanel, useFieldNameToTitle, FacetDataHooks, EnumFacetDataHooks } from "@gen3/frontend";
-import { useAppSelector } from "./appApi";
-import { selectFiltersAppliedCount } from "./geneAndSSMFiltersSlice";
+import {
+  DropdownPanel,
+  useFieldNameToTitle,
+  FacetDataHooks,
+  EnumFacetDataHooks,
+  removeIntersectionFromEnum,
+  processBucketData,
+  classifyFacets,
+} from '@gen3/frontend';
+import { AppState, useAppSelector } from './appApi';
+import {
+  selectFiltersAppliedCount,
+  selectGeneAndSSMFilters,
+} from './geneAndSSMFiltersSlice';
 import {
   useOpenUploadModal,
   useUploadFilterItems,
@@ -33,18 +49,21 @@ import {
   FacetQueryParameters,
   FacetQueryResponse,
 } from '@/features/Repository/types';
+import { useDeepCompareCallback, useDeepCompareEffect } from 'use-deep-compare';
 
-export const useGetFacetValuesQuery = (
+
+// TODO move to hooks
+ const useGetFacetValuesQuery = (
   geneFacets: FacetQueryParameters,
   ssmFacets: FacetQueryParameters,
 ): FacetQueryResponse => {
 
-
-
   const { data: geneData, isSuccess: geneIsSuccess, isFetching: geneIsFetching, isError: geneIsError } = useGetAggsQuery(geneFacets);
   const { data: ssmData, isSuccess: ssmIsSuccess, isFetching: ssmIsFetching, isError: ssmIsError } = useGetAggsQuery(ssmFacets);
+
+  console.log("Gene Data", geneData);
   return {
-    data: geneData ?? {},
+    data: { ...(geneData ?? {}) , ...(ssmData ?? {}) },
     isError : geneIsError || ssmIsError,
     isFetching: geneIsFetching || ssmIsFetching,
     isSuccess: geneIsSuccess || ssmIsSuccess,
@@ -59,11 +78,12 @@ const GeneAndSSMFilterPanel = ({
   const modal = useCoreSelector((state) => selectCurrentModal(state));
   const updateFilters = useUpdateGenomicEnumFacetFilter();
 
+  const genomicFilters = useAppSelector((state: AppState) => selectGeneAndSSMFilters(state));
   const {
-    data: geneFacetData,
-    isSuccess: isGeneFacetsQuerySuccess,
-    isFetching: isGeneFacetsQueryFetching,
-    isError: isGeneFacetsQueryError,
+    data: facetData,
+    isSuccess: isFacetsQuerySuccess,
+    isFetching: isFacetsQueryFetching,
+    isError: isFacetsQueryError,
   } = useGetFacetValuesQuery(
     {
       type: 'gene',
@@ -77,7 +97,7 @@ const GeneAndSSMFilterPanel = ({
         'consequence.transcript.annotation.vep_impact',
         'consequence.transcript.annotation.sift_impact',
         'consequence.transcript.annotation.polyphen_impact',
-        'consequence.transcript.annotation.sift_impact',
+        'consequence.transcript.consequence_type',
         'mutation_subtype'
       ],
       filters: EmptyFilterSet,
@@ -90,13 +110,48 @@ const GeneAndSSMFilterPanel = ({
       {
         title: "Genes",
         fields: [
-          "genes.biotype",
-          "ssms.consequence.transcript.annotation.vep_impact"
+          "biotype",
+          "consequence.transcript.annotation.vep_impact",
+          'consequence.transcript.annotation.sift_impact',
+          'consequence.transcript.annotation.polyphen_impact',
+          'consequence.transcript.annotation.sift_impact',
+          'consequence.transcript.consequence_type',
+          'mutation_subtype'
         ],
         fieldsConfig: {}
       }
     ]
   }
+
+  // Set the facet definitions based on the data only the first time the data is loaded
+  const getEnumFacetData = useDeepCompareCallback(
+    (field: string) => {
+      let filters = undefined;
+      let combineMode: CombineMode = 'or';
+      if (field in genomicFilters.root) {
+        if (isIntersection(genomicFilters.root[field])) {
+          const intersectionFilters = removeIntersectionFromEnum(
+            genomicFilters.root[field],
+          );
+          if (intersectionFilters) {
+            filters = extractEnumFilterValue(intersectionFilters);
+            combineMode = 'and';
+          }
+        } else {
+          filters = extractEnumFilterValue(genomicFilters.root[field]);
+        }
+      }
+
+      return {
+        data: processBucketData(facetData?.[field]),
+        enumFilters: filters,
+        combineMode: combineMode,
+        isSuccess: isFacetsQuerySuccess,
+        isFetching: isFacetsQueryFetching,
+      };
+    },
+    [genomicFilters.root, facetData, isFacetsQuerySuccess],
+  );
 
 
   useGenesFacets(
@@ -125,7 +180,7 @@ const GeneAndSSMFilterPanel = ({
   const clearAllFilters = useClearAllGenomicFilters();
 
   const GenomicFilterHooks : Record<'enum', FacetDataHooks | EnumFacetDataHooks> = { enum : {
-    useGetFacetData: useGenesFacetValues,
+    useGetFacetData: getEnumFacetData,
     useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
     useClearFilter: useClearGenomicFilters,
     useTotalCounts: useTotalGenomicCounts,
@@ -134,6 +189,9 @@ const GeneAndSSMFilterPanel = ({
     useFilterExpanded: useFilterExpandedState,
     useFieldNameToTitle,
   }};
+
+  console.log("Facet Definitions", facetDefinitions);
+  console.log("Facet Data", facetData);
 
   return (
     <>
