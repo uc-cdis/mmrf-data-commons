@@ -105,7 +105,11 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   );
 
   const processedData = useDeepCompareMemo(
-    () => processChartData(data),
+    () => processChartData(data ?? {
+      geneCounts: [],
+      casesTotal: 0,
+      genesTotal: 0,
+    }),
     [data],
   );
 
