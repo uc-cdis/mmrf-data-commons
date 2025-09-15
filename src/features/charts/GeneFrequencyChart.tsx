@@ -5,8 +5,8 @@ import { FilterSet } from '@/core';
 import ChartTitleBar from './ChartTitleBar';
 import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
-import { useGeneFrequencyChartData } from '../genomic/mockedHooks';
 import BarChartTextVersion from './BarChartTextVersion';
+import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice'
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -100,7 +100,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     [maxBins, genomicFilters, cohortFilters],
   );
 
-  const { data, isFetching, isLoading } = useGeneFrequencyChartData(
+  const { data, isFetching, isLoading } = useGeneFrequencyChartQuery(
     queryParams as any,
   );
 

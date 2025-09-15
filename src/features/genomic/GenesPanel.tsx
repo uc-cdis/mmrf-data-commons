@@ -9,9 +9,9 @@ import {
 } from '@/features/genomic/types';
 import {
   useSelectFilterContent,
-  // useGeneAndSSMPanelData,
+  useGeneAndSSMPanelData,
 } from '@/features/genomic/hooks';
-import { useGeneAndSSMPanelData } from './mockedHooks';
+
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
@@ -49,14 +49,14 @@ export const GenesPanel = ({
 }: GenesPanelProps): JSX.Element => {
   const {
     isDemoMode,
-    currentCohortFilters,
+    cohortFilters: currentCohortFilters,
     genomicFilters,
     overwritingDemoFilter,
     survivalPlotData,
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
-  const cohortFilters = currentCohortFilters;
+  const cohortFilters = currentCohortFilters['case'];
 
   const currentGenes = useSelectFilterContent('genes.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);
