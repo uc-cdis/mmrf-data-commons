@@ -15,6 +15,7 @@ import {
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
+import { EmptyFilterSet } from '@gen3/core';
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -56,7 +57,7 @@ export const GenesPanel = ({
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
-  const cohortFilters = currentCohortFilters['case'];
+  const cohortFilters = currentCohortFilters?.['case'] ?? EmptyFilterSet;
 
   const currentGenes = useSelectFilterContent('genes.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);

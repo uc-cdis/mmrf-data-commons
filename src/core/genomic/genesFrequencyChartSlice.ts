@@ -114,15 +114,15 @@ const geneFrequencyChartSlice = guppyApi.injectEndpoints({
       transformResponse: (response) => {
         const data = response.data;
         return {
-          casesTotal: data.cases.case_centric.case_id._totalCount,
-          genesTotal: data.geneCounts.gene.gend_id._totalCount,
-          geneCounts: data.genes.map(
+          casesTotal: data?.cases?.case_centric?.case_id?._totalCount ?? 0,
+          genesTotal: data?.geneCounts?.gene?.gend_id?._totalCount,
+          geneCounts: data?.genes?.map(
             ({ node }: { node: GeneFrequencyEntryResponse }) => ({
               gene_id: node.gene_id,
               numCases: node.case.length,
               symbol: node.symbol,
-            }),
-          ),
+            })
+          ) ?? [],
         };
       },
     }),
