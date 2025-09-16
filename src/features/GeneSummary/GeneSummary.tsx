@@ -68,6 +68,7 @@ export const GeneSummary = ({
   const { data, isFetching } = useGeneSummaryQuery({
     gene_id,
   });
+  console.log('THIS IS THE DATA WE WANT TO MOCK', data);
 
   return (
     <>
@@ -269,7 +270,7 @@ const GeneView = ({
       {data && (
         <>
           <SummaryHeader
-            iconPath='/icons/genes.svg'
+            iconPath="/icons/genes.svg"
             headerTitleLeft="GENE"
             headerTitle={data.symbol}
             isModal={isModal}
