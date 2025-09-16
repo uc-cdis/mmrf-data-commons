@@ -104,6 +104,8 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     queryParams as any,
   );
 
+  console.log("GeneFrequencyChart", data)
+
   const processedData = useDeepCompareMemo(
     () => processChartData(data ?? {
       geneCounts: [],
@@ -156,7 +158,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
           onAfterPlot={handlePlotlyAfterPlot}
         />
       </div>
-      <BarChartTextVersion className="mt-[20px]" data={jsonData} />
+      <BarChartTextVersion className="mt-[20px]" data={jsonData ?? []} />
     </div>
   );
 };

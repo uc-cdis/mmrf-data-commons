@@ -92,14 +92,13 @@ const geneFrequencyChartSlice = guppyApi.injectEndpoints({
           geneCaseFilter: {
             "and": [
               {
-                "nested": {
-                  "path": "cases",
+
                   "in": {
                     "available_variation_data": [
                       "ssm"
                     ]
                   }
-                }
+
               },
               ...cohortFiltersContent,
             ],
@@ -113,15 +112,21 @@ const geneFrequencyChartSlice = guppyApi.injectEndpoints({
       },
       transformResponse: (response) => {
         const data = response.data;
+
+        console.log("data", data);
         return {
           casesTotal: data?.cases?.case_centric?.case_id?._totalCount ?? 0,
           genesTotal: data?.geneCounts?.gene?.gend_id?._totalCount,
           geneCounts: data?.genes?.map(
-            ({ node }: { node: GeneFrequencyEntryResponse }) => ({
+            ( node : GeneFrequencyEntryResponse ) => {
+
+              const case_set = new Set(node.case.map((x) => x.case_id))
+              console.log("set");
+              return ({
               gene_id: node.gene_id,
-              numCases: node.case.length,
+              numCases: case_set.size,
               symbol: node.symbol,
-            })
+            }) }
           ) ?? [],
         };
       },
