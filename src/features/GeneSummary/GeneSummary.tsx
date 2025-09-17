@@ -68,7 +68,6 @@ export const GeneSummary = ({
   const { data, isFetching } = useGeneSummaryQuery({
     gene_id,
   });
-  console.log('THIS IS THE DATA WE WANT TO MOCK', data);
 
   return (
     <>
