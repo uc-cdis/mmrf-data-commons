@@ -14,6 +14,7 @@ import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
 import { GeneSummaryMockData, mockData } from './mockData/GeneSummaryMockData';
 import { CancerDistributionMockData } from './mockData/CancerDistributionMockData';
+import { SsmsTableMockData } from './mockData/SsmsTableMockData';
 
 /*
  * Initializes MSW
@@ -80,12 +81,17 @@ const preview: Preview = {
               const body = await request.json(); // Parse the JSON body
               const { query } = body as any;
               // Check if the query contains the string "GeneSummary"
-              if (query.includes('GeneSummary')) {
+              if (query.includes('GeneSummary(')) {
                 console.log('GeneSummary query detected');
                 return HttpResponse.json(GeneSummaryMockData);
-              } else if (query.includes('CancerDistribution')) {
+              }
+              if (query.includes('CancerDistribution(')) {
                 console.log('CancerDistribution query detected');
                 return HttpResponse.json(CancerDistributionMockData);
+              }
+              if (query.includes('SsmsTable(')) {
+                console.log('SsmsTable query detected');
+                return HttpResponse.json(SsmsTableMockData);
               }
             },
           ),
