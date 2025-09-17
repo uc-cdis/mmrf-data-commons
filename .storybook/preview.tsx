@@ -12,6 +12,7 @@ import icons from './loadIcons';
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
+import { mockData } from './mockGuppyData';
 
 /*
  * Initializes MSW
@@ -74,54 +75,17 @@ const preview: Preview = {
           // Add the Gene Summary handler here
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
-            (req) => {
-              const gene_id = 7;
-              // Mock response data
-              const mockData = {
-                data: {
-                  gene: [
-                    {
-                      biotype: 'protein_coding',
-                      description: 'Example description',
-                      external_db_ids: {
-                        entrez_gene: ['7157'],
-                        hgnc: ['HGNC:11998'],
-                        omim_gene: ['191170'],
-                        uniprotkb_swissprot: ['P04637'],
-                      },
-                      gene_chromosome: '17',
-                      gene_start: 7661779,
-                      gene_id: 'ENSG00000141510',
-                      gene_end: 7687538,
-                      name: 'tumor protein p53',
-                      symbol: 'TP53',
-                      synonyms: ['LFS1', 'p53'],
-                      is_cancer_gene_census: true,
-                    },
-                  ],
-                  ssms: {
-                    ssm: {
-                      clinical_annotations: {
-                        civic: {
-                          gene_id: {
-                            histogram: [
-                              {
-                                key: '45',
-                                count: 3,
-                              },
-                              {
-                                key: 'no data',
-                                count: 45,
-                              },
-                            ],
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              };
-              return HttpResponse.json(mockData);
+            async ({ request }) => {
+              const body = await request.json(); // Parse the JSON body
+
+              const { query } = body as any;
+              // Check if the query contains the string "GeneSummary"
+              if (query.includes('GeneSummary')) {
+                console.log('GeneSummary query detected');
+                return HttpResponse.json(mockData);
+              } else if (query.includes('cancerDistribution')) {
+                return null;
+              }
             },
           ),
         ],
