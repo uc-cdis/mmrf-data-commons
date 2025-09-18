@@ -6,7 +6,7 @@ import ChartTitleBar from './ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import BarChartTextVersion from './BarChartTextVersion';
 import { PlotMouseEvent } from 'plotly.js';
-import { FilterSet,  EmptyFilterSet } from '@gen3/core';
+import { FilterSet, EmptyFilterSet } from '@gen3/core';
 
 const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
@@ -41,6 +41,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
       genomicFilters: genomicFilters ?? EmptyFilterSet,
     },
   );
+  console.log('useSsmPlotQuery data', data);
 
   if (isUninitialized) {
     return <div>Initializing chart...</div>;
@@ -52,16 +53,18 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
 
   if (isError) {
     const message = 'An error occurred';
-    return (
-      <div>
-        Failed to fetch chart:{' '}
-        {message}
-      </div>
-    );
+    return <div>Failed to fetch chart: {message}</div>;
   }
 
   if (!data || data?.cases?.length < 5) {
-    return null;
+    return (
+      <div
+        data-testid="graph-cancer-distribution-mutations"
+        className="border border-base-lighter p-4"
+      >
+        Insufficient Data for SSM Plot
+      </div>
+    );
   }
 
   interface dataCase {

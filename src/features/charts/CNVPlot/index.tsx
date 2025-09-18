@@ -56,7 +56,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     cohortFilters,
     genomicFilters,
   });
-  console.log('data fron CNVplot', data);
+  console.log('useCnvPlotQuery data', data);
 
   const [checkboxState, setCheckboxState] = useState<CheckboxState>({
     amplification: true,
@@ -193,7 +193,15 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     return preparedData;
   }, [top20ChartData, anyCheckboxSelected]);
 
-  if (!isFetching && projectKeys.length < 5) return null;
+  if (!isFetching && projectKeys.length < 5)
+    return (
+      <div
+        data-testid="graph-cancer-distribution-cnv"
+        className="border border-base-lighter p-4"
+      >
+        Insufficient Data for CNV Plot
+      </div>
+    );
 
   const errorMessage =
     typeof error === 'string'
