@@ -15,6 +15,8 @@ import '@fontsource/poppins';
 import { GeneSummaryMockData, mockData } from './mockData/GeneSummaryMockData';
 import { CancerDistributionMockData } from './mockData/CancerDistributionMockData';
 import { SsmsTableMockData } from './mockData/SsmsTableMockData';
+import { CancerDistributionCNVMockData } from './mockData/CancerDistributionCNVMockData';
+import { CancerDistributionTableMockData } from './mockData/ CancerDistributionTableMockData';
 
 /*
  * Initializes MSW
@@ -84,12 +86,16 @@ const preview: Preview = {
               if (query.includes('GeneSummary(')) {
                 console.log('GeneSummary query detected');
                 return HttpResponse.json(GeneSummaryMockData);
-              }
-              if (query.includes('CancerDistribution(')) {
+              } else if (query.includes('CancerDistribution(')) {
                 console.log('CancerDistribution query detected');
                 return HttpResponse.json(CancerDistributionMockData);
-              }
-              if (query.includes('SsmsTable(')) {
+              } else if (query.includes('CancerDistributionCNV(')) {
+                console.log('CancerDistributionCNV( query detected');
+                return HttpResponse.json(CancerDistributionCNVMockData);
+              } else if (query.includes(' CancerDistributionTable(')) {
+                console.log(' CancerDistributionTable( query detected');
+                return HttpResponse.json(CancerDistributionTableMockData);
+              } else if (query.includes('SsmsTable(')) {
                 console.log('SsmsTable query detected');
                 return HttpResponse.json(SsmsTableMockData);
               }
