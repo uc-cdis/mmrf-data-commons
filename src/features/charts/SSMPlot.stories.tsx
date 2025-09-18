@@ -5,7 +5,7 @@ import SSMPlot from './SSMPlot';
 
 const meta = {
   component: SSMPlot,
-  title: 'components/SSMPlot',
+  title: 'features/charts/SSMPlot',
   parameters: {
     deepControls: { enabled: true },
   },
@@ -27,7 +27,7 @@ export const Default: Story = {
       'graph-cancer-distribution-mutations',
       'chart-text-version',
     ];
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();

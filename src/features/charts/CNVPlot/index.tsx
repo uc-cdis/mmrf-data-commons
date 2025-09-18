@@ -4,7 +4,7 @@ import { orderBy } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { FilterSet } from '@gen3/core';
-import { useCnvPlotQuery} from '@/core/features/cancerDistribution';
+import { useCnvPlotQuery } from '@/core/features/cancerDistribution';
 import ChartTitleBar from '../ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import { LoadingOverlay, Tooltip } from '@mantine/core';
@@ -56,6 +56,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     cohortFilters,
     genomicFilters,
   });
+  console.log('data fron CNVplot', data);
 
   const [checkboxState, setCheckboxState] = useState<CheckboxState>({
     amplification: true,
@@ -200,7 +201,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
       : ((error as GraphQLFetchError)?.text ?? 'An error occurred');
 
   if (isError) {
-    return <div>Failed to fetch chart: {errorMessage}</div>;
+    return <div className="mt-20">Failed to fetch chart: {errorMessage}</div>;
   }
 
   return (

@@ -17,6 +17,8 @@ import { CancerDistributionMockData } from './mockData/CancerDistributionMockDat
 import { SsmsTableMockData } from './mockData/SsmsTableMockData';
 import { CancerDistributionCNVMockData } from './mockData/CancerDistributionCNVMockData';
 import { CancerDistributionTableMockData } from './mockData/ CancerDistributionTableMockData';
+import { SSMSummaryQueryMockData } from './mockData/SSMSummaryQueryMockData';
+import { ConsequencesTableMockData } from './mockData/ConsequencesTableMockData';
 
 /*
  * Initializes MSW
@@ -98,6 +100,12 @@ const preview: Preview = {
               } else if (query.includes('SsmsTable(')) {
                 console.log('SsmsTable query detected');
                 return HttpResponse.json(SsmsTableMockData);
+              } else if (query.includes('SSMSummaryQuery(')) {
+                console.log('SSMSummaryQuery( query detected');
+                return HttpResponse.json(SSMSummaryQueryMockData);
+              } else if (query.includes('ConsequencesTable')) {
+                console.log('ConsequencesTable( query detected');
+                return HttpResponse.json(ConsequencesTableMockData);
               }
             },
           ),
