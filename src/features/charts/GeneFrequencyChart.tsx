@@ -6,17 +6,12 @@ import ChartTitleBar from './ChartTitleBar';
 import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import BarChartTextVersion from './BarChartTextVersion';
-import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice'
+import { GenesFrequencyChart} from '@/core/genomic/genesFrequencyChartSlice';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
   readonly numCases: number;
   readonly symbol: string;
-}
-interface GenesFrequencyChart {
-  readonly geneCounts: ReadonlyArray<GeneFrequencyEntry>;
-  readonly casesTotal: number;
-  readonly genesTotal: number;
 }
 
 const CHART_NAME = 'most-frequently-mutated-genes-bar-chart';
@@ -38,23 +33,23 @@ const processChartData = (
       datasets: [],
     };
 
-  const xindex = chartData.geneCounts.map((_i, index) => index);
-  const xvals = chartData.geneCounts.map((i) => i.symbol);
+  const xindex = chartData.genes.map((_i, index) => index);
+  const xvals = chartData.genes.map((i) => i.symbol);
 
   return {
     datasets: [
       {
         x: xindex,
-        y: chartData.geneCounts.map(
-          (x) => (x.numCases / chartData.casesTotal) * 100,
+        y: chartData.genes.map(
+          (x) => (x.numCases / chartData.filteredCases) * 100,
         ),
         marker: {
           color: '#319fbe',
         },
         hovertemplate: hovertemplate,
-        customdata: chartData.geneCounts.map((d) => [
+        customdata: chartData.genes.map((d) => [
           d.numCases?.toLocaleString(),
-          chartData.casesTotal?.toLocaleString(),
+          chartData.filteredCases?.toLocaleString(),
         ]),
       },
     ],
@@ -76,7 +71,11 @@ interface GeneFrequencyChartProps {
   readonly maxBins?: number;
   readonly orientation?: string;
   readonly cohortFilters?: FilterSet;
+  readonly chartData?: GenesFrequencyChart;
+  readonly isFetching: boolean;
+  readonly isError: boolean;
 }
+
 
 export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   genomicFilters = undefined,
@@ -86,50 +85,77 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   maxBins = 20,
   orientation = 'v',
   cohortFilters = undefined,
+  chartData = {
+    genes: [],
+    filteredCases: 0,
+    genesTotal: 0,
+  },
+  isFetching,
+  isError
 }: GeneFrequencyChartProps) => {
   const [isPending, startTransition] = useTransition();
   const [isChartRendering, setIsChartRendering] = useState(true);
 
-  const queryParams = useDeepCompareMemo(
-    () => ({
-      pageSize: maxBins,
-      offset: 0,
-      genomicFilters,
-      cohortFilters,
-    }),
-    [maxBins, genomicFilters, cohortFilters],
-  );
+// extract geneFilters from genomicFilters
+//   const geneFilters = {
+//     mode: 'and',
+//     root: Object.fromEntries(
+//       Object.entries(genomicFilters?.root || {}).filter(([key]) =>
+//         GENE_FILTERS.includes(key),
+//       ),
+//     ),
+//   };
+//
+//   const ssmFilters = {
+//     mode: 'and',
+//     root: Object.fromEntries(
+//       Object.entries(genomicFilters?.root || {}).filter(
+//         ([key]) => !GENE_FILTERS.includes(key),
+//       ),
+//     ),
+//   };
 
-  const { data, isFetching, isLoading } = useGeneFrequencyChartQuery(
-    queryParams as any,
-  );
 
-  console.log("GeneFrequencyChart", data)
+  // const queryParams = useDeepCompareMemo(
+  //   () => ({
+  //     pageSize: maxBins,
+  //     offset: 0,
+  //     geneFilters,
+  //     ssmFilters,
+  //     cohortFilters,
+  //   }),
+  //   [maxBins, genomicFilters, cohortFilters],
+  // );
+
+  // const { data, isFetching, isLoading } = useGeneFrequencyChartQuery(
+  //   queryParams as any,
+  // );
+
 
   const processedData = useDeepCompareMemo(
-    () => processChartData(data ?? {
+    () => processChartData(chartData ?? {
       geneCounts: [],
-      casesTotal: 0,
+      filteredCases: 0,
       genesTotal: 0,
     }),
-    [data],
+    [chartData],
   );
 
   useDeepCompareEffect(() => {
-    if (data) {
+    if (chartData) {
       startTransition(() => {
         setIsChartRendering(true);
       });
     }
-  }, [data]);
+  }, [chartData]);
 
   const handlePlotlyAfterPlot = () => {
     setIsChartRendering(false);
   };
 
-  const jsonData = data?.geneCounts?.map((gene) => ({
+  const jsonData = chartData?.genes?.map((gene) => ({
     label: gene.symbol,
-    value: (gene.numCases / data.casesTotal) * 100,
+    value: (gene.numCases / chartData.filteredCases) * 100,
   }));
 
   return (
@@ -145,7 +171,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
       <div className="w-100 h-100 relative mt-10">
         <LoadingOverlay
           data-testid="loading-spinner"
-          visible={isFetching || isLoading || isPending || isChartRendering}
+          visible={isFetching || isPending || isChartRendering}
           zIndex={1}
         />
         <BarChart

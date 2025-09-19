@@ -87,6 +87,8 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any} // TODO: remove this cast
   }
 
+  console.log(appInfo)
+
 
   return (
     <>

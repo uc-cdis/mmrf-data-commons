@@ -1,13 +1,9 @@
 import {
-  Union,
-  guppyApi,
+  gen3Api,
   FilterSet,
-  convertFilterToGqlFilter,
-  UnionOrIntersection,
-  filterSetToOperation,
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
 } from '@gen3/core';
-import { TablePageOffsetProps} from '@/core';
+import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
+import { GEN3_ANALYSIS_API, TablePageOffsetProps} from '@/core';
 import { extractContents } from '@/core/utils';
 
 
@@ -50,7 +46,8 @@ const GeneMutationFrequencyQuery = `
 `;
 
 export interface GeneFrequencyTableProps extends TablePageOffsetProps {
-  genomicFilters: FilterSet;
+  geneFilters: FilterSet;
+  ssmFilters: FilterSet;
   cohortFilters: FilterSet;
 }
 
@@ -67,67 +64,50 @@ readonly case: {
 }
 
 export interface GenesFrequencyChart {
-  readonly geneCounts: ReadonlyArray<GeneFrequencyEntry>;
-  readonly casesTotal: number;
+  readonly genes: ReadonlyArray<GeneFrequencyEntry>;
+  readonly filteredCases: number;
   readonly genesTotal: number;
+  readonly cnvCases?: number;
 }
 
-const geneFrequencyChartSlice = guppyApi.injectEndpoints({
+const geneFrequencyChartSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
     geneFrequencyChart: builder.query<
       GenesFrequencyChart,
       GeneFrequencyTableProps
     >({
-      query: ({ cohortFilters, genomicFilters, pageSize = 20, offset = 0 }) => {
-        const caseFilters = buildCohortGqlOperator(cohortFilters);
-        const cohortFiltersContent = extractContents(caseFilters)
-          ? Object(extractContents(caseFilters))
-          : [];
+      query: ({ cohortFilters, geneFilters, ssmFilters, pageSize= 20, offset = 0 }) => {
+        const caseFilters = convertFilterSetToNestedGqlFilter(cohortFilters);
+        const geneFilterContents = extractContents(convertFilterSetToNestedGqlFilter(geneFilters)) ?? []
+        const ssmFilterContents = extractContents(convertFilterSetToNestedGqlFilter(ssmFilters)) ?? []
 
-        const graphQlVariables = {
-          geneFrequencyChart_filters:
-            buildCohortGqlOperator(genomicFilters) ?? {},
-          geneFrequencyChart_size: pageSize,
-          geneFrequencyChart_offset: offset,
-          geneCaseFilter: {
+        const request = {
+          case_filters: caseFilters ? caseFilters : {},
+          gene_filters: {
             "and": [
-              {
 
-                  "in": {
-                    "available_variation_data": [
-                      "ssm"
-                    ]
-                  }
-
-              },
-              ...cohortFiltersContent,
+              ...geneFilterContents,
+            ],
+          },
+          ssm_filters: {
+            "and": [
+              ...ssmFilterContents,
             ],
           },
         };
 
-        return {
-          query: GeneMutationFrequencyQuery,
-          variables: graphQlVariables,
-        };
-      },
-      transformResponse: (response) => {
+        return ({
+          url:`${GEN3_ANALYSIS_API}/cohorts/top_genes_in_cohort`,
+          method: 'POST',
+          body:  JSON.stringify(request),
+        }) },
+      transformResponse: (response: any) => {
         const data = response.data;
-
-        console.log("data", data);
         return {
-          casesTotal: data?.cases?.case_centric?.case_id?._totalCount ?? 0,
-          genesTotal: data?.geneCounts?.gene?.gend_id?._totalCount,
-          geneCounts: data?.genes?.map(
-            ( node : GeneFrequencyEntryResponse ) => {
-
-              const case_set = new Set(node.case.map((x) => x.case_id))
-              console.log("set");
-              return ({
-              gene_id: node.gene_id,
-              numCases: case_set.size,
-              symbol: node.symbol,
-            }) }
-          ) ?? [],
+          filteredCases: data?.totalCases ?? 0,
+          cnvCases: 0, // TODO: add cnv data
+          genesTotal: data?.totalGenes ?? 0,
+          genes: data?.genes ?? [],
         };
       },
     }),

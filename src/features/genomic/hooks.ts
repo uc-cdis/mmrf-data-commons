@@ -17,7 +17,7 @@ import {
 } from '@gen3/core';
 import {
   type SurvivalPlotData,
-  useGetSurvivalPlotQuery,
+  useGetComparisonSurvivalPlotQuery,
 } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { EmptySurvivalPlot } from "@/core/survival/types";
@@ -210,8 +210,6 @@ const currentCohortFilters = useCoreSelector((state) =>
   selectCurrentCohortFilters(state),
 );
 
-console.log("currentCohortFilters", currentCohortFilters);
-
 const genomicFilters: FilterSet = useAppSelector((state:AppState) =>
   selectGeneAndSSMFilters(state),
 );
@@ -253,14 +251,16 @@ const {
   data: survivalPlotData,
   isFetching: survivalPlotFetching,
   isSuccess: survivalPlotReady,
-} = useGetSurvivalPlotQuery({
-  caseFilters: cohortFilters,
+} = useGetComparisonSurvivalPlotQuery({
   filters:
     comparativeSurvival !== undefined
       ? memoizedFilters
       : localFilters
       ? [localFilters]
       : [],
+  index: "CaseCentric_case_centric",
+  field: "case_id",
+  useIntersection: false
 });
 
 return {
@@ -430,8 +430,6 @@ export const useOpenUploadModal = () => {
   /* Gen3  uses a different modal system will update later */
   /* ---- TODO: update to use Gen3 modal system
   const coreDispatch = useCoreDispatch();
-
-
   const openUploadModal = (field: string) => {
     if (field === "genes.upload.gene_id") {
       coreDispatch(showModal({ modal: Modals.LocalGeneSetModal }));

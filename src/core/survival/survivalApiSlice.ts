@@ -27,6 +27,7 @@ interface SurvivalPlotCompareRequest {
   filters: ReadonlyArray<GQLFilter>;
   index: string;
   field: string;
+  useIntersection?: boolean;
 }
 
 

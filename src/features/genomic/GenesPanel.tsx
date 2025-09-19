@@ -2,7 +2,7 @@ import { LoadingOverlay } from '@mantine/core';
 // import { GeneFrequencyChart } from "@/features/charts/GeneFrequencyChart";
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
 import React, { useCallback } from 'react';
-import { useDeepCompareMemo } from 'use-deep-compare';
+import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,
   emptySurvivalPlot,
@@ -16,6 +16,7 @@ import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 import { EmptyFilterSet } from '@gen3/core';
+import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice';
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -41,6 +42,8 @@ interface GenesPanelProps {
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
 }
 
+const GENE_FILTERS = ['biotype'];
+
 export const GenesPanel = ({
   topGeneSSMSSuccess,
   comparativeSurvival,
@@ -65,18 +68,73 @@ export const GenesPanel = ({
     (idAndSymbol: Record<string, any>) =>
       handleGeneAndSSmToggled(
         toggledGenes,
-        'genes.gene_id',
+        'gene.gene_id',
         'geneID',
         idAndSymbol,
       ),
     [handleGeneAndSSmToggled, toggledGenes],
   );
 
+  // extract geneFilters from genomicFilters
+  const geneFilters = {
+    mode: 'and',
+    root: Object.fromEntries(
+      Object.entries(genomicFilters?.root || {}).filter(([key]) =>
+        GENE_FILTERS.includes(key),
+      ),
+    ),
+  };
+
+  const ssmFilters = {
+    mode: 'and',
+    root: Object.fromEntries(
+      Object.entries(genomicFilters?.root || {}).filter(
+        ([key]) => !GENE_FILTERS.includes(key),
+      ),
+    ),
+  };
+
+
+  const queryParams = useDeepCompareMemo(
+    () => ({
+      pageSize: 10000,
+      offset: 0,
+      geneFilters,
+      ssmFilters,
+      cohortFilters,
+    }),
+    [geneFilters,ssmFilters, cohortFilters],
+  );
+
+  /**
+   * Different that GDC as we are querying the whole table and not just the top 20 genes. The
+   * query data is used for the table and the chart.
+   */
+  const { data: topGenesData, isFetching, isSuccess, isError, isUninitialized, isLoading } = useGeneFrequencyChartQuery(
+    queryParams as any,
+  );
+
+  useDeepCompareEffect(() => {
+    if (topGenesData && topGenesData.genes.length > 0 && comparativeSurvival?.symbol !==  topGenesData.genes[0].symbol) {
+
+      handleSurvivalPlotToggled(
+        topGenesData.genes[0].symbol,
+        topGenesData.genes[0].symbol,
+        'gene.symbol',
+      );
+    }
+  }, [topGenesData, handleSurvivalPlotToggled, comparativeSurvival]);
+
   return (
     <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
         <div className="w-full xl:w-1/2 border border-base-lighter p-4">
           <GeneFrequencyChart
+            chartData={topGenesData ? { genes: topGenesData?.genes.slice(0, 20), filteredCases: topGenesData?.filteredCases, genesTotal: topGenesData?.genesTotal, cnvCases: topGenesData?.cnvCases
+
+            } : undefined}
+            isFetching={isFetching}
+            isError={isError}
             marginBottom={95}
             genomicFilters={genomicFilters}
             cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
@@ -88,7 +146,7 @@ export const GenesPanel = ({
             data-testid="loading-spinner"
             visible={
               survivalPlotFetching ||
-              (!survivalPlotReady && !topGeneSSMSSuccess)
+              (!survivalPlotReady && !isSuccess)
             }
           />
           <SurvivalPlot
@@ -117,6 +175,16 @@ export const GenesPanel = ({
         cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
         isDemoMode={isDemoMode}
         handleMutationCountClick={handleMutationCountClick}
+        isFetching={isFetching || isLoading || isUninitialized}
+        isError={isError}
+        isSuccess={isSuccess}
+        data={ topGenesData ? { ...topGenesData, cases: 995, mutationCounts: {} }: {
+          genes: [],
+          filteredCases: 0,
+          genesTotal: 0,
+          cases: 0,
+          mutationCounts: {}
+        }}
       />
     </div>
   );

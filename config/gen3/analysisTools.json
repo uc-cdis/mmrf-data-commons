@@ -53,6 +53,8 @@
           "icon": "/icons/apps/MutationFrequency.svg",
           "href": "/?app=MutationFrequency",
           "count": 1000,
+          "count": 1000,
+          "appId" : "MutationFrequency",
           "countUnits": "Case"
         },
         {

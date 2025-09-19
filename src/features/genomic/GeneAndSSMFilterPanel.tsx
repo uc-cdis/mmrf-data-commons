@@ -10,6 +10,7 @@ import {
   extractEnumFilterValue,
   CoreState,
   selectIndexFilters,
+  buildNestedFilterForOperation,
 } from '@gen3/core';
 import  FilterFacets from "@/features/genomic/filters";
 import {
@@ -61,7 +62,6 @@ import { useDeepCompareCallback, useDeepCompareEffect } from 'use-deep-compare';
   const { data: geneData, isSuccess: geneIsSuccess, isFetching: geneIsFetching, isError: geneIsError } = useGetAggsQuery(geneFacets);
   const { data: ssmData, isSuccess: ssmIsSuccess, isFetching: ssmIsFetching, isError: ssmIsError } = useGetAggsQuery(ssmFacets);
 
-  console.log("Gene Data", geneData);
   return {
     data: { ...(geneData ?? {}) , ...(ssmData ?? {}) },
     isError : geneIsError || ssmIsError,
@@ -79,6 +79,7 @@ const GeneAndSSMFilterPanel = ({
   const updateFilters = useUpdateGenomicEnumFacetFilter();
 
   const genomicFilters = useAppSelector((state: AppState) => selectGeneAndSSMFilters(state));
+
   const {
     data: facetData,
     isSuccess: isFacetsQuerySuccess,
@@ -88,7 +89,9 @@ const GeneAndSSMFilterPanel = ({
     {
       type: 'gene',
       fields: ['biotype'],
-      filters: EmptyFilterSet,
+      filters: { mode: 'and', root: { "is_cancer_gene_census" :
+          //@ts-expect-error type is wrong
+            { operator: '=', field: "is_cancer_gene_census", operand: true} }},
       indexPrefix: 'Gene_',
     },
     {
@@ -114,7 +117,6 @@ const GeneAndSSMFilterPanel = ({
           "consequence.transcript.annotation.vep_impact",
           'consequence.transcript.annotation.sift_impact',
           'consequence.transcript.annotation.polyphen_impact',
-          'consequence.transcript.annotation.sift_impact',
           'consequence.transcript.consequence_type',
           'mutation_subtype'
         ],
@@ -189,9 +191,6 @@ const GeneAndSSMFilterPanel = ({
     useFilterExpanded: useFilterExpandedState,
     useFieldNameToTitle,
   }};
-
-  console.log("Facet Definitions", facetDefinitions);
-  console.log("Facet Data", facetData);
 
   return (
     <>

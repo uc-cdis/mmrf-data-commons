@@ -92,38 +92,34 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       idField: string,
       payload: Record<string, any>,
     ) => {
-      console.log(`called handleGeneAndSSmToggled,
-        logic commented out in GeneusAndMutationFrequencyAnalysisTool.tsx, called with:
-        cohortStatus: ${cohortStatus},
-        field: ${field},
-        idField: ${idField},
-        payload: ${payload}`);
-      /*       if (cohortStatus.includes(payload[idField])) {
+  if (cohortStatus.includes(payload[idField])) {
         // remove the id from the cohort
         const update = cohortStatus.filter((x) => x != payload[idField]);
         if (update.length > 0)
           coreDispatch(
             updateActiveCohortFilter({
               field: field,
-              operation: {
+              index: 'case',
+              filter: {
                 field: field,
                 operator: "includes",
                 operands: update,
               },
             }),
           );
-        else coreDispatch(removeCohortFilter(field));
+        else coreDispatch(removeCohortFilter({ index: "case", field }));
       } else
         coreDispatch(
           updateActiveCohortFilter({
             field: field,
-            operation: {
+            index: 'case',
+            filter: {
               field: field,
               operator: "includes",
               operands: [...cohortStatus, payload[idField]],
             },
           }),
-        ); */
+        );
     },
     [coreDispatch],
   );
@@ -187,7 +183,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               <Tabs.Tab data-testid="button-genes-tab" value="genes">
                 Genes
               </Tabs.Tab>
-              <Tabs.Tab data-testid="button-mutations-tab" value="ssms">
+              <Tabs.Tab data-testid="button-mutations-tab" value="ssms" disabled={true}>
                 Mutations
               </Tabs.Tab>
             </Tabs.List>
