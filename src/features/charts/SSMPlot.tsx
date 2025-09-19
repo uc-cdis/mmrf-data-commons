@@ -53,7 +53,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
 
   if (isError) {
     const message = 'An error occurred';
-    return <div>Failed to fetch chart: {message}</div>;
+    return <div data-testid="graph-cancer-distribution-mutations">Failed to fetch chart: {message}</div>;
   }
 
   if (!data || data?.cases?.length < 5) {
