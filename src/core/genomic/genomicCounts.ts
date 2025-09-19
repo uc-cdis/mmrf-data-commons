@@ -87,23 +87,6 @@ const genomicCountsSlice = guppyApi.injectEndpoints({
               },
             ],
           },
-          ssmsFilter: {
-            and: [
-              ...(onlySsmsFilters ?? []),
-              {
-                nested: {
-                  path: 'occurrence',
-                  nested: {
-                    path: 'occurrence.case',
-
-                    in: {
-                      available_variation_data: ['ssm'],
-                    },
-                  },
-                },
-              },
-            ],
-          },
         };
 
         return {
