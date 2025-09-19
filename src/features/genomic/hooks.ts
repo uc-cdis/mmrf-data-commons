@@ -247,6 +247,7 @@ const memoizedFilters = useMemo(
   ],
 );
 
+
 const {
   data: survivalPlotData,
   isFetching: survivalPlotFetching,

@@ -115,15 +115,14 @@ export const GenesPanel = ({
   );
 
   useDeepCompareEffect(() => {
-    if (topGenesData && topGenesData.genes.length > 0 && comparativeSurvival?.symbol !==  topGenesData.genes[0].symbol) {
-
+     if (topGenesData && topGenesData.genes.length > 0 && comparativeSurvival?.symbol !==  topGenesData.genes[0].symbol) {
       handleSurvivalPlotToggled(
-        topGenesData.genes[0].symbol,
-        topGenesData.genes[0].symbol,
+        topGenesData?.genes[0].symbol,
+        topGenesData?.genes[0].symbol,
         'gene.symbol',
-      );
-    }
-  }, [topGenesData, handleSurvivalPlotToggled, comparativeSurvival]);
+       );
+     }
+  }, [topGenesData]);
 
   return (
     <div className="flex flex-col" data-testid="genes-panel">

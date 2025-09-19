@@ -11,6 +11,7 @@ export const buildGeneHaveAndHaveNotFilters = (
    * given the contents, add two filters, one with the gene and one without
    */
 
+
   if (symbol === undefined) return [];
   return [
     {
@@ -24,9 +25,8 @@ export const buildGeneHaveAndHaveNotFilters = (
               'available_variation_data': isGene
                 ? ['ssm', 'cnv']
                 : ['ssm'],
-            },
-          ...(currentFilters ? (currentFilters as any).and : []),
-        },
+            }},
+          ...(currentFilters ? ((currentFilters as any).and) : []),
       ],
     },
     {
@@ -36,7 +36,7 @@ export const buildGeneHaveAndHaveNotFilters = (
               ? ['ssm', 'cnv']
               : ['ssm'],
           }},
-        ...(currentFilters ? (currentFilters as any).and : [])
+        ...(currentFilters ? ((currentFilters as any).and) : [])
       ],
     },
   ];
