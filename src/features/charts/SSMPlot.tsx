@@ -62,6 +62,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
         data-testid="graph-cancer-distribution-mutations"
         className="border border-base-lighter p-4"
       >
+        {JSON.stringify(data)}
         Insufficient Data for SSM Plot
       </div>
     );

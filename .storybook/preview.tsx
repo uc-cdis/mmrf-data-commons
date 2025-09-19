@@ -12,7 +12,7 @@ import icons from './loadIcons';
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
-import { GeneSummaryMockData, mockData } from './mockData/GeneSummaryMockData';
+import { GeneSummaryMockData } from './mockData/GeneSummaryMockData';
 import { CancerDistributionMockData } from './mockData/CancerDistributionMockData';
 import { SsmsTableMockData } from './mockData/SsmsTableMockData';
 import { CancerDistributionCNVMockData } from './mockData/CancerDistributionCNVMockData';

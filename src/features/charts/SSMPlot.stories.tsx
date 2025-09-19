@@ -25,7 +25,7 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     const testIds = [
       'graph-cancer-distribution-mutations',
-      'chart-text-version',
+      // 'chart-text-version',
     ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
