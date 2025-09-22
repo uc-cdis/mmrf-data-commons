@@ -102,8 +102,8 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
   const { data, isUninitialized, isFetching, isError } =
     useGetComparisonSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
-      index: 'case',
-      field: "_case_id",
+      index: 'Case_case',
+      field: "case_id",
     });
 
   useDeepCompareEffect(() => {
@@ -140,9 +140,9 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
               <SurvivalPlot
                 plotType={SurvivalPlotTypes.cohortComparison}
                 data={isLoading ? EmptySurvivalPlot : data ?? EmptySurvivalPlot}
-                hideLegend
                 noDataMessage="No Survival data available for this Cohort Comparison"
                 isLoading={isLoading}
+                names={[cohorts?.primary_cohort?.name || '', cohorts?.comparison_cohort?.name || '']}
               />
             </div>
           )}
