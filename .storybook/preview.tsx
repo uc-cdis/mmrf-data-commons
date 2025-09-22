@@ -80,11 +80,45 @@ const preview: Preview = {
           http.get('/user/mapping', () => {
             return HttpResponse.json({});
           }),
-          // Add the Gene Summary handler here
+          // graphql handler for server
+          http.post(
+            '/guppy/graphql',
+            async ({ request }) => {
+              console.log('running conditional for graphql with request:', request);
+                            console.log('running conditional for graphql with request:', request);
+
+              const body = await request.json(); // Parse the JSON body
+              const { query } = body as any;
+              // Check if the query contains the string "GeneSummary"
+              if (query.includes('GeneSummary(')) {
+                console.log('GeneSummary query detected');
+                return HttpResponse.json(GeneSummaryMockData);
+              } else if (query.includes('CancerDistribution(')) {
+                console.log('CancerDistribution query detected');
+                return HttpResponse.json(CancerDistributionMockData);
+              } else if (query.includes('CancerDistributionCNV(')) {
+                console.log('CancerDistributionCNV( query detected');
+                return HttpResponse.json(CancerDistributionCNVMockData);
+              } else if (query.includes(' CancerDistributionTable(')) {
+                console.log(' CancerDistributionTable( query detected');
+                return HttpResponse.json(CancerDistributionTableMockData);
+              } else if (query.includes('SsmsTable(')) {
+                console.log('SsmsTable query detected');
+                return HttpResponse.json(SsmsTableMockData);
+              } else if (query.includes('SSMSummaryQuery(')) {
+                console.log('SSMSummaryQuery( query detected');
+                return HttpResponse.json(SSMSummaryQueryMockData);
+              } else if (query.includes('ConsequencesTable')) {
+                console.log('ConsequencesTable( query detected');
+                return HttpResponse.json(ConsequencesTableMockData);
+              }
+            }),
+          // Add the graphql handlers here for local
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {
               console.log('running conditional for graphql with request:', request);
+
               const body = await request.json(); // Parse the JSON body
               const { query } = body as any;
               // Check if the query contains the string "GeneSummary"
