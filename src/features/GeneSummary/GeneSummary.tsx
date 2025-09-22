@@ -74,7 +74,7 @@ export const GeneSummary = ({
       {isFetching ? (
         <LoadingOverlay data-testid="loading-spinner" visible />
       ) : data ? (
-        <>          {JSON.stringify(data)}
+        <>         GeneSummary Data: {JSON.stringify(data)}
         <GeneView
           data={data}
           gene_id={gene_id}
@@ -85,7 +85,7 @@ export const GeneSummary = ({
       ) : (
         <>
           SUMMARY ERROR HEADER
-          {JSON.stringify(data)}
+          GeneSummary Data: {JSON.stringify(data)}
           <SummaryErrorHeader label="Gene Not Found" />
         </>
       )}
