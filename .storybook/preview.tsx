@@ -28,6 +28,8 @@ import { ConsequencesTableMockData } from './mockData/ConsequencesTableMockData'
 initialize({
   onUnhandledRequest: ({ url, method }) => {
     const pathname = new URL(url).pathname;
+    console.log('onUnhandledRequest pathname', pathname);
+    console.log('onUnhandledRequest method', method);
     if (pathname.startsWith('/my-specific-api-path')) {
       console.error(`Unhandled ${method} request to ${url}.
 
