@@ -82,6 +82,7 @@ const preview: Preview = {
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {
+              console.log('running conditional for graphql with request:', request);
               const body = await request.json(); // Parse the JSON body
               const { query } = body as any;
               // Check if the query contains the string "GeneSummary"
