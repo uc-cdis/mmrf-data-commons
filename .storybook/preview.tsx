@@ -57,6 +57,34 @@ const sessionConfig = {
   monitorWorkspace: false,
 };
 
+
+const handleGraphQLQuery = (query) => {
+  console.log('Running conditional for GraphQL with query:', query);
+
+  if (query.includes('GeneSummary(')) {
+    console.log('GeneSummary query detected');
+    return HttpResponse.json(GeneSummaryMockData);
+  } else if (query.includes('CancerDistribution(')) {
+    console.log('CancerDistribution query detected');
+    return HttpResponse.json(CancerDistributionMockData);
+  } else if (query.includes('CancerDistributionCNV(')) {
+    console.log('CancerDistributionCNV query detected');
+    return HttpResponse.json(CancerDistributionCNVMockData);
+  } else if (query.includes('CancerDistributionTable(')) {
+    console.log('CancerDistributionTable query detected');
+    return HttpResponse.json(CancerDistributionTableMockData);
+  } else if (query.includes('SsmsTable(')) {
+    console.log('SsmsTable query detected');
+    return HttpResponse.json(SsmsTableMockData);
+  } else if (query.includes('SSMSummaryQuery(')) {
+    console.log('SSMSummaryQuery query detected');
+    return HttpResponse.json(SSMSummaryQueryMockData);
+  } else if (query.includes('ConsequencesTable')) {
+    console.log('ConsequencesTable query detected');
+    return HttpResponse.json(ConsequencesTableMockData);
+  }
+};
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -84,7 +112,7 @@ const preview: Preview = {
           http.post(
             '/guppy/graphql',
             async ({ request }) => {
-              console.log('running conditional for graphql with request:', request);
+              /* console.log('running conditional for graphql with request:', request);
                             console.log('running conditional for graphql with request:', request);
 
               const body = await request.json(); // Parse the JSON body
@@ -111,13 +139,16 @@ const preview: Preview = {
               } else if (query.includes('ConsequencesTable')) {
                 console.log('ConsequencesTable( query detected');
                 return HttpResponse.json(ConsequencesTableMockData);
-              }
+              } */
+              const body = await request.json();
+              const { query } = body as any;
+              return handleGraphQLQuery(query);
             }),
           // Add the graphql handlers here for local
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {
-              console.log('running conditional for graphql with request:', request);
+              /* console.log('running conditional for graphql with request:', request);
 
               const body = await request.json(); // Parse the JSON body
               const { query } = body as any;
@@ -143,7 +174,10 @@ const preview: Preview = {
               } else if (query.includes('ConsequencesTable')) {
                 console.log('ConsequencesTable( query detected');
                 return HttpResponse.json(ConsequencesTableMockData);
-              }
+              } */
+              const body = await request.json(); // Parse the JSON body
+              const { query } = body as any;
+              return handleGraphQLQuery(query);
             },
           ),
         ],
