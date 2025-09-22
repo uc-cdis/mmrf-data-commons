@@ -112,7 +112,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
       legend = buildManyLegend(plotData, names, field ?? 'not set', plotType);
       break;
     case SurvivalPlotTypes.cohortComparison:
-      legend = buildTwoPlotLegend(plotData, names[0], plotType);
+      legend = buildManyLegend(plotData, names, field ?? 'not set', plotType);
       break;
   }
 
