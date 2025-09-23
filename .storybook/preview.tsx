@@ -58,29 +58,26 @@ const sessionConfig = {
 };
 
 
-const handleGraphQLQuery = (query) => {
-  console.log('Running conditional for GraphQL with query:', query);
-
+const handleGraphQLQuery = (query:string) => {
   if (query.includes('GeneSummary(')) {
-    console.log('GeneSummary query detected');
+    console.log('GeneSummary query endpoint mocked');
     return HttpResponse.json(GeneSummaryMockData);
   } else if (query.includes('CancerDistribution(')) {
-    console.log('CancerDistribution query detected');
     return HttpResponse.json(CancerDistributionMockData);
   } else if (query.includes('CancerDistributionCNV(')) {
-    console.log('CancerDistributionCNV query detected');
+    console.log('CancerDistributionCNV query endpoint mocked');
     return HttpResponse.json(CancerDistributionCNVMockData);
   } else if (query.includes('CancerDistributionTable(')) {
-    console.log('CancerDistributionTable query detected');
+    console.log('CancerDistributionTable query endpoint mocked');
     return HttpResponse.json(CancerDistributionTableMockData);
   } else if (query.includes('SsmsTable(')) {
-    console.log('SsmsTable query detected');
+    console.log('SsmsTable query endpoint mocked');
     return HttpResponse.json(SsmsTableMockData);
   } else if (query.includes('SSMSummaryQuery(')) {
-    console.log('SSMSummaryQuery query detected');
+    console.log('SSMSummaryQuery query mocked');
     return HttpResponse.json(SSMSummaryQueryMockData);
   } else if (query.includes('ConsequencesTable')) {
-    console.log('ConsequencesTable query detected');
+    console.log('ConsequencesTable query endpoint mocked');
     return HttpResponse.json(ConsequencesTableMockData);
   }
 };
@@ -108,75 +105,21 @@ const preview: Preview = {
           http.get('/user/mapping', () => {
             return HttpResponse.json({});
           }),
+
           // graphql handler for server
           http.post(
             '/guppy/graphql',
             async ({ request }) => {
-              /* console.log('running conditional for graphql with request:', request);
-                            console.log('running conditional for graphql with request:', request);
-
-              const body = await request.json(); // Parse the JSON body
-              const { query } = body as any;
-              // Check if the query contains the string "GeneSummary"
-              if (query.includes('GeneSummary(')) {
-                console.log('GeneSummary query detected');
-                return HttpResponse.json(GeneSummaryMockData);
-              } else if (query.includes('CancerDistribution(')) {
-                console.log('CancerDistribution query detected');
-                return HttpResponse.json(CancerDistributionMockData);
-              } else if (query.includes('CancerDistributionCNV(')) {
-                console.log('CancerDistributionCNV( query detected');
-                return HttpResponse.json(CancerDistributionCNVMockData);
-              } else if (query.includes(' CancerDistributionTable(')) {
-                console.log(' CancerDistributionTable( query detected');
-                return HttpResponse.json(CancerDistributionTableMockData);
-              } else if (query.includes('SsmsTable(')) {
-                console.log('SsmsTable query detected');
-                return HttpResponse.json(SsmsTableMockData);
-              } else if (query.includes('SSMSummaryQuery(')) {
-                console.log('SSMSummaryQuery( query detected');
-                return HttpResponse.json(SSMSummaryQueryMockData);
-              } else if (query.includes('ConsequencesTable')) {
-                console.log('ConsequencesTable( query detected');
-                return HttpResponse.json(ConsequencesTableMockData);
-              } */
               const body = await request.json();
-              const { query } = body as any;
+              const { query } = body as Record<string, string>;
               return handleGraphQLQuery(query);
             }),
-          // Add the graphql handlers here for local
+          // Graphql handler here for local
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {
-              /* console.log('running conditional for graphql with request:', request);
-
-              const body = await request.json(); // Parse the JSON body
-              const { query } = body as any;
-              // Check if the query contains the string "GeneSummary"
-              if (query.includes('GeneSummary(')) {
-                console.log('GeneSummary query detected');
-                return HttpResponse.json(GeneSummaryMockData);
-              } else if (query.includes('CancerDistribution(')) {
-                console.log('CancerDistribution query detected');
-                return HttpResponse.json(CancerDistributionMockData);
-              } else if (query.includes('CancerDistributionCNV(')) {
-                console.log('CancerDistributionCNV( query detected');
-                return HttpResponse.json(CancerDistributionCNVMockData);
-              } else if (query.includes(' CancerDistributionTable(')) {
-                console.log(' CancerDistributionTable( query detected');
-                return HttpResponse.json(CancerDistributionTableMockData);
-              } else if (query.includes('SsmsTable(')) {
-                console.log('SsmsTable query detected');
-                return HttpResponse.json(SsmsTableMockData);
-              } else if (query.includes('SSMSummaryQuery(')) {
-                console.log('SSMSummaryQuery( query detected');
-                return HttpResponse.json(SSMSummaryQueryMockData);
-              } else if (query.includes('ConsequencesTable')) {
-                console.log('ConsequencesTable( query detected');
-                return HttpResponse.json(ConsequencesTableMockData);
-              } */
-              const body = await request.json(); // Parse the JSON body
-              const { query } = body as any;
+              const body = await request.json();
+              const { query } = body as Record<string, string>;;
               return handleGraphQLQuery(query);
             },
           ),
