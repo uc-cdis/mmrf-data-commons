@@ -39,3 +39,6 @@ export const FIELD_LABELS  : { [key: string]: string } = {
   "demographic.vital_status": "Vital Status",
   "diagnoses.age_at_diagnosis": "Age at Diagnosis",
 };
+
+
+export const UPPER_FIRST_FIELDS = ["demographic.vital_status", "demographic.race"]
