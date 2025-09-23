@@ -27,8 +27,6 @@ import { ConsequencesTableMockData } from './mockData/ConsequencesTableMockData'
 initialize({
   onUnhandledRequest: ({ url, method }) => {
     const pathname = new URL(url).pathname;
-    console.log('onUnhandledRequest pathname', pathname);
-    console.log('onUnhandledRequest method', method);
     if (pathname.startsWith('/my-specific-api-path')) {
       console.error(`Unhandled ${method} request to ${url}.
 
@@ -113,7 +111,7 @@ const preview: Preview = {
               const { query } = body as Record<string, string>;
               return handleGraphQLQuery(query);
             }),
-          // Graphql handler here for local
+          // Graphql handler for local
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {

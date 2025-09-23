@@ -5,23 +5,16 @@ import { CollapsibleTextArea } from '@/components/CollapsibleTextArea';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import {
-  useGeneSummaryQuery,
-  // useCoreSelector,
-  // selectCurrentCohortFilters,
-} from '@/core';
+import { useGeneSummaryQuery } from '@/core';
 import { externalLinkNames, externalLinks, humanify } from '../../utils';
 import CNVPlot from '../charts/CNVPlot';
 import SSMPlot from '../charts/SSMPlot';
 import { formatDataForHorizontalTable } from '../files/utils';
 import { LoadingOverlay } from '@mantine/core';
 import { HeaderTitle } from '@/components/tailwindComponents';
-// import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-//import { overwritingDemoFilterMutationFrequency } from "../genomic/GenesAndMutationFrequencyAnalysisTool";
 import { CollapsibleList } from '@/components/CollapsibleList';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
-import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
 import { WarningBanner } from '@/components/WarningBanner';
 
@@ -74,20 +67,15 @@ export const GeneSummary = ({
       {isFetching ? (
         <LoadingOverlay data-testid="loading-spinner" visible />
       ) : data ? (
-        <>         GeneSummary Data: {JSON.stringify(data)}
         <GeneView
           data={data}
           gene_id={gene_id}
           isModal={isModal}
           contextSensitive={contextSensitive}
           contextFilters={contextFilters}
-        /></>
+        />
       ) : (
-        <>
-          SUMMARY ERROR HEADER
-          GeneSummary Data: {JSON.stringify(data)}
-          <SummaryErrorHeader label="Gene Not Found" />
-        </>
+        <SummaryErrorHeader label="Gene Not Found" />
       )}
     </>
   );
