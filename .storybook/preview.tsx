@@ -6,7 +6,6 @@ import { MantineProvider } from '@mantine/core';
 import { Gen3Provider } from '@gen3/frontend';
 import '../src/styles/globals.css';
 import '../src/styles/survivalplot.css';
-
 import theme from '../src/mantineTheme';
 import icons from './loadIcons';
 import '@fontsource/montserrat';

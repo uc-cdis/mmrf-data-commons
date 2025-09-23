@@ -14,10 +14,6 @@ jobs:
         run: npm install --include=optional
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: Start MSW
-        run: |
-          npx msw init public --save  # Ensure MSW is initialized
-          npx msw start  # Start the MSW service worker
       - name: Build Storybook
         run: npm run build-storybook --quiet
       - name: Serve Storybook and run tests
