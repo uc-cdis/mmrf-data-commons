@@ -7,7 +7,7 @@ import { calculatePercentageAsNumber, humanify } from "@/core/utils";
 import FunctionButton from "@/components/FunctionButton";
 import PValue from "../PValue";
 import CohortCreationButton from "@/components/CohortCreationButton";
-import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType, FIELD_LABELS, UPPER_FIRST_FIELDS } from '../types';
+import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType, UPPER_FIRST_FIELDS } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
 import { HistogramDataArray } from '@gen3/core';
@@ -32,7 +32,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
   cohorts,
 }: FacetCardProps) => {
   const divId = `cohort_comparison_bar_chart_${field}`;
-  const fieldLabel = FIELD_LABELS[field];
+  const fieldLabel = humanify({ term: field });
 
   let formattedData = useDeepCompareMemo(
     () =>
