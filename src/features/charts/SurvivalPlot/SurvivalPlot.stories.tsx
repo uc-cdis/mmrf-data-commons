@@ -2,28 +2,21 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext } from '@/utils/contexts';
+import { expect, within } from 'storybook/test';
 import { GEN3_API } from '@gen3/core';
-import {
-  useGetSurvivalPlotQuery,
-  EmptySurvivalPlot,
-  SurvivalPlotTypes,
-} from '@/core/survival';
+import { SurvivalPlotTypes } from '@/core/survival';
 import survivalApiData from '@/core/survival/test/data.json';
 
 import SurvivalPlot from './SurvivalPlot';
-import { expect, within } from 'storybook/test';
 import { http, HttpResponse } from 'msw';
+import { useGeneAndSSMPanelData } from '@/features/genomic/mockedHooks';
 
 const SurvivalPlotWrapped = () => {
-  const { data, isUninitialized, isFetching, isError } =
-    useGetSurvivalPlotQuery({
-      filters: [],
-    });
-
+  const { survivalPlotData } = useGeneAndSSMPanelData({} as any, true);
   return (
     <SurvivalPlot
       plotType={SurvivalPlotTypes.cohortComparison}
-      data={data === undefined ? EmptySurvivalPlot : data}
+      data={survivalPlotData as any}
       isLoading={false}
     />
   );
@@ -73,15 +66,14 @@ export const Default: Story = {
   parameters: {
     msw: handlers.success,
   },
-  // disable this test for now, since it's flaky
 
-  // play: async ({ canvasElement }) => {
-  //   const canvas = within(canvasElement);
-  //   const testIds = ['button-survival-plot-download'];
-  //   await new Promise(resolve => setTimeout(resolve, 5000));
-  //   testIds.forEach((id) => {
-  //     const currEle = canvas.getByTestId(id);
-  //     expect(currEle).toBeInTheDocument();
-  //   });
-  // },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const testIds = ['survival-plot'];
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    testIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };
