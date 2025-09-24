@@ -22,8 +22,7 @@ export const Default: Story = {
     ssms: 'ssms-id',
   },
   play: async ({ canvasElement }) => {
-    // INTERACTION TESTS COMMENTED OUT SEP 24 DUE TO
-    // COMPONENT NOT BEING ABLE TO PROCESS DATA CORRECTLY
+    // INTERACTION TESTS COMMENTED OUT SEP 24
     /*
 
     const canvas = within(canvasElement);
