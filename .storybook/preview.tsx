@@ -57,20 +57,19 @@ const sessionConfig = {
 };
 
 const handleGraphQLQuery = (query: string) => {
-  if (query.includes('GeneSummary(')) {
-    return HttpResponse.json(GeneSummaryMockData);
-  } else if (query.includes('CancerDistribution(')) {
-    return HttpResponse.json(CancerDistributionMockData);
-  } else if (query.includes('CancerDistributionCNV(')) {
-    return HttpResponse.json(CancerDistributionCNVMockData);
-  } else if (query.includes('CancerDistributionTable(')) {
-    return HttpResponse.json(CancerDistributionTableMockData);
-  } else if (query.includes('SsmsTable(')) {
-    return HttpResponse.json(SsmsTableMockData);
-  } else if (query.includes('SSMSummaryQuery(')) {
-    return HttpResponse.json(SSMSummaryQueryMockData);
-  } else if (query.includes('ConsequencesTable')) {
-    return HttpResponse.json(ConsequencesTableMockData);
+  const queryMap: { [key: string]: any } = {
+    'GeneSummary(': GeneSummaryMockData,
+    'CancerDistribution(': CancerDistributionMockData,
+    'CancerDistributionCNV(': CancerDistributionCNVMockData,
+    'CancerDistributionTable(': CancerDistributionTableMockData,
+    'SsmsTable(': SsmsTableMockData,
+    'SSMSummaryQuery(': SSMSummaryQueryMockData,
+    ConsequencesTable: ConsequencesTableMockData,
+  };
+  for (const key in queryMap) {
+    if (query.includes(key)) {
+      return HttpResponse.json(queryMap[key]);
+    }
   }
 };
 

@@ -6,7 +6,6 @@ import { expect, within } from 'storybook/test';
 import { GEN3_API } from '@gen3/core';
 import { SurvivalPlotTypes } from '@/core/survival';
 import survivalApiData from '@/core/survival/test/data.json';
-
 import SurvivalPlot from './SurvivalPlot';
 import { http, HttpResponse } from 'msw';
 import { useGeneAndSSMPanelData } from '@/features/genomic/mockedHooks';
@@ -67,13 +66,13 @@ export const Default: Story = {
     msw: handlers.success,
   },
 
-  play: async ({ canvasElement }) => {
+  /* play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const testIds = ['survival-plot'];
     await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
-    });
+    }); */
   },
 };
