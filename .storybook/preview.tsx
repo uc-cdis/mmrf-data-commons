@@ -58,24 +58,18 @@ const sessionConfig = {
 
 const handleGraphQLQuery = (query: string) => {
   if (query.includes('GeneSummary(')) {
-    console.log('GeneSummary query endpoint mocked');
     return HttpResponse.json(GeneSummaryMockData);
   } else if (query.includes('CancerDistribution(')) {
     return HttpResponse.json(CancerDistributionMockData);
   } else if (query.includes('CancerDistributionCNV(')) {
-    console.log('CancerDistributionCNV query endpoint mocked');
     return HttpResponse.json(CancerDistributionCNVMockData);
   } else if (query.includes('CancerDistributionTable(')) {
-    console.log('CancerDistributionTable query endpoint mocked');
     return HttpResponse.json(CancerDistributionTableMockData);
   } else if (query.includes('SsmsTable(')) {
-    console.log('SsmsTable query endpoint mocked');
     return HttpResponse.json(SsmsTableMockData);
   } else if (query.includes('SSMSummaryQuery(')) {
-    console.log('SSMSummaryQuery query mocked');
     return HttpResponse.json(SSMSummaryQueryMockData);
   } else if (query.includes('ConsequencesTable')) {
-    console.log('ConsequencesTable query endpoint mocked');
     return HttpResponse.json(ConsequencesTableMockData);
   }
 };
