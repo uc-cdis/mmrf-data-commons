@@ -195,10 +195,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
 
   if (!isFetching && projectKeys.length < 5)
     return (
-      <div
-        data-testid="graph-cancer-distribution-cnv"
-        className="border border-base-lighter p-4"
-      >
+      <div className="border border-base-lighter p-4">
         Insufficient Data for CNV Plot
       </div>
     );
@@ -209,7 +206,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
       : ((error as GraphQLFetchError)?.text ?? 'An error occurred');
 
   if (isError) {
-    return <div className="mt-20" data-testid='graph-cancer-distribution-cnv'>Failed to fetch chart: {errorMessage}</div>;
+    return <div className="mt-20">Failed to fetch chart: {errorMessage}</div>;
   }
 
   return (

@@ -1,7 +1,9 @@
 import React from 'react';
 import { FilterSet } from '@gen3/core';
-import { useGetProjectsQuery } from '@/core';
-import { useGetGeneCancerDistributionTableQuery } from '@/core/features/cancerDistribution';
+import {
+  useGetProjectsQuery,
+} from '@/core';
+import { useGetGeneCancerDistributionTableQuery } from '@/core/features/cancerDistribution'
 import { useCallback, useEffect, useState } from 'react';
 import {
   ColumnOrderState,
