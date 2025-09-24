@@ -73,6 +73,6 @@ export const Default: Story = {
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
-    }); */
-  },
+    });
+  }, */
 };
