@@ -11,13 +11,15 @@ import icons from './loadIcons';
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
-import { GeneSummaryMockData } from './mockData/GeneSummaryMockData';
-import { CancerDistributionMockData } from './mockData/CancerDistributionMockData';
-import { SsmsTableMockData } from './mockData/SsmsTableMockData';
-import { CancerDistributionCNVMockData } from './mockData/CancerDistributionCNVMockData';
-import { CancerDistributionTableMockData } from './mockData/ CancerDistributionTableMockData';
-import { SSMSummaryQueryMockData } from './mockData/SSMSummaryQueryMockData';
-import { ConsequencesTableMockData } from './mockData/ConsequencesTableMockData';
+import {
+  GeneSummaryMockData,
+  CancerDistributionMockData,
+  SsmsTableMockData,
+  CancerDistributionCNVMockData,
+  CancerDistributionTableMockData,
+  SSMSummaryQueryMockData,
+  ConsequencesTableMockData,
+} from './mockData';
 
 /*
  * Initializes MSW
@@ -54,8 +56,7 @@ const sessionConfig = {
   monitorWorkspace: false,
 };
 
-
-const handleGraphQLQuery = (query:string) => {
+const handleGraphQLQuery = (query: string) => {
   if (query.includes('GeneSummary(')) {
     console.log('GeneSummary query endpoint mocked');
     return HttpResponse.json(GeneSummaryMockData);
@@ -104,19 +105,17 @@ const preview: Preview = {
           }),
 
           // graphql handler for server
-          http.post(
-            '/guppy/graphql',
-            async ({ request }) => {
-              const body = await request.json();
-              const { query } = body as Record<string, string>;
-              return handleGraphQLQuery(query);
-            }),
+          http.post('/guppy/graphql', async ({ request }) => {
+            const body = await request.json();
+            const { query } = body as Record<string, string>;
+            return handleGraphQLQuery(query);
+          }),
           // Graphql handler for local
           http.post(
             'https://dev-virtuallab.themmrf.org/guppy/graphql',
             async ({ request }) => {
               const body = await request.json();
-              const { query } = body as Record<string, string>;;
+              const { query } = body as Record<string, string>;
               return handleGraphQLQuery(query);
             },
           ),
