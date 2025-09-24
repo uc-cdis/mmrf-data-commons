@@ -56,7 +56,6 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     cohortFilters,
     genomicFilters,
   });
-  console.log('useCnvPlotQuery data', data);
 
   const [checkboxState, setCheckboxState] = useState<CheckboxState>({
     amplification: true,
