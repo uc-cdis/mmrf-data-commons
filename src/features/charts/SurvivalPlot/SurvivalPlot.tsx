@@ -68,8 +68,8 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   const shouldPlot =
     hasEnoughData &&
     plotData
-      .map(({ donors } : {donors: any}) => donors)
-      .every(({ length } : { length: any }) => length >= MINIMUM_CASES);
+      .map(({ donors }: { donors: any }) => donors)
+      .every(({ length }: { length: any }) => length >= MINIMUM_CASES);
   // hook to call renderSurvivalPlot
   const shouldUsePlotData =
     (['gene', 'mutation'].includes(plotType) && shouldPlot) ||
@@ -117,15 +117,16 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
       break;
   }
 
-  const plotDataTextVersionJSON = plotData.map((group, index) => {
-    const caseIdentifier = index === 0 ? "S1" : "S2";
-    return group.donors.map(donor => ({
-      case: caseIdentifier,
-      time: donor.time,
-      survivalEstimate: donor.survivalEstimate
-    }));
-  }).flat();
-
+  const plotDataTextVersionJSON = plotData
+    .map((group, index) => {
+      const caseIdentifier = index === 0 ? 'S1' : 'S2';
+      return group.donors.map((donor) => ({
+        case: caseIdentifier,
+        time: donor.time,
+        survivalEstimate: donor.survivalEstimate,
+      }));
+    })
+    .flat();
 
   const handleDownloadJSON = async () => {
     const blob = new Blob(
@@ -244,7 +245,7 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" data-testid="survival-plot">
       <div className="flex items-center justify-center flex-wrap">
         {!showTitleOnlyOnDownload && (
           <div className="font-heading text-[1rem] font-medium">{title}</div>
@@ -414,7 +415,10 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
           <div className="survival-plot" ref={containerForDownload} />
         </div>
       </OffscreenWrapper>
-      <BarChartTextVersion className="mt-[40px]" data={plotDataTextVersionJSON} />
+      <BarChartTextVersion
+        className="mt-[40px]"
+        data={plotDataTextVersionJSON}
+      />
     </div>
   );
 };

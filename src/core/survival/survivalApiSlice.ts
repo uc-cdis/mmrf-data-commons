@@ -19,13 +19,15 @@ return ({
 
 
 interface SurvivalPlotRequest {
-  filters: Array<GQLFilter>;
+  caseFilters?: GQLFilter;
+  filters: ReadonlyArray<GQLFilter>;
 }
 
 interface SurvivalPlotCompareRequest {
-  filters: Array<GQLFilter>;
+  filters: ReadonlyArray<GQLFilter>;
   index: string;
   field: string;
+  useIntersection?: boolean;
 }
 
 
