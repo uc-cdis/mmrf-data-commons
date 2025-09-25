@@ -69,6 +69,7 @@ export const CAPITALIZED_TERMS = [
 
 export const SPECIAL_CASE_FIELDS : Record<string, string>= {
   "icd_10_code": "ICD-10 Code",
+  // TODO - remove special case when field is updated
   "gender": "Sex",
 };
 
