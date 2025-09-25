@@ -10,13 +10,13 @@ import {
 import {
   useSelectFilterContent,
   useGeneAndSSMPanelData,
-} from '@/features/genomic/hooks';
+} from './hooks';
 
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 import { EmptyFilterSet } from '@gen3/core';
-import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice';
+import { useGeneFrequencyChartQuery } from '../../core/genomic/genesFrequencyChartSlice';
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
