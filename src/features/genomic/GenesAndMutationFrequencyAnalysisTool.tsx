@@ -15,6 +15,7 @@ import { TableXPositionContext } from '@/components/Table/VerticalTable';
 import { SecondaryTabStyle } from './constants';
 import { GenesPanel } from './GenesPanel';
 import { SSMSPanel } from './SSMSPanel';
+import GeneAndSSMFilterPanel from '@/features/genomic/GeneAndSSMFilterPanel';
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: 'and',
@@ -91,38 +92,34 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       idField: string,
       payload: Record<string, any>,
     ) => {
-      console.log(`called handleGeneAndSSmToggled,
-        logic commented out in GeneusAndMutationFrequencyAnalysisTool.tsx, called with:
-        cohortStatus: ${cohortStatus},
-        field: ${field},
-        idField: ${idField},
-        payload: ${payload}`);
-      /*       if (cohortStatus.includes(payload[idField])) {
+  if (cohortStatus.includes(payload[idField])) {
         // remove the id from the cohort
         const update = cohortStatus.filter((x) => x != payload[idField]);
         if (update.length > 0)
           coreDispatch(
             updateActiveCohortFilter({
               field: field,
-              operation: {
+              index: 'case',
+              filter: {
                 field: field,
                 operator: "includes",
                 operands: update,
               },
             }),
           );
-        else coreDispatch(removeCohortFilter(field));
+        else coreDispatch(removeCohortFilter({ index: "case", field }));
       } else
         coreDispatch(
           updateActiveCohortFilter({
             field: field,
-            operation: {
+            index: 'case',
+            filter: {
               field: field,
               operator: "includes",
               operands: [...cohortStatus, payload[idField]],
             },
           }),
-        ); */
+        );
     },
     [coreDispatch],
   );
@@ -163,7 +160,13 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
         value={{ xPosition: tableXPosition, setXPosition: setTableXPosition }}
       >
         <div className="flex gap-4 m-4">
-          <h3>GeneAndSSMFilterPanel placeholder</h3>
+          <div
+            id="mutation-frequency-analysis-tool-filters"
+            data-testid="mutation-frequency-analysis-tool-filters"
+            className="flex-shrink-0 md:w-1/5 lg:w-1/6"
+          >
+          <GeneAndSSMFilterPanel />
+          </div>
           <Tabs
             variant="pills"
             value={appMode}
@@ -180,7 +183,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               <Tabs.Tab data-testid="button-genes-tab" value="genes">
                 Genes
               </Tabs.Tab>
-              <Tabs.Tab data-testid="button-mutations-tab" value="ssms">
+              <Tabs.Tab data-testid="button-mutations-tab" value="ssms" disabled={true}>
                 Mutations
               </Tabs.Tab>
             </Tabs.List>

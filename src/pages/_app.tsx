@@ -1,7 +1,7 @@
 import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { MantineProvider } from '@mantine/core';
-import { mmrfModals } from '@/components/modals/registerModals';
+import { mmrfModals } from '@/components/Modals/registerModals';
 import mantinetheme from '../mantineTheme';
 
 import {

@@ -41,10 +41,7 @@ const GenesTableSurvival = ({
       isActive={survival.checked}
       icon={<SurvivalChartIcon size={24} aria-hidden="true" />}
       selected={survival as unknown as Record<string, string>} // need to fix this
-      // handleSwitch={handleSurvivalPlotToggled} DISABLING FOR NOW JULY 2025
-      handleSwitch={() =>
-        alert('called handleSwitch from GenesTableSurvival component')
-      }
+      handleSwitch={handleSurvivalPlotToggled}
       survivalProps={{ plot: 'gene.symbol' }}
       tooltip={tooltip}
       disabled={disabled}

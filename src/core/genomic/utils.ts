@@ -4,43 +4,28 @@ import {
   GQLNestedFilter,
 } from '@gen3/core';
 
-
-
 export const getSSMTestedCases = (geneSymbol?: string): GqlOperation => {
   return {
-    "and": [
+    and: [
       ...[
         {
-          "nested": {
-            "path": "occurrence",
-            "nested": {
-              "path": "occurrence.case",
-              "in": {
-                "available_variation_data": [
-                  "ssm"
-                ]
-              }
-            }
-          }
+          nested: {
+            path: 'occurrence.case',
+            in: {
+              available_variation_data: ['ssm'],
+            },
+          },
         } as GQLNestedFilter,
         ...(geneSymbol
           ? [
-            {
-              "nested": {
-                "path": "consequence",
-                "nested": {
-                  "path": "consequence.transcript",
-                  "nested": {
-                    "path": "consequence.transcript.gene",
-                    "in": {
-                      "symbol": [
-                        geneSymbol
-                      ]
-                    }
-                  }
-                }
-              }
-            }
+              {
+                nested: {
+                  path: 'consequence.transcript.gene',
+                  in: {
+                    symbol: [geneSymbol],
+                  },
+                },
+              },
             ]
           : []),
       ],
