@@ -1,6 +1,6 @@
 {
   "index" : "case",
-  "indexPrefix": "Case_",
+  "indexPrefix": "CaseCentric_",
   "tabsConfiguration": {
     "general": {
       "label": "General",
@@ -13,7 +13,7 @@
       ],
       "queryOptions": {
         "index": "case",
-        "indexPrefix": "Case_"
+        "indexPrefix": "CaseCentric_"
       }
     },
     "demographic": {
@@ -27,7 +27,7 @@
       ],
       "queryOptions": {
         "index": "case",
-        "indexPrefix": "Case_"
+        "indexPrefix": "CaseCentric_"
       }
     },
     "general_diagnosis": {

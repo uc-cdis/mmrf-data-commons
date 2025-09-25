@@ -1,19 +1,25 @@
 import React from 'react';
 import type { Preview } from '@storybook/nextjs';
 import { initialize, mswLoader } from 'msw-storybook-addon';
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse } from 'msw';
 import { MantineProvider } from '@mantine/core';
-import { Gen3Provider} from '@gen3/frontend';
+import { Gen3Provider } from '@gen3/frontend';
 import '../src/styles/globals.css';
-import "../src/styles/survivalplot.css";
-
+import '../src/styles/survivalplot.css';
 import theme from '../src/mantineTheme';
 import icons from './loadIcons';
 import '@fontsource/montserrat';
 import '@fontsource/source-sans-pro';
 import '@fontsource/poppins';
-
-
+import {
+  GeneSummaryMockData,
+  CancerDistributionMockData,
+  SsmsTableMockData,
+  CancerDistributionCNVMockData,
+  CancerDistributionTableMockData,
+  SSMSummaryQueryMockData,
+  ConsequencesTableMockData,
+} from './mockData';
 
 /*
  * Initializes MSW
@@ -22,18 +28,17 @@ import '@fontsource/poppins';
  */
 initialize({
   onUnhandledRequest: ({ url, method }) => {
-    const pathname = new URL(url).pathname
+    const pathname = new URL(url).pathname;
     if (pathname.startsWith('/my-specific-api-path')) {
       console.error(`Unhandled ${method} request to ${url}.
 
         This exception has been only logged in the console, however, it's strongly recommended to resolve this error as you don't want unmocked data in Storybook stories.
 
         If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses
-      `)
+      `);
     }
-  }});
-
-
+  },
+});
 
 const modalsConfig = {
   systemUseModal: {
@@ -51,6 +56,23 @@ const sessionConfig = {
   monitorWorkspace: false,
 };
 
+const handleGraphQLQuery = (query: string) => {
+  const queryMap: { [key: string]: any } = {
+    'GeneSummary(': GeneSummaryMockData,
+    'CancerDistribution(': CancerDistributionMockData,
+    'CancerDistributionCNV(': CancerDistributionCNVMockData,
+    'CancerDistributionTable(': CancerDistributionTableMockData,
+    'SsmsTable(': SsmsTableMockData,
+    'SSMSummaryQuery(': SSMSummaryQueryMockData,
+    ConsequencesTable: ConsequencesTableMockData,
+  };
+  for (const key in queryMap) {
+    if (query.includes(key)) {
+      return HttpResponse.json(queryMap[key]);
+    }
+  }
+};
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -63,19 +85,33 @@ const preview: Preview = {
       handlers: {
         global: [
           http.get('/_status', () => {
-            return HttpResponse.json(
-            {
-              "message": "Feelin good!",
-              "csrf": "4d84419a38ee14170382bdb93b70d6cc7710.0002025-06-29T22:26:01+00:00"
-
-            })
+            return HttpResponse.json({
+              message: 'Feelin good!',
+              csrf: '4d84419a38ee14170382bdb93b70d6cc7710.0002025-06-29T22:26:01+00:00',
+            });
           }),
           http.get('/user/user', () => {
-            return HttpResponse.json(null, { status: 401 })
+            return HttpResponse.json(null, { status: 401 });
           }),
           http.get('/user/mapping', () => {
-            return HttpResponse.json({})
+            return HttpResponse.json({});
           }),
+
+          // graphql handler for server
+          http.post('/guppy/graphql', async ({ request }) => {
+            const body = await request.json();
+            const { query } = body as Record<string, string>;
+            return handleGraphQLQuery(query);
+          }),
+          // Graphql handler for local
+          http.post(
+            'https://dev-virtuallab.themmrf.org/guppy/graphql',
+            async ({ request }) => {
+              const body = await request.json();
+              const { query } = body as Record<string, string>;
+              return handleGraphQLQuery(query);
+            },
+          ),
         ],
       },
     },
@@ -89,7 +125,7 @@ const preview: Preview = {
           sessionConfig={sessionConfig}
           modalsConfig={modalsConfig}
         >
-        <Story />
+          <Story />
         </Gen3Provider>
       </MantineProvider>
     ),

@@ -5,7 +5,7 @@ import CNVPlot from '.';
 
 const meta = {
   component: CNVPlot,
-  title: 'components/CNVPlot',
+  title: 'features/charts/CNVPlot',
   parameters: {
     deepControls: { enabled: true },
   },
@@ -21,11 +21,8 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const testIds = [
-      'graph-cancer-distribution-cnv',
-      'chart-text-version',
-    ];
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const testIds = ['graph-cancer-distribution-cnv', 'chart-text-version'];
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
