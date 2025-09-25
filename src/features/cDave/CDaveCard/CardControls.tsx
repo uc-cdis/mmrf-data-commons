@@ -71,7 +71,7 @@ const CardControls: React.FC<CardControlsProps> = ({
       new Blob([tsv], {
         type: "text/tsv",
       }),
-      `${field.split(".").at(-1)}-table.${getFormattedTimestamp()}.tsv`,
+      `${fieldName.replaceAll(" ", "-")}-table.${getFormattedTimestamp()}.tsv`,
     );
   };
 
