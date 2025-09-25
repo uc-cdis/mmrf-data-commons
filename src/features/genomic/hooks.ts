@@ -1,4 +1,5 @@
-import {  useCallback } from "react";
+import {  useCallback, useMemo } from "react";
+import { useDeepCompareMemo } from "use-deep-compare";
 import {
   FacetBucket as FacetBuckets,
   FilterSet,
@@ -12,8 +13,26 @@ import {
   GQLFilter as GqlOperation,
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
-} from "@gen3/core";
-import { type SurvivalPlotData } from '@/core/survival';
+  GQLFilter,
+} from '@gen3/core';
+import {
+  type SurvivalPlotData,
+  useGetComparisonSurvivalPlotQuery,
+} from '@/core/survival';
+import { useIsDemoApp } from "@/hooks/useIsDemoApp";
+import { EmptySurvivalPlot } from "@/core/survival/types";
+
+export const overwritingDemoFilterMutationFrequency: FilterSet = {
+  mode: "and",
+  root: {
+    "cases.project.project_id": {
+      operator: "includes",
+      field: "cases.project.project_id",
+      operands: ["MMRF-COMPASS"],
+    },
+  },
+};
+
 // import { useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from "lodash/isEqual";
 import { GQLDocType, GQLIndexType} from '@/core/features/facets/types';
@@ -41,7 +60,9 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 // import { humanify } from "@/utils/index";
 // import { useDeepCompareMemo } from "use-deep-compare";
 // import { appendSearchTermFilters } from "@/features/GenomicTables/utils";
-// import FilterFacets from "@/features/genomic/filters.json";
+import FilterFacets from "@/features/genomic/filters";
+import { buildCohortGqlOperator } from '@/core/utils';
+import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -126,33 +147,32 @@ export const useAllFiltersCollapsed = () => {
   return useAppSelector((state: AppState) => selectAllFiltersCollapsed(state));
 };
 
-// export const useTotalGenomicCounts = ({ docType }: { docType: GQLDocType }) => {
-//   return useTotalCounts(FacetDocTypeToCountsIndexMap[docType]);
-// };
+export const useTotalGenomicCounts = () => {
 
-// export const useGenesFacetValues = (field: string) => {
-//   // facet data is store in core
-//   const docType = FilterFacets?.find((f) => f.field === field).queryOptions
-//     .docType as GQLDocType;
-//   const facet: FacetBuckets = useCoreSelector((state) =>
-//     selectFacetByDocTypeAndField(state, docType, field),
-//   );
-//
-//   return {
-//     data: facet?.buckets,
-//     error: facet?.error,
-//     isUninitialized: facet === undefined,
-//     isFetching: facet?.status === "pending",
-//     isSuccess: facet?.status === "fulfilled",
-//     isError: facet?.status === "rejected",
-//   };
-// };
+    return 0;
+
+};
+
+
+  export const useGenesFacetValues = (field: string) => {
+    // facet data is store in core
+
+
+  return {
+    data: {},
+    error: null,
+    isLoading: false,
+    isSuccess: true,
+    isFetching: false,
+    isError: false,
+  };
+};
 
 export const useGenesFacets = (
-  docType: GQLDocType,
-  indexType: GQLIndexType,
+  index: string,
   fields: ReadonlyArray<string>,
   isDemoMode: boolean,
+  indexPrefix?: string,
 ): void => {
 };
 
@@ -179,7 +199,7 @@ export interface GeneAndSSMPanelData {
 /*
  * This hook returns the filters, and survival plot data, and it's loading status for the gene and ssm panel.
  */
-/* ---- TODO: implement when APIs are ready
+
 export const useGeneAndSSMPanelData = (
 comparativeSurvival: ComparativeSurvival,
 isGene: boolean,
@@ -201,8 +221,8 @@ const overwritingDemoFilter = useMemo(
 const cohortFilters: GqlOperation = useDeepCompareMemo(
   () =>
     buildCohortGqlOperator(
-      isDemoMode ? overwritingDemoFilter : currentCohortFilters[0], // TODO: handle multiple cohorts
-    ),
+      isDemoMode ? overwritingDemoFilter : currentCohortFilters['case'], // TODO: handle multiple cohorts
+    ) ?? { and :[]},
   [currentCohortFilters, isDemoMode, overwritingDemoFilter],
 );
 
@@ -227,18 +247,21 @@ const memoizedFilters = useMemo(
   ],
 );
 
+
 const {
   data: survivalPlotData,
   isFetching: survivalPlotFetching,
   isSuccess: survivalPlotReady,
-} = useGetSurvivalPlotQuery({
-  case_filters: cohortFilters,
+} = useGetComparisonSurvivalPlotQuery({
   filters:
     comparativeSurvival !== undefined
       ? memoizedFilters
       : localFilters
       ? [localFilters]
       : [],
+  index: "CaseCentric_case_centric",
+  field: "case_id",
+  useIntersection: false
 });
 
 return {
@@ -246,14 +269,14 @@ return {
   cohortFilters: currentCohortFilters,
   genomicFilters,
   overwritingDemoFilter,
-  survivalPlotData,
+  survivalPlotData: survivalPlotData ?? EmptySurvivalPlot,
   survivalPlotFetching,
   survivalPlotReady,
 };
 
 
 };
- */
+
 /**
  * Hook to set the comparative survival to the top result of the table when the filters, search on the mutation table
  * or app changes
@@ -408,8 +431,6 @@ export const useOpenUploadModal = () => {
   /* Gen3  uses a different modal system will update later */
   /* ---- TODO: update to use Gen3 modal system
   const coreDispatch = useCoreDispatch();
-
-
   const openUploadModal = (field: string) => {
     if (field === "genes.upload.gene_id") {
       coreDispatch(showModal({ modal: Modals.LocalGeneSetModal }));
