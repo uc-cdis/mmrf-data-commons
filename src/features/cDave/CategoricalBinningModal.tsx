@@ -351,7 +351,7 @@ const CategoricalBinningModal: React.FC<CategoricalBinningModalProps> = ({
               if (!isEqual(values, results)) {
                 updateBins(values);
               } else {
-                updateBins([]);
+                updateBins(null);
               }
               setModalOpen(false);
             }}

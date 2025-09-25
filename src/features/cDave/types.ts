@@ -26,7 +26,7 @@ export type DisplayData = {
   count: number;
 }[];
 
-export type CustomBinData = CategoricalBins | any[] | CustomInterval;
+export type CustomBinData = CategoricalBins | any[] | CustomInterval | null;
 
 export  const  isCategoricalBins = (value: unknown): value is CategoricalBins => {
   // Early exit for non-objects
