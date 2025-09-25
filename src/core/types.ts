@@ -41,9 +41,8 @@ export type ImageComponentType = React.ComponentType<
 >;
 
 export type LinkComponentType = React.ComponentType<
-  Omit<React.HTMLProps<HTMLAnchorElement>, "href"> & { href: any }
+  Omit<React.HTMLProps<HTMLAnchorElement>, 'href'> & { href: any }
 >;
-
 
 export interface HistogramDataAsStringKey {
   key: string;
@@ -307,7 +306,7 @@ export interface ClinicalAnnotation {
   civic: {
     gene_id: string;
     variant_id: string;
-  }
+  };
 }
 
 export interface SSMSData {
@@ -371,7 +370,6 @@ export type GqlOperation = GQLFilter;
 export interface SortBy {
   readonly field: string;
   readonly direction: 'asc' | 'desc';
-
 }
 
 export type FilesTableDataType = {
@@ -416,4 +414,21 @@ export interface ProjectDefaults {
     readonly name: string;
     readonly program_id: string;
   };
+}
+
+export interface GdcCartFile {
+  readonly file_name: string;
+  readonly data_category: string;
+  readonly data_type: string;
+  readonly data_format: string;
+  readonly state: string;
+  readonly file_size: number;
+  readonly file_id: string;
+  readonly access: AccessType;
+  readonly acl: ReadonlyArray<string>;
+  readonly project_id?: string;
+  readonly createdDatetime: string;
+  readonly updatedDatetime: string;
+  readonly submitterId: string;
+  readonly md5sum: string;
 }
