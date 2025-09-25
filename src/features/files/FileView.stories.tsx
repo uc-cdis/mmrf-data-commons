@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { expect, within } from 'storybook/test';
 import Gen3GDCCompatabilityProvider from '@/utils/providers';
 import { Gen3Provider } from '@gen3/frontend';
 import { FileView } from './FileView';
@@ -88,6 +89,23 @@ export const Default: Story = {
       <FileView {...args} />
     </Wrapper>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const testIds = [
+      'file-view',
+      'table-file-properties-file-summary',
+      'table-data-information-file-summary',
+      'table-associated-cases-biospecimens-file-summary',
+      'table-analysis-file-summary',
+      'table-reference-genome-file-summary',
+      'table-read-groups-file-summary',
+    ];
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    testIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };
 
 export const ExampleGdcFile0BAM: Story = {
@@ -100,6 +118,18 @@ export const ExampleGdcFile0BAM: Story = {
       <FileView {...args} />
     </Wrapper>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const testIds = [
+      'table-left-bam-metrics-file-summary',
+      'table-right-bam-metrics-file-summary',
+    ];
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    testIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };
 
 export const ExampleGdcFile1: Story = {
