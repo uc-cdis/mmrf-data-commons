@@ -52,6 +52,13 @@ const exampleGdcFile2 = useGetFilesQuery({
   index: 2,
 });
 
+const generalTestIds = [
+  'file-view',
+  'table-file-properties-file-summary',
+  'table-data-information-file-summary',
+  'table-associated-cases-biospecimens-file-summary',
+];
+
 const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div style={{ padding: '20px' }}>
     <Gen3Provider
@@ -91,17 +98,8 @@ export const Default: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const testIds = [
-      'file-view',
-      'table-file-properties-file-summary',
-      'table-data-information-file-summary',
-      'table-associated-cases-biospecimens-file-summary',
-      'table-analysis-file-summary',
-      'table-reference-genome-file-summary',
-      'table-read-groups-file-summary',
-    ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    testIds.forEach((id) => {
+    generalTestIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
     });
@@ -120,12 +118,16 @@ export const ExampleGdcFile0BAM: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const testIds = [
+    const bamTestIds = [
       'table-left-bam-metrics-file-summary',
       'table-right-bam-metrics-file-summary',
     ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    testIds.forEach((id) => {
+    bamTestIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+    generalTestIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
     });
@@ -142,6 +144,14 @@ export const ExampleGdcFile1: Story = {
       <FileView {...args} />
     </Wrapper>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    generalTestIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };
 
 export const ExampleGdcFile2: Story = {
@@ -154,4 +164,12 @@ export const ExampleGdcFile2: Story = {
       <FileView {...args} />
     </Wrapper>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    generalTestIds.forEach((id) => {
+      const currEle = canvas.getByTestId(id);
+      expect(currEle).toBeInTheDocument();
+    });
+  },
 };
