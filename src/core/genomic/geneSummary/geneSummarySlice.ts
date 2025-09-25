@@ -57,19 +57,19 @@ interface GeneSummaryResponse {
       omim_gene: Array<string>;
     };
   }>;
-  ssms: Array<{
+  ssms: { ssm : {
     clinical_annotations: {
       civic: {
         gene_id: string;
       };
     };
-  }>;
+  };
   _aggregation: {
     ssm: {
       _totalCount: number;
     };
   };
-}
+}}
 
 export interface GeneSummaryData {
   symbol: string;
@@ -156,7 +156,7 @@ const geneSummarySlice = guppyApi.injectEndpoints({
           },
         }))[0];
         const civic =
-          response.data.ssms?.[0]?.clinical_annotations?.civic?.gene_id[0] ??
+          response.data.ssms?.ssm?.clinical_annotations?.civic?.gene_id[0] ??
           undefined;
         return { ...summary, civic };
       },
