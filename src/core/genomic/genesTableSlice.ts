@@ -1,28 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
-  CoreDataSelectorResponse,
-  createUseFiltersCoreDataHook,
-  DataStatus,
-} from '../dataAccess';
-import { castDraft } from 'immer';
-import { Union } from '@gen3/core';
-import {
-  CoreState,
-  CoreDispatch,
+  Union,
   guppyApi,
-  selectCurrentCohortFilters,
   convertFilterToGqlFilter,
   UnionOrIntersection,
   filterSetToOperation,
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
 } from '@gen3/core';
-// import { fetchSmsAggregations } from './smsAggregationsApi';
-// import { GraphQLApiResponse } from '@/core';
 import { GenomicTableProps } from './types';
 import { extractFiltersWithPrefixFromFilterSet } from '../../features/cohort/utils';
 import { extractContents } from '@/core/utils';
 import {
-  SsmsTableRequestParameters,
   TopSsm,
 } from '@/core/genomic/ssmsTableSlice';
 

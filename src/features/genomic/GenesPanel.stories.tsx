@@ -7,6 +7,7 @@ import Gen3GDCCompatabilityProvider from '@/utils/providers';
 import { Gen3Provider } from '@gen3/frontend';
 import { ComparativeSurvival } from './types';
 
+
 const meta = {
   component: GenesPanel,
   title: 'features/GenesPanel',
@@ -49,7 +50,9 @@ export const Default: Story = {
         }}
       >
         <Gen3GDCCompatabilityProvider>
+
           <GenesPanel {...args} />
+
         </Gen3GDCCompatabilityProvider>
       </Gen3Provider>
     </div>
