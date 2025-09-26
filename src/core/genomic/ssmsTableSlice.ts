@@ -4,9 +4,9 @@ import {
   Union,
   DataStatus,
   guppyApi,
-  TablePageOffsetProps
+  TablePageOffsetProps,
 } from '@gen3/core';
-import { getSSMTestedCases } from "./utils";
+import { getSSMTestedCases } from './utils';
 import { GraphQLApiResponse } from '@/core';
 import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
 
@@ -74,9 +74,9 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
 }`;
 
 interface CaseIdData {
-  case : {
-        case_id: string;
-  }
+  case: {
+    case_id: string;
+  };
 }
 
 export interface SSMSConsequence {
@@ -110,10 +110,11 @@ export interface SSMSData {
   readonly genomic_dna_change: string;
   readonly mutation_subtype: string;
   readonly consequence: ReadonlyArray<SSMSConsequence>;
-  readonly occurrence: number
+  readonly occurrence: number;
 }
 
-export interface SSMSDataResponse extends Omit<SSMSData, "occurrence" | "filteredOccurrences"> {
+export interface SSMSDataResponse
+  extends Omit<SSMSData, 'occurrence' | 'filteredOccurrences'> {
   readonly occurrence: ReadonlyArray<CaseIdData>;
   readonly filteredOccurrences: { ssm: { _totalCount: number } };
 }
@@ -132,31 +133,31 @@ export const buildSSMSTableSearchFilters = (
 ): Union | undefined => {
   if (term !== undefined) {
     return {
-      operator: "or",
+      operator: 'or',
       operands: [
         {
-          operator: "includes",
-          field: "genes.gene_id",
+          operator: 'includes',
+          field: 'genes.gene_id',
           operands: [`*${term}*`],
         },
         {
-          operator: "includes",
-          field: "ssms.genomic_dna_change",
+          operator: 'includes',
+          field: 'ssms.genomic_dna_change',
           operands: [`*${term}*`],
         },
         {
-          operator: "includes",
-          field: "genes.symbol",
+          operator: 'includes',
+          field: 'genes.symbol',
           operands: [`*${term}*`],
         },
         {
-          operator: "includes",
-          field: "ssms.gene_aa_change",
+          operator: 'includes',
+          field: 'ssms.gene_aa_change',
           operands: [`*${term}*`],
         },
         {
-          operator: "includes",
-          field: "ssms.ssm_id",
+          operator: 'includes',
+          field: 'ssms.ssm_id',
           operands: [`*${term}*`],
         },
       ],
@@ -174,21 +175,21 @@ export interface SsmsTableRequestParameters extends TablePageOffsetProps {
 }
 
 interface ssmtableResponse {
-      cases: {
-        case_centric: {
-          _totalCount: number;
-        };
-        filteredCases: {
-          _totalCount: number;
-        };
-      };
-      ssm: SSMSDataResponse[];
-      filteredOccurrences: { ssm : { _totalCount: number;  }};
-      ssms: {
-        ssm: {
-          _totalCount: number;
-        };
-      };
+  cases: {
+    case_centric: {
+      _totalCount: number;
+    };
+    filteredCases: {
+      _totalCount: number;
+    };
+  };
+  ssm: SSMSDataResponse[];
+  filteredOccurrences: { ssm: { _totalCount: number } };
+  ssms: {
+    ssm: {
+      _totalCount: number;
+    };
+  };
 }
 
 export interface SsmsTableState {
@@ -219,89 +220,79 @@ const generateFilter = ({
     caseFilters: cohortFiltersGQL,
 
     ssmsTable_filters: {
-      "and": [
+      and: [
         {
-          "nested": {
-            "path": "consequence",
-            "nested": {
-              "path": "consequence.transcript",
-              "eq": {
-                "is_canonical": true
-              }
-            }
-          }
+          nested: {
+            path: 'consequence',
+            nested: {
+              path: 'consequence.transcript',
+              eq: {
+                is_canonical: true,
+              },
+            },
+          },
         },
         {
-          "nested": {
-            "path": "consequence",
-            "nested": {
-              "path": "consequence.transcript",
-              "nested": {
-                "path": "consequence.transcript.gene",
-                "in": {
-                  "symbol": [
-                    geneSymbol
-                  ]
-                }}
-            }
-          }
+          nested: {
+            path: 'consequence',
+            nested: {
+              path: 'consequence.transcript',
+              nested: {
+                path: 'consequence.transcript.gene',
+                in: {
+                  symbol: [geneSymbol],
+                },
+              },
+            },
+          },
         },
-        contextFilters
-      ]
+        contextFilters,
+      ],
     },
     caseTotalFilter: {
-      "and": [
+      and: [
         {
-          "in": {
-            "available_variation_data": [
-              "ssm"
-            ]
-          }
+          in: {
+            available_variation_data: ['ssm'],
+          },
         },
         {
-          "nested": {
-            "path": "gene",
-            "in": {
-              "symbol": [
-                geneSymbol
-              ]
-            }
-          }
-        }
-      ]
+          nested: {
+            path: 'gene',
+            in: {
+              symbol: [geneSymbol],
+            },
+          },
+        },
+      ],
     },
     ssmTested: {
-      "and": [
+      and: [
         {
-          "in": {
-            "available_variation_data": [
-              "ssm"
-            ]
-          }
-        }
-      ]
+          in: {
+            available_variation_data: ['ssm'],
+          },
+        },
+      ],
     },
-    ssmTotalFilter : {
-      "and": [
+    ssmTotalFilter: {
+      and: [
         {
-          "nested": {
-            "path": "occurrence",
-            "nested": {
-              "path": "occurrence.case",
-              "in": {
-                "available_variation_data": [
-                  "ssm"
-                ]
-              }
-            }
-          }
-        }
-      ]
+          nested: {
+            path: 'occurrence',
+            nested: {
+              path: 'occurrence.case',
+              in: {
+                available_variation_data: ['ssm'],
+              },
+            },
+          },
+        },
+      ],
     },
     ssmsTable_size: pageSize,
     ssmsTable_offset: offset,
-    sort: [
-    ],
+    sort: [],
   };
 
   return graphQlFilters;
@@ -315,8 +306,12 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         variables: generateFilter(request),
       }),
       transformResponse: (response: { data: ssmtableResponse }) => {
-        const { consequence, ssm_id } = response?.data?.ssm[0] ?? { consequence: {}, ssm_id: "" };
-        const { aa_change, consequence_type } = consequence?.[0]?.transcript ?? { aa_change: "", consequence_type: "" };
+        const { consequence, ssm_id } = response?.data?.ssm[0] ?? {
+          consequence: {},
+          ssm_id: '',
+        };
+        const { aa_change, consequence_type } = consequence?.[0]
+          ?.transcript ?? { aa_change: '', consequence_type: '' };
         return {
           ssm_id,
           aa_change,
@@ -335,33 +330,39 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         const cases = data.cases.case_centric._totalCount;
         const filteredCases = data.cases.filteredCases._totalCount;
 
-        const ssms  = data.ssm.map(( node ): SSMSData => {
-          return {
-            ssm_id: node.ssm_id,
-            score: 1.0,
-            id:  node.ssm_id,
-            mutation_subtype: node.mutation_subtype,
-            genomic_dna_change: node.genomic_dna_change,
-            occurrence: node.occurrence.length,
-            filteredOccurrences: node.occurrence.length,
-            consequence: node.consequence.reduce((acc : SSMSConsequence[],  node ) => {
-              const transcript = node.transcript;
-              if (!transcript.is_canonical)  // only return canonical
-                return acc;
-              acc.push( {
-                id: node.id,
-                transcript: {
-                  aa_change: node.transcript.aa_change,
-                  annotation: { ...node.transcript.annotation },
-                  consequence_type: transcript.consequence_type,
-                  gene: { ...transcript.gene },
-                  is_canonical: transcript.is_canonical,
+        const ssms =
+          Array.isArray(data.ssm) &&
+          data.ssm.map((node): SSMSData => {
+            return {
+              ssm_id: node.ssm_id,
+              score: 1.0,
+              id: node.ssm_id,
+              mutation_subtype: node.mutation_subtype,
+              genomic_dna_change: node.genomic_dna_change,
+              occurrence: node.occurrence.length,
+              filteredOccurrences: node.occurrence.length,
+              consequence: node.consequence.reduce(
+                (acc: SSMSConsequence[], node) => {
+                  const transcript = node.transcript;
+                  if (!transcript.is_canonical)
+                    // only return canonical
+                    return acc;
+                  acc.push({
+                    id: node.id,
+                    transcript: {
+                      aa_change: node.transcript.aa_change,
+                      annotation: { ...node.transcript.annotation },
+                      consequence_type: transcript.consequence_type,
+                      gene: { ...transcript.gene },
+                      is_canonical: transcript.is_canonical,
+                    },
+                  });
+                  return acc;
                 },
-              });
-              return acc;
-            }, []),
-          };
-        });
+                [],
+              ),
+            };
+          });
         return {
           ssmsTotal,
           cases,
