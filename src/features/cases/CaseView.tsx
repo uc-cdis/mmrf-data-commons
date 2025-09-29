@@ -338,7 +338,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
         isModal={isModal}
       />
 
-      <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
+      <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4 pt-40`}>
         <div data-testid="table-summary-case-summary" className="flex">
           <div className="basis-full lg:basis-1/2">
             <SummaryCard
