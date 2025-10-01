@@ -4,6 +4,7 @@ import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext } from '@/utils/contexts';
 import { expect, within } from 'storybook/test';
 import { CaseView } from './CaseView';
+import casesViewData from './data/caseViewData.json';
 import { useGetCasesQuery } from './mockedHooks';
 
 const CaseViewWrapped = () => {
@@ -13,16 +14,7 @@ const CaseViewWrapped = () => {
     shouldScrollToBio = false;
 
   const annotationCountData = { pagination: { total: 10 } };
-  const { data } = useGetCasesQuery({
-    request: {
-      filters: {
-        content: {
-          field: 'case_id',
-        },
-        op: '=',
-      },
-    },
-  });
+  const { data } = casesViewData;
   return (
     <CaseView
       case_id={case_id}
