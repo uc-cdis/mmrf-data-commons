@@ -7,6 +7,7 @@ import {
   // selectCart,
   // Demographic,
   FilterSet,
+  CartItem,
   // CaseDefaults,
 } from '@gen3/core';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
@@ -117,8 +118,8 @@ export const CaseView: React.FC<CaseViewProps> = ({
 
     const slideCount = getSlideCountFromCaseSummary(experimental_strategies);
 
-    const imageFiles = files?.filter(
-      (file) => file.data_type === 'Slide Image',
+    const imageFiles: CartItem[] = files?.filter(
+      (file: any) => file.data_type === 'Slide Image',
     );
 
     // TODO: type it properly
@@ -396,7 +397,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
         )}
 
         <div data-testid="table-clinical-case-summary" className="mt-8">
-          <h4>Clinical Summary Placeholder</h4>
           <ClinicalSummary
             diagnoses={diagnoses}
             follow_ups={follow_ups}
@@ -431,6 +431,20 @@ export const CaseView: React.FC<CaseViewProps> = ({
         </div>
 
         <div className={`mt-8 ${annotationCountData === 0 ? 'mb-16' : ''}`}>
+          <h4>Placeholder for Most Frequent Somatic Mutations</h4>
+          data.project.project_id:
+          {JSON.stringify(data.project.project_id)}
+          <br />
+          case_id
+          {JSON.stringify(case_id)}
+          <br />
+          cohortFilters=projectFilter
+          {JSON.stringify(projectFilter)}
+          <br />
+          caseFilter
+          {JSON.stringify(caseFilter)}
+          <br />
+          isModal {JSON.stringify(isModal)}
           <SMTableContainer
             projectId={data.project.project_id}
             case_id={case_id}

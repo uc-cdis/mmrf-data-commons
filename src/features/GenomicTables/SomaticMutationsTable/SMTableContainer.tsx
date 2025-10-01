@@ -98,26 +98,31 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   );
   const genomicFiltersWithPossibleGeneSymbol = geneSymbol
     ? joinFilters(
-      {
-        mode: "and",
-        root: {
-          "genes.symbol": {
-            field: "genes.symbol",
-            operator: "includes",
-            operands: [geneSymbol],
+        {
+          mode: 'and',
+          root: {
+            'genes.symbol': {
+              field: 'genes.symbol',
+              operator: 'includes',
+              operands: [geneSymbol],
+            },
           },
         },
-      },
-      genomicFilters,
-    )
+        genomicFilters,
+      )
     : genomicFilters;
 
-  const searchFilters = buildSSMSTableSearchFilters(searchTerm) ?? { operator: "or" , operands: []} satisfies Union;
+  const searchFilters =
+    buildSSMSTableSearchFilters(searchTerm) ??
+    ({ operator: 'or', operands: [] } satisfies Union);
   const genomicTableFilters = appendSearchTermFilters(
     genomicFiltersWithPossibleGeneSymbol,
     searchFilters,
   );
-  const caseTableFilters = appendSearchTermFilters(caseFilter ?? EmptyFilterSet, searchFilters);
+  const caseTableFilters = appendSearchTermFilters(
+    caseFilter ?? EmptyFilterSet,
+    searchFilters,
+  );
 
   const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
@@ -131,6 +136,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     cohortFilters: cohortFilters,
     tableFilters,
   });
+  console.log('SM Table Call data', data);
 
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
@@ -165,28 +171,29 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const pagination = useMemo(() => {
     return isSuccess
       ? {
-        count: pageSize,
-        from: (page - 1) * pageSize,
-        page: page,
-        pages: Math.ceil(data?.ssmsTotal / pageSize),
-        size: pageSize,
-        total: data?.ssmsTotal,
-        sort: "None",
-        label: "somatic mutation",
-      }
+          count: pageSize,
+          from: (page - 1) * pageSize,
+          page: page,
+          pages: Math.ceil(data?.ssmsTotal / pageSize),
+          size: pageSize,
+          total: data?.ssmsTotal,
+          sort: 'None',
+          label: 'somatic mutation',
+        }
       : {
-        count: 0,
-        from: 0,
-        page: 1,
-        pages: 0,
-        size: 0,
-        total: 0,
-        label: "",
-      };
+          count: 0,
+          from: 0,
+          page: 1,
+          pages: 0,
+          size: 0,
+          total: 0,
+          label: '',
+        };
   }, [pageSize, page, data?.ssmsTotal, isSuccess]);
-  const {
-    displayedData,
-  } = useStandardPagination(formattedTableData, SMTableDefaultColumns);
+  const { displayedData } = useStandardPagination(
+    formattedTableData,
+    SMTableDefaultColumns,
+  );
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
     [] as SomaticMutation[],
   );
@@ -220,17 +227,17 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
+      case 'newPageSize':
         setPageSize(parseInt(obj.newPageSize ?? '10'));
         setPage(1);
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         setExpanded({});
         setPage(obj.newPageNumber ?? 1);
         break;
-      case "newSearch":
+      case 'newSearch':
         setExpanded({});
-        setSearchTerm(obj.newSearch ?? "");
+        setSearchTerm(obj.newSearch ?? '');
         setPage(1);
         break;
     }
@@ -252,6 +259,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     }
   };
 
+  console.log('SMTable Container formattedTableData', formattedTableData);
   return (
     <>
       {searchTerm.length === 0 &&
@@ -304,10 +312,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tooltip: 'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
             }}
             tableTotalDetail={
-              <TotalItems
-                total={data?.ssmsTotal}
-                itemName="somatic mutation"
-              />
+              <TotalItems total={data?.ssmsTotal} itemName="somatic mutation" />
             }
             pagination={pagination}
             showControls={true}
