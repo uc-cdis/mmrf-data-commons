@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import react from 'eslint-plugin-react';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
@@ -23,7 +26,6 @@ export default [
       'node_modules/*',
     ],
   },
-
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js'],
 
@@ -62,4 +64,5 @@ export default [
       'react/prop-types': 'warn',
     },
   },
+  ...storybook.configs["flat/recommended"]
 ];

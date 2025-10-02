@@ -1,27 +1,20 @@
 import React, { useMemo } from 'react';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { AnchorLink } from '@/components/AnchorLink';
 import { CollapsibleTextArea } from '@/components/CollapsibleTextArea';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import {
-  useGeneSummaryQuery,
-  FilterSet,
-  // useCoreSelector,
-  // selectCurrentCohortFilters,
-} from '@/core';
+import { useGeneSummaryQuery } from '@/core';
 import { externalLinkNames, externalLinks, humanify } from '../../utils';
 import CNVPlot from '../charts/CNVPlot';
 import SSMPlot from '../charts/SSMPlot';
 import { formatDataForHorizontalTable } from '../files/utils';
 import { LoadingOverlay } from '@mantine/core';
 import { HeaderTitle } from '@/components/tailwindComponents';
-// import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-//import { overwritingDemoFilterMutationFrequency } from "../genomic/GenesAndMutationFrequencyAnalysisTool";
 import { CollapsibleList } from '@/components/CollapsibleList';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
-import GenesIcon from 'public/user-flow/icons/summary/genes.svg';
 import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
 import { WarningBanner } from '@/components/WarningBanner';
 
@@ -65,9 +58,10 @@ export const GeneSummary = ({
   contextSensitive?: boolean;
   contextFilters?: any; // FilterSet;
 }): JSX.Element => {
+
   const { data, isFetching } = useGeneSummaryQuery({
     gene_id,
-  });
+  }, { skip: !gene_id });
 
   return (
     <>
@@ -78,14 +72,11 @@ export const GeneSummary = ({
           data={data}
           gene_id={gene_id}
           isModal={isModal}
-          contextSensitive={contextSensitive}
-          contextFilters={contextFilters}
+          contextSensitive={false}
+          contextFilters={EmptyFilterSet}
         />
       ) : (
-        <>
-          SUMMARY ERROR HEADER
-          <SummaryErrorHeader label="Gene Not Found" />
-        </>
+        <SummaryErrorHeader label="Gene Not Found" />
       )}
     </>
   );
@@ -269,7 +260,7 @@ const GeneView = ({
       {data && (
         <>
           <SummaryHeader
-            iconPath='/icons/genes.svg'
+            iconPath="/icons/genes.svg"
             headerTitleLeft="GENE"
             headerTitle={data.symbol}
             isModal={isModal}

@@ -1,7 +1,7 @@
 import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { MantineProvider } from '@mantine/core';
-
+import { mmrfModals } from '@/components/Modals/registerModals';
 import mantinetheme from '../mantineTheme';
 
 import {
@@ -30,6 +30,8 @@ import Loading from '../components/Loading';
 import { registerCohortComparisonApp } from '@/features/cohortComparison/registerApp';
 import { registerGenesAndMutationFrequencyAnalysisTool} from '@/features/genomic/registerApp';
 import Gen3GDCCompatabilityProvider from '@/utils/providers';
+import { registerMMRFTableCellRenderers } from '@/components/ExplorerCellRenderers';
+
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -61,18 +63,20 @@ const Gen3App = ({
       registerExplorerDefaultCellRenderers();
       registerCohortBuilderDefaultPreviewRenderers();
       registerCohortTableCustomCellRenderers();
+      registerMMRFTableCellRenderers();
       registerCustomExplorerDetailsPanels();
       registerCohortComparisonApp();
       registerGenesAndMutationFrequencyAnalysisTool();
+
       isFirstRender.current = false;
-      console.log('Gen3 App initialized');
+      console.log('MMRF Portal initialized');
     }
   }, []);
 
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Only on client-side
+    setIsClient(true); // Only on the client-side
   }, []);
 
   return (
@@ -84,6 +88,7 @@ const Gen3App = ({
               icons={icons}
               sessionConfig={sessionConfig}
               modalsConfig={modalsConfig}
+              contextModals={mmrfModals}
             >
               <Gen3GDCCompatabilityProvider>
                 <Component {...pageProps} />

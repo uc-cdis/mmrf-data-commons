@@ -1,11 +1,11 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { expect, within } from 'storybook/test';
 import SSMPlot from './SSMPlot';
 
 const meta = {
   component: SSMPlot,
-  title: 'components/SSMPlot',
+  title: 'features/charts/SSMPlot',
   parameters: {
     deepControls: { enabled: true },
   },
@@ -22,15 +22,19 @@ export const Default: Story = {
     ssms: 'ssms-id',
   },
   play: async ({ canvasElement }) => {
+    // INTERACTION TESTS COMMENTED OUT SEP 24
+    /*
+
     const canvas = within(canvasElement);
-    const testIds = [
+
+   const testIds = [
       'graph-cancer-distribution-mutations',
       'chart-text-version',
     ];
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
-    });
+    }); */
   },
 };

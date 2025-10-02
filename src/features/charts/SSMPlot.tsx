@@ -1,11 +1,12 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { FilterSet, useSsmPlotQuery } from '@/core';
+import { useSsmPlotQuery } from '@/core/features/cancerDistribution';
 import ChartTitleBar from './ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import BarChartTextVersion from './BarChartTextVersion';
 import { PlotMouseEvent } from 'plotly.js';
+import { FilterSet, EmptyFilterSet } from '@gen3/core';
 
 const BarChart = dynamic(() => import('./BarChart'), {
   ssr: false,
@@ -27,17 +28,17 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   gene,
   ssms,
   height = undefined,
-  genomicFilters = undefined,
-  cohortFilters = undefined,
+  genomicFilters = EmptyFilterSet,
+  cohortFilters = EmptyFilterSet,
 }: SSMPlotProps) => {
   const router = useRouter();
 
   const { data, error, isUninitialized, isFetching, isError } = useSsmPlotQuery(
     {
-      gene,
-      ssms,
-      cohortFilters,
-      genomicFilters,
+      gene: gene ?? '',
+      ssms: ssms ?? '',
+      cohortFilters: cohortFilters ?? EmptyFilterSet,
+      genomicFilters: genomicFilters ?? EmptyFilterSet,
     },
   );
 
@@ -50,20 +51,16 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
   }
 
   if (isError) {
-    return (
-      <div>
-        Failed to fetch chart:{' '}
-        {typeof error === 'string'
-          ? error
-          : 'text' in error
-            ? error?.text
-            : 'error'}
-      </div>
-    );
+    const message = 'An error occurred';
+    return <div>Failed to fetch chart: {message}</div>;
   }
 
-  if (data.cases.length < 5) {
-    return null;
+  if (!data || data?.cases?.length < 5) {
+    return (
+      <div className="border border-base-lighter p-4">
+        Insufficient Data for SSM Plot
+      </div>
+    );
   }
 
   interface dataCase {
@@ -159,7 +156,7 @@ const SSMPlot: React.FC<SSMPlotProps> = ({
       <div>
         <BarChart
           divId={chartDivId}
-          data={chartData}
+          data={chartData as any} // TODO: fix type
           onClickHandler={onClickHandler}
           height={height}
         />

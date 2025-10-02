@@ -10,7 +10,7 @@ import {
 import type { ImageComponentType, LinkComponentType } from '@/core/types';
 
 import { AppContext as GDC3AppContext } from '@/utils/contexts';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/compat/router';
 
 interface Gen3GDCCompatabilityProviderProps {
   children: ReactNode;
@@ -32,7 +32,7 @@ const Gen3GDCCompatabilityProvider = ({
   useEffect(() => {
     setPrevPath(currentPath);
     setCurrentPath(globalThis.location.pathname + globalThis.location.search);
-  }, [currentPath, router.asPath]);
+  }, [currentPath, router?.asPath]);
 
   return (
     <SummaryModalContext.Provider
@@ -46,7 +46,7 @@ const Gen3GDCCompatabilityProvider = ({
           value={{
             Link: Link as LinkComponentType,
             Image: Image as ImageComponentType,
-            path: router.pathname,
+            path: router?.pathname,
             theme,
           }}
         >

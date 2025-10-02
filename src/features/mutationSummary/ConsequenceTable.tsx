@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSsmsConsequenceTableQuery } from '@/core';
+import { useSsmsConsequenceTableQuery } from '@/core/genomic/ssmsConsequenceTableSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { ConsequenceTableData } from '@/features/mutationSummary/types';
 import useStandardPagination from '@/hooks/useStandardPagination';
@@ -313,7 +313,7 @@ export const ConsequenceTable = ({
 
   const handleJSONDownload = () => {
     setConsequenceTableJSONDownloadActive(true);
-    const json = initialData.consequence.map(
+    const json = initialData?.consequence.map(
       ({
         transcript: {
           aa_change,

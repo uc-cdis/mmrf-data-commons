@@ -23,9 +23,9 @@
       "name": "Documentation"
     },
     {
-      "rightIcon": "mmrf:library",
-      "href": "/",
-      "name": "My Data Library"
+      "rightIcon": "mmrf:cart",
+      "href": "/cart",
+      "name": "Cart"
     }
   ]
 }

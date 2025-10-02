@@ -1,7 +1,7 @@
 import React from 'react';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
-import { useSsmsSummaryQuery } from '@/core';
+import { useSsmsSummaryQuery } from '@/core/genomic/ssmsSummary/ssmsSummarySlice';
 import { Loader } from '@mantine/core';
 import { pick } from 'lodash';
 import { HorizontalTableProps } from '@/components/HorizontalTable';
@@ -22,26 +22,7 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  const { data: summaryData, isFetching } = useSsmsSummaryQuery({
-    filters: {
-      content: {
-        field: 'ssm_id',
-        value: ssm_id,
-      },
-      op: '=',
-    },
-    expand: ['consequence.transcript', 'consequence.transcript.annotation'],
-    fields: [
-      'reference_allele',
-      'genomic_dna_change',
-      'mutation_subtype',
-      'ncbi_build',
-      'reference_allele',
-      'cosmic_id',
-      'clinical_annotations.civic.variant_id',
-    ],
-    size: 1,
-  });
+  const { data: summaryData, isFetching } = useSsmsSummaryQuery(ssm_id);
 
   const formatDataForSummary = (): HorizontalTableProps['tableData'] => {
     const obj = pick(summaryData, [
@@ -63,7 +44,9 @@ export const SSMSSummary = ({
           polyphen_score,
         } = {},
       },
-    } = summaryData;
+    } = summaryData ?? {
+      transcript: {}
+    };
 
     const functionalImpact = {
       functional_impact: (
@@ -118,7 +101,9 @@ export const SSMSSummary = ({
       cosmic_id,
       civic,
       transcript: { annotation: { dbsnp } = {} },
-    } = summaryData;
+    } = summaryData ?? {
+      transcript: {}
+    }
 
     const arr = [];
     arr.push([

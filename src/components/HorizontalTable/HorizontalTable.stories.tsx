@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { expect, within } from 'storybook/test';
 import { HorizontalTable } from './index';
 
 const meta = {

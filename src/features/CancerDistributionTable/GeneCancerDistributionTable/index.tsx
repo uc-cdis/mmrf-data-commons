@@ -1,9 +1,9 @@
 import React from 'react';
+import { FilterSet } from '@gen3/core';
 import {
-  FilterSet,
-  useGetGeneCancerDistributionTableQuery,
   useGetProjectsQuery,
 } from '@/core';
+import { useGetGeneCancerDistributionTableQuery } from '@/core/features/cancerDistribution'
 import { useCallback, useEffect, useState } from 'react';
 import {
   ColumnOrderState,
@@ -53,7 +53,7 @@ const GeneCancerDistributionTable: React.FC<
   });
 
   const projectKeys = useDeepCompareMemo(
-    () => geneCancerDistributionData?.projects.map((p: any) => p.key) || [],
+    () => geneCancerDistributionData?.projects?.map((p: any) => p.key) || [],
     [geneCancerDistributionData],
   );
 
@@ -72,7 +72,7 @@ const GeneCancerDistributionTable: React.FC<
         'summary.experimental_strategies',
         'program',
       ],
-      size: geneCancerDistributionData?.projects.length,
+      size: geneCancerDistributionData?.projects?.length,
     });
 
   const projectsById: any = useDeepCompareMemo(
@@ -147,7 +147,7 @@ const GeneCancerDistributionTable: React.FC<
               num_mutations:
                 (geneCancerDistributionData.ssmFiltered[d.key] || 0) === 0
                   ? 0
-                  : d.doc_count,
+                  : d.count,
             };
             return row;
           })

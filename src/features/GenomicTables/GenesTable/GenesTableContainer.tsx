@@ -4,7 +4,8 @@ import { useGeneTable } from '../../genomic/mockedHooks';
 import { useContext, useEffect, useState } from 'react';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import FunctionButton from '@/components/FunctionButton';
-import { joinFilters, statusBooleansToDataStatus } from 'src/utils';
+import { joinFilters } from '@/core/utils';
+import { statusBooleansToDataStatus } from 'src/utils';
 import { SummaryModalContext } from '@/utils/contexts';
 import VerticalTable from '@/components/Table/VerticalTable';
 import {
@@ -25,11 +26,12 @@ import {
   CnvChange,
 } from '@/core/genomic/genesTableSlice';
 import { getGene, useGenerateGenesTableColumns } from './utils';
-import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/Utils';
+import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
 import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
 import useStandardPagination from '@/hooks/useStandardPagination';
 import { GenesTableClientSideSearch } from './GenesTableClientSideSearch';
+import GenesTableData from '@/features/genomic/data/useGenesTable_data_all.json';
 
 export interface GTableContainerProps {
   readonly selectedSurvivalPlot: ComparativeSurvival;
@@ -44,6 +46,10 @@ export interface GTableContainerProps {
   cohortFilters: FilterSet;
   toggledGenes?: ReadonlyArray<string>;
   isDemoMode?: boolean;
+  data: any;
+  isFetching: boolean;
+  isError: boolean;
+  isSuccess: boolean;
 }
 
 export const GenesTableContainer: React.FC<GTableContainerProps> = ({
@@ -55,6 +61,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   toggledGenes = [],
   isDemoMode = false,
   handleMutationCountClick,
+  data, isFetching, isError, isSuccess,
 }: GTableContainerProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -68,16 +75,16 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     searchFilters as any,
   );
 
-  // GeneTable call
-  const { data, isSuccess, isFetching, isError } = useGeneTable({
-    pageSize: 0,
-    offset: 0,
-    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-    genomicFilters: genomicFilters,
-    cohortFilters: cohortFilters,
-    genesTableFilters,
-  });
-  // GeneTable call end
+  // // GeneTable call
+  // const { data, isSuccess, isFetching, isError } = useGeneTable({
+  //   pageSize: 0,
+  //   offset: 0,
+  //   searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+  //   genomicFilters: genomicFilters,
+  //   cohortFilters: cohortFilters,
+  //   genesTableFilters,
+  // });
+  // // GeneTable call end
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
@@ -141,9 +148,9 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     if (!data?.genes) return [];
 
     const { cases, cnvCases, mutationCounts, filteredCases, genes } =
-      data.genes;
+      data;
 
-    return genes.map((gene) =>
+    return genes.map((gene: any) =>
       getGene(
         gene,
         selectedSurvivalPlot,
@@ -302,7 +309,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           </div>
         }
         tableTotalDetail={
-          <TotalItems total={data?.genes?.genes_total} itemName="gene" />
+          <TotalItems total={data?.genesTotal} itemName="gene" />
         }
         pagination={{
           page,
@@ -310,7 +317,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           size,
           from,
           total,
-          label: 'project',
+          label: 'gene',
         }}
         showControls={true}
         search={{

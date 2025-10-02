@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { http, HttpResponse } from 'msw';
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
 

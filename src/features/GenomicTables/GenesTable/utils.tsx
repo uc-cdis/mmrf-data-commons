@@ -133,14 +133,14 @@ export const useGenerateGenesTableColumns = ({
         header: 'Symbol',
         cell: ({ row }: any) => (
           <PopupIconButton
-            handleClick={() =>
+            handleClick={() => {
               setEntityMetadata({
                 entity_type: 'genes',
                 entity_id: row.original.gene_id,
                 contextSensitive: true,
                 contextFilters: genomicFilters,
               })
-            }
+            }}
             label={row.original.symbol}
             ariaId={`${componentId}-genes-table-${row.original.gene_id}`}
           />
@@ -194,7 +194,7 @@ export const useGenerateGenesTableColumns = ({
         header: () => (
           <HeaderTooltip
             title={`# SSM Affected Cases
-          Across the GDC`}
+          Across MMRF`}
             tooltip={`# Cases where Gene contains Simple Somatic Mutations / # Cases tested for Simple Somatic Mutations portal wide.
          Expand to see breakdown by project`}
           />
@@ -444,7 +444,7 @@ export const getGene = (
       numerator: g.case_cnv_homozygous_deletion,
       denominator: cnvCases,
     },
-    '#_mutations': mutationCounts[g.gene_id],
+    '#_mutations': mutationCounts?.[g.gene_id] ?? 0,
     annotations: g.is_cancer_gene_census,
   };
 };

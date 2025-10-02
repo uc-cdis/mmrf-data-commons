@@ -5,13 +5,13 @@ import {
   useCoreSelector,
   convertFilterToGqlFilter,
   Operation,
+  buildNestedFilterForOperation
 } from '@gen3/core';
 import {
   convertFilterSetToOperation,
   selectCurrentCohortCaseFilters as selectCurrentCohortFilters,
 } from '@/core/utils';
 import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
-import { buildNested} from '@gen3/frontend';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
 import { getFormattedTimestamp } from "@/utils/date";
@@ -75,13 +75,13 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
               );
 
               if (dataPoint !== undefined) {
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: ">=",
                   field: field,
                   operand: dataPoint.from,
                 }));
 
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: "<",
                   field,
                   operand: dataPoint.to,
@@ -90,13 +90,13 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
             } else {
                 const [fromValue, toValue] = parseContinuousBucket(value);
 
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: ">=",
                   field,
                   operand: fromValue,
                 }));
 
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: "<",
                   field,
                   operand: toValue,
@@ -104,13 +104,13 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
               }
           } else {
               if (typeof customBinnedData?.[value as keyof typeof customBinnedData] === "object") {
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: '=',
                   field: field,
                   operand: Object.keys(customBinnedData[value as keyof typeof customBinnedData])[0]
                 }));
               } else {
-                content.push(buildNested(field, {
+                content.push(buildNestedFilterForOperation(field, {
                   operator: '=',
                   field: field,
                   operand: value

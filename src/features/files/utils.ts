@@ -1,13 +1,15 @@
-import { CartFile, GdcFile, caseFileType } from '@/core';
+import { GdcFile, caseFileType } from '@/core';
 import { get, omit, pick } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';
 import { JSONObject } from '../types';
+import { MMRFFile } from '@/core/features/files/filesSlice';
+import { CartItem } from '@gen3/core';
 
 /*
 formatDataForHorizontalTable searches for data in an object and applies any modifiers provided to the located data. It then outputs data ready for the HorizontalTable component to use
 */
 export const formatDataForHorizontalTable = (
-  file: GdcFile | JSONObject,
+  file: MMRFFile | JSONObject,
   headersConfig: ReadonlyArray<{
     readonly field: string;
     readonly name: string;
@@ -141,12 +143,10 @@ export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
   return formatImageDetailsInfo(slideDetailsInfo);
 };
 
-export const mapGdcFileToCartFile = (
-  files: GdcFile[] | caseFileType[] | undefined,
-): CartFile[] => {
-  // Updated April 10 25 to get build to work
-  /*
-  files?.map((file: GdcFile | caseFileType) =>
+export const mapFileToCartItem = (
+  files: MMRFFile[] | caseFileType[] | undefined,
+): CartItem[] => {
+  files?.map((file: MMRFFile | caseFileType) =>
     pick(file, [
       'access',
       'acl',
@@ -157,9 +157,9 @@ export const mapGdcFileToCartFile = (
       'file_name',
     ]),
   );
-  */
-  return (files as (GdcFile | caseFileType)[]).map((file) =>
-    pick(file, [
+
+  return (files as (MMRFFile | caseFileType)[]).map((file) => ({
+    ...pick(file, [
       'access',
       'acl',
       'file_id',
@@ -168,7 +168,8 @@ export const mapGdcFileToCartFile = (
       'project_id',
       'file_name',
     ]),
-  );
+    id: file.file_id,
+  }));
 };
 
 export const REF_GENOME_EXCLUDED_TYPES = {
@@ -190,3 +191,28 @@ export const shouldDisplayReferenceGenome = (file: GdcFile) => {
     !isIncluded('workflow_type', file?.analysis?.workflow_type as string)
   );
 };
+
+type CartFile = Pick<
+  GdcFile,
+  | 'access'
+  | 'acl'
+  | 'file_id'
+  | 'file_size'
+  | 'state'
+  | 'project_id'
+  | 'file_name'
+>;
+export const mapGdcFileToCartFile = (
+  files: GdcFile[] | caseFileType[] | undefined,
+): CartFile[] | any =>
+  files?.map((file: GdcFile | caseFileType) =>
+    pick(file, [
+      'access',
+      'acl',
+      'file_id',
+      'file_size',
+      'state',
+      'project_id',
+      'file_name',
+    ]),
+  );
