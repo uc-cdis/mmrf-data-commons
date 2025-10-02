@@ -20,12 +20,12 @@
       },
       {
         "icon": "/icons/apps/CohortBuilder.svg",
-        "href": "/",
+        "href": "/?app=CohortBuilder",
         "name": "Cohort Builder"
       },
       {
         "icon": "/icons/apps/Repository.svg",
-        "href": "/",
+        "href": "/?app=Downloads",
         "name": "Repository"
       }
     ],

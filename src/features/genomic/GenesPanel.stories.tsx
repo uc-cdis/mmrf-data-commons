@@ -1,11 +1,12 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { expect, within } from 'storybook/test';
 import { GenesPanel } from './GenesPanel';
 import { registerGenesAndMutationFrequencyAnalysisTool } from '@/features/genomic/registerApp';
 import Gen3GDCCompatabilityProvider from '@/utils/providers';
 import { Gen3Provider } from '@gen3/frontend';
 import { ComparativeSurvival } from './types';
+
 
 const meta = {
   component: GenesPanel,
@@ -49,7 +50,9 @@ export const Default: Story = {
         }}
       >
         <Gen3GDCCompatabilityProvider>
+
           <GenesPanel {...args} />
+
         </Gen3GDCCompatabilityProvider>
       </Gen3Provider>
     </div>

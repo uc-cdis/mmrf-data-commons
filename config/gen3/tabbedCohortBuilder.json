@@ -1,17 +1,19 @@
 {
   "index" : "case",
+  "indexPrefix": "CaseCentric_",
   "tabsConfiguration": {
     "general": {
       "label": "General",
       "facets": [
-        "project_id",
+        "project.project_id",
         "primary_site",
         "disease_type",
         "diagnoses.primary_diagnosis",
         "diagnoses.tissue_or_organ_of_origin"
       ],
       "queryOptions": {
-        "index": "case"
+        "index": "case",
+        "indexPrefix": "CaseCentric_"
       }
     },
     "demographic": {
@@ -24,7 +26,8 @@
         "demographic.vital_status"
       ],
       "queryOptions": {
-        "index": "case"
+        "index": "case",
+        "indexPrefix": "CaseCentric_"
       }
     },
     "general_diagnosis": {
@@ -44,7 +47,7 @@
     },
     "treatment": {
       "label": "Treatment",
-      "facets": ["treatments.therapeutic_agents", "treatments.treatment_type"],
+      "facets": ["diagnoses.treatments.therapeutic_agents", "diagnoses.treatments.treatment_type"],
       "queryOptions": {
         "docType": "cases",
         "indexType": "explore"

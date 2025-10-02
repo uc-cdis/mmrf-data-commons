@@ -1,7 +1,8 @@
 import React, { Suspense, lazy, useEffect, useState, ReactNode } from 'react';
 import { Loader } from "@mantine/core";
+import { selectGen3AppByName, useCoreSelector } from '@gen3/core';
 
-const importApplication = (app : any) =>
+const importApplication = async (app : any) =>
   lazy(() =>
     import(`@/features/apps/${app}`).catch(
       () => import(`@/features/apps/NullApp`),
@@ -17,14 +18,19 @@ const ActiveAnalysisTool: React.FC<AnalysisToolInfo> = ({
 }: AnalysisToolInfo) => {
   const [analysisApp, setAnalysisApp] = useState<ReactNode | null>(null);
 
+  const Gen3App = useCoreSelector(
+    () => selectGen3AppByName(appId), // TODO update ById to ByName
+  ) as React.ElementType;
   useEffect(() => {
     async function loadApp() {
-      const AnalysisApp = await importApplication(appId);
+      const AnalysisApp = Gen3App ?? await importApplication(appId);
       return <AnalysisApp />;
     }
 
     loadApp().then((app) => setAnalysisApp(app));
   }, [appId]);
+
+  console.log('appId', appId);
 
   return (
     <Suspense

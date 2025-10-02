@@ -34,8 +34,9 @@
           "loginRequired": false,
           "description": "Browse and download the files associated with your cohort for more sophisticated analysis.",
           "icon": "/icons/apps/Repository.svg",
-          "href": "/",
+          "href": "/?app=Downloads",
           "count": 1000,
+          "appId" : "Downloads",
           "countUnits": "Cases"
         }
       ]
@@ -50,8 +51,10 @@
           "loginRequired": false,
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
-          "href": "/",
+          "href": "/?app=MutationFrequency",
           "count": 1000,
+          "count": 1000,
+          "appId" : "MutationFrequency",
           "countUnits": "Case"
         },
         {

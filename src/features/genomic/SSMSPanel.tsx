@@ -12,6 +12,7 @@ import { useSelectFilterContent } from '@/features/genomic/hooks';
 import { useScrollIntoView } from '@mantine/hooks';
 import { SMTableContainer } from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import { useGeneAndSSMPanelData } from './mockedHooks';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
@@ -54,7 +55,7 @@ export const SSMSPanel = ({
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, false);
-  const cohortFilters = {};
+  const cohortFilters: FilterSet = EmptyFilterSet;
   /**
    * Get the mutations in cohort
    */

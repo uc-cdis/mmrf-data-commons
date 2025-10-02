@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { entityMetadataType } from '@/utils/contexts';
 import { SummaryModalContext } from '@/utils/contexts';
 import { useCohortFacetsQuery } from '@/core/features/cohortComparison';

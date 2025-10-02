@@ -1,17 +1,19 @@
 {
   "index" : "case",
+  "indexPrefix": "Case_",
   "tabsConfiguration": {
     "general": {
       "label": "General",
       "facets": [
-        "project_id",
+        "project.project_id",
         "primary_site",
         "disease_type",
         "diagnoses.primary_diagnosis",
         "diagnoses.tissue_or_organ_of_origin"
       ],
       "queryOptions": {
-        "index": "case"
+        "index": "case",
+        "indexPrefix": "Case_"
       }
     },
     "demographic": {
@@ -24,14 +26,16 @@
         "demographic.vital_status"
       ],
       "queryOptions": {
-        "index": "case"
+        "index": "case",
+        "indexPrefix": "Case_"
       }
     },
     "general_diagnosis": {
       "label": "General Diagnosis",
       "facets": ["diagnoses.tumor_grade", "diagnoses.morphology"],
       "queryOptions": {
-        "index": "case"
+        "index": "case",
+        "indexPrefix": "Case_"
       }
     },
     "disease_status": {
@@ -39,15 +43,15 @@
       "facets": ["diagnoses.progression_or_recurrence"],
       "queryOptions": {
         "docType": "cases",
-        "indexType": "explore"
+        "indexPrefix": "Case_"
       }
     },
     "treatment": {
       "label": "Treatment",
-      "facets": ["treatments.therapeutic_agents", "treatments.treatment_type"],
+      "facets": ["diagnoses.treatments.therapeutic_agents", "diagnoses.treatments.treatment_type"],
       "queryOptions": {
         "docType": "cases",
-        "indexType": "explore"
+        "indexPrefix": "Case_"
       }
     },
     "biospecimen": {
@@ -60,16 +64,14 @@
         "samples.tumor_descriptor"
       ],
       "queryOptions": {
-        "docType": "cases",
-        "indexType": "explore"
+        "docType": "cases"
       }
     },
     "custom": {
       "label": "Custom Filters",
       "facets": [],
       "queryOptions": {
-        "docType": "cases",
-        "indexType": "explore"
+        "docType": "cases"
       }
     }
   }

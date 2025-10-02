@@ -3,7 +3,8 @@ import { useCallback, useState } from 'react';
 import { orderBy } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { FilterSet, useCnvPlotQuery } from '@/core';
+import { FilterSet } from '@gen3/core';
+import { useCnvPlotQuery } from '@/core/features/cancerDistribution';
 import ChartTitleBar from '../ChartTitleBar';
 import { CountSpan } from '@/components/tailwindComponents';
 import { LoadingOverlay, Tooltip } from '@mantine/core';
@@ -105,7 +106,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
 
   const chartData = useDeepCompareMemo(() => {
     return projectKeys.map((project) => {
-      const cnv: any = data.cnvs[project as keyof typeof data.cnvs];
+      const cnv: any = data?.cnvs[project as keyof typeof data.cnvs];
       const valueSum = anyCheckboxSelected
         ? Object.keys(cnvMapping).reduce((sum, key) => {
             return checkboxState[key as keyof CheckboxState]
@@ -191,7 +192,12 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
     return preparedData;
   }, [top20ChartData, anyCheckboxSelected]);
 
-  if (!isFetching && projectKeys.length < 5) return null;
+  if (!isFetching && projectKeys.length < 5)
+    return (
+      <div className="border border-base-lighter p-4">
+        Insufficient Data for CNV Plot
+      </div>
+    );
 
   const errorMessage =
     typeof error === 'string'
@@ -199,7 +205,7 @@ const CNVPlot: React.FC<CNVPlotProps> = ({
       : ((error as GraphQLFetchError)?.text ?? 'An error occurred');
 
   if (isError) {
-    return <div>Failed to fetch chart: {errorMessage}</div>;
+    return <div className="mt-20">Failed to fetch chart: {errorMessage}</div>;
   }
 
   return (

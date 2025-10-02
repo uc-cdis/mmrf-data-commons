@@ -4,9 +4,7 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-onboarding',
-    '@storybook/addon-essentials',
     '@chromatic-com/storybook',
-    '@storybook/addon-interactions',
     '@storybook/addon-a11y',
     {
       name: 'storybook-addon-manual-mocks',
@@ -14,6 +12,7 @@ const config: StorybookConfig = {
         mocksFolder: '__mocks__',
       },
     },
+    '@storybook/addon-docs',
   ],
   framework: {
     name: '@storybook/nextjs',

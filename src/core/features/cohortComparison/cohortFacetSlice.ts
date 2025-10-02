@@ -2,7 +2,6 @@ import {
   AggregationsData,
   type GQLFilter,
   graphQLAPI,
-  HistogramData,
 } from '@gen3/core';
 import { GEN3_ANALYSIS_API } from '@/core/constants';
 

@@ -1,8 +1,14 @@
 import { GQLFilter } from '@gen3/core';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 const accessTypes = ['open', 'controlled'] as const;
 
 export type AccessType = (typeof accessTypes)[number];
+
+export interface GraphQLApiResponse<H = AnyJson> {
+  readonly data: H;
+  readonly errors: Record<string, string>;
+}
 
 const isAccessType = (x: unknown): x is AccessType => {
   return accessTypes.some((t) => t === x);
@@ -35,9 +41,8 @@ export type ImageComponentType = React.ComponentType<
 >;
 
 export type LinkComponentType = React.ComponentType<
-  Omit<React.HTMLProps<HTMLAnchorElement>, "href"> & { href: any }
+  Omit<React.HTMLProps<HTMLAnchorElement>, 'href'> & { href: any }
 >;
-
 
 export interface HistogramDataAsStringKey {
   key: string;
@@ -56,6 +61,9 @@ export const EmptyFilterSet: FilterSet = { mode: 'and', root: {} };
 // type alias for compatibility with GDC
 export type Bucket = HistogramDataAsStringKey;
 
+export interface Buckets {
+  readonly buckets: ReadonlyArray<Bucket>;
+}
 
 export interface caseFileType {
   readonly access: 'open' | 'controlled';
@@ -145,7 +153,7 @@ export type FileCaseType = ReadonlyArray<{
   }>;
 }>;
 
-export interface GdcCartFile {
+export interface MMRFCartFile {
   readonly file_name: string;
   readonly data_category: string;
   readonly data_type: string;
@@ -209,7 +217,7 @@ export interface GdcFile {
   }>;
   readonly analysis?: {
     readonly workflow_type: string;
-    readonly input_files?: GdcCartFile[];
+    readonly input_files?: [];
     readonly metadata?: {
       readonly read_groups: Array<{
         readonly read_group_id: string;
@@ -223,7 +231,7 @@ export interface GdcFile {
   };
   readonly downstream_analyses?: ReadonlyArray<{
     readonly workflow_type: string;
-    readonly output_files?: GdcCartFile[];
+    readonly output_files?: [];
   }>;
   readonly index_files?: ReadonlyArray<{
     readonly submitterId: string;
@@ -281,6 +289,7 @@ interface SSMSConsequence {
       readonly sift_score: number;
       readonly vep_impact: string;
       readonly hgvsc?: string;
+      readonly dbsnp_rs: string;
     };
     readonly consequence_type: string;
     readonly gene: {
@@ -293,15 +302,48 @@ interface SSMSConsequence {
   };
 }
 
+export interface ClinicalAnnotation {
+  civic: {
+    gene_id: string;
+    variant_id: string;
+  };
+}
+
 export interface SSMSData {
-  readonly ssm_id: string;
-  readonly occurrence: number;
-  readonly filteredOccurrences: number;
-  readonly id: string;
-  readonly score: number;
-  readonly genomic_dna_change: string;
-  readonly mutation_subtype: string;
-  readonly consequence: ReadonlyArray<SSMSConsequence>;
+  ncbi_build: any;
+  ssm_id: string;
+  occurrence: number;
+  filteredOccurrences: number;
+  id: string;
+  score: number;
+  genomic_dna_change: string;
+  mutation_subtype: string;
+  cosmic_id: string[];
+  reference_allele: string;
+  clinical_annotations: ClinicalAnnotation;
+  consequence: ReadonlyArray<SSMSConsequence>;
+}
+
+export interface SSMSSummaryData {
+  uuid: string;
+  dna_change: string;
+  type: string;
+  reference_genome_assembly: string;
+  cosmic_id: string[];
+  allele_in_the_reference_assembly: string;
+  civic: string;
+  transcript: {
+    is_canonical: boolean;
+    transcript_id?: string;
+    annotation: {
+      polyphen_impact: string;
+      polyphen_score: number;
+      sift_impact: string;
+      sift_score: string;
+      vep_impact: string;
+      dbsnp: string;
+    };
+  };
 }
 
 interface TableSubrowItem {
@@ -324,3 +366,69 @@ export interface GraphqlApiSliceRequest {
 }
 
 export type GqlOperation = GQLFilter;
+
+export interface SortBy {
+  readonly field: string;
+  readonly direction: 'asc' | 'desc';
+}
+
+export type FilesTableDataType = {
+  file: MMRFFile;
+  file_uuid: string;
+  access: AccessType;
+  file_name: string;
+  project: string;
+  cases: FileCaseType;
+  data_category: string;
+  data_type: string;
+  data_format: string;
+  experimental_strategy?: string;
+  platform: string;
+  file_size: string;
+  annotations: FileAnnotationsType[];
+};
+
+export interface ProjectDefaults {
+  readonly dbgap_accession_number: string;
+  readonly disease_type: Array<string>;
+  readonly name: string;
+  readonly primary_site: Array<string>;
+  readonly project_id: string;
+  readonly summary?: {
+    readonly case_count: number;
+    readonly file_count: number;
+    readonly file_size: number;
+    readonly data_categories?: Array<{
+      readonly case_count: number;
+      readonly data_category: string;
+      readonly file_count: number;
+    }>;
+    readonly experimental_strategies?: Array<{
+      readonly case_count: number;
+      readonly experimental_strategy: string;
+      readonly file_count: number;
+    }>;
+  };
+  readonly program?: {
+    readonly dbgap_accession_number: string;
+    readonly name: string;
+    readonly program_id: string;
+  };
+}
+
+export interface GdcCartFile {
+  readonly file_name: string;
+  readonly data_category: string;
+  readonly data_type: string;
+  readonly data_format: string;
+  readonly state: string;
+  readonly file_size: number;
+  readonly file_id: string;
+  readonly access: AccessType;
+  readonly acl: ReadonlyArray<string>;
+  readonly project_id?: string;
+  readonly createdDatetime: string;
+  readonly updatedDatetime: string;
+  readonly submitterId: string;
+  readonly md5sum: string;
+}

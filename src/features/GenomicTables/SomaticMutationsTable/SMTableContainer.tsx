@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { FilterSet, useGetSssmTableDataQuery } from '@/core';
+import React, { useEffect, useMemo, useState } from 'react';
+import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
+import {
+  buildSSMSTableSearchFilters,
+  useGetSsmsTableDataQuery,
+} from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
@@ -20,6 +24,8 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 import TotalItems from '@/components/Table/TotalItem';
 import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
+import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
+import { joinFilters } from '@/core/utils';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -85,22 +91,47 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   gene_id,
   case_id,
 }: SMTableContainerProps) => {
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
-  const tableFilters = {};
+  const genomicFiltersWithPossibleGeneSymbol = geneSymbol
+    ? joinFilters(
+      {
+        mode: "and",
+        root: {
+          "genes.symbol": {
+            field: "genes.symbol",
+            operator: "includes",
+            operands: [geneSymbol],
+          },
+        },
+      },
+      genomicFilters,
+    )
+    : genomicFilters;
+
+  const searchFilters = buildSSMSTableSearchFilters(searchTerm) ?? { operator: "or" , operands: []} satisfies Union;
+  const genomicTableFilters = appendSearchTermFilters(
+    genomicFiltersWithPossibleGeneSymbol,
+    searchFilters,
+  );
+  const caseTableFilters = appendSearchTermFilters(caseFilter ?? EmptyFilterSet, searchFilters);
+
+  const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
   /* SM Table Call */
-  const { data, isSuccess, isFetching, isError } = useGetSssmTableDataQuery({
+  const { data, isSuccess, isFetching, isError } = useGetSsmsTableDataQuery({
     pageSize: pageSize,
-    offset: 0,
+    offset: pageSize * (page - 1),
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
     geneSymbol: geneSymbol,
     genomicFilters: genomicFilters,
     cohortFilters: cohortFilters,
     tableFilters,
   });
+
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
 
@@ -130,13 +161,30 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     totalPages: Math.ceil(data?.ssmsTotal ? data?.ssmsTotal / pageSize : 0),
     cohortFilters,
   });
+
+  const pagination = useMemo(() => {
+    return isSuccess
+      ? {
+        count: pageSize,
+        from: (page - 1) * pageSize,
+        page: page,
+        pages: Math.ceil(data?.ssmsTotal / pageSize),
+        size: pageSize,
+        total: data?.ssmsTotal,
+        sort: "None",
+        label: "somatic mutation",
+      }
+      : {
+        count: 0,
+        from: 0,
+        page: 1,
+        pages: 0,
+        size: 0,
+        total: 0,
+        label: "",
+      };
+  }, [pageSize, page, data?.ssmsTotal, isSuccess]);
   const {
-    handlePageChange,
-    handlePageSizeChange,
-    page,
-    pages,
-    from,
-    total,
     displayedData,
   } = useStandardPagination(formattedTableData, SMTableDefaultColumns);
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
@@ -172,20 +220,18 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case 'newSearch':
+      case "newPageSize":
+        setPageSize(parseInt(obj.newPageSize ?? '10'));
+        setPage(1);
+        break;
+      case "newPageNumber":
         setExpanded({});
-        setSearchTerm(obj.newSearch as string);
-        handlePageChange(1);
+        setPage(obj.newPageNumber ?? 1);
         break;
-      case 'newPageSize':
-        if (obj.newPageSize !== undefined) {
-          handlePageSizeChange(obj.newPageSize);
-        }
-        break;
-      case 'newPageNumber':
-        if (obj.newPageNumber !== undefined) {
-          handlePageChange(obj.newPageNumber);
-        }
+      case "newSearch":
+        setExpanded({});
+        setSearchTerm(obj.newSearch ?? "");
+        setPage(1);
         break;
     }
   };
@@ -259,18 +305,11 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
             }}
             tableTotalDetail={
               <TotalItems
-                total={formattedTableData?.length}
+                total={data?.ssmsTotal}
                 itemName="somatic mutation"
               />
             }
-            pagination={{
-              page,
-              pages,
-              size: displayedDataAfterSearch?.length,
-              from,
-              total,
-              label: 'somatic mutation',
-            }}
+            pagination={pagination}
             showControls={true}
             enableRowSelection={true}
             setRowSelection={setRowSelection}
