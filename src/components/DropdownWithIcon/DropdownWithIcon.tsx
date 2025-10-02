@@ -48,6 +48,7 @@ interface DropdownWithIconProps {
   /**
    *    custom position for Menu
    */
+
   customPosition?: any;
   /**
    *    whether the dropdown should fill the height of its parent
@@ -111,7 +112,8 @@ export const DropdownWithIcon = ({
           <Button
             variant="outline"
             color="primary"
-            className={`flex items-center bg-base-max border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary ${focusStyles}`}
+            className={`flex items-center bg-base-max border-primary data-disabled:opacity-50
+               data-disabled:bg-base-max data-disabled:text-primary ${focusStyles}`}
             {...(LeftSection && { leftSection: LeftSection })}
             rightSection={RightSection}
             disabled={targetButtonDisabled}
