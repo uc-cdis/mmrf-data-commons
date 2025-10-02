@@ -7,10 +7,11 @@ import { calculatePercentageAsNumber, humanify } from "@/core/utils";
 import FunctionButton from "@/components/FunctionButton";
 import PValue from "../PValue";
 import CohortCreationButton from "@/components/CohortCreationButton";
-import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType } from '../types';
+import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType, UPPER_FIRST_FIELDS } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
 import { HistogramDataArray } from '@gen3/core';
+import { upperFirst } from "lodash";
 
 
 const BarChart = dynamic(() => import("@/features/charts/BarChart"), {
@@ -72,7 +73,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
   );
 
   const barChartData = formattedData.map((cohort, idx) => ({
-    x: cohort.map((facet) => facet.key),
+    x: cohort.map((facet) => UPPER_FIRST_FIELDS.includes(field) ? upperFirst(facet.key) : facet.key),
     y: cohort.map((facet) => (facet.count / counts[idx]) * 100),
     customdata: cohort.map((facet) => facet.count),
     hovertemplate: `<b>${
@@ -171,7 +172,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                   key={`${field}_${value}`}
                 >
                   <td data-testid={`text-analysis-${value}`} className="pl-2">
-                    {value}
+                    {UPPER_FIRST_FIELDS.includes(field) ? upperFirst(value) : value}
                   </td>
                   <td>
                     <CohortCreationButton
