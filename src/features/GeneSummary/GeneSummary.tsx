@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { FilterSet } from '@gen3/core';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { AnchorLink } from '@/components/AnchorLink';
 import { CollapsibleTextArea } from '@/components/CollapsibleTextArea';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
@@ -58,9 +58,10 @@ export const GeneSummary = ({
   contextSensitive?: boolean;
   contextFilters?: any; // FilterSet;
 }): JSX.Element => {
+
   const { data, isFetching } = useGeneSummaryQuery({
     gene_id,
-  });
+  }, { skip: !gene_id });
 
   return (
     <>
@@ -71,8 +72,8 @@ export const GeneSummary = ({
           data={data}
           gene_id={gene_id}
           isModal={isModal}
-          contextSensitive={contextSensitive}
-          contextFilters={contextFilters}
+          contextSensitive={false}
+          contextFilters={EmptyFilterSet}
         />
       ) : (
         <SummaryErrorHeader label="Gene Not Found" />
