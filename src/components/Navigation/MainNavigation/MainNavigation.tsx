@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext} from 'react';
 import { TopBar } from '@gen3/frontend';
 import { Navigation } from './navigationInterfaces';
 import topBarData from '../../../../config/mmrf/topBar.json';
 import navigationJSON from '../../../../config/mmrf/mainNavigation.json';
 import MobileView from './Components/MobileView';
 import DesktopView from './Components/DesktopView';
+import { SummaryModalContext } from '@/utils/contexts';
+import { SummaryModal } from '@/components/Modals/SummaryModal/SummaryModal';
 
 const MainNavigation: React.FC = () => {
   const { navigation }: { navigation: Navigation } = navigationJSON;
+  const { entityMetadata, setEntityMetadata } = useContext(SummaryModalContext);
+
   return (
     <>
       <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4">
@@ -17,7 +21,20 @@ const MainNavigation: React.FC = () => {
           itemClassnames={topBarData.itemClassnames}
           items={topBarData.items}
         />
+        {
+          <SummaryModal
+            opened={entityMetadata.entity_type !== null}
+            onClose={() =>
+              setEntityMetadata({
+                entity_type: null,
+                entity_id: null,
+              })
+            }
+            entityMetadata={entityMetadata}
+          />
+        }
       </div>
+
       <div
         className="flex items-center justify-between p-4 bg-white shadow-md"
         data-testid="mmrf-mainNavigation"

@@ -103,7 +103,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
     useGetComparisonSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
       index: 'Case_case',
-      field: "case_id",
+      field: 'case_id',
     });
 
   useDeepCompareEffect(() => {
