@@ -36,7 +36,7 @@ const CohortTable = ({
               data-testid="text-first-cohort-cohort-comparison"
             >
               <td
-                className={`${cellClass} font-bold text-[#8d3859]`}
+                className={`${cellClass} font-bold text-mmrf-plum`}
                 data-testid="text-cohort-name-cohort-comparison"
               >
                 {cohorts.primary_cohort?.name}
@@ -53,7 +53,7 @@ const CohortTable = ({
               data-testid="text-second-cohort-cohort-comparison"
             >
               <td
-                className={`${cellClass} font-bold text-[#FCA88D]`}
+                className={`${cellClass} font-bold text-mmrf-rust`}
                 data-testid="text-cohort-name-cohort-comparison"
               >
                 {cohorts.comparison_cohort?.name}
