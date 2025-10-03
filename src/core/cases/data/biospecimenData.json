@@ -1,0 +1,327 @@
+{
+  "files": {
+    "hits": {
+      "edges": []
+    }
+  },
+  "samples": {
+    "hits": {
+      "edges": [
+        {
+          "node": {
+            "current_weight": null,
+            "days_to_collection": null,
+            "days_to_sample_procurement": 1,
+            "freezing_method": null,
+            "initial_weight": null,
+            "intermediate_dimension": null,
+            "longest_dimension": null,
+            "pathology_report_uuid": null,
+            "portions": {
+              "hits": {
+                "edges": [
+                  {
+                    "node": {
+                      "analytes": {
+                        "hits": {
+                          "edges": [
+                            {
+                              "node": {
+                                "a260_a280_ratio": null,
+                                "aliquots": {
+                                  "hits": {
+                                    "edges": [
+                                      {
+                                        "node": {
+                                          "aliquot_id": "10d6",
+                                          "amount": null,
+                                          "analyte_type": null,
+                                          "concentration": null,
+                                          "source_center": null,
+                                          "submitter_id": "MMRFL_L12591"
+                                        }
+                                      }
+                                    ],
+                                    "total": 1
+                                  }
+                                },
+                                "amount": null,
+                                "analyte_id": "bc7",
+                                "analyte_type": null,
+                                "concentration": null,
+                                "spectrophotometer_method": null,
+                                "submitter_id": null,
+                                "well_number": null
+                              }
+                            }
+                          ],
+                          "total": 1
+                        }
+                      },
+                      "is_ffpe": null,
+                      "portion_id": "fb51b",
+                      "portion_number": null,
+                      "slides": {
+                        "hits": {
+                          "edges": [],
+                          "total": 0
+                        }
+                      },
+                      "submitter_id": null,
+                      "weight": null
+                    }
+                  },
+                  {
+                    "node": {
+                      "analytes": {
+                        "hits": {
+                          "edges": [
+                            {
+                              "node": {
+                                "a260_a280_ratio": null,
+                                "aliquots": {
+                                  "hits": {
+                                    "edges": [
+                                      {
+                                        "node": {
+                                          "aliquot_id": "10db",
+                                          "amount": null,
+                                          "analyte_type": null,
+                                          "concentration": null,
+                                          "source_center": null,
+                                          "submitter_id": "MMRF_2570_1_BM_CD138pos_T2_TSMRU_L12444"
+                                        }
+                                      }
+                                    ],
+                                    "total": 1
+                                  }
+                                },
+                                "amount": null,
+                                "analyte_id": "d5ab",
+                                "analyte_type": null,
+                                "concentration": null,
+                                "spectrophotometer_method": null,
+                                "submitter_id": null,
+                                "well_number": null
+                              }
+                            }
+                          ],
+                          "total": 1
+                        }
+                      },
+                      "is_ffpe": null,
+                      "portion_id": "c86",
+                      "portion_number": null,
+                      "slides": {
+                        "hits": {
+                          "edges": [],
+                          "total": 0
+                        }
+                      },
+                      "submitter_id": null,
+                      "weight": null
+                    }
+                  },
+                  {
+                    "node": {
+                      "analytes": {
+                        "hits": {
+                          "edges": [
+                            {
+                              "node": {
+                                "a260_a280_ratio": null,
+                                "aliquots": {
+                                  "hits": {
+                                    "edges": [
+                                      {
+                                        "node": {
+                                          "aliquot_id": "e2d309",
+                                          "amount": null,
+                                          "analyte_type": null,
+                                          "concentration": null,
+                                          "source_center": null,
+                                          "submitter_id": "MMRF_2570_1_BM_CD138pos_T1_KHS5U_L12841"
+                                        }
+                                      }
+                                    ],
+                                    "total": 1
+                                  }
+                                },
+                                "amount": null,
+                                "analyte_id": "cfb",
+                                "analyte_type": null,
+                                "concentration": null,
+                                "spectrophotometer_method": null,
+                                "submitter_id": null,
+                                "well_number": null
+                              }
+                            }
+                          ],
+                          "total": 1
+                        }
+                      },
+                      "is_ffpe": null,
+                      "portion_id": "699",
+                      "portion_number": null,
+                      "slides": {
+                        "hits": {
+                          "edges": [],
+                          "total": 0
+                        }
+                      },
+                      "submitter_id": null,
+                      "weight": null
+                    }
+                  }
+                ],
+                "total": 3
+              }
+            },
+            "preservation_method": "Unknown",
+            "sample_id": "3390",
+            "shortest_dimension": null,
+            "specimen_type": "Bone Marrow NOS",
+            "submitter_id": "MMRF_2570_1_BM_CD138pos",
+            "time_between_clamping_and_freezing": null,
+            "time_between_excision_and_freezing": null,
+            "tissue_type": "Tumor",
+            "tumor_code_id": null,
+            "tumor_descriptor": "Primary"
+          }
+        },
+        {
+          "node": {
+            "current_weight": null,
+            "days_to_collection": null,
+            "days_to_sample_procurement": 1,
+            "freezing_method": null,
+            "initial_weight": null,
+            "intermediate_dimension": null,
+            "longest_dimension": null,
+            "pathology_report_uuid": null,
+            "portions": {
+              "hits": {
+                "edges": [
+                  {
+                    "node": {
+                      "analytes": {
+                        "hits": {
+                          "edges": [
+                            {
+                              "node": {
+                                "a260_a280_ratio": null,
+                                "aliquots": {
+                                  "hits": {
+                                    "edges": [
+                                      {
+                                        "node": {
+                                          "aliquot_id": "075",
+                                          "amount": null,
+                                          "analyte_type": null,
+                                          "concentration": null,
+                                          "source_center": null,
+                                          "submitter_id": "MMRF_2570_1_PB_Whole_C3_KHWGL_L12590"
+                                        }
+                                      }
+                                    ],
+                                    "total": 1
+                                  }
+                                },
+                                "amount": null,
+                                "analyte_id": "6c69",
+                                "analyte_type": null,
+                                "concentration": null,
+                                "spectrophotometer_method": null,
+                                "submitter_id": null,
+                                "well_number": null
+                              }
+                            }
+                          ],
+                          "total": 1
+                        }
+                      },
+                      "is_ffpe": null,
+                      "portion_id": "8b1fec4a-6dab-52b6-931a-fa4741ae8107",
+                      "portion_number": null,
+                      "slides": {
+                        "hits": {
+                          "edges": [],
+                          "total": 0
+                        }
+                      },
+                      "submitter_id": null,
+                      "weight": null
+                    }
+                  },
+                  {
+                    "node": {
+                      "analytes": {
+                        "hits": {
+                          "edges": [
+                            {
+                              "node": {
+                                "a260_a280_ratio": null,
+                                "aliquots": {
+                                  "hits": {
+                                    "edges": [
+                                      {
+                                        "node": {
+                                          "aliquot_id": "7d853",
+                                          "amount": null,
+                                          "analyte_type": null,
+                                          "concentration": null,
+                                          "source_center": null,
+                                          "submitter_id": "MMRF_2570_1_PB_Whole_C3_KHS5U_L12842"
+                                        }
+                                      }
+                                    ],
+                                    "total": 1
+                                  }
+                                },
+                                "amount": null,
+                                "analyte_id": "8f1",
+                                "analyte_type": null,
+                                "concentration": null,
+                                "spectrophotometer_method": null,
+                                "submitter_id": null,
+                                "well_number": null
+                              }
+                            }
+                          ],
+                          "total": 1
+                        }
+                      },
+                      "is_ffpe": null,
+                      "portion_id": "830",
+                      "portion_number": null,
+                      "slides": {
+                        "hits": {
+                          "edges": [],
+                          "total": 0
+                        }
+                      },
+                      "submitter_id": null,
+                      "weight": null
+                    }
+                  }
+                ],
+                "total": 2
+              }
+            },
+            "preservation_method": "Unknown",
+            "sample_id": "cf",
+            "shortest_dimension": null,
+            "specimen_type": "Peripheral Blood NOS",
+            "submitter_id": "MMRF_2570_1_PB_Whole",
+            "time_between_clamping_and_freezing": null,
+            "time_between_excision_and_freezing": null,
+            "tissue_type": "Normal",
+            "tumor_code_id": null,
+            "tumor_descriptor": "Not Applicable"
+          }
+        }
+      ],
+      "total": 2
+    }
+  }
+}
