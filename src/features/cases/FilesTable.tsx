@@ -39,8 +39,9 @@ import { AgreementModal } from '@/components/Modals/AgreementModal';
 import { NoAccessToProjectModal } from '@/components/Modals/NoAccessToProjectModal';
 import { GeneralErrorModal } from '@/components/Modals/GeneraErrorModal';
 import TotalItems from '@/components/Table/TotalItem';
-import { useCoreDispatch, useCoreSelector } from '@gen3/core';
-import { useGetFilesQuery } from '../files/mockedHooks';
+import { FilterSet, useCoreDispatch, useCoreSelector } from '@gen3/core';
+import { useGetFilesQuery } from './mockedHooks';
+import FilesTableData from './data/filesTableData.json';
 
 const fileSize = () => null;
 const download = () => alert('download called in FilesTable');
@@ -124,11 +125,12 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
   };
 
   const { data, isFetching, isSuccess, isError } = useGetFilesQuery({
-    // size: pageSize,
-    //from: pageSize * (activePage - 1),
-    // filters: tableFilters as unknown,
-    // sortBy: sortBy,
+    size: pageSize as any,
+    from: pageSize * (activePage - 1),
+    filters: tableFilters as any,
+    sortBy: sortBy,
   });
+  console.log('data from FilesTable', data);
 
   useDeepCompareEffect(() => {
     setTableData(
@@ -244,10 +246,11 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
         id: 'action',
         header: 'Action',
         cell: ({ row }) => {
-          const isOutputFileInCart = fileInCart(
+          /* const isOutputFileInCart = fileInCart(
             currentCart,
             row.original.file_uuid,
-          );
+          ); */
+          const isOutputFileInCart = false;
           return (
             <TableActionButtons
               isOutputFileInCart={isOutputFileInCart}
