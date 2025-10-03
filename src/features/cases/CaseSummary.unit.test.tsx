@@ -1,26 +1,26 @@
-import { render } from "test-utils";
-import { CaseSummary } from "./CaseSummary";
-import * as func from "@gff/core";
+import React from 'react';
+import { render } from 'test-utils';
+import { CaseSummary } from './CaseSummary';
 
 // Mock the entire module
-jest.mock("@gff/core", () => ({
-  ...jest.requireActual("@gff/core"),
+jest.mock('@gff/core', () => ({
+  ...jest.requireActual('@gff/core'),
   useCoreSelector: jest.fn(),
   useCoreDispatch: jest.fn(),
   useGetCasesQuery: jest.fn(),
   useGetAnnotationsQuery: jest.fn(),
 }));
 
-jest.mock("src/pages/_app", () => ({
+jest.mock('src/pages/_app', () => ({
   URLContext: {},
 }));
 
-describe("<CaseSummary />", () => {
+describe('<CaseSummary />', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should show Loading Overlay when fetching", () => {
+  it('should show Loading Overlay when fetching', () => {
     const loadingResponse = {
       data: undefined,
       isError: false,
@@ -30,17 +30,17 @@ describe("<CaseSummary />", () => {
     };
 
     jest
-      .spyOn(func, "useGetCasesQuery")
+      .spyOn(func, 'useGetCasesQuery')
       .mockReturnValue(loadingResponse as any);
     jest
-      .spyOn(func, "useGetAnnotationsQuery")
+      .spyOn(func, 'useGetAnnotationsQuery')
       .mockReturnValue(loadingResponse as any);
     const { getByTestId } = render(<CaseSummary case_id="testId" bio_id="" />);
 
-    expect(getByTestId("loading-spinner")).toBeInTheDocument();
+    expect(getByTestId('loading-spinner')).toBeInTheDocument();
   });
 
-  it("should show case not found error when wrong case id has been entered i.e, data is undefined", () => {
+  it('should show case not found error when wrong case id has been entered i.e, data is undefined', () => {
     const loadingResponse = {
       data: undefined,
       isError: false,
@@ -50,13 +50,13 @@ describe("<CaseSummary />", () => {
     };
 
     jest
-      .spyOn(func, "useGetCasesQuery")
+      .spyOn(func, 'useGetCasesQuery')
       .mockReturnValue(loadingResponse as any);
     jest
-      .spyOn(func, "useGetAnnotationsQuery")
+      .spyOn(func, 'useGetAnnotationsQuery')
       .mockReturnValue(loadingResponse as any);
     const { getByText } = render(<CaseSummary case_id="testId" bio_id="" />);
 
-    expect(getByText("Case Not Found")).toBeInTheDocument();
+    expect(getByText('Case Not Found')).toBeInTheDocument();
   });
 });

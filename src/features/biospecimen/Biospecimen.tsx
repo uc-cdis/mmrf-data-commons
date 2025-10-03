@@ -27,6 +27,7 @@ import { ClearIcon, DownloadIcon, SearchIcon } from '@/utils/icons';
 import { BiospecimenEntityType } from './types';
 import { useCoreDispatch, useCoreSelector } from '@gen3/core';
 import { useBiospecimenDataQuery } from '@/core/cases/bioSpecimanDataSlice';
+import { CartFile } from '@/core';
 
 const download = (a: any) =>
   alert('called download in Biospecimen with ' + JSON.stringify(a));
@@ -82,18 +83,18 @@ export const Biospecimen = ({
       bioSpecimenData?.samples?.hits?.edges?.length
     ) {
       const escapedSearchText = escapeRegExp(searchText);
-      const founds = bioSpecimenData?.samples?.hits?.edges.map((e) => {
+      const founds = bioSpecimenData?.samples?.hits?.edges.map((e: any) => {
         return searchForStringInNode(escapedSearchText, e);
       });
       const flattened = flatten(founds);
       const foundNode =
         flattened.length > 0
-          ? flattened[0]?.node
+          ? (flattened[0] as any).node
           : bioSpecimenData?.samples?.hits?.edges?.[0]?.node;
 
       if (!entityClicked && foundNode) {
         setSelectedEntity(foundNode);
-        setSelectedType(getType(foundNode));
+        setSelectedType(getType(foundNode) as unknown as any);
       }
     }
   }, [
@@ -103,7 +104,7 @@ export const Biospecimen = ({
     entityClicked,
   ]);
 
-  const onSelectEntity = (entity, type) => {
+  const onSelectEntity = (entity: any, type: any) => {
     setSearchText('');
     setSelectedEntity(entity);
     setSelectedType(type.s);
@@ -297,7 +298,7 @@ export const Biospecimen = ({
                       s: 'sample',
                     }}
                     treeStatusOverride={treeStatusOverride}
-                    setTreeStatusOverride={setTreeStatusOverride}
+                    setTreeStatusOverride={setTreeStatusOverride as any}
                     setTotalNodeCount={setTotalNodeCount}
                     setExpandedCount={setExpandedCount}
                     query={searchText.toLocaleLowerCase().trim()}
@@ -313,7 +314,7 @@ export const Biospecimen = ({
                   selectedType,
                   caseId,
                   dispatch,
-                  currentCart,
+                  currentCart as unknown as CartFile[],
                   [selectedSlide],
                 )}
               />

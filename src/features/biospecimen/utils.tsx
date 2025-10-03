@@ -21,6 +21,8 @@ import { humanify, fileInCart, ageDisplay } from 'src/utils';
 import { CartIcon, MicroscopeIcon } from '@/utils/icons';
 import { CoreDispatch } from '@gen3/core';
 import { BiospecimenEntityType } from './types';
+import { FileDefaults } from '@/core/features/api/types';
+import { CartFile } from '@/core/types';
 
 const addToCart = (a: any, b: any, c: any) => alert('called addToCart');
 const removeFromCart = (a: any, b: any, c: any) =>
@@ -41,11 +43,11 @@ export const searchForStringInNode = (
 ): any[] => {
   const found = [];
 
-  function searchEntity(entity, _type, parents) {
+  function searchEntity(entity: any, _type: any, parents: any) {
     if (entity.node && match(query, entity.node)) found.push(entity);
 
     entityTypes?.forEach((_type) => {
-      get(entity, `node[${_type.p}].hits.edges`, []).forEach((child) => {
+      get(entity, `node[${_type.p}].hits.edges`, []).forEach((child: any) => {
         searchEntity(child, _type.s, [entity[_type.p], entity].concat(parents));
       });
     });
@@ -54,8 +56,11 @@ export const searchForStringInNode = (
   if (entity.node && match(query, entity.node)) found.push(entity);
 
   entityTypes?.forEach((type) => {
-    get(entity, `node[${type.p}].hits.edges`, []).forEach((child) => {
-      searchEntity(child, type.s, [entity[type.p], entity]);
+    get(entity, `node[${type.p}].hits.edges`, []).forEach((child: any) => {
+      searchEntity(child, type.s, [
+        entity[type.p as keyof BiospecimenEntityType],
+        entity,
+      ]);
     });
   });
 

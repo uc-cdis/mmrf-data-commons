@@ -3,6 +3,7 @@ import Highlight from './Highlight';
 import { BioTreeProps, NodeProps, overrideMessage } from './types';
 import { UnstyledButton } from '@mantine/core';
 import { ArrowRight, CollapsedNodeIcon, ExpandNodeIcon } from '@/utils/icons';
+import { BiospecimenEntityType } from '@/core';
 
 const Node = ({
   entity,
@@ -13,13 +14,16 @@ const Node = ({
   selectEntity,
   query,
 }: NodeProps): JSX.Element => {
+  const idKey = `${type.s}_id` as keyof BiospecimenEntityType;
+
   return (
     <li className="ml-6">
-      {entity[`${type.s}_id`] && entity.submitter_id && (
+      {entity && entity[idKey] && entity.submitter_id && (
         <div className="flex">
           <span
             className={`w-full flex justify-between text-xs cursor-pointer hover:underline hover:font-bold ml-3 mt-1 py-1 px-6 border border-base-lighter ${
-              selectedEntity?.[`${type.s}_id`] === entity[`${type.s}_id`]
+              (selectedEntity?.[idKey] as unknown as any) ===
+              (entity[idKey] as unknown as any)
                 ? 'bg-accent-vivid text-base-max font-bold'
                 : 'bg-nci-violet-lightest'
             }
@@ -34,7 +38,7 @@ const Node = ({
             tabIndex={0}
           >
             <Highlight search={query} text={entity.submitter_id} />
-            {selectedEntity?.[`${type.s}_id`] === entity[`${type.s}_id`] && (
+            {selectedEntity?.[idKey] === entity[idKey] && (
               <ArrowRight color="white" size={16} />
             )}
           </span>
@@ -43,11 +47,15 @@ const Node = ({
       {entityTypes
         .filter(
           (childType) =>
-            entity[childType.p] && entity[childType.p].hits.total > 0,
+            entity &&
+            entity[childType.p as keyof BiospecimenEntityType] &&
+            (entity[childType.p as keyof BiospecimenEntityType] as any).hits
+              .total > 0,
         )
         .map((childType) =>
           React.cloneElement(children, {
-            entities: entity[childType.p],
+            entities:
+              entity && entity[childType.p as keyof BiospecimenEntityType],
             key: childType.p,
             type: childType,
           }),
@@ -73,15 +81,20 @@ export const BioTree = ({
   const shouldExpand =
     parentNode === 'root' ||
     [overrideMessage.Expanded, overrideMessage.QueryMatches].includes(
-      treeStatusOverride,
+      treeStatusOverride as overrideMessage,
     );
 
   const isExpanded = useRef(shouldExpand);
 
+  let entitiesHitsEdges;
+  if (entities && entities?.hits?.edges)
+    entitiesHitsEdges = entities.hits.edges;
+
   useEffect(() => {
     if (query.length > 0) {
       if (
-        entities.hits.edges.some((e) => search(query, e).length) ||
+        (entities &&
+          entities.hits.edges.some((e) => search(query, e as any).length)) ||
         ['samples', 'portions', 'analytes', 'aliquots', 'slides'].find((t) =>
           t.includes(query),
         ) ||
@@ -91,7 +104,7 @@ export const BioTree = ({
         setTreeStatusOverride(overrideMessage.QueryMatches);
       } else {
         isExpanded.current = false;
-        setTreeStatusOverride(null);
+        setTreeStatusOverride(null as unknown as overrideMessage);
       }
     } else if (treeStatusOverride) {
       const override = treeStatusOverride === overrideMessage.Expanded;
@@ -105,7 +118,7 @@ export const BioTree = ({
     query,
     setExpandedCount,
     setTotalNodeCount,
-    entities.hits.edges,
+    entitiesHitsEdges,
     search,
     setTreeStatusOverride,
     type.p,
@@ -131,10 +144,10 @@ export const BioTree = ({
     } else {
       setExpandedCount((c) => Math.max(c - 1, 0));
     }
-    setTreeStatusOverride(null);
+    setTreeStatusOverride(null as unknown as overrideMessage);
   };
 
-  const generateKey = (node) => {
+  const generateKey = (node: any) => {
     let key: string;
     switch (type.s) {
       case 'sample':
@@ -152,6 +165,8 @@ export const BioTree = ({
       case 'analyte':
         key = node.analyte_id;
         break;
+      default:
+        key = '';
     }
     return key;
   };
@@ -193,7 +208,7 @@ export const BioTree = ({
           >
             <BioTree
               entityTypes={entityTypes}
-              parentNode={entity.node.submitter_id}
+              parentNode={entity?.node && (entity.node.submitter_id as any)}
               selectedEntity={selectedEntity}
               selectEntity={selectEntity}
               setTreeStatusOverride={setTreeStatusOverride}

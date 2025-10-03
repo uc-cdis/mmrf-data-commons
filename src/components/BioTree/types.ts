@@ -1,5 +1,5 @@
-import { BiospecimenEntityType } from "@gff/core";
-import { JSXElementConstructor, ReactElement } from "react";
+import { BiospecimenEntityType } from '@/core';
+import { JSXElementConstructor, ReactElement } from 'react';
 
 export interface types {
   s: string;
@@ -45,15 +45,15 @@ export interface BioTreeProps {
 }
 
 export const entityTypes = [
-  { s: "portion", p: "portions" },
-  { s: "aliquot", p: "aliquots" },
-  { s: "analyte", p: "analytes" },
-  { s: "slide", p: "slides" },
-  { s: "sample", p: "samples" },
+  { s: 'portion', p: 'portions' },
+  { s: 'aliquot', p: 'aliquots' },
+  { s: 'analyte', p: 'analytes' },
+  { s: 'slide', p: 'slides' },
+  { s: 'sample', p: 'samples' },
 ];
 
 export enum overrideMessage {
-  Expanded = "Expanded",
-  Collapsed = "Collapsed",
-  QueryMatches = "QueryMatches",
+  Expanded = 'Expanded',
+  Collapsed = 'Collapsed',
+  QueryMatches = 'QueryMatches',
 }
