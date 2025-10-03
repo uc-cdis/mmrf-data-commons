@@ -33,6 +33,7 @@ import {
   useFieldNameToTitle,
   FacetDataHooks,
   EnumFacetDataHooks,
+  UploadFacetHooks,
   removeIntersectionFromEnum,
   processBucketData,
   classifyFacets,
@@ -97,6 +98,8 @@ const GeneAndSSMFilterPanel = ({
     {
       type: 'ssm',
       fields: [
+        'gene_id',
+        'ssm_id',
         'consequence.transcript.annotation.vep_impact',
         'consequence.transcript.annotation.sift_impact',
         'consequence.transcript.annotation.polyphen_impact',
@@ -113,6 +116,8 @@ const GeneAndSSMFilterPanel = ({
       {
         title: "Genes",
         fields: [
+          'gene_id',
+          'ssm_id',
           "biotype",
           "consequence.transcript.annotation.vep_impact",
           'consequence.transcript.annotation.sift_impact',
@@ -181,24 +186,35 @@ const GeneAndSSMFilterPanel = ({
   const filtersAppliedCount = useAppSelector(selectFiltersAppliedCount);
   const clearAllFilters = useClearAllGenomicFilters();
 
-  const GenomicFilterHooks : Record<'enum', FacetDataHooks | EnumFacetDataHooks> = { enum : {
-    useGetFacetData: getEnumFacetData,
-    useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
-    useClearFilter: useClearGenomicFilters,
-    useTotalCounts: useTotalGenomicCounts,
-    useGetFacetFilters: useGenomicFilterByName,
-    useToggleExpandFilter: useToggleExpandFilter,
-    useFilterExpanded: useFilterExpandedState,
-    useFieldNameToTitle,
-  }};
+
+  const GenomicFilterHooks : Record<'enum' | 'upload', FacetDataHooks | EnumFacetDataHooks | UploadFacetHooks> = {
+    enum : {
+      useGetFacetData: getEnumFacetData,
+      useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
+      useClearFilter: useClearGenomicFilters,
+      useTotalCounts: useTotalGenomicCounts,
+      useGetFacetFilters: useGenomicFilterByName,
+      useToggleExpandFilter: useToggleExpandFilter,
+      useFilterExpanded: useFilterExpandedState,
+      useFieldNameToTitle,
+    },
+    upload: {
+      useFilterItems: useUploadFilterItems as any,
+      useClearFilter: useClearGenomicFilters,
+      useFieldNameToTitle,
+      useOpenUploadModal: useOpenUploadModal,
+      useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
+
+    }
+  };
 
   return (
     <>
-      <DropdownPanel<'enum'>
+      <DropdownPanel
         index="genomic"
         filters={filters}
         facetDefinitions={facetDefinitions}
-        facetDataHooks={GenomicFilterHooks}
+        facetDataHooks={GenomicFilterHooks as any}
         showAccessLevel={false}
         tabTitle={"Genomic Filters"}
       />
