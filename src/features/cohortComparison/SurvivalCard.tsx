@@ -140,9 +140,9 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
               <SurvivalPlot
                 plotType={SurvivalPlotTypes.cohortComparison}
                 data={isLoading ? EmptySurvivalPlot : data ?? EmptySurvivalPlot}
-                hideLegend
                 noDataMessage="No Survival data available for this Cohort Comparison"
                 isLoading={isLoading}
+                names={[cohorts?.primary_cohort?.name || '', cohorts?.comparison_cohort?.name || '']}
               />
             </div>
           )}
