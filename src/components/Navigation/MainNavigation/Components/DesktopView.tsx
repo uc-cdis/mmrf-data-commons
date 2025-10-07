@@ -37,7 +37,7 @@ const DesktopView: React.FC<DesktopViewProps> = ({ navigation }) => (
           {link.name}
         </Anchor>
       ))}
-      <div className="pl-3" data-testid="mmrf-mainNavigation-search">
+      <div className="pl-3 hidden" data-testid="mmrf-mainNavigation-search">
         <SearchBar
           iconSrc={navigation.Search.icon}
           placeholderText={navigation.Search.placeholderText}
