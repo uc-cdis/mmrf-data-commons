@@ -1,4 +1,5 @@
 import { FilterSet, GQLFilter } from "@gen3/core";
+import tailwindConfig from "tailwind.config";
 
 export interface GqlIntersection {
   and: ReadonlyArray<GQLFilter>
@@ -18,8 +19,8 @@ export interface CohortComparisonType {
   };
 }
 
-export const COHORT_A_COLOR = "#8d3859";
-export const COHORT_B_COLOR = "#FCA88D";
+export const COHORT_A_COLOR = tailwindConfig.theme.extend.colors.mmrf.plum;
+export const COHORT_B_COLOR = tailwindConfig.theme.extend.colors.mmrf.rust;
 
 
 
@@ -36,6 +37,6 @@ export const FIELD_LABELS  : { [key: string]: string } = {
   "demographic.gender": "Gender",
   "demographic.ethnicity": "Ethnicity",
   "demographic.race": "Race",
-  "demographic.vital_status": "Vital Status",
+  "demographic.vital_status": "Patient Status",
   "diagnoses.age_at_diagnosis": "Age at Diagnosis",
 };
