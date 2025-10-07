@@ -133,3 +133,24 @@ export const ageDisplay = (
 
   return ageInDays >= 0 ? ageString : `-${ageString}`;
 };
+
+
+export function groupChildrenByLevel(paths: string[], level: number): Record<string, string[]> {
+  const acc: Record<string, Set<string>> = {};
+
+  for (const p of paths) {
+    const parts = p.split(".");
+    if (parts.length <= level) continue; // no prefix at this level
+    const prefix = parts.slice(0, level + 1).join(".");
+    const child = parts[level + 1]; // immediate child
+    if (!child) continue;
+
+    if (!acc[prefix]) acc[prefix] = new Set();
+    acc[prefix].add(child);
+  }
+
+  // convert sets to arrays
+  return Object.fromEntries(
+    Object.entries(acc).map(([k, v]) => [k, Array.from(v)])
+  );
+}
