@@ -158,7 +158,7 @@ export const buildManyLegend = (
                   <span className={`text-gdc-survival-${i} font-content`}>
                     S<sub>{i + 1}</sub>
                     {` (N = ${r.donors.length.toLocaleString()})`}
-                    {plotType === SurvivalPlotTypes.categorical && (
+                    {plotType === SurvivalPlotTypes.categorical || plotType === SurvivalPlotTypes.cohortComparison && (
                       <span>{` - ${names[i]}`}</span>
                     )}
                   </span>
