@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDeepCompareCallback } from "use-deep-compare";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDeepCompareCallback } from 'use-deep-compare';
 import {
   useCreateCaseSetFromValuesMutation,
   useCreateCaseSetFromFiltersMutation,
@@ -8,17 +8,17 @@ import {
   useCoreDispatch,
   showModal,
   Modals,
-} from "@gff/core";
+} from '@/core';
 import {
   SelectCohortsModal,
   WithOrWithoutCohortType,
-} from "./SelectCohortsModal";
-import { SaveCohortModal } from "@gff/portal-components";
-import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
-import { CountsIcon } from "@/components/tailwindComponents";
-import { Tooltip } from "@mantine/core";
-import { cohortActionsHooks } from "@/features/cohortBuilder/CohortManager/cohortActionHooks";
-import { INVALID_COHORT_NAMES } from "@/features/cohortBuilder/utils";
+} from './SelectCohortsModal';
+import { SaveCohortModal } from '@gff/portal-components';
+import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
+import { CountsIcon } from '@/components/tailwindComponents';
+import { Tooltip } from '@mantine/core';
+import { cohortActionsHooks } from '@/features/cohortBuilder/CohortManager/cohortActionHooks';
+import { INVALID_COHORT_NAMES } from '@/features/cohortBuilder/utils';
 
 interface CasesCohortButtonProps {
   readonly onCreateSet: () => void;
@@ -54,10 +54,10 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       customTargetButtonDataTestId="button-save-new-cohort-cases-table"
       dropdownElements={
         fetchingCases
-          ? [{ title: "Loading..." }]
+          ? [{ title: 'Loading...' }]
           : [
               {
-                title: "Only Selected Cases",
+                title: 'Only Selected Cases',
                 onClick: () => {
                   if (numCases > 1) {
                     onCreateSet();
@@ -67,16 +67,16 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
                 },
               },
               {
-                title: " Existing Cohort With Selected Cases",
+                title: ' Existing Cohort With Selected Cases',
                 onClick: () => {
-                  setWithOrWithoutCohort("with");
+                  setWithOrWithoutCohort('with');
                   setOpenSelectCohorts(true);
                 },
               },
               {
-                title: " Existing Cohort Without Selected Cases",
+                title: ' Existing Cohort Without Selected Cases',
                 onClick: () => {
-                  setWithOrWithoutCohort("without");
+                  setWithOrWithoutCohort('without');
                   setOpenSelectCohorts(true);
                 },
               },
@@ -92,39 +92,38 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
         ) : null
       }
       menuLabelText={`${numCases.toLocaleString()}
-        ${numCases > 1 ? " Cases" : " Case"}`}
+        ${numCases > 1 ? ' Cases' : ' Case'}`}
       menuLabelCustomClass="bg-primary text-primary-contrast font-heading font-bold mb-2"
       customPosition="bottom-start"
     />
   );
   return (
     <>
+      !!!!!CASES COHORT BUTTON!!!!!!!!!!
       <span>
         {numCases === 0 ? (
-          <Tooltip label={"Save a new cohort based on selection"}>
+          <Tooltip label={'Save a new cohort based on selection'}>
             <span>{dropDownIcon}</span>
           </Tooltip>
         ) : (
           <span>{dropDownIcon}</span>
         )}
       </span>
-
       <SelectCohortsModal
         opened={openSelectCohorts}
         onClose={() => setOpenSelectCohorts(false)}
         withOrWithoutCohort={withOrWithoutCohort}
         pickedCases={cases}
       />
-
       <SaveCohortModal
         opened={showSaveCohort}
         onClose={() => setShowSaveCohort(false)}
         filters={{
-          mode: "and",
+          mode: 'and',
           root: {
-            "cases.case_id": {
-              operator: "includes",
-              field: "cases.case_id",
+            'cases.case_id': {
+              operator: 'includes',
+              field: 'cases.case_id',
               operands: [numCases > 1 ? `set_id:${response.data}` : cases[0]],
             },
           },
@@ -146,7 +145,7 @@ export const CasesCohortButtonFromValues: React.FC<
   const [createSet, response] = useCreateCaseSetFromValuesMutation();
   const onCreateSet = useCallback(
     () =>
-      createSet({ values: pickedCases, intent: "portal", set_type: "frozen" }),
+      createSet({ values: pickedCases, intent: 'portal', set_type: 'frozen' }),
     [createSet, pickedCases],
   );
 
@@ -175,13 +174,13 @@ export const CasesCohortButtonFromFilters: React.FC<
       createSet({
         case_filters,
         filters,
-        intent: "portal",
-        set_type: "frozen",
+        intent: 'portal',
+        set_type: 'frozen',
       }),
     [case_filters, createSet, filters],
   );
   const { data, isSuccess, isLoading } = useGetCasesQuery(
-    { request: { filters, case_filters, fields: ["case_id"], size: 50000 } },
+    { request: { filters, case_filters, fields: ['case_id'], size: 50000 } },
     { skip: filters === undefined },
   );
 

@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  useCoreSelector,
-  selectCart,
-  useCoreDispatch,
   useAllCases,
   SortBy,
   selectCurrentCohortFilters,
@@ -14,35 +11,36 @@ import {
   filterSetToOperation,
   Union,
   Intersection,
-} from "@gff/core";
-import { Divider, Loader } from "@mantine/core";
-import FunctionButton from "@/components/FunctionButton";
-import { SummaryModalContext } from "src/utils/contexts";
+} from '@/core';
+import { Divider, Loader } from '@mantine/core';
+import FunctionButton from '@/components/FunctionButton';
+import { SummaryModalContext } from 'src/utils/contexts';
 import {
   ageDisplay,
   extractToArray,
   statusBooleansToDataStatus,
-} from "src/utils";
-import { CasesCohortButtonFromValues } from "./CasesCohortButton";
+} from 'src/utils';
+import { CasesCohortButtonFromValues } from './CasesCohortButton';
 import {
   buildCasesTableSearchFilters,
   casesTableDataType,
   useGenerateCasesTableColumns,
-} from "./utils";
-import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
-import { CountsIcon } from "@/components/tailwindComponents";
-import { getFormattedTimestamp } from "@/utils/date";
-import download from "@/utils/download";
+} from './utils';
+import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
+import { CountsIcon } from '@/components/tailwindComponents';
+import { getFormattedTimestamp } from '@/utils/date';
+import download from '@/utils/download';
 import {
   ColumnOrderState,
   SortingState,
   VisibilityState,
-} from "@tanstack/react-table";
-import { HandleChangeInput } from "@/components/Table/types";
-import VerticalTable from "@/components/Table/VerticalTable";
-import { useDeepCompareEffect } from "use-deep-compare";
-import TotalItems from "@/components/Table/TotalItem";
-import { DownloadIcon } from "@/utils/icons";
+} from '@tanstack/react-table';
+import { HandleChangeInput } from '@/components/Table/types';
+import VerticalTable from '@/components/Table/VerticalTable';
+import { useDeepCompareEffect } from 'use-deep-compare';
+import TotalItems from '@/components/Table/TotalItem';
+import { DownloadIcon } from '@/utils/icons';
+import { selectCart, useCoreDispatch, useCoreSelector } from '@gen3/core';
 
 const getSlideCountFromCaseSummary = (
   experimental_strategies: Array<{
@@ -50,7 +48,7 @@ const getSlideCountFromCaseSummary = (
     file_count: number;
   }>,
 ): number => {
-  const slideTypes = ["Diagnostic Slide", "Tissue Slide"];
+  const slideTypes = ['Diagnostic Slide', 'Tissue Slide'];
   return (experimental_strategies || []).reduce(
     (slideCount, { file_count, experimental_strategy }) =>
       slideTypes.includes(experimental_strategy)
@@ -65,14 +63,14 @@ export const ContextualCasesView: React.FC = () => {
   const { setEntityMetadata } = useContext(SummaryModalContext);
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(0);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<SortBy[]>([]);
-  const cohortFilters = useCoreSelector((state) =>
+  const cohortFilters = useCoreSelector((state: any) =>
     selectCurrentCohortFilters(state),
   );
-  const currentCart = useCoreSelector((state) => selectCart(state));
+  const currentCart: any = useCoreSelector((state: any) => selectCart(state));
   const cohortCounts = useCurrentCohortCounts();
-  const currentCohortId = useCoreSelector((state) =>
+  const currentCohortId = useCoreSelector((state: any) =>
     selectCurrentCohortId(state),
   );
 
@@ -105,31 +103,31 @@ export const ContextualCasesView: React.FC = () => {
 
   const { data, isFetching, isSuccess, isError, pagination } = useAllCases({
     fields: [
-      "case_id",
-      "submitter_id",
-      "primary_site",
-      "disease_type",
-      "project.project_id",
-      "project.program.name",
-      "demographic.gender",
-      "demographic.race",
-      "demographic.ethnicity",
-      "demographic.days_to_death",
-      "demographic.vital_status",
-      "diagnoses.primary_diagnosis",
-      "diagnoses.age_at_diagnosis",
-      "summary.file_count",
-      "summary.data_categories.data_category",
-      "summary.data_categories.file_count",
-      "summary.experimental_strategies.experimental_strategy",
-      "summary.experimental_strategies.file_count",
-      "files.file_id",
-      "files.access",
-      "files.acl",
-      "files.file_name",
-      "files.file_size",
-      "files.state",
-      "files.data_type",
+      'case_id',
+      'submitter_id',
+      'primary_site',
+      'disease_type',
+      'project.project_id',
+      'project.program.name',
+      'demographic.gender',
+      'demographic.race',
+      'demographic.ethnicity',
+      'demographic.days_to_death',
+      'demographic.vital_status',
+      'diagnoses.primary_diagnosis',
+      'diagnoses.age_at_diagnosis',
+      'summary.file_count',
+      'summary.data_categories.data_category',
+      'summary.data_categories.file_count',
+      'summary.experimental_strategies.experimental_strategy',
+      'summary.experimental_strategies.file_count',
+      'files.file_id',
+      'files.access',
+      'files.acl',
+      'files.file_name',
+      'files.file_size',
+      'files.state',
+      'files.data_type',
     ],
     size: pageSize,
     filters: combinedFilters,
@@ -143,20 +141,20 @@ export const ContextualCasesView: React.FC = () => {
   }, [cohortFilters]);
 
   const casesData: casesTableDataType[] =
-    data?.map((datum) => ({
+    data?.map((datum: any) => ({
       case_uuid: datum.case_uuid,
       case_id: datum.case_id,
       project: datum.project_id,
       program: datum.program,
       primary_site: datum.primary_site,
-      disease_type: datum.disease_type ?? "--",
-      primary_diagnosis: datum?.primary_diagnosis ?? "--",
+      disease_type: datum.disease_type ?? '--',
+      primary_diagnosis: datum?.primary_diagnosis ?? '--',
       age_at_diagnosis: ageDisplay(datum?.age_at_diagnosis),
-      vital_status: datum?.vital_status ?? "--",
+      vital_status: datum?.vital_status ?? '--',
       days_to_death: ageDisplay(datum?.days_to_death),
-      gender: datum?.gender ?? "--",
-      race: datum?.race ?? "--",
-      ethnicity: datum?.ethnicity ?? "--",
+      gender: datum?.gender ?? '--',
+      race: datum?.race ?? '--',
+      ethnicity: datum?.ethnicity ?? '--',
       slide_count: getSlideCountFromCaseSummary(datum.experimental_strategies),
       files_count: datum?.filesCount,
       files: datum.files,
@@ -164,10 +162,10 @@ export const ContextualCasesView: React.FC = () => {
         ? [
             ...((extractToArray(
               datum?.experimental_strategies,
-              "experimental_strategy",
+              'experimental_strategy',
             ) as string[]) ?? []),
           ].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-        : "--",
+        : '--',
 
       annotations: datum.annotations,
     })) ?? [];
@@ -205,23 +203,23 @@ export const ContextualCasesView: React.FC = () => {
 
   const sortByActions = (sortByObj: SortingState) => {
     const COLUMN_ID_TO_FIELD = {
-      case_id: "submitter_id",
-      case_uuid: "case_id",
-      project: "project.project_id",
-      program: "project.program.name",
-      primary_site: "primary_site",
-      disease_type: "disease_type",
-      vital_status: "demographic.vital_status",
-      days_to_death: "demographic.days_to_death",
-      gender: "demographic.gender",
-      race: "demographic.race",
-      ethnicity: "demographic.ethnicity",
-      files: "summary.file_count",
+      case_id: 'submitter_id',
+      case_uuid: 'case_id',
+      project: 'project.project_id',
+      program: 'project.program.name',
+      primary_site: 'primary_site',
+      disease_type: 'disease_type',
+      vital_status: 'demographic.vital_status',
+      days_to_death: 'demographic.days_to_death',
+      gender: 'demographic.gender',
+      race: 'demographic.race',
+      ethnicity: 'demographic.ethnicity',
+      files: 'summary.file_count',
     };
     const tempSortBy: SortBy[] = sortByObj.map((sortObj) => {
       return {
         field: COLUMN_ID_TO_FIELD[sortObj.id],
-        direction: sortObj.desc ? "desc" : "asc",
+        direction: sortObj.desc ? 'desc' : 'asc',
       };
     });
     setSortBy(tempSortBy);
@@ -234,19 +232,19 @@ export const ContextualCasesView: React.FC = () => {
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "sortBy":
-        sortByActions(obj.sortBy);
+      case 'sortBy':
+        sortByActions(obj.sortBy as SortingState);
         break;
-      case "newPageSize":
+      case 'newPageSize':
         setOffset(0);
-        setPageSize(parseInt(obj.newPageSize));
+        setPageSize(parseInt(obj.newPageSize as string));
         break;
-      case "newPageNumber":
-        setOffset(obj.newPageNumber - 1);
+      case 'newPageNumber':
+        setOffset((obj.newPageNumber as number) - 1);
         break;
-      case "newSearch":
+      case 'newSearch':
         setOffset(0);
-        setSearchTerm(obj.newSearch);
+        setSearchTerm(obj.newSearch as string);
         break;
     }
   };
@@ -257,9 +255,9 @@ export const ContextualCasesView: React.FC = () => {
   const clinicalBiodownloadFilter: GqlOperation =
     pickedCases.length > 0
       ? {
-          op: "in",
+          op: 'in',
           content: {
-            field: "cases.case_id",
+            field: 'cases.case_id',
             value: pickedCases,
           },
         }
@@ -269,31 +267,31 @@ export const ContextualCasesView: React.FC = () => {
   const handleTSVDownload = async () => {
     setCohortTableTSVDownloadActive(true);
     await download({
-      endpoint: "cases",
-      method: "POST",
+      endpoint: 'cases',
+      method: 'POST',
       params: {
         attachment: false,
         size: cohortCounts?.data?.caseCount,
         // filename: `cohort.${getFormattedTimestamp()}.tsv`,
         case_filters: combinedFilters,
         fields: [
-          "case_id",
-          "submitter_id",
-          "primary_site",
-          "disease_type",
-          "project.project_id",
-          "project.program.name",
-          "demographic.gender",
-          "demographic.race",
-          "demographic.ethnicity",
-          "demographic.days_to_death",
-          "demographic.vital_status",
-          "diagnoses.primary_diagnosis",
-          "diagnoses.age_at_diagnosis",
-          "summary.file_count",
-          "summary.experimental_strategies.experimental_strategy",
+          'case_id',
+          'submitter_id',
+          'primary_site',
+          'disease_type',
+          'project.project_id',
+          'project.program.name',
+          'demographic.gender',
+          'demographic.race',
+          'demographic.ethnicity',
+          'demographic.days_to_death',
+          'demographic.vital_status',
+          'diagnoses.primary_diagnosis',
+          'diagnoses.age_at_diagnosis',
+          'summary.file_count',
+          'summary.experimental_strategies.experimental_strategy',
         ],
-        format: "tsv",
+        format: 'tsv',
       },
       dispatch,
       done: () => setCohortTableTSVDownloadActive(false),
@@ -303,32 +301,32 @@ export const ContextualCasesView: React.FC = () => {
   const handleJSONDownload = () => {
     setCohortTableJSONDownloadActive(true);
     download({
-      endpoint: "cases",
-      method: "POST",
+      endpoint: 'cases',
+      method: 'POST',
       dispatch,
       params: {
         filename: `cohort.${getFormattedTimestamp()}.json`,
         case_filters: combinedFilters,
         attachment: true,
         pretty: true,
-        format: "JSON",
+        format: 'JSON',
         fields: [
-          "submitter_slide_ids",
-          "submitter_id",
-          "case_id",
-          "project.project_id",
-          "project.program.name",
-          "primary_site",
-          "disease_type",
-          "diagnoses.age_at_diagnosis",
-          "demographic.vital_status",
-          "demographic.days_to_death",
-          "demographic.race",
-          "demographic.gender",
-          "demographic.ethnicity",
-          "summary.file_count",
-          "summary.experimental_strategies.experimental_strategy",
-        ].join(","),
+          'submitter_slide_ids',
+          'submitter_id',
+          'case_id',
+          'project.project_id',
+          'project.program.name',
+          'primary_site',
+          'disease_type',
+          'diagnoses.age_at_diagnosis',
+          'demographic.vital_status',
+          'demographic.days_to_death',
+          'demographic.race',
+          'demographic.gender',
+          'demographic.ethnicity',
+          'summary.file_count',
+          'summary.experimental_strategies.experimental_strategy',
+        ].join(','),
         size: caseCounts,
       },
       done: () => setCohortTableJSONDownloadActive(false),
@@ -338,12 +336,12 @@ export const ContextualCasesView: React.FC = () => {
   const handleClinicalTSVDownload = () => {
     setClinicalDownloadActiveTSV(true);
     download({
-      endpoint: "clinical_tar",
-      method: "POST",
+      endpoint: 'clinical_tar',
+      method: 'POST',
       dispatch,
       params: {
         filename: `clinical.${
-          pickedCases.length > 0 ? "cases_selection" : "cohort"
+          pickedCases.length > 0 ? 'cases_selection' : 'cohort'
         }.${new Date().toISOString().slice(0, 10)}.tar.gz`,
         case_filters: clinicalBiodownloadFilter, // NOTE: as clinicalBiodownloadFilter is either a list of case_ids or the cohort's filters
         // there are no local filters to be passed
@@ -356,14 +354,14 @@ export const ContextualCasesView: React.FC = () => {
   const handleClinicalJSONDownload = () => {
     setClinicalDownloadActiveJSON(true);
     download({
-      endpoint: "clinical_tar",
-      method: "POST",
+      endpoint: 'clinical_tar',
+      method: 'POST',
       dispatch,
       params: {
-        format: "JSON",
+        format: 'JSON',
         pretty: true,
         filename: `clinical.${
-          pickedCases.length > 0 ? "cases_selection" : "cohort"
+          pickedCases.length > 0 ? 'cases_selection' : 'cohort'
         }.${new Date().toISOString().slice(0, 10)}.json`,
         case_filters: clinicalBiodownloadFilter,
         size: caseCounts,
@@ -375,12 +373,12 @@ export const ContextualCasesView: React.FC = () => {
   const handleBiospeciemenTSVDownload = () => {
     setBiospecimenDownloadActiveTSV(true);
     download({
-      endpoint: "biospecimen_tar",
-      method: "POST",
+      endpoint: 'biospecimen_tar',
+      method: 'POST',
       dispatch,
       params: {
         filename: `biospecimen.${
-          pickedCases.length > 0 ? "cases_selection" : "cohort"
+          pickedCases.length > 0 ? 'cases_selection' : 'cohort'
         }.${new Date().toISOString().slice(0, 10)}.tar.gz`,
         case_filters: clinicalBiodownloadFilter,
         size: caseCounts,
@@ -392,14 +390,14 @@ export const ContextualCasesView: React.FC = () => {
   const handleBiospeciemenJSONDownload = () => {
     setBiospecimenDownloadActiveJSON(true);
     download({
-      endpoint: "biospecimen_tar",
-      method: "POST",
+      endpoint: 'biospecimen_tar',
+      method: 'POST',
       dispatch,
       params: {
-        format: "JSON",
+        format: 'JSON',
         pretty: true,
         filename: `biospecimen.${
-          pickedCases.length > 0 ? "cases_selection" : "cohort"
+          pickedCases.length > 0 ? 'cases_selection' : 'cohort'
         }.${new Date().toISOString().slice(0, 10)}.json`,
         case_filters: clinicalBiodownloadFilter,
         size: caseCounts,
@@ -411,23 +409,23 @@ export const ContextualCasesView: React.FC = () => {
   return (
     <div className="flex flex-col">
       <Divider color="#C5C5C5" className="mb-3" />
-
+      !!!!!VerticalTable CONTAINING CASES COHORT BUTTON!!!!!!
       <VerticalTable
         customDataTestID="table-cases"
         data={casesData}
         columns={casesTableDefaultColumns}
-        pagination={{ ...pagination, label: "case" }}
+        pagination={{ ...pagination, label: 'case' }}
         handleChange={handleChange}
         additionalControls={
           <div className="flex flex-wrap gap-1 lg:gap-2">
+            !!!!!VerticalTable CONTAINING CASES COHORT BUTTON!!!!!!
             <CasesCohortButtonFromValues pickedCases={pickedCases} />
-
             <DropdownWithIcon
               customTargetButtonDataTestId="button-biospecimen-cases-table"
               targetButtonDisabled={isFetching}
               dropdownElements={[
                 {
-                  title: "JSON",
+                  title: 'JSON',
                   onClick: handleBiospeciemenJSONDownload,
                   icon: biospecimenDownloadActiveJSON ? (
                     <Loader size={16} />
@@ -437,7 +435,7 @@ export const ContextualCasesView: React.FC = () => {
                   isLoading: biospecimenDownloadActiveJSON,
                 },
                 {
-                  title: "TSV",
+                  title: 'TSV',
                   onClick: handleBiospeciemenTSVDownload,
                   icon: biospecimenDownloadActiveTSV ? (
                     <Loader size={16} />
@@ -463,13 +461,12 @@ export const ContextualCasesView: React.FC = () => {
               }
               closeOnItemClick={false}
             />
-
             <DropdownWithIcon
               customTargetButtonDataTestId="button-clinical-cases-table"
               targetButtonDisabled={isFetching}
               dropdownElements={[
                 {
-                  title: "JSON",
+                  title: 'JSON',
                   onClick: handleClinicalJSONDownload,
                   icon: clinicalDownloadActiveJSON ? (
                     <Loader size={16} />
@@ -479,7 +476,7 @@ export const ContextualCasesView: React.FC = () => {
                   isLoading: clinicalDownloadActiveJSON,
                 },
                 {
-                  title: "TSV",
+                  title: 'TSV',
                   onClick: handleClinicalTSVDownload,
                   icon: clinicalDownloadActiveTSV ? (
                     <Loader size={16} />
@@ -505,7 +502,6 @@ export const ContextualCasesView: React.FC = () => {
               }
               closeOnItemClick={false}
             />
-
             <FunctionButton
               data-testid="button-json-cases-table"
               onClick={handleJSONDownload}
@@ -515,7 +511,6 @@ export const ContextualCasesView: React.FC = () => {
             >
               JSON
             </FunctionButton>
-
             <FunctionButton
               data-testid="button-tsv-cases-table"
               onClick={handleTSVDownload}
@@ -538,7 +533,7 @@ export const ContextualCasesView: React.FC = () => {
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
         search={{
           enabled: true,
-          tooltip: "e.g. TCGA-GM-A2DA, c07b122e-ac50-4db2-add2-5617a5d0e976",
+          tooltip: 'e.g. TCGA-GM-A2DA, c07b122e-ac50-4db2-add2-5617a5d0e976',
         }}
         sorting={sorting}
         setSorting={setSorting}
