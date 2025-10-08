@@ -2,16 +2,16 @@ import { FacetDefinition } from '@gen3/core';
 
 const FilterFacets : Array<FacetDefinition> = [
   {
-    "field": "genes.upload.gene_id",
+    "field": "gene_id",
     "label": "Mutated Gene",
     "type": "upload",
-    "index": "gene",
+    "index": "genes",
   },
   {
-    "field": "ssms.upload.ssm_id",
+    "field": "ssm_id",
     "label": "Somatic Mutation",
     "type": "upload",
-    "index": "ssm",
+    "index": "ssm_occurence",
   },
   {
     "field": "biotype",
