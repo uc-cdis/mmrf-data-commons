@@ -28,6 +28,7 @@ import { handleDownloadPNG, handleDownloadSVG } from '../utils';
 import { DAYS_IN_YEAR } from '@/core/constants';
 import { DownloadIcon, ResetIcon, SurvivalChartIcon } from '@/utils/icons';
 import BarChartTextVersion from '../BarChartTextVersion';
+import { omit } from 'lodash';
 
 const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
   data,
@@ -134,7 +135,8 @@ const ExternalDownloadStateSurvivalPlot: React.FC<SurvivalPlotProps> = ({
           plotData.map((element: any, index: any) => ({
             meta: { ...element.meta, label: `S${index + 1}` },
             donors: element.donors.map((donor: any) => ({
-              ...donor,
+              guid: donor.id,
+              ...omit(donor, ["id"]),
               time: Math.round(donor.time * DAYS_IN_YEAR), // Converting to actual days from API
             })),
           })),
