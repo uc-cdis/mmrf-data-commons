@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useGetCasesQuery, useGetAnnotationsQuery } from '@gff/core';
 import { LoadingOverlay, Pagination } from '@mantine/core';
 import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import { caseSummaryFields } from './utils';
@@ -7,6 +6,7 @@ import { CaseView } from './CaseView';
 import { useContext, useEffect, useState } from 'react';
 import { URLContext } from 'src/utils/contexts';
 import { useGetCasesQuery } from '@/core/cases/casesSlice';
+import { EndpointRequestProps } from '@/core/features/api';
 
 const useGetAnnotationsQuery = (request: any) => ({
   data: { pagination: { total: 0 } },
@@ -30,15 +30,15 @@ export const CaseSummary = ({
       filters: {
         content: {
           field: 'case_id',
-          value: case_id,
+          value: case_id as string,
         },
         op: '=',
       },
       fields: caseSummaryFields,
     },
-  });
+  } as unknown as EndpointRequestProps);
 
-  const { data: annotationCountData, isFetching: isAnnotationCallFetching } =
+  const { data: annotationCountData, isAnnotationCallFetching } =
     useGetAnnotationsQuery({
       request: {
         filters: {
