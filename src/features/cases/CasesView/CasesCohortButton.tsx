@@ -99,7 +99,6 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   );
   return (
     <>
-      !!!!!CASES COHORT BUTTON!!!!!!!!!!
       <span>
         {numCases === 0 ? (
           <Tooltip label={'Save a new cohort based on selection'}>

@@ -409,7 +409,6 @@ export const ContextualCasesView: React.FC = () => {
   return (
     <div className="flex flex-col">
       <Divider color="#C5C5C5" className="mb-3" />
-      !!!!!VerticalTable CONTAINING CASES COHORT BUTTON!!!!!!
       <VerticalTable
         customDataTestID="table-cases"
         data={casesData}
@@ -418,7 +417,6 @@ export const ContextualCasesView: React.FC = () => {
         handleChange={handleChange}
         additionalControls={
           <div className="flex flex-wrap gap-1 lg:gap-2">
-            !!!!!VerticalTable CONTAINING CASES COHORT BUTTON!!!!!!
             <CasesCohortButtonFromValues pickedCases={pickedCases} />
             <DropdownWithIcon
               customTargetButtonDataTestId="button-biospecimen-cases-table"
