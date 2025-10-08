@@ -92,9 +92,13 @@ export const formatEntityInfo = (
     | readonly string[]
   )[];
 }[] => {
+  const uuIDIndexer = idFields.find(
+    (id) => entity?.[id as keyof BiospecimenEntityType],
+  ) as keyof BiospecimenEntityType;
+  const uuIDResult = entity?.[uuIDIndexer];
   const ids = {
     [`${foundType}_ID`]: entity?.submitter_id,
-    [`${foundType}_UUID`]: entity?.[idFields.find((id) => entity?.[id])],
+    [`${foundType}_UUID`]: uuIDResult,
   };
 
   const ordered: Record<string, any> = Object.entries(
