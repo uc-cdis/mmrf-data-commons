@@ -89,7 +89,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       LeftSection={
         numCases ? (
           <CountsIcon $count={numCases}>{numCases.toLocaleString()}</CountsIcon>
-        ) : null
+        ) : undefined
       }
       menuLabelText={`${numCases.toLocaleString()}
         ${numCases > 1 ? ' Cases' : ' Case'}`}
@@ -188,7 +188,7 @@ export const CasesCohortButtonFromFilters: React.FC<
       onCreateSet={onCreateSet}
       response={response}
       numCases={numCases}
-      cases={isSuccess ? data?.hits.map((d) => d.case_id) : []}
+      cases={isSuccess ? data?.hits.map((d: any) => d.case_id) : []}
       fetchingCases={isLoading}
     />
   );
