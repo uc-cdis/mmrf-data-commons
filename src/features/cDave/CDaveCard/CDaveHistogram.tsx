@@ -192,6 +192,7 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
               }
               truncateLabels
               yAxisFormatAsInteger
+              includeDomainPadding={!displayPercent}
             />
           </div>
           <OffscreenWrapper>
@@ -212,6 +213,7 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
               }
               chartRef={downloadChartRef}
               yAxisFormatAsInteger
+              includeDomainPadding={!displayPercent}
             />
           </OffscreenWrapper>
         </>
