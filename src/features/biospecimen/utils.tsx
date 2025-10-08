@@ -4,7 +4,7 @@ import {
   formatDataForHorizontalTable,
   mapGdcFileToCartFile,
 } from '../files/utils';
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Tooltip } from '@mantine/core';
 import Link from 'next/link';
 import { get } from 'lodash';
 import { entityTypes } from '@/components/BioTree/types';
@@ -14,11 +14,13 @@ import { CoreDispatch } from '@gen3/core';
 import { BiospecimenEntityType } from './types';
 import { FileDefaults } from '@/core/features/api/types';
 import { CartFile } from '@/core/types';
+import FunctionButton from '@/components/FunctionButton';
 
 const addToCart = (a: any, b: any, c: any) => alert('called addToCart');
 const removeFromCart = (a: any, b: any, c: any) =>
   alert('called removeFromCart');
-const mapFileData = () => console.log('called mapFileData');
+const mapFileData = (mapFileDataInput: any) =>
+  console.log('called mapFileData with ', mapFileDataInput);
 const DownloadFile = (a: any) =>
   alert('called download file in utils of biospecimen');
 export const match = (query: string, entity: Record<string, any>): boolean =>
@@ -101,7 +103,7 @@ export const formatEntityInfo = (
     }, {}) ?? {},
   );
 
-  const filtered = Object.entries(ids).concat(
+  const filtered: any = Object.entries(ids).concat(
     ordered
       .filter(
         ([key]: any) =>
@@ -160,13 +162,13 @@ export const formatEntityInfo = (
             onClick={() => {
               if (isFileInCart) {
                 removeFromCart(
-                  mapGdcFileToCartFile(mapFileData(selectedSlide)),
+                  mapGdcFileToCartFile(mapFileData(selectedSlide) as any),
                   currentCart,
                   dispatch,
                 );
               } else {
                 addToCart(
-                  mapGdcFileToCartFile(mapFileData(selectedSlide)),
+                  mapGdcFileToCartFile(mapFileData(selectedSlide) as any),
                   currentCart,
                   dispatch,
                 );
@@ -179,24 +181,28 @@ export const formatEntityInfo = (
 
         <Tooltip label="Download" withinPortal={true} withArrow>
           <div data-testid="button-download-slide-biospecimen">
-            <DownloadFile
-              file={mapFileData(selectedSlide)[0]}
+            {/*             <DownloadFile
+              // file={mapFileData(selectedSlide)[0] as any}
+              file={'download file input from biospecimen utils.tsx'}
               displayVariant="icon"
-            />
+            /> */}
+            <FunctionButton showDownloadIcon>
+              Placeholder Download File Button
+            </FunctionButton>
           </div>
         </Tooltip>
       </div>,
     ]);
   }
 
-  const headersConfig = filtered.map(([key]) => {
+  const headersConfig = filtered.map(([key]: any) => {
     const tempHeaderConfig: { field: string; name: string; modifier?: any } = {
       field: key,
       name: humanify({ term: key }),
     };
     //Format day fields
     if (['days_to_sample_procurement', 'days_to_collection'].includes(key)) {
-      tempHeaderConfig.modifier = (a) => ageDisplay(a);
+      tempHeaderConfig.modifier = (a: any) => ageDisplay(a);
     }
     return tempHeaderConfig;
   });
