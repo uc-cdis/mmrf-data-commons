@@ -6,18 +6,9 @@ import {
 } from '../files/utils';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import Link from 'next/link';
-/* import {
-  CartFile,
-  CoreDispatch,
-  BiospecimenEntityType,
-  FileDefaults,
-  mapFileData,
-} from "@gff/core"; */
-// import { addToCart, removeFromCart } from '@/features/cart/updateCart';
 import { get } from 'lodash';
 import { entityTypes } from '@/components/BioTree/types';
-import { humanify, fileInCart, ageDisplay } from 'src/utils';
-// import { DownloadFile } from '@/components/DownloadButtons';
+import { humanify, ageDisplay } from 'src/utils';
 import { CartIcon, MicroscopeIcon } from '@/utils/icons';
 import { CoreDispatch } from '@gen3/core';
 import { BiospecimenEntityType } from './types';
@@ -103,14 +94,17 @@ export const formatEntityInfo = (
 
   const ordered: Record<string, any> = Object.entries(
     getOrder(foundType)?.reduce((next, k) => {
-      return { ...next, [k]: entity[k] };
+      return {
+        ...next,
+        [k]: (entity as any)[k as keyof BiospecimenEntityType],
+      };
     }, {}) ?? {},
   );
 
   const filtered = Object.entries(ids).concat(
     ordered
       .filter(
-        ([key]) =>
+        ([key]: any) =>
           ![
             'submitter_id',
             'expanded',
@@ -118,7 +112,7 @@ export const formatEntityInfo = (
             '__dataID__',
           ].includes(key),
       )
-      .map(([key, value]) => [
+      .map(([key, value]: any) => [
         key,
         ['portions', 'aliquots', 'analytes', 'slides'].includes(key)
           ? value.hits.total
