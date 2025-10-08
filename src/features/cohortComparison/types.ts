@@ -34,7 +34,7 @@ export const CohortComparisonFields : { [key: string]: string } = {
 };
 
 export const FIELD_LABELS  : { [key: string]: string } = {
-  "demographic.gender": "Gender",
+  "demographic.gender": "Sex",
   "demographic.ethnicity": "Ethnicity",
   "demographic.race": "Race",
   "demographic.vital_status": "Patient Status",
