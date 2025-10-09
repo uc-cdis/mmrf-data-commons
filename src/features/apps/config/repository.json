@@ -81,6 +81,7 @@
       "file_name",
       "cases.case_id",
       "cases.project.project_id",
+      "cases.sample.sample_id",
       "data_category",
       "data_format",
       "file_size",
