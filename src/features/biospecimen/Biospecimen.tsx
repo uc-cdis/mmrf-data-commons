@@ -7,19 +7,11 @@ import {
   LoadingOverlay,
   ActionIcon,
 } from '@mantine/core';
-/* import {
-  BiospecimenEntityType,
-  useBiospecimenDataQuery,
-  useCoreDispatch,
-  useCoreSelector,
-  selectCart,
-} from '@gff/core'; */
 import { HorizontalTable } from '@/components/HorizontalTable';
 import { formatEntityInfo, searchForStringInNode } from './utils';
 import { trimEnd, find, flatten, escapeRegExp } from 'lodash';
 import { useRouter } from 'next/router';
 import { entityTypes, overrideMessage } from '@/components/BioTree/types';
-// import download from '@/utils/download';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { useDeepCompareEffect } from 'use-deep-compare';
 import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';

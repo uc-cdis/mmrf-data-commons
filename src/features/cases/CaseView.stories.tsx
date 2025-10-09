@@ -5,7 +5,6 @@ import { SummaryModalContext } from '@/utils/contexts';
 import { expect, within } from 'storybook/test';
 import { CaseView } from './CaseView';
 import casesViewData from './data/caseViewData.json';
-import { useGetCasesQuery } from './mockedHooks';
 
 const CaseViewWrapped = () => {
   const case_id = '123';
@@ -51,13 +50,19 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
-  /*   play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const testIds = [];
+    const testIds = [
+      'table-summary-case-summary',
+      'table-clinical-case-summary',
+      'table-biospecimen-case-summary',
+      'text-file-count-case-summary',
+      'text-annotation-count-case-summary',
+    ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {
       const currEle = canvas.getByTestId(id);
       expect(currEle).toBeInTheDocument();
     });
-  }, */
+  },
 };
