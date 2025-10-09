@@ -34,9 +34,9 @@
           "loginRequired": false,
           "description": "Browse and download the files associated with your cohort for more sophisticated analysis.",
           "icon": "/icons/apps/Repository.svg",
-          "href": "/?app=Downloads",
+          "href": "/?app=Repository",
           "count": 1000,
-          "appId" : "Downloads",
+          "appId" : "Repository",
           "countUnits": "Cases"
         }
       ]
