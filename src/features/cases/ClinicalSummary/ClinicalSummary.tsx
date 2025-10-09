@@ -3,7 +3,6 @@ import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon
 import { HorizontalTable } from '@/components/HorizontalTable';
 import { formatDataForHorizontalTable } from '@/features/files/utils';
 import { HeaderTitle } from '@/components/tailwindComponents';
-
 import { Divider, Loader, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
 import { humanify, ageDisplay } from 'src/utils';
