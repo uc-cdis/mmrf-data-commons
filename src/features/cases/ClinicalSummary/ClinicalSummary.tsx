@@ -94,7 +94,7 @@ export const ClinicalSummary = ({
   );
 
   const CountComponent = ({ count }: { count: number }) => (
-    <span className="h-[11px] w-4 bg-accent-vivid text-base-lightest text-xs font-medium px-1.5 py-0.5 ml-1 rounded-sm">
+    <span className="h-[11px] w-4 bg-accent-darker text-base-lightest text-xs font-medium px-1.5 py-0.5 ml-1 rounded-sm">
       {count}
     </span>
   );

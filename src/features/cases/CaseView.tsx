@@ -433,20 +433,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
         </div>
 
         <div className={`mt-8 ${annotationCountData === 0 ? 'mb-16' : ''}`}>
-          <h4>Placeholder for Most Frequent Somatic Mutations</h4>
-          data.project.project_id:
-          {JSON.stringify(data.project.project_id)}
-          <br />
-          case_id
-          {JSON.stringify(case_id)}
-          <br />
-          cohortFilters=projectFilter
-          {JSON.stringify(projectFilter)}
-          <br />
-          caseFilter
-          {JSON.stringify(caseFilter)}
-          <br />
-          isModal {JSON.stringify(isModal)}
           <SMTableContainer
             projectId={data.project.project_id}
             case_id={case_id}
