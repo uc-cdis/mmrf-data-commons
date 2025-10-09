@@ -24,7 +24,7 @@ const FollowUpTables = ({ data }: { data: FollowUps }): JSX.Element => {
     const tableData = {
       follow_up_id,
       follow_up_uuid,
-      days_to_follow_up: ageDisplay(days_to_follow_up),
+      days_to_follow_up: ageDisplay(days_to_follow_up as number),
       progression_or_recurrence_type,
       progression_or_recurrence,
       disease_response,
@@ -41,23 +41,24 @@ const FollowUpTables = ({ data }: { data: FollowUps }): JSX.Element => {
   };
 
   const formatMolecularTestsData = (followups: FollowUps) => {
-    const molecularTableData = followups.molecular_tests.map((followup) => ({
-      id: followup.submitter_id ?? '--',
-      uuid: followup.molecular_test_id ?? '--',
-      gene_symbol: followup.gene_symbol ?? '--',
-      second_gene_symbol: followup.second_gene_symbol ?? '--',
-      molecular_analysis_method: followup.molecular_analysis_method ?? '--',
-      laboratory_test: followup.laboratory_test ?? '--',
-      test_value: followup.test_value ?? '--',
-      test_result: followup.test_result ?? '--',
-      test_units: followup.test_units ?? '--',
-      biospecimen_type: followup.biospecimen_type ?? '--',
-      variant_type: followup.variant_type ?? '--',
-      chromosome: followup.chromosome ?? '--',
-      aa_change: followup.aa_change ?? '--',
-      antigen: followup.antigen ?? '--',
-      mismatch_repair_mutation: followup.mismatch_repair_mutation ?? '--',
-    }));
+    const molecularTableData =
+      followups.molecular_tests?.map((followup) => ({
+        id: followup.submitter_id ?? '--',
+        uuid: followup.molecular_test_id ?? '--',
+        gene_symbol: followup.gene_symbol ?? '--',
+        second_gene_symbol: followup.second_gene_symbol ?? '--',
+        molecular_analysis_method: followup.molecular_analysis_method ?? '--',
+        laboratory_test: followup.laboratory_test ?? '--',
+        test_value: followup.test_value ?? '--',
+        test_result: followup.test_result ?? '--',
+        test_units: followup.test_units ?? '--',
+        biospecimen_type: followup.biospecimen_type ?? '--',
+        variant_type: followup.variant_type ?? '--',
+        chromosome: followup.chromosome ?? '--',
+        aa_change: followup.aa_change ?? '--',
+        antigen: followup.antigen ?? '--',
+        mismatch_repair_mutation: followup.mismatch_repair_mutation ?? '--',
+      })) || [];
 
     const molecularTableColumnHelper =
       createColumnHelper<(typeof molecularTableData)[0]>();
@@ -132,17 +133,18 @@ const FollowUpTables = ({ data }: { data: FollowUps }): JSX.Element => {
   };
 
   const formatOtherClinicalAttributes = (followups: FollowUps) => {
-    const data = followups.other_clinical_attributes.map((oca) => ({
-      id: oca.submitter_id ?? '--',
-      uuid: oca.other_clinical_attribute_id ?? '--',
-      timepoint_category: oca.timepoint_category ?? '--',
-      nononcologic_therapeutic_agents:
-        oca.nononcologic_therapeutic_agents ?? '--',
-      treatment_frequency: oca.treatment_frequency ?? '--',
-      weight: oca.weight ?? '--',
-      height: oca.height ?? '--',
-      bmi: oca.bmi ?? '--',
-    }));
+    const data =
+      followups.other_clinical_attributes?.map((oca) => ({
+        id: oca.submitter_id ?? '--',
+        uuid: oca.other_clinical_attribute_id ?? '--',
+        timepoint_category: oca.timepoint_category ?? '--',
+        nononcologic_therapeutic_agents:
+          oca.nononcologic_therapeutic_agents ?? '--',
+        treatment_frequency: oca.treatment_frequency ?? '--',
+        weight: oca.weight ?? '--',
+        height: oca.height ?? '--',
+        bmi: oca.bmi ?? '--',
+      })) || [];
 
     const columnHelper = createColumnHelper<(typeof data)[0]>();
 

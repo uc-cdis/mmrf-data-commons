@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDeepCompareCallback } from 'use-deep-compare';
 import {
@@ -193,3 +194,4 @@ export const CasesCohortButtonFromFilters: React.FC<
     />
   );
 };
+*/

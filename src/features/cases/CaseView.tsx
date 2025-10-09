@@ -53,7 +53,9 @@ export interface CaseViewProps {
   readonly shouldScrollToBio: boolean;
 }
 
-const mapGdcFileToCartFile = () => null;
+// Temporary Func to get page to compile Oct 9
+const mapGdcFileToCartFile = (CartItemArr: CartItem[]) =>
+  null as unknown as CartItem[];
 
 export const CaseView: React.FC<CaseViewProps> = ({
   data,

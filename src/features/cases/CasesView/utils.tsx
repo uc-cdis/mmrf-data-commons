@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import Link from 'next/link';
 import { AnnotationDefaults, CartFile, Union, useCoreDispatch } from '@/core';
@@ -332,3 +333,4 @@ export const buildCasesTableSearchFilters = (
 };
 
 export const MAX_CASE_IDS = 100000;
+*/

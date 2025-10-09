@@ -43,7 +43,7 @@ import { FilterSet, useCoreDispatch, useCoreSelector } from '@gen3/core';
 import { useGetFilesQuery } from './mockedHooks';
 import FilesTableData from './data/filesTableData.json';
 
-const fileSize = () => null;
+const fileSize = (input: any) => null;
 const download = () => alert('download called in FilesTable');
 const currentCart = null;
 
@@ -92,7 +92,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     setSortBy(tempSortBy);
   };
 
-  const tableFilters: GqlOperation = {
+  const tableFilters: any | GqlOperation = {
     op: 'and',
     content: [
       {
@@ -135,7 +135,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
   useDeepCompareEffect(() => {
     setTableData(
       isSuccess
-        ? (data?.files.map((file: GdcFile) => ({
+        ? (data?.files.map((file: any | GdcFile) => ({
             file: file,
             file_uuid: file.file_id,
             access: file.access,
@@ -253,10 +253,10 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
           const isOutputFileInCart = false;
           return (
             <TableActionButtons
-              isOutputFileInCart={isOutputFileInCart}
-              file={mapGdcFileToCartFile([row.original.file])}
-              downloadFile={row.original.file}
-              setFileToDownload={setFileToDownload}
+            // isOutputFileInCart={isOutputFileInCart}
+            // file={mapGdcFileToCartFile([row.original.file])}
+            // downloadFile={row.original.file}
+            // setFileToDownload={setFileToDownload}
             />
           );
         },
@@ -298,7 +298,8 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
 
   const handleDownloadJSON = async () => {
     setDownloadJSONActive(true);
-    await download({
+    alert('handelDownloadJSON called in CasesCohortButton');
+    /* await download({
       endpoint: 'files',
       method: 'POST',
       params: {
@@ -324,7 +325,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
       },
       done: () => setDownloadJSONActive(false),
       dispatch,
-    });
+    }); */
   };
 
   const handleDownloadTSV = async () => {

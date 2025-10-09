@@ -273,7 +273,10 @@ export const ClinicalSummary = ({
               No Diagnoses Found.
             </Text>
           ) : (
-            <TabbedTables dataInfo={diagnoses} TableElement={DiagnosesTables} />
+            <TabbedTables
+              dataInfo={diagnoses}
+              TableElement={DiagnosesTables as any}
+            />
           )}
         </Tabs.Panel>
 
@@ -312,7 +315,7 @@ export const ClinicalSummary = ({
                       )
                   : follow_ups
               }
-              TableElement={FollowUpTables}
+              TableElement={FollowUpTables as any}
             />
           )}
         </Tabs.Panel>

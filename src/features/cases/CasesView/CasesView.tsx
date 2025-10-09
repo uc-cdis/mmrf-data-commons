@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* import React, { useContext, useEffect, useState } from 'react';
 import {
   useAllCases,
   SortBy,
@@ -74,7 +74,7 @@ export const ContextualCasesView: React.FC = () => {
     selectCurrentCohortId(state),
   );
 
-  /* download active */
+  // download active
   const [biospecimenDownloadActiveJSON, setBiospecimenDownloadActiveJSON] =
     useState(false);
   const [biospecimenDownloadActiveTSV, setBiospecimenDownloadActiveTSV] =
@@ -87,7 +87,7 @@ export const ContextualCasesView: React.FC = () => {
     useState(false);
   const [cohortTableTSVDownloadActive, setCohortTableTSVDownloadActive] =
     useState(false);
-  /* download active end */
+  // download active end
 
   useEffect(() => {
     setCohortTableTSVDownloadActive(false);
@@ -545,3 +545,4 @@ export const ContextualCasesView: React.FC = () => {
     </div>
   );
 };
+ */
