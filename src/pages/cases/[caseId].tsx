@@ -1,9 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-// import { datadogRum } from "@datadog/browser-rum";
-// import { headerElements } from "@/features/user-flow/workflow/navigation-utils";
 import { useRouter } from 'next/router';
-// import { UserFlowVariedPages } from "@/features/layout/UserFlowVariedPages";
 import PageTitle from '@/components/PageTitle';
 import { useEffect, useState } from 'react';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
@@ -16,10 +13,6 @@ const CaseSummaryPage: NextPage = () => {
   } = router;
   const [ready, setReady] = useState(false);
 
-  /*   datadogRum.startView({
-    name: "Case Summary",
-  }); */
-
   useEffect(() => {
     if (router.isReady) {
       setReady(true);
@@ -27,19 +20,12 @@ const CaseSummaryPage: NextPage = () => {
   }, [router]);
 
   return (
-    /*     <UserFlowVariedPages headerElements={headerElements}>
-      {ready && (
-        <CaseSummary case_id={caseId as string} bio_id={bioId as string} />
-      )}
-    </UserFlowVariedPages>
- */
-
     <>
-      <PageTitle pageName="Gene Summary" />
+      <PageTitle pageName="Case Summary" />
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
       </div>
-      <h1 className="sr-only">Gene Summary</h1>
+      <h1 className="sr-only">Case Summary</h1>
       <div className="flex">
         <div className="w-full mt-[100px]">
           {ready && (

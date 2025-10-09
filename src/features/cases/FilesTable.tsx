@@ -5,22 +5,8 @@ import VerticalTable from '@/components/Table/VerticalTable';
 import { HandleChangeInput } from '@/components/Table/types';
 import { TableActionButtons } from '@/components/TableActionButtons';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import {
-  capitalize,
-  fileInCart,
-  statusBooleansToDataStatus,
-} from '@/utils/index';
-import {
-  GdcFile,
-  /*   Modals,
-  SortBy,
-  selectCart,
-  selectCurrentModal,
-  useCoreDispatch,
-  useCoreSelector,
-  useGetFilesQuery, */
-  GqlOperation,
-} from '@/core';
+import { capitalize, statusBooleansToDataStatus } from '@/utils/index';
+import { GdcFile, GqlOperation } from '@/core';
 import {
   ColumnDef,
   ColumnOrderState,
@@ -31,20 +17,13 @@ import {
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
-import { mapGdcFileToCartFile } from '../files/utils';
-// import download from '@/utils/download';
 import { downloadTSV } from '@/components/Table/utils';
 import { getFormattedTimestamp } from '@/utils/date';
-import { AgreementModal } from '@/components/Modals/AgreementModal';
-import { NoAccessToProjectModal } from '@/components/Modals/NoAccessToProjectModal';
-import { GeneralErrorModal } from '@/components/Modals/GeneraErrorModal';
 import TotalItems from '@/components/Table/TotalItem';
-import { FilterSet, useCoreDispatch, useCoreSelector } from '@gen3/core';
+import { useCoreDispatch } from '@gen3/core';
 import { useGetFilesQuery } from './mockedHooks';
-import FilesTableData from './data/filesTableData.json';
 
 const fileSize = (input: any) => null;
-const download = () => alert('download called in FilesTable');
 const currentCart = null;
 
 interface FilesTableProps {
@@ -72,14 +51,14 @@ const caseFilesTableColumnHelper = createColumnHelper<CaseFilesTableDataType>();
 
 const FilesTable = ({ caseId }: FilesTableProps) => {
   // const currentCart = useCoreSelector((state) => selectCart(state));
-  const dispatch = useCoreDispatch();
+  // const dispatch = useCoreDispatch();
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
   const [tableData, setTableData] = useState<CaseFilesTableDataType[]>([]);
   const [sortBy, setSortBy] = useState<SortBy[]>([
     { field: 'experimental_strategy', direction: 'asc' },
   ]);
-  const [fileToDownload, setFileToDownload] = useState(null);
-  const [downloadJSONActive, setDownloadJSONActive] = useState(false);
+  // const [fileToDownload, setFileToDownload] = useState(null);
+  // const [downloadJSONActive, setDownloadJSONActive] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [activePage, setActivePage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -297,35 +276,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
   };
 
   const handleDownloadJSON = async () => {
-    setDownloadJSONActive(true);
     alert('handelDownloadJSON called in CasesCohortButton');
-    /* await download({
-      endpoint: 'files',
-      method: 'POST',
-      params: {
-        filters: tableFilters,
-        size: 10000,
-        attachment: true,
-        format: 'JSON',
-        pretty: true,
-        related_files: true,
-        fields: [
-          'file_id',
-          'access',
-          'file_name',
-          'cases.case_id',
-          'cases.project.project_id',
-          'data_category',
-          'data_type',
-          'data_format',
-          'experimental_strategy',
-          'platform',
-          'file_size',
-        ].join(','),
-      },
-      done: () => setDownloadJSONActive(false),
-      dispatch,
-    }); */
   };
 
   const handleDownloadTSV = async () => {
