@@ -57,7 +57,6 @@ export const Default: Story = {
       'table-clinical-case-summary',
       'table-biospecimen-case-summary',
       'text-file-count-case-summary',
-      'text-annotation-count-case-summary',
     ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
     testIds.forEach((id) => {

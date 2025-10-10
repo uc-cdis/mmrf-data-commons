@@ -29,7 +29,6 @@ import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
 export interface CaseViewProps {
   readonly data: any;
   readonly isModal: boolean;
-  readonly annotationCountData: number;
   readonly bio_id: string;
   readonly case_id: string;
   readonly shouldScrollToBio: boolean;
@@ -42,7 +41,6 @@ const mapGdcFileToCartFile = (CartItemArr: CartItem[]) =>
 export const CaseView: React.FC<CaseViewProps> = ({
   data,
   isModal,
-  annotationCountData,
   bio_id,
   case_id,
   shouldScrollToBio,
@@ -197,29 +195,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
       {filesCountTotal > 1 ? 'Files' : 'File'}
     </span>
   );
-
-  /*   const Annotations = (
-    <span className="flex items-center gap-1">
-      <EditIcon />
-      {annotationCountData > 0 ? (
-        <a
-          data-testid="text-annotation-count-case-summary"
-          href="#annotations"
-          className="underline font-bold"
-        >
-          {annotationCountData.toLocaleString()}
-        </a>
-      ) : (
-        <span
-          data-testid="text-annotation-count-case-summary"
-          className="font-bold"
-        >
-          {annotationCountData.toLocaleString()}
-        </span>
-      )}
-      {annotationCountData == 1 ? 'Annotation' : 'Annotations'}
-    </span>
-  ); */
 
   const projectFilter: FilterSet = {
     mode: 'and',
@@ -381,7 +356,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
           <FilesTable caseId={case_id} />
         </div>
 
-        <div className={`mt-8 ${annotationCountData === 0 ? 'mb-16' : ''}`}>
+        <div className={`mt-8 mb-16`}>
           <SMTableContainer
             projectId={data.project.project_id}
             case_id={case_id}
