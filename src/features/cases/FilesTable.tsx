@@ -22,6 +22,7 @@ import { getFormattedTimestamp } from '@/utils/date';
 import TotalItems from '@/components/Table/TotalItem';
 import { useCoreDispatch } from '@gen3/core';
 import { useGetFilesQuery } from './mockedHooks';
+import { handleJSONDownload } from './utils';
 
 const fileSize = (input: any) => null;
 const currentCart = null;
@@ -274,16 +275,13 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
         break;
     }
   };
-
-  const handleDownloadJSON = async () => {
-    alert('handelDownloadJSON called in CasesCohortButton');
-  };
+  const downloadFileNameBase = `files-table.${getFormattedTimestamp()}`;
 
   const handleDownloadTSV = async () => {
     await downloadTSV({
       tableData,
       columnOrder,
-      fileName: `files-table.${getFormattedTimestamp()}.tsv`,
+      fileName: `${downloadFileNameBase}.tsv`,
       columnVisibility,
       columns: caseFilesTableDefaultColumns,
       option: {
@@ -312,10 +310,10 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
           <div className="flex gap-2 mb-2">
             <FunctionButton
               data-testid="button-json-files-case-summary"
-              onClick={handleDownloadJSON}
+              onClick={() =>
+                handleJSONDownload(downloadFileNameBase, tableData)
+              }
               aria-label="Download JSON"
-              // isDownload
-              // isActive={downloadJSONActive}
             >
               JSON
             </FunctionButton>
