@@ -180,6 +180,47 @@ export const CaseView: React.FC<CaseViewProps> = ({
     return formatDataForHorizontalTable(caseSummaryObject, headersConfig);
   };
 
+  const Files = (
+    <span className="flex items-center gap-1">
+      <FileIcon />
+      {filesCountTotal > 0 ? (
+        <a
+          data-testid="text-file-count-case-summary"
+          href="#files"
+          className="underline font-bold"
+        >
+          {filesCountTotal.toLocaleString()}
+        </a>
+      ) : (
+        <span className="font-bold">{filesCountTotal.toLocaleString()}</span>
+      )}
+      {filesCountTotal > 1 ? 'Files' : 'File'}
+    </span>
+  );
+
+  /*   const Annotations = (
+    <span className="flex items-center gap-1">
+      <EditIcon />
+      {annotationCountData > 0 ? (
+        <a
+          data-testid="text-annotation-count-case-summary"
+          href="#annotations"
+          className="underline font-bold"
+        >
+          {annotationCountData.toLocaleString()}
+        </a>
+      ) : (
+        <span
+          data-testid="text-annotation-count-case-summary"
+          className="font-bold"
+        >
+          {annotationCountData.toLocaleString()}
+        </span>
+      )}
+      {annotationCountData == 1 ? 'Annotation' : 'Annotations'}
+    </span>
+  ); */
+
   const projectFilter: FilterSet = {
     mode: 'and',
     root: {
@@ -240,6 +281,11 @@ export const CaseView: React.FC<CaseViewProps> = ({
                 : 'Remove all files from the cart'}
             </Button>
           </Tooltip>
+        }
+        rightElement={
+          <div className="flex items-center gap-4 text-xl text-base-lightest font-medium leading-6 font-montserrat uppercase">
+            Total of {Files}
+          </div>
         }
         isModal={isModal}
       />
