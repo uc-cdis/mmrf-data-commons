@@ -7,11 +7,14 @@ import MobileView from './Components/MobileView';
 import DesktopView from './Components/DesktopView';
 import { SummaryModalContext } from '@/utils/contexts';
 import { SummaryModal } from '@/components/Modals/SummaryModal/SummaryModal';
+import CartIconWithCount from "./Components/CartIconWithCount";
 
 const MainNavigation: React.FC = () => {
   const { navigation }: { navigation: Navigation } = navigationJSON;
   const { entityMetadata, setEntityMetadata } = useContext(SummaryModalContext);
+  const topBarItemsWithIcon= [...topBarData.items.slice(0,-1), { ...topBarData.items.at(-1), component: (<CartIconWithCount />)  }];
 
+  console.log(topBarItemsWithIcon);
   return (
     <>
       <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4">
@@ -19,7 +22,7 @@ const MainNavigation: React.FC = () => {
           loginButtonVisibility={topBarData.loginButtonVisibility as any}
           classNames={topBarData.classNames}
           itemClassnames={topBarData.itemClassnames}
-          items={topBarData.items}
+          items={topBarItemsWithIcon as any}
         />
         {
           <SummaryModal
