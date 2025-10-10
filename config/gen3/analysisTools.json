@@ -22,7 +22,6 @@
           "loginRequired": false,
           "description": "Build and define your custom cohorts using a variety of clinical and biospecimen features.",
           "icon": "/icons/apps/CohortBuilder.svg",
-          "href": "/?app=CohortBuilder",
           "count": 1000,
           "appId" : "CohortBuilder",
           "countUnits": "Cases"
@@ -34,7 +33,6 @@
           "loginRequired": false,
           "description": "Browse and download the files associated with your cohort for more sophisticated analysis.",
           "icon": "/icons/apps/Repository.svg",
-          "href": "/?app=Repository",
           "count": 1000,
           "appId" : "Repository",
           "countUnits": "Cases"
@@ -51,8 +49,6 @@
           "loginRequired": false,
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
-          "href": "/?app=MutationFrequency",
-          "count": 1000,
           "count": 1000,
           "appId" : "MutationFrequency",
           "countUnits": "Case"
@@ -64,7 +60,6 @@
           "loginRequired": false,
           "description": "Use clinical variables to perform basic statistical analysis of your cohort.",
           "icon": "/icons/apps/ClinicalData.svg",
-          "href": "/?app=cDave",
           "count": 1000,
           "appId" : "cDave",
           "countUnits": "Cases"
@@ -76,7 +71,6 @@
           "loginRequired": false,
           "description": "Display the survival analysis of your cohorts and compare characteristics such as gender, vital status and age at diagnosis.",
           "icon": "/icons/apps/CohortComparison.svg",
-          "href": "/?app=CohortComparison",
           "count": 1000,
           "appId" : "CohortComparison",
           "countUnits": "Cases"
