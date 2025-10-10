@@ -271,7 +271,7 @@ const GeneView = ({
               <div className="my-6 pt-20">
                 <WarningBanner
                   text={
-                    'Viewing subset of the GDC based on your current cohort and Mutation Frequency filters.'
+                    'Viewing subset of the MMRF based on your current cohort and Mutation Frequency filters.'
                   }
                 />
               </div>

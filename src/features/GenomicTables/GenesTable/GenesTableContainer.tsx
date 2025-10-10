@@ -256,7 +256,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     if (Object.keys(expanded).length > 0 && row.original.gene_id === rowId) {
       setExpanded({});
     } else if (
-      row.original['#_ssm_affected_cases_across_the_gdc'].numerator !== 0
+      row.original['#_ssm_affected_cases_across_the_mmrf'].numerator !== 0
     ) {
       setExpanded({ [row.original.gene_id]: true });
       setRowId(row.original.gene_id as any);
@@ -331,7 +331,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
         getRowCanExpand={() => true}
-        expandableColumnIds={['#_ssm_affected_cases_across_the_gdc']}
+        expandableColumnIds={['#_ssm_affected_cases_across_the_mmrf']}
         renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
