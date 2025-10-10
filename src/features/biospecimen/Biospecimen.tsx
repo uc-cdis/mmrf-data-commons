@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BioTree } from '@/components/BioTree/BioTree';
-import {
-  Button,
-  Input,
-  Loader,
-  LoadingOverlay,
-  ActionIcon,
-} from '@mantine/core';
+import { Button, Input, LoadingOverlay, ActionIcon } from '@mantine/core';
 import { HorizontalTable } from '@/components/HorizontalTable';
 import { formatEntityInfo, searchForStringInNode } from './utils';
 import { trimEnd, find, flatten, escapeRegExp } from 'lodash';
@@ -20,9 +14,7 @@ import { BiospecimenEntityType } from './types';
 import { useCoreDispatch, useCoreSelector } from '@gen3/core';
 import { useBiospecimenDataQuery } from '@/core/cases/bioSpecimanDataSlice';
 import { CartFile } from '@/core';
-
-const download = (a: any) =>
-  alert('called download in Biospecimen with ' + JSON.stringify(a));
+import { handleJSONDownload, handleTSVDownload } from '../cases/utils';
 
 interface BiospecimenProps {
   readonly caseId: string;
@@ -40,10 +32,6 @@ export const Biospecimen = ({
   submitter_id,
 }: BiospecimenProps): JSX.Element => {
   const router = useRouter();
-  const [biospecimenDownloadActiveTSV, setBiospecimenDownloadActiveTSV] =
-    useState(false);
-  const [biospecimenDownloadActiveJSON, setBiospecimenDownloadActiveJSON] =
-    useState(false);
   const [treeStatusOverride, setTreeStatusOverride] =
     useState<overrideMessage | null>(null);
   const [selectedEntity, setSelectedEntity] =
@@ -129,50 +117,20 @@ export const Biospecimen = ({
     submitter_id: selectedEntity?.submitter_id,
   });
 
+  const downloadFileName = `biospecimen.case-${submitter_id}-${project_id}.${new Date()
+    .toISOString()
+    .slice(0, 10)}`;
   const handleBiospeciemenTSVDownload = () => {
-    setBiospecimenDownloadActiveTSV(true);
-    download({
-      endpoint: 'biospecimen_tar',
-      method: 'POST',
-      dispatch,
-      params: {
-        filename: `biospecimen.case-${submitter_id}-${project_id}.${new Date()
-          .toISOString()
-          .slice(0, 10)}.tar.gz`,
-        filters: {
-          op: 'in',
-          content: {
-            field: 'cases.case_id',
-            value: [caseId],
-          },
-        },
-      },
-      done: () => setBiospecimenDownloadActiveTSV(false),
-    });
+    console.log('bioSpecimenData', bioSpecimenData);
+    const downloadDataColumns = Object.keys(bioSpecimenData).map((key) => ({
+      id: key,
+      header: key,
+    }));
+    handleTSVDownload(downloadFileName, [bioSpecimenData], downloadDataColumns);
   };
 
   const handleBiospeciemenJSONDownload = () => {
-    setBiospecimenDownloadActiveJSON(true);
-    download({
-      endpoint: 'biospecimen_tar',
-      method: 'POST',
-      dispatch,
-      params: {
-        format: 'JSON',
-        pretty: true,
-        filename: `biospecimen.case-${submitter_id}-${project_id}.${new Date()
-          .toISOString()
-          .slice(0, 10)}.json`,
-        filters: {
-          op: 'in',
-          content: {
-            field: 'cases.case_id',
-            value: [caseId],
-          },
-        },
-      },
-      done: () => setBiospecimenDownloadActiveJSON(false),
-    });
+    handleJSONDownload(downloadFileName, [bioSpecimenData]);
   };
 
   // TODO:  Need to add error message in place after this is moved to the Case Summary page for invalid case ids
@@ -192,20 +150,12 @@ export const Biospecimen = ({
             dropdownElements={[
               {
                 title: 'TSV',
-                icon: biospecimenDownloadActiveTSV ? (
-                  <Loader size={16} color="currentColor" />
-                ) : (
-                  <DownloadIcon size={16} aria-label="download" />
-                ),
+                icon: <DownloadIcon size={16} aria-label="download" />,
                 onClick: handleBiospeciemenTSVDownload,
               },
               {
                 title: 'JSON',
-                icon: biospecimenDownloadActiveJSON ? (
-                  <Loader size={16} color="currentColor" />
-                ) : (
-                  <DownloadIcon size={16} aria-label="download" />
-                ),
+                icon: <DownloadIcon size={16} aria-label="download" />,
                 onClick: handleBiospeciemenJSONDownload,
               },
             ]}

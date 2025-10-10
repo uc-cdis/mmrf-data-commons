@@ -19,7 +19,7 @@ import {
   FamilyHistories,
   FollowUps,
 } from './types';
-import { handleTSVDownload } from '../utils';
+import { handleJSONDownload, handleTSVDownload } from '../utils';
 
 export const ClinicalSummary = ({
   demographic,
@@ -41,11 +41,6 @@ export const ClinicalSummary = ({
   readonly submitter_id: string;
 }): JSX.Element => {
   const [activeTab, setActiveTab] = useState<string | null>('demographic');
-  const [clinicalDownloadActiveTSV, setClinicalDownloadActiveTSV] =
-    useState(false);
-  const [clinicalDownloadActiveJSON, setClinicalDownloadActiveJSON] =
-    useState(false);
-  const dispatch = useCoreDispatch();
 
   const formatDataForDemographics = () => {
     const {
@@ -111,73 +106,20 @@ export const ClinicalSummary = ({
       submitter_id,
     },
   ];
+  const downloadDataColumns = Object.keys(downloadData[0]).map((key) => ({
+    id: key,
+    header: key,
+  }));
+  const downloadFileName = `clinical.case-${submitter_id}-${project_id}.${new Date()
+    .toISOString()
+    .slice(0, 10)}`;
 
-  const downloadDataColumns = [
-    {
-      id: 'demographic',
-      header: 'Demographic Data',
-    },
-    {
-      id: 'diagnoses',
-      header: 'Diagnoses Information',
-    },
-    {
-      id: 'family_histories',
-      header: 'Family Histories',
-    },
-    {
-      id: 'exposures',
-      header: 'Exposures Recorded',
-    },
-    {
-      id: 'follow_ups',
-      header: 'Follow-Up Actions',
-    },
-    {
-      id: 'case_id',
-      header: 'Case ID',
-    },
-    {
-      id: 'project_id',
-      header: 'Project ID',
-    },
-    {
-      id: 'submitter_id',
-      header: 'Submitter ID',
-    },
-  ];
   const handleClinicalTSVDownload = () => {
-    handleTSVDownload(
-      `clinical.case-${submitter_id}-${project_id}.${new Date()
-        .toISOString()
-        .slice(0, 10)}`,
-      downloadData,
-      downloadDataColumns,
-    );
+    handleTSVDownload(downloadFileName, downloadData, downloadDataColumns);
   };
 
   const handleClinicalJSONDownload = () => {
-    setClinicalDownloadActiveJSON(true);
-    /* download({
-      endpoint: 'clinical_tar',
-      method: 'POST',
-      dispatch,
-      params: {
-        format: 'JSON',
-        pretty: true,
-        filename: `clinical.case-${submitter_id}-${project_id}.${new Date()
-          .toISOString()
-          .slice(0, 10)}.json`,
-        filters: {
-          op: 'in',
-          content: {
-            field: 'cases.case_id',
-            value: [case_id],
-          },
-        },
-      },
-      done: () => setClinicalDownloadActiveJSON(false),
-    }); */
+    handleJSONDownload(downloadFileName, downloadData);
   };
 
   return (
@@ -189,23 +131,13 @@ export const ClinicalSummary = ({
         dropdownElements={[
           {
             title: 'TSV',
-            icon: clinicalDownloadActiveTSV ? (
-              <Loader size={16} color="currentColor" />
-            ) : (
-              <DownloadIcon size={16} aria-label="download" />
-            ),
+            icon: <DownloadIcon size={16} aria-label="download" />,
             onClick: handleClinicalTSVDownload,
-            isLoading: clinicalDownloadActiveTSV,
           },
           {
             title: 'JSON',
-            icon: clinicalDownloadActiveJSON ? (
-              <Loader size={16} color="currentColor" />
-            ) : (
-              <DownloadIcon size={16} aria-label="download" />
-            ),
+            icon: <DownloadIcon size={16} aria-label="download" />,
             onClick: handleClinicalJSONDownload,
-            isLoading: clinicalDownloadActiveJSON,
           },
         ]}
         TargetButtonChildren="Download"
