@@ -19,6 +19,7 @@ import {
   FamilyHistories,
   FollowUps,
 } from './types';
+import { handleTSVDownload } from '../utils';
 
 export const ClinicalSummary = ({
   demographic,
@@ -98,36 +99,66 @@ export const ClinicalSummary = ({
     </span>
   );
 
-  const download = (x: any) =>
-    alert(
-      'download function called in Clinical Summary with parameter' +
-        JSON.stringify(x),
-    );
+  const downloadData = [
+    {
+      demographic,
+      diagnoses,
+      family_histories,
+      exposures,
+      follow_ups,
+      case_id,
+      project_id,
+      submitter_id,
+    },
+  ];
+
+  const downloadDataColumns = [
+    {
+      id: 'demographic',
+      header: 'Demographic Data',
+    },
+    {
+      id: 'diagnoses',
+      header: 'Diagnoses Information',
+    },
+    {
+      id: 'family_histories',
+      header: 'Family Histories',
+    },
+    {
+      id: 'exposures',
+      header: 'Exposures Recorded',
+    },
+    {
+      id: 'follow_ups',
+      header: 'Follow-Up Actions',
+    },
+    {
+      id: 'case_id',
+      header: 'Case ID',
+    },
+    {
+      id: 'project_id',
+      header: 'Project ID',
+    },
+    {
+      id: 'submitter_id',
+      header: 'Submitter ID',
+    },
+  ];
   const handleClinicalTSVDownload = () => {
-    setClinicalDownloadActiveTSV(true);
-    download({
-      endpoint: 'clinical_tar',
-      method: 'POST',
-      dispatch,
-      params: {
-        filename: `clinical.case-${submitter_id}-${project_id}.${new Date()
-          .toISOString()
-          .slice(0, 10)}.tar.gz`,
-        filters: {
-          op: 'in',
-          content: {
-            field: 'cases.case_id',
-            value: [case_id],
-          },
-        },
-      },
-      done: () => setClinicalDownloadActiveTSV(false),
-    });
+    handleTSVDownload(
+      `clinical.case-${submitter_id}-${project_id}.${new Date()
+        .toISOString()
+        .slice(0, 10)}`,
+      downloadData,
+      downloadDataColumns,
+    );
   };
 
   const handleClinicalJSONDownload = () => {
     setClinicalDownloadActiveJSON(true);
-    download({
+    /* download({
       endpoint: 'clinical_tar',
       method: 'POST',
       dispatch,
@@ -146,7 +177,7 @@ export const ClinicalSummary = ({
         },
       },
       done: () => setClinicalDownloadActiveJSON(false),
-    });
+    }); */
   };
 
   return (

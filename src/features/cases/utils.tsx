@@ -2,6 +2,8 @@ import React from 'react';
 import { calculatePercentageAsNumber, sortByPropertyAsc } from '@/utils/index';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { PercentageLabel } from '@/components/PercentageLabel';
+import { downloadTSV } from '@/components/Table/utils';
+import saveAs from 'file-saver';
 
 export const caseSummaryFields = [
   'files.access',
@@ -250,6 +252,25 @@ export const formatDataForExpCateogryTable = (
   ];
 
   return { data: sortedExpCategories, columns: expCategoryTableColumns };
+};
+
+export const handleTSVDownload = (
+  baseFileName: string,
+  data: any[],
+  columns: any[],
+) => {
+  downloadTSV({
+    tableData: data as any,
+    columns: columns,
+    fileName: `${baseFileName}.tsv`,
+  });
+};
+
+export const handleJSONDownload = (baseFileName: string, data: any[]) => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: 'text/json',
+  });
+  saveAs(blob, `${baseFileName}.json`);
 };
 
 export const ITEMS_PER_COLUMN = 4;
