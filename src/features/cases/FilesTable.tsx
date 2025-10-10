@@ -232,12 +232,18 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
           ); */
           const isOutputFileInCart = false;
           return (
-            <TableActionButtons
-            // isOutputFileInCart={isOutputFileInCart}
-            // file={mapGdcFileToCartFile([row.original.file])}
-            // downloadFile={row.original.file}
-            // setFileToDownload={setFileToDownload}
-            />
+            <>
+              <FunctionButton
+                showDownloadIcon
+                onClick={() =>
+                  handleJSONDownload(row.original.file.file_name, [
+                    row.original.file,
+                  ])
+                }
+              >
+                Download
+              </FunctionButton>
+            </>
           );
         },
       }),
