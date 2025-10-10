@@ -1,25 +1,13 @@
 import React from 'react';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import {
-  useCoreDispatch,
-  useCoreSelector,
-  // selectCart,
-  // Demographic,
-  FilterSet,
-  CartItem,
-  // CaseDefaults,
-} from '@gen3/core';
+import { FilterSet, CartItem } from '@gen3/core';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { ActionIcon, Button, Tooltip } from '@mantine/core';
 import { useScrollIntoView, useViewportSize } from '@mantine/hooks';
 import { Biospecimen } from '../biospecimen/Biospecimen';
-// import { addToCart, removeFromCart } from '../cart/updateCart';
-import {
-  formatDataForHorizontalTable,
-  // mapGdcFileToCartFile,
-} from '../files/utils';
+import { formatDataForHorizontalTable } from '../files/utils';
 import {
   allFilesInCart,
   focusStyles,
@@ -28,7 +16,6 @@ import {
 } from 'src/utils';
 import CategoryTableSummary from '@/components/Summary/CategoryTableSummary';
 import { ClinicalSummary } from './ClinicalSummary/ClinicalSummary';
-// import { ImageSlideCount } from '@/components/ImageSlideCount';
 import {
   formatDataForDataCateogryTable,
   formatDataForExpCateogryTable,
@@ -37,14 +24,9 @@ import {
 } from './utils';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import FilesTable from './FilesTable';
-
-// import AnnotationsTable from './AnnotationsTable';
-// import { useScrollToHash } from '@gff/portal-components';
-// import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
 
 export interface CaseViewProps {
-  // readonly data: CaseDefaults;
   readonly data: any;
   readonly isModal: boolean;
   readonly annotationCountData: number;
@@ -68,29 +50,17 @@ export const CaseView: React.FC<CaseViewProps> = ({
   console.log('data in caseView', data);
   const filesCountTotal = data?.files?.length ?? 0;
   const headerTitle = `${data?.project?.project_id} / ${data?.submitter_id}`;
-  const selectCart = () => null;
-  // const currentCart = useCoreSelector((state) => selectCart(state));
   const currentCart = {} as any;
-  const dispatch = () => null;
-  // const dispatch = useCoreDispatch();
+
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
-  /*   const isAllFilesInCart = data?.files
-    ? allFilesInCart(currentCart, mapGdcFileToCartFile(data?.files))
-    : false; */
   const isAllFilesInCart = false;
-
   const { width } = useViewportSize();
-  // useScrollToHash(['files', 'annotations']);
   const leftSummaryTableRef = useRef<HTMLTableElement>(null);
   const rightSummaryTableRef = useRef<HTMLTableElement>(null);
-
-  // useSynchronizedRowHeights([leftSummaryTableRef, rightSummaryTableRef]);
-
   const {
     diagnoses = [],
-    // demographic = {} as Demographic,
     demographic = {} as any,
     family_histories = [],
     follow_ups = [],
@@ -186,19 +156,8 @@ export const CaseView: React.FC<CaseViewProps> = ({
               onClick={() => {
                 if (isAllImagesFilesInCart) {
                   console.log('placeholder for removeFromCart');
-                  /*                   removeFromCart(
-                    mapGdcFileToCartFile(imageFiles),
-                    currentCart,
-                    dispatch,
-                  ); */
                 } else {
                   console.log('placeholder for addToCart');
-                  /*                   addToCart(
-                    mapGdcFileToCartFile(imageFiles),
-                    currentCart,
-                    dispatch,
-                  );
- */
                 }
               }}
             >
@@ -220,47 +179,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
 
     return formatDataForHorizontalTable(caseSummaryObject, headersConfig);
   };
-
-  const Files = (
-    <span className="flex items-center gap-1">
-      <FileIcon />
-      {filesCountTotal > 0 ? (
-        <a
-          data-testid="text-file-count-case-summary"
-          href="#files"
-          className="underline font-bold"
-        >
-          {filesCountTotal.toLocaleString()}
-        </a>
-      ) : (
-        <span className="font-bold">{filesCountTotal.toLocaleString()}</span>
-      )}
-      {filesCountTotal > 1 ? 'Files' : 'File'}
-    </span>
-  );
-
-  const Annotations = (
-    <span className="flex items-center gap-1">
-      <EditIcon />
-      {annotationCountData > 0 ? (
-        <a
-          data-testid="text-annotation-count-case-summary"
-          href="#annotations"
-          className="underline font-bold"
-        >
-          {annotationCountData.toLocaleString()}
-        </a>
-      ) : (
-        <span
-          data-testid="text-annotation-count-case-summary"
-          className="font-bold"
-        >
-          {annotationCountData.toLocaleString()}
-        </span>
-      )}
-      {annotationCountData == 1 ? 'Annotation' : 'Annotations'}
-    </span>
-  );
 
   const projectFilter: FilterSet = {
     mode: 'and',
@@ -312,17 +230,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
               onClick={() =>
                 isAllFilesInCart
                   ? console.log('placeholder forremoveFromCar')
-                  : /*                   ? removeFromCart(
-                      mapGdcFileToCartFile(data.files),
-                      currentCart,
-                      dispatch,
-                    ) */
-                    /* addToCart(
-                      mapGdcFileToCartFile(data.files),
-                      currentCart,
-                      dispatch,
-                    ) */
-                    console.log('placeholder for addToCart')
+                  : console.log('placeholder for addToCart')
               }
               disabled={filesCountTotal === 0}
               classNames={{ label: 'font-medium text-sm' }}
@@ -332,11 +240,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
                 : 'Remove all files from the cart'}
             </Button>
           </Tooltip>
-        }
-        rightElement={
-          <div className="flex items-center gap-4 text-xl text-base-lightest font-medium leading-6 font-montserrat uppercase">
-            Total of {Files} {Annotations}
-          </div>
         }
         isModal={isModal}
       />
@@ -442,16 +345,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
             inModal={isModal}
           />
         </div>
-        {/*  {annotationCountData > 0 && (
-          <div
-            className={`mt-8 mb-16 ${
-              isModal ? 'scroll-mt-36' : 'scroll-mt-72'
-            }`}
-            id="annotations"
-          >
-            <AnnotationsTable case_id={case_id} />
-          </div>
-        )} */}
       </div>
     </>
   );
