@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SummaryHeaderTitle } from '@/components/tailwindComponents';
 import { Divider } from '@mantine/core';
-import { ReactNode } from 'react';
 import Image from 'next/image';
+import { Icon } from '@iconify-icon/react';
 
 export interface SummaryHeaderProps {
   iconPath: string;
@@ -32,12 +32,13 @@ export const SummaryHeader = ({
           className="w-9 h-9 uppercase rounded-full text-lg flex justify-center
             items-center leading-[22px] font-bold bg-base-lightest"
         >
-          <Image
-            className="ml-[8px] mt-[11px]"
-            src={iconPath}
+          <Icon
+            className="object-cover m-1"
+            icon={iconPath}
             alt=""
-            height={40}
-            width={40}
+            height={28}
+            width={28}
+            color="primary"
             data-testid="summary-header-icon"
           />
         </span>
