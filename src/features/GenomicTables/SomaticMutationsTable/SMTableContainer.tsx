@@ -245,7 +245,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     ) {
       setExpanded({});
     } else if (
-      row.original['#_affected_cases_across_the_gdc'].numerator !== 0
+      row.original['#_affected_cases_across_the_mmrf'].numerator !== 0
     ) {
       setExpanded({ [row.original.mutation_id]: true });
       setRowId(row.original.mutation_id);
@@ -316,7 +316,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
             rowSelection={rowSelection}
             status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
             getRowCanExpand={() => true}
-            expandableColumnIds={['#_affected_cases_across_the_gdc']}
+            expandableColumnIds={['#_affected_cases_across_the_mmrf']}
             renderSubComponent={({ row }) => <SMTableSubcomponent row={row} />}
             handleChange={handleChange}
             setColumnVisibility={setColumnVisibility}

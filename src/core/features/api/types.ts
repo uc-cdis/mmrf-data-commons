@@ -49,7 +49,7 @@ export interface Gen3AnalysisApiResponse<H = UnknownJson> {
 }
 
 /**
- * The request for requesting data from the GDC API
+ * The request for requesting data from the MMRF API
  * @property filters - A FilterSet object
  * @property case_filters - A FilterSet object
  * @property fields - An array of fields to return
@@ -59,7 +59,7 @@ export interface Gen3AnalysisApiResponse<H = UnknownJson> {
  * @property from - The offset from which to return cases
  * @property sortBy - An array of fields to sort by
  * @property facets - An array of fields to facet by
- * @category GDC API
+ * @category MMRF API
  */
 export interface Gen3AnalysisApiRequest {
   readonly filters?: GqlOperation;

@@ -187,7 +187,7 @@ export const useGenerateGenesTableColumns = ({
         ),
       }),
       genesTableColumnHelper.display({
-        id: '#_ssm_affected_cases_across_the_gdc',
+        id: '#_ssm_affected_cases_across_the_mmrf',
         header: () => (
           <HeaderTooltip
             title={`# SSM Affected Cases
@@ -198,7 +198,7 @@ export const useGenerateGenesTableColumns = ({
         ),
         cell: ({ row }: any) => {
           const { numerator, denominator } = row?.original[
-            '#_ssm_affected_cases_across_the_gdc'
+            '#_ssm_affected_cases_across_the_mmrf'
           ] ?? { numerator: 0, denominator: 1 };
           return (
             <div
@@ -421,7 +421,7 @@ export const getGene = (
       numerator: g.numCases,
       denominator: filteredCases,
     },
-    '#_ssm_affected_cases_across_the_gdc': {
+    '#_ssm_affected_cases_across_the_mmrf': {
       numerator: g.ssm_case,
       denominator: cases,
     },

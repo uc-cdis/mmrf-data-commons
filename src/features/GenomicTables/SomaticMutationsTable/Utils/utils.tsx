@@ -164,7 +164,7 @@ export const useGenerateSMTableColumns = ({
       }),
 
       SMTableColumnHelper.display({
-        id: '#_affected_cases_across_the_gdc',
+        id: '#_affected_cases_across_the_mmrf',
         header: () => (
           <HeaderTooltip
             title={`# Affected Cases
@@ -176,7 +176,7 @@ export const useGenerateSMTableColumns = ({
         ),
         cell: ({ row }) => {
           const { numerator, denominator } = row.original[
-            '#_affected_cases_across_the_gdc'
+            '#_affected_cases_across_the_mmrf'
           ] ?? { numerator: 0, denominator: 1 };
           return (
             <div
@@ -274,7 +274,7 @@ export const getMutation = (
       numerator: filteredOccurrences,
       denominator: filteredCases,
     },
-    '#_affected_cases_across_the_gdc': {
+    '#_affected_cases_across_the_mmrf': {
       numerator: occurrence,
       denominator: cases,
     },
