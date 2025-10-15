@@ -260,6 +260,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
   useEffect(() => {
     sortByActions(sorting);
   }, [sorting]);
+
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     file_uuid: false,
     data_type: false,
@@ -336,7 +337,8 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}
-        columnSorting="manual"
+        // columnSorting="manual"
+        columnSorting="none"
         handleChange={handleChange}
         pagination={pagination as any}
         search={{
