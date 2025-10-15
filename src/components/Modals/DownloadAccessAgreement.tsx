@@ -39,14 +39,14 @@ const DownloadAccessAgreement: React.FC<DownloadAccessAgreementProps> = ({
           <Text className="text-[15px]">
             I agree to abide by the{" "}
             <Anchor
-              data-testid="link-gdc-data-use-agreement"
+              data-testid="link-mmrf-data-use-agreement"
               size="sm"
               href="https://gdc.cancer.gov/about-data/data-analysis-policies"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              GDC Data Use Agreement
+              MMRF Data Use Agreement
             </Anchor>{" "}
             and the study-specific Data Use Certification Agreement available in{" "}
             <Anchor
@@ -69,7 +69,7 @@ const DownloadAccessAgreement: React.FC<DownloadAccessAgreementProps> = ({
       <ul className="text-[15px] pl-12 list-disc">
         <li>
           I agree not to attempt to reidentify any individual participant in any
-          study represented by GDC data, for any purpose whatsoever.
+          study represented by MMRF data, for any purpose whatsoever.
         </li>
         <li>
           I agree to have read and understand study-specific Data Use Agreements
