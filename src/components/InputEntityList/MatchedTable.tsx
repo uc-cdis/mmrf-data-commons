@@ -83,7 +83,7 @@ const MatchedTable = ({
               cell: ({ row }) =>
                 row?.original[`submitted_${id.replaceAll(".", "_")}`] ?? "--",
               meta: {
-                sortingFn: (rowA, rowB) => {
+                sortingFn: (rowA, rowB) : 0 | 1 | -1  => {
                   const property = `submitted_${id.replaceAll(".", "_")}`;
 
                   const valueA = rowA[property];
@@ -95,10 +95,11 @@ const MatchedTable = ({
                   if (!valueB) return -1;
 
                   if (isHGNC(valueA) && isHGNC(valueB)) {
-                    return (
+                    const cmp = (
                       Number(valueA.split(":")[1]) -
                       Number(valueB.split(":")[1])
                     );
+                    return cmp < 0 ? -1 : cmp  === 0 ? 0 : 1;
                   }
 
                   const numA = Number(valueA);
@@ -106,11 +107,12 @@ const MatchedTable = ({
 
                   // Check if both values are numbers
                   if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
-                    return numA - numB;
+                    return (numA - numB) < 0 ? -1 : (numA - numB)  === 0 ? 0 : 1;
                   }
 
                   // if values are strings
-                  return valueA.localeCompare(valueB);
+                  const cmp = valueA.localeCompare(valueB)
+                  return cmp < 0 ? -1 : cmp  === 0 ? 0 : 1;
                 },
               },
             },
