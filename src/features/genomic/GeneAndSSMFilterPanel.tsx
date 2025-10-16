@@ -90,7 +90,6 @@ const GeneAndSSMFilterPanel = ({
       type: 'gene',
       fields: ['biotype'],
       filters: { mode: 'and', root: { "is_cancer_gene_census" :
-          //@ts-expect-error type is wrong
             { operator: '=', field: "is_cancer_gene_census", operand: true} }},
       indexPrefix: 'Gene_',
     },
