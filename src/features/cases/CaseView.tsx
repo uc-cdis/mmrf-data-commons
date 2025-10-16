@@ -23,7 +23,7 @@ import {
   ITEMS_PER_COLUMN,
 } from './utils';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
-import FilesTable from './FilesTable';
+import FilesTable from './FilesTable/FilesTable';
 import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
 
 export interface CaseViewProps {

@@ -3,7 +3,6 @@ import { FileAccessBadge } from '@/components/FileAccessBadge';
 import FunctionButton from '@/components/FunctionButton';
 import VerticalTable from '@/components/Table/VerticalTable';
 import { HandleChangeInput } from '@/components/Table/types';
-import { TableActionButtons } from '@/components/TableActionButtons';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { capitalize, statusBooleansToDataStatus } from '@/utils/index';
 import { GdcFile, GqlOperation } from '@/core';
@@ -20,9 +19,10 @@ import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import { downloadTSV } from '@/components/Table/utils';
 import { getFormattedTimestamp } from '@/utils/date';
 import TotalItems from '@/components/Table/TotalItem';
-import { useCoreDispatch } from '@gen3/core';
-import { useGetFilesQuery } from './mockedHooks';
-import { handleJSONDownload } from './utils';
+import { useGetFilesQuery } from '../mockedHooks';
+import { handleJSONDownload } from '../utils';
+import { FilesTableClientSideSearch } from './FilesTableClientSideSearch';
+import useStandardPagination from '@/hooks/useStandardPagination';
 
 const fileSize = (input: any) => null;
 const currentCart = null;
@@ -132,29 +132,6 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     );
   }, [isSuccess, data?.files]);
 
-  const pagination = useDeepCompareMemo(() => {
-    return isSuccess
-      ? {
-          count: pageSize,
-          from: (activePage - 1) * pageSize,
-          page: activePage,
-          pages: Math.ceil(data?.pagination?.total / pageSize),
-          size: pageSize,
-          total: data?.pagination?.total,
-          sort: 'None',
-          label: 'file',
-        }
-      : {
-          count: undefined,
-          from: undefined,
-          page: undefined,
-          pages: undefined,
-          size: undefined,
-          total: undefined,
-          label: undefined,
-        };
-  }, [pageSize, activePage, data?.pagination?.total, isSuccess]);
-
   const caseFilesTableDefaultColumns = useDeepCompareMemo<
     ColumnDef<CaseFilesTableDataType>[]
   >(
@@ -251,6 +228,32 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     [currentCart],
   );
 
+  const {
+    handlePageChange,
+    handlePageSizeChange,
+    handleSortByChange,
+    page,
+    pages,
+    size,
+    from,
+    total,
+    displayedData,
+    updatedFullData,
+  } = useStandardPagination(tableData, caseFilesTableDefaultColumns);
+
+  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
+    [] as any[],
+  );
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      setDisplayedDataAfterSearch(
+        FilesTableClientSideSearch(tableData, searchTerm),
+      );
+    } else {
+      setDisplayedDataAfterSearch(tableData);
+    }
+  }, [searchTerm, displayedData]);
+
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     caseFilesTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
   );
@@ -272,12 +275,15 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
       case 'newPageSize':
         setActivePage(1);
         setPageSize(parseInt(obj.newPageSize as string));
+        handlePageSizeChange(obj.newPageSize as string);
         break;
       case 'newPageNumber':
         setActivePage(obj.newPageNumber as number);
+        handlePageChange(obj.newPageNumber as number);
         break;
       case 'newSearch':
         setActivePage(1);
+        handlePageChange(1);
         setSearchTerm(obj.newSearch as string);
         break;
     }
@@ -307,11 +313,9 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
       <HeaderTitle>Files</HeaderTitle>
       <VerticalTable
         customDataTestID="table-files-case-summary"
-        data={tableData}
+        data={displayedDataAfterSearch ?? []}
         columns={caseFilesTableDefaultColumns}
-        tableTotalDetail={
-          <TotalItems total={pagination?.total} itemName="file" />
-        }
+        tableTotalDetail={<TotalItems total={total} itemName="file" />}
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
         additionalControls={
           <div className="flex gap-2 mb-2">
@@ -340,7 +344,14 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
         // columnSorting="manual"
         columnSorting="none"
         handleChange={handleChange}
-        pagination={pagination as any}
+        pagination={{
+          page,
+          pages,
+          size,
+          from,
+          total,
+          label: 'file',
+        }}
         search={{
           enabled: true,
           tooltip:
