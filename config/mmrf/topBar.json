@@ -8,21 +8,6 @@
   },
   "items": [
     {
-      "rightIcon": "mmrf:video",
-      "href": "/",
-      "name": "Video Guides"
-    },
-    {
-      "rightIcon": "mmrf:feedback",
-      "href": "/",
-      "name": "Send Feedback"
-    },
-    {
-      "rightIcon": "mmrf:documentation",
-      "href": "/",
-      "name": "Documentation"
-    },
-    {
       "rightIcon": "mmrf:cart",
       "href": "/cart",
       "name": "Cart"

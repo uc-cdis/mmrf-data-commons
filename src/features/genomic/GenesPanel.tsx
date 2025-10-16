@@ -107,7 +107,7 @@ export const GenesPanel = ({
   );
 
   /**
-   * Different that GDC as we are querying the whole table and not just the top 20 genes. The
+   * Different that MMRF as we are querying the whole table and not just the top 20 genes. The
    * query data is used for the table and the chart.
    */
   const { data: topGenesData, isFetching, isSuccess, isError, isUninitialized, isLoading } = useGeneFrequencyChartQuery(

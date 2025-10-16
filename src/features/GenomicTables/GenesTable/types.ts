@@ -52,7 +52,7 @@ export interface Gene {
     numerator: number;
     denominator: number;
   };
-  '#_ssm_affected_cases_across_the_gdc': {
+  '#_ssm_affected_cases_across_the_mmrf': {
     numerator: number;
     denominator: number;
   };
