@@ -28,7 +28,7 @@ export interface SomaticMutation {
     numerator: number;
     denominator: number;
   };
-  '#_affected_cases_across_the_gdc': {
+  '#_affected_cases_across_the_mmrf': {
     numerator: number;
     denominator: number;
   };

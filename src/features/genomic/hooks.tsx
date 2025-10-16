@@ -1,4 +1,4 @@
-import {  useCallback, useMemo } from "react";
+import  React,{  useCallback, useMemo } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import {
   FacetBucket as FacetBuckets,
@@ -14,6 +14,7 @@ import {
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
   GQLFilter,
+  EnumFilterValue,
 } from '@gen3/core';
 import {
   type SurvivalPlotData,
@@ -21,6 +22,7 @@ import {
 } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { EmptySurvivalPlot } from "@/core/survival/types";
+import InputEntityList from "@/components/InputEntityList/InputEntityList";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -63,6 +65,7 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 import FilterFacets from "@/features/genomic/filters";
 import { buildCohortGqlOperator } from '@/core/utils';
 import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
+import { modals } from "@mantine/modals";
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -427,25 +430,80 @@ export const useTopGeneSsms = ({
 
 };
   */
+
 export const useOpenUploadModal = () => {
-  /* Gen3  uses a different modal system will update later */
-  /* ---- TODO: update to use Gen3 modal system
-  const coreDispatch = useCoreDispatch();
+  const updateFacetFilters = useUpdateGenomicEnumFacetFilter();
+  const updateFilters = (field: string, ids: string[]) => {
+    updateFacetFilters(field, {
+      field: field,
+      operator: "in",
+      operands: ids,
+    });
+  }
+
   const openUploadModal = (field: string) => {
-    if (field === "genes.upload.gene_id") {
-      coreDispatch(showModal({ modal: Modals.LocalGeneSetModal }));
-    } else if (field === "ssms.upload.ssm_id") {
-      coreDispatch(showModal({ modal: Modals.LocalMutationSetModal }));
+    if (field === "gene_id") {
+      modals.openContextModal({
+        modal: "filterByUserInputModal",
+        title: "Filter Mutation Frequency by Mutated Genes",
+        size: "xl",
+        innerProps: {
+          userInputProps: {
+            inputInstructions: "Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.",
+            textInputPlaceholder: "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
+            entityType: "genes",
+            entityLabel: "gene",
+            identifierToolTip: (
+              <div>
+                <p>
+                  - Gene identifiers accepted: Symbol, Ensembl, Entrez, HCNC,
+                  UniProtKB/Swiss-Prot, OMIM
+                </p>
+                <p>
+                  - Delimiters between gene identifiers: comma, space, tab or 1
+                  gene identifier per line
+                </p>
+                <p>- File formats accepted: .txt, .csv, .tsv</p>
+              </div>
+            ),
+          },
+          updateFilters,
+          type: "genes",
+        }
+     })
+    } else if (field === "ssm_id") {
+      modals.openContextModal({
+        modal: "filterByUserInputModal",
+        title: "Filter Mutation Frequency by Somatic Mutations",
+        size: "xl",
+        innerProps: {
+          userInputProps: {
+            inputInstructions: "Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.",
+            textInputPlaceholder:"e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
+            entityType: "ssms",
+            entityLabel: "mutation",
+            identifierToolTip: (
+              <div>
+                <p>- Mutation identifiers accepted: Mutation UUID, DNA Change</p>
+                <p>
+                  - Delimiters between mutation identifiers: comma, space, tab or
+                  1 mutation identifier per line
+                </p>
+                <p>- File formats accepted: .txt, .csv, .tsv</p>
+              </div>
+            )
+          },
+          updateFilters,
+          type: "ssms",
+        }
+     })
     }
   };
 
   return openUploadModal;
-  */
-  return () => {};
 };
 
-export const useUploadFilterItems = (uploadField: string) => {
-  const field = uploadField.split(".upload").join("");
+export const useUploadFilterItems = (field: string) => {
   const items = useGenomicFilterValueByName(field);
   return { items, noData: items === undefined };
 };
