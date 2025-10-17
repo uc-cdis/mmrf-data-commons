@@ -5,26 +5,25 @@ import VerticalTable from '@/components/Table/VerticalTable';
 import { HandleChangeInput } from '@/components/Table/types';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { capitalize, statusBooleansToDataStatus } from '@/utils/index';
-import { GdcFile, GqlOperation } from '@/core';
+import { GdcFile } from '@/core';
 import {
   ColumnDef,
   ColumnOrderState,
+  ColumnSort,
   SortingState,
   VisibilityState,
   createColumnHelper,
 } from '@tanstack/react-table';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
+import { useDeepCompareMemo } from 'use-deep-compare';
 import { downloadTSV } from '@/components/Table/utils';
 import { getFormattedTimestamp } from '@/utils/date';
 import TotalItems from '@/components/Table/TotalItem';
-import { useGetFilesQuery } from '../mockedHooks';
 import { handleJSONDownload } from '../utils';
 import { FilesTableClientSideSearch } from './FilesTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
 
-const fileSize = (input: any) => null;
 const currentCart = null;
 
 interface FilesTableProps {
@@ -36,10 +35,6 @@ interface FilesTableProps {
   isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
-}
-interface SortBy {
-  readonly field: string;
-  readonly direction: 'asc' | 'desc';
 }
 
 export type CaseFilesTableDataType = Pick<
@@ -55,6 +50,10 @@ export type CaseFilesTableDataType = Pick<
 > & { file: GdcFile; file_uuid: string };
 
 const caseFilesTableColumnHelper = createColumnHelper<CaseFilesTableDataType>();
+const fileSize = (input: number) => {
+  const megabytes = input / 1000000;
+  return `${Number(megabytes.toFixed(2)).toLocaleString()} mB`;
+};
 
 const FilesTable = ({
   tableData,
@@ -67,23 +66,8 @@ const FilesTable = ({
   // const currentCart = useCoreSelector((state) => selectCart(state));
   // const dispatch = useCoreDispatch();
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
-
-  const [sortBy, setSortBy] = useState<SortBy[]>([
-    { field: 'experimental_strategy', direction: 'asc' },
-  ]);
-  // const [fileToDownload, setFileToDownload] = useState(null);
-  // const [downloadJSONActive, setDownloadJSONActive] = useState(false);
-  const [pageSize, setPageSize] = useState(10);
-  const [activePage, setActivePage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const sortByActions = (sortByObj: SortingState) => {
-    const tempSortBy: SortBy[] = sortByObj.map((sortObj) => ({
-      field: sortObj.id === 'file_uuid' ? 'file_id' : sortObj.id,
-      direction: sortObj.desc ? 'desc' : 'asc',
-    }));
-    setSortBy(tempSortBy);
-  };
+  const [sorting, setSorting] = useState<ColumnSort[]>([]);
 
   const caseFilesTableDefaultColumns = useDeepCompareMemo<
     ColumnDef<CaseFilesTableDataType>[]
@@ -196,6 +180,10 @@ const FilesTable = ({
     caseFilesTableDefaultColumns,
   );
 
+  useEffect(
+    () => handleSortByChange(sorting as SortingState),
+    [sorting, handleSortByChange],
+  );
   useEffect(() => {
     if (searchTerm.length > 0) {
       setDisplayedDataAfterSearch(
@@ -213,12 +201,6 @@ const FilesTable = ({
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     caseFilesTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
   );
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'experimental_strategy', desc: false },
-  ]);
-  useEffect(() => {
-    sortByActions(sorting);
-  }, [sorting]);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     file_uuid: false,
@@ -229,16 +211,13 @@ const FilesTable = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        setActivePage(1);
-        setPageSize(parseInt(obj.newPageSize as string));
+        handlePageChange(1);
         handlePageSizeChange(obj.newPageSize as string);
         break;
       case 'newPageNumber':
-        setActivePage(obj.newPageNumber as number);
         handlePageChange(obj.newPageNumber as number);
         break;
       case 'newSearch':
-        setActivePage(1);
         handlePageChange(1);
         setSearchTerm(obj.newSearch as string);
         break;
@@ -297,8 +276,9 @@ const FilesTable = ({
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}
-        // columnSorting="manual"
-        columnSorting="none"
+        columnSorting="manual"
+        sorting={sorting}
+        setSorting={setSorting}
         handleChange={handleChange}
         pagination={{
           page,
@@ -314,8 +294,6 @@ const FilesTable = ({
             'e.g. HCM-CSHL-0062-C18.json, 4b5f5ba0-3010-4449-99d4-7bd7a6d73422',
         }}
         baseZIndex={400}
-        sorting={sorting}
-        setSorting={setSorting}
         setColumnOrder={setColumnOrder}
       />
 
