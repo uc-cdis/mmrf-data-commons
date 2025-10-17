@@ -25,6 +25,7 @@ import {
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import FilesTable from './FilesTable/FilesTable';
 import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
+import FilesTableWrapper from './FilesTable/FilesTableWrapper';
 
 export interface CaseViewProps {
   readonly data: any;
@@ -45,7 +46,6 @@ export const CaseView: React.FC<CaseViewProps> = ({
   case_id,
   shouldScrollToBio,
 }: CaseViewProps) => {
-  console.log('data in caseView', data);
   const filesCountTotal = data?.files?.length ?? 0;
   const headerTitle = `${data?.project?.project_id} / ${data?.submitter_id}`;
   const currentCart = {} as any;
@@ -353,7 +353,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
           className={`mt-8 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
           id="files"
         >
-          <FilesTable caseId={case_id} />
+          <FilesTableWrapper caseId={case_id} />
         </div>
 
         <div className={`mt-8 mb-16`}>

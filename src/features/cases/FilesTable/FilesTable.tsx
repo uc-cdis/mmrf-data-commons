@@ -28,9 +28,15 @@ const fileSize = (input: any) => null;
 const currentCart = null;
 
 interface FilesTableProps {
-  caseId: string;
+  tableData: CaseFilesTableDataType[];
+  displayedDataAfterSearch: CaseFilesTableDataType[];
+  setDisplayedDataAfterSearch: React.Dispatch<
+    React.SetStateAction<CaseFilesTableDataType[]>
+  >;
+  isFetching: boolean;
+  isSuccess: boolean;
+  isError: boolean;
 }
-
 interface SortBy {
   readonly field: string;
   readonly direction: 'asc' | 'desc';
@@ -50,11 +56,18 @@ export type CaseFilesTableDataType = Pick<
 
 const caseFilesTableColumnHelper = createColumnHelper<CaseFilesTableDataType>();
 
-const FilesTable = ({ caseId }: FilesTableProps) => {
+const FilesTable = ({
+  tableData,
+  displayedDataAfterSearch,
+  setDisplayedDataAfterSearch,
+  isFetching,
+  isSuccess,
+  isError,
+}: FilesTableProps) => {
   // const currentCart = useCoreSelector((state) => selectCart(state));
   // const dispatch = useCoreDispatch();
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
-  const [tableData, setTableData] = useState<CaseFilesTableDataType[]>([]);
+
   const [sortBy, setSortBy] = useState<SortBy[]>([
     { field: 'experimental_strategy', direction: 'asc' },
   ]);
@@ -71,66 +84,6 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     }));
     setSortBy(tempSortBy);
   };
-
-  const tableFilters: any | GqlOperation = {
-    op: 'and',
-    content: [
-      {
-        op: 'in',
-        content: {
-          field: 'cases.case_id',
-          value: [caseId],
-        },
-      },
-      {
-        op: 'or',
-        content: [
-          {
-            op: '=',
-            content: {
-              field: 'files.file_id',
-              value: `*${searchTerm}*`,
-            },
-          },
-          {
-            op: '=',
-            content: {
-              field: 'files.file_name',
-              value: `*${searchTerm}*`,
-            },
-          },
-        ],
-      },
-    ],
-  };
-
-  const { data, isFetching, isSuccess, isError } = useGetFilesQuery({
-    size: pageSize as any,
-    from: pageSize * (activePage - 1),
-    filters: tableFilters as any,
-    sortBy: sortBy,
-  });
-  console.log('data from FilesTable', data);
-
-  useDeepCompareEffect(() => {
-    setTableData(
-      isSuccess
-        ? (data?.files.map((file: any | GdcFile) => ({
-            file: file,
-            file_uuid: file.file_id,
-            access: file.access,
-            file_name: file.file_name,
-            data_category: file.data_category,
-            data_type: file.data_type,
-            data_format: file.data_format,
-            experimental_strategy: file.experimental_strategy || '--',
-            platform: file.platform || '--',
-            file_size: file.file_size,
-            annotations: file.annotations,
-          })) as CaseFilesTableDataType[])
-        : [],
-    );
-  }, [isSuccess, data?.files]);
 
   const caseFilesTableDefaultColumns = useDeepCompareMemo<
     ColumnDef<CaseFilesTableDataType>[]
@@ -227,7 +180,6 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     ],
     [currentCart],
   );
-
   const {
     handlePageChange,
     handlePageSizeChange,
@@ -239,11 +191,11 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     total,
     displayedData,
     updatedFullData,
-  } = useStandardPagination(tableData, caseFilesTableDefaultColumns);
-
-  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
-    [] as any[],
+  } = useStandardPagination(
+    displayedDataAfterSearch,
+    caseFilesTableDefaultColumns,
   );
+
   useEffect(() => {
     if (searchTerm.length > 0) {
       setDisplayedDataAfterSearch(
@@ -252,7 +204,11 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
     } else {
       setDisplayedDataAfterSearch(tableData);
     }
-  }, [searchTerm, displayedData]);
+  }, [searchTerm, tableData]);
+
+  console.log('tableData', tableData);
+  console.log('displayedDataAfterSearch', displayedDataAfterSearch);
+  console.log('displayedData', displayedData);
 
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     caseFilesTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
@@ -313,7 +269,7 @@ const FilesTable = ({ caseId }: FilesTableProps) => {
       <HeaderTitle>Files</HeaderTitle>
       <VerticalTable
         customDataTestID="table-files-case-summary"
-        data={displayedDataAfterSearch ?? []}
+        data={displayedData ?? []}
         columns={caseFilesTableDefaultColumns}
         tableTotalDetail={<TotalItems total={total} itemName="file" />}
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
