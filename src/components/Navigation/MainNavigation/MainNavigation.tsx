@@ -14,7 +14,6 @@ const MainNavigation: React.FC = () => {
   const { entityMetadata, setEntityMetadata } = useContext(SummaryModalContext);
   const topBarItemsWithIcon= [...topBarData.items.slice(0,-1), { ...topBarData.items.at(-1), component: (<CartIconWithCount />)  }];
 
-  console.log(topBarItemsWithIcon);
   return (
     <>
       <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4">

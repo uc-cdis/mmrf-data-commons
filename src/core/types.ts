@@ -432,3 +432,13 @@ export interface GdcCartFile {
   readonly submitterId: string;
   readonly md5sum: string;
 }
+
+
+export interface CohortCentricQueryRequest {
+  cohortFilter: GQLFilter;
+  query: string;
+  filter: GQLFilter;
+  caseIndex?: string;
+  caseIdField?: string;
+  limit?: number;
+}

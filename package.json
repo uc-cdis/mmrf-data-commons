@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "next lint",
     "lint-fix": "next lint --fix",
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
@@ -27,8 +27,8 @@
     "@fontsource/montserrat": "^5.0.19",
     "@fontsource/poppins": "^5.0.15",
     "@fontsource/source-sans-pro": "^5.0.8",
-    "@gen3/core": "0.11.45",
-    "@gen3/frontend": "0.11.45",
+    "@gen3/core": "0.11.46",
+    "@gen3/frontend": "0.11.46",
     "@grafana/faro-react": "^1.9.1",
     "@grafana/faro-web-sdk": "^1.9.1",
     "@grafana/faro-web-tracing": "^1.9.1",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@axe-core/react": "^4.10.1",
     "@chromatic-com/storybook": "^4.1.1",
-    "@gen3/toolsff": "^0.11.45",
+    "@gen3/toolsff": "^0.11.46",
     "@next/eslint-plugin-next": "^15.5.3",
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-docs": "^9.1.5",

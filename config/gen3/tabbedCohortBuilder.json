@@ -1,5 +1,5 @@
 {
-  "index" : "case",
+  "index" : "case_centric",
   "indexPrefix": "CaseCentric_",
   "tabsConfiguration": {
     "general": {
@@ -26,7 +26,7 @@
         "demographic.vital_status"
       ],
       "queryOptions": {
-        "index": "case",
+        "index": "case_centric",
         "indexPrefix": "CaseCentric_"
       }
     },
