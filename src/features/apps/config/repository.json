@@ -81,7 +81,6 @@
       "file_name",
       "cases.case_id",
       "cases.project.project_id",
-      "cases.sample.sample_id",
       "data_category",
       "data_format",
       "file_size",
@@ -119,13 +118,13 @@
         "type": "link",
         "cellRenderFunction": "modalLink",
         "title": "Cases",
-        "accessorPath" : "cases.length"
+        "accessorPath" : "cases.case_id.length"
       },
       "cases.project.project_id": {
         "type": "link",
         "cellRenderFunction": "modalLink",
         "title": "Project",
-        "accessorPath" : "cases[0].project.project_id"
+        "accessorPath" : "cases.project[0].project_id"
       }
     }
   },

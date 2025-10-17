@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "next lint",
     "lint-fix": "next lint --fix",
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
@@ -28,7 +28,7 @@
     "@fontsource/poppins": "^5.0.15",
     "@fontsource/source-sans-pro": "^5.0.8",
     "@gen3/core": "0.11.46",
-    "@gen3/frontend": "0.11.46",
+    "@gen3/frontend": "file:.yalc/@gen3/frontend",
     "@grafana/faro-react": "^1.9.1",
     "@grafana/faro-web-sdk": "^1.9.1",
     "@grafana/faro-web-tracing": "^1.9.1",

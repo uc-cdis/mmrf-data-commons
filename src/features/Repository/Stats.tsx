@@ -23,12 +23,12 @@ const Stats = ({
     </div>
     <div>
       <PersonIcon className="ml-2 mr-1 mb-1 inline-block" aria-hidden="true" />
-      <strong className="mr-1">{totalCaseCount}</strong>
+      <strong className="mr-1">{!isFetching ? totalCaseCount.toLocaleString() : '--'}</strong>
       {totalCaseCount !== 1 ? 'Cases' : 'Case'}
     </div>
     <div>
       <SaveIcon className="ml-2 mr-1 mb-1 inline-block" aria-hidden="true" />
-      {filesize(totalFileSize)}
+      {!isFetching ? filesize(totalFileSize) : '--'}
     </div>
   </div>
 );
