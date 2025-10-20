@@ -1,20 +1,15 @@
 import  React,{  useCallback, useMemo } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import {
-  FacetBucket as FacetBuckets,
   FilterSet,
   IndexedFilterSet,
   Operation,
-  CoreState,
-  useCoreDispatch,
   useCoreSelector,
-  usePrevious,
   selectCohortFilters as selectCurrentCohortFilters,
   GQLFilter as GqlOperation,
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
-  GQLFilter,
-  EnumFilterValue,
+  isIncludes,
 } from '@gen3/core';
 import {
   type SurvivalPlotData,
@@ -22,7 +17,6 @@ import {
 } from '@/core/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { EmptySurvivalPlot } from "@/core/survival/types";
-import InputEntityList from "@/components/InputEntityList/InputEntityList";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -185,7 +179,22 @@ export const useGenesFacets = (
  * of type Includes.
  * @param field - to get values of
  */
+
+
+/**
+ * returns the values of a field. Assumes the required field
+ * is of type Includes. Returns an empty array if the filter is undefined or not
+ * of type Includes.
+ * @param field - to get values of
+ */
 export const useSelectFilterContent = (field: string): Array<string> => {
+  const filter = useAppSelector((state : AppState) =>
+    selectGeneAndSSMFiltersByNames(state, [field]),
+  );
+  if (filter === undefined) return [];
+  if (isIncludes(filter)) {
+    return filter.operands.map((x:any) => x.toString());
+  }
   return [];
 };
 

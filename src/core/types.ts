@@ -438,6 +438,7 @@ export interface CohortCentricQueryRequest {
   cohortFilter: GQLFilter;
   query: string;
   filter: GQLFilter;
+  caseIdsFilterPath: string;
   caseIndex?: string;
   caseIdField?: string;
   limit?: number;

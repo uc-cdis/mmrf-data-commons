@@ -27,7 +27,7 @@
     "@fontsource/montserrat": "^5.0.19",
     "@fontsource/poppins": "^5.0.15",
     "@fontsource/source-sans-pro": "^5.0.8",
-    "@gen3/core": "0.11.46",
+    "@gen3/core": "file:.yalc/@gen3/core",
     "@gen3/frontend": "file:.yalc/@gen3/frontend",
     "@grafana/faro-react": "^1.9.1",
     "@grafana/faro-web-sdk": "^1.9.1",

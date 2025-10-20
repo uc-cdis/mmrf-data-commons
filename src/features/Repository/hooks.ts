@@ -1,4 +1,4 @@
-import { FacetQueryParameters, FacetQueryResponse, FileCountsQueryParameters, FilesSizeData, } from './types';
+import { FileCountsQueryParameters, FilesSizeData, } from './types';
 import {
   Accessibility,
   CombineMode,
@@ -18,13 +18,22 @@ import {
 import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
 import { useDeepCompareEffect } from 'use-deep-compare';
-import { COHORT_FILTER_INDEX, useGetCohortCentricQuery } from '@/core';
-
+import {
+  COHORT_FILTER_INDEX,
+  useGetCohortCentricAggsQuery,
+  useGetCohortCentricQuery,
+} from '@/core';
+import {
+  FacetQueryParametersWithCohortFilter,
+  FacetQueryResponse,
+} from '@/features/types';
 
 export const useGetFacetValuesQuery = (
-  args: FacetQueryParameters,
+  args: FacetQueryParametersWithCohortFilter,
 ): FacetQueryResponse => {
-  const { data, isSuccess, isFetching, isError } = useGetAggsQuery(args);
+
+
+  const { data, isSuccess, isFetching, isError } = useGetCohortCentricAggsQuery(args);
 
   return {
     data: data ?? {},
@@ -97,6 +106,7 @@ export const useTotalFileSizeQuery = ({
       cohortFilter: cohortFilterGQL,
       query,
       filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
+      caseIdsFilterPath: "cases.case_id",
       limit: 0,
   });
 

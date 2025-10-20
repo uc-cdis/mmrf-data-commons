@@ -13,6 +13,7 @@ import {
   isIntersection,
   selectIndexFilters,
   useCoreSelector,
+  convertFilterSetToGqlFilter
 } from '@gen3/core';
 
 import {
@@ -40,6 +41,7 @@ import {
 } from './hooks';
 import { useGetFacetValuesQuery } from './hooks';
 import { StylingOverride} from '@/features/types/styling';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 
 export interface TabConfig {
@@ -73,6 +75,12 @@ export const FileFacetPanel = ({
     selectIndexFilters(state, index),
   );
 
+  const cohortFilters = useCoreSelector((state: CoreState) =>
+    selectIndexFilters(state, COHORT_FILTER_INDEX),
+  );
+
+  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilters)
+
   const fields = useMemo(
     () => getAllFieldsFromFilterConfigs(filters?.tabs ?? []),
     [filters?.tabs],
@@ -92,9 +100,11 @@ export const FileFacetPanel = ({
     isFetching: isFacetsQueryFetching,
     isError: isFacetsQueryError,
   } = useGetFacetValuesQuery({
+    cohortFilter: cohortFilterGQL,
     type: index,
     fields: fields,
-    filters: repositoryFilters,
+    filter: repositoryFilters,
+    caseIdsFilterPath: "cases.case_id",
     indexPrefix: indexPrefix,
   });
 

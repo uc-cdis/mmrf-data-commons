@@ -15,8 +15,9 @@ import {
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
-import { EmptyFilterSet } from '@gen3/core';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { useGeneFrequencyChartQuery } from '../../core/genomic/genesFrequencyChartSlice';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -42,7 +43,7 @@ interface GenesPanelProps {
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
 }
 
-const GENE_FILTERS = ['biotype'];
+const GENE_FILTERS = ['biotype', "is_gene_cancer_census"];
 
 export const GenesPanel = ({
   topGeneSSMSSuccess,
@@ -60,7 +61,7 @@ export const GenesPanel = ({
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
-  const cohortFilters = currentCohortFilters?.['case'] ?? EmptyFilterSet;
+  const cohortFilters = currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
 
   const currentGenes = useSelectFilterContent('genes.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);
@@ -76,7 +77,7 @@ export const GenesPanel = ({
   );
 
   // extract geneFilters from genomicFilters
-  const geneFilters = {
+  const geneFilters : FilterSet= {
     mode: 'and',
     root: Object.fromEntries(
       Object.entries(genomicFilters?.root || {}).filter(([key]) =>
@@ -85,7 +86,7 @@ export const GenesPanel = ({
     ),
   };
 
-  const ssmFilters = {
+  const ssmFilters : FilterSet= {
     mode: 'and',
     root: Object.fromEntries(
       Object.entries(genomicFilters?.root || {}).filter(
@@ -95,23 +96,28 @@ export const GenesPanel = ({
   };
 
 
-  const queryParams = useDeepCompareMemo(
-    () => ({
-      pageSize: 10000,
-      offset: 0,
-      geneFilters,
-      ssmFilters,
-      cohortFilters,
-    }),
-    [geneFilters,ssmFilters, cohortFilters],
-  );
+  // const queryParams = useDeepCompareMemo(
+  //   () => ({
+  //     pageSize: 10000,
+  //     offset: 0,
+  //     geneFilters,
+  //     ssmFilters,
+  //     cohortFilters,
+  //   }),
+  //   [geneFilters,ssmFilters, cohortFilters],
+  // );
 
   /**
    * Different that MMRF as we are querying the whole table and not just the top 20 genes. The
    * query data is used for the table and the chart.
    */
+  console.log("geneFilters", geneFilters);
   const { data: topGenesData, isFetching, isSuccess, isError, isUninitialized, isLoading } = useGeneFrequencyChartQuery(
-    queryParams as any,
+    {
+      cohortFilters,
+      geneFilters,
+      ssmFilters,
+    }
   );
 
   useDeepCompareEffect(() => {
