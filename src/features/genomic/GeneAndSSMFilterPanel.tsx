@@ -128,8 +128,6 @@ const GeneAndSSMFilterPanel = ({
     return mergeGeneAndSSMFilters(filters);
   }, [genomicFilters])
 
-  console.log('genomicFilters', genomicFilters);
-
   const {
     data: facetData,
     isSuccess: isFacetsQuerySuccess,

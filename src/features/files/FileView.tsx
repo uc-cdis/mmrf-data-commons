@@ -127,7 +127,7 @@ export const FileView: React.FC<FileViewProps> = ({
           name: 'Access',
         },
         {
-          field: 'id',
+          field: 'file_id',
           name: 'UUID',
         },
         {

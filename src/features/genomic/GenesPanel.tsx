@@ -111,7 +111,6 @@ export const GenesPanel = ({
    * Different that MMRF as we are querying the whole table and not just the top 20 genes. The
    * query data is used for the table and the chart.
    */
-  console.log("geneFilters", geneFilters);
   const { data: topGenesData, isFetching, isSuccess, isError, isUninitialized, isLoading } = useGeneFrequencyChartQuery(
     {
       cohortFilters,
