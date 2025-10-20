@@ -51,6 +51,8 @@ import {
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
 import { COHORT_FILTER_INDEX, useGetCohortCentricAggsQuery } from '@/core';
+import { ActiveGeneAndSSMFilters } from './types';
+import { mergeGeneAndSSMFilters } from '@/features/genomic/utils';
 
 /**
  *  Get the facet values for both the gene and ssm facets using the current cohort filters
@@ -110,12 +112,9 @@ const GeneAndSSMFilterPanel = ({
   );
 
   const geneAndSSMFilters = useDeepCompareMemo(() => {
-    const filters : {
-      gene: FilterSet,
-      ssm: FilterSet,
-    }  = {
-      gene: { mode: 'and', root: {}},
-      ssm: { mode: 'and', root: {}}
+    const filters : ActiveGeneAndSSMFilters  = {
+      gene: { mode: 'and', root: {}} as FilterSet,
+      ssm: { mode: 'and', root: {}} as FilterSet
     }
     for (const [key, value ] of Object.entries(genomicFilters.root)) {
       const facetDef = FilterFacets.find(def => def.field === key);
@@ -126,7 +125,7 @@ const GeneAndSSMFilterPanel = ({
           filters.ssm.root[key] = value
       }
     }
-    return filters;
+    return mergeGeneAndSSMFilters(filters);
   }, [genomicFilters])
 
   console.log('genomicFilters', genomicFilters);

@@ -1,3 +1,5 @@
+import { FilterSet } from '@gen3/core';
+
 export interface GenomicTableProps {
   readonly selectedSurvivalPlot?: Record<string, string>;
   readonly handleSurvivalPlotToggled?: (
@@ -21,3 +23,8 @@ export const emptySurvivalPlot = {
   overallStats: { pValue: undefined },
   survivalData: [],
 };
+
+export interface ActiveGeneAndSSMFilters {
+  gene: FilterSet;
+  ssm: FilterSet;
+}
