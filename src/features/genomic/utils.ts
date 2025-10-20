@@ -43,13 +43,19 @@ export const buildGeneHaveAndHaveNotFilters = (
   ];
 };
 
+/**
+ * Merges gene and SSM (Simple Somatic Mutation) filters by adding the corresponding filters
+ * from one category to the other. The merged filters maintain the logical inclusion (`in`) operations.
+ *
+ * @param {ActiveGeneAndSSMFilters} filters - An object containing the active filters for both gene and SSM.
+ *                                             This includes separate root filter structures for both categories.
+ * @returns {ActiveGeneAndSSMFilters} A new object with merged gene and SSM filters.
+ *                                    Filters from the SSM category are added to the gene filters and vice versa.
+ */
 export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : ActiveGeneAndSSMFilters => {
   const { gene, ssm } = filters;
 
   const results = {...filters};
-
-  console.log("filters", filters);
-
   // add ssm filters to gene filters
     for (const [key, value] of Object.entries(ssm.root)) {
     if (isIncludes(value)) {
