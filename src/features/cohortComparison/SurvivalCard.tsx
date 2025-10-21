@@ -15,6 +15,7 @@ import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 import { useDeepCompareEffect } from "use-deep-compare";
 import { EmptySurvivalPlot } from "@/core/survival/types";
 import { useGetComparisonSurvivalPlotQuery } from '@/core/survival/survivalApiSlice';
+import { CASE_CENTRIC_INDEX, COHORT_FILTER_INDEX } from '@/core';
 
 const survivalDataCompletenessFilters: GqlOperation[] = [
   {
@@ -99,10 +100,11 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
 
   );
 
+  console.log('filters', filters);
   const { data, isUninitialized, isFetching, isError } =
     useGetComparisonSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
-      index: 'Case_case',
+      index: CASE_CENTRIC_INDEX,
       field: 'case_id',
     });
 
