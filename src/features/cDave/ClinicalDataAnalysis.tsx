@@ -24,6 +24,7 @@ import { DemoText } from '@/components/tailwindComponents';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { selectCurrentCohortCaseFilters } from '@/core/utils';
 import fields from './data/clinicalFields.json';
+import { CASE_CENTRIC_INDEX, COHORT_FILTER_INDEX } from '@/core';
 
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
@@ -69,11 +70,11 @@ const ClinicalDataAnalysis: React.FC = () => {
 
   const { cDaveAggResults, cDaveStatsResults, isFetching, isError, isSuccess}  =
   useClinicalAnalysisQuery({
-    type: CASE_INDEX,
+    type: COHORT_FILTER_INDEX,
     aggFields: facets,
     statsFields: cDaveStatsFields,
     filters: isDemoMode ? DEMO_COHORT_FILTERS : currentCohortFilters,
-    accessibility: accessLevel
+    accessibility: accessLevel,
   });
 
 

@@ -41,7 +41,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
   const isDemoMode = useIsDemoApp();
   const [plotType, setPlotType] = useState<SurvivalPlotTypes | undefined>(undefined);
   const cohortFilters = useCoreSelector((state) =>
-      convertFilterSetToOperation( isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state, "case")),
+      convertFilterSetToOperation( isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state, "case_centric")),
   );
 
   useEffect(() => {
