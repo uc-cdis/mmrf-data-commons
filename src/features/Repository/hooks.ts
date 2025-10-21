@@ -71,12 +71,10 @@ interface FileCountsQueryResponse {
 export const useTotalFileSizeQuery = ({
   repositoryFilters,
   repositoryIndex,
-  cohortIndex,
   fileSizeField,
   cohortItemIdField,
   fileItemIdField,
   accessibility = Accessibility.ALL,
-  cohortIndexPrefix = '',
   repositoryIndexPrefix = '',
 }: FileCountsQueryParameters) => {
   const [totals, setTotals] = useState<FilesSizeData>({
@@ -94,10 +92,8 @@ export const useTotalFileSizeQuery = ({
 
   // add case_id filter to repository filters
   const repositoryFilterWithCases = { mode: repositoryFilters.mode, root: {
-    ...repositoryFilters.root,
-      "cases.case_id": { operator: "in",  field: "cases.case_id", operands: [] } as Includes
-    }}
-
+    ...repositoryFilters.root}
+  }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
   const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? [];

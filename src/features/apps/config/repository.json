@@ -93,17 +93,18 @@
         "cellRenderFunction": "openControlledAccess",
         "params": {
           "colorTable": {
-            "open": "primary.4",
-            "controlled": "accent.3"
+            "open": "primary.6",
+            "controlled": "accent.6"
           }
         }
       },
       "file_name": {
         "type": "link",
-        "cellRenderFunction": "modalLink",
+        "cellRenderFunction": "openLinkInTab",
         "params": {
           "classNames": { "text": "text-primary" },
-          "linkField": "file_id"
+          "linkField": "file_id",
+          "href" : "/files/"
         }
       },
       "file_size": {

@@ -21,7 +21,7 @@ const TabbedCohortBuilderPage = ({
 }: TabbedCohortBuilderPageProps) => {
   return (
     <>
-      <PageTitle pageName="Gene Summary" />
+      <PageTitle pageName="Cohort Builder" />
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
         <CohortManager />
