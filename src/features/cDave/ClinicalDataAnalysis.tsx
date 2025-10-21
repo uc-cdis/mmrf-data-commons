@@ -53,7 +53,7 @@ const ClinicalDataAnalysis: React.FC = () => {
   );
 
   const currentCohortFilters = useCoreSelector((state) =>
-    selectCurrentCohortCaseFilters(state, 'case'),
+    selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
   );
 
   const cohortFilters = useDeepCompareMemo(

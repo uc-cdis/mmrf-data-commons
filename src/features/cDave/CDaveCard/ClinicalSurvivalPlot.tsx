@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { Alert, LoadingOverlay } from "@mantine/core";
+import React, { useState, useEffect } from 'react';
+import { Alert, LoadingOverlay } from '@mantine/core';
 import {
   Intersection,
   useCoreSelector,
   convertFilterToGqlFilter,
   Operation,
-  buildNestedFilterForOperation
+  buildNestedFilterForOperation,
 } from '@gen3/core';
 import {
   convertFilterSetToOperation,
   selectCurrentCohortCaseFilters as selectCurrentCohortFilters,
 } from '@/core/utils';
 import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { SurvivalPlotTypes } from "@/features/charts/SurvivalPlot/types";
-import { getFormattedTimestamp } from "@/utils/date";
-import { isInterval, parseContinuousBucket } from "../utils";
-import { CategoricalBins, CustomInterval, NamedFromTo } from "../types";
-import { DEMO_COHORT_FILTERS } from "../constants";
-import { ExternalDownloadStateSurvivalPlot } from "@/features/charts/SurvivalPlot/SurvivalPlot";
-import { toDisplayName } from "../utils";
+import { useIsDemoApp } from '@/hooks/useIsDemoApp';
+import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
+import { getFormattedTimestamp } from '@/utils/date';
+import { isInterval, parseContinuousBucket } from '../utils';
+import { CategoricalBins, CustomInterval, NamedFromTo } from '../types';
+import { DEMO_COHORT_FILTERS } from '../constants';
+import { ExternalDownloadStateSurvivalPlot } from '@/features/charts/SurvivalPlot/SurvivalPlot';
+import { toDisplayName } from '../utils';
 
 export const isIntersection = (o: Operation): o is Intersection =>
   (o as Intersection).operator === 'and';
 
-
 interface ClinicalSurvivalPlotProps {
   readonly field: string;
   readonly selectedSurvivalPlots: string[];
-  readonly customBinnedData: CategoricalBins | NamedFromTo[] | CustomInterval | null;
+  readonly customBinnedData:
+    | CategoricalBins
+    | NamedFromTo[]
+    | CustomInterval
+    | null;
   readonly continuous: boolean;
 }
 
@@ -39,9 +42,15 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
   continuous,
 }: ClinicalSurvivalPlotProps) => {
   const isDemoMode = useIsDemoApp();
-  const [plotType, setPlotType] = useState<SurvivalPlotTypes | undefined>(undefined);
+  const [plotType, setPlotType] = useState<SurvivalPlotTypes | undefined>(
+    undefined,
+  );
   const cohortFilters = useCoreSelector((state) =>
-      convertFilterSetToOperation( isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state, "case_centric")),
+    convertFilterSetToOperation(
+      isDemoMode
+        ? DEMO_COHORT_FILTERS
+        : selectCurrentCohortFilters(state, 'case_centric'),
+    ),
   );
 
   useEffect(() => {
@@ -60,7 +69,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
     selectedSurvivalPlots.length === 0
       ? cohortFilters && [cohortFilters]
       : selectedSurvivalPlots.map((value) => {
-          const content : Array<Operation> = [];
+          const content: Array<Operation> = [];
           if (cohortFilters) {
             content.push(cohortFilters);
           }
@@ -75,58 +84,66 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
               );
 
               if (dataPoint !== undefined) {
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: ">=",
+                content.push({
+                  operator: '>=',
                   field: field,
                   operand: dataPoint.from,
-                }));
+                });
 
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: "<",
+                content.push({
+                  operator: '<',
                   field,
                   operand: dataPoint.to,
-                }));
+                });
               }
             } else {
-                const [fromValue, toValue] = parseContinuousBucket(value);
+              const [fromValue, toValue] = parseContinuousBucket(value);
 
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: ">=",
-                  field,
-                  operand: fromValue,
-                }));
+              content.push({
+                operator: '>=',
+                field,
+                operand: fromValue,
+              });
 
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: "<",
-                  field,
-                  operand: toValue,
-                }));
-              }
-          } else {
-              if (typeof customBinnedData?.[value as keyof typeof customBinnedData] === "object") {
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: '=',
-                  field: field,
-                  operand: Object.keys(customBinnedData[value as keyof typeof customBinnedData])[0]
-                }));
-              } else {
-                content.push(buildNestedFilterForOperation(field, {
-                  operator: '=',
-                  field: field,
-                  operand: value
-                }));
-              }
+              content.push({
+                operator: '<',
+                field,
+                operand: toValue,
+              });
             }
+          } else {
+            if (
+              typeof customBinnedData?.[
+                value as keyof typeof customBinnedData
+              ] === 'object'
+            ) {
+              content.push({
+                operator: '=',
+                field: field,
+                operand: Object.keys(
+                  customBinnedData[value as keyof typeof customBinnedData],
+                )[0],
+              });
+            } else {
+              content.push({
+                operator: '=',
+                field: field,
+                operand: value,
+              });
+            }
+          }
 
-          return ({
-            operator: 'and', operands: content,
-          } satisfies Intersection);
-      });
+          return {
+            operator: 'and',
+            operands: content,
+          } satisfies Intersection;
+        });
 
   const { data, isError, isFetching } = useGetSurvivalPlotQuery({
-    filters: filters?.map((x) => {
-    return convertFilterToGqlFilter(x)
-    }) ?? []
+    filters:
+      filters?.map((x) => {
+        return convertFilterToGqlFilter(x);
+      }) ?? [],
   });
 
   return isError ? (
@@ -137,7 +154,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
     <div className="relative">
       <LoadingOverlay data-testid="loading-spinner" visible={isFetching} />
       <ExternalDownloadStateSurvivalPlot
-        data={data?? EmptySurvivalPlot}
+        data={data ?? EmptySurvivalPlot}
         height={150}
         title={toDisplayName(field)}
         showTitleOnlyOnDownload
@@ -145,7 +162,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
         names={selectedSurvivalPlots}
         plotType={plotType}
         downloadFileName={`${field
-          .split(".")
+          .split('.')
           .at(-1)}-survival-plot.${getFormattedTimestamp()}`}
         tableTooltip
       />
