@@ -99,8 +99,6 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
     buildCohortGqlOperator(cohorts?.comparison_cohort.filter),
 
   );
-
-  console.log('filters', filters);
   const { data, isUninitialized, isFetching, isError } =
     useGetComparisonSurvivalPlotQuery({
       filters: [filters.cohort1, filters.cohort2],
