@@ -8,7 +8,11 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import { SMTableContainerProps, SomaticMutation, SsmToggledHandler } from './types';
+import {
+  SMTableContainerProps,
+  SomaticMutation,
+  SsmToggledHandler,
+} from './types';
 import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnOrderState,
@@ -45,8 +49,8 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
   gene_id,
   case_id,
 }: SMTableContainerProps) => {
-  const [pageSize, setPageSize] = useState(10);
-  const [page, setPage] = useState(1);
+  // const [pageSize, setPageSize] = useState(10);
+  // const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
@@ -82,8 +86,8 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
 
   /* SM Table Call */
   const { data, isSuccess, isFetching, isError } = useGetSsmsTableDataQuery({
-    pageSize: pageSize,
-    offset: pageSize * (page - 1),
+    pageSize: 100,
+    offset: 0,
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
     geneSymbol: geneSymbol,
     genomicFilters: genomicFilters,
@@ -105,8 +109,12 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
       ),
     );
   }, [data, selectedSurvivalPlot]);
+
+  console.log('formattedTableData', formattedTableData);
+
   const setEntityMetadata = null;
   const generateFilters = () => null;
+
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,
     handleSsmToggled,
@@ -118,11 +126,22 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
     projectId,
     generateFilters,
     currentPage: 1,
-    totalPages: Math.ceil(data?.ssmsTotal ? data?.ssmsTotal / pageSize : 0),
+    totalPages: 0,
     cohortFilters,
   });
 
-  const pagination = useMemo(() => {
+  const {
+    handlePageChange,
+    handlePageSizeChange,
+    handleSortByChange,
+    page,
+    pages,
+    size,
+    from,
+    total,
+    displayedData,
+  } = useStandardPagination(formattedTableData, SMTableDefaultColumns);
+  /* const pagination = useMemo(() => {
     return isSuccess
       ? {
           count: pageSize,
@@ -143,11 +162,12 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
           total: 0,
           label: '',
         };
-  }, [pageSize, page, data?.ssmsTotal, isSuccess]);
-  const { displayedData } = useStandardPagination(
+  }, [pageSize, page, data?.ssmsTotal, isSuccess]); */
+  /*   const { displayedData } = useStandardPagination(
     formattedTableData,
     SMTableDefaultColumns,
-  );
+  ); */
+
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
     [] as SomaticMutation[],
   );
@@ -182,17 +202,25 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        setPageSize(parseInt(obj.newPageSize ?? '10'));
+        /*         setPageSize(parseInt(obj.newPageSize ?? '10'));
         setPage(1);
+        break; */
+        handlePageChange(1);
+        handlePageSizeChange(obj.newPageSize as string);
         break;
       case 'newPageNumber':
-        setExpanded({});
+        /*         setExpanded({});
         setPage(obj.newPageNumber ?? 1);
+        break; */
+        handlePageChange(obj.newPageNumber as number);
         break;
       case 'newSearch':
-        setExpanded({});
+        /*         setExpanded({});
         setSearchTerm(obj.newSearch ?? '');
         setPage(1);
+        break; */
+        handlePageChange(1);
+        setSearchTerm(obj.newSearch as string);
         break;
     }
   };
@@ -232,7 +260,7 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
           {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
           <VerticalTable
             customDataTestID="table-most-frequent-somatic-mutations"
-            data={displayedDataAfterSearch ?? []}
+            data={displayedData ?? []}
             columns={SMTableDefaultColumns}
             additionalControls={
               <div className="flex gap-2 items-center">
@@ -267,7 +295,14 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
             tableTotalDetail={
               <TotalItems total={data?.ssmsTotal} itemName="somatic mutation" />
             }
-            pagination={pagination}
+            pagination={{
+              page,
+              pages,
+              size,
+              from,
+              total,
+              label: 'somatic mutation',
+            }}
             showControls={true}
             enableRowSelection={true}
             setRowSelection={setRowSelection}
