@@ -479,7 +479,6 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
       transformResponse: (
         response: GraphQLApiResponse<SSMSCancerDistributionTableResponse>,
       ): CancerDistributionTableData => {
-        console.log(response);
         return {
           projects:
             response?.data?.cases?.filtered?.project?.project_id?.histogram,
