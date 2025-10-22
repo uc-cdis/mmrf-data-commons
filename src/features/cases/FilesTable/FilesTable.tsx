@@ -192,10 +192,6 @@ const FilesTable = ({
     }
   }, [searchTerm, tableData]);
 
-  console.log('tableData', tableData);
-  console.log('displayedDataAfterSearch', displayedDataAfterSearch);
-  console.log('displayedData', displayedData);
-
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
     caseFilesTableDefaultColumns.map((column) => column.id as string), //must start out with populated columnOrder so we can splice
   );

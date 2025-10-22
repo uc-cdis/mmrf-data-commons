@@ -90,8 +90,6 @@ export const FileView: React.FC<FileViewProps> = ({
   file,
   isModal,
 }: FileViewProps) => {
-  console.log('file?.annotations?', file?.annotations);
-
   // const currentCart = useCoreSelector((state) => selectCart(state));
   const currentCart = [] as any;
   // const modal = useCoreSelector((state) => selectCurrentModal(state));

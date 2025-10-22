@@ -121,7 +121,6 @@ export const Biospecimen = ({
     .toISOString()
     .slice(0, 10)}`;
   const handleBiospeciemenTSVDownload = () => {
-    console.log('bioSpecimenData', bioSpecimenData);
     const downloadDataColumns = Object.keys(bioSpecimenData).map((key) => ({
       id: key,
       header: key,
