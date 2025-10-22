@@ -23,9 +23,8 @@ import {
   ITEMS_PER_COLUMN,
 } from './utils';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
-import FilesTable from './FilesTable/FilesTable';
-import { CartIcon, EditIcon, FileIcon } from '@/utils/icons';
-import FilesTableWrapper from './FilesTable/FilesTableWrapper';
+import { CartIcon, FileIcon } from '@/utils/icons';
+import FilesTableContainer from './FilesTable/FilesTableContainer';
 
 export interface CaseViewProps {
   readonly data: any;
@@ -353,7 +352,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
           className={`mt-8 ${isModal ? 'scroll-mt-36' : 'scroll-mt-72'}`}
           id="files"
         >
-          <FilesTableWrapper caseId={case_id} />
+          <FilesTableContainer caseId={case_id} />
         </div>
 
         <div className={`mt-8 mb-16`}>

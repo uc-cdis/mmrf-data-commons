@@ -144,7 +144,6 @@ const FilesTable = ({
             currentCart,
             row.original.file_uuid,
           ); */
-          const isOutputFileInCart = false;
           return (
             <>
               <FunctionButton
@@ -174,7 +173,6 @@ const FilesTable = ({
     from,
     total,
     displayedData,
-    updatedFullData,
   } = useStandardPagination(
     displayedDataAfterSearch,
     caseFilesTableDefaultColumns,
@@ -286,7 +284,7 @@ const FilesTable = ({
           size,
           from,
           total,
-          label: 'file',
+          label: 'somatic mutation',
         }}
         search={{
           enabled: true,
