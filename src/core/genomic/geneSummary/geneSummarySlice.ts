@@ -3,7 +3,7 @@ import { GraphQLApiResponse } from '@/core';
 
 const geneSummary_query = `
 query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
-    gene: Gene_gene(filter: $geneFilter) {
+    gene: GeneCentric_gene_centric(filter: $geneFilter) {
         biotype
         description
         external_db_ids {
@@ -21,7 +21,7 @@ query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
         synonyms
         is_cancer_gene_census
     }
-    ssms: Ssm__aggregation {
+    ssms: SsmOccurrenceCentric__aggregation {
         ssm(filter: $ssmFilter) {
             clinical_annotations {
                 civic {

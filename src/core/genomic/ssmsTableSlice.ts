@@ -28,7 +28,7 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
             _totalCount
         }
     }
-    ssm: Ssm_ssm(
+    ssm: SsmCentric_ssm_centric(
         first: $ssmsTable_size
         offset: $ssmsTable_offset
         filter: $ssmsTable_filters

@@ -39,8 +39,7 @@ interface GeneCancerDistributionTableResponse {
 }
 
 interface SSMSCancerDistributionTableResponse {
-  ssms: { ssm_occurrence: { case: { project: ProjectData } } ;
-  };
+  ssms: { ssm_occurrence_centric: { case: { project: ProjectData } } };
   cases: {
     filtered: {
       project: ProjectData;
@@ -125,8 +124,8 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
 
         return {
           query: `query CancerDistributionTable($ssmTested: JSON, $ssmCountsFilters: JSON, $caseAggsFilter: JSON, $cnvAmplificationFilter: JSON, $cnvGainFilter: JSON, $cnvLossFilter: JSON, $cnvHomozygousDeletionFilter: JSON, $cnvTested: JSON) {
-          ssms: Ssm__aggregation {
-            ssm(filter: $ssmCountsFilters) {
+          ssms: SsmCentric__aggregation {
+            ssm_centric(filter: $ssmCountsFilters) {
               occurrence {
                 case {
                   project {
@@ -407,8 +406,8 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
     $ssmCountsFilters: JSON
     $caseAggsFilter: JSON
 ) {
-    ssms: SsmOccurrence__aggregation {
-        ssm_occurrence(filter: $ssmCountsFilters) {
+    ssms: SsmOccurrenceCentric__aggregation {
+        ssm_occurrence_centric(filter: $ssmCountsFilters) {
             case {
                 project {
                     project_id {
@@ -455,19 +454,13 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
           ssmCountsFilters: {
             and: [
               {
-                nested: {
-                  path: 'ssm',
-                  in: {
-                    ssm_id: [request.ssms],
-                  },
+                in: {
+                  'ssm.ssm_id': [request.ssms],
                 },
               },
               {
-                nested: {
-                  path: 'case',
-                  in: {
-                    available_variation_data: ['ssm'],
-                  },
+                in: {
+                  'case.available_variation_data': ['ssm'],
                 },
               },
             ],
@@ -486,11 +479,12 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
       transformResponse: (
         response: GraphQLApiResponse<SSMSCancerDistributionTableResponse>,
       ): CancerDistributionTableData => {
+        console.log(response);
         return {
           projects:
-          response?.data?.cases?.filtered?.project?.project_id?.histogram,
+            response?.data?.cases?.filtered?.project?.project_id?.histogram,
           ssmFiltered: Object.fromEntries(
-            response?.data?.ssms?.ssm_occurrence?.case?.project?.project_id?.histogram.map(
+            response?.data?.ssms?.ssm_occurrence_centric?.case?.project?.project_id?.histogram.map(
               (b: any) => [b.key, b.count],
             ),
           ),

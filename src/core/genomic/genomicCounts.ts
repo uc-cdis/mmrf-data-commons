@@ -21,14 +21,14 @@ export interface GenomicCountsResponse {
 }
 
 const genomicCountsQuery = `
-query Gene_gene($geneFilter: JSON, $ssmsFilter: JSON) {
+query GeneCounts($geneFilter: JSON, $ssmsFilter: JSON) {
     genesTotal: Gene__aggregation {
-        gene(filter: $geneFilter) {
+        GeneCentric__aggregation(filter: $geneFilter) {
             _totalCount
         }
     }
-    ssmsTotal: Ssm__aggregation {
-        ssm(filter: $ssmsFilter) {
+    ssmsTotal: SsmCentric__aggregation {
+        ssm_centric(filter: $ssmsFilter) {
             _totalCount
         }
     }
