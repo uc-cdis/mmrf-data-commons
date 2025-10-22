@@ -133,7 +133,6 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
   const {
     handlePageChange,
     handlePageSizeChange,
-    handleSortByChange,
     page,
     pages,
     size,
@@ -141,32 +140,6 @@ export const SMTable: React.FC<SMTableContainerProps> = ({
     total,
     displayedData,
   } = useStandardPagination(formattedTableData, SMTableDefaultColumns);
-  /* const pagination = useMemo(() => {
-    return isSuccess
-      ? {
-          count: pageSize,
-          from: (page - 1) * pageSize,
-          page: page,
-          pages: Math.ceil(data?.ssmsTotal / pageSize),
-          size: pageSize,
-          total: data?.ssmsTotal,
-          sort: 'None',
-          label: 'somatic mutation',
-        }
-      : {
-          count: 0,
-          from: 0,
-          page: 1,
-          pages: 0,
-          size: 0,
-          total: 0,
-          label: '',
-        };
-  }, [pageSize, page, data?.ssmsTotal, isSuccess]); */
-  /*   const { displayedData } = useStandardPagination(
-    formattedTableData,
-    SMTableDefaultColumns,
-  ); */
 
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
     [] as SomaticMutation[],
