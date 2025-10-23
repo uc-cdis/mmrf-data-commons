@@ -198,9 +198,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     }
   };
 
-  console.log('formattedTableData', formattedTableData);
-  console.log('isSuccess', isSuccess);
-
   return (
     <>
       {(searchTerm.length === 0 && formattedTableData.length === 0) ||
