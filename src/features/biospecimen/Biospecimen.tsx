@@ -132,7 +132,8 @@ export const Biospecimen = ({
     handleJSONDownload(downloadFileName, [bioSpecimenData]);
   };
 
-  // TODO:  Need to add error message in place after this is moved to the Case Summary page for invalid case ids
+  // TODO:  Need to add error message in place after this is moved to the Case Summary page
+  // for invalid case ids
   return (
     <>
       {isBiospecimentDataFetching ? (
@@ -219,7 +220,8 @@ export const Biospecimen = ({
                     );
                     setExpandedCount(0);
                   }}
-                  className="flex-none text-primary hover:enabled:bg-primary-darker hover:enabled:text-base-lightest font-medium"
+                  className={`flex-none text-primary hover:enabled:bg-primary-darker
+                   hover:enabled:text-base-lightest font-medium`}
                   disabled={searchText.length > 0}
                   variant="outline"
                 >
