@@ -113,8 +113,8 @@ const DiagnosesTables = ({ data }: { data: Diagnoses }): JSX.Element => {
     <>
       <HorizontalTable tableData={formatDataForDiagnoses(data)} />
       <div
-        className="w-full flex flex-row items-center gap-1 bg-nci-violet-lightest p-2 border-base-lighter border-1 border-t-0"
-        data-testid="treatment-table-header"
+        className={`w-full flex flex-row items-center gap-1 bg-nci-violet-lightest
+          p-2 border-base-lighter border-1 border-t-0 data-testid="treatment-table-header`}
       >
         <h3 className="font-montserrat text-xl text-primary-content-darkest">
           Treatments

@@ -290,18 +290,17 @@ const FilesTable = ({
         baseZIndex={400}
         setColumnOrder={setColumnOrder}
       />
-
-      {/*       <AgreementModal
+      {/*
+      <AgreementModal
         openModal={modal === Modals.AgreementModal && fileToDownload !== null}
         file={fileToDownload}
         dbGapList={fileToDownload?.acl}
-      /> */}
-
-      {/*       <NoAccessToProjectModal
+      />
+      <NoAccessToProjectModal
         openModal={modal === Modals.NoAccessToProjectModal}
-      /> */}
-
-      {/*  <GeneralErrorModal openModal={modal === Modals.GeneralErrorModal} /> */}
+      />
+      <GeneralErrorModal openModal={modal === Modals.GeneralErrorModal} />
+      */}
     </div>
   );
 };

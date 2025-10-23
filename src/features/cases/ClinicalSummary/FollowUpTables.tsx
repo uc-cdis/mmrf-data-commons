@@ -215,7 +215,8 @@ const FollowUpTables = ({ data }: { data: FollowUps }): JSX.Element => {
       )}
 
       <div
-        className="w-full flex flex-row items-center gap-1 bg-nci-violet-lightest p-2 border-base-lighter border-1 border-t-0"
+        className={`w-full flex flex-row items-center gap-1 bg-nci-violet-lightest
+          p-2 border-base-lighter border-1 border-t-0`}
         data-testid="oca-table-header"
       >
         <h3 className="font-montserrat text-xl text-primary-content-darkest">

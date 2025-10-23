@@ -124,7 +124,8 @@ export const CaseView: React.FC<CaseViewProps> = ({
             offset={-2}
           >
             <div className="pt-0.5">
-              {/* This needs both passHref and legacyBehavior: https://nextjs.org/docs/pages/api-reference/components/link#if-the-child-is-a-functional-component */}
+              {/* This needs both passHref and legacyBehavior:
+              https://nextjs.org/docs/pages/api-reference/components/link#if-the-child-is-a-functional-component */}
               <Link
                 href={`/image-viewer/MultipleImageViewerPage?caseId=${case_id}`}
                 passHref
@@ -240,8 +241,10 @@ export const CaseView: React.FC<CaseViewProps> = ({
               className={`${
                 isAllFilesInCart
                   ? 'bg-nci-red-darker text-base-max hover:bg-removeButtonHover'
-                  : 'text-primary bg-base-max hover:bg-primary-darkest hover:text-base-max'
-              } ${focusStyles} data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary `}
+                  : `text-primary bg-base-max hover:bg-primary-darkest
+                  hover:text-base-max`
+              } ${focusStyles} data-disabled:opacity-50 data-disabled:bg-base-max
+               data-disabled:text-primary `}
               onClick={() =>
                 isAllFilesInCart
                   ? console.log('placeholder forremoveFromCar')
@@ -257,7 +260,10 @@ export const CaseView: React.FC<CaseViewProps> = ({
           </Tooltip>
         }
         rightElement={
-          <div className="flex items-center gap-4 text-xl text-base-lightest font-medium leading-6 font-montserrat uppercase">
+          <div
+            className={`flex items-center gap-4 text-xl text-base-lightest
+          font-medium leading-6 font-montserrat uppercase`}
+          >
             Total of {Files}
           </div>
         }
