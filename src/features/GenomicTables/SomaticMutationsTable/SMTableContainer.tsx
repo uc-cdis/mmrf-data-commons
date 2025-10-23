@@ -198,11 +198,13 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     }
   };
 
+  console.log('formattedTableData', formattedTableData);
+  console.log('isSuccess', isSuccess);
+
   return (
     <>
-      {searchTerm.length === 0 &&
-      formattedTableData.length === 0 &&
-      isSuccess ? (
+      {(searchTerm.length === 0 && formattedTableData.length === 0) ||
+      isSuccess !== true ? (
         <h2>❌ Somatic Mutations Table Data Error</h2>
       ) : (
         <>
