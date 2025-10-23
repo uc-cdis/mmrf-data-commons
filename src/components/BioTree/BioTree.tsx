@@ -21,12 +21,13 @@ const Node = ({
       {entity && entity[idKey] && entity.submitter_id && (
         <div className="flex">
           <span
-            className={`w-full flex justify-between text-xs cursor-pointer hover:underline hover:font-bold ml-3 mt-1 py-1 px-6 border border-base-lighter ${
-              (selectedEntity?.[idKey] as unknown as any) ===
-              (entity[idKey] as unknown as any)
-                ? 'bg-accent-vivid text-base-max font-bold'
-                : 'bg-nci-violet-lightest'
-            }
+            className={`w-full flex justify-between text-xs cursor-pointer hover:underline
+              hover:font-bold ml-3 mt-1 py-1 px-6 border border-base-lighter ${
+                (selectedEntity?.[idKey] as unknown as any) ===
+                (entity[idKey] as unknown as any)
+                  ? 'bg-accent-vivid text-base-max font-bold'
+                  : 'bg-nci-violet-lightest'
+              }
          `}
             onClick={() => {
               selectEntity(entity, type);
@@ -190,7 +191,10 @@ export const BioTree = ({
             />
           )}
 
-          <span className="border border-base-lighter border-l-6 border-l-accent-vivid font-medium py-1 text-xs w-full pl-4 uppercase text-primary cursor-pointer">
+          <span
+            className={`border border-base-lighter border-l-6 border-l-accent-vivid
+            font-medium py-1 text-xs w-full pl-4 uppercase text-primary cursor-pointer`}
+          >
             <Highlight search={query} text={type.p} />
           </span>
         </UnstyledButton>

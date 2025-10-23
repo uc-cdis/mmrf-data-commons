@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { entityMetadataType } from '@/utils/contexts';
-import { SummaryModalContext } from '@/utils/contexts';
 import { expect, within } from 'storybook/test';
 import { CaseView } from './CaseView';
 import casesViewData from './data/caseViewData.json';
@@ -11,15 +10,12 @@ const CaseViewWrapped = () => {
   const bio_id = 'abc';
   const isModal = false,
     shouldScrollToBio = false;
-
-  const annotationCountData = { pagination: { total: 10 } };
   const { data } = casesViewData;
   return (
     <CaseView
       case_id={case_id}
       bio_id={bio_id as string}
       data={data?.hits?.[0]}
-      annotationCountData={annotationCountData?.pagination.total}
       isModal={isModal}
       shouldScrollToBio={shouldScrollToBio}
     />

@@ -1,21 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
-import {
-  GdcFile,
-  // useCoreSelector,
-  // selectCart,
-  // Modals,
-  // selectCurrentModal,
-} from '@/core';
-import { get } from 'lodash';
-import dynamic from 'next/dynamic';
+import { GdcFile } from '@/core';
 import { filesize } from 'filesize';
 import tw from 'tailwind-styled-components';
-// import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import {
   formatDataForHorizontalTable,
-  mapGdcFileToCartFile,
-  parseSlideDetailsInfo,
   shouldDisplayReferenceGenome,
 } from './utils';
 import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';

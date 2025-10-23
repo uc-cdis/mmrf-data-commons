@@ -48,7 +48,6 @@ interface DropdownWithIconProps {
   /**
    *    custom position for Menu
    */
-
   customPosition?: any;
   /**
    *    whether the dropdown should fill the height of its parent

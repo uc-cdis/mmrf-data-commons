@@ -169,23 +169,13 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case 'newPageSize':
-        /*         setPageSize(parseInt(obj.newPageSize ?? '10'));
-        setPage(1);
-        break; */
         handlePageChange(1);
         handlePageSizeChange(obj.newPageSize as string);
         break;
       case 'newPageNumber':
-        /*         setExpanded({});
-        setPage(obj.newPageNumber ?? 1);
-        break; */
         handlePageChange(obj.newPageNumber as number);
         break;
       case 'newSearch':
-        /*         setExpanded({});
-        setSearchTerm(obj.newSearch ?? '');
-        setPage(1);
-        break; */
         handlePageChange(1);
         setSearchTerm(obj.newSearch as string);
         break;

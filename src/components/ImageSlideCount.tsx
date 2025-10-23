@@ -17,7 +17,8 @@ const ImageSlideCount = forwardRef<HTMLButtonElement, ImageSlideCountProps>(
         size="compact-xs"
         disabled={slideCount === 0}
         variant="outline"
-        className="border-base-lighter bg-base-max text-primary disabled:border disabled:bg-base-lightest disabled:opacity-50 disabled:border-primary"
+        className={`border-base-lighter bg-base-max text-primary disabled:border
+           disabled:bg-base-lightest disabled:opacity-50 disabled:border-primary`}
         classNames={{
           section: 'ml-0',
         }}

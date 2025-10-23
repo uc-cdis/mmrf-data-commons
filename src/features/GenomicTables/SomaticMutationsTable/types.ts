@@ -1,4 +1,5 @@
 import { ComparativeSurvival } from '@/features/genomic/types';
+import { FilterSet } from '@gen3/core';
 
 export interface Survival {
   label: string;
