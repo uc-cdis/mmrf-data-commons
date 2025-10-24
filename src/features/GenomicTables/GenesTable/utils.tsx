@@ -17,6 +17,7 @@ import { Image } from '@/components/Image';
 import GenesTableCohort from './GenesTableCohort';
 import { CountButton } from './CountButton';
 import GenesTableSurvival from './TableComponents/GenesTableSurvival';
+import Link from 'next/link';
 
 const genesTableColumnHelper: any = createColumnHelper<Gene>();
 
@@ -132,18 +133,14 @@ export const useGenerateGenesTableColumns = ({
         id: 'symbol',
         header: 'Symbol',
         cell: ({ row }: any) => (
-          <PopupIconButton
-            handleClick={() => {
-              setEntityMetadata({
-                entity_type: 'genes',
-                entity_id: row.original.gene_id,
-                contextSensitive: true,
-                contextFilters: genomicFilters,
-              })
-            }}
-            label={row.original.symbol}
-            ariaId={`${componentId}-genes-table-${row.original.gene_id}`}
-          />
+          <Link
+            href={`genes/${row.original.gene_id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-utility-link underline"
+          >
+            {row.original.symbol}
+          </Link>
         ),
       }),
       genesTableColumnHelper.accessor('name', {
@@ -190,7 +187,7 @@ export const useGenerateGenesTableColumns = ({
         ),
       }),
       genesTableColumnHelper.display({
-        id: '#_ssm_affected_cases_across_the_gdc',
+        id: '#_ssm_affected_cases_across_the_mmrf',
         header: () => (
           <HeaderTooltip
             title={`# SSM Affected Cases
@@ -201,7 +198,7 @@ export const useGenerateGenesTableColumns = ({
         ),
         cell: ({ row }: any) => {
           const { numerator, denominator } = row?.original[
-            '#_ssm_affected_cases_across_the_gdc'
+            '#_ssm_affected_cases_across_the_mmrf'
           ] ?? { numerator: 0, denominator: 1 };
           return (
             <div
@@ -424,7 +421,7 @@ export const getGene = (
       numerator: g.numCases,
       denominator: filteredCases,
     },
-    '#_ssm_affected_cases_across_the_gdc': {
+    '#_ssm_affected_cases_across_the_mmrf': {
       numerator: g.ssm_case,
       denominator: cases,
     },
