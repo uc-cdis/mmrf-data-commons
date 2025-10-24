@@ -1,0 +1,136 @@
+[
+  {
+    "id": "a87a3c7a-cedb-4b1a-b918-ae84a65fbb00",
+    "submitterId": "d9563db4-7d40-48ae-ad4f-712839fb11a3",
+    "access": "controlled",
+    "acl": [
+      "phs000748"
+    ],
+    "createdDatetime": "2022-01-26T23:39:52.621071-06:00",
+    "updatedDatetime": "2024-07-29T08:05:48.030529-05:00",
+    "data_category": "Simple Nucleotide Variation",
+    "data_format": "VCF",
+    "dataRelease": "32.0 - 43.0",
+    "data_type": "Annotated Somatic Mutation",
+    "file_id": "a87a3c7a-cedb-4b1a-b918-ae84a65fbb00",
+    "file_name": "MMRF_COMMPASS.ad805f69-3b94-4f53-b993-b319c2543665.wxs.MuSE.somatic_annotation.vcf.gz",
+    "file_size": 171642,
+    "md5sum": "596401381326b1f95d1993aca8edf9e2",
+    "platform": "Illumina",
+    "state": "released",
+    "fileType": "annotated_somatic_mutation",
+    "version": "2",
+    "experimental_strategy": "WXS",
+    "project_id": "MMRF-COMMPASS",
+    "cases": [
+      {
+        "case_id": "ae7a8c0b-3157-4852-a8e5-302f1165882c",
+        "submitter_id": "MMRF_1432",
+        "project": {
+          "dbgap_accession_number": "phs000748",
+          "name": "Multiple Myeloma CoMMpass Study",
+          "project_id": "MMRF-COMMPASS",
+          "releasable": true,
+          "released": true,
+          "state": "open"
+        },
+        "samples": [
+          {
+            "sample_id": "a51f1a07-8043-41b3-9e5a-ce8b8593feeb",
+            "submitter_id": "MMRF_1432_2_BM_CD138pos",
+            "tissue_type": "Tumor",
+            "tumor_descriptor": "Recurrence",
+            "portions": [
+              {
+                "analytes": [
+                  {
+                    "analyte_id": "39b9089d-414e-5421-9025-9a59fb627c39",
+                    "aliquots": [
+                      {
+                        "aliquot_id": "ead77a2c-9969-43c5-b177-fa9c83474125",
+                        "submitter_id": "MMRF_1432_2_BM_CD138pos_T1_KBS5U_L05834"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "sample_id": "e5a3bab6-bc87-4ba1-8e2f-f4131930fd4e",
+            "submitter_id": "MMRF_1432_1_PB_CD3pos",
+            "tissue_type": "Normal",
+            "tumor_descriptor": "Not Applicable",
+            "portions": [
+              {
+                "analytes": [
+                  {
+                    "analyte_id": "e7fc2574-7a31-5c5f-814e-331be7717017",
+                    "aliquots": [
+                      {
+                        "aliquot_id": "25d07963-28ee-4aff-9c34-237c67b09508",
+                        "submitter_id": "MMRF_1432_1_PB_CD3pos_C2_KAS5U_L01715"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "associated_entities": [
+      {
+        "entity_submitter_id": "MMRF_1432_2_BM_CD138pos_T1_KBS5U_L05834",
+        "entity_type": "aliquot",
+        "case_id": "ae7a8c0b-3157-4852-a8e5-302f1165882c",
+        "entity_id": "ead77a2c-9969-43c5-b177-fa9c83474125"
+      },
+      {
+        "entity_submitter_id": "MMRF_1432_1_PB_CD3pos_C2_KAS5U_L01715",
+        "entity_type": "aliquot",
+        "case_id": "ae7a8c0b-3157-4852-a8e5-302f1165882c",
+        "entity_id": "25d07963-28ee-4aff-9c34-237c67b09508"
+      }
+    ],
+    "analysis": {
+      "workflow_type": "MuSE Annotation",
+      "input_files": [
+        {
+          "file_name": "92680db6-fc30-4466-883e-ed6e219a862c.wxs.muse.raw_somatic_mutation.vcf.gz",
+          "data_category": "Simple Nucleotide Variation",
+          "data_type": "Raw Simple Somatic Mutation",
+          "data_format": "VCF",
+          "file_size": 27620,
+          "file_id": "f16b9afc-1458-49cd-a05d-fcad1981049e",
+          "acl": [
+            "phs000748"
+          ],
+          "access": "controlled",
+          "project_id": "MMRF-COMMPASS",
+          "state": "released",
+          "submitterId": "0a7d8684-ad49-4bb2-ac3e-2ac11bcb9288",
+          "createdDatetime": "2019-01-28T09:55:02.146003-06:00",
+          "updatedDatetime": "2024-07-29T10:26:39.944315-05:00",
+          "md5sum": "7971b3ca26e4d296c656b76b90ef5ce8"
+        }
+      ]
+    },
+    "index_files": [
+      {
+        "submitterId": "7f418fac-3dde-4b5a-9c68-83aec8050aa1",
+        "createdDatetime": "2022-01-27T04:52:12.452356-06:00",
+        "updatedDatetime": "2022-01-30T17:20:50.104776-06:00",
+        "data_category": "Simple Nucleotide Variation",
+        "data_format": "TBI",
+        "data_type": "Somatic Mutation Index",
+        "file_id": "8af4de83-40da-4408-81eb-b9254d660eb6",
+        "file_name": "MMRF_COMMPASS.ad805f69-3b94-4f53-b993-b319c2543665.wxs.MuSE.somatic_annotation.vcf.gz.tbi",
+        "file_size": 10269,
+        "md5sum": "16ef939713cd142f7495e2e9da0f4c97",
+        "state": "released"
+      }
+    ]
+  }
+]
