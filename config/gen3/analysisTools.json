@@ -5,19 +5,6 @@
       "core" : true,
       "tools": [
         {
-          "title": "Projects",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Explore the available projects and select those for further investigation and analysis.",
-          "icon": "/icons/apps/Projects.svg",
-          "href": "/",
-          "count": 1000,
-          "countUnits": "Cases",
-          "hideCounts" : true,
-          "appId" : "Projects"
-        },
-        {
           "title": "Cohort Builder",
           "type": "application",
           "hasDemo": false,
@@ -47,18 +34,6 @@
       "label": "Analysis Tools",
       "tools": [
         {
-          "title": "Mutation Frequency",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Visualize most frequently mutated genes and somatic mutations.",
-          "icon": "/icons/apps/MutationFrequency.svg",
-          "count": 1000,
-          "hideCounts" : true,
-          "appId" : "MutationFrequency",
-          "countUnits": "Case"
-        },
-        {
           "title": "Clinical Data Analysis",
           "type": "application",
           "hasDemo": false,
@@ -80,42 +55,6 @@
           "count": 1000,
           "hideCounts" : true,
           "appId" : "CohortComparison",
-          "countUnits": "Cases"
-        },
-        {
-          "title": "ProteinPaint",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
-          "icon": "/icons/apps/ProteinPaint.svg",
-          "href": "/",
-          "count": 1000,
-          "hideCounts" : true,
-          "countUnits": "Cases"
-        },
-        {
-          "title": "OncoMatrix",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Visualize the top most mutated cases and genes affected by high impact mutations in your cohort.",
-          "icon": "/icons/apps/OncoMatrix.svg",
-          "href": "/",
-          "count": 1000,
-          "hideCounts" : true,
-          "countUnits": "Cases"
-        },
-        {
-          "title": "Set Operations",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Display a Venn diagram and compare/contrast your cohorts or sets of the same type.",
-          "icon": "/icons/apps/SetOperations.svg",
-          "href": "/",
-          "count": 1000,
-          "hideCounts" : true,
           "countUnits": "Cases"
         }
       ]
