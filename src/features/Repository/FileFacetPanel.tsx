@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   useDeepCompareCallback,
   useDeepCompareEffect,
@@ -11,9 +11,13 @@ import {
   extractEnumFilterValue,
   FacetDefinition,
   isIntersection,
+  clearCohortFilters,
   selectIndexFilters,
+  convertFilterSetToGqlFilter,
+  selectAllCohortFiltersCollapsed,
+  toggleCohortBuilderAllFilters,
+  useCoreDispatch,
   useCoreSelector,
-  convertFilterSetToGqlFilter
 } from '@gen3/core';
 
 import {
@@ -71,6 +75,9 @@ export const FileFacetPanel = ({
   fieldMapping,
   indexPrefix = '',
 }: FileFacetPanelProps): JSX.Element => {
+
+  const coreDispatch = useCoreDispatch();
+
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),
   );
@@ -93,6 +100,19 @@ export const FileFacetPanel = ({
   const [facetDefinitions, setFacetDefinitions] = useState<
     Record<string, FacetDefinition>
   >({});
+
+  const allFiltersCollapsed = useCoreSelector((state) =>
+    selectAllCohortFiltersCollapsed(state, index),
+  );
+
+  const toggleAllFiltersExpanded = (expand: boolean) => {
+    coreDispatch(toggleCohortBuilderAllFilters({ expand, index }));
+  };
+
+  const clearAllFilters = useCallback(() => {
+    coreDispatch(clearCohortFilters({ index }));
+  }, [coreDispatch, index]);
+
 
   const {
     data: facetData,
@@ -182,7 +202,6 @@ export const FileFacetPanel = ({
 
   return (
     <DropdownPanel<'enum'>
-      index={index}
       filters={filters}
       facetDefinitions={facetDefinitions}
       facetDataHooks={facetDataHooks}
@@ -190,6 +209,9 @@ export const FileFacetPanel = ({
       tabTitle={tabTitle}
       onAccessChange={setAccessLevel}
       accessLevel={accessLevel}
+      allFiltersCollapsed={allFiltersCollapsed}
+      toggleAllFiltersExpanded={toggleAllFiltersExpanded}
+      clearAllFilters={clearAllFilters}
     />
   );
 };
