@@ -1,7 +1,8 @@
 import React, { useState, useTransition } from 'react';
 import { LoadingOverlay } from '@mantine/core';
 import dynamic from 'next/dynamic';
-import { FilterSet } from '@/core';
+import { EmptyFilterSet, FilterSet } from '@/core';
+import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice';
 import ChartTitleBar from './ChartTitleBar';
 import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
@@ -63,78 +64,54 @@ const processChartData = (
 };
 
 interface GeneFrequencyChartProps {
-  readonly genomicFilters?: FilterSet;
+  readonly cohortFilters?: FilterSet;
+  readonly geneFilters?: FilterSet;
+  readonly ssmFilters?: FilterSet;
   readonly height?: number;
   readonly marginBottom?: number;
   readonly showXLabels?: boolean;
   readonly title?: string;
   readonly maxBins?: number;
   readonly orientation?: string;
-  readonly cohortFilters?: FilterSet;
-  readonly chartData?: GenesFrequencyChart;
-  readonly isFetching: boolean;
-  readonly isError: boolean;
+
 }
 
 
 export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
-  genomicFilters = undefined,
+  geneFilters = EmptyFilterSet,
+  ssmFilters = EmptyFilterSet,
   height = undefined,
   marginBottom = 100,
   title = 'Distribution of Most Frequently Mutated Genes',
   maxBins = 20,
   orientation = 'v',
-  cohortFilters = undefined,
-  chartData = {
-    genes: [],
-    filteredCases: 0,
-    genesTotal: 0,
-  },
-  isFetching,
-  isError
+  cohortFilters = EmptyFilterSet,
 }: GeneFrequencyChartProps) => {
   const [isPending, startTransition] = useTransition();
   const [isChartRendering, setIsChartRendering] = useState(true);
 
-// extract geneFilters from genomicFilters
-//   const geneFilters = {
-//     mode: 'and',
-//     root: Object.fromEntries(
-//       Object.entries(genomicFilters?.root || {}).filter(([key]) =>
-//         GENE_FILTERS.includes(key),
-//       ),
-//     ),
-//   };
-//
-//   const ssmFilters = {
-//     mode: 'and',
-//     root: Object.fromEntries(
-//       Object.entries(genomicFilters?.root || {}).filter(
-//         ([key]) => !GENE_FILTERS.includes(key),
-//       ),
-//     ),
-//   };
 
 
-  // const queryParams = useDeepCompareMemo(
-  //   () => ({
-  //     pageSize: maxBins,
-  //     offset: 0,
-  //     geneFilters,
-  //     ssmFilters,
-  //     cohortFilters,
-  //   }),
-  //   [maxBins, genomicFilters, cohortFilters],
-  // );
 
-  // const { data, isFetching, isLoading } = useGeneFrequencyChartQuery(
-  //   queryParams as any,
-  // );
+  const queryParams = useDeepCompareMemo(
+    () => ({
+      pageSize: maxBins,
+      offset: 0,
+      geneFilters,
+      ssmFilters,
+      cohortFilters,
+    }),
+    [maxBins, geneFilters, ssmFilters, cohortFilters],
+  );
+
+  const { data: chartData, isFetching, isLoading } = useGeneFrequencyChartQuery(
+    queryParams as any,
+  );
 
 
   const processedData = useDeepCompareMemo(
     () => processChartData(chartData ?? {
-      geneCounts: [],
+      genes: [],
       filteredCases: 0,
       genesTotal: 0,
     }),
@@ -153,7 +130,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     setIsChartRendering(false);
   };
 
-  const jsonData = chartData?.genes?.map((gene) => ({
+  const jsonData = chartData?.genes?.map((gene: any) => ({
     label: gene.symbol,
     value: (gene.numCases / chartData.filteredCases) * 100,
   }));

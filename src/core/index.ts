@@ -4,6 +4,7 @@ export * from "./constants";
 export * from './features/cart';
 export * from './features/cohortComparison';
 export * from './features/cohortQuery';
+export * from './genomic';
 
 import {
   useGeneSummaryQuery,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { FilterSet } from '@/core';
-import { useGeneTable } from '../../genomic/mockedHooks';
+import { FilterSet } from '@gen3/core';
+import { useGeneTableDataQuery } from '@/core';
 import { useContext, useEffect, useState } from 'react';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import FunctionButton from '@/components/FunctionButton';
@@ -46,10 +46,6 @@ export interface GTableContainerProps {
   cohortFilters: FilterSet;
   toggledGenes?: ReadonlyArray<string>;
   isDemoMode?: boolean;
-  data: any;
-  isFetching: boolean;
-  isError: boolean;
-  isSuccess: boolean;
 }
 
 export const GenesTableContainer: React.FC<GTableContainerProps> = ({
@@ -61,7 +57,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   toggledGenes = [],
   isDemoMode = false,
   handleMutationCountClick,
-  data, isFetching, isError, isSuccess,
 }: GTableContainerProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -75,16 +70,16 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     searchFilters as any,
   );
 
-  // // GeneTable call
-  // const { data, isSuccess, isFetching, isError } = useGeneTable({
-  //   pageSize: 0,
-  //   offset: 0,
-  //   searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-  //   genomicFilters: genomicFilters,
-  //   cohortFilters: cohortFilters,
-  //   genesTableFilters,
-  // });
-  // // GeneTable call end
+  // GeneTable call
+  const { data, isSuccess, isFetching, isError } = useGeneTableDataQuery({
+    pageSize: 0,
+    offset: 0,
+    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+    genomicFilters: genomicFilters,
+    cohortFilters: cohortFilters,
+    genesTableFilters,
+  });
+  // GeneTable call end
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(

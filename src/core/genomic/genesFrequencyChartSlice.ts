@@ -49,7 +49,6 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
           case_filters: caseFilters ? caseFilters : {},
           gene_filters: {
             "and": [
-
               ...geneFilterContents,
             ],
           },

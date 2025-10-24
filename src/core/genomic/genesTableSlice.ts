@@ -134,7 +134,7 @@ export interface GDCGenesTable {
 
 const genesTableSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
-    getGeneTableData: builder.query<TopSsm, GenomicTableProps>({
+    geneTableData: builder.query<any, GenomicTableProps>({
       query: (request: GenomicTableProps) => {
         const {
           pageSize,
@@ -378,3 +378,5 @@ export const buildGeneTableSearchFilters = (
   }
   return undefined;
 };
+
+export const { useGeneTableDataQuery } = genesTableSlice;
