@@ -76,7 +76,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     offset: 0,
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
     genomicFilters: genomicFilters,
-    cohortFilters: cohortFilters,
+    cohortFilter: cohortFilters,
     genesTableFilters,
   });
   // GeneTable call end

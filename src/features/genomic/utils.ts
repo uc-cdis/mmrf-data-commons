@@ -1,4 +1,4 @@
-import { buildNestedGQLFilter, GQLFilter, isIncludes, Includes} from '@gen3/core';
+import { buildNestedGQLFilter, GQLFilter, isIncludes, Includes, FilterSet } from '@gen3/core';
 import { ActiveGeneAndSSMFilters } from './types';
 
 
@@ -45,7 +45,7 @@ export const buildGeneHaveAndHaveNotFilters = (
 
 /**
  * Merges gene and SSM (Simple Somatic Mutation) filters by adding the corresponding filters
- * from one category to the other. The merged filters maintain the logical inclusion (`in`) operations.
+ * from one index (gene/ssm) to the other. The merged filters maintain the logical inclusion (`in`) operations.
  *
  * @param {ActiveGeneAndSSMFilters} filters - An object containing the active filters for both gene and SSM.
  *                                             This includes separate root filter structures for both categories.
@@ -80,3 +80,30 @@ export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : Activ
 
   return results;
 }
+
+
+
+export const addPrefixToFilterSet = (source: FilterSet, prefix: string): FilterSet => {
+  // Ensure root property exists
+  const results : FilterSet = { // start with the same structure as source
+    mode: source?.mode || 'and',
+    root: { }
+  };
+
+  for (const [key, value] of Object.entries(source.root)) {
+    if (isIncludes(value)) {
+      const prefixedKey = `${prefix}${key}`;
+
+      results.root[prefixedKey] = {
+        field: prefixedKey,
+        operator: 'in',
+        operands: [...value.operands],
+      } satisfies Includes;
+    }
+    // Optional: handle or log non-Includes filters
+    else if (value) {
+      console.warn(`Skipping non-Includes filter for key: ${key}`, value);
+    }
+  }
+  return results;
+};

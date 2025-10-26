@@ -1,13 +1,14 @@
 import React, { useState, useTransition } from 'react';
 import { LoadingOverlay } from '@mantine/core';
 import dynamic from 'next/dynamic';
-import { EmptyFilterSet, FilterSet } from '@/core';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice';
 import ChartTitleBar from './ChartTitleBar';
 import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import BarChartTextVersion from './BarChartTextVersion';
 import { GenesFrequencyChart} from '@/core/genomic/genesFrequencyChartSlice';
+import { addPrefixToFilterSet } from '@/features/genomic/utils';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -76,6 +77,7 @@ interface GeneFrequencyChartProps {
 
 }
 
+const ssmPrefix = 'case.ssm';
 
 export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   geneFilters = EmptyFilterSet,
@@ -90,16 +92,19 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   const [isPending, startTransition] = useTransition();
   const [isChartRendering, setIsChartRendering] = useState(true);
 
+  // need to add the prefix of case.ssm to ssmFilters since
+  // the ssmFilter are applied to the gene_centric index
+  // and ssm filter are under case.ssm.
 
-
-
+  const ssmFilterForGeneCentric = addPrefixToFilterSet(ssmFilters, "case.ssm.");
+  console.log('ssmFilterForGeneCentric', ssmFilterForGeneCentric);
   const queryParams = useDeepCompareMemo(
     () => ({
       pageSize: maxBins,
       offset: 0,
-      geneFilters,
-      ssmFilters,
-      cohortFilters,
+      geneFilters: geneFilters,
+      ssmFilters: ssmFilterForGeneCentric,
+      cohortFilters: cohortFilters,
     }),
     [maxBins, geneFilters, ssmFilters, cohortFilters],
   );
@@ -109,6 +114,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   );
 
 
+  console.log('chartData', chartData);
   const processedData = useDeepCompareMemo(
     () => processChartData(chartData ?? {
       genes: [],
@@ -134,6 +140,9 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     label: gene.symbol,
     value: (gene.numCases / chartData.filteredCases) * 100,
   }));
+
+  console.log('jsonData', jsonData);
+  console.log('processedData', processedData);
 
   return (
     <div className="relative pr-2">

@@ -1,23 +1,20 @@
 import { LoadingOverlay } from '@mantine/core';
-// import { GeneFrequencyChart } from "@/features/charts/GeneFrequencyChart";
+
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,
   emptySurvivalPlot,
 } from '@/features/genomic/types';
-import {
-  useSelectFilterContent,
-  useGeneAndSSMPanelData,
-} from './hooks';
+import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
 
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
-import { useGeneFrequencyChartQuery } from '../../core/genomic/genesFrequencyChartSlice';
 import { COHORT_FILTER_INDEX } from '@/core';
+
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -43,7 +40,7 @@ interface GenesPanelProps {
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
 }
 
-const GENE_FILTERS = ['biotype', "is_gene_cancer_census"];
+const GENE_FILTERS = ['biotype', 'is_cancer_gene_census'];
 
 export const GenesPanel = ({
   topGeneSSMSSuccess,
@@ -61,7 +58,8 @@ export const GenesPanel = ({
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, true);
-  const cohortFilters = currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  const cohortFilters =
+    currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
 
   const currentGenes = useSelectFilterContent('genes.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);
@@ -77,7 +75,7 @@ export const GenesPanel = ({
   );
 
   // extract geneFilters from genomicFilters
-  const geneFilters : FilterSet= {
+  const geneFilters: FilterSet = {
     mode: 'and',
     root: Object.fromEntries(
       Object.entries(genomicFilters?.root || {}).filter(([key]) =>
@@ -86,7 +84,10 @@ export const GenesPanel = ({
     ),
   };
 
-  const ssmFilters : FilterSet= {
+  console.log("geneFilters", geneFilters);
+  console.log("genomicFilters", genomicFilters);
+
+  const ssmFilters: FilterSet = {
     mode: 'and',
     root: Object.fromEntries(
       Object.entries(genomicFilters?.root || {}).filter(
@@ -94,18 +95,6 @@ export const GenesPanel = ({
       ),
     ),
   };
-
-
-  // const queryParams = useDeepCompareMemo(
-  //   () => ({
-  //     pageSize: 10000,
-  //     offset: 0,
-  //     geneFilters,
-  //     ssmFilters,
-  //     cohortFilters,
-  //   }),
-  //   [geneFilters,ssmFilters, cohortFilters],
-  // );
 
   return (
     <div className="flex flex-col" data-testid="genes-panel">
