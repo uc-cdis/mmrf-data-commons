@@ -12,7 +12,7 @@
         "diagnoses.tissue_or_organ_of_origin"
       ],
       "queryOptions": {
-        "index": "case",
+        "index": "case_centric",
         "indexPrefix": "CaseCentric_"
       }
     },
@@ -34,14 +34,14 @@
       "label": "General Diagnosis",
       "facets": ["diagnoses.tumor_grade", "diagnoses.morphology"],
       "queryOptions": {
-        "index": "case"
+        "index": "case_centric"
       }
     },
     "disease_status": {
       "label": "Disease Status and History",
       "facets": ["diagnoses.progression_or_recurrence"],
       "queryOptions": {
-        "docType": "cases",
+        "docType": "case_centric",
         "indexType": "explore"
       }
     },
@@ -49,7 +49,7 @@
       "label": "Treatment",
       "facets": ["diagnoses.treatments.therapeutic_agents", "diagnoses.treatments.treatment_type"],
       "queryOptions": {
-        "docType": "cases",
+        "docType": "case_centric",
         "indexType": "explore"
       }
     },
@@ -63,7 +63,7 @@
         "samples.tumor_descriptor"
       ],
       "queryOptions": {
-        "docType": "cases",
+        "docType": "case_centric",
         "indexType": "explore"
       }
     },
@@ -71,7 +71,7 @@
       "label": "Custom Filters",
       "facets": [],
       "queryOptions": {
-        "docType": "cases",
+        "docType": "case_centric",
         "indexType": "explore"
       }
     }
