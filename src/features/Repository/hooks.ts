@@ -14,6 +14,7 @@ import {
   useCoreSelector,
   useGetAggsQuery,
   Includes,
+  EmptyFilterSet,
 } from '@gen3/core';
 import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
@@ -96,7 +97,9 @@ export const useTotalFileSizeQuery = ({
   }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? [];
+
+  console.log(cohortFilters)
+  const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? { ...EmptyFilterSet  };
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
       cohortFilter: cohortFilterGQL,

@@ -22,7 +22,7 @@ const DownloadsPage = () => {
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
         <MainNavigation />
         <CohortManager />
-          <QueryExpression index="case"/>
+          <QueryExpression index="case_centric"/>
       </div>
       <div className="flex">
         <div className="w-full mt-72 mr-4">

@@ -10,6 +10,10 @@ const GenesPage: NextPage = () => {
   const router = useRouter();
   const file = router.asPath.split('/')[2]?.split('?')?.[0];
 
+  let file_id = ""
+  if (file)
+    file_id = decodeURIComponent(file)
+
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ const GenesPage: NextPage = () => {
       <h1 className="sr-only">Gene Summary</h1>
       <div className="flex">
         <div className="w-full mt-[100px]">
-          {ready && <FileSummary file_id={file} />}
+          {ready && <FileSummary file_id={file_id} />}
         </div>
       </div>
     </>
