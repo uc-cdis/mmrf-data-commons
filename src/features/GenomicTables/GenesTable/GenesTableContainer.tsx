@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterSet } from '@gen3/core';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { useGeneTableDataQuery } from '@/core';
 import { useContext, useEffect, useState } from 'react';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
@@ -75,11 +75,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     pageSize: 0,
     offset: 0,
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-    genomicFilters: genomicFilters,
-    cohortFilter: cohortFilters,
-    genesTableFilters,
+    geneFilters: EmptyFilterSet,
+    ssmFilters: EmptyFilterSet,
+    cohortFilters: cohortFilters
   });
   // GeneTable call end
+
+  console.log("GenesTableContainer: data", data);
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
