@@ -97,8 +97,6 @@ export const useTotalFileSizeQuery = ({
   }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-
-  console.log(cohortFilters)
   const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? { ...EmptyFilterSet  };
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
