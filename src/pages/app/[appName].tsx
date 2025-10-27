@@ -45,7 +45,7 @@ const AppsPage = ({ config }: AppConfig) => {
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <MainNavigation />
         <CohortManager/>
-        <QueryExpression index="cases"/>
+        <QueryExpression index="case_centric"/>
         <div className="w-full overflow-y-auto">
           <Gen3App {...config} />
         </div>

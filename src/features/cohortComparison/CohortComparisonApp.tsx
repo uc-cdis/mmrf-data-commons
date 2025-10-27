@@ -70,7 +70,7 @@ const CohortComparisonApp = () => {
       setOpen={setSelectionScreenOpen}
       setActiveApp={setActiveApp}
       setComparisonCohort={setComparisonCohort}
-      index="case"
+      index="case_centric"
     />
   ) : (
     <CohortComparison cohorts={cohorts} demoMode={false} />

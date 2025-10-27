@@ -61,7 +61,7 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
       cohorts.comparison_cohort.filter,
     ),
     facetFields: facetFields,
-    index: "case",
+    index: "case_centric",
     continuousFacets: ["diagnoses.age_at_diagnosis"],
   });
 

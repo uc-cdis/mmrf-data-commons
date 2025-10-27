@@ -54,7 +54,7 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   const { data, isLoading: dataLoading } = useVennDiagramQuery({
     set1Filters: filters.cohort1,
     set2Filters: filters.cohort2,
-    index: "case"
+    index: "case_centric"
   });
 
   const isLoading = externalLoading || dataLoading;

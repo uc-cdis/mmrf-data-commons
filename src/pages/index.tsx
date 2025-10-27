@@ -33,7 +33,7 @@ interface CountsPanelProps {
 const CountsPanel: React.FC<CountsPanelProps> = ({
                                                    index,
                                                    accessibility = Accessibility.ALL,
-                                                   indexPrefix = "Case_"
+                                                   indexPrefix = "CaseCentric_"
                                                  }: CountsPanelProps) => {
   const [getCounts, { data: counts, isFetching, isError, isSuccess }] =
     useLazyGetCountsQuery();
@@ -93,8 +93,8 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <MainNavigation />
       <ProtectedContent>
       <div className="flex flex-col ml-2">
-        <CohortManager rightPanel={<CountsPanel index="case"  indexPrefix="Case_" />}/>
-        <QueryExpression index="case"/>
+        <CohortManager rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}/>
+        <QueryExpression index="case_centric"/>
 
 
       {appInfo ?
