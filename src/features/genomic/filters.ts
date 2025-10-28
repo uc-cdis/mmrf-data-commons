@@ -55,6 +55,25 @@ const FilterFacets : Array<FacetDefinition> = [
     "type": "enum",
     "index": "ssm_centric"
   }
-]
+];
+
+
+export const GenomicIndexFilterPrefixes = {
+  case: {
+    gene: 'gene',
+    ssm: 'gene.ssm',
+    case: '',
+  },
+  gene: {
+    gene: '',
+    ssm: 'case.ssm',
+    case: 'case',
+  },
+  ssm: {
+    case: 'occurrence.case',
+    gene: 'consequence.transcript.gene',
+    ssm: ""
+  },
+};
 
 export default FilterFacets;

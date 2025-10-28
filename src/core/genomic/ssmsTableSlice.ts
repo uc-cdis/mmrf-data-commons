@@ -1,14 +1,16 @@
 import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  FilterSet,
+  guppyApi,
   Union,
   DataStatus,
-  guppyApi,
-  TablePageOffsetProps
 } from '@gen3/core';
 import { getSSMTestedCases } from "./utils";
 import { GraphQLApiResponse } from '@/core';
-import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
+import { SsmsTableRequestParameters } from './types';
+import {
+  convertFilterSetToNestedGqlFilter,
+  extractContents,
+} from '@/core/utils';
 
 const SSMSTableGraphQLQuery = `query SsmsTable(
     $ssmTested: JSON
@@ -164,14 +166,6 @@ export const buildSSMSTableSearchFilters = (
   }
   return undefined;
 };
-
-export interface SsmsTableRequestParameters extends TablePageOffsetProps {
-  readonly geneSymbol?: string;
-  readonly genomicFilters: FilterSet;
-  readonly cohortFilters: FilterSet;
-  readonly tableFilters: FilterSet;
-  readonly _cohortFiltersNoSet?: FilterSet;
-}
 
 interface ssmtableResponse {
       cases: {

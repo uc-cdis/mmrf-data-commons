@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
 import {
   buildSSMSTableSearchFilters,
-  useGetSsmsTableDataQuery,
 } from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
@@ -26,6 +25,7 @@ import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
 import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
+import { useMutationTableDataQuery } from '@/core/genomic/mutationsTableSlice';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -34,7 +34,8 @@ export interface SMTableContainerProps {
     name: string,
     field: string,
   ) => void;
-  genomicFilters?: FilterSet;
+  geneFilters?: FilterSet;
+  ssmFilters?: FilterSet;
   cohortFilters?: FilterSet;
   handleSsmToggled?: SsmToggledHandler;
   toggledSsms?: Array<string>;
@@ -122,7 +123,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
   /* SM Table Call */
-  const { data, isSuccess, isFetching, isError } = useGetSsmsTableDataQuery({
+  const { data, isSuccess, isFetching, isError } = useMutationTableDataQuery({
     pageSize: pageSize,
     offset: pageSize * (page - 1),
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,

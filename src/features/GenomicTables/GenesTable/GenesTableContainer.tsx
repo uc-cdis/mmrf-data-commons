@@ -42,7 +42,8 @@ export interface GTableContainerProps {
   ) => void;
   handleGeneToggled: GeneToggledHandler;
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
-  genomicFilters: FilterSet;
+  geneFilters: FilterSet;
+  ssmFilters: FilterSet;
   cohortFilters: FilterSet;
   toggledGenes?: ReadonlyArray<string>;
   isDemoMode?: boolean;
@@ -52,7 +53,8 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   selectedSurvivalPlot,
   handleSurvivalPlotToggled,
   handleGeneToggled,
-  genomicFilters,
+  geneFilters,
+  ssmFilters,
   cohortFilters,
   toggledGenes = [],
   isDemoMode = false,
@@ -66,7 +68,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
   const genesTableFilters = appendSearchTermFilters(
-    genomicFilters as any,
+    geneFilters as any,
     searchFilters as any,
   );
 
@@ -75,17 +77,15 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     pageSize: 0,
     offset: 0,
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-    geneFilters: EmptyFilterSet,
+    geneFilters: geneFilters,
     ssmFilters: EmptyFilterSet,
     cohortFilters: cohortFilters
   });
   // GeneTable call end
 
-  console.log("GenesTableContainer: data", data);
-
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
-    genomicFilters as any,
+    geneFilters as any,
     'genes.',
   );
 
@@ -110,7 +110,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       } else {
         // any other type will use all filters
-        return joinFilters(genomicFilters as any, {
+        return joinFilters(geneFilters as any, {
           mode: 'and',
           root: {
             'ssms.ssm_id': {
@@ -129,7 +129,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       }
     },
-    [genomicFilters, genesOnlyFilters],
+    [geneFilters, genesOnlyFilters],
   );
   // End Create Cohort /
 
@@ -144,14 +144,13 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
 
-    const { cases, cnvCases, mutationCounts, filteredCases, genes } =
+    const { cases, cnvCases, filteredCases, genes, genesTotal } =
       data;
 
     return genes.map((gene: any) =>
       getGene(
         gene,
         selectedSurvivalPlot,
-        mutationCounts,
         filteredCases,
         cases,
         cnvCases,
@@ -166,11 +165,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     isDemoMode,
     setEntityMetadata,
     cohortFilters,
-    genomicFilters,
+    genomicFilters: geneFilters,
     generateFilters,
     handleMutationCountClick,
     currentPage: 0,
-    totalPages: Math.ceil(data?.genes?.genes_total / 1),
+    totalPages: Math.ceil(data?.genesTotal ?? 1),
   });
 
   const {

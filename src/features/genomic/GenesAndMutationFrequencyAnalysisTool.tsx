@@ -183,7 +183,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               <Tabs.Tab data-testid="button-genes-tab" value="genes">
                 Genes
               </Tabs.Tab>
-              <Tabs.Tab data-testid="button-mutations-tab" value="ssms" disabled={true}>
+              <Tabs.Tab data-testid="button-mutations-tab" value="ssms">
                 Mutations
               </Tabs.Tab>
             </Tabs.List>

@@ -4,6 +4,7 @@
 export type GeneToggledHandler = (symbol: Record<string, any>) => void;
 
 export interface GeneRowInfo {
+  readonly case_count: number;
   readonly biotype: string;
   readonly case_cnv_amplification: number;
   readonly case_cnv_gain: number;
@@ -17,6 +18,7 @@ export interface GeneRowInfo {
   readonly name: string;
   readonly numCases: number;
   readonly ssm_case: number;
+  readonly ssm_count?: number;
   readonly symbol: string;
 }
 

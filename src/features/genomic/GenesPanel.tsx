@@ -84,8 +84,8 @@ export const GenesPanel = ({
     ),
   };
 
-  console.log("geneFilters", geneFilters);
-  console.log("genomicFilters", genomicFilters);
+  // console.log("geneFilters", geneFilters);
+  // console.log("genomicFilters", genomicFilters);
 
   const ssmFilters: FilterSet = {
     mode: 'and',
@@ -138,7 +138,8 @@ export const GenesPanel = ({
         handleSurvivalPlotToggled={handleSurvivalPlotToggled}
         handleGeneToggled={handleGeneToggled}
         toggledGenes={toggledGenes}
-        genomicFilters={genomicFilters}
+        geneFilters={geneFilters}
+        ssmFilters={ssmFilters}
         cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
         isDemoMode={isDemoMode}
         handleMutationCountClick={handleMutationCountClick}

@@ -60,6 +60,7 @@ import FilterFacets from "@/features/genomic/filters";
 import { buildCohortGqlOperator } from '@/core/utils';
 import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
 import { modals } from "@mantine/modals";
+import { COHORT_FILTER_INDEX } from '@/core';
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -233,7 +234,7 @@ const overwritingDemoFilter = useMemo(
 const cohortFilters: GqlOperation = useDeepCompareMemo(
   () =>
     buildCohortGqlOperator(
-      isDemoMode ? overwritingDemoFilter : currentCohortFilters['case'], // TODO: handle multiple cohorts
+      isDemoMode ? overwritingDemoFilter : currentCohortFilters[COHORT_FILTER_INDEX], // TODO: handle multiple cohorts
     ) ?? { and :[]},
   [currentCohortFilters, isDemoMode, overwritingDemoFilter],
 );

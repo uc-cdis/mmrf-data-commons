@@ -6,6 +6,7 @@ import {
 } from '@gen3/core';
 
 import { extractContents } from '@/core/utils';
+import { SsmsTableRequestParameters } from './types';
 
 import { GEN3_ANALYSIS_API, TablePageOffsetProps } from '@/core';
 
@@ -41,16 +42,16 @@ interface GeneTableResponse {
   genes: ReadonlyArray<GeneRowInfo>;
 }
 
-const genesTableSlice = gen3Api.injectEndpoints({
+const mutationsTableSlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
-    geneTableData: builder.query<GeneTableResponse, GeneTableRequest>({
+    mutationTableData: builder.query<any, GeneTableRequest>({
       query: ({
         cohortFilters,
         geneFilters,
         ssmFilters,
         pageSize = 20,
         offset = 0,
-      }: GeneTableRequest) => {
+      }: SsmsTableRequestParameters) => {
         const caseFilters = convertFilterSetToGqlFilter(cohortFilters);
         const geneFilterContents =
           extractContents(convertFilterSetToGqlFilter(geneFilters)) ?? [];
@@ -68,7 +69,7 @@ const genesTableSlice = gen3Api.injectEndpoints({
         };
 
         return {
-          url: `${GEN3_ANALYSIS_API}/genomic/gene_table`,
+          url: `${GEN3_ANALYSIS_API}/genomic/ssm_table`,
           method: 'POST',
           body: JSON.stringify(body),
         };
@@ -77,39 +78,4 @@ const genesTableSlice = gen3Api.injectEndpoints({
   }),
 });
 
-export type CnvChange =
-  | 'Amplification'
-  | 'Gain'
-  | 'Loss'
-  | 'Homozygous Deletion';
-
-export const buildGeneTableSearchFilters = (
-  term?: string,
-): Union | undefined => {
-  if (term !== undefined) {
-    return {
-      operator: 'or',
-      operands: [
-        {
-          operator: 'includes',
-          field: 'genes.cytoband',
-          operands: [`*${term}*`],
-        },
-        {
-          operator: 'includes',
-          field: 'genes.gene_id',
-          operands: [`*${term}*`],
-        },
-        {
-          operator: 'includes',
-          field: 'genes.symbol',
-          operands: [`*${term}*`],
-        },
-        { operator: 'includes', field: 'genes.name', operands: [`*${term}*`] },
-      ],
-    };
-  }
-  return undefined;
-};
-
-export const { useGeneTableDataQuery } = genesTableSlice;
+export const { useMutationTableDataQuery } = mutationsTableSlice;

@@ -113,8 +113,6 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     queryParams as any,
   );
 
-
-  console.log('chartData', chartData);
   const processedData = useDeepCompareMemo(
     () => processChartData(chartData ?? {
       genes: [],
@@ -140,9 +138,6 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
     label: gene.symbol,
     value: (gene.numCases / chartData.filteredCases) * 100,
   }));
-
-  console.log('jsonData', jsonData);
-  console.log('processedData', processedData);
 
   return (
     <div className="relative pr-2">
