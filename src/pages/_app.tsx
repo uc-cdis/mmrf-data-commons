@@ -1,8 +1,8 @@
-import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { MantineProvider } from '@mantine/core';
-import { mmrfModals } from '@/components/Modals/registerModals';
-import mantinetheme from '../mantineTheme';
+import App, { AppContext, AppInitialProps, AppProps } from "next/app";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import { MantineProvider } from "@mantine/core";
+import { mmrfModals } from "@/components/Modals/registerModals";
+import mantinetheme from "../mantineTheme";
 
 import {
   Gen3Provider,
@@ -12,32 +12,33 @@ import {
   registerExplorerDefaultCellRenderers,
   registerMetadataSchemaApp,
   SessionConfiguration,
-} from '@gen3/frontend';
+} from "@gen3/frontend";
 
-import { registerCohortTableCustomCellRenderers } from '@/lib/CohortBuilder/CustomCellRenderers';
-import { registerCustomExplorerDetailsPanels } from '@/lib/CohortBuilder/FileDetailsPanel';
+import { registerCohortTableCustomCellRenderers } from "@/lib/CohortBuilder/CustomCellRenderers";
+import { registerCustomExplorerDetailsPanels } from "@/lib/CohortBuilder/FileDetailsPanel";
 
-import '../styles/globals.css';
-import '../styles/survivalplot.css';
-import '@fontsource/montserrat';
-import '@fontsource/source-sans-pro';
-import '@fontsource/poppins';
+import "../styles/globals.css";
+import "../styles/survivalplot.css";
+import "@fontsource/montserrat";
+import "@fontsource/source-sans-pro";
+import "@fontsource/poppins";
 
-import { setDRSHostnames } from '@gen3/core';
-import drsHostnames from '../../config/drsHostnames.json';
-import { loadContent } from '@/lib/content/loadContent';
-import Loading from '../components/Loading';
-import { registerCohortComparisonApp } from '@/features/cohortComparison/registerApp';
-import { registerGenesAndMutationFrequencyAnalysisTool} from '@/features/genomic/registerApp';
-import Gen3GDCCompatabilityProvider from '@/utils/providers';
-import { registerMMRFTableCellRenderers } from '@/components/ExplorerCellRenderers';
+import { setDRSHostnames } from "@gen3/core";
+import drsHostnames from "../../config/drsHostnames.json";
+import { loadContent } from "@/lib/content/loadContent";
+import Loading from "../components/Loading";
+import { registerCohortComparisonApp } from "@/features/cohortComparison/registerApp";
+import { registerGenesAndMutationFrequencyAnalysisTool } from "@/features/genomic/registerApp";
+import Gen3GDCCompatabilityProvider from "@/utils/providers";
+import { registerMMRFTableCellRenderers } from "@/components/ExplorerCellRenderers";
+import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
+import { useRouter } from "next/router";
 
-
-if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const ReactDOM = require('react-dom');
+  const ReactDOM = require("react-dom");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const axe = require('@axe-core/react');
+  const axe = require("@axe-core/react");
   axe(React, ReactDOM, 1000);
 }
 
@@ -55,6 +56,7 @@ const Gen3App = ({
   modalsConfig,
 }: AppProps & Gen3AppProps) => {
   const isFirstRender = useRef(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -69,7 +71,7 @@ const Gen3App = ({
       registerGenesAndMutationFrequencyAnalysisTool();
 
       isFirstRender.current = false;
-      console.log('MMRF Portal initialized');
+      console.log("MMRF Portal initialized");
     }
   }, []);
 
@@ -78,6 +80,8 @@ const Gen3App = ({
   useEffect(() => {
     setIsClient(true); // Only on the client-side
   }, []);
+
+  const no_nav_bar_paths = ["/Profile"];
 
   return (
     <React.Fragment>
@@ -91,6 +95,19 @@ const Gen3App = ({
               contextModals={mmrfModals}
             >
               <Gen3GDCCompatabilityProvider>
+                {!no_nav_bar_paths.includes(router?.asPath) && (
+                  <div
+                    style={{
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 1100,
+                      background: "white",
+                    }}
+                  >
+                    <MainNavigation />
+                  </div>
+                )}
+
                 <Component {...pageProps} />
               </Gen3GDCCompatabilityProvider>
             </Gen3Provider>
@@ -117,14 +134,14 @@ Gen3App.getInitialProps = async (
       ...res,
     };
   } catch (error: any) {
-    console.error('Provider Wrapper error loading config', error.toString());
+    console.error("Provider Wrapper error loading config", error.toString());
   }
   // return default
   return {
     ...ctx,
     icons: [
       {
-        prefix: 'gen3',
+        prefix: "gen3",
         lastModified: 0,
         icons: {},
         width: 0,

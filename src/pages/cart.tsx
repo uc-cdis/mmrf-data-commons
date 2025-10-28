@@ -9,9 +9,6 @@ const CartPage: NextPage = () => {
   return (
     <>
       <PageTitle pageName="Cart" />
-      <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
-        <MainNavigation />
-      </div>
       <ProtectedContent>
       <h1 className="sr-only">Cart</h1>
       <div className="flex">

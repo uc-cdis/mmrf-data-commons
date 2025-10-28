@@ -7,9 +7,6 @@ const ssms = () => {
   return (
     <>
       <PageTitle pageName="Analysis Center" />
-      <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
-        <MainNavigation />
-      </div>
       <h1 className="sr-only">Mutation Summary</h1>
       <div className="flex">
         <SSMSSummary

@@ -24,7 +24,6 @@ const ClinicalDataAnalysisPage = () => {
     <>
       <PageTitle pageName="Clinical Data Analysis" />
       <div className="w-full flex-col flex gap-4 fixed z-50 bg-white">
-        <MainNavigation />
         <CohortManager />
         <QueryExpression index="cases"/>
       </div>

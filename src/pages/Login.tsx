@@ -11,7 +11,6 @@ export const LoginPage = ({ loginConfig }: { loginConfig: LoginConfig }) => {
   return (
     <>
       <PageTitle pageName="Login Page" />
-        <MainNavigation />
         <LoginPanel {...loginConfig} />
     </>
   );

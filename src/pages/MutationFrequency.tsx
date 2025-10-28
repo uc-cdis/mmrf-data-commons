@@ -19,7 +19,6 @@ const MutatationFrequencyPage = () => {
     <>
       <PageTitle pageName="Gene Summary" />
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
-        <MainNavigation />
         <CohortManager />
           <QueryExpression index="case"/>
       </div>
