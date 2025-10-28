@@ -1,7 +1,7 @@
 import { FilterSet, TablePageOffsetProps } from "@gen3/core";
 
 export interface GenomicTableProps extends TablePageOffsetProps {
-  genesTableFilters: FilterSet;
+  genesTableFilters?: FilterSet;
   geneFilters: FilterSet;
   ssmFilters: FilterSet;
   cohortFilters: FilterSet;
