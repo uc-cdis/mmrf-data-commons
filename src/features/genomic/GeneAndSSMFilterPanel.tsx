@@ -111,22 +111,25 @@ const GeneAndSSMFilterPanel = ({
     selectGeneAndSSMFilters(state),
   );
 
+  console.log("genomicFilters", genomicFilters)
+
   const geneAndSSMFilters = useDeepCompareMemo(() => {
     const filters : ActiveGeneAndSSMFilters  = {
       gene: { mode: 'and', root: {}} as FilterSet,
       ssm: { mode: 'and', root: {}} as FilterSet
     }
     for (const [key, value ] of Object.entries(genomicFilters.root)) {
-      const facetDef = FilterFacets.find(def => def.field === key);
+      const facetDef = FilterFacets.find((def) => def.field === key);
+      console.log('facetDef', facetDef);
       if (facetDef) {
-        if (facetDef.index === 'gene_centric')
-          filters.gene.root[key] = value
-        if (facetDef.index === 'ssm_centric')
-          filters.ssm.root[key] = value
+        if (facetDef.index === 'gene_centric') filters.gene.root[key] = value;
+        if (facetDef.index === 'ssm_centric') filters.ssm.root[key] = value;
       }
     }
     return mergeGeneAndSSMFilters(filters);
   }, [genomicFilters])
+
+  console.log(geneAndSSMFilters)
 
   const {
     data: facetData,

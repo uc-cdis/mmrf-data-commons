@@ -13,7 +13,10 @@ import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
+import { joinFilters } from '@/core/utils';
 import { COHORT_FILTER_INDEX } from '@/core';
+import { addPrefixToFilterSet } from '@/features/genomic/utils';
+import { GenomicIndexFilterPrefixes } from '@/features/genomic/filters';
 
 
 const SurvivalPlot = dynamic(
@@ -84,8 +87,7 @@ export const GenesPanel = ({
     ),
   };
 
-  // console.log("geneFilters", geneFilters);
-  // console.log("genomicFilters", genomicFilters);
+
 
   const ssmFilters: FilterSet = {
     mode: 'and',
@@ -96,14 +98,21 @@ export const GenesPanel = ({
     ),
   };
 
+  // add ssm filters to gene filters with the correct prefix
+  // and add gene filters to ssm filters with the correct prefix
+  // these are use for gene table queries
+  const geneFilterWithSSMFilter =  joinFilters(geneFilters, addPrefixToFilterSet(ssmFilters, `${GenomicIndexFilterPrefixes.gene.ssm}.`));
+  const ssmFilterWitGeneFilter =  joinFilters(ssmFilters, addPrefixToFilterSet(geneFilters, `${GenomicIndexFilterPrefixes.ssm.gene}.`));
+
+  console.log("geneFilterWithSSMFilter", geneFilterWithSSMFilter);
   return (
     <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
         <div className="w-full xl:w-1/2 border border-base-lighter p-4">
           <GeneFrequencyChart
             marginBottom={95}
-            geneFilters={geneFilters}
-            ssmFilters={ssmFilters}
+            geneFilters={geneFilterWithSSMFilter}
+            ssmFilters={ssmFilterWitGeneFilter}
             cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
           />
         </div>
@@ -138,8 +147,8 @@ export const GenesPanel = ({
         handleSurvivalPlotToggled={handleSurvivalPlotToggled}
         handleGeneToggled={handleGeneToggled}
         toggledGenes={toggledGenes}
-        geneFilters={geneFilters}
-        ssmFilters={ssmFilters}
+        geneFilters={geneFilterWithSSMFilter}
+        ssmFilters={ssmFilterWitGeneFilter}
         cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
         isDemoMode={isDemoMode}
         handleMutationCountClick={handleMutationCountClick}

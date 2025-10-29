@@ -78,6 +78,7 @@ export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : Activ
     }
   }
 
+  console.log("mergeGeneAndSSMFilters", results);
   return results;
 }
 
