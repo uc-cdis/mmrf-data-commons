@@ -8,7 +8,11 @@ import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import { SomaticMutation, SsmToggledHandler } from './types';
+import {
+  SMTableContainerProps,
+  SomaticMutation,
+  SsmToggledHandler,
+} from './types';
 import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnOrderState,
@@ -20,57 +24,11 @@ import { getMutation, useGenerateSMTableColumns } from './Utils/utils';
 import { handleJSONDownload, handleTSVDownload } from './Utils/download';
 import VerticalTable from '@/components/Table/VerticalTable';
 import SMTableSubcomponent from './SMTableSubcomponent';
-import { ComparativeSurvival } from '@/features/genomic/types';
 import TotalItems from '@/components/Table/TotalItem';
 import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
 import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
-
-export interface SMTableContainerProps {
-  readonly selectedSurvivalPlot?: ComparativeSurvival;
-  handleSurvivalPlotToggled?: (
-    symbol: string,
-    name: string,
-    field: string,
-  ) => void;
-  genomicFilters?: FilterSet;
-  cohortFilters?: FilterSet;
-  handleSsmToggled?: SsmToggledHandler;
-  toggledSsms?: Array<string>;
-  geneSymbol?: string;
-  tableTitle?: string;
-  isDemoMode?: boolean;
-  /*
-   * filter about case id sent from case summary for SMT
-   */
-  caseFilter?: FilterSet;
-  /*
-   * project id for case summary SM Table
-   */
-  projectId?: string;
-  /*
-   * boolean used to determine if the links need to be opened in a summary modal or a Link
-   */
-  isModal?: boolean;
-  /*
-   * boolean used to determine if being called in a modal
-   */
-  inModal?: boolean;
-  /*
-   *  This is being sent from GenesAndMutationFrequencyAnalysisTool when mutation count is clicked in genes table
-   */
-  searchTermsForGene?: { geneId?: string; geneSymbol?: string };
-  /**
-   *  This is required for TSV download SMTable in Gene summary page
-   */
-  clearSearchTermsForGene?: () => void;
-  gene_id?: string;
-  /**
-   *  This is required for TSV download SMTable in Case summary page
-   */
-  case_id?: string;
-}
 
 export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   selectedSurvivalPlot,
@@ -91,41 +49,44 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   gene_id,
   case_id,
 }: SMTableContainerProps) => {
-  const [pageSize, setPageSize] = useState(10);
-  const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
   const genomicFiltersWithPossibleGeneSymbol = geneSymbol
     ? joinFilters(
-      {
-        mode: "and",
-        root: {
-          "genes.symbol": {
-            field: "genes.symbol",
-            operator: "includes",
-            operands: [geneSymbol],
+        {
+          mode: 'and',
+          root: {
+            'genes.symbol': {
+              field: 'genes.symbol',
+              operator: 'includes',
+              operands: [geneSymbol],
+            },
           },
         },
-      },
-      genomicFilters,
-    )
+        genomicFilters,
+      )
     : genomicFilters;
 
-  const searchFilters = buildSSMSTableSearchFilters(searchTerm) ?? { operator: "or" , operands: []} satisfies Union;
+  const searchFilters =
+    buildSSMSTableSearchFilters(searchTerm) ??
+    ({ operator: 'or', operands: [] } satisfies Union);
   const genomicTableFilters = appendSearchTermFilters(
     genomicFiltersWithPossibleGeneSymbol,
     searchFilters,
   );
-  const caseTableFilters = appendSearchTermFilters(caseFilter ?? EmptyFilterSet, searchFilters);
+  const caseTableFilters = appendSearchTermFilters(
+    caseFilter ?? EmptyFilterSet,
+    searchFilters,
+  );
 
   const tableFilters = caseFilter ? caseTableFilters : genomicTableFilters;
 
   /* SM Table Call */
   const { data, isSuccess, isFetching, isError } = useGetSsmsTableDataQuery({
-    pageSize: pageSize,
-    offset: pageSize * (page - 1),
-    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+    pageSize: 100,
+    offset: 0,
+    searchTerm: '',
     geneSymbol: geneSymbol,
     genomicFilters: genomicFilters,
     cohortFilters: cohortFilters,
@@ -145,8 +106,10 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       ),
     );
   }, [data, selectedSurvivalPlot]);
+
   const setEntityMetadata = null;
   const generateFilters = () => null;
+
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,
     handleSsmToggled,
@@ -158,48 +121,33 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     projectId,
     generateFilters,
     currentPage: 1,
-    totalPages: Math.ceil(data?.ssmsTotal ? data?.ssmsTotal / pageSize : 0),
+    totalPages: 0,
     cohortFilters,
   });
 
-  const pagination = useMemo(() => {
-    return isSuccess
-      ? {
-        count: pageSize,
-        from: (page - 1) * pageSize,
-        page: page,
-        pages: Math.ceil(data?.ssmsTotal / pageSize),
-        size: pageSize,
-        total: data?.ssmsTotal,
-        sort: "None",
-        label: "somatic mutation",
-      }
-      : {
-        count: 0,
-        from: 0,
-        page: 1,
-        pages: 0,
-        size: 0,
-        total: 0,
-        label: "",
-      };
-  }, [pageSize, page, data?.ssmsTotal, isSuccess]);
+  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] =
+    useState(formattedTableData);
+
   const {
+    handlePageChange,
+    handlePageSizeChange,
+    page,
+    pages,
+    size,
+    from,
+    total,
     displayedData,
-  } = useStandardPagination(formattedTableData, SMTableDefaultColumns);
-  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
-    [] as SomaticMutation[],
-  );
+  } = useStandardPagination(displayedDataAfterSearch, SMTableDefaultColumns);
 
   useEffect(() => {
     if (searchTerm.length > 0) {
       setDisplayedDataAfterSearch(
-        SMTableClientSideSearch(displayedData, searchTerm),
+        SMTableClientSideSearch(formattedTableData, searchTerm),
       );
     } else {
-      setDisplayedDataAfterSearch(displayedData);
+      setDisplayedDataAfterSearch(formattedTableData);
     }
-  }, [searchTerm, displayedData]);
+  }, [searchTerm, formattedTableData]);
 
   useEffect(() => {
     if (searchTerm === '' && clearSearchTermsForGene) {
@@ -220,18 +168,16 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
-        setPageSize(parseInt(obj.newPageSize ?? '10'));
-        setPage(1);
+      case 'newPageSize':
+        handlePageChange(1);
+        handlePageSizeChange(obj.newPageSize as string);
         break;
-      case "newPageNumber":
-        setExpanded({});
-        setPage(obj.newPageNumber ?? 1);
+      case 'newPageNumber':
+        handlePageChange(obj.newPageNumber as number);
         break;
-      case "newSearch":
-        setExpanded({});
-        setSearchTerm(obj.newSearch ?? "");
-        setPage(1);
+      case 'newSearch':
+        handlePageChange(1);
+        setSearchTerm(obj.newSearch as string);
         break;
     }
   };
@@ -254,9 +200,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   return (
     <>
-      {searchTerm.length === 0 &&
-      formattedTableData.length === 0 &&
-      isSuccess ? (
+      {(searchTerm.length === 0 && formattedTableData.length === 0) ||
+      isSuccess !== true ? (
         <h2>❌ Somatic Mutations Table Data Error</h2>
       ) : (
         <>
@@ -271,7 +216,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
           {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
           <VerticalTable
             customDataTestID="table-most-frequent-somatic-mutations"
-            data={displayedDataAfterSearch ?? []}
+            data={displayedData ?? []}
             columns={SMTableDefaultColumns}
             additionalControls={
               <div className="flex gap-2 items-center">
@@ -304,12 +249,16 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tooltip: 'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
             }}
             tableTotalDetail={
-              <TotalItems
-                total={data?.ssmsTotal}
-                itemName="somatic mutation"
-              />
+              <TotalItems total={data?.ssmsTotal} itemName="somatic mutation" />
             }
-            pagination={pagination}
+            pagination={{
+              page,
+              pages,
+              size,
+              from,
+              total,
+              label: 'somatic mutation',
+            }}
             showControls={true}
             enableRowSelection={true}
             setRowSelection={setRowSelection}

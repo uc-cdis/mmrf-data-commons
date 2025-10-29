@@ -10,6 +10,38 @@ export const SsmsTableMockData = {
     },
     ssm: [
       {
+        genomic_dna_change: 'FIRST-chr17:g.7675125A>C',
+        mutation_subtype: 'Single base substitution',
+        ssm_id: 'd5c7cb7-c11d-593c-b870-86e8bb3a6d67',
+        consequence: [
+          {
+            transcript: {
+              is_canonical: false,
+              annotation: {
+                vep_impact: 'MODERATE',
+                polyphen_impact: 'probably_damaging',
+                polyphen_score: 0.999,
+                sift_score: 0,
+                sift_impact: 'deleterious',
+              },
+              consequence_type: 'missense_variant',
+              gene: {
+                gene_id: 'ENSG00000141510',
+                symbol: 'TP53',
+              },
+              aa_change: 'Y163D',
+            },
+          },
+        ],
+        occurrence: [
+          {
+            case: {
+              case_id: 'f6fa1482-8bc2-4131-bb77-4ac38bba20d1',
+            },
+          },
+        ],
+      },
+      {
         genomic_dna_change: 'chr17:g.7675125A>C',
         mutation_subtype: 'Single base substitution',
         ssm_id: 'ed5c7cb7-c11d-593c-b870-86e8bb3a6d67',
@@ -6263,7 +6295,7 @@ export const SsmsTableMockData = {
         ],
       },
       {
-        genomic_dna_change: 'chr17:g.7675216C>G',
+        genomic_dna_change: 'LAST-chr17:g.7675216C>G',
         mutation_subtype: 'Single base substitution',
         ssm_id: 'c77a4520-a715-592e-886a-d8d68941f352',
         consequence: [
@@ -6807,7 +6839,7 @@ export const SsmsTableMockData = {
     ],
     filteredOccurrences: {
       ssm: {
-        _totalCount: 48,
+        _totalCount: 11,
       },
     },
     ssms: {
