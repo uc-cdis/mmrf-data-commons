@@ -81,8 +81,6 @@ const Gen3App = ({
     setIsClient(true); // Only on the client-side
   }, []);
 
-  const no_nav_bar_paths = ["/Profile"];
-
   return (
     <React.Fragment>
       {isClient ? (
@@ -95,19 +93,16 @@ const Gen3App = ({
               contextModals={mmrfModals}
             >
               <Gen3GDCCompatabilityProvider>
-                {!no_nav_bar_paths.includes(router?.asPath) && (
-                  <div
-                    style={{
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 1100,
-                      background: "white",
-                    }}
-                  >
-                    <MainNavigation />
-                  </div>
-                )}
-
+                <div
+                  style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1100,
+                    background: "white",
+                  }}
+                >
+                  <MainNavigation />
+                </div>
                 <Component {...pageProps} />
               </Gen3GDCCompatabilityProvider>
             </Gen3Provider>
