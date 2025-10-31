@@ -1,6 +1,5 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { Center } from '@mantine/core';
 import {
   useCoreSelector,
@@ -41,15 +40,12 @@ const AppsPage = ({ config }: AppConfig) => {
   return (
     <>
       <PageTitle pageName="Analysis Center" />
-      <div className="w-full flex-col">
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
-        <MainNavigation />
         <CohortManager/>
         <QueryExpression index="cases"/>
         <div className="w-full overflow-y-auto">
           <Gen3App {...config} />
         </div>
-      </div>
       </div>
     </>
   );

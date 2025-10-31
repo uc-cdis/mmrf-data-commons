@@ -4,7 +4,7 @@ import { SSMSConsequence } from '@/core/genomic/ssmsTableSlice';
 
 const SSMSummaryQuery = `
 query SSMSummaryQuery($filter: JSON) {
-    ssm: Ssm_ssm(filter: $filter, first: 1) {
+    ssm: SsmCentric_ssm_centric(filter: $filter, first: 1) {
         cosmic_id
         reference_allele
         mutation_subtype

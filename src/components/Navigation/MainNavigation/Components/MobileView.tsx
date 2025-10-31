@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Anchor, Burger, Drawer } from '@mantine/core';
-import { Navigation } from '../navigationInterfaces';
-import Image from 'next/image';
-import SearchBar from './SearchBar';
-import NavLogo from './NavLogo';
+import React, { useState } from "react";
+import { Anchor, Burger, Drawer } from "@mantine/core";
+import { Navigation } from "../navigationInterfaces";
+import Image from "next/image";
+import SearchBar from "./SearchBar";
+import NavLogo from "./NavLogo";
 
 interface MobileViewProps {
   navigation: Navigation;
@@ -25,8 +25,9 @@ const MobileView: React.FC<MobileViewProps> = ({ navigation }) => {
           title={<NavLogo navigation={navigation} />}
           padding="md"
           size="md"
+          zIndex={1200}
         >
-          <div className="mt-7 mb-8">
+          <div className="my-8 mx-2">
             {navigation.items.map((link, i) => (
               <Anchor
                 key={i}
@@ -43,11 +44,12 @@ const MobileView: React.FC<MobileViewProps> = ({ navigation }) => {
                 {link.name}
               </Anchor>
             ))}
+
+            <SearchBar
+              iconSrc={navigation.Search.icon}
+              placeholderText={navigation.Search.placeholderText}
+            />
           </div>
-          <SearchBar
-            iconSrc={navigation.Search.icon}
-            placeholderText={navigation.Search.placeholderText}
-          />
         </Drawer>
       </div>
       <div className="lg:hidden items-center">
