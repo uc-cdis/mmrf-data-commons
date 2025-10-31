@@ -1,7 +1,6 @@
 import React from "react";
 import {
   useCoreSelector,
-  Modals,
   selectCurrentModal,
   FacetDefinition,
   EmptyFilterSet,
@@ -31,9 +30,9 @@ import { useGetAggsQuery } from '@gen3/core';
 import {
   DropdownPanel,
   useFieldNameToTitle,
-  FacetDataHooks,
+  FacetHooks,
   EnumFacetDataHooks,
-  UploadFacetHooks,
+  UploadFacetDataHooks,
   removeIntersectionFromEnum,
   processBucketData,
   classifyFacets,
@@ -186,7 +185,7 @@ const GeneAndSSMFilterPanel = ({
   const clearAllFilters = useClearAllGenomicFilters();
 
 
-  const GenomicFilterHooks : Record<'enum' | 'upload', FacetDataHooks | EnumFacetDataHooks | UploadFacetHooks> = {
+  const GenomicFilterHooks : Record<'enum' | 'upload', FacetHooks> = {
     enum : {
       useGetFacetData: getEnumFacetData,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
@@ -198,8 +197,10 @@ const GeneAndSSMFilterPanel = ({
       useFieldNameToTitle,
     },
     upload: {
+      useGetFacetData: getEnumFacetData,
       useFilterItems: useUploadFilterItems as any,
       useClearFilter: useClearGenomicFilters,
+      useGetFacetFilters: useGenomicFilterByName,
       useFieldNameToTitle,
       useOpenUploadModal: useOpenUploadModal,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
@@ -210,12 +211,14 @@ const GeneAndSSMFilterPanel = ({
   return (
     <>
       <DropdownPanel
-        index="genomic"
         filters={filters}
         facetDefinitions={facetDefinitions}
         facetDataHooks={GenomicFilterHooks as any}
         showAccessLevel={false}
         tabTitle={"Genomic Filters"}
+        toggleAllFiltersExpanded={toggleAllFiltersExpanded}
+        allFiltersCollapsed={allFiltersCollapsed}
+        clearAllFilters={clearAllFilters}
       />
     </>
   );
