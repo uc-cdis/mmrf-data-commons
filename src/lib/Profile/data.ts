@@ -15,7 +15,6 @@ export const ProfilePageGetServerSideProps: GetServerSideProps<
       `${GEN3_COMMONS_NAME}/profile.json`,
     );
 
-  console.log({ profileConfig });
   return {
     props: {
       ...(await getNavPageLayoutPropsFromConfig()),

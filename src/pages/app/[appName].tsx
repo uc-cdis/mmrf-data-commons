@@ -1,6 +1,5 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { Center } from '@mantine/core';
 import {
   useCoreSelector,

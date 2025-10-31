@@ -8,7 +8,6 @@ import {
 } from '@gen3/frontend';
 
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 
 const ClinicalDataAnalysis = dynamic(() => import('@/features/cDave/ClinicalDataAnalysis'), {

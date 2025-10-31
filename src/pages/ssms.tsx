@@ -1,6 +1,5 @@
 import React from 'react';
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { SSMSSummary } from '@/features/mutationSummary/SSMSSummary';
 
 const ssms = () => {

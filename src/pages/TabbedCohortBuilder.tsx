@@ -7,10 +7,6 @@ import {
 } from '@gen3/frontend';
 
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-
-
-
 
 export interface TabbedCohortBuilderPageProps extends NavPageLayoutProps {
   configuration: TabbedCohortBuilderConfiguration;

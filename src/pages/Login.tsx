@@ -5,7 +5,6 @@ import {
   LoginPageGetServerSideProps as getServerSideProps,
 } from '@gen3/frontend';
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 export const LoginPage = ({ loginConfig }: { loginConfig: LoginConfig }) => {
   return (

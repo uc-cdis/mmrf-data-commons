@@ -32,7 +32,6 @@ import { registerGenesAndMutationFrequencyAnalysisTool } from "@/features/genomi
 import Gen3GDCCompatabilityProvider from "@/utils/providers";
 import { registerMMRFTableCellRenderers } from "@/components/ExplorerCellRenderers";
 import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
-import { useRouter } from "next/router";
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -56,7 +55,6 @@ const Gen3App = ({
   modalsConfig,
 }: AppProps & Gen3AppProps) => {
   const isFirstRender = useRef(true);
-  const router = useRouter();
 
   useEffect(() => {
     if (isFirstRender.current) {
