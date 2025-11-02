@@ -91,7 +91,9 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <MainNavigation />
+      { /*
       <ProtectedContent>
+      */ }
       <div className="flex flex-col ml-2">
         <CohortManager rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}/>
         <QueryExpression index="case_centric"/>
@@ -109,7 +111,9 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
           </div>
       ) : <div className="mt-20">No sections found in config file</div>}
         </div>
+      { /*
       </ProtectedContent>
+      */ }
     </>);
 
 };

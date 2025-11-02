@@ -15,9 +15,11 @@ import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableConta
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { joinFilters } from '@/core/utils';
 import { COHORT_FILTER_INDEX } from '@/core';
-import { addPrefixToFilterSet } from '@/features/genomic/utils';
-import { GenomicIndexFilterPrefixes } from '@/features/genomic/filters';
 
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+} from '@/core/genomic/genomicFilters';
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -104,15 +106,13 @@ export const GenesPanel = ({
   const geneFilterWithSSMFilter =  joinFilters(geneFilters, addPrefixToFilterSet(ssmFilters, `${GenomicIndexFilterPrefixes.gene.ssm}.`));
   const ssmFilterWitGeneFilter =  joinFilters(ssmFilters, addPrefixToFilterSet(geneFilters, `${GenomicIndexFilterPrefixes.ssm.gene}.`));
 
-  console.log("geneFilterWithSSMFilter", geneFilterWithSSMFilter);
   return (
     <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
         <div className="w-full xl:w-1/2 border border-base-lighter p-4">
           <GeneFrequencyChart
             marginBottom={95}
-            geneFilters={geneFilterWithSSMFilter}
-            ssmFilters={ssmFilterWitGeneFilter}
+            genomicFilters={genomicFilters}
             cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
           />
         </div>

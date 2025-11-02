@@ -1,6 +1,5 @@
-import { buildNestedGQLFilter, GQLFilter, isIncludes, Includes, FilterSet } from '@gen3/core';
+import { FilterSet, GQLFilter, Includes, isIncludes } from '@gen3/core';
 import { ActiveGeneAndSSMFilters } from './types';
-
 
 export const buildGeneHaveAndHaveNotFilters = (
   currentFilters: GQLFilter | undefined,
@@ -12,32 +11,34 @@ export const buildGeneHaveAndHaveNotFilters = (
    * given the contents, add two filters, one with the gene and one without
    */
 
-
   if (symbol === undefined) return [];
   return [
     {
       and: [
-        { "nested" : { "path" : "gene",
+        {
+          nested: {
+            path: 'gene',
             '=': {
-              'symbol': symbol
+              symbol: symbol,
             },
-          }},
-        { in: {
-              'available_variation_data': isGene
-                ? ['ssm', 'cnv']
-                : ['ssm'],
-            }},
-          ...(currentFilters ? ((currentFilters as any).and) : []),
+          },
+        },
+        {
+          in: {
+            available_variation_data: isGene ? ['ssm', 'cnv'] : ['ssm'],
+          },
+        },
+        ...(currentFilters ? (currentFilters as any).and : []),
       ],
     },
     {
       and: [
-        { in: {
-            'available_variation_data': isGene
-              ? ['ssm', 'cnv']
-              : ['ssm'],
-          }},
-        ...(currentFilters ? ((currentFilters as any).and) : [])
+        {
+          in: {
+            available_variation_data: isGene ? ['ssm', 'cnv'] : ['ssm'],
+          },
+        },
+        ...(currentFilters ? (currentFilters as any).and : []),
       ],
     },
   ];
@@ -52,23 +53,26 @@ export const buildGeneHaveAndHaveNotFilters = (
  * @returns {ActiveGeneAndSSMFilters} A new object with merged gene and SSM filters.
  *                                    Filters from the SSM category are added to the gene filters and vice versa.
  */
-export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : ActiveGeneAndSSMFilters => {
-  const { gene, ssm } = filters;
-
-  const results = {...filters};
+export const mergeGeneAndSSMFilters = (
+  filters: ActiveGeneAndSSMFilters,
+): ActiveGeneAndSSMFilters => {
+  const results: ActiveGeneAndSSMFilters = {
+    gene: { mode: 'and', root: { ...filters.gene.root } } as FilterSet,
+    ssm: { mode: 'and', root: { ...filters.ssm.root } } as FilterSet,
+  };
   // add ssm filters to gene filters
-    for (const [key, value] of Object.entries(ssm.root)) {
+  for (const [key, value] of Object.entries(filters.ssm.root)) {
     if (isIncludes(value)) {
-        results.gene.root[`case.ssm.${key}`] = {
-          field: `case.ssm.${key}`,
-          operator: 'in',
-          operands: [...value.operands],
-        } satisfies Includes;
+      results.gene.root[`case.ssm.${key}`] = {
+        field: `case.ssm.${key}`,
+        operator: 'in',
+        operands: [...value.operands],
+      } satisfies Includes;
     }
   }
 
-    // add gene filters to ssm filters
-  for (const [key, value] of Object.entries(gene.root)) {
+  // add gene filters to ssm filters
+  for (const [key, value] of Object.entries(filters.gene.root)) {
     if (isIncludes(value)) {
       results.ssm.root[`consequence.transcript.gene.${key}`] = {
         field: `consequence.transcript.gene.${key}`,
@@ -78,33 +82,6 @@ export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : Activ
     }
   }
 
-  console.log("mergeGeneAndSSMFilters", results);
-  return results;
-}
-
-
-
-export const addPrefixToFilterSet = (source: FilterSet, prefix: string): FilterSet => {
-  // Ensure root property exists
-  const results : FilterSet = { // start with the same structure as source
-    mode: source?.mode || 'and',
-    root: { }
-  };
-
-  for (const [key, value] of Object.entries(source.root)) {
-    if (isIncludes(value)) {
-      const prefixedKey = `${prefix}${key}`;
-
-      results.root[prefixedKey] = {
-        field: prefixedKey,
-        operator: 'in',
-        operands: [...value.operands],
-      } satisfies Includes;
-    }
-    // Optional: handle or log non-Includes filters
-    else if (value) {
-      console.warn(`Skipping non-Includes filter for key: ${key}`, value);
-    }
-  }
+  console.log('mergeGeneAndSSMFilters', results);
   return results;
 };

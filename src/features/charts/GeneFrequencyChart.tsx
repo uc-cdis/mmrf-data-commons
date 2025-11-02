@@ -8,7 +8,8 @@ import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import BarChartTextVersion from './BarChartTextVersion';
 import { GenesFrequencyChart} from '@/core/genomic/genesFrequencyChartSlice';
-import { addPrefixToFilterSet } from '@/features/genomic/utils';
+
+import { addPrefixToFilterSet, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -66,22 +67,17 @@ const processChartData = (
 
 interface GeneFrequencyChartProps {
   readonly cohortFilters?: FilterSet;
-  readonly geneFilters?: FilterSet;
-  readonly ssmFilters?: FilterSet;
+  readonly genomicFilters?: FilterSet;
   readonly height?: number;
   readonly marginBottom?: number;
   readonly showXLabels?: boolean;
   readonly title?: string;
   readonly maxBins?: number;
   readonly orientation?: string;
-
 }
 
-const ssmPrefix = 'case.ssm';
-
 export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
-  geneFilters = EmptyFilterSet,
-  ssmFilters = EmptyFilterSet,
+  genomicFilters = EmptyFilterSet,
   height = undefined,
   marginBottom = 100,
   title = 'Distribution of Most Frequently Mutated Genes',
@@ -96,20 +92,23 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   // the ssmFilter are applied to the gene_centric index
   // and ssm filter are under case.ssm.
 
-  const ssmFilterForGeneCentric = addPrefixToFilterSet(ssmFilters, "case.ssm.");
-  console.log('ssmFilterForGeneCentric', ssmFilterForGeneCentric);
+  // separate the ssmFilters from the geneFilters
+  const geneAndSSMFilters = separateGeneAndSSMFilters(genomicFilters);
+
+
+  const ssmFilterForGeneCentric = addPrefixToFilterSet(geneAndSSMFilters.ssm, "case.ssm.");
   const queryParams = useDeepCompareMemo(
     () => ({
       pageSize: maxBins,
       offset: 0,
-      geneFilters: geneFilters,
+      geneFilters: geneAndSSMFilters.gene,
       ssmFilters: ssmFilterForGeneCentric,
       cohortFilters: cohortFilters,
     }),
-    [maxBins, geneFilters, ssmFilters, cohortFilters],
+    [maxBins, geneAndSSMFilters, ssmFilterForGeneCentric, cohortFilters],
   );
 
-  const { data: chartData, isFetching, isLoading } = useGeneFrequencyChartQuery(
+  const { data: chartData, isFetching } = useGeneFrequencyChartQuery(
     queryParams as any,
   );
 
