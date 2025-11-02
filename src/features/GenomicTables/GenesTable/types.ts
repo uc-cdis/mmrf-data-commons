@@ -17,7 +17,7 @@ export interface GeneRowInfo {
   readonly is_cancer_gene_census: boolean;
   readonly name: string;
   readonly numCases: number;
-  readonly ssm_case: number;
+  readonly ssm_cases_across_commons: number;
   readonly ssm_count?: number;
   readonly symbol: string;
 }

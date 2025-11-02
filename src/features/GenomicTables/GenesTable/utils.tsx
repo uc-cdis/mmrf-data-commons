@@ -397,10 +397,11 @@ export const useGenerateGenesTableColumns = ({
 export const getGene = (
   g: GeneRowInfo,
   selectedSurvivalPlot: ComparativeSurvival,
-  filteredCases: number,
-  cases: number,
+  ssmCases: number,
+  totalCases: number,
   cnvCases: number,
 ): Gene => {
+
   return {
     gene_id: g.gene_id,
     survival: {
@@ -418,11 +419,11 @@ export const getGene = (
     cytoband: g.cytoband,
     '#_ssm_affected_cases_in_cohort': {
       numerator: g.case_count,
-      denominator: filteredCases,
+      denominator: ssmCases,
     },
     '#_ssm_affected_cases_across_the_mmrf': {
-      numerator: g.ssm_case,
-      denominator: cases,
+      numerator: g.ssm_cases_across_commons,
+      denominator: ssmCases,
     },
     '#_cnv_amplifications': {
       numerator: g.case_cnv_amplification,

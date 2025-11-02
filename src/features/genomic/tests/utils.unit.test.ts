@@ -1,6 +1,7 @@
 // utils.test.ts
 import { ActiveGeneAndSSMFilters } from '../types';
-import { mergeGeneAndSSMFilters } from '../utils';
+
+import { mergeGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
 
 describe('mergeGeneAndSSMFilters', () => {
   it('should merge SSM filters into gene filters', () => {

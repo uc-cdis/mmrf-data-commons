@@ -41,8 +41,7 @@ import { selectFiltersAppliedCount, selectGeneAndSSMFilters, } from './geneAndSS
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
 import { COHORT_FILTER_INDEX, useGetCohortCentricAggsQuery } from '@/core';
-import { mergeGeneAndSSMFilters, } from '@/features/genomic/utils';
-import { separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
+import { mergeGeneAndSSMFilters, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
 
 /**
  *  Get the facet values for both the gene and ssm facets using the current cohort filters
@@ -101,9 +100,7 @@ const GeneAndSSMFilterPanel = ({
 
 
   const geneAndSSMFilters = useDeepCompareMemo(() => {
-
     const filters = separateGeneAndSSMFilters(genomicFilters);
-    console.log('filters before mergeGeneAndSSMFilters', filters);
     return mergeGeneAndSSMFilters(filters);
   }, [genomicFilters])
 

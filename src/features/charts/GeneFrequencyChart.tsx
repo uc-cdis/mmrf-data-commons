@@ -93,19 +93,18 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   // and ssm filter are under case.ssm.
 
   // separate the ssmFilters from the geneFilters
-  const geneAndSSMFilters = separateGeneAndSSMFilters(genomicFilters);
-
-
-  const ssmFilterForGeneCentric = addPrefixToFilterSet(geneAndSSMFilters.ssm, "case.ssm.");
+  const { gene: geneFilters, ssm: ssmFilters } = separateGeneAndSSMFilters(genomicFilters);
+  // add prefix to ssmFilters
+  const ssmFilterForGeneCentric = addPrefixToFilterSet(ssmFilters, "case.ssm.");
   const queryParams = useDeepCompareMemo(
     () => ({
       pageSize: maxBins,
       offset: 0,
-      geneFilters: geneAndSSMFilters.gene,
+      geneFilters:geneFilters,
       ssmFilters: ssmFilterForGeneCentric,
       cohortFilters: cohortFilters,
     }),
-    [maxBins, geneAndSSMFilters, ssmFilterForGeneCentric, cohortFilters],
+    [maxBins, geneFilters, ssmFilterForGeneCentric, cohortFilters],
   );
 
   const { data: chartData, isFetching } = useGeneFrequencyChartQuery(

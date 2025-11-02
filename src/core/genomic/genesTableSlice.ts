@@ -34,9 +34,9 @@ interface GeneTableRequest extends TablePageOffsetProps {
 }
 
 interface GeneTableResponse {
-  cases: number;
+  totalCases: number;
   cnvCases: number;
-  filteredCases: number;
+  ssmCases: number;
   genesTotal: number;
   genes: ReadonlyArray<GeneRowInfo>;
 }
@@ -56,7 +56,6 @@ const genesTableSlice = gen3Api.injectEndpoints({
           extractContents(convertFilterSetToGqlFilter(geneFilters)) ?? [];
         const ssmFilterContents =
           extractContents(convertFilterSetToGqlFilter(ssmFilters)) ?? [];
-
         const body = {
           case_filter: caseFilters ? caseFilters : {},
           gene_filter: {
@@ -65,6 +64,8 @@ const genesTableSlice = gen3Api.injectEndpoints({
           ssm_filter: {
             and: [...ssmFilterContents],
           },
+          size: (offset + pageSize),
+          offset: offset
         };
 
         return {

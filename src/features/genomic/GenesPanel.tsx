@@ -100,12 +100,6 @@ export const GenesPanel = ({
     ),
   };
 
-  // add ssm filters to gene filters with the correct prefix
-  // and add gene filters to ssm filters with the correct prefix
-  // these are use for gene table queries
-  const geneFilterWithSSMFilter =  joinFilters(geneFilters, addPrefixToFilterSet(ssmFilters, `${GenomicIndexFilterPrefixes.gene.ssm}.`));
-  const ssmFilterWitGeneFilter =  joinFilters(ssmFilters, addPrefixToFilterSet(geneFilters, `${GenomicIndexFilterPrefixes.ssm.gene}.`));
-
   return (
     <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">
@@ -147,8 +141,7 @@ export const GenesPanel = ({
         handleSurvivalPlotToggled={handleSurvivalPlotToggled}
         handleGeneToggled={handleGeneToggled}
         toggledGenes={toggledGenes}
-        geneFilters={geneFilterWithSSMFilter}
-        ssmFilters={ssmFilterWitGeneFilter}
+        genomicFilters={genomicFilters}
         cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
         isDemoMode={isDemoMode}
         handleMutationCountClick={handleMutationCountClick}
