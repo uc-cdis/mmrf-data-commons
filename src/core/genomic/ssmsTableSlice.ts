@@ -6,12 +6,9 @@ import {
   convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { getSSMTestedCases } from './utils';
-import { GraphQLApiResponse } from '@/core';
-import { SsmsTableRequestParameters } from './types';
-import {
-  convertFilterSetToNestedGqlFilter,
-  extractContents,
-} from '@/core/utils';
+import {  GraphQLApiResponse } from '@/core';
+import { SsmsTableRequestParameters, SSMSData, SSMSConsequence, SSMSTableResponse } from './types';
+
 
 const SSMSTableGraphQLQuery = `query SsmsTable(
     $ssmTested: JSON
@@ -76,51 +73,6 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
     }
 }`;
 
-interface CaseIdData {
-  case: {
-    case_id: string;
-  };
-}
-
-export interface SSMSConsequence {
-  readonly id: string;
-  readonly transcript: {
-    readonly aa_change: string;
-    readonly annotation: {
-      readonly polyphen_impact: string;
-      readonly polyphen_score: number;
-      readonly sift_impact: string;
-      readonly sift_score: string;
-      readonly vep_impact: string;
-      readonly hgvsc?: string;
-      readonly dbsnp_rs: string;
-    };
-    readonly consequence_type: string;
-    readonly gene: {
-      readonly gene_id: string;
-      readonly symbol: string;
-      readonly gene_strand?: number;
-    };
-    readonly is_canonical: boolean;
-    readonly transcript_id?: string;
-  };
-}
-export interface SSMSData {
-  readonly ssm_id: string;
-  readonly filteredOccurrences: number;
-  readonly id: string;
-  readonly score: number;
-  readonly genomic_dna_change: string;
-  readonly mutation_subtype: string;
-  readonly consequence: ReadonlyArray<SSMSConsequence>;
-  readonly occurrence: number;
-}
-
-export interface SSMSDataResponse
-  extends Omit<SSMSData, 'occurrence' | 'filteredOccurrences'> {
-  readonly occurrence: ReadonlyArray<CaseIdData>;
-  readonly filteredOccurrences: { ssm: { _totalCount: number } };
-}
 
 export interface GDCSsmsTable {
   readonly cases: number;
@@ -169,23 +121,7 @@ export const buildSSMSTableSearchFilters = (
   return undefined;
 };
 
-interface ssmtableResponse {
-  cases: {
-    case_centric: {
-      _totalCount: number;
-    };
-    filteredCases: {
-      _totalCount: number;
-    };
-  };
-  ssm: SSMSDataResponse[];
-  filteredOccurrences: { ssm_centric: { _totalCount: number } };
-  ssms: {
-    ssm_centric: {
-      _totalCount: number;
-    };
-  };
-}
+
 
 export interface SsmsTableState {
   readonly ssms: GDCSsmsTable;
@@ -276,7 +212,7 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         query: SSMSTableGraphQLQuery,
         variables: generateFilter(request),
       }),
-      transformResponse: (response: { data: ssmtableResponse }) => {
+      transformResponse: (response: { data: SSMSTableResponse }) => {
         const { consequence, ssm_id } = response?.data?.ssm[0] ?? {
           consequence: {},
           ssm_id: '',
@@ -295,7 +231,7 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         query: SSMSTableGraphQLQuery,
         variables: generateFilter(request),
       }),
-      transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
+      transformResponse: (response: GraphQLApiResponse<SSMSTableResponse>) => {
         const data = response.data;
         const ssmsTotal = data.filteredOccurrences.ssm_centric._totalCount;
         const cases = data.cases.case_centric._totalCount;

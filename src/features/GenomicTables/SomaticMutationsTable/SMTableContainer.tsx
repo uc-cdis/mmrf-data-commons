@@ -23,7 +23,6 @@ import { SMTableClientSideSearch } from './Utils/SMTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
 import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
-import { useMutationTableDataQuery } from '@/core/genomic/mutationsTableSlice';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice'
 
 export interface SMTableContainerProps {

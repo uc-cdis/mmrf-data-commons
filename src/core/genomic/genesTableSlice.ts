@@ -48,7 +48,7 @@ const genesTableSlice = gen3Api.injectEndpoints({
         cohortFilters,
         geneFilters,
         ssmFilters,
-        pageSize = 20,
+        pageSize = 10,
         offset = 0,
       }: GeneTableRequest) => {
         const caseFilters = convertFilterSetToGqlFilter(cohortFilters);
@@ -57,7 +57,7 @@ const genesTableSlice = gen3Api.injectEndpoints({
         const ssmFilterContents =
           extractContents(convertFilterSetToGqlFilter(ssmFilters)) ?? [];
         const body = {
-          case_filter: caseFilters ? caseFilters : {},
+          cohort_filter: caseFilters ? caseFilters : {},
           gene_filter: {
             and: [...geneFilterContents],
           },

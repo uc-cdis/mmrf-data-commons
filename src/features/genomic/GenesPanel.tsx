@@ -2,24 +2,19 @@ import { LoadingOverlay } from '@mantine/core';
 
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
 import React, { useCallback, useMemo } from 'react';
-import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
+import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,
   emptySurvivalPlot,
 } from '@/features/genomic/types';
 import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
-
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
-import { joinFilters } from '@/core/utils';
 import { COHORT_FILTER_INDEX } from '@/core';
 
-import {
-  addPrefixToFilterSet,
-  GenomicIndexFilterPrefixes,
-} from '@/core/genomic/genomicFilters';
+
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),

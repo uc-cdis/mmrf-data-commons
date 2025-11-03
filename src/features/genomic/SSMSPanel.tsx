@@ -7,12 +7,11 @@ import {
   emptySurvivalPlot,
   ComparativeSurvival,
 } from '@/features/genomic/types';
-import { useSelectFilterContent } from '@/features/genomic/hooks';
-
 import { useScrollIntoView } from '@mantine/hooks';
 import { SMTableContainer } from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
-import { useGeneAndSSMPanelData } from './mockedHooks';
+import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
+import { useAdvancedSmmTableDataQuery } from '@/core/genomic';
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
@@ -127,6 +126,7 @@ export const SSMSPanel = ({
           isModal={true}
           searchTermsForGene={searchTermsForGene}
           clearSearchTermsForGene={clearSearchTermsForGene}
+          dataHook={useAdvancedSmmTableDataQuery}
         />
       </div>
     </div>
