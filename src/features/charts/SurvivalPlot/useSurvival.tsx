@@ -4,7 +4,7 @@ import { useResizeObserver } from "@mantine/hooks";
 import { MINIMUM_CASES, UseSurvivalType,  } from "./types";
 import { DAYS_IN_YEAR } from '@/core/constants';
 import { DAYS_IN_MONTH_ROUNDED } from "./utils";
-import { SurvivalElement, SurvivalDonor } from '@/core/survival';
+import { SurvivalElement, SurvivalDonor } from '@/core/features/survival';
 
 // based on schemeCategory10
 // 4.5:1 colour contrast for normal text

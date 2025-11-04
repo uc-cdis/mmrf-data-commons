@@ -14,9 +14,9 @@ import {
 import {
   type SurvivalPlotData,
   useGetComparisonSurvivalPlotQuery,
-} from '@/core/survival';
+} from '@/core/features/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { EmptySurvivalPlot } from "@/core/survival/types";
+import { EmptySurvivalPlot } from "@/core/features/survival/types";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",

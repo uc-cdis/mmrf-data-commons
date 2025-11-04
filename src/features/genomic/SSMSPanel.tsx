@@ -12,6 +12,11 @@ import { SMTableContainer } from '../GenomicTables/SomaticMutationsTable/SMTable
 import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { useAdvancedSmmTableDataQuery } from '@/core/genomic';
+import { COHORT_FILTER_INDEX } from '@/core';
+import {
+  addPrefixToFilterSet,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
@@ -47,14 +52,15 @@ export const SSMSPanel = ({
 }: SSMSPanelProps): JSX.Element => {
   const {
     isDemoMode,
-    // cohortFilters,
+    cohortFilters: currentCohortFilters,
     genomicFilters,
     survivalPlotData,
     overwritingDemoFilter,
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, false);
-  const cohortFilters: FilterSet = EmptyFilterSet;
+  const cohortFilters =
+    currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
   /**
    * Get the mutations in cohort
    */
@@ -88,6 +94,26 @@ export const SSMSPanel = ({
   }, []);
   /* Scroll for gene search end */
 
+  const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
+    const filters = separateGeneAndSSMFilters(genomicFilters);
+
+    const ssmFilterForGeneCentric = addPrefixToFilterSet(
+      filters.ssm,
+      'case.ssm.',
+    );
+    const geneFiltersForSSMCentric = addPrefixToFilterSet(
+      filters.gene,
+      'genes.',
+    );
+
+    return {
+      geneFilters: filters.gene,
+      ssmFilters: ssmFilterForGeneCentric,
+    };
+  }, [genomicFilters]);
+
+
+
   return (
     <div className="flex flex-col" data-testid="ssms-panel">
       <div className="bg-base-max relative mb-4 border border-base-lighter p-4">
@@ -117,8 +143,8 @@ export const SSMSPanel = ({
         <SMTableContainer
           selectedSurvivalPlot={comparativeSurvival}
           handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-          geneFilters={EmptyFilterSet}
-          ssmFilters={EmptyFilterSet}
+          geneFilters={geneFilters}
+          ssmFilters={ssmFilters}
           cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
           handleSsmToggled={handleSsmToggled}
           toggledSsms={toggledMutations}

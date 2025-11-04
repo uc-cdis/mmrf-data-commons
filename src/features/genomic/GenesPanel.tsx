@@ -74,27 +74,6 @@ export const GenesPanel = ({
     [handleGeneAndSSmToggled, toggledGenes],
   );
 
-  // extract geneFilters from genomicFilters
-  const geneFilters: FilterSet = {
-    mode: 'and',
-    root: Object.fromEntries(
-      Object.entries(genomicFilters?.root || {}).filter(([key]) =>
-        GENE_FILTERS.includes(key),
-      ),
-    ),
-  };
-
-
-
-  const ssmFilters: FilterSet = {
-    mode: 'and',
-    root: Object.fromEntries(
-      Object.entries(genomicFilters?.root || {}).filter(
-        ([key]) => !GENE_FILTERS.includes(key),
-      ),
-    ),
-  };
-
   return (
     <div className="flex flex-col" data-testid="genes-panel">
       <div className="flex flex-col gap-6 xl:gap-8 xl:flex-row bg-base-max mb-4">

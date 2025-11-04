@@ -24,6 +24,7 @@ import useStandardPagination from '@/hooks/useStandardPagination';
 import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice'
+import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -141,19 +142,23 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     tableFilters,
   });
 
+  const { data: countsData} = useGetTotalCountsQuery({});
+
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
-
-    return data.ssms.map((sm: any) =>
-      getMutation(
+    console.log("data",countsData)
+    return data.ssms.map((sm: any) => {
+      console.log("sm",sm)
+     return  getMutation(
         sm,
         selectedSurvivalPlot,
         data.filteredCases,
-        data.cases,
-        data.ssmsTotal,
-      ),
+       countsData?.ssmCaseCount ?? 0,
+        data.total_commons,
+      );
+    }
     );
-  }, [data, selectedSurvivalPlot]);
+  }, [data, selectedSurvivalPlot, countsData]);
   const setEntityMetadata = null;
   const generateFilters = () => null;
   const SMTableDefaultColumns = useGenerateSMTableColumns({

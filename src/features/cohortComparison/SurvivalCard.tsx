@@ -13,8 +13,8 @@ import makeIntersectionFilters from "./makeIntersectionFilters";
 import CohortCreationButton from "@/components/CohortCreationButton";
 import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 import { useDeepCompareEffect } from "use-deep-compare";
-import { EmptySurvivalPlot } from "@/core/survival/types";
-import { useGetComparisonSurvivalPlotQuery } from '@/core/survival/survivalApiSlice';
+import { EmptySurvivalPlot } from "@/core/features/survival/types";
+import { useGetComparisonSurvivalPlotQuery } from '@/core/features/survival/survivalApiSlice';
 import { CASE_CENTRIC_INDEX, COHORT_FILTER_INDEX } from '@/core';
 
 const survivalDataCompletenessFilters: GqlOperation[] = [
