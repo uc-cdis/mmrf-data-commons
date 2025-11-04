@@ -1,11 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
-import { buildSSMSTableSearchFilters } from '@/core/genomic/ssmsTableSlice';
+import {
+  buildSSMSTableSearchFilters,
+  useGetSsmsTableDataQuery,
+} from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import { SomaticMutation, SsmToggledHandler } from './types';
+import {
+  SMTableContainerProps,
+  SomaticMutation,
+  SsmToggledHandler,
+} from './types';
 import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnOrderState,
@@ -161,6 +168,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   }, [data, selectedSurvivalPlot, countsData]);
   const setEntityMetadata = null;
   const generateFilters = () => null;
+
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,
     handleSsmToggled,
@@ -269,9 +277,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   return (
     <>
-      {searchTerm.length === 0 &&
-      formattedTableData.length === 0 &&
-      isSuccess ? (
+      {(searchTerm.length === 0 && formattedTableData.length === 0) ||
+      isSuccess !== true ? (
         <h2>❌ Somatic Mutations Table Data Error</h2>
       ) : (
         <>
@@ -319,7 +326,10 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
               tooltip: 'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
             }}
             tableTotalDetail={
-              <TotalItems total={data?.ssmsTotal} itemName="somatic mutation" />
+              <TotalItems
+                total={data?.ssmsTotal}
+                itemName="somatic mutation"
+              />
             }
             pagination={pagination}
             showControls={true}

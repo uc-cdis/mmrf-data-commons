@@ -22,6 +22,39 @@ const asAccessType = (x: unknown): AccessType => {
   }
 };
 
+export interface AnnotationDefaults {
+  readonly id: string;
+  readonly entity_submitter_id: string;
+  readonly notes: string;
+  readonly submitter_id: string;
+  readonly classification: string;
+  readonly entity_id: string;
+  readonly created_datetime: string;
+  readonly annotation_id: string;
+  readonly entity_type: string;
+  readonly updated_datetime: string;
+  readonly case_id: string;
+  readonly state: string;
+  readonly category: string;
+  readonly case_submitter_id: string;
+  readonly status: string;
+  readonly project?: {
+    readonly primary_site: Array<string>;
+    readonly dbgap_accession_number: string;
+    readonly project_id: string;
+    readonly disease_type: Array<string>;
+    readonly name: string;
+    readonly releasable: boolean;
+    readonly state: string;
+    readonly released: boolean;
+    readonly program?: {
+      readonly name: string;
+      readonly program_id: string;
+      readonly dbgap_accession_number: string;
+    };
+  };
+}
+
 export interface DataFetchingResult<T> extends DataFetchingStatus {
   readonly data: T;
 }

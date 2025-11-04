@@ -2,13 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   GdcFile,
-  // useCoreSelector,
-  // selectCart,
-  // Modals,
-  // selectCurrentModal,
 } from '@/core';
-import { get } from 'lodash';
-import dynamic from 'next/dynamic';
 import { filesize } from 'filesize';
 import tw from 'tailwind-styled-components';
 // import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';

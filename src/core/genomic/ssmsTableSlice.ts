@@ -237,35 +237,31 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         const cases = data.cases.case_centric._totalCount;
         const filteredCases = data.cases.filteredCases._totalCount;
 
-        const ssms = data.ssm.map((node): SSMSData => {
+        const ssms  = data.ssm.map(( node ): SSMSData => {
           return {
             ssm_id: node.ssm_id,
             score: 1.0,
-            id: node.ssm_id,
+            id:  node.ssm_id,
             mutation_subtype: node.mutation_subtype,
             genomic_dna_change: node.genomic_dna_change,
             occurrence: node.occurrence.length,
             filteredOccurrences: node.occurrence.length,
-            consequence: node.consequence.reduce(
-              (acc: SSMSConsequence[], node) => {
-                const transcript = node.transcript;
-                if (!transcript.is_canonical)
-                  // only return canonical
-                  return acc;
-                acc.push({
-                  id: node.id,
-                  transcript: {
-                    aa_change: node.transcript.aa_change,
-                    annotation: { ...node.transcript.annotation },
-                    consequence_type: transcript.consequence_type,
-                    gene: { ...transcript.gene },
-                    is_canonical: transcript.is_canonical,
-                  },
-                });
+            consequence: node.consequence.reduce((acc : SSMSConsequence[],  node ) => {
+              const transcript = node.transcript;
+              if (!transcript.is_canonical)  // only return canonical
                 return acc;
-              },
-              [],
-            ),
+              acc.push( {
+                id: node.id,
+                transcript: {
+                  aa_change: node.transcript.aa_change,
+                  annotation: { ...node.transcript.annotation },
+                  consequence_type: transcript.consequence_type,
+                  gene: { ...transcript.gene },
+                  is_canonical: transcript.is_canonical,
+                },
+              });
+              return acc;
+            }, []),
           };
         });
         return {
