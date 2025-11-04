@@ -83,18 +83,6 @@
       ],
       "description": "Designed for the health community, the Open Access Data Commons is a scalable, cloud-based platform for computational discovery.",
       "linkSet": [
-        {
-          "text": "Dictionary",
-          "version": "v0.3.0"
-        },
-        {
-          "text": "Submission",
-          "version": "v2023.04"
-        },
-        {
-          "text": "Portal",
-          "version": "v5.13.0"
-        }
       ]
     }
   }

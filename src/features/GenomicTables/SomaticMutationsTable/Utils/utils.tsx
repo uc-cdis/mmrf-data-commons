@@ -238,8 +238,8 @@ export const getMutation = (
     genomic_dna_change,
     mutation_subtype,
     consequence,
-    filteredOccurrences,
-    occurrence,
+    score: filteredOccurrences,
+    total_commons: occurrence,
   } = sm;
 
   const [

@@ -21,8 +21,8 @@ query GeneSummary($geneFilter: JSON, $ssmFilter: JSON) {
         synonyms
         is_cancer_gene_census
     }
-    ssms: SsmOccurrenceCentric__aggregation {
-        ssm(filter: $ssmFilter) {
+    ssms: SsmCentric__aggregation {
+        ssm_centric(filter: $ssmFilter) {
             clinical_annotations {
                 civic {
                     gene_id {
@@ -57,19 +57,21 @@ interface GeneSummaryResponse {
       omim_gene: Array<string>;
     };
   }>;
-  ssms: { ssm : {
-    clinical_annotations: {
-      civic: {
-        gene_id: string;
+  ssms: {
+    ssm_centric: {
+      clinical_annotations: {
+        civic: {
+          gene_id: string;
+        };
+      };
+    };
+    _aggregation: {
+      ssm: {
+        _totalCount: number;
       };
     };
   };
-  _aggregation: {
-    ssm: {
-      _totalCount: number;
-    };
-  };
-}}
+}
 
 export interface GeneSummaryData {
   symbol: string;
@@ -108,17 +110,8 @@ const geneSummarySlice = guppyApi.injectEndpoints({
           ssmFilter: {
             and: [
               {
-                nested: {
-                  path: 'consequence',
-                  nested: {
-                    path: 'consequence.transcript',
-                    nested: {
-                      path: 'consequence.transcript.gene',
-                      eq: {
-                        gene_id: gene_id,
-                      },
-                    },
-                  },
+                eq: {
+                  'consequence.transcript.gene.gene_id': gene_id,
                 },
               },
             ],
@@ -126,8 +119,8 @@ const geneSummarySlice = guppyApi.injectEndpoints({
         };
 
         return {
-            query: geneSummary_query,
-            variables: filters,
+          query: geneSummary_query,
+          variables: filters,
         };
       },
       transformResponse: (
@@ -156,8 +149,8 @@ const geneSummarySlice = guppyApi.injectEndpoints({
           },
         }))[0];
         const civic =
-          response.data.ssms?.ssm?.clinical_annotations?.civic?.gene_id[0] ??
-          undefined;
+          response.data.ssms?.ssm_centric?.clinical_annotations?.civic
+            ?.gene_id[0] ?? undefined;
         return { ...summary, civic };
       },
     }),

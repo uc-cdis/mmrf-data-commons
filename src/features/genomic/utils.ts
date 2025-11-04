@@ -1,6 +1,4 @@
-import { buildNestedGQLFilter, GQLFilter, isIncludes, Includes} from '@gen3/core';
-import { ActiveGeneAndSSMFilters } from './types';
-
+import { GQLFilter } from '@gen3/core';
 
 export const buildGeneHaveAndHaveNotFilters = (
   currentFilters: GQLFilter | undefined,
@@ -12,71 +10,35 @@ export const buildGeneHaveAndHaveNotFilters = (
    * given the contents, add two filters, one with the gene and one without
    */
 
-
   if (symbol === undefined) return [];
   return [
     {
       and: [
-        { "nested" : { "path" : "gene",
+        {
+          nested: {
+            path: 'gene',
             '=': {
-              'symbol': symbol
+              symbol: symbol,
             },
-          }},
-        { in: {
-              'available_variation_data': isGene
-                ? ['ssm', 'cnv']
-                : ['ssm'],
-            }},
-          ...(currentFilters ? ((currentFilters as any).and) : []),
+          },
+        },
+        {
+          in: {
+            available_variation_data: isGene ? ['ssm', 'cnv'] : ['ssm'],
+          },
+        },
+        ...(currentFilters ? (currentFilters as any).and : []),
       ],
     },
     {
       and: [
-        { in: {
-            'available_variation_data': isGene
-              ? ['ssm', 'cnv']
-              : ['ssm'],
-          }},
-        ...(currentFilters ? ((currentFilters as any).and) : [])
+        {
+          in: {
+            available_variation_data: isGene ? ['ssm', 'cnv'] : ['ssm'],
+          },
+        },
+        ...(currentFilters ? (currentFilters as any).and : []),
       ],
     },
   ];
 };
-
-/**
- * Merges gene and SSM (Simple Somatic Mutation) filters by adding the corresponding filters
- * from one category to the other. The merged filters maintain the logical inclusion (`in`) operations.
- *
- * @param {ActiveGeneAndSSMFilters} filters - An object containing the active filters for both gene and SSM.
- *                                             This includes separate root filter structures for both categories.
- * @returns {ActiveGeneAndSSMFilters} A new object with merged gene and SSM filters.
- *                                    Filters from the SSM category are added to the gene filters and vice versa.
- */
-export const mergeGeneAndSSMFilters = (filters: ActiveGeneAndSSMFilters) : ActiveGeneAndSSMFilters => {
-  const { gene, ssm } = filters;
-
-  const results = {...filters};
-  // add ssm filters to gene filters
-    for (const [key, value] of Object.entries(ssm.root)) {
-    if (isIncludes(value)) {
-        results.gene.root[`case.ssm.${key}`] = {
-          field: `case.ssm.${key}`,
-          operator: 'in',
-          operands: [...value.operands],
-        } satisfies Includes;
-    }
-  }
-
-    // add gene filters to ssm filters
-  for (const [key, value] of Object.entries(gene.root)) {
-    if (isIncludes(value)) {
-      results.ssm.root[`consequence.transcript.gene.${key}`] = {
-        field: `consequence.transcript.gene.${key}`,
-        operator: 'in',
-        operands: [...value.operands],
-      } satisfies Includes;
-    }
-  }
-
-  return results;
-}

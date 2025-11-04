@@ -1,6 +1,6 @@
-import { DAYS_IN_YEAR, GEN3_ANALYSIS_API } from "../../core/constants";
+import { DAYS_IN_YEAR, GEN3_ANALYSIS_API } from "../../constants";
 import { gen3Api, isFetchBaseQueryError, GQLFilter } from '@gen3/core';
-import { SurvivalPlotData, SurvivalApiResponse } from '@/core/survival/types';
+import { SurvivalPlotData, SurvivalApiResponse } from '@/core/features/survival/types';
 
 
 const processSurvivalResponse = (response:SurvivalApiResponse)=> {

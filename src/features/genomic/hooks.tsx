@@ -14,9 +14,9 @@ import {
 import {
   type SurvivalPlotData,
   useGetComparisonSurvivalPlotQuery,
-} from '@/core/survival';
+} from '@/core/features/survival';
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { EmptySurvivalPlot } from "@/core/survival/types";
+import { EmptySurvivalPlot } from "@/core/features/survival/types";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -60,6 +60,7 @@ import FilterFacets from "@/features/genomic/filters";
 import { buildCohortGqlOperator } from '@/core/utils';
 import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
 import { modals } from "@mantine/modals";
+import { COHORT_FILTER_INDEX } from '@/core';
 // import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
@@ -233,7 +234,7 @@ const overwritingDemoFilter = useMemo(
 const cohortFilters: GqlOperation = useDeepCompareMemo(
   () =>
     buildCohortGqlOperator(
-      isDemoMode ? overwritingDemoFilter : currentCohortFilters['case'], // TODO: handle multiple cohorts
+      isDemoMode ? overwritingDemoFilter : currentCohortFilters[COHORT_FILTER_INDEX], // TODO: handle multiple cohorts
     ) ?? { and :[]},
   [currentCohortFilters, isDemoMode, overwritingDemoFilter],
 );

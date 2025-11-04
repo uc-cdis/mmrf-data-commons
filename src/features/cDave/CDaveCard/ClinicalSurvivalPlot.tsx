@@ -11,7 +11,7 @@ import {
   convertFilterSetToOperation,
   selectCurrentCohortCaseFilters as selectCurrentCohortFilters,
 } from '@/core/utils';
-import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/survival';
+import { EmptySurvivalPlot, useGetSurvivalPlotQuery } from '@/core/features/survival';
 import { useIsDemoApp } from '@/hooks/useIsDemoApp';
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
 import { getFormattedTimestamp } from '@/utils/date';

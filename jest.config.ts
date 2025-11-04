@@ -16,7 +16,6 @@ const jestConfig: JestConfigWithTsJest = {
     '^.+\\.(ts|tsx)?$': [
       'ts-jest',
       {
-        isolatedModules: true,
         tsconfig: 'tsconfig.test.json',
       },
     ],

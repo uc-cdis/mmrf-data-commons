@@ -46,13 +46,13 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
         const ssmFilterContents = extractContents(convertFilterSetToGqlFilter(ssmFilters)) ?? []
 
         const request = {
-          case_filters: caseFilters ? caseFilters : {},
-          gene_filters: {
+          case_filter: caseFilters ? caseFilters : {},
+          gene_filter: {
             "and": [
               ...geneFilterContents,
             ],
           },
-          ssm_filters: {
+          ssm_filter: {
             "and": [
               ...ssmFilterContents,
             ],
@@ -65,12 +65,12 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
           body:  JSON.stringify(request),
         }) },
       transformResponse: (response: any) => {
-        const data = response.data;
+        const data = response;
         return {
-          filteredCases: data?.totalCases ?? 0,
+          filteredCases: data?.filteredCases ?? 0,
           cnvCases: 0, // TODO: add cnv data
-          genesTotal: data?.totalGenes ?? 0,
-          genes: data?.genes ?? [],
+          genesTotal: data?.genesTotal ?? 0,
+          genes: data?.data ?? [],
         };
       },
     }),

@@ -1,13 +1,15 @@
 import React, { useState, useTransition } from 'react';
 import { LoadingOverlay } from '@mantine/core';
 import dynamic from 'next/dynamic';
-import { EmptyFilterSet, FilterSet } from '@/core';
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import { useGeneFrequencyChartQuery } from '@/core/genomic/genesFrequencyChartSlice';
 import ChartTitleBar from './ChartTitleBar';
 import { BarChartData } from './BarChart';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import BarChartTextVersion from './BarChartTextVersion';
 import { GenesFrequencyChart} from '@/core/genomic/genesFrequencyChartSlice';
+
+import { addPrefixToFilterSet, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -65,21 +67,17 @@ const processChartData = (
 
 interface GeneFrequencyChartProps {
   readonly cohortFilters?: FilterSet;
-  readonly geneFilters?: FilterSet;
-  readonly ssmFilters?: FilterSet;
+  readonly genomicFilters?: FilterSet;
   readonly height?: number;
   readonly marginBottom?: number;
   readonly showXLabels?: boolean;
   readonly title?: string;
   readonly maxBins?: number;
   readonly orientation?: string;
-
 }
 
-
 export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
-  geneFilters = EmptyFilterSet,
-  ssmFilters = EmptyFilterSet,
+  genomicFilters = EmptyFilterSet,
   height = undefined,
   marginBottom = 100,
   title = 'Distribution of Most Frequently Mutated Genes',
@@ -90,24 +88,28 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   const [isPending, startTransition] = useTransition();
   const [isChartRendering, setIsChartRendering] = useState(true);
 
+  // need to add the prefix of case.ssm to ssmFilters since
+  // the ssmFilter are applied to the gene_centric index
+  // and ssm filter are under case.ssm.
 
-
-
+  // separate the ssmFilters from the geneFilters
+  const { gene: geneFilters, ssm: ssmFilters } = separateGeneAndSSMFilters(genomicFilters);
+  // add prefix to ssmFilters
+  const ssmFilterForGeneCentric = addPrefixToFilterSet(ssmFilters, "case.ssm.");
   const queryParams = useDeepCompareMemo(
     () => ({
       pageSize: maxBins,
       offset: 0,
-      geneFilters,
-      ssmFilters,
-      cohortFilters,
+      geneFilters:geneFilters,
+      ssmFilters: ssmFilterForGeneCentric,
+      cohortFilters: cohortFilters,
     }),
-    [maxBins, geneFilters, ssmFilters, cohortFilters],
+    [maxBins, geneFilters, ssmFilterForGeneCentric, cohortFilters],
   );
 
-  const { data: chartData, isFetching, isLoading } = useGeneFrequencyChartQuery(
+  const { data: chartData, isFetching } = useGeneFrequencyChartQuery(
     queryParams as any,
   );
-
 
   const processedData = useDeepCompareMemo(
     () => processChartData(chartData ?? {

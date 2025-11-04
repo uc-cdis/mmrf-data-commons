@@ -55,6 +55,7 @@ const FilterFacets : Array<FacetDefinition> = [
     "type": "enum",
     "index": "ssm_centric"
   }
-]
+];
+
 
 export default FilterFacets;

@@ -1,58 +1,47 @@
 import React from 'react';
 import {
-  useCoreSelector,
-  selectCurrentModal,
-  FacetDefinition,
-  EmptyFilterSet,
   CombineMode,
-  isIntersection,
-  extractEnumFilterValue,
   convertFilterSetToGqlFilter,
   CoreState,
-  Includes,
-  Operation,
+  extractEnumFilterValue,
+  FacetDefinition,
   FilterSet,
-  selectIndexFilters,
-
   GQLFilter,
+  isIntersection,
+  selectIndexFilters,
+  useCoreSelector,
 } from '@gen3/core';
 import FilterFacets from '@/features/genomic/filters';
 import {
-  useClearGenomicFilters,
-  useGenesFacets,
-  useUpdateGenomicEnumFacetFilter,
-  useGenomicFilterByName,
   useAllFiltersCollapsed,
+  useClearAllGenomicFilters,
+  useClearGenomicFilters,
+  useFilterExpandedState,
+  useGenesFacets,
+  useGenomicFilterByName,
+  useOpenUploadModal,
   useToggleAllFilters,
   useToggleExpandFilter,
-  useFilterExpandedState,
   useTotalGenomicCounts,
-  useClearAllGenomicFilters,
+  useUpdateGenomicEnumFacetFilter,
+  useUploadFilterItems,
 } from '@/features/genomic/hooks';
 import {
   DropdownPanel,
-  useFieldNameToTitle,
-  FacetDataHooks,
   EnumFacetDataHooks,
-  UploadFacetDataHooks,
-  ToggleFacetDataHooks,
-  removeIntersectionFromEnum,
+  FacetDataHooks,
   processBucketData,
+  removeIntersectionFromEnum,
+  ToggleFacetDataHooks,
+  UploadFacetDataHooks,
+  useFieldNameToTitle,
 } from '@gen3/frontend';
 import { AppState, useAppSelector } from './appApi';
-import {
-  selectFiltersAppliedCount,
-  selectGeneAndSSMFilters,
-} from './geneAndSSMFiltersSlice';
-import {
-  useOpenUploadModal,
-  useUploadFilterItems,
-} from '@/features/genomic/hooks';
+import { selectFiltersAppliedCount, selectGeneAndSSMFilters, } from './geneAndSSMFiltersSlice';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
 import { COHORT_FILTER_INDEX, useGetCohortCentricAggsQuery } from '@/core';
-import { ActiveGeneAndSSMFilters } from './types';
-import { mergeGeneAndSSMFilters } from '@/features/genomic/utils';
+import { mergeGeneAndSSMFilters, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
 
 /**
  *  Get the facet values for both the gene and ssm facets using the current cohort filters
@@ -99,8 +88,6 @@ const GeneAndSSMFilterPanel = ({
 }: {
   isDemoMode?: boolean;
 }): JSX.Element => {
-  const modal = useCoreSelector((state) => selectCurrentModal(state));
-  const updateFilters = useUpdateGenomicEnumFacetFilter();
   const cohortFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, COHORT_FILTER_INDEX),
   );
@@ -111,20 +98,9 @@ const GeneAndSSMFilterPanel = ({
     selectGeneAndSSMFilters(state),
   );
 
+
   const geneAndSSMFilters = useDeepCompareMemo(() => {
-    const filters : ActiveGeneAndSSMFilters  = {
-      gene: { mode: 'and', root: {}} as FilterSet,
-      ssm: { mode: 'and', root: {}} as FilterSet
-    }
-    for (const [key, value ] of Object.entries(genomicFilters.root)) {
-      const facetDef = FilterFacets.find(def => def.field === key);
-      if (facetDef) {
-        if (facetDef.index === 'gene_centric')
-          filters.gene.root[key] = value
-        if (facetDef.index === 'ssm_centric')
-          filters.ssm.root[key] = value
-      }
-    }
+    const filters = separateGeneAndSSMFilters(genomicFilters);
     return mergeGeneAndSSMFilters(filters);
   }, [genomicFilters])
 

@@ -58,10 +58,12 @@ export const GeneSummary = ({
   contextSensitive?: boolean;
   contextFilters?: any; // FilterSet;
 }): JSX.Element => {
-
-  const { data, isFetching } = useGeneSummaryQuery({
-    gene_id,
-  }, { skip: !gene_id });
+  const { data, isFetching } = useGeneSummaryQuery(
+    {
+      gene_id,
+    },
+    { skip: !gene_id },
+  );
 
   return (
     <>
@@ -326,7 +328,8 @@ const GeneView = ({
                   geneSymbol={data.symbol}
                   gene_id={gene_id}
                   cohortFilters={cohortFilters}
-                  genomicFilters={genomicFilters}
+                  geneFilters={EmptyFilterSet}
+                  ssmFilters={EmptyFilterSet}
                   isModal={isModal}
                   inModal={isModal}
                   tableTitle="Most Frequent Somatic Mutations"
