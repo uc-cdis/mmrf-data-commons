@@ -32,6 +32,7 @@ import {
   addPrefixToFilterSet,
   separateGeneAndSSMFilters,
 } from '@/core/genomic/genomicFilters';
+import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -108,9 +109,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     geneFilters as any,
     'genes.',
   );
+  // get the totals for all cases
+  const { data: countsData} = useGetTotalCountsQuery({});
 
   const generateFilters = useDeepCompareCallback(
-    (cnvType: CnvChange, geneId: string) => {
+    (cnvType: CnvChange | undefined, geneId: string) => {
       if (cnvType !== undefined) {
         // only genes filters
         return joinFilters(genesOnlyFilters, {
@@ -164,12 +167,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
 
-    const { ssmCases, cnvCases, totalCases, genes, genesTotal } = data;
-
+    const { cnvCases, totalCases, genes, genesTotal } = data;
     return genes.map((gene: any) =>
-      getGene(gene, selectedSurvivalPlot, ssmCases, totalCases, cnvCases),
+      getGene(gene, selectedSurvivalPlot, countsData?.ssmCaseCount ?? 0, totalCases, cnvCases),
     );
-  }, [data?.genes, selectedSurvivalPlot]);
+  }, [data?.genes, selectedSurvivalPlot, countsData]);
 
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
@@ -191,7 +193,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
           count: pageSize,
           from: (page - 1) * pageSize,
           page: page,
-          pages: Math.ceil(data?.genesTotal ?? 0 / pageSize),
+          pages: Math.ceil((data?.genesTotal ?? 1) / pageSize),
           size: pageSize,
           total: data?.genesTotal,
           sort: 'None',
@@ -328,8 +330,8 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         enableRowSelection={true}
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
-        getRowCanExpand={() => true}
-        expandableColumnIds={['#_ssm_affected_cases_across_the_mmrf']}
+        getRowCanExpand={() => false} // TODO: change to true > 1 project: ['#_ssm_affected_cases_across_the_mmrf']
+        expandableColumnIds={[/* TODO: turn on when > 1 project: ['#_ssm_affected_cases_across_the_mmrf'] */]}
         renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}

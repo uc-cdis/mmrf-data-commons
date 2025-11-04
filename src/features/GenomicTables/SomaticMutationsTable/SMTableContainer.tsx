@@ -148,9 +148,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
 
   const formattedTableData: SomaticMutation[] = useDeepCompareMemo(() => {
     if (!data?.ssms) return [];
-    console.log("data",countsData)
     return data.ssms.map((sm: any) => {
-      console.log("sm",sm)
      return  getMutation(
         sm,
         selectedSurvivalPlot,
