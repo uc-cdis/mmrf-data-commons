@@ -1,5 +1,5 @@
 import { guppyApi, TablePageOffsetProps } from '@gen3/core';
-import { SSMSConsequence } from './ssmsTableSlice';
+import { SSMSConsequence } from './types';
 
 const SSMSConsequenceTableGraphQLQuery = `
 query ConsequencesTable (

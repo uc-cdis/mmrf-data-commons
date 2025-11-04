@@ -2,17 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
 import {
   buildSSMSTableSearchFilters,
-  useGetSsmsTableDataQuery,
 } from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
-import {
-  SMTableContainerProps,
-  SomaticMutation,
-  SsmToggledHandler,
-} from './types';
+import { SomaticMutation, SsmToggledHandler } from './types';
 import { HandleChangeInput } from '@/components/Table/types';
 import {
   ColumnOrderState,
@@ -78,7 +73,7 @@ export interface SMTableContainerProps {
    */
   case_id?: string;
 
-  dataHook: (params: any) => any;
+  dataHook?: (params: any) => any;
 }
 
 export const SMTableContainer: React.FC<SMTableContainerProps> = ({
