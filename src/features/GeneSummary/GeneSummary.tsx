@@ -257,7 +257,6 @@ const GeneView = ({
     );
   };
 
-  console.log({ data });
   return (
     <div>
       {data && (

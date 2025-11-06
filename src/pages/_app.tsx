@@ -69,7 +69,6 @@ const Gen3App = ({
       registerGenesAndMutationFrequencyAnalysisTool();
 
       isFirstRender.current = false;
-      console.log("MMRF Portal initialized");
     }
   }, []);
 

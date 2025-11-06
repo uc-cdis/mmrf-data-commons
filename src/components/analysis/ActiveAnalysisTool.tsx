@@ -30,8 +30,6 @@ const ActiveAnalysisTool: React.FC<AnalysisToolInfo> = ({
     loadApp().then((app) => setAnalysisApp(app));
   }, [appId]);
 
-  console.log('appId', appId);
-
   return (
     <Suspense
       fallback={
