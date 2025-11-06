@@ -1,0 +1,64 @@
+{
+  "data": {
+    "hits": [
+      {
+        "project": {
+          "project_id": 1,
+          "program": "asdf"
+        },
+        "summary": "summary",
+        "files": [],
+        "id": "973",
+        "data_format": "TSV",
+        "access": "controlled",
+        "file_name": "name",
+        "submitter_id": "b9",
+        "data_category": "Transcriptome Profiling",
+        "acl": ["phs000748"],
+        "type": "gene_expression",
+        "platform": "Illumina",
+        "file_size": 2847685,
+        "created_datetime": "2021-12-10T04:49:26.838796-06:00",
+        "md5sum": "be",
+        "updated_datetime": "2024-07-30T18:09:54.338329-05:00",
+        "file_id": "97",
+        "data_type": "Splice Junction Quantification",
+        "state": "released",
+        "experimental_strategy": "RNA-Seq",
+        "version": "2",
+        "data_release": "32.0 - 43.0"
+      },
+      {
+        "id": "558",
+        "data_format": "TSV",
+        "access": "open",
+        "file_name": "8fcounts.tsv",
+        "submitter_id": "3c9",
+        "data_category": "Transcriptome Profiling",
+        "acl": ["open"],
+        "type": "gene_expression",
+        "platform": "Illumina",
+        "file_size": 4202181,
+        "created_datetime": "2021-12-10T04:49:25.417714-06:00",
+        "md5sum": "96",
+        "updated_datetime": "2024-07-30T20:44:44.625392-05:00",
+        "file_id": "558",
+        "data_type": "Gene Expression Quantification",
+        "state": "released",
+        "experimental_strategy": "RNA-Seq",
+        "version": "2",
+        "data_release": "32.0 - 43.0"
+      }
+    ],
+    "pagination": {
+      "count": 10,
+      "total": 33,
+      "size": 10,
+      "from": 0,
+      "sort": "None",
+      "page": 1,
+      "pages": 4
+    }
+  },
+  "warnings": {}
+}
