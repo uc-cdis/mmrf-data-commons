@@ -29,7 +29,7 @@ import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
 import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
 import {
-  addPrefixToFilterSet,
+  addPrefixToFilterSet, GenomicIndexFilterPrefixes,
   separateGeneAndSSMFilters,
 } from '@/core/genomic/genomicFilters';
 import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
@@ -73,11 +73,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
     const ssmFilterForGeneCentric = addPrefixToFilterSet(
       filters.ssm,
-      'case.ssm.',
+      `${GenomicIndexFilterPrefixes.gene.ssm}.`
     );
     const geneFiltersForSSMCentric = addPrefixToFilterSet(
       filters.gene,
-      'genes.',
+      `${GenomicIndexFilterPrefixes.ssm.gene}.`,
     );
 
     return {
@@ -156,20 +156,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   );
   // End Create Cohort /
 
-  // TODO: Causes type error TypeError: can't access property "genes", state.sets is undefined
-  //const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
-  /*
-  const sets = '';
-  const prevGenomicFilters = usePrevious(genomicFilters);
-  const prevCohortFilters = usePrevious(cohortFilters);
-  */
-
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
-
-    const { cnvCases, totalCases, genes, genesTotal } = data;
+    const { ssmCases, cnvCases, totalCases, genes, genesTotal } = data;
     return genes.map((gene: any) =>
-      getGene(gene, selectedSurvivalPlot, countsData?.ssmCaseCount ?? 0, totalCases, cnvCases),
+      getGene(gene, selectedSurvivalPlot, ssmCases,countsData?.ssmCaseCount ?? 0, cnvCases),
     );
   }, [data?.genes, selectedSurvivalPlot, countsData]);
 

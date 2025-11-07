@@ -450,7 +450,7 @@ export const getGene = (
     },
     '#_ssm_affected_cases_across_the_mmrf': {
       numerator: g.ssm_cases_across_commons,
-      denominator: ssmCases,
+      denominator: totalCases,
     },
     '#_cnv_amplifications': {
       numerator: g.case_cnv_amplification,

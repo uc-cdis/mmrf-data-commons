@@ -28,3 +28,8 @@ export interface ActiveGeneAndSSMFilters {
   gene: FilterSet;
   ssm: FilterSet;
 }
+
+export interface GeneSearchTerms {
+  geneId?: string;
+  geneSymbol?: string;
+}

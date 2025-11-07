@@ -30,6 +30,7 @@ import {
   DropdownPanel,
   EnumFacetDataHooks,
   FacetDataHooks,
+  FacetHooks,
   processBucketData,
   removeIntersectionFromEnum,
   ToggleFacetDataHooks,
@@ -42,6 +43,7 @@ import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
 import { COHORT_FILTER_INDEX, useGetCohortCentricAggsQuery } from '@/core';
 import { mergeGeneAndSSMFilters, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
+import { underline } from 'next/dist/lib/picocolors';
 
 /**
  *  Get the facet values for both the gene and ssm facets using the current cohort filters
@@ -212,7 +214,7 @@ const GeneAndSSMFilterPanel = ({
 
   const GenomicFilterHooks: Record<
     'enum' | 'upload' | 'toggle',
-    | FacetDataHooks
+    | FacetHooks
     | EnumFacetDataHooks
     | UploadFacetDataHooks
     | ToggleFacetDataHooks
@@ -233,6 +235,13 @@ const GeneAndSSMFilterPanel = ({
       useFieldNameToTitle,
       useOpenUploadModal: useOpenUploadModal,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
+      useGetFacetFilters: useGenomicFilterByName,
+      useGetFacetData: () => ({
+        data: {},
+        enumFilters: undefined,
+        isSuccess: true,
+        isFetching: false
+      })
     },
     toggle: {
       useGetFacetData: getEnumFacetData,

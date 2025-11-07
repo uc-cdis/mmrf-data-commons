@@ -1,20 +1,18 @@
 import { LoadingOverlay } from '@mantine/core';
 
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,
   emptySurvivalPlot,
 } from '@/features/genomic/types';
-import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
+import { useGeneAndSSMPanelData, useSelectFilterContent } from './hooks';
 import dynamic from 'next/dynamic';
 import { GeneFrequencyChart } from '../charts/GeneFrequencyChart';
 import { GenesTableContainer } from '../GenomicTables/GenesTable/GenesTableContainer';
-import { EmptyFilterSet, FilterSet } from '@gen3/core';
+import { EmptyFilterSet } from '@gen3/core';
 import { COHORT_FILTER_INDEX } from '@/core';
-
-
 
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
@@ -39,8 +37,6 @@ interface GenesPanelProps {
   ) => void;
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
 }
-
-const GENE_FILTERS = ['biotype', 'is_cancer_gene_census'];
 
 export const GenesPanel = ({
   topGeneSSMSSuccess,

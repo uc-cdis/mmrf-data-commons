@@ -9,7 +9,11 @@ import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import BarChartTextVersion from './BarChartTextVersion';
 import { GenesFrequencyChart} from '@/core/genomic/genesFrequencyChartSlice';
 
-import { addPrefixToFilterSet, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 
 interface GeneFrequencyEntry {
   readonly gene_id: string;
@@ -96,12 +100,13 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
   const { gene: geneFilters, ssm: ssmFilters } = separateGeneAndSSMFilters(genomicFilters);
   // add prefix to ssmFilters
   const ssmFilterForGeneCentric = addPrefixToFilterSet(ssmFilters, "case.ssm.");
+
   const queryParams = useDeepCompareMemo(
     () => ({
       pageSize: maxBins,
       offset: 0,
       geneFilters:geneFilters,
-      ssmFilters: ssmFilterForGeneCentric,
+      ssmFilters: ssmFilters,
       cohortFilters: cohortFilters,
     }),
     [maxBins, geneFilters, ssmFilterForGeneCentric, cohortFilters],

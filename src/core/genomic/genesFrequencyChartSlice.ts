@@ -46,7 +46,7 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
         const ssmFilterContents = extractContents(convertFilterSetToGqlFilter(ssmFilters)) ?? []
 
         const request = {
-          case_filter: caseFilters ? caseFilters : {},
+          cohort_filter: caseFilters ? caseFilters : {},
           gene_filter: {
             "and": [
               ...geneFilterContents,
