@@ -56,8 +56,6 @@ const topGeneAndSSMSlice = gen3Api.injectEndpoints({
         };
       },
       transformResponse: (results: Record<string, any>, _meta, args) => {
-
-        console.log("results", results);
         if (args.type === 'gene') {
           return {
             genes: {
@@ -79,7 +77,7 @@ const topGeneAndSSMSlice = gen3Api.injectEndpoints({
             },
             ssms: {
               symbol: results?.data?.[0]?.ssm_id,
-              name: results?.data?.[0]?.consequence[0]?.gene?.symbol,
+              name: results?.data?.[0]?.consequence?.transcript?.gene?.symbol,
               aa_change: results?.data?.[0]?.consequence[0]?.aa_change,
               consequence_type: results?.data?.[0]?.consequence[0]?.consequence_type,
             },

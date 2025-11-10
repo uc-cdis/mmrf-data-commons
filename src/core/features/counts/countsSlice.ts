@@ -80,7 +80,6 @@ const countsSlice = guppyApi.injectEndpoints({
         };
       },
       transformResponse: (response: TotalsResponce) => {
-        console.log("TotalsResponce", response)
         const caseCount =
           response?.data?.CaseCentric__aggregation?.case_centric?.caseCount
             ?.total ?? 0;

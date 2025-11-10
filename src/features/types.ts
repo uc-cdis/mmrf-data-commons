@@ -19,13 +19,7 @@ export interface DocumentWithWebkit extends Document {
   readonly webkitFullscreenElement: Element;
 }
 export interface FacetQueryParameters {
-  type: string;
-  fields: Array<string>;
   filter: FilterSet;
-  caseIdsFilterPath: string;
-  accessibility?: Accessibility;
-  filterSelf?: boolean;
-  indexPrefix?: string;
 }
 
 export interface FacetQueryParametersWithCohortFilter extends FacetQueryParameters {

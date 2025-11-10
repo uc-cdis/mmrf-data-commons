@@ -27,7 +27,11 @@ interface CohortAggsRequest {
   filterName?: string;
   caseIndex?: string;
   caseIdField?: string;
+}
 
+interface GenomicFacetRequest {
+  cohortFilter: GQLFilter;
+  filter: GQLFilter;
 }
 
 export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
@@ -113,8 +117,62 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         };
       },
     }),
+    getGeneFacets: builder.query<AggregationsData, GenomicFacetRequest>({
+      query: ({
+                cohortFilter,
+                filter,
+              }: GenomicFacetRequest) => {
+        return {
+          url: `${GEN3_ANALYSIS_API}/genomic/gene_facets`,
+          method: 'POST',
+          body: {
+            cohort_filter: cohortFilter,
+            genomic_filter: filter
+          },
+        };
+      },
+      transformResponse: (response: Record<string, any>, _meta, args) => {
+        const buckets = processHistogramResponse<AggregationsData>(response?.data)
+
+        // check for totals
+        const count =
+          response?.data?._totalCount ?? null;
+
+        return {
+          _totalCount: [{ key: "gene", count }], // add total count to allow cohorts to cache index item totals
+          ...buckets,
+        };
+      },
+    }),
+    getSsmFacets: builder.query<AggregationsData, GenomicFacetRequest>({
+      query: ({
+                cohortFilter,
+                filter,
+              }: GenomicFacetRequest) => {
+        return {
+          url: `${GEN3_ANALYSIS_API}/genomic/ssm_facets`,
+          method: 'POST',
+          body: {
+            cohort_filter: cohortFilter,
+            genomic_filter: filter
+          },
+        };
+      },
+      transformResponse: (response: Record<string, any>, _meta, args) => {
+        const buckets = processHistogramResponse<AggregationsData>(response?.data)
+
+        // check for totals
+        const count =
+          response?.data?._totalCount ?? null;
+
+        return {
+          _totalCount: [{ key: "ssm", count }],
+          ...buckets,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetCohortCentricQuery, useLazyGetCohortCentricQuery, useGetCohortCentricAggsQuery } =
+export const { useGetCohortCentricQuery, useLazyGetCohortCentricQuery, useGetCohortCentricAggsQuery, useGetGeneFacetsQuery, useGetSsmFacetsQuery } =
   cohortCentricQuerySlice;

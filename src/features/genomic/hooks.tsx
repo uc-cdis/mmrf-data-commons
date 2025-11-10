@@ -293,8 +293,6 @@ export const useGeneAndSSMPanelData = (
     genomicFilters,
   ]);
 
-  console.log("comparative survival: ", comparativeSurvival)
-
   const {
     data: survivalPlotData,
     isFetching: survivalPlotFetching,
@@ -305,6 +303,7 @@ export const useGeneAndSSMPanelData = (
     ),
     genomicFilter: convertFilterSetToGqlFilter(addIndexPrefixToGenomicFilterSet( genomicFilters, 'case')),
     symbol: comparativeSurvival?.symbol,
+    type: isGene ? 'gene' : 'ssm',
   });
 
   return {

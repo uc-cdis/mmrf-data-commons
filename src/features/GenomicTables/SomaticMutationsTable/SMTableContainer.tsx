@@ -27,6 +27,7 @@ import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice'
 import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
+import { LoadingOverlay } from '@mantine/core';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -277,7 +278,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   return (
     <>
       {(searchTerm.length === 0 && formattedTableData.length === 0) ||
-      isSuccess !== true ? (
+      isError ? (
         <h2>❌ Somatic Mutations Table Data Error</h2>
       ) : (
         <>
@@ -290,6 +291,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
             </div>
           )}
           {tableTitle && <HeaderTitle>{tableTitle}</HeaderTitle>}
+          <LoadingOverlay visible={isFetching}/>
           <VerticalTable
             customDataTestID="table-most-frequent-somatic-mutations"
             data={displayedDataAfterSearch ?? []}
@@ -332,7 +334,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
             }
             pagination={pagination}
             showControls={true}
-            enableRowSelection={true}
+            enableRowSelection={false}
             setRowSelection={setRowSelection}
             rowSelection={rowSelection}
             status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}

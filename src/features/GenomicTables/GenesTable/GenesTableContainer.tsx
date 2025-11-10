@@ -318,7 +318,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         }}
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
         handleChange={handleChange}
-        enableRowSelection={true}
+        enableRowSelection={false}
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
         getRowCanExpand={() => false} // TODO: change to true > 1 project: ['#_ssm_affected_cases_across_the_mmrf']

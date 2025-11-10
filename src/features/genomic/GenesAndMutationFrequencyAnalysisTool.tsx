@@ -19,10 +19,9 @@ import { SecondaryTabStyle } from './constants';
 import { GenesPanel } from './GenesPanel';
 import { SSMSPanel } from './SSMSPanel';
 import GeneAndSSMFilterPanel from '@/features/genomic/GeneAndSSMFilterPanel';
-import { AppState, useAppSelector } from '@/features/genomic/appApi';
-import { selectGeneAndSSMFilters } from '@/features/genomic/geneAndSSMFiltersSlice';
 import { useTopGeneSsms } from '@/features/genomic/hooks';
 import { GeneSearchTerms } from '@/features/genomic/types';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: 'and',
@@ -51,10 +50,6 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       geneId: '',
       geneSymbol: '',
     });
-
-  const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
-    selectGeneAndSSMFilters(state),
-  );
 
   const cohortId = useCoreSelector((state) => selectCurrentCohortId(state));
   const prevId = usePrevious(cohortId);
@@ -110,6 +105,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
       idField: string,
       payload: Record<string, any>,
     ) => {
+
       if (cohortStatus.includes(payload[idField])) {
         // remove the id from the cohort
         const update = cohortStatus.filter((x) => x != payload[idField]);
@@ -117,7 +113,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
           coreDispatch(
             updateActiveCohortFilter({
               field: field,
-              index: 'case',
+              index: COHORT_FILTER_INDEX,
               filter: {
                 field: field,
                 operator: 'includes',
@@ -130,7 +126,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
         coreDispatch(
           updateActiveCohortFilter({
             field: field,
-            index: 'case',
+            index: COHORT_FILTER_INDEX,
             filter: {
               field: field,
               operator: 'includes',

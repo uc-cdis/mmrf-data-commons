@@ -29,7 +29,6 @@ import {
 import {
   DropdownPanel,
   EnumFacetDataHooks,
-  FacetDataHooks,
   FacetHooks,
   processBucketData,
   removeIntersectionFromEnum,
@@ -40,11 +39,19 @@ import {
 import { AppState, useAppSelector } from './appApi';
 import { selectFiltersAppliedCount, selectGeneAndSSMFilters, } from './geneAndSSMFiltersSlice';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
-import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
-import { COHORT_FILTER_INDEX, useGetCohortCentricAggsQuery } from '@/core';
-import { mergeGeneAndSSMFilters, separateGeneAndSSMFilters } from '@/core/genomic/genomicFilters';
-import { underline } from 'next/dist/lib/picocolors';
-
+import { FacetQueryResponse } from '@/features/types';
+import { COHORT_FILTER_INDEX } from '@/core';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  mergeGeneAndSSMFilters,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
+import {
+  useGetGeneFacetsQuery,
+  useGetSsmFacetsQuery,
+} from '@/core/features/cohortQuery/cohortQuerySlice';
+import { joinFilters } from '@/core/utils';
 /**
  *  Get the facet values for both the gene and ssm facets using the current cohort filters
  *  as case filters
@@ -53,28 +60,29 @@ import { underline } from 'next/dist/lib/picocolors';
  * @param cohortFilters
  */
 const useGetFacetValuesQuery = (
-  geneFacets: FacetQueryParameters,
-  ssmFacets: FacetQueryParameters,
+  geneFacets: GQLFilter,
+  ssmFacets: GQLFilter,
   cohortFilters: GQLFilter,
 ): FacetQueryResponse => {
+
 
   const {
     data: geneData,
     isSuccess: geneIsSuccess,
     isFetching: geneIsFetching,
     isError: geneIsError,
-  } = useGetCohortCentricAggsQuery({
+  } = useGetGeneFacetsQuery({
     cohortFilter: cohortFilters,
-    ...geneFacets,
+    filter: geneFacets,
   });
   const {
     data: ssmData,
     isSuccess: ssmIsSuccess,
     isFetching: ssmIsFetching,
     isError: ssmIsError,
-  } = useGetCohortCentricAggsQuery({
+  } = useGetSsmFacetsQuery({
     cohortFilter: cohortFilters,
-    ...ssmFacets,
+    filter: ssmFacets,
   });
 
   return {
@@ -100,10 +108,21 @@ const GeneAndSSMFilterPanel = ({
     selectGeneAndSSMFilters(state),
   );
 
-
-  const geneAndSSMFilters = useDeepCompareMemo(() => {
+  const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
     const filters = separateGeneAndSSMFilters(genomicFilters);
-    return mergeGeneAndSSMFilters(filters);
+
+    const ssmFilterForGeneCentric = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.gene.ssm}`
+    );
+    const geneFiltersForSSMCentric = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
+    );
+
+    const geneFilters = convertFilterSetToGqlFilter( joinFilters(ssmFilterForGeneCentric, filters.gene));
+    const ssmFilters = convertFilterSetToGqlFilter( joinFilters(geneFiltersForSSMCentric, filters.ssm));
+    return { geneFilters: geneFilters, ssmFilters: ssmFilters }
   }, [genomicFilters])
 
   const {
@@ -112,26 +131,8 @@ const GeneAndSSMFilterPanel = ({
     isFetching: isFacetsQueryFetching,
     isError: isFacetsQueryError,
   } = useGetFacetValuesQuery(
-    {
-      type: 'gene_centric',
-      fields: ['biotype', 'is_cancer_gene_census'],
-      filter: geneAndSSMFilters.gene,
-      indexPrefix: 'GeneCentric_',
-      caseIdsFilterPath: "case.case_id"
-    },
-    {
-      type: 'ssm_centric',
-      fields: [
-        'consequence.transcript.annotation.vep_impact',
-        'consequence.transcript.annotation.sift_impact',
-        'consequence.transcript.annotation.polyphen_impact',
-        'consequence.transcript.consequence_type',
-        'mutation_subtype',
-      ],
-      filter: geneAndSSMFilters.ssm,
-      indexPrefix: 'SsmCentric_',
-      caseIdsFilterPath: "occurrence.case.case_id"
-    },
+    geneFilters,
+    ssmFilters,
     cohortFilterGQL,
   );
 

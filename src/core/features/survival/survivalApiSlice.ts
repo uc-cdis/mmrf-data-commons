@@ -86,6 +86,7 @@ export const survivalApiSlice = gen3Api.injectEndpoints({
             case_filter: request.caseFilter,
             filter: request.genomicFilter,
             symbol: request.symbol,
+            type: request.type ?? 'gene'
           }),
         };
       },

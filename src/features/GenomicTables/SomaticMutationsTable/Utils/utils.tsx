@@ -115,7 +115,8 @@ export const useGenerateSMTableColumns = ({
                 tooltip="Add/remove mutations to/from your cohort filters"
               />
             ),
-            cell: ({ row }) => (
+            cell: ({ row }) => {
+              return (
               <SMTableCohort
                 isToggledSsm={(toggledSsms || []).includes(
                   row.original.mutation_id,
@@ -126,7 +127,7 @@ export const useGenerateSMTableColumns = ({
                 handleSsmToggled={handleSsmToggled}
                 DNAChange={row.original.dna_change}
               />
-            ),
+            )},
           }),
         ]
         : []),

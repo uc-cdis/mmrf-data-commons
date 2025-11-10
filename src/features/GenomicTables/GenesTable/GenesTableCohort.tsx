@@ -27,7 +27,7 @@ const GenesTableCohort = ({
         isDemoMode ? (
           <Image
             src={CohortInactiveIcon}
-            alt="Cohort Active Icon"
+            alt="Cohort Inactive Icon"
             width={16}
             height={16}
           />
