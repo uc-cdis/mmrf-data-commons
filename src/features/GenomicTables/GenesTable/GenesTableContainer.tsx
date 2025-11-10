@@ -73,11 +73,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
     const ssmFilterForGeneCentric = addPrefixToFilterSet(
       filters.ssm,
-      `${GenomicIndexFilterPrefixes.gene.ssm}.`
+      `${GenomicIndexFilterPrefixes.gene.ssm}`
     );
     const geneFiltersForSSMCentric = addPrefixToFilterSet(
       filters.gene,
-      `${GenomicIndexFilterPrefixes.ssm.gene}.`,
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
     );
 
     return {

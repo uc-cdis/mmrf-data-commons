@@ -106,7 +106,7 @@ export const GeneFrequencyChart: React.FC<GeneFrequencyChartProps> = ({
       pageSize: maxBins,
       offset: 0,
       geneFilters:geneFilters,
-      ssmFilters: ssmFilters,
+      ssmFilters: ssmFilterForGeneCentric,
       cohortFilters: cohortFilters,
     }),
     [maxBins, geneFilters, ssmFilterForGeneCentric, cohortFilters],

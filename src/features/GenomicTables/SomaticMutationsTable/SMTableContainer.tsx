@@ -76,17 +76,23 @@ export interface SMTableContainerProps {
   dataHook?: (params: any) => any;
 }
 
+function NullOp () {
+  return null;
+}
+
+function DefaultSurvialPlotToggle(symbol: string, name: string, field: string) {}
+
 export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   selectedSurvivalPlot,
-  handleSurvivalPlotToggled = undefined,
+  handleSurvivalPlotToggled = DefaultSurvialPlotToggle,
   geneSymbol = undefined,
   projectId = undefined,
   geneFilters = { mode: 'and', root: {} },
   ssmFilters = { mode: 'and', root: {} },
   cohortFilters = { mode: 'and', root: {} },
   caseFilter = undefined,
-  handleSsmToggled = undefined,
-  toggledSsms = undefined,
+  handleSsmToggled =NullOp,
+  toggledSsms = [],
   isDemoMode = false,
   isModal = false,
   inModal = false,
@@ -138,8 +144,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     offset: pageSize * (page - 1),
     searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
     geneSymbol: geneSymbol,
-    geneFilters: EmptyFilterSet,
-    ssmFilters: EmptyFilterSet,
+    geneFilters: geneFilters,
+    ssmFilters: ssmFilters,
     cohortFilters: cohortFilters,
     tableFilters,
   });
@@ -330,8 +336,8 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
             setRowSelection={setRowSelection}
             rowSelection={rowSelection}
             status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
-            getRowCanExpand={() => true}
-            expandableColumnIds={['#_affected_cases_across_the_mmrf']}
+            getRowCanExpand={() => false} // TODO: change to true > 1 project: ['#_ssm_affected_cases_across_the_mmrf']
+            expandableColumnIds={[/* TODO: turn on when > 1 project:['#_affected_cases_across_the_mmrf'] */]}
             renderSubComponent={({ row }) => <SMTableSubcomponent row={row} />}
             handleChange={handleChange}
             setColumnVisibility={setColumnVisibility}

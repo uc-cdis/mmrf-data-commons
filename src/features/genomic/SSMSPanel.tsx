@@ -15,6 +15,7 @@ import { useAdvancedSmmTableDataQuery } from '@/core/genomic';
 import { COHORT_FILTER_INDEX } from '@/core';
 import {
   addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
   separateGeneAndSSMFilters,
 } from '@/core/genomic/genomicFilters';
 const SurvivalPlot = dynamic(
@@ -90,25 +91,24 @@ export const SSMSPanel = ({
     // should happen only on mount
     if (searchTermsForGene) scrollIntoView();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  /* Scroll for gene search end */
+
 
   const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
     const filters = separateGeneAndSSMFilters(genomicFilters);
 
-    const ssmFilterForGeneCentric = addPrefixToFilterSet(
+    const ssmFilters = addPrefixToFilterSet(
       filters.ssm,
-      'case.ssm.',
+      `${GenomicIndexFilterPrefixes.ssm.ssm}`,
     );
-    const geneFiltersForSSMCentric = addPrefixToFilterSet(
+    const geneFilters = addPrefixToFilterSet(
       filters.gene,
-      'genes.',
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
     );
 
     return {
-      geneFilters: filters.gene,
-      ssmFilters: ssmFilterForGeneCentric,
+      geneFilters,
+      ssmFilters,
     };
   }, [genomicFilters]);
 

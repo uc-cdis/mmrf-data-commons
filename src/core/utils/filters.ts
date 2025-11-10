@@ -40,9 +40,14 @@ import {
   GQLGreaterThan,
   handleOperation,
   OperationWithField,
-  isIncludes,
+  isIncludes, convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { GqlOperation } from '@/core/types';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 
 /**
  * Constructs a nested operation object based on the provided field and leaf operand.

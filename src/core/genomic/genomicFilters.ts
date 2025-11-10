@@ -1,6 +1,12 @@
-import { FilterSet, Includes, isIncludes } from '@gen3/core';
+import {
+  convertFilterSetToGqlFilter,
+  FilterSet,
+  Includes,
+  isIncludes,
+} from '@gen3/core';
 import { ActiveGeneAndSSMFilters } from '@/features/genomic/types';
 import FilterFacets from '@/features/genomic/filters';
+import { joinFilters } from '@/core/utils';
 
 /**
  *  The Genomic indices are denormalized but are in different places in the data structure.
@@ -8,21 +14,23 @@ import FilterFacets from '@/features/genomic/filters';
  */
 export const GenomicIndexFilterPrefixes = {
   case: {
-    gene: 'gene',
-    ssm: 'gene.ssm',
+    gene: 'gene.',
+    ssm: 'gene.ssm.',
     case: '',
   },
   gene: {
     gene: '',
-    ssm: 'case.ssm',
-    case: 'case',
+    ssm: 'case.ssm.',
+    case: 'case.',
   },
   ssm: {
-    case: 'occurrence.case',
-    gene: 'consequence.transcript.gene',
+    case: 'occurrence.case.',
+    gene: 'consequence.transcript.gene.',
     ssm: ""
   },
 };
+
+export type GenomicIndexType = 'case' | 'gene' | 'ssm';
 
 /**
  * Adds a prefix to each key in the `root` property of a given FilterSet.
@@ -109,7 +117,7 @@ export const mergeGeneAndSSMFilters = (
   };
   // add ssm filters to gene filters
   for (const [key, value] of Object.entries(filters.ssm.root)) {
-    const geneField = `${geneIndexSSMPrefix}.${key}`;
+    const geneField = `${geneIndexSSMPrefix}${key}`;
     if (isIncludes(value)) {
       results.gene.root[geneField] = {
         field: geneField,
@@ -121,7 +129,7 @@ export const mergeGeneAndSSMFilters = (
 
   // add gene filters to ssm filters
   for (const [key, value] of Object.entries(filters.gene.root)) {
-    const ssmField = `${ssmIndexGenePrefix}.${key}`;
+    const ssmField = `${ssmIndexGenePrefix}${key}`;
     if (isIncludes(value)) {
       results.ssm.root[ssmField] = {
         field: ssmField,
@@ -132,3 +140,20 @@ export const mergeGeneAndSSMFilters = (
   }
   return results;
 };
+
+
+export const addIndexPrefixToGenomicFilterSet = (genomicFilters:FilterSet, type: GenomicIndexType): FilterSet => {
+
+  const filters = separateGeneAndSSMFilters(genomicFilters);
+
+  const ssmFilters = addPrefixToFilterSet(
+    filters.ssm,
+    `${GenomicIndexFilterPrefixes[type].ssm}`,
+  );
+  const geneFilters = addPrefixToFilterSet(
+    filters.gene,
+    `${GenomicIndexFilterPrefixes[type].gene}`,
+  );
+
+  return joinFilters(ssmFilters, geneFilters);
+}

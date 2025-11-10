@@ -76,3 +76,16 @@ export interface SSMSTableResponse {
     };
   };
 }
+
+export interface GeneSSMSEntry {
+  genes: {
+    readonly name: string;
+    readonly symbol: string;
+  };
+  ssms: {
+    readonly name: string;
+    readonly symbol: string;
+    readonly aa_change?: string;
+    readonly consequence_type: string;
+  };
+}

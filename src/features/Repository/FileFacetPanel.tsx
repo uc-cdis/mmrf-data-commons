@@ -23,7 +23,7 @@ import {
 import {
   classifyFacets,
   EnumFacetDataHooks,
-  FacetDataHooks,
+  FacetHooks,
   FieldToName,
   DropdownPanel,
   getAllFieldsFromFilterConfigs,
@@ -177,7 +177,7 @@ export const FileFacetPanel = ({
     [repositoryFilters.root, facetData, isFacetsQuerySuccess],
   );
 
-  const facetDataHooks: Record<'enum', FacetDataHooks | EnumFacetDataHooks> =
+  const facetDataHooks: Record<'enum', FacetHooks | EnumFacetDataHooks> =
     useDeepCompareMemo(() => {
       return {
         enum: {

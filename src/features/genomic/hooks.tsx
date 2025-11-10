@@ -1,10 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
+  convertFilterSetToGqlFilter,
   CoreState,
+  EmptyFilterSet,
   extractFilterValue as extractValue,
   FilterSet,
   FilterValue as OperandValue,
+  GQLIntersection,
+  GQLUnion,
   IndexedFilterSet,
   isIncludes,
   Operation,
@@ -14,7 +18,7 @@ import {
 } from '@gen3/core';
 import {
   type SurvivalPlotData,
-  useGetComparisonSurvivalPlotQuery,
+  useGetGenomicComparisonSurvivalPlotQuery,
 } from '@/core/features/survival';
 import { useIsDemoApp } from '@/hooks/useIsDemoApp';
 import { EmptySurvivalPlot } from '@/core/features/survival/types';
@@ -62,6 +66,7 @@ import {
   useTopGenomicQuery,
 } from '@/core';
 import {
+  addIndexPrefixToGenomicFilterSet,
   addPrefixToFilterSet,
   GenomicIndexFilterPrefixes,
   separateGeneAndSSMFilters,
@@ -79,8 +84,6 @@ export const overwritingDemoFilterMutationFrequency: FilterSet = {
     },
   },
 };
-
-// import { buildCohortGqlOperator } from '@/core/utils';
 
 /**
  * Update Genomic Enum Facets filters. These are app local updates and are not added
@@ -262,11 +265,11 @@ export const useGeneAndSSMPanelData = (
     const filters = separateGeneAndSSMFilters(genomicFilters);
     const geneForCase = addPrefixToFilterSet(
       filters.gene,
-      `${GenomicIndexFilterPrefixes.case.gene}.`,
+      `${GenomicIndexFilterPrefixes.case.gene}`,
     );
     const ssmForCase = addPrefixToFilterSet(
       filters.ssm,
-      `${GenomicIndexFilterPrefixes.case.ssm}.`,
+      `${GenomicIndexFilterPrefixes.case.ssm}`,
     );
     const cohortAndGenomicFilters: FilterSet = {
       mode: 'and',
@@ -290,20 +293,18 @@ export const useGeneAndSSMPanelData = (
     genomicFilters,
   ]);
 
+  console.log("comparative survival: ", comparativeSurvival)
+
   const {
     data: survivalPlotData,
     isFetching: survivalPlotFetching,
     isSuccess: survivalPlotReady,
-  } = useGetComparisonSurvivalPlotQuery({
-    filters:
-      comparativeSurvival !== undefined
-        ? memoizedFilters
-        : localFilters
-          ? [localFilters]
-          : [],
-    index: 'CaseCentric_case_centric',
-    field: 'case_id',
-    useIntersection: false,
+  } = useGetGenomicComparisonSurvivalPlotQuery({
+    caseFilter: convertFilterSetToGqlFilter(
+      isDemoMode ? overwritingDemoFilter : cohortFilters,
+    ),
+    genomicFilter: convertFilterSetToGqlFilter(addIndexPrefixToGenomicFilterSet( genomicFilters, 'case')),
+    symbol: comparativeSurvival?.symbol,
   });
 
   return {
