@@ -447,6 +447,7 @@ export const useOpenUploadModal = () => {
         modal: "filterByUserInputModal",
         title: "Filter Mutation Frequency by Mutated Genes",
         size: "xl",
+        zIndex: 1200,
         innerProps: {
           userInputProps: {
             inputInstructions: "Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.",
@@ -476,6 +477,7 @@ export const useOpenUploadModal = () => {
         modal: "filterByUserInputModal",
         title: "Filter Mutation Frequency by Somatic Mutations",
         size: "xl",
+        zIndex: 1200,
         innerProps: {
           userInputProps: {
             inputInstructions: "Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.",

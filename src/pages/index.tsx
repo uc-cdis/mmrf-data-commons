@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import PageTitle from "@/components/PageTitle";
+import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
 import {
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
@@ -21,8 +22,10 @@ import {
 } from "@gen3/core";
 import AnalysisWorkspace from "@/components/analysis/AnalysisWorkspace";
 import AdditionalCohortSelection from "@/features/cohortComparison/AdditionalCohortSelection";
-
 import { useDeepCompareEffect } from "use-deep-compare";
+import { Button, Tooltip } from "@mantine/core";
+import { UploadIcon } from "@/utils/icons";
+import { modals } from "@mantine/modals";
 
 interface CountsPanelProps {
   index: string;
@@ -89,21 +92,76 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
+  const rand = () => {};
+
+  const handleImport = () => {
+    modals.openContextModal({
+      modal: "filterByUserInputModal",
+      title: "Import a New Cohort",
+      size: "xl",
+      zIndex: 1200,
+      innerProps: {
+        userInputProps: {
+          inputInstructions:
+            "Enter one or more case identifiers in the field below or upload a file to import a new cohort.",
+          textInputPlaceholder:
+            "e.g. TCGA-DD-AAVP, TCGA-DD-AAVP-10A-01D-A40U-10, 0004d251-3f70-4395-b175-c94c2f5b1b81",
+          entityType: "cases",
+          entityLabel: "case",
+          identifierToolTip: (
+            <div>
+              <p>
+                - Case identifiers accepted: Case UUID, Case ID, Sample UUID,
+                Sample ID, Portion UUID, Portion ID,
+                <p>
+                  Slide UUID, Slide ID, Analyte UUID, Analyte ID, Aliquot UUID,
+                  Aliquot ID
+                </p>
+              </p>
+              <p>
+                - Delimiters between case identifiers: comma, space, tab or 1
+                case identifier per line
+              </p>
+              <p>- File formats accepted: .txt, .csv, .tsv</p>{" "}
+            </div>
+          ),
+        },
+        rand,
+        type: "cases",
+      },
+    });
+  };
+
+  const customButtons = [
+    <Tooltip label="Import Cohort" position="bottom" withArrow key="import">
+      <Button
+        size="compact-md"
+        data-testid="uploadButton"
+        aria-label="Upload cohort"
+        variant="action"
+        onClick={handleImport}
+      >
+        <UploadIcon size="1.5em" aria-hidden="true" />
+      </Button>
+    </Tooltip>,
+  ];
+
   return (
     <>
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
-        <div className="flex flex-col">
+        <div className="flex flex-col ml-2">
           <CohortManager
             rightPanel={<CountsPanel index="case" indexPrefix="Case_" />}
+            size="md"
+            customActions={customButtons}
           />
           <QueryExpression index="case" />
 
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
-            // 300px is a hack for now
-            <div className="mx-4 mb-6 pr-[300px]">
+            <div className="ml-2 pr-[300px]">
               <AnalysisCenterWithSections
                 sections={sections}
                 classNames={classNames}
