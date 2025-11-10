@@ -6,11 +6,14 @@ import {
   DashboardDownloadContext,
   SelectionScreenContext,
 } from "./context";
-import { AnalysisToolConfiguration } from '@gen3/frontend';
+import { AnalysisToolConfiguration } from "@gen3/frontend";
 
 interface AnalysisWorkspaceProps {
   readonly appInfo: AnalysisToolConfiguration;
-  readonly handleAppSelected: (app: string | undefined, demoMode?: boolean) => void;
+  readonly handleAppSelected: (
+    app: string | undefined,
+    demoMode?: boolean,
+  ) => void;
   readonly isDemoMode: boolean;
   readonly skipSelectionScreen: boolean;
   readonly ActiveAnalysisTool: React.ComponentType<{ appId: string }>;
@@ -30,12 +33,12 @@ interface AnalysisWorkspaceProps {
 
 const ApplicationWorkspace: React.FC<AnalysisWorkspaceProps> = ({
   appInfo,
-                                                               handleAppSelected,
+  handleAppSelected,
   isDemoMode,
   skipSelectionScreen,
   ActiveAnalysisTool,
 }: AnalysisWorkspaceProps) => {
-  const { appId: app} = appInfo;
+  const { appId: app } = appInfo;
   const [cohortSelectionOpen, setCohortSelectionOpen] = useState(false);
 
   useEffect(() => {
@@ -50,32 +53,30 @@ const ApplicationWorkspace: React.FC<AnalysisWorkspaceProps> = ({
     return undefined;
   }
 
-  if (app ) {
+  if (app) {
     return (
-      <div>
-          <SelectionScreenContext.Provider
-            value={{
-              selectionScreenOpen: cohortSelectionOpen,
-              setSelectionScreenOpen: setCohortSelectionOpen,
-              app,
-              setActiveApp: handleAppSelected,
-            }}
-          >
-            <DashboardDownloadContext.Provider
-              value={{ state: chartDownloadState, dispatch }}
-            >
-              <AnalysisBreadcrumbs
-                onDemoApp={isDemoMode}
-                skipSelectionScreen={skipSelectionScreen}
-                rightComponent={
-                  appInfo?.rightComponent && <appInfo.rightComponent />
-                }
-                appInfo={appInfo}
-              />
-              <ActiveAnalysisTool appId={app} />
-            </DashboardDownloadContext.Provider>
-          </SelectionScreenContext.Provider>
-      </div>
+      <SelectionScreenContext.Provider
+        value={{
+          selectionScreenOpen: cohortSelectionOpen,
+          setSelectionScreenOpen: setCohortSelectionOpen,
+          app,
+          setActiveApp: handleAppSelected,
+        }}
+      >
+        <DashboardDownloadContext.Provider
+          value={{ state: chartDownloadState, dispatch }}
+        >
+          <AnalysisBreadcrumbs
+            onDemoApp={isDemoMode}
+            skipSelectionScreen={skipSelectionScreen}
+            rightComponent={
+              appInfo?.rightComponent && <appInfo.rightComponent />
+            }
+            appInfo={appInfo}
+          />
+          <ActiveAnalysisTool appId={app} />
+        </DashboardDownloadContext.Provider>
+      </SelectionScreenContext.Provider>
     );
   } else {
     return null;

@@ -39,5 +39,5 @@ next-env.d.ts
 storybook-static
 
 #valc
-.valc
+.yalc
 yalc.lock

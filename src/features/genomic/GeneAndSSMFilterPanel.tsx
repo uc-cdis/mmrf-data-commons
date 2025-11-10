@@ -1,16 +1,12 @@
 import React from "react";
 import {
   useCoreSelector,
-  Modals,
   selectCurrentModal,
   FacetDefinition,
   EmptyFilterSet,
   CombineMode,
   isIntersection,
   extractEnumFilterValue,
-  CoreState,
-  selectIndexFilters,
-  buildNestedFilterForOperation,
 } from '@gen3/core';
 import  FilterFacets from "@/features/genomic/filters";
 import {
@@ -18,8 +14,6 @@ import {
   useGenesFacets,
   useUpdateGenomicEnumFacetFilter,
   useGenomicFilterByName,
-  useGenomicFacetFilter,
-  useGenesFacetValues,
   useAllFiltersCollapsed,
   useToggleAllFilters,
   useToggleExpandFilter,
@@ -31,16 +25,12 @@ import { useGetAggsQuery } from '@gen3/core';
 import {
   DropdownPanel,
   useFieldNameToTitle,
-  FacetDataHooks,
-  EnumFacetDataHooks,
-  UploadFacetHooks,
+  FacetHooks,
   removeIntersectionFromEnum,
   processBucketData,
-  classifyFacets,
 } from '@gen3/frontend';
 import { AppState, useAppSelector } from './appApi';
 import {
-  selectFiltersAppliedCount,
   selectGeneAndSSMFilters,
 } from './geneAndSSMFiltersSlice';
 import {
@@ -51,7 +41,7 @@ import {
   FacetQueryParameters,
   FacetQueryResponse,
 } from '@/features/Repository/types';
-import { useDeepCompareCallback, useDeepCompareEffect } from 'use-deep-compare';
+import { useDeepCompareCallback } from 'use-deep-compare';
 
 
 // TODO move to hooks
@@ -182,11 +172,10 @@ const GeneAndSSMFilterPanel = ({
 
   const allFiltersCollapsed = useAllFiltersCollapsed();
   const toggleAllFiltersExpanded = useToggleAllFilters();
-  const filtersAppliedCount = useAppSelector(selectFiltersAppliedCount);
   const clearAllFilters = useClearAllGenomicFilters();
 
 
-  const GenomicFilterHooks : Record<'enum' | 'upload', FacetDataHooks | EnumFacetDataHooks | UploadFacetHooks> = {
+  const GenomicFilterHooks : Record<'enum' | 'upload', FacetHooks> = {
     enum : {
       useGetFacetData: getEnumFacetData,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
@@ -198,8 +187,10 @@ const GeneAndSSMFilterPanel = ({
       useFieldNameToTitle,
     },
     upload: {
+      useGetFacetData: getEnumFacetData,
       useFilterItems: useUploadFilterItems as any,
       useClearFilter: useClearGenomicFilters,
+      useGetFacetFilters: useGenomicFilterByName,
       useFieldNameToTitle,
       useOpenUploadModal: useOpenUploadModal,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
@@ -210,12 +201,14 @@ const GeneAndSSMFilterPanel = ({
   return (
     <>
       <DropdownPanel
-        index="genomic"
         filters={filters}
         facetDefinitions={facetDefinitions}
         facetDataHooks={GenomicFilterHooks as any}
         showAccessLevel={false}
         tabTitle={"Genomic Filters"}
+        toggleAllFiltersExpanded={toggleAllFiltersExpanded}
+        allFiltersCollapsed={allFiltersCollapsed}
+        clearAllFilters={clearAllFilters}
       />
     </>
   );

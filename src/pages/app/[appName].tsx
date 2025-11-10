@@ -1,21 +1,23 @@
-import React from 'react';
-import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-import { Center } from '@mantine/core';
+import React from "react";
+import PageTitle from "@/components/PageTitle";
+import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
+import { Button, Center, Tooltip } from "@mantine/core";
 import {
   useCoreSelector,
   selectGen3AppByName,
   GEN3_COMMONS_NAME,
-} from '@gen3/core';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { getAppName } from '../../utils/apps';
+} from "@gen3/core";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { getAppName } from "../../utils/apps";
 import {
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
   ContentSource,
-  CohortManager, QueryExpression,
-} from '@gen3/frontend';
+  CohortManager,
+  QueryExpression,
+} from "@gen3/frontend";
+import { UploadIcon } from "@/utils/icons";
 
 interface AppConfig extends NavPageLayoutProps {
   config?: object;
@@ -38,18 +40,32 @@ const AppsPage = ({ config }: AppConfig) => {
       </Center>
     );
 
+  const customButtons = [
+    <Tooltip label="Import Cohort" position="bottom" withArrow key="import">
+      <Button
+        size="compact-md"
+        data-testid="uploadButton"
+        aria-label="Upload cohort"
+        variant="action"
+        // onClick={handleImport}
+      >
+        <UploadIcon size="1.5em" aria-hidden="true" />
+      </Button>
+    </Tooltip>,
+  ];
+
   return (
     <>
       <PageTitle pageName="Analysis Center" />
       <div className="w-full flex-col">
-      <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
-        <MainNavigation />
-        <CohortManager/>
-        <QueryExpression index="cases"/>
-        <div className="w-full overflow-y-auto">
-          <Gen3App {...config} />
+        <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
+          <MainNavigation />
+          <CohortManager customActions={customButtons} />
+          <QueryExpression index="cases" />
+          <div className="w-full overflow-y-auto">
+            <Gen3App {...config} />
+          </div>
         </div>
-      </div>
       </div>
     </>
   );
