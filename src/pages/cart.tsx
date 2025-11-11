@@ -10,14 +10,13 @@ const CartPage: NextPage = () => {
     <>
       <PageTitle pageName="Cart" />
       <ProtectedContent>
-        <div className="flex-col mt-4 z-0">
-          <SummaryHeader
-            headerTitleLeft="Cart"
-            headerTitle=""
-            iconPath="mmrf:cart"
-          />
-          <Cart />
-        </div>
+      <h1 className="sr-only">Cart</h1>
+      <SummaryHeader
+        headerTitleLeft="Cart"
+        headerTitle=""
+        iconPath="mmrf:cart"
+      />
+      <Cart />
       </ProtectedContent>
     </>
   );
