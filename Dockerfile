@@ -27,7 +27,6 @@ COPY --from=builder /gen3/node_modules ./node_modules
 COPY --from=builder /gen3/config ./config
 COPY --from=builder /gen3/.next ./.next/
 COPY --from=builder /gen3/public ./public
-RUN rm /gen3/public/mockServiceWorker.js
 COPY --from=builder /gen3/.next/static ./.next/static
 COPY --from=builder /gen3/start.sh ./start.sh
 RUN mkdir -p /gen3/.next/cache/images
