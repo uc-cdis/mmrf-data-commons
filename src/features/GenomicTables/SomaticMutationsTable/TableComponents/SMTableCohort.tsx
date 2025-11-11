@@ -30,7 +30,7 @@ const SMTableCohort = ({
         isDemoMode ? (
           <Image
             src={CohortInactiveIcon}
-            alt="Cohort Active Icon"
+            alt="Cohort Inactive Icon"
             width={16}
             height={16}
             aria-label="inactive cohort icon"

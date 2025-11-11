@@ -55,10 +55,9 @@ const ToggledCheck: React.FC<ToggleProps> = ({
               handleSwitch(selected);
             }
         }}
-        className="gene-panel-table-survival"
         classNames={{
           root: `${margin} bg-transparent gene-panel-table-survival`,
-          input: ` cursor-pointer peer  hover:bg-mmrf-blush checked:bg-mmrf-rust`,
+          input: ` cursor-pointer peer bg-white hover:bg-mmrf-blush data-checked:bg-mmrf-rust`,
           icon: "!text-white",
         }}
       />

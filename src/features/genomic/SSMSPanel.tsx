@@ -74,7 +74,7 @@ export const SSMSPanel = ({
     (idAndSymbol: Record<string, any>) =>
       handleGeneAndSSmToggled(
         toggledMutations,
-        'ssms.ssm_id',
+        'gene.ssm.ssm_id',
         'mutationID',
         idAndSymbol,
       ),
