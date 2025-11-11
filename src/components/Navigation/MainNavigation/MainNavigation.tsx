@@ -18,7 +18,15 @@ const MainNavigation: React.FC = () => {
   ];
 
   return (
-    <div id="global-header">
+    <div
+      id="global-header"
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 1100,
+        background: "white",
+      }}
+    >
       <div className="bg-mmrf-purple text-[8px] sm:text-sm md:pr-4">
         <TopBar
           loginButtonVisibility={topBarData.loginButtonVisibility as any}

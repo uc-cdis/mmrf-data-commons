@@ -1,28 +1,21 @@
-import  React,{  useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import {
-  FacetBucket as FacetBuckets,
   FilterSet,
   IndexedFilterSet,
   Operation,
-  CoreState,
-  useCoreDispatch,
   useCoreSelector,
-  usePrevious,
   selectCohortFilters as selectCurrentCohortFilters,
   GQLFilter as GqlOperation,
   extractFilterValue as extractValue,
   FilterValue as OperandValue,
-  GQLFilter,
-  EnumFilterValue,
-} from '@gen3/core';
+} from "@gen3/core";
 import {
   type SurvivalPlotData,
   useGetComparisonSurvivalPlotQuery,
-} from '@/core/survival';
+} from "@/core/survival";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { EmptySurvivalPlot } from "@/core/survival/types";
-import InputEntityList from "@/components/InputEntityList/InputEntityList";
 
 export const overwritingDemoFilterMutationFrequency: FilterSet = {
   mode: "and",
@@ -37,9 +30,13 @@ export const overwritingDemoFilterMutationFrequency: FilterSet = {
 
 // import { useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from "lodash/isEqual";
-import { GQLDocType, GQLIndexType} from '@/core/features/facets/types';
+import { GQLDocType, GQLIndexType } from "@/core/features/facets/types";
 
-import { AppState, useAppDispatch, useAppSelector } from '@/features/genomic/appApi';
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "@/features/genomic/appApi";
 import {
   updateGeneAndSSMFilter,
   selectGeneAndSSMFiltersByName,
@@ -54,7 +51,7 @@ import {
   selectFilterExpanded,
   selectAllFiltersCollapsed,
 } from "./geneAndSSMFilterExpandedSlice";
-import { ComparativeSurvival } from '@/features/genomic/types';
+import { ComparativeSurvival } from "@/features/genomic/types";
 // import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 // import { overwritingDemoFilterMutationFrequency } from "@/features/genomic/GenesAndMutationFrequencyAnalysisTool";
 // import { buildGeneHaveAndHaveNotFilters } from "@/features/genomic/utils";
@@ -63,8 +60,8 @@ import { ComparativeSurvival } from '@/features/genomic/types';
 // import { useDeepCompareMemo } from "use-deep-compare";
 // import { appendSearchTermFilters } from "@/features/GenomicTables/utils";
 import FilterFacets from "@/features/genomic/filters";
-import { buildCohortGqlOperator } from '@/core/utils';
-import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
+import { buildCohortGqlOperator } from "@/core/utils";
+import { buildGeneHaveAndHaveNotFilters } from "@/features/genomic/utils";
 import { modals } from "@mantine/modals";
 // import { buildCohortGqlOperator } from '@/core/utils';
 
@@ -98,7 +95,9 @@ export const useClearAllGenomicFilters = () => {
 };
 
 export const useGenomicFilterByName = (field: string) => {
-  return useAppSelector((state: AppState) => selectGeneAndSSMFiltersByName(state, field));
+  return useAppSelector((state: AppState) =>
+    selectGeneAndSSMFiltersByName(state, field),
+  );
 };
 
 export const useGenomicFilterValueByName = (field: string): OperandValue => {
@@ -111,13 +110,16 @@ export const useGenomicFilterValueByName = (field: string): OperandValue => {
 const useGenomicFiltersByNames = (
   fields: ReadonlyArray<string>,
 ): Record<string, OperandValue> => {
-  const enumFilters: Record<string, Operation> = useAppSelector((state: AppState) =>
-    selectGeneAndSSMFiltersByNames(state, fields),
+  const enumFilters: Record<string, Operation> = useAppSelector(
+    (state: AppState) => selectGeneAndSSMFiltersByNames(state, fields),
   );
-  return Object.entries(enumFilters).reduce((obj : Record<string, any>, [key, value]) => {
-    if (value) obj[key] = extractValue(value);
-    return obj;
-  }, {});
+  return Object.entries(enumFilters).reduce(
+    (obj: Record<string, any>, [key, value]) => {
+      if (value) obj[key] = extractValue(value);
+      return obj;
+    },
+    {},
+  );
 };
 
 const useCohortFacetFilter = (): IndexedFilterSet => {
@@ -125,7 +127,7 @@ const useCohortFacetFilter = (): IndexedFilterSet => {
 };
 
 export const useGenomicFacetFilter = (): FilterSet => {
-  return useAppSelector((state : AppState) => selectGeneAndSSMFilters(state));
+  return useAppSelector((state: AppState) => selectGeneAndSSMFilters(state));
 };
 
 export const useToggleExpandFilter = () => {
@@ -143,7 +145,9 @@ export const useToggleAllFilters = () => {
 };
 
 export const useFilterExpandedState = (field: string) => {
-  return useAppSelector((state: AppState) => selectFilterExpanded(state, field));
+  return useAppSelector((state: AppState) =>
+    selectFilterExpanded(state, field),
+  );
 };
 
 export const useAllFiltersCollapsed = () => {
@@ -151,15 +155,11 @@ export const useAllFiltersCollapsed = () => {
 };
 
 export const useTotalGenomicCounts = () => {
-
-    return 0;
-
+  return 0;
 };
 
-
-  export const useGenesFacetValues = (field: string) => {
-    // facet data is store in core
-
+export const useGenesFacetValues = (field: string) => {
+  // facet data is store in core
 
   return {
     data: {},
@@ -176,8 +176,7 @@ export const useGenesFacets = (
   fields: ReadonlyArray<string>,
   isDemoMode: boolean,
   indexPrefix?: string,
-): void => {
-};
+): void => {};
 
 /**
  * returns the values of a field. Assumes required field
@@ -204,80 +203,76 @@ export interface GeneAndSSMPanelData {
  */
 
 export const useGeneAndSSMPanelData = (
-comparativeSurvival: ComparativeSurvival,
-isGene: boolean,
+  comparativeSurvival: ComparativeSurvival,
+  isGene: boolean,
 ): GeneAndSSMPanelData => {
+  const isDemoMode = useIsDemoApp();
+  const currentCohortFilters = useCoreSelector((state) =>
+    selectCurrentCohortFilters(state),
+  );
 
-const isDemoMode = useIsDemoApp();
-const currentCohortFilters = useCoreSelector((state) =>
-  selectCurrentCohortFilters(state),
-);
+  const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
+    selectGeneAndSSMFilters(state),
+  );
+  const overwritingDemoFilter = useMemo(
+    () => overwritingDemoFilterMutationFrequency,
+    [],
+  );
 
-const genomicFilters: FilterSet = useAppSelector((state:AppState) =>
-  selectGeneAndSSMFilters(state),
-);
-const overwritingDemoFilter = useMemo(
-  () => overwritingDemoFilterMutationFrequency,
-  [],
-);
+  const cohortFilters: GqlOperation = useDeepCompareMemo(
+    () =>
+      buildCohortGqlOperator(
+        isDemoMode ? overwritingDemoFilter : currentCohortFilters["case"], // TODO: handle multiple cohorts
+      ) ?? { and: [] },
+    [currentCohortFilters, isDemoMode, overwritingDemoFilter],
+  );
 
-const cohortFilters: GqlOperation = useDeepCompareMemo(
-  () =>
-    buildCohortGqlOperator(
-      isDemoMode ? overwritingDemoFilter : currentCohortFilters['case'], // TODO: handle multiple cohorts
-    ) ?? { and :[]},
-  [currentCohortFilters, isDemoMode, overwritingDemoFilter],
-);
+  const localFilters = useDeepCompareMemo(
+    () => buildCohortGqlOperator(genomicFilters),
+    [genomicFilters],
+  );
 
-const localFilters = useDeepCompareMemo(
-  () => buildCohortGqlOperator(genomicFilters),
-  [genomicFilters],
-);
-
-const memoizedFilters = useMemo(
-  () =>
-    buildGeneHaveAndHaveNotFilters(
-      buildCohortGqlOperator(genomicFilters),
-      comparativeSurvival?.symbol,
+  const memoizedFilters = useMemo(
+    () =>
+      buildGeneHaveAndHaveNotFilters(
+        buildCohortGqlOperator(genomicFilters),
+        comparativeSurvival?.symbol,
+        comparativeSurvival?.field,
+        isGene,
+      ),
+    [
       comparativeSurvival?.field,
+      comparativeSurvival?.symbol,
       isGene,
-    ),
-  [
-    comparativeSurvival?.field,
-    comparativeSurvival?.symbol,
-    isGene,
+      genomicFilters,
+    ],
+  );
+
+  const {
+    data: survivalPlotData,
+    isFetching: survivalPlotFetching,
+    isSuccess: survivalPlotReady,
+  } = useGetComparisonSurvivalPlotQuery({
+    filters:
+      comparativeSurvival !== undefined
+        ? memoizedFilters
+        : localFilters
+          ? [localFilters]
+          : [],
+    index: "CaseCentric_case_centric",
+    field: "case_id",
+    useIntersection: false,
+  });
+
+  return {
+    isDemoMode,
+    cohortFilters: currentCohortFilters,
     genomicFilters,
-  ],
-);
-
-
-const {
-  data: survivalPlotData,
-  isFetching: survivalPlotFetching,
-  isSuccess: survivalPlotReady,
-} = useGetComparisonSurvivalPlotQuery({
-  filters:
-    comparativeSurvival !== undefined
-      ? memoizedFilters
-      : localFilters
-      ? [localFilters]
-      : [],
-  index: "CaseCentric_case_centric",
-  field: "case_id",
-  useIntersection: false
-});
-
-return {
-  isDemoMode,
-  cohortFilters: currentCohortFilters,
-  genomicFilters,
-  overwritingDemoFilter,
-  survivalPlotData: survivalPlotData ?? EmptySurvivalPlot,
-  survivalPlotFetching,
-  survivalPlotReady,
-};
-
-
+    overwritingDemoFilter,
+    survivalPlotData: survivalPlotData ?? EmptySurvivalPlot,
+    survivalPlotFetching,
+    survivalPlotReady,
+  };
 };
 
 /**
@@ -439,7 +434,7 @@ export const useOpenUploadModal = () => {
       operator: "in",
       operands: ids,
     });
-  }
+  };
 
   const openUploadModal = (field: string) => {
     if (field === "gene_id") {
@@ -448,10 +443,17 @@ export const useOpenUploadModal = () => {
         title: "Filter Mutation Frequency by Mutated Genes",
         size: "xl",
         zIndex: 1200,
+        styles: {
+          header: {
+            marginLeft: "16px",
+          },
+        },
         innerProps: {
           userInputProps: {
-            inputInstructions: "Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.",
-            textInputPlaceholder: "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
+            inputInstructions:
+              "Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.",
+            textInputPlaceholder:
+              "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
             entityType: "genes",
             entityLabel: "gene",
             identifierToolTip: (
@@ -470,35 +472,44 @@ export const useOpenUploadModal = () => {
           },
           updateFilters,
           type: "genes",
-        }
-     })
+        },
+      });
     } else if (field === "ssm_id") {
       modals.openContextModal({
         modal: "filterByUserInputModal",
         title: "Filter Mutation Frequency by Somatic Mutations",
         size: "xl",
         zIndex: 1200,
+        styles: {
+          header: {
+            marginLeft: "16px",
+          },
+        },
         innerProps: {
           userInputProps: {
-            inputInstructions: "Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.",
-            textInputPlaceholder:"e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
+            inputInstructions:
+              "Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.",
+            textInputPlaceholder:
+              "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
             entityType: "ssms",
             entityLabel: "mutation",
             identifierToolTip: (
               <div>
-                <p>- Mutation identifiers accepted: Mutation UUID, DNA Change</p>
                 <p>
-                  - Delimiters between mutation identifiers: comma, space, tab or
-                  1 mutation identifier per line
+                  - Mutation identifiers accepted: Mutation UUID, DNA Change
+                </p>
+                <p>
+                  - Delimiters between mutation identifiers: comma, space, tab
+                  or 1 mutation identifier per line
                 </p>
                 <p>- File formats accepted: .txt, .csv, .tsv</p>
               </div>
-            )
+            ),
           },
           updateFilters,
           type: "ssms",
-        }
-     })
+        },
+      });
     }
   };
 

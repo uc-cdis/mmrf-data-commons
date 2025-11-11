@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import PageTitle from "@/components/PageTitle";
-import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
 import {
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
@@ -19,6 +18,8 @@ import {
   useCoreSelector,
   selectCurrentCohortId,
   selectIndexFilters,
+  createNewCohort,
+  useCoreDispatch,
 } from "@gen3/core";
 import AnalysisWorkspace from "@/components/analysis/AnalysisWorkspace";
 import AdditionalCohortSelection from "@/features/cohortComparison/AdditionalCohortSelection";
@@ -72,7 +73,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   const {
     query: { app },
   } = router;
-
+  const dispatch = useCoreDispatch();
   const REGISTERED_APPS = useMemo(() => {
     if (sections) {
       return sections.reduce(
@@ -92,7 +93,14 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
-  const rand = () => {};
+  const updateFilters = (facetField: string, outputIds: string[]) => {
+    dispatch(
+      createNewCohort({
+        name: "something",
+        filters: {},
+      }),
+    );
+  };
 
   const handleImport = () => {
     modals.openContextModal({
@@ -100,6 +108,11 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       title: "Import a New Cohort",
       size: "xl",
       zIndex: 1200,
+      styles: {
+        header: {
+          marginLeft: "16px",
+        },
+      },
       innerProps: {
         userInputProps: {
           inputInstructions:
@@ -126,7 +139,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
             </div>
           ),
         },
-        rand,
+        updateFilters,
         type: "cases",
       },
     });
@@ -150,18 +163,17 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
-        <div className="flex flex-col ml-2">
+        <div className="flex flex-col">
           <CohortManager
             rightPanel={<CountsPanel index="case" indexPrefix="Case_" />}
             size="md"
             customActions={customButtons}
           />
           <QueryExpression index="case" />
-
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
-            <div className="ml-2 pr-[300px]">
+            <div className="mx-4 mb-6 pr-[300px]">
               <AnalysisCenterWithSections
                 sections={sections}
                 classNames={classNames}

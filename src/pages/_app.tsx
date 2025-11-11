@@ -90,16 +90,7 @@ const Gen3App = ({
               contextModals={mmrfModals}
             >
               <Gen3GDCCompatabilityProvider>
-                <div
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 1100,
-                    background: "white",
-                  }}
-                >
-                  <MainNavigation />
-                </div>
+                <MainNavigation />
                 <Component {...pageProps} />
               </Gen3GDCCompatabilityProvider>
             </Gen3Provider>
