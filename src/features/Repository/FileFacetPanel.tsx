@@ -18,12 +18,15 @@ import {
   toggleCohortBuilderAllFilters,
   useCoreDispatch,
   useCoreSelector,
+  useCoreDispatch,
+  toggleCohortBuilderAllFilters,
+  selectAllCohortFiltersCollapsed,
+  clearCohortFilters
 } from '@gen3/core';
 
 import {
   classifyFacets,
   EnumFacetDataHooks,
-  FacetHooks,
   FieldToName,
   DropdownPanel,
   getAllFieldsFromFilterConfigs,
@@ -34,7 +37,8 @@ import {
   useGetFacetFilters,
   useUpdateFilters,
   FacetSortType,
-  ErrorCard
+  ErrorCard,
+  FacetHooks,
 } from '@gen3/frontend';
 import { partial } from 'lodash';
 import {
@@ -77,6 +81,18 @@ export const FileFacetPanel = ({
 }: FileFacetPanelProps): JSX.Element => {
 
   const coreDispatch = useCoreDispatch();
+
+  const allFiltersCollapsed = useCoreSelector((state) =>
+    selectAllCohortFiltersCollapsed(state, index),
+  );
+
+  const toggleAllFiltersExpanded = (expand: boolean) => {
+    coreDispatch(toggleCohortBuilderAllFilters({ expand, index }));
+  };
+
+  const clearAllFilters = useCallback(() => {
+    coreDispatch(clearCohortFilters({ index }));
+  }, [coreDispatch, index]);
 
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),

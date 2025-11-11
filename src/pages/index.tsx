@@ -1,28 +1,28 @@
-import React, { useMemo } from 'react';
-import { useRouter } from 'next/router';
-import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
+import React, { useMemo } from "react";
+import { useRouter } from "next/router";
+import PageTitle from "@/components/PageTitle";
 import {
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
   AnalysisPageLayoutProps,
   AnalysisToolConfiguration,
   CohortManager,
-  QueryExpression,CountsValue, ProtectedContent
-} from '@gen3/frontend';
+  QueryExpression,
+  CountsValue,
+  ProtectedContent,
+} from "@gen3/frontend";
 import {
   useLazyGetCountsQuery,
   Accessibility,
   CoreState,
   useCoreSelector,
   selectCurrentCohortId,
-  selectIndexFilters
-} from '@gen3/core';
-import AnalysisWorkspace from '@/components/analysis/AnalysisWorkspace';
-import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCohortSelection';
+  selectIndexFilters,
+} from "@gen3/core";
+import AnalysisWorkspace from "@/components/analysis/AnalysisWorkspace";
+import AdditionalCohortSelection from "@/features/cohortComparison/AdditionalCohortSelection";
 
-
-import { useDeepCompareEffect } from 'use-deep-compare';
+import { useDeepCompareEffect } from "use-deep-compare";
 
 interface CountsPanelProps {
   index: string;
@@ -31,10 +31,10 @@ interface CountsPanelProps {
 }
 
 const CountsPanel: React.FC<CountsPanelProps> = ({
-                                                   index,
-                                                   accessibility = Accessibility.ALL,
-                                                   indexPrefix = "Case_"
-                                                 }: CountsPanelProps) => {
+  index,
+  accessibility = Accessibility.ALL,
+  indexPrefix = "Case_",
+}: CountsPanelProps) => {
   const [getCounts, { data: counts, isFetching, isError, isSuccess }] =
     useLazyGetCountsQuery();
   const currentCohortId = useCoreSelector((state: CoreState) =>
@@ -55,67 +55,67 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
   }, [cohortFilters, currentCohortId, accessibility]);
 
   return (
-      <CountsValue
-        label="Case"
-        counts={counts}
-        isFetching={isFetching}
-        isError={isError}
-      />
+    <CountsValue
+      label="Case"
+      counts={counts}
+      isFetching={isFetching}
+      isError={isError}
+    />
   );
 };
 
-
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
-
   const router = useRouter();
   const {
     query: { app },
   } = router;
 
   const REGISTERED_APPS = useMemo(() => {
-
     if (sections) {
-      return sections.reduce((acc: Array<AnalysisToolConfiguration>, section) => {
-        return [...acc, ...section.tools];
-      }, []);
+      return sections.reduce(
+        (acc: Array<AnalysisToolConfiguration>, section) => {
+          return [...acc, ...section.tools];
+        },
+        [],
+      );
     }
-    return []
+    return [];
   }, []);
-  let appInfo = app ? REGISTERED_APPS.find((a : AnalysisToolConfiguration) =>a?.appId === app) : undefined;
+  let appInfo = app
+    ? REGISTERED_APPS.find((a: AnalysisToolConfiguration) => a?.appId === app)
+    : undefined;
 
-  if (appInfo && appInfo.appId === 'CohortComparison') {
-    appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any} // TODO: remove this cast
+  if (appInfo && appInfo.appId === "CohortComparison") {
+    appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
   return (
     <>
       <PageTitle pageName="Analysis Center" />
-      <MainNavigation />
-      { /*
       <ProtectedContent>
-      */ }
-      <div className="flex flex-col ml-2">
-        <CohortManager rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}/>
-        <QueryExpression index="case_centric"/>
+        <div className="flex flex-col">
+          <CohortManager
+            rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}
+          />
+          <QueryExpression index="case" />
 
-
-      {appInfo ?
-        <AnalysisWorkspace  appInfo={appInfo} />
-      : sections ?  (
-
-          <div className="ml-2 pr-[300px]">
-            <AnalysisCenterWithSections
-              sections={sections}
-              classNames={classNames}
-            />
-          </div>
-      ) : <div className="mt-20">No sections found in config file</div>}
+          {appInfo ? (
+            <AnalysisWorkspace appInfo={appInfo} />
+          ) : sections ? (
+            // 300px is a hack for now
+            <div className="mx-4 mb-6 pr-[300px]">
+              <AnalysisCenterWithSections
+                sections={sections}
+                classNames={classNames}
+              />
+            </div>
+          ) : (
+            <div className="mt-20">No sections found in config file</div>
+          )}
         </div>
-      { /*
       </ProtectedContent>
-      */ }
-    </>);
-
+    </>
+  );
 };
 
 export default Tools;

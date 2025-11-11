@@ -8,7 +8,6 @@ import {
 } from '@gen3/frontend';
 
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 
 
 const ClinicalDataAnalysis = dynamic(() => import('@/features/cDave/ClinicalDataAnalysis'), {
@@ -24,7 +23,6 @@ const ClinicalDataAnalysisPage = () => {
     <>
       <PageTitle pageName="Clinical Data Analysis" />
       <div className="w-full flex-col flex gap-4 fixed z-50 bg-white">
-        <MainNavigation />
         <CohortManager />
         <QueryExpression index="cases"/>
       </div>

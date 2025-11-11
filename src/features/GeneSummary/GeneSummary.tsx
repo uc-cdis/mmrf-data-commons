@@ -1,22 +1,22 @@
-import React, { useMemo } from 'react';
-import { EmptyFilterSet, FilterSet } from '@gen3/core';
-import { AnchorLink } from '@/components/AnchorLink';
-import { CollapsibleTextArea } from '@/components/CollapsibleTextArea';
-import { SummaryCard } from '@/components/Summary/SummaryCard';
-import { SummaryHeader } from '@/components/Summary/SummaryHeader';
-import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import { useGeneSummaryQuery } from '@/core';
-import { externalLinkNames, externalLinks, humanify } from '../../utils';
-import CNVPlot from '../charts/CNVPlot';
-import SSMPlot from '../charts/SSMPlot';
-import { formatDataForHorizontalTable } from '../files/utils';
-import { LoadingOverlay } from '@mantine/core';
-import { HeaderTitle } from '@/components/tailwindComponents';
-import { CollapsibleList } from '@/components/CollapsibleList';
-import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
-import GeneCancerDistributionTable from '../CancerDistributionTable/GeneCancerDistributionTable';
-import { StrandMinusIcon, StrandPlusIcon } from '@/utils/icons';
-import { WarningBanner } from '@/components/WarningBanner';
+import React, { useMemo } from "react";
+import { EmptyFilterSet, FilterSet } from "@gen3/core";
+import { AnchorLink } from "@/components/AnchorLink";
+import { CollapsibleTextArea } from "@/components/CollapsibleTextArea";
+import { SummaryCard } from "@/components/Summary/SummaryCard";
+import { SummaryHeader } from "@/components/Summary/SummaryHeader";
+import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
+import { useGeneSummaryQuery } from "@/core";
+import { externalLinkNames, externalLinks, humanify } from "../../utils";
+import CNVPlot from "../charts/CNVPlot";
+import SSMPlot from "../charts/SSMPlot";
+import { formatDataForHorizontalTable } from "../files/utils";
+import { LoadingOverlay } from "@mantine/core";
+import { HeaderTitle } from "@/components/tailwindComponents";
+import { CollapsibleList } from "@/components/CollapsibleList";
+import SMTableContainer from "../GenomicTables/SomaticMutationsTable/SMTableContainer";
+import GeneCancerDistributionTable from "../CancerDistributionTable/GeneCancerDistributionTable";
+import { StrandMinusIcon, StrandPlusIcon } from "@/utils/icons";
+import { WarningBanner } from "@/components/WarningBanner";
 
 interface GeneSummaryData {
   symbol: string;
@@ -143,7 +143,7 @@ const GeneView = ({
         title="Cancer Gene Census"
       />
     ) : (
-      '--'
+      "--"
     );
     const synonymsList = synonyms?.length && (
       <ul>
@@ -196,7 +196,7 @@ const GeneView = ({
 
     Object.keys(externalLinksObj).forEach((link) => {
       const modified = {
-        [`${externalLinkNames[link as keyof typeof externalLinkNames] || link.replace(/_/, ' ')}`]:
+        [`${externalLinkNames[link as keyof typeof externalLinkNames] || link.replace(/_/, " ")}`]:
           (externalLinksObj[link as keyof typeof externalLinkNames]
             ?.length as number) > 0 ? (
             <>
@@ -239,7 +239,7 @@ const GeneView = ({
               )}
             </>
           ) : (
-            '--'
+            "--"
           ),
       };
 
@@ -268,17 +268,17 @@ const GeneView = ({
             isModal={isModal}
           />
 
-          <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
+          <div className={`${!isModal ? "mt-6" : "mt-4"} mx-4`}>
             {contextSensitive && (
               <div className="my-6 pt-20">
                 <WarningBanner
                   text={
-                    'Viewing subset of the MMRF based on your current cohort and Mutation Frequency filters.'
+                    "Viewing subset of the MMRF based on your current cohort and Mutation Frequency filters."
                   }
                 />
               </div>
             )}
-            <div className="pt-20 flex flex-col lg:flex-row gap-8">
+            <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1">
                 <SummaryCard
                   customDataTestID="table-summary-gene-summary"

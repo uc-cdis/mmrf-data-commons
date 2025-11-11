@@ -8,7 +8,6 @@ const _APP_VERSION = '1.0.0';
 const AppId = getGen3AppId(_APP_NAME, _APP_VERSION);
 
 export const registerGenesAndMutationFrequencyAnalysisTool = () => {
-  console.log(`Registering ${_APP_NAME} App`);
   createGen3AppWithOwnStore({
     App: GenesAndMutationFrequencyAnalysisTool,
     id: AppId,
