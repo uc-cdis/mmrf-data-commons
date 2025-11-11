@@ -1,12 +1,12 @@
-import React from 'react';
-import { LoadingOverlay } from '@mantine/core';
-import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
-import { caseSummaryFields } from './utils';
-import { CaseView } from './CaseView';
-import { useContext, useEffect, useState } from 'react';
-import { URLContext } from 'src/utils/contexts';
-import { useGetCasesQuery } from '@/core/cases/casesSlice';
-import { EndpointRequestProps } from '@/core/features/api';
+import React from "react";
+import { LoadingOverlay } from "@mantine/core";
+import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
+import { caseSummaryFields } from "./utils";
+import { CaseView } from "./CaseView";
+import { useContext, useEffect, useState } from "react";
+import { URLContext } from "src/utils/contexts";
+import { useGetCasesQuery } from "@/core/cases/casesSlice";
+import { EndpointRequestProps } from "@/core/features/api";
 
 export const CaseSummary = ({
   case_id,
@@ -24,10 +24,10 @@ export const CaseSummary = ({
     request: {
       filters: {
         content: {
-          field: 'case_id',
+          field: "case_id",
           value: case_id as string,
         },
-        op: '=',
+        op: "=",
       },
       fields: caseSummaryFields,
     },
@@ -37,7 +37,7 @@ export const CaseSummary = ({
   useEffect(() => {
     if (
       prevPathValue !== undefined &&
-      ['MultipleImageViewerPage', 'selectedId'].every((term) =>
+      ["MultipleImageViewerPage", "selectedId"].every((term) =>
         prevPathValue.prevPath?.includes(term),
       )
     ) {
@@ -46,7 +46,7 @@ export const CaseSummary = ({
   }, [prevPathValue]);
 
   return (
-    <div className="mt-5">
+    <div>
       {isFetching ? (
         <LoadingOverlay visible data-testid="loading-spinner" />
       ) : data && data.hits.length > 0 ? (

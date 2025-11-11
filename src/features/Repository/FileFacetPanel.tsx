@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   useDeepCompareCallback,
   useDeepCompareEffect,
@@ -13,12 +13,15 @@ import {
   isIntersection,
   selectIndexFilters,
   useCoreSelector,
+  useCoreDispatch,
+  toggleCohortBuilderAllFilters,
+  selectAllCohortFiltersCollapsed,
+  clearCohortFilters
 } from '@gen3/core';
 
 import {
   classifyFacets,
   EnumFacetDataHooks,
-  FacetDataHooks,
   FieldToName,
   DropdownPanel,
   getAllFieldsFromFilterConfigs,
@@ -29,7 +32,8 @@ import {
   useGetFacetFilters,
   useUpdateFilters,
   FacetSortType,
-  ErrorCard
+  ErrorCard,
+  FacetHooks,
 } from '@gen3/frontend';
 import { partial } from 'lodash';
 import {
@@ -69,6 +73,21 @@ export const FileFacetPanel = ({
   fieldMapping,
   indexPrefix = '',
 }: FileFacetPanelProps): JSX.Element => {
+
+  const coreDispatch = useCoreDispatch();
+
+  const allFiltersCollapsed = useCoreSelector((state) =>
+    selectAllCohortFiltersCollapsed(state, index),
+  );
+
+  const toggleAllFiltersExpanded = (expand: boolean) => {
+    coreDispatch(toggleCohortBuilderAllFilters({ expand, index }));
+  };
+
+  const clearAllFilters = useCallback(() => {
+    coreDispatch(clearCohortFilters({ index }));
+  }, [coreDispatch, index]);
+
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),
   );
@@ -147,7 +166,7 @@ export const FileFacetPanel = ({
     [repositoryFilters.root, facetData, isFacetsQuerySuccess],
   );
 
-  const facetDataHooks: Record<'enum', FacetDataHooks | EnumFacetDataHooks> =
+  const facetDataHooks: Record<'enum', FacetHooks | EnumFacetDataHooks> =
     useDeepCompareMemo(() => {
       return {
         enum: {
@@ -172,7 +191,6 @@ export const FileFacetPanel = ({
 
   return (
     <DropdownPanel<'enum'>
-      index={index}
       filters={filters}
       facetDefinitions={facetDefinitions}
       facetDataHooks={facetDataHooks}
@@ -180,6 +198,9 @@ export const FileFacetPanel = ({
       tabTitle={tabTitle}
       onAccessChange={setAccessLevel}
       accessLevel={accessLevel}
+      allFiltersCollapsed={allFiltersCollapsed}
+      toggleAllFiltersExpanded={toggleAllFiltersExpanded}
+      clearAllFilters={clearAllFilters}
     />
   );
 };

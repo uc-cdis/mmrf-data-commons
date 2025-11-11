@@ -7,10 +7,6 @@ import {
 } from '@gen3/frontend';
 
 import PageTitle from '@/components/PageTitle';
-import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
-
-
-
 
 export interface TabbedCohortBuilderPageProps extends NavPageLayoutProps {
   configuration: TabbedCohortBuilderConfiguration;
@@ -23,7 +19,6 @@ const TabbedCohortBuilderPage = ({
     <>
       <PageTitle pageName="Gene Summary" />
       <div className="w-full flex-col flex gap-4 fixed z-10 bg-white">
-        <MainNavigation />
         <CohortManager />
           <QueryExpression index="case"/>
       </div>
