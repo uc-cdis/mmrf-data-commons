@@ -97,7 +97,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
           <CohortManager
             rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}
           />
-          <QueryExpression index="case" />
+          <QueryExpression index="case_centric" />
 
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />

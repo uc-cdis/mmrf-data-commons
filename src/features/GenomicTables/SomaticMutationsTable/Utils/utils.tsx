@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useId } from 'react';
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
 import { humanify } from '@/utils/index';
-import { FilterSet } from '@/core';
+import { FilterSet } from '@gen3/core';
 import { SomaticMutation, SsmToggledHandler } from '../types';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useDeepCompareMemo } from 'use-deep-compare';
@@ -10,17 +10,16 @@ import {
   SMTableCohort,
   SMTableConsequences,
   SMTableDNAChange,
-  SMTableImpacts,
   SMTableProteinChange,
   SMTableSurvival,
 } from '../TableComponents';
 import { Checkbox } from '@mantine/core';
 import { entityMetadataType } from '@/utils/contexts';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
-import ImpactHeaderWithTooltip from '../../SharedComponent/ImpactHeaderWithTooltip';
 import RatioWithSpring from '@/components/RatioWithSpring';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
+import CohortCreationButton from '@/components/CohortCreationButton';
 
 export const filterMutationType = (mutationSubType: string): string => {
   if (
@@ -64,7 +63,7 @@ export const useGenerateSMTableColumns = ({
   geneSymbol: string | undefined;
   setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>> | null;
   projectId: string | undefined;
-  generateFilters: (ssmId: string) => FilterSet | null;
+  generateFilters: (ssmId: string) => FilterSet;
   currentPage: number;
   totalPages: number;
   cohortFilters: FilterSet;
@@ -241,10 +240,20 @@ export const useGenerateSMTableColumns = ({
           />
         ),
         cell: ({ row }) => (
-          <NumeratorDenominator
-            numerator={row.original['#_affected_cases_in_cohort'].numerator}
-            denominator={row.original['#_affected_cases_in_cohort'].denominator}
-            boldNumerator={true}
+          <CohortCreationButton
+            label={
+              <NumeratorDenominator
+                numerator={row.original["#_affected_cases_in_cohort"].numerator}
+                denominator={
+                  row.original["#_affected_cases_in_cohort"].denominator
+                }
+                boldNumerator={true}
+              />
+            }
+            numCases={row.original["#_affected_cases_in_cohort"].numerator}
+            filters={generateFilters(row.original.mutation_id)}
+            caseFilters={cohortFilters}
+            createStaticCohort
           />
         ),
       }),
@@ -301,11 +310,14 @@ export const useGenerateSMTableColumns = ({
           }
         },
       }),
-      SMTableColumnHelper.display({
-        id: 'impact',
-        header: () => <ImpactHeaderWithTooltip />,
-        cell: ({ row }) => <SMTableImpacts impact={row.original.impact} />,
-      }),
+      // Reopen the impacts column if and when we have impact data
+      /* --
+      // SMTableColumnHelper.display({
+      //   id: 'impact',
+      //   header: () => <ImpactHeaderWithTooltip />,
+      //   cell: ({ row }) => <SMTableImpacts impact={row.original.impact} />,
+      // }),
+       */
     ],
     [
       geneSymbol,

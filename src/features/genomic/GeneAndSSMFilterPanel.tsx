@@ -147,9 +147,10 @@ const GeneAndSSMFilterPanel = ({
             *****/
           'biotype',
           'is_cancer_gene_census',
-          'consequence.transcript.annotation.vep_impact',
-          'consequence.transcript.annotation.sift_impact',
-          'consequence.transcript.annotation.polyphen_impact',
+          // In for IA14 but removed for IA24
+          // 'consequence.transcript.annotation.vep_impact',
+          // 'consequence.transcript.annotation.sift_impact',
+          // 'consequence.transcript.annotation.polyphen_impact',
           'consequence.transcript.consequence_type',
           'mutation_subtype',
         ],
