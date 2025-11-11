@@ -32,3 +32,14 @@ export interface FacetQueryResponse {
   isFetching: boolean;
   isError: boolean;
 }
+
+export interface CohortCentricAggsQueryRequest {
+  type: string;
+  cohortFilter: GQLFilter;
+  fields: Array<string>;
+  filter: FilterSet;
+  caseIdsFilterPath: string;
+  accessibility?: Accessibility;
+  filterSelf?: boolean;
+  indexPrefix?: string;
+}

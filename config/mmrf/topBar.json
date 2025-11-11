@@ -4,9 +4,13 @@
     "divider": "border-base-min border-1"
   },
   "itemClassnames": {
-    "button": "hover:border-white"
+    "button": "hover:border-accent"
   },
   "items": [
+    {
+      "href": "https://themmrf.github.io/docs-vlab/",
+      "name": "Documentation"
+    },
     {
       "rightIcon": "mmrf:cart",
       "href": "/cart",

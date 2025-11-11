@@ -12,8 +12,6 @@ import {
   toggleCohortBuilderCategoryFilter,
   useCoreDispatch,
   useCoreSelector,
-  useGetAggsQuery,
-  Includes,
 } from '@gen3/core';
 import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
@@ -24,12 +22,12 @@ import {
   useGetCohortCentricQuery,
 } from '@/core';
 import {
-  FacetQueryParametersWithCohortFilter,
+  CohortCentricAggsQueryRequest,
   FacetQueryResponse,
 } from '@/features/types';
 
 export const useGetFacetValuesQuery = (
-  args: FacetQueryParametersWithCohortFilter,
+  args: CohortCentricAggsQueryRequest,
 ): FacetQueryResponse => {
 
 
