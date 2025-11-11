@@ -163,7 +163,6 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
           data-testid="button-cancel-cohort-comparison"
           className="mr-4"
           onClick={() => {
-            console.log("setActiveApp", setActiveApp)
             if (setActiveApp) setActiveApp(undefined);
             setOpen(false);
           }}
