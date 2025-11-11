@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useId } from 'react';
 // This table can be found at /analysis_page?app=MutationFrequencyApp Mutations tab
 import { humanify } from '@/utils/index';
 import { FilterSet } from '@/core';
 import { SomaticMutation, SsmToggledHandler } from '../types';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Dispatch, SetStateAction, useId } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
 import {
@@ -15,7 +14,7 @@ import {
   SMTableProteinChange,
   SMTableSurvival,
 } from '../TableComponents';
-import { Checkbox } from "@mantine/core";
+import { Checkbox } from '@mantine/core';
 import { entityMetadataType } from '@/utils/contexts';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
 import ImpactHeaderWithTooltip from '../../SharedComponent/ImpactHeaderWithTooltip';
@@ -55,6 +54,7 @@ export const useGenerateSMTableColumns = ({
   currentPage,
   totalPages,
   cohortFilters,
+  rowSelectionEnabled = false,
 }: {
   toggledSsms: string[] | undefined;
   isDemoMode: boolean;
@@ -68,19 +68,20 @@ export const useGenerateSMTableColumns = ({
   currentPage: number;
   totalPages: number;
   cohortFilters: FilterSet;
+  rowSelectionEnabled?: boolean;
 }): ColumnDef<SomaticMutation>[] => {
   const componentId = useId();
 
-  const SMTableDefaultColumns = useDeepCompareMemo<any>(
+  return useDeepCompareMemo<any>(
     () => [
-      SMTableColumnHelper.display({
-        id: "select",
+    ...(rowSelectionEnabled ? [SMTableColumnHelper.display({
+        id: 'select',
         header: ({ table }) => (
           <Checkbox
             size="xs"
             classNames={{
-              input: "checked:bg-accent checked:border-accent",
-              label: "sr-only",
+              input: 'checked:bg-accent checked:border-accent',
+              label: 'sr-only',
             }}
             label={`Select all mutation rows on page ${currentPage} of ${totalPages}`}
             {...{
@@ -93,7 +94,7 @@ export const useGenerateSMTableColumns = ({
           <Checkbox
             size="xs"
             classNames={{
-              input: "checked:bg-accent checked:border-accent",
+              input: 'checked:bg-accent checked:border-accent',
             }}
             aria-labelledby={`${componentId}-mutation-table-${row.original.mutation_id}`}
             {...{
@@ -103,56 +104,56 @@ export const useGenerateSMTableColumns = ({
           />
         ),
         enableHiding: false,
-      }),
-
+      })] : [] ),
       ...(!geneSymbol && !projectId
         ? [
-          SMTableColumnHelper.display({
-            id: "cohort",
-            header: () => (
-              <HeaderTooltip
-                title="Cohort"
-                tooltip="Add/remove mutations to/from your cohort filters"
-              />
-            ),
-            cell: ({ row }) => {
-              return (
-              <SMTableCohort
-                isToggledSsm={(toggledSsms || []).includes(
-                  row.original.mutation_id,
-                )}
-                mutationID={row.original.mutation_id}
-                isDemoMode={isDemoMode}
-                cohort={row.original.cohort}
-                handleSsmToggled={handleSsmToggled}
-                DNAChange={row.original.dna_change}
-              />
-            )},
-          }),
-        ]
+            SMTableColumnHelper.display({
+              id: 'cohort',
+              header: () => (
+                <HeaderTooltip
+                  title="Cohort"
+                  tooltip="Add/remove mutations to/from your cohort filters"
+                />
+              ),
+              cell: ({ row }) => {
+                return (
+                  <SMTableCohort
+                    isToggledSsm={(toggledSsms || []).includes(
+                      row.original.mutation_id,
+                    )}
+                    mutationID={row.original.mutation_id}
+                    isDemoMode={isDemoMode}
+                    cohort={row.original.cohort}
+                    handleSsmToggled={handleSsmToggled}
+                    DNAChange={row.original.dna_change}
+                  />
+                );
+              },
+            }),
+          ]
         : []),
       ...(!geneSymbol && !projectId
         ? [
-          SMTableColumnHelper.display({
-            id: "survival",
-            header: () => (
-              <HeaderTooltip
-                title="Survival"
-                tooltip="Change the survival plot display"
-              />
-            ),
-            cell: ({ row }) => (
-              <SMTableSurvival
-                affectedCasesInCohort={
-                  row.original["#_affected_cases_in_cohort"]
-                }
-                survival={row.original.survival}
-                proteinChange={row.original.protein_change}
-                handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-              />
-            ),
-          }),
-        ]
+            SMTableColumnHelper.display({
+              id: 'survival',
+              header: () => (
+                <HeaderTooltip
+                  title="Survival"
+                  tooltip="Change the survival plot display"
+                />
+              ),
+              cell: ({ row }) => (
+                <SMTableSurvival
+                  affectedCasesInCohort={
+                    row.original['#_affected_cases_in_cohort']
+                  }
+                  survival={row.original.survival}
+                  proteinChange={row.original.protein_change}
+                  handleSurvivalPlotToggled={handleSurvivalPlotToggled}
+                />
+              ),
+            }),
+          ]
         : []),
 
       SMTableColumnHelper.accessor('mutation_id', {
@@ -322,8 +323,6 @@ export const useGenerateSMTableColumns = ({
       cohortFilters,
     ],
   );
-
-  return SMTableDefaultColumns;
 };
 
 export const getMutation = (

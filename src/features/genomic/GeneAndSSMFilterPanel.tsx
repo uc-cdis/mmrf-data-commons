@@ -141,8 +141,10 @@ const GeneAndSSMFilterPanel = ({
       {
         title: 'Genes',
         fields: [
+          /** TODO turn back on later
           'gene_id',
           'ssm_id',
+            *****/
           'biotype',
           'is_cancer_gene_census',
           'consequence.transcript.annotation.vep_impact',

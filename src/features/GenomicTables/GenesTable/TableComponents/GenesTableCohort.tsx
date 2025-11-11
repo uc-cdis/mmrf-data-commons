@@ -1,7 +1,7 @@
 import React from 'react';
-import CohortInactiveIcon from 'public/icons/CohortSym_inactive.svg';
-import CohortActiveIcon from 'public/icons/cohort-dna.svg';
-import { GeneToggledHandler } from './types';
+import CohortInactiveIcon from '../../../../../public/icons/CohortSym_inactive.svg';
+import CohortActiveIcon from '../../../../../public/icons/cohort-dna.svg';
+import { GeneToggledHandler } from '../types';
 import SwitchSpring from '@/components/SwitchSpring/shared/SwitchSpring';
 import Image from 'next/image';
 

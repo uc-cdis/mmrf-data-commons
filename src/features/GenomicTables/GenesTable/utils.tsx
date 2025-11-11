@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useId } from 'react';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import { Gene, GeneRowInfo, GeneToggledHandler } from './types';
-import { Dispatch, SetStateAction, useId } from 'react';
 import { entityMetadataType } from '@/utils/contexts';
 import { FilterSet } from '@gen3/core';
 import { CnvChange } from '@/core/genomic/genesTableSlice';
@@ -9,13 +8,12 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { Checkbox, Tooltip } from '@mantine/core';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
-import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
 import CohortCreationButton from '@/components/CohortCreationButton';
 import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
 import RatioWithSpring from '@/components/RatioWithSpring';
 import { Image } from '@/components/Image';
-import GenesTableCohort from './GenesTableCohort';
+import GenesTableCohort from './TableComponents/GenesTableCohort';
 import { CountButton } from './CountButton';
 import GenesTableSurvival from './TableComponents/GenesTableSurvival';
 import Link from 'next/link';
@@ -34,6 +32,7 @@ export const useGenerateGenesTableColumns = ({
   handleMutationCountClick,
   currentPage,
   totalPages,
+  rowSelectionEnabled = false,
 }: {
   handleSurvivalPlotToggled: (
     symbol: string,
@@ -53,11 +52,13 @@ export const useGenerateGenesTableColumns = ({
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
   currentPage: number;
   totalPages: number;
+  rowSelectionEnabled?: boolean;
 }): ColumnDef<Gene>[] => {
   const componentId = useId();
-  const genesTableDefaultColumns = useDeepCompareMemo<ColumnDef<Gene>[]>(
+
+  return useDeepCompareMemo<ColumnDef<Gene>[]>(
     () => [
-      genesTableColumnHelper.display({
+    ...(rowSelectionEnabled ? [genesTableColumnHelper.display({
         id: 'select',
         header: ({ table }: any) => (
           <Checkbox
@@ -88,7 +89,7 @@ export const useGenerateGenesTableColumns = ({
           />
         ),
         enableHiding: false,
-      }),
+      })] : []),
       genesTableColumnHelper.display({
         id: 'cohort',
         header: () => (
@@ -418,8 +419,6 @@ export const useGenerateGenesTableColumns = ({
       cohortFilters,
     ],
   );
-
-  return genesTableDefaultColumns;
 };
 
 export const getGene = (

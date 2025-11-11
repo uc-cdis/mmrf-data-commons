@@ -8,11 +8,11 @@
           "linkSet": [
             {
               "text": "About Us",
-              "href": "/"
+              "href": "https://themmrf.github.io/docs-vlab/mmrf-resources/about/"
             },
             {
               "text": "Contact",
-              "href": "/"
+              "href": "mailto:VirtualLab@themmrf.org"
             }
           ]
         },
@@ -22,33 +22,7 @@
           "linkSet": [
             {
               "text": "User Guides",
-              "href": "/"
-            },
-            {
-              "text": "Tutorials",
-              "href": "/"
-            },
-            {
-              "text": "FAQ",
-              "href": "/documentation/faqs"
-            }
-          ]
-        },
-        {
-          "title": "Platform",
-          "className": "flex-wrap mr-14 mb-8 md:mb-0",
-          "linkSet": [
-            {
-              "text": "Workspaces",
-              "href": "/"
-            },
-            {
-              "text": "Dictionary",
-              "href": "/"
-            },
-            {
-              "text": "Profile",
-              "href": "/"
+              "href": "https://themmrf.github.io/docs-vlab/mmrf-resources/user-guide/"
             }
           ]
         }
