@@ -6,7 +6,6 @@ const _APP_VERSION = '1.0.0';
 
 const AppId = getGen3AppId(_APP_NAME, _APP_VERSION);
 export const registerCohortComparisonApp = () => {
-  console.log('Registering CohortComparison App');
   createGen3App({
     App: CohortComparisonApp,
     name: _APP_NAME,
