@@ -168,7 +168,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     });
   }, [data, selectedSurvivalPlot, countsData]);
   const setEntityMetadata = null;
-  const generateFilters = () => null;
+  const generateFilters = () => EmptyFilterSet;
 
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,
