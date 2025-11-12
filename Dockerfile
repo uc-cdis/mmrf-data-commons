@@ -18,7 +18,7 @@ COPY .env.production ./
 COPY ./src ./src
 COPY ./public ./public
 COPY ./config ./config
-
+COPY ./start.sh ./
 # Install build-only dependencies and build
 RUN npm ci && \
     npm install @swc/core@1.13.5 @napi-rs/magic-string && \
