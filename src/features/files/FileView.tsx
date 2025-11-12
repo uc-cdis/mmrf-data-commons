@@ -1,10 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
-import { GdcFile } from '@/core';
+import {
+  GdcFile,
+} from '@/core';
 import { filesize } from 'filesize';
 import tw from 'tailwind-styled-components';
+// import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import {
   formatDataForHorizontalTable,
+  mapGdcFileToCartFile,
+  parseSlideDetailsInfo,
   shouldDisplayReferenceGenome,
 } from './utils';
 import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
@@ -79,6 +84,7 @@ export const FileView: React.FC<FileViewProps> = ({
   file,
   isModal,
 }: FileViewProps) => {
+
   // const currentCart = useCoreSelector((state) => selectCart(state));
   const currentCart = [] as any;
   // const modal = useCoreSelector((state) => selectCurrentModal(state));
@@ -115,7 +121,7 @@ export const FileView: React.FC<FileViewProps> = ({
           name: 'Access',
         },
         {
-          field: 'id',
+          field: 'file_id',
           name: 'UUID',
         },
         {
@@ -254,7 +260,7 @@ export const FileView: React.FC<FileViewProps> = ({
   return (
     <div className="relative" data-testid="file-view">
       <SummaryHeader
-        iconPath={'/icons/files.svg'}
+        iconPath='mmrf:files'
         headerTitleLeft="File"
         headerTitle={file.file_name}
         isModal={isModal}

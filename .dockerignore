@@ -2,5 +2,7 @@ node_modules
 .github
 .idea
 .storybook
+storybook-static
+.next
 __mocks__
 public/mockServiceWorker.js

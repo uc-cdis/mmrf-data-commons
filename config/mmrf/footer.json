@@ -8,11 +8,11 @@
           "linkSet": [
             {
               "text": "About Us",
-              "href": "/"
+              "href": "https://themmrf.github.io/docs-vlab/mmrf-resources/about/"
             },
             {
               "text": "Contact",
-              "href": "/"
+              "href": "mailto:VirtualLab@themmrf.org"
             }
           ]
         },
@@ -22,33 +22,7 @@
           "linkSet": [
             {
               "text": "User Guides",
-              "href": "/"
-            },
-            {
-              "text": "Tutorials",
-              "href": "/"
-            },
-            {
-              "text": "FAQ",
-              "href": "/documentation/faqs"
-            }
-          ]
-        },
-        {
-          "title": "Platform",
-          "className": "flex-wrap mr-14 mb-8 md:mb-0",
-          "linkSet": [
-            {
-              "text": "Workspaces",
-              "href": "/"
-            },
-            {
-              "text": "Dictionary",
-              "href": "/"
-            },
-            {
-              "text": "Profile",
-              "href": "/"
+              "href": "https://themmrf.github.io/docs-vlab/mmrf-resources/user-guide/"
             }
           ]
         }
@@ -83,18 +57,6 @@
       ],
       "description": "Designed for the health community, the Open Access Data Commons is a scalable, cloud-based platform for computational discovery.",
       "linkSet": [
-        {
-          "text": "Dictionary",
-          "version": "v0.3.0"
-        },
-        {
-          "text": "Submission",
-          "version": "v2023.04"
-        },
-        {
-          "text": "Portal",
-          "version": "v5.13.0"
-        }
       ]
     }
   }

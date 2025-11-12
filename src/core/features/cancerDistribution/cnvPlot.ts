@@ -4,33 +4,34 @@ import {
   Includes,
   EmptyFilterSet,
   guppyApi,
+  convertFilterToGqlFilter,
+  convertFilterSetToGqlFilter,
 } from '@gen3/core';
-import {  GraphQLApiResponse } from '@/core/types';
+import { GraphQLApiResponse } from '@/core/types';
 import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
 import { ProjectData } from './types';
 
-
 interface CancerDistributionChartResponse {
-      cases: {
-        amplification: {
-          project: ProjectData;
-        };
-        gain: {
-          project: ProjectData;
-        };
-        loss: {
-          project: ProjectData;
-        };
-        homozygousDeletion: {
-          project: ProjectData;
-        };
-        cnvTotal: {
-          project: ProjectData;
-        };
-        cnvCases: {
-          _totalCount: number;
-        };
-      };
+  cases: {
+    amplification: {
+      project: ProjectData;
+    };
+    gain: {
+      project: ProjectData;
+    };
+    loss: {
+      project: ProjectData;
+    };
+    homozygousDeletion: {
+      project: ProjectData;
+    };
+    cnvTotal: {
+      project: ProjectData;
+    };
+    cnvCases: {
+      _totalCount: number;
+    };
+  };
 }
 
 const graphQLQuery = `query CancerDistributionCNV(
@@ -125,95 +126,72 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
     cnvPlot: builder.query<CNVData, CNVPlotRequest>({
       query: ({ gene, cohortFilters, genomicFilters }) => {
         const contextGene =
-          ((genomicFilters?.root["gene.gene_id"] as Includes)
+          ((genomicFilters?.root['gene.gene_id'] as Includes)
             ?.operands as string[]) ?? [];
-        const contextWithGene : FilterSet = {
-          mode: "and",
+        const contextWithGene: FilterSet = {
+          mode: 'and',
           root: {
             ...genomicFilters?.root,
-            ["gene.gene_id"]: {
-              operator: "includes",
-              field: "gene.gene_id",
+            ['gene.gene_id']: {
+              operator: 'includes',
+              field: 'gene.gene_id',
               operands: [gene, ...contextGene],
             } as Includes,
           },
         };
 
-        const caseFilters = convertFilterSetToNestedGqlFilter(cohortFilters ?? EmptyFilterSet);
-        const gqlContextFilter = convertFilterSetToNestedGqlFilter(contextWithGene ?? EmptyFilterSet);
+        const caseFilters = convertFilterSetToGqlFilter(
+          cohortFilters ?? EmptyFilterSet,
+        );
+        const gqlContextFilter = convertFilterSetToGqlFilter(
+          contextWithGene ?? EmptyFilterSet,
+        );
         const gqlContextIntersection =
           gqlContextFilter && (gqlContextFilter as GqlIntersection)?.and
             ? (gqlContextFilter as GqlIntersection).and
             : [];
 
         const graphQLFilters = {
-          cnvAmplificationFilter:
-            {
-              "and": [
-                {
-                  "nested": {
-                    "path": "gene",
-                    "nested": {
-                      "path": "gene.cnv",
-                      "in": {
-                        "cnv_change_5_category": [
-                          "Amplification"
-                        ]
-                      }
-                    }
-                  }
-                },  ...gqlContextIntersection,
-              ]
-            },
-          cnvGainFilter: {
-            "and": [
+          cnvAmplificationFilter: {
+            and: [
               {
-                "nested": {
-                  "path": "gene",
-                  "nested": {
-                    "path": "gene.cnv",
-                    "in": {
-                      "cnv_change_5_category": [
-                        "Gain"
-                      ]
-                    }
-                  }
-                }
-              },  ...gqlContextIntersection,
-            ]
+                in: {
+                  'gene.cnv.cnv_change_5_category': ['Amplification'],
+                },
+              },
+              ...gqlContextIntersection,
+            ],
+          },
+          cnvGainFilter: {
+            and: [
+              {
+                in: {
+                  'gene.cnv.cnv_change_5_category': ['Gain'],
+                },
+              },
+              ...gqlContextIntersection,
+            ],
           },
           cnvLossFilter: {
-            "and": [
+            and: [
               {
-                "nested": {
-                  "path": "gene",
-                  "nested": {
-                    "path": "gene.cnv",
-                    "in": {
-                      "cnv_change_5_category": [
-                        "Loss"
-                      ]
-                    }
-                  }
-                }
-              },  ...gqlContextIntersection,
-            ]
+                in: {
+                  'gene.cnv.cnv_change_5_category': ['Loss'],
+                },
+              },
+              ...gqlContextIntersection,
+            ],
           },
           cnvHomozygousDeletionFilter: {
-              "and": [
-                {
-                  "nested": {
-                    "path": "gene",
-                    "nested": {
-                      "path": "gene.cnv",
-                      "in": {
-                        "cnv_change_5_category": ["Homozygous Deletion"]
-                      }
-                    }
-                  }
-                },  ...gqlContextIntersection,
-              ]
-            },
+            and: [
+              {
+                in: {
+                  'gene.cnv.cnv_change_5_category': ['Homozygous Deletion'],
+                },
+              },
+              ...gqlContextIntersection,
+            ],
+          },
           cnvTotalFilter: {
             and: [
               {
@@ -224,29 +202,24 @@ const cnvPlotSlice = guppyApi.injectEndpoints({
             ],
           },
           cnvCasesFilter: {
-            "and": [
+            and: [
               {
-                "nested": {
-                  "path": "gene",
-                  "nested": {
-                    "path": "gene.cnv",
-                    "in": {
-                      "cnv_change_5_category": [
-                        "Amplification",
-                        "Gain",
-                        "Loss",
-                        "Homozygous Deletion"
-                      ]
-                    }
-                  }
-                }
-              }, ...gqlContextIntersection,
-            ]
+                in: {
+                  'gene.cnv.cnv_change_5_category': [
+                    'Amplification',
+                    'Gain',
+                    'Loss',
+                    'Homozygous Deletion',
+                  ],
+                },
+              },
+              ...gqlContextIntersection,
+            ],
           },
           caseFilters,
         };
         return {
-          query:graphQLQuery,
+          query: graphQLQuery,
           variables: graphQLFilters,
         };
       },

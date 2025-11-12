@@ -262,7 +262,7 @@ const GeneView = ({
       {data && (
         <>
           <SummaryHeader
-            iconPath="/icons/genes.svg"
+            iconPath="mmrf:genes"
             headerTitleLeft="GENE"
             headerTitle={data.symbol}
             isModal={isModal}
@@ -328,7 +328,8 @@ const GeneView = ({
                   geneSymbol={data.symbol}
                   gene_id={gene_id}
                   cohortFilters={cohortFilters}
-                  genomicFilters={genomicFilters}
+                  geneFilters={EmptyFilterSet}
+                  ssmFilters={EmptyFilterSet}
                   isModal={isModal}
                   inModal={isModal}
                   tableTitle="Most Frequent Somatic Mutations"

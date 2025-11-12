@@ -133,3 +133,103 @@ export const ageDisplay = (
 
   return ageInDays >= 0 ? ageString : `-${ageString}`;
 };
+
+export function dotNotationToGraphql(dotString: string | string[]): string {
+  /**
+   * Convert dot notation string(s) into a GraphQL nested query structure.
+   * When given an array, merges fields with common ancestors.
+   *
+   * @param dotString - A dot-separated string or array of strings
+   * @returns A GraphQL nested query string with merged common ancestors
+   *
+   * @example
+   * dotNotationToGraphql("user.profile.name")
+   * // Returns: "user { profile { name } }"
+   *
+   * @example
+   * dotNotationToGraphql(["user.profile.name", "user.profile.email", "user.id"])
+   * // Returns: "user { profile { name email } id }"
+   *
+   * @example
+   * dotNotationToGraphql(["cases.samples.aliquots.submitter_id", "cases.samples.sample_type"])
+   * // Returns: "cases { samples { aliquots { submitter_id } sample_type } }"
+   */
+
+  // Handle empty input
+  if (!dotString) {
+    return "";
+  }
+
+  // Convert single string to array for uniform processing
+  const inputs = Array.isArray(dotString) ? dotString : [dotString];
+
+  // Filter out invalid entries
+  const validInputs = inputs.filter(s => s && typeof s === 'string');
+
+  if (validInputs.length === 0) {
+    return "";
+  }
+
+  // If only one valid input, use simple logic
+  if (validInputs.length === 1) {
+    const parts = validInputs[0].split(".");
+    if (parts.length === 1) {
+      return parts[0];
+    }
+    let result = parts[parts.length - 1];
+    for (let i = parts.length - 2; i >= 0; i--) {
+      result = `${parts[i]} { ${result} }`;
+    }
+    return result;
+  }
+
+  // Build a tree structure to merge common ancestors
+  interface TreeNode {
+    [key: string]: TreeNode | null;
+  }
+
+  const tree: TreeNode = {};
+
+  // Insert each dot notation path into the tree
+  for (const input of validInputs) {
+    const parts = input.split(".");
+    let current = tree;
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+
+      if (i === parts.length - 1) {
+        // Leaf node
+        current[part] = current[part] || null;
+      } else {
+        // Branch node
+        if (!current[part] || current[part] === null) {
+          current[part] = {};
+        }
+        current = current[part] as TreeNode;
+      }
+    }
+  }
+
+  // Convert tree to GraphQL string
+  function treeToGraphql(node: TreeNode): string {
+    const fields: string[] = [];
+
+    for (const key of Object.keys(node).sort()) {
+      const value = node[key];
+
+      if (value === null) {
+        // Leaf node
+        fields.push(key);
+      } else {
+        // Branch node with children
+        const nested = treeToGraphql(value);
+        fields.push(`${key} { ${nested} }`);
+      }
+    }
+
+    return fields.join(" ");
+  }
+
+  return treeToGraphql(tree);
+}

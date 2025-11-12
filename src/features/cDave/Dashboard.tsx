@@ -5,8 +5,8 @@ import {
   Operation,
   usePrevious,
 } from '@gen3/core';
-import { useGetSurvivalPlotQuery} from '@/core/survival';
-import { EmptySurvivalPlot } from "@/core/survival/types";
+import { useGetSurvivalPlotQuery} from '@/core/features/survival';
+import { EmptySurvivalPlot } from "@/core/features/survival/types";
 
 import {   Buckets,
   Stats} from '@/core/features/api/types'

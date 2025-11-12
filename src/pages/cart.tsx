@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 import { NextPage } from "next";
 import Cart from "@/features/cart/Cart";
-import PageTitle from '@/components/PageTitle';
-import { ProtectedContent } from '@gen3/frontend';
+import PageTitle from "@/components/PageTitle";
+import { ProtectedContent } from "@gen3/frontend";
+import { SummaryHeader } from "@/components/Summary/SummaryHeader";
 
 const CartPage: NextPage = () => {
   return (
@@ -10,11 +11,12 @@ const CartPage: NextPage = () => {
       <PageTitle pageName="Cart" />
       <ProtectedContent>
       <h1 className="sr-only">Cart</h1>
-      <div className="flex">
-        <div className="w-full mt-[150px]">
-          <Cart />
-        </div>
-      </div>
+      <SummaryHeader
+        headerTitleLeft="Cart"
+        headerTitle=""
+        iconPath="mmrf:cart"
+      />
+      <Cart />
       </ProtectedContent>
     </>
   );

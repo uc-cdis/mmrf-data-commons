@@ -8,6 +8,7 @@ import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareMemo } from "use-deep-compare";
 import { buildCohortGqlOperator } from "@/core/utils";
 import { useVennDiagramQuery } from '@/core/features/cohortComparison';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 const VennDiagram = dynamic(() => import("@/features/charts/VennDiagram"), {
   ssr: false,
@@ -54,7 +55,7 @@ const CohortVennDiagram: React.FC<CohortVennDiagramProps> = ({
   const { data, isLoading: dataLoading } = useVennDiagramQuery({
     set1Filters: filters.cohort1,
     set2Filters: filters.cohort2,
-    index: "case"
+    index: COHORT_FILTER_INDEX
   });
 
   const isLoading = externalLoading || dataLoading;

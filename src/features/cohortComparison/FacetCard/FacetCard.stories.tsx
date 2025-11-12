@@ -13,6 +13,7 @@ import FacetCard from './index';
 import { http, HttpResponse } from 'msw';
 import { CohortComparisonType } from '@/features/cohortComparison/types';
 import { GEN3_COHORT_COMPARISON_API } from '@/core/features/cohortComparison/constants';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 interface FacetCardWrappedProps {
   readonly field: string;
@@ -61,7 +62,7 @@ const FacetCardWrapped = ({ field, cohorts }: FacetCardWrappedProps) => {
       cohorts.comparison_cohort.filter,
     ),
     facetFields: facetFields,
-    index: "case",
+    index: COHORT_FILTER_INDEX,
     continuousFacets: ["diagnoses.age_at_diagnosis"],
   });
 

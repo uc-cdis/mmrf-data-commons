@@ -16,7 +16,13 @@ export const isOperandsType = (
 
 const initialState: FilterSet = {
   mode: "and",
-  root: {}
+  root: {
+    "is_cancer_gene_census": {
+      field: "is_cancer_gene_census",
+      operator: "includes",
+      operands: ["true"]
+    },
+  },
 };
 
 const slice = createSlice({
@@ -69,7 +75,7 @@ const slice = createSlice({
       };
     },
     clearGeneAndSSMFilters: () => {
-      return { mode: "and", root: { } } as FilterSet;
+      return { mode: "and",  root: initialState.root} as FilterSet;
     },
   },
 });

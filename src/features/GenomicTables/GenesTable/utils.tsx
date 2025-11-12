@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useId } from 'react';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import { Gene, GeneRowInfo, GeneToggledHandler } from './types';
-import { Dispatch, SetStateAction, useId } from 'react';
 import { entityMetadataType } from '@/utils/contexts';
 import { FilterSet } from '@gen3/core';
 import { CnvChange } from '@/core/genomic/genesTableSlice';
@@ -9,12 +8,12 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { Checkbox, Tooltip } from '@mantine/core';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
-import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
+import CohortCreationButton from '@/components/CohortCreationButton';
 import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
 import RatioWithSpring from '@/components/RatioWithSpring';
 import { Image } from '@/components/Image';
-import GenesTableCohort from './GenesTableCohort';
+import GenesTableCohort from './TableComponents/GenesTableCohort';
 import { CountButton } from './CountButton';
 import GenesTableSurvival from './TableComponents/GenesTableSurvival';
 import Link from 'next/link';
@@ -33,6 +32,7 @@ export const useGenerateGenesTableColumns = ({
   handleMutationCountClick,
   currentPage,
   totalPages,
+  rowSelectionEnabled = false,
 }: {
   handleSurvivalPlotToggled: (
     symbol: string,
@@ -45,15 +45,20 @@ export const useGenerateGenesTableColumns = ({
   setEntityMetadata: Dispatch<SetStateAction<entityMetadataType>>;
   cohortFilters: FilterSet | any;
   genomicFilters: FilterSet | any;
-  generateFilters: (cnvType: CnvChange, geneId: string) => FilterSet;
+  generateFilters: (
+    cnvType: CnvChange | undefined,
+    geneId: string,
+  ) => FilterSet;
   handleMutationCountClick: (geneId: string, geneSymbol: string) => void;
   currentPage: number;
   totalPages: number;
+  rowSelectionEnabled?: boolean;
 }): ColumnDef<Gene>[] => {
   const componentId = useId();
-  const genesTableDefaultColumns = useDeepCompareMemo<ColumnDef<Gene>[]>(
+
+  return useDeepCompareMemo<ColumnDef<Gene>[]>(
     () => [
-      genesTableColumnHelper.display({
+    ...(rowSelectionEnabled ? [genesTableColumnHelper.display({
         id: 'select',
         header: ({ table }: any) => (
           <Checkbox
@@ -84,7 +89,7 @@ export const useGenerateGenesTableColumns = ({
           />
         ),
         enableHiding: false,
-      }),
+      })] : []),
       genesTableColumnHelper.display({
         id: 'cohort',
         header: () => (
@@ -177,12 +182,21 @@ export const useGenerateGenesTableColumns = ({
           />
         ),
         cell: ({ row }: any) => (
-          <NumeratorDenominator
-            numerator={row.original['#_ssm_affected_cases_in_cohort'].numerator}
-            denominator={
-              row.original['#_ssm_affected_cases_in_cohort'].denominator
+          <CohortCreationButton
+            label={
+              <NumeratorDenominator
+                numerator={
+                  row.original['#_ssm_affected_cases_in_cohort'].numerator
+                }
+                denominator={
+                  row.original['#_ssm_affected_cases_in_cohort'].denominator
+                }
+                boldNumerator={true}
+              />
             }
-            boldNumerator={true}
+            numCases={row.original['#_ssm_affected_cases_in_cohort'].numerator}
+            filters={generateFilters(undefined, row.original.gene_id)}
+            caseFilters={cohortFilters}
           />
         ),
       }),
@@ -192,34 +206,49 @@ export const useGenerateGenesTableColumns = ({
           <HeaderTooltip
             title={`# SSM Affected Cases
           Across MMRF`}
-            tooltip={`# Cases where Gene contains Simple Somatic Mutations / # Cases tested for Simple Somatic Mutations portal wide.
-         Expand to see breakdown by project`}
+            tooltip={`# Cases where Gene contains Simple Somatic Mutations / # Cases tested for Simple Somatic Mutations portal wide.`}
           />
         ),
         cell: ({ row }: any) => {
           const { numerator, denominator } = row?.original[
             '#_ssm_affected_cases_across_the_mmrf'
           ] ?? { numerator: 0, denominator: 1 };
-          return (
-            <div
-              className={`flex items-center gap-2 ${
-                numerator !== 0 && 'cursor-pointer'
-              }`}
-            >
-              {numerator !== 0 && row.getCanExpand() && (
-                <div className="flex items-center">
-                  {!row.getIsExpanded() ? (
-                    <ExpandCircleIcon size="1.25em" className="text-accent" />
-                  ) : (
-                    <CollapseCircleIcon size="1.25em" className="text-accent" />
-                  )}
-                </div>
-              )}
-              {row.getCanExpand() && (
-                <RatioWithSpring index={0} item={{ numerator, denominator }} />
-              )}
-            </div>
-          );
+
+          if (!row.getCanExpand()) {
+            return (
+              <NumeratorDenominator
+                numerator={numerator}
+                denominator={denominator}
+              />
+            );
+          } else {
+            return (
+              <div
+                className={`flex items-center gap-2 ${
+                  numerator !== 0 && 'cursor-pointer'
+                }`}
+              >
+                {numerator !== 0 && row.getCanExpand() && (
+                  <div className="flex items-center">
+                    {!row.getIsExpanded() ? (
+                      <ExpandCircleIcon size="1.25em" className="text-accent" />
+                    ) : (
+                      <CollapseCircleIcon
+                        size="1.25em"
+                        className="text-accent"
+                      />
+                    )}
+                  </div>
+                )}
+                {row.getCanExpand() && (
+                  <RatioWithSpring
+                    index={0}
+                    item={{ numerator, denominator }}
+                  />
+                )}
+              </div>
+            );
+          }
         },
       }),
       genesTableColumnHelper.display({
@@ -390,16 +419,13 @@ export const useGenerateGenesTableColumns = ({
       cohortFilters,
     ],
   );
-
-  return genesTableDefaultColumns;
 };
 
 export const getGene = (
   g: GeneRowInfo,
   selectedSurvivalPlot: ComparativeSurvival,
-  mutationCounts: Record<string, string>,
-  filteredCases: number,
-  cases: number,
+  ssmCases: number,
+  totalCases: number,
   cnvCases: number,
 ): Gene => {
   return {
@@ -418,12 +444,12 @@ export const getGene = (
     type: g.biotype,
     cytoband: g.cytoband,
     '#_ssm_affected_cases_in_cohort': {
-      numerator: g.numCases,
-      denominator: filteredCases,
+      numerator: g.case_count,
+      denominator: ssmCases,
     },
     '#_ssm_affected_cases_across_the_mmrf': {
-      numerator: g.ssm_case,
-      denominator: cases,
+      numerator: g.ssm_cases_across_commons,
+      denominator: totalCases,
     },
     '#_cnv_amplifications': {
       numerator: g.case_cnv_amplification,
@@ -441,7 +467,7 @@ export const getGene = (
       numerator: g.case_cnv_homozygous_deletion,
       denominator: cnvCases,
     },
-    '#_mutations': mutationCounts?.[g.gene_id] ?? 0,
+    '#_mutations': g?.ssm_count?.toLocaleString() ?? '0',
     annotations: g.is_cancer_gene_census,
   };
 };

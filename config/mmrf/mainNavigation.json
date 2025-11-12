@@ -27,6 +27,11 @@
         "icon": "/icons/apps/Repository.svg",
         "href": "/?app=Repository",
         "name": "Repository"
+      },
+      {
+        "icon": "/icons/apps/Workspaces.svg",
+        "href": "/Workspace",
+        "name": "Workspaces"
       }
     ],
     "Search": {

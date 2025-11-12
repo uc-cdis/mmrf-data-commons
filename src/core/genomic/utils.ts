@@ -9,21 +9,15 @@ export const getSSMTestedCases = (geneSymbol?: string): GqlOperation => {
     and: [
       ...[
         {
-          nested: {
-            path: 'occurrence.case',
-            in: {
-              available_variation_data: ['ssm'],
-            },
+          in: {
+            'occurrence.case.available_variation_data': ['ssm'],
           },
-        } as GQLNestedFilter,
+        },
         ...(geneSymbol
           ? [
               {
-                nested: {
-                  path: 'consequence.transcript.gene',
-                  in: {
-                    symbol: [geneSymbol],
-                  },
+                in: {
+                  'consequence.transcript.gene.symbol': [geneSymbol],
                 },
               },
             ]

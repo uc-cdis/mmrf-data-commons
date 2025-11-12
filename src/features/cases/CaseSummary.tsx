@@ -5,7 +5,7 @@ import { caseSummaryFields } from "./utils";
 import { CaseView } from "./CaseView";
 import { useContext, useEffect, useState } from "react";
 import { URLContext } from "src/utils/contexts";
-import { useGetCasesQuery } from "@/core/cases/casesSlice";
+import { useGetCasesQuery } from "@/core/features/cases/casesSlice";
 import { EndpointRequestProps } from "@/core/features/api";
 
 export const CaseSummary = ({

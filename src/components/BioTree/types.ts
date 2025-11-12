@@ -1,4 +1,4 @@
-import { BiospecimenEntityType } from '@/core';
+import { BiospecimenEntityType } from '@/features/biospecimen/types';
 import { JSXElementConstructor, ReactElement } from 'react';
 
 export interface types {

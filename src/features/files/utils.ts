@@ -16,11 +16,12 @@ export const formatDataForHorizontalTable = (
     readonly modifier?: (value: any) => any;
   }>,
 ): HorizontalTableProps['tableData'] => {
+
   //match headers with available properties
   return headersConfig.reduce((output: any, obj) => {
     let value = get(file, obj.field);
     //run modifier if provided on value
-    if (obj.modifier) {
+    if (obj.modifier && value !== undefined && value !== null) {
       value = obj.modifier(value);
     }
     output.push({

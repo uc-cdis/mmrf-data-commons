@@ -1,57 +1,54 @@
-import React, { useCallback, useMemo } from "react";
-import { useDeepCompareMemo } from "use-deep-compare";
+import React, { useCallback, useMemo } from 'react';
+import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
-  FilterSet,
-  IndexedFilterSet,
-  Operation,
-  useCoreSelector,
-  selectCohortFilters as selectCurrentCohortFilters,
-  GQLFilter as GqlOperation,
+  convertFilterSetToGqlFilter,
+  CoreState,
+  EmptyFilterSet,
   extractFilterValue as extractValue,
+  FilterSet,
   FilterValue as OperandValue,
-} from "@gen3/core";
+  GQLIntersection,
+  GQLUnion,
+  IndexedFilterSet,
+  isIncludes,
+  Operation,
+  selectCohortFilters as selectCurrentCohortFilters,
+  selectIndexFilters,
+  useCoreSelector,
+} from '@gen3/core';
 import {
   type SurvivalPlotData,
-  useGetComparisonSurvivalPlotQuery,
-} from "@/core/survival";
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { EmptySurvivalPlot } from "@/core/survival/types";
-
-export const overwritingDemoFilterMutationFrequency: FilterSet = {
-  mode: "and",
-  root: {
-    "cases.project.project_id": {
-      operator: "includes",
-      field: "cases.project.project_id",
-      operands: ["MMRF-COMPASS"],
-    },
-  },
-};
-
+  useGetGenomicComparisonSurvivalPlotQuery,
+} from '@/core/features/survival';
+import { useIsDemoApp } from '@/hooks/useIsDemoApp';
+import { EmptySurvivalPlot } from '@/core/features/survival/types';
 // import { useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from "lodash/isEqual";
-import { GQLDocType, GQLIndexType } from "@/core/features/facets/types";
 
 import {
   AppState,
   useAppDispatch,
   useAppSelector,
-} from "@/features/genomic/appApi";
+} from '@/features/genomic/appApi';
 import {
-  updateGeneAndSSMFilter,
-  selectGeneAndSSMFiltersByName,
-  selectGeneAndSSMFilters,
-  removeGeneAndSSMFilter,
-  selectGeneAndSSMFiltersByNames,
   clearGeneAndSSMFilters,
-} from "@/features/genomic/geneAndSSMFiltersSlice";
+  removeGeneAndSSMFilter,
+  selectGeneAndSSMFilters,
+  selectGeneAndSSMFiltersByName,
+  selectGeneAndSSMFiltersByNames,
+  updateGeneAndSSMFilter,
+} from '@/features/genomic/geneAndSSMFiltersSlice';
 import {
-  toggleFilter,
-  toggleAllFilters,
-  selectFilterExpanded,
   selectAllFiltersCollapsed,
-} from "./geneAndSSMFilterExpandedSlice";
-import { ComparativeSurvival } from "@/features/genomic/types";
+  selectFilterExpanded,
+  toggleAllFilters,
+  toggleFilter,
+} from './geneAndSSMFilterExpandedSlice';
+import {
+  AppModeState,
+  ComparativeSurvival,
+  GeneSearchTerms,
+} from '@/features/genomic/types';
 // import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 // import { overwritingDemoFilterMutationFrequency } from "@/features/genomic/GenesAndMutationFrequencyAnalysisTool";
 // import { buildGeneHaveAndHaveNotFilters } from "@/features/genomic/utils";
@@ -59,11 +56,34 @@ import { ComparativeSurvival } from "@/features/genomic/types";
 // import { humanify } from "@/utils/index";
 // import { useDeepCompareMemo } from "use-deep-compare";
 // import { appendSearchTermFilters } from "@/features/GenomicTables/utils";
-import FilterFacets from "@/features/genomic/filters";
-import { buildCohortGqlOperator } from "@/core/utils";
-import { buildGeneHaveAndHaveNotFilters } from "@/features/genomic/utils";
-import { modals } from "@mantine/modals";
-// import { buildCohortGqlOperator } from '@/core/utils';
+import { buildCohortGqlOperator } from '@/core/utils';
+import { buildGeneHaveAndHaveNotFilters } from '@/features/genomic/utils';
+import { modals } from '@mantine/modals';
+import {
+  buildSSMSTableSearchFilters,
+  COHORT_FILTER_INDEX,
+  useGetSsmTableDataMutation,
+  useTopGenomicQuery,
+} from '@/core';
+import {
+  addIndexPrefixToGenomicFilterSet,
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
+import { humanify } from '@/utils';
+import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
+
+export const overwritingDemoFilterMutationFrequency: FilterSet = {
+  mode: 'and',
+  root: {
+    'cases.project.project_id': {
+      operator: 'includes',
+      field: 'cases.project.project_id',
+      operands: ['MMRF-COMPASS'],
+    },
+  },
+};
 
 /**
  * Update Genomic Enum Facets filters. These are app local updates and are not added
@@ -184,7 +204,21 @@ export const useGenesFacets = (
  * of type Includes.
  * @param field - to get values of
  */
+
+/**
+ * returns the values of a field. Assumes the required field
+ * is of type Includes. Returns an empty array if the filter is undefined or not
+ * of type Includes.
+ * @param field - to get values of
+ */
 export const useSelectFilterContent = (field: string): Array<string> => {
+  const filter = useAppSelector((state: AppState) =>
+    selectGeneAndSSMFiltersByNames(state, [field]),
+  );
+  if (filter === undefined) return [];
+  if (isIncludes(filter)) {
+    return filter.operands.map((x: any) => x.toString());
+  }
   return [];
 };
 
@@ -211,6 +245,8 @@ export const useGeneAndSSMPanelData = (
     selectCurrentCohortFilters(state),
   );
 
+  const cohortFilters = currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+
   const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
     selectGeneAndSSMFilters(state),
   );
@@ -219,49 +255,55 @@ export const useGeneAndSSMPanelData = (
     [],
   );
 
-  const cohortFilters: GqlOperation = useDeepCompareMemo(
-    () =>
-      buildCohortGqlOperator(
-        isDemoMode ? overwritingDemoFilter : currentCohortFilters["case"], // TODO: handle multiple cohorts
-      ) ?? { and: [] },
-    [currentCohortFilters, isDemoMode, overwritingDemoFilter],
-  );
-
   const localFilters = useDeepCompareMemo(
     () => buildCohortGqlOperator(genomicFilters),
     [genomicFilters],
   );
 
-  const memoizedFilters = useMemo(
-    () =>
-      buildGeneHaveAndHaveNotFilters(
-        buildCohortGqlOperator(genomicFilters),
-        comparativeSurvival?.symbol,
-        comparativeSurvival?.field,
-        isGene,
-      ),
-    [
-      comparativeSurvival?.field,
+  const memoizedFilters = useMemo(() => {
+    // merge cohort filters with genomic filters
+    const filters = separateGeneAndSSMFilters(genomicFilters);
+    const geneForCase = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.case.gene}`,
+    );
+    const ssmForCase = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.case.ssm}`,
+    );
+    const cohortAndGenomicFilters: FilterSet = {
+      mode: 'and',
+      root: {
+        ...cohortFilters.root,
+        ...geneForCase.root,
+        ...ssmForCase.root,
+      },
+    };
+
+    return buildGeneHaveAndHaveNotFilters(
+      cohortAndGenomicFilters,
       comparativeSurvival?.symbol,
+      comparativeSurvival?.field,
       isGene,
-      genomicFilters,
-    ],
-  );
+    );
+  }, [
+    comparativeSurvival?.field,
+    comparativeSurvival?.symbol,
+    isGene,
+    genomicFilters,
+  ]);
 
   const {
     data: survivalPlotData,
     isFetching: survivalPlotFetching,
     isSuccess: survivalPlotReady,
-  } = useGetComparisonSurvivalPlotQuery({
-    filters:
-      comparativeSurvival !== undefined
-        ? memoizedFilters
-        : localFilters
-          ? [localFilters]
-          : [],
-    index: "CaseCentric_case_centric",
-    field: "case_id",
-    useIntersection: false,
+  } = useGetGenomicComparisonSurvivalPlotQuery({
+    caseFilter: convertFilterSetToGqlFilter(
+      isDemoMode ? overwritingDemoFilter : cohortFilters,
+    ),
+    genomicFilter: convertFilterSetToGqlFilter(addIndexPrefixToGenomicFilterSet( genomicFilters, 'case')),
+    symbol: comparativeSurvival?.symbol,
+    type: isGene ? 'gene' : 'ssm',
   });
 
   return {
@@ -284,178 +326,174 @@ export const useGeneAndSSMPanelData = (
  * @param searchTermsForGene - search filter for the mutation table
  * @returns whether the request for determining the top gene/ssms has successfully completed
  */
-/* ---- TODO: implement when APIs are ready
 export const useTopGeneSsms = ({
- appMode,
- comparativeSurvival,
- setComparativeSurvival,
- searchTermsForGene,
+  appMode,
+  comparativeSurvival,
+  setComparativeSurvival,
+  searchTermsForGene,
 }: {
- appMode: AppModeState;
- comparativeSurvival: ComparativeSurvival;
- setComparativeSurvival: (comparativeSurvival: ComparativeSurvival) => void;
- searchTermsForGene: { geneId: string; geneSymbol: string };
+  appMode: AppModeState;
+  comparativeSurvival: ComparativeSurvival;
+  setComparativeSurvival: (comparativeSurvival: ComparativeSurvival) => void;
+  searchTermsForGene: GeneSearchTerms;
 }): boolean => {
+  const isDemoMode = useIsDemoApp();
 
- const isDemoMode = useIsDemoApp();
+  const cohortFilters = useCoreSelector((state: CoreState) =>
+    selectIndexFilters(state, COHORT_FILTER_INDEX),
+  );
 
- const cohortFilters = useCoreSelector((state) =>
-   selectCurrentCohortFilters(state),
- );
+  const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
+    selectGeneAndSSMFilters(state),
+  );
 
- const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
-   selectGeneAndSSMFilters(state),
- );
+  const overwritingDemoFilter = useMemo(
+    () => overwritingDemoFilterMutationFrequency,
+    [],
+  );
 
- const overwritingDemoFilter = useMemo(
-   () => overwritingDemoFilterMutationFrequency,
-   [],
- );
+  const ssmSearch = searchTermsForGene?.geneSymbol;
 
- const ssmSearch = searchTermsForGene?.geneSymbol;
+  const { data: topGeneSSMS, isSuccess: topGeneSSMSSuccess } =
+    useTopGenomicQuery({
+      cohortFilters: isDemoMode ? overwritingDemoFilter : cohortFilters,
+      genomicFilters: genomicFilters,
+      type: appMode === 'genes' ? 'gene' : 'ssm',
+    }); // get the default top gene/ssms to show by default
 
- const { data: topGeneSSMS, isSuccess: topGeneSSMSSuccess } = useTopGeneQuery({
-   cohortFilters: isDemoMode ? overwritingDemoFilter : cohortFilters,
-   genomicFilters: genomicFilters,
- }); // get the default top gene/ssms to show by default
+  // Plot top if new top
+  useDeepCompareEffect(() => {
+    if (!comparativeSurvival?.setManually && topGeneSSMSSuccess && !ssmSearch) {
+      const { genes, ssms } = topGeneSSMS;
+      const { name, symbol } = appMode === 'genes' ? genes : ssms;
 
- // Plot top if new top
- useDeepCompareEffect(() => {
-   if (!comparativeSurvival?.setManually && topGeneSSMSSuccess && !ssmSearch) {
-     const { genes, ssms } = topGeneSSMS;
-     const { name, symbol } = appMode === "genes" ? genes : ssms;
+      if (
+        comparativeSurvival !== undefined &&
+        comparativeSurvival.symbol === symbol
+      ) {
+        return;
+      }
 
-     if (
-       comparativeSurvival !== undefined &&
-       comparativeSurvival.symbol === symbol
-     ) {
-       return;
-     }
+      if (name === undefined) {
+        setComparativeSurvival({
+          symbol: '',
+          name: '',
+          field: '',
+        });
+        return;
+      }
 
-     if (name === undefined) {
-       setComparativeSurvival(undefined);
-       return;
-     }
+      const { consequence_type, aa_change } = ssms;
+      setComparativeSurvival({
+        symbol: symbol,
+        name:
+          appMode === 'genes'
+            ? name
+            : `${name} ${aa_change ?? ''} ${
+                consequence_type
+                  ? humanify({
+                      term: consequence_type
+                        .replace('_variant', '')
+                        .replace('_', ' '),
+                    })
+                  : ''
+              }`,
+        field: appMode === 'genes' ? 'gene.symbol' : 'gene.ssm.ssm_id',
+      });
+    }
+  }, [
+    comparativeSurvival,
+    topGeneSSMS,
+    topGeneSSMSSuccess,
+    appMode,
+    setComparativeSurvival,
+    ssmSearch,
+  ]);
 
-     const { consequence_type, aa_change } = ssms;
-     setComparativeSurvival({
-       symbol: symbol,
-       name:
-         appMode === "genes"
-           ? name
-           : `${name} ${aa_change ?? ""} ${
-               consequence_type
-                 ? humanify({
-                     term: consequence_type
-                       .replace("_variant", "")
-                       .replace("_", " "),
-                   })
-                 : ""
-             }`,
-       field: appMode === "genes" ? "gene.symbol" : "gene.ssm.ssm_id",
-     });
-   }
- }, [
-   comparativeSurvival,
-   topGeneSSMS,
-   topGeneSSMSSuccess,
-   appMode,
-   setComparativeSurvival,
-   ssmSearch,
- ]);
+  const [getTopSSM, { data: topSSM, isSuccess: topSSMSuccess }] =
+    useGetSsmTableDataMutation();
 
- const [getTopSSM, { data: topSSM, isSuccess: topSSMSuccess }] =
-   useGetSsmTableDataMutation();
+  useDeepCompareEffect(() => {
+    const { geneId = '', geneSymbol = '' } = searchTermsForGene;
+    if (searchTermsForGene && appMode === 'ssms') {
+      const searchFilters = buildSSMSTableSearchFilters(geneId);
+      const tableFilters = appendSearchTermFilters(
+        genomicFilters,
+        searchFilters ?? { operator: 'or', operands: [] },
+      );
 
- useDeepCompareEffect(() => {
-   const { geneId = "", geneSymbol = "" } = searchTermsForGene;
-   if (searchTermsForGene && appMode === "ssms") {
-     const searchFilters = buildSSMSTableSearchFilters(geneId);
-     const tableFilters = appendSearchTermFilters(
-       genomicFilters,
-       searchFilters,
-     );
+      getTopSSM({
+        pageSize: 1,
+        offset: 0,
+        searchTerm: geneId,
+        geneSymbol: geneSymbol,
+        geneFilters: genomicFilters,
+        ssmFilters: genomicFilters,
+        cohortFilters: cohortFilters,
+        tableFilters,
+      });
+    }
+  }, [
+    genomicFilters,
+    cohortFilters,
+    searchTermsForGene,
+    getTopSSM,
+    appMode,
+    setComparativeSurvival,
+  ]);
 
-     getTopSSM({
-       pageSize: 1,
-       offset: 0,
-       searchTerm: geneId,
-       geneSymbol: geneSymbol,
-       genomicFilters: genomicFilters,
-       cohortFilters: cohortFilters,
-       tableFilters,
-     });
-   }
- }, [
-   genomicFilters,
-   cohortFilters,
-   searchTermsForGene,
-   getTopSSM,
-   appMode,
-   setComparativeSurvival,
- ]);
+  // Set top when we've searched on SSM
+  useDeepCompareEffect(() => {
+    if (topSSMSuccess && ssmSearch) {
+      const { ssm_id, consequence_type, aa_change = '' } = topSSM;
+      const description = consequence_type
+        ? `${searchTermsForGene?.geneSymbol ?? ''} ${aa_change} ${humanify({
+            term: consequence_type.replace('_variant', '').replace('_', ' '),
+          })}`
+        : '';
 
- // Set top when we've searched on SSM
- useDeepCompareEffect(() => {
-   if (topSSMSuccess && ssmSearch) {
-     const { ssm_id, consequence_type, aa_change = "" } = topSSM;
-     const description = consequence_type
-       ? `${searchTermsForGene?.geneSymbol ?? ""} ${aa_change} ${humanify({
-           term: consequence_type.replace("_variant", "").replace("_", " "),
-         })}`
-       : "";
+      setComparativeSurvival({
+        symbol: ssm_id,
+        name: description,
+        field: 'gene.ssm.ssm_id',
+      });
+    }
+  }, [
+    topGeneSSMSSuccess,
+    topSSM,
+    setComparativeSurvival,
+    searchTermsForGene,
+    ssmSearch,
+    topSSMSuccess,
+  ]);
 
-     setComparativeSurvival({
-       symbol: ssm_id,
-       name: description,
-       field: "gene.ssm.ssm_id",
-     });
-   }
- }, [
-   topGeneSSMSSuccess,
-   topSSM,
-   setComparativeSurvival,
-   searchTermsForGene,
-   ssmSearch,
-   topSSMSuccess,
- ]);
-
- return ssmSearch ? topSSMSuccess : topGeneSSMSSuccess;
-
-
+  return ssmSearch ? topSSMSuccess : topGeneSSMSSuccess;
 };
-  */
 
 export const useOpenUploadModal = () => {
   const updateFacetFilters = useUpdateGenomicEnumFacetFilter();
   const updateFilters = (field: string, ids: string[]) => {
     updateFacetFilters(field, {
       field: field,
-      operator: "in",
+      operator: 'in',
       operands: ids,
     });
   };
 
   const openUploadModal = (field: string) => {
-    if (field === "gene_id") {
+    if (field === 'gene_id') {
       modals.openContextModal({
-        modal: "filterByUserInputModal",
-        title: "Filter Mutation Frequency by Mutated Genes",
-        size: "xl",
-        zIndex: 1200,
-        styles: {
-          header: {
-            marginLeft: "16px",
-          },
-        },
+        modal: 'filterByUserInputModal',
+        title: 'Filter Mutation Frequency by Mutated Genes',
+        size: 'xl',
         innerProps: {
           userInputProps: {
             inputInstructions:
-              "Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.",
+              'Enter one or more gene identifiers in the field below or upload a file to filter Mutation Frequency.',
             textInputPlaceholder:
-              "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
-            entityType: "genes",
-            entityLabel: "gene",
+              'e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637',
+            entityType: 'genes',
+            entityLabel: 'gene',
             identifierToolTip: (
               <div>
                 <p>
@@ -471,28 +509,22 @@ export const useOpenUploadModal = () => {
             ),
           },
           updateFilters,
-          type: "genes",
+          type: 'genes',
         },
       });
-    } else if (field === "ssm_id") {
+    } else if (field === 'ssm_id') {
       modals.openContextModal({
-        modal: "filterByUserInputModal",
-        title: "Filter Mutation Frequency by Somatic Mutations",
-        size: "xl",
-        zIndex: 1200,
-        styles: {
-          header: {
-            marginLeft: "16px",
-          },
-        },
+        modal: 'filterByUserInputModal',
+        title: 'Filter Mutation Frequency by Somatic Mutations',
+        size: 'xl',
         innerProps: {
           userInputProps: {
             inputInstructions:
-              "Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.",
+              'Enter one or more mutation identifiers in the field below or upload a file to filter Mutation Frequency.',
             textInputPlaceholder:
-              "e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637",
-            entityType: "ssms",
-            entityLabel: "mutation",
+              'e.g. ENSG00000141510, TP53, 7273, HGNC:11998, 191170, P04637',
+            entityType: 'ssms',
+            entityLabel: 'mutation',
             identifierToolTip: (
               <div>
                 <p>
@@ -507,7 +539,7 @@ export const useOpenUploadModal = () => {
             ),
           },
           updateFilters,
-          type: "ssms",
+          type: 'ssms',
         },
       });
     }

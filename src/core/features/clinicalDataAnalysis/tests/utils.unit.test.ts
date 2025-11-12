@@ -34,7 +34,7 @@ describe('build range queries', () => {
 });
 
 describe('build range filters', () => {
-  it('shoulda set of query filters for ranges', () => {
+  it('should bea set of query filters for ranges', () => {
     const ranges = [
       {
         "from": 0,
@@ -200,9 +200,9 @@ describe('build range queries', () => {
         "to": 32873
       }
     ];
-    const results = buildRangeQuery('files.data_type', case_filters,ranges, 'range');
+    const results = buildRangeQuery('files.data_type', case_filters,ranges, 'range', "case", "CaseCentric_");
 
-    expect(results.query).toContain("query rangeQuery ($accessibility: Accessibility, $range_0: JSON,$range_1: JSON,$range_2: JSON,$range_3: JSON,$range_4: JSON ) { _aggregation {range_0 : case (accessibility: $accessibility filter: $range_0) { data_type { _totalCount } } \nrange_1 : case (accessibility: $accessibility filter: $range_1) { data_type { _totalCount } } \nrange_2 : case (accessibility: $accessibility filter: $range_2) { data_type { _totalCount } } \nrange_3 : case (accessibility: $accessibility filter: $range_3) { data_type { _totalCount } } \nrange_4 : case (accessibility: $accessibility filter: $range_4) { data_type { _totalCount } } \n}}",
+    expect(results.query).toContain("query rangeQuery ($accessibility: Accessibility, $range_0: JSON,$range_1: JSON,$range_2: JSON,$range_3: JSON,$range_4: JSON ) { CaseCentric__aggregation {range_0 : case (accessibility: $accessibility filter: $range_0) { data_type { _totalCount } } \nrange_1 : case (accessibility: $accessibility filter: $range_1) { data_type { _totalCount } } \nrange_2 : case (accessibility: $accessibility filter: $range_2) { data_type { _totalCount } } \nrange_3 : case (accessibility: $accessibility filter: $range_3) { data_type { _totalCount } } \nrange_4 : case (accessibility: $accessibility filter: $range_4) { data_type { _totalCount } } \n}}",
   );
     expect(results.variables).toEqual({
       "range_0": {

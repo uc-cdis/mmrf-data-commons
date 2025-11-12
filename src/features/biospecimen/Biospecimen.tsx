@@ -12,7 +12,7 @@ import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon
 import { ClearIcon, DownloadIcon, SearchIcon } from '@/utils/icons';
 import { BiospecimenEntityType } from './types';
 import { useCoreDispatch, useCoreSelector } from '@gen3/core';
-import { useBiospecimenDataQuery } from '@/core/cases/bioSpecimanDataSlice';
+import { useBiospecimenDataQuery } from '@/core/features/cases/bioSpecimanDataSlice';
 import { CartFile } from '@/core';
 import { handleJSONDownload, handleTSVDownload } from '../cases/utils';
 

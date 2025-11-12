@@ -3,7 +3,7 @@ import { render } from 'test-utils';
 import { Biospecimen } from './Biospecimen';
 
 import { useCoreSelector } from '@gen3/core';
-import { useBiospecimenDataQuery } from '@/core/cases/bioSpecimanDataSlice';
+import { useBiospecimenDataQuery } from '@/core/features/cases/bioSpecimanDataSlice';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
