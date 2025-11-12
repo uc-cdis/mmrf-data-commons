@@ -94,7 +94,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <ProtectedContent>
         <div className="flex flex-col">
           <CohortManager
-            rightPanel={<CountsPanel index="case" indexPrefix="Case_" />}
+            rightPanel={<CountsPanel index="case" indexPrefix="CaseCentric_" />}
             size="md"
             customActions={getCustomCohortButtons()}
           />
