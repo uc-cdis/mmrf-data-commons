@@ -260,7 +260,7 @@ export const FileView: React.FC<FileViewProps> = ({
   return (
     <div className="relative" data-testid="file-view">
       <SummaryHeader
-        iconPath={'/icons/files.svg'}
+        iconPath='mmrf:files'
         headerTitleLeft="File"
         headerTitle={file.file_name}
         isModal={isModal}
