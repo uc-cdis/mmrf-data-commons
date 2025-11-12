@@ -1,8 +1,9 @@
-
-import { BaseContextModal } from '@/components/Modals/BaseModal';
-import { FilterByUserInputModal } from './FilterByUserInputModal';
+import { BaseContextModal } from "@/components/Modals/BaseModal";
+import { FilterByUserInputModal } from "./FilterByUserInputModal";
+import { SaveCohortModal } from "./SaveCohortModal";
 
 export const mmrfModals = {
   baseContextModal: BaseContextModal,
-  filterByUserInputModal: FilterByUserInputModal
+  filterByUserInputModal: FilterByUserInputModal,
+  saveCohortModal: SaveCohortModal,
 };

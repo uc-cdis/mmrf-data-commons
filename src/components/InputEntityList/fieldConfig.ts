@@ -2,9 +2,7 @@ export default {
   genes: {
     searchField: "gene_autocomplete.lowercase",
     mappedToFields: ["symbol"],
-    matchAgainstIdentifiers: [
-      "symbol",
-    ],
+    matchAgainstIdentifiers: ["symbol"],
     fieldDisplay: {
       symbol: "Symbol",
     },
@@ -21,7 +19,7 @@ export default {
     outputField: "ssm_id",
     facetField: "ssm_id",
   },
-    cases: {
+  cases: {
     mappedToFields: ["submitter_id", "project.project_id"],
     matchAgainstIdentifiers: [
       "case_id",
