@@ -5,10 +5,11 @@ import {
   GQLFilter,
   GQLIntersection,
 } from '@gen3/core';
-import { CartAggregation, CartSummaryData } from '@/core/features/cart';
 import { FileDefaults } from '@/core/features/api';
 import { castDraft } from 'immer';
 import { SortBy } from '@/core';
+import { FileSummaryFields } from './summaryFields';
+import { dotNotationToGraphql } from '@/core/utils/conversions';
 
 const graphQLQuery = `
 query File_file (
@@ -519,6 +520,12 @@ interface FileRequest {
   sortBy: SortBy[];
 }
 
+interface FileSummaryRequest {
+  filters: GQLIntersection;
+  expand: string[];
+  fields: string[];
+}
+
 const filesSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     getFiles: builder.query<FilesResponse, FileRequest>({
@@ -532,13 +539,18 @@ const filesSlice = guppyApi.injectEndpoints({
         return {
           query: graphQLQuery,
           variables: {
-            fileFilters: { and : [...tableFilters.and,  (searchTerm
-                ? {
-                  search: {
-                    keyword: searchTerm,
-                  },
-                }
-                : {}),] },
+            fileFilters: {
+              and: [
+                ...tableFilters.and,
+                searchTerm
+                  ? {
+                      search: {
+                        keyword: searchTerm,
+                      },
+                    }
+                  : {},
+              ],
+            },
             size,
             from,
           },
@@ -549,17 +561,53 @@ const filesSlice = guppyApi.injectEndpoints({
           return {
             files: [],
             pagination: undefined,
-            total: 0
+            total: 0,
           };
 
         return {
           files: castDraft(mapFileData(response?.data?.files ?? [])),
           pagination: response.data.pagination,
-          total: response?.data?.fileTotal?.file?._totalCount ?? 0
+          total: response?.data?.fileTotal?.file?._totalCount ?? 0,
+        };
+      },
+    }),
+    getFileSummary: builder.query<FilesResponse, string>({
+      query: (file_id: string) => {
+        const FileSummaryGQLQuery = `
+          query FileSummary (
+            $fileFilters: JSON
+        ) {
+           files:  File_file (filter: $fileFilters) {${dotNotationToGraphql(FileSummaryFields)}}
+           }`;
+
+        return {
+          query: FileSummaryGQLQuery,
+          variables: {
+            fileFilters: {
+              and: [
+                {
+                  '=': { file_id: file_id },
+                },
+              ],
+            },
+          },
+        };
+      },
+      transformResponse: (response) => {
+        if (response.errors && Object.keys(response.errors).length > 0)
+          return {
+            files: [],
+            pagination: undefined,
+            total: 0,
+          };
+
+        return {
+          files: castDraft(mapFileData(response?.data?.files ?? [])),
+          total: response?.data?.fileTotal?.file?._totalCount ?? 0,
         };
       },
     }),
   }),
 });
 
-export const { useGetFilesQuery } = filesSlice;
+export const { useGetFilesQuery, useGetFileSummaryQuery } = filesSlice;

@@ -4,6 +4,7 @@ import {
   Includes,
   EmptyFilterSet,
   guppyApi,
+  convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { Bucket, GraphQLApiResponse } from '@/core/types';
 import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
@@ -11,7 +12,7 @@ import { ProjectData } from '@/core/features/cancerDistribution/types';
 
 interface GeneCancerDistributionTableResponse {
   ssms: {
-    ssm: { occurrence: { case: { project: ProjectData } } };
+    ssm_centric: { occurrence: { case: { project: ProjectData } } };
   };
   cases: {
     filtered: {
@@ -39,8 +40,7 @@ interface GeneCancerDistributionTableResponse {
 }
 
 interface SSMSCancerDistributionTableResponse {
-  ssms: { ssm_occurrence: { case: { project: ProjectData } } ;
-  };
+  ssms: { ssm_occurrence_centric: { case: { project: ProjectData } } };
   cases: {
     filtered: {
       project: ProjectData;
@@ -82,7 +82,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
           },
         };
 
-        const geneFilter = convertFilterSetToNestedGqlFilter({
+        const geneFilter = convertFilterSetToGqlFilter({
           mode: 'and',
           root: {
             ['gene.gene_id']: {
@@ -92,7 +92,7 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
             } as Includes,
           },
         });
-        const ssmGeneFilter = convertFilterSetToNestedGqlFilter({
+        const ssmGeneFilter = convertFilterSetToGqlFilter({
           mode: 'and',
           root: {
             ['consequence.transcript.gene.gene_id']: {
@@ -103,10 +103,10 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
           },
         });
 
-        const gqlContextFilter = convertFilterSetToNestedGqlFilter(
+        const gqlContextFilter = convertFilterSetToGqlFilter(
           genomicWithGene ?? EmptyFilterSet,
         );
-        const gqlCohortFilters = convertFilterSetToNestedGqlFilter(
+        const gqlCohortFilters = convertFilterSetToGqlFilter(
           request.cohortFilters ?? EmptyFilterSet,
         );
         const gqlContextIntersection =
@@ -125,8 +125,8 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
 
         return {
           query: `query CancerDistributionTable($ssmTested: JSON, $ssmCountsFilters: JSON, $caseAggsFilter: JSON, $cnvAmplificationFilter: JSON, $cnvGainFilter: JSON, $cnvLossFilter: JSON, $cnvHomozygousDeletionFilter: JSON, $cnvTested: JSON) {
-          ssms: Ssm__aggregation {
-            ssm(filter: $ssmCountsFilters) {
+          ssms: SsmCentric__aggregation {
+            ssm_centric(filter: $ssmCountsFilters) {
               occurrence {
                 case {
                   project {
@@ -233,15 +233,10 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
             ssmCountsFilters: {
               and: [
                 {
-                  nested: {
-                    path: 'occurrence',
-                    nested: {
-                      path: 'occurrence.case',
+
                       in: {
-                        available_variation_data: ['ssm'],
+                        "occurrence.case.available_variation_data": ['ssm'],
                       },
-                    },
-                  },
                 },
                 ...geneSSMGqlContextIntersection,
               ],
@@ -264,15 +259,9 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
                   },
                 },
                 {
-                  nested: {
-                    path: 'gene',
-                    nested: {
-                      path: 'gene.cnv',
                       in: {
-                        cnv_change_5_category: ['Amplification'],
+                        'gene.cnv.cnv_change_5_category': ['Amplification'],
                       },
-                    },
-                  },
                 },
                 ...geneGqlContextIntersection,
               ],
@@ -285,15 +274,11 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
                   },
                 },
                 {
-                  nested: {
-                    path: 'gene',
-                    nested: {
-                      path: 'gene.cnv',
+
                       in: {
-                        cnv_change_5_category: ['Gain'],
+                        'gene.cnv.cnv_change_5_category': ['Gain'],
                       },
-                    },
-                  },
+
                 },
                 ...geneGqlContextIntersection,
               ],
@@ -306,15 +291,11 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
                   },
                 },
                 {
-                  nested: {
-                    path: 'gene',
-                    nested: {
-                      path: 'gene.cnv',
+
                       in: {
-                        cnv_change_5_category: ['Loss'],
+                        'gene.cnv.cnv_change_5_category': ['Loss'],
                       },
-                    },
-                  },
+
                 },
                 ...geneGqlContextIntersection,
               ],
@@ -327,15 +308,11 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
                   },
                 },
                 {
-                  nested: {
-                    path: 'gene',
-                    nested: {
-                      path: 'gene.cnv',
+
                       in: {
-                        cnv_change_5_category: ['Homozygous Deletion'],
+                        'gene.cnv.cnv_change_5_category': ['Homozygous Deletion'],
                       },
-                    },
-                  },
+
                 },
                 ...geneGqlContextIntersection,
               ],
@@ -357,9 +334,9 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
       ): CancerDistributionTableData => {
         return {
           projects:
-            response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id
+            response?.data?.ssms?.ssm_centric?.occurrence?.case?.project?.project_id
               ?.histogram.length > 0
-              ? response?.data?.ssms?.ssm?.occurrence?.case?.project?.project_id
+              ? response?.data?.ssms?.ssm_centric?.occurrence?.case?.project?.project_id
                   ?.histogram
               : response?.data?.cases?.cnvTotal.project?.project_id.histogram,
           ssmFiltered: Object.fromEntries(
@@ -407,8 +384,8 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
     $ssmCountsFilters: JSON
     $caseAggsFilter: JSON
 ) {
-    ssms: SsmOccurrence__aggregation {
-        ssm_occurrence(filter: $ssmCountsFilters) {
+    ssms: SsmOccurrenceCentric__aggregation {
+        ssm_occurrence_centric(filter: $ssmCountsFilters) {
             case {
                 project {
                     project_id {
@@ -455,19 +432,13 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
           ssmCountsFilters: {
             and: [
               {
-                nested: {
-                  path: 'ssm',
-                  in: {
-                    ssm_id: [request.ssms],
-                  },
+                in: {
+                  'ssm.ssm_id': [request.ssms],
                 },
               },
               {
-                nested: {
-                  path: 'case',
-                  in: {
-                    available_variation_data: ['ssm'],
-                  },
+                in: {
+                  'case.available_variation_data': ['ssm'],
                 },
               },
             ],
@@ -488,9 +459,9 @@ export const cancerDistributionTableApiSlice = guppyApi.injectEndpoints({
       ): CancerDistributionTableData => {
         return {
           projects:
-          response?.data?.cases?.filtered?.project?.project_id?.histogram,
+            response?.data?.cases?.filtered?.project?.project_id?.histogram,
           ssmFiltered: Object.fromEntries(
-            response?.data?.ssms?.ssm_occurrence?.case?.project?.project_id?.histogram.map(
+            response?.data?.ssms?.ssm_occurrence_centric?.case?.project?.project_id?.histogram.map(
               (b: any) => [b.key, b.count],
             ),
           ),

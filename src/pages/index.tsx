@@ -95,9 +95,9 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <ProtectedContent>
         <div className="flex flex-col">
           <CohortManager
-            rightPanel={<CountsPanel index="case" indexPrefix="Case_" />}
+            rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}
           />
-          <QueryExpression index="case" />
+          <QueryExpression index="case_centric" />
 
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />

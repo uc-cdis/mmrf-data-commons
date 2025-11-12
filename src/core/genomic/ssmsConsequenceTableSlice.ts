@@ -1,11 +1,11 @@
 import { guppyApi, TablePageOffsetProps } from '@gen3/core';
-import { SSMSConsequence } from './ssmsTableSlice';
+import { SSMSConsequence } from './types';
 
 const SSMSConsequenceTableGraphQLQuery = `
 query ConsequencesTable (
   $filters: JSON
   $table_offset:Int, $table_size: Int) {
-    ssms: Ssm_ssm(filter: $filters, first: $table_size, offset: $table_offset) {
+    ssms: SsmCentric_ssm_centric(filter: $filters, first: $table_size, offset: $table_offset) {
         consequence {
             consequence_id
             transcript {

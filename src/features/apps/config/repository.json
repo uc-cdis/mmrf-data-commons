@@ -81,7 +81,6 @@
       "file_name",
       "cases.case_id",
       "cases.project.project_id",
-      "cases.sample.sample_id",
       "data_category",
       "data_format",
       "file_size",
@@ -94,17 +93,18 @@
         "cellRenderFunction": "openControlledAccess",
         "params": {
           "colorTable": {
-            "open": "primary.4",
-            "controlled": "accent.3"
+            "open": "primary.6",
+            "controlled": "accent.6"
           }
         }
       },
       "file_name": {
         "type": "link",
-        "cellRenderFunction": "modalLink",
+        "cellRenderFunction": "openLinkInTab",
         "params": {
           "classNames": { "text": "text-primary" },
-          "linkField": "file_id"
+          "linkField": "file_id",
+          "href" : "/files/"
         }
       },
       "file_size": {
@@ -119,13 +119,13 @@
         "type": "link",
         "cellRenderFunction": "modalLink",
         "title": "Cases",
-        "accessorPath" : "cases.length"
+        "accessorPath" : "cases.case_id.length"
       },
       "cases.project.project_id": {
         "type": "link",
         "cellRenderFunction": "modalLink",
         "title": "Project",
-        "accessorPath" : "cases[0].project.project_id"
+        "accessorPath" : "cases.project[0].project_id"
       }
     }
   },

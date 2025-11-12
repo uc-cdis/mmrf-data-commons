@@ -131,7 +131,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
           total: 0,
           label: '',
         };
-  }, [pageSize, activePage, data?.pagination?.total, isSuccess]);
+  }, [pageSize, activePage, data?.total, isSuccess]);
 
   const cartFilesTableDefaultColumns = useMemo(
     () => [

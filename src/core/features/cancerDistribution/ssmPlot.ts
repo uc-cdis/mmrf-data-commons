@@ -12,8 +12,8 @@ const graphQLQuery = `query CancerDistribution(
     $ssmTested: JSON
     $ssmFilters: JSON
 ) {
-    ssms: SsmOccurrence__aggregation {
-        ssm_occurrence(filter: $ssmFilters) {
+    ssms: SsmOccurrenceCentric__aggregation {
+        ssm_occurrence_centric(filter: $ssmFilters) {
             _totalCount
         }
     }
@@ -84,11 +84,8 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
                     },
                   },
                   {
-                    nested: {
-                      path: 'gene',
-                      in: {
-                        gene_id: [gene],
-                      },
+                    in: {
+                      'gene.gene_id': [gene],
                     },
                   },
                   ...gqlContextIntersection,
@@ -97,28 +94,13 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
               ssmFilters: {
                 and: [
                   {
-                    nested: {
-                      path: 'case',
-                      in: {
-                        available_variation_data: ['ssm'],
-                      },
+                    in: {
+                      'case.available_variation_data': ['ssm'],
                     },
                   },
                   {
-                    nested: {
-                      path: 'ssm',
-                      nested: {
-                        path: 'ssm.consequence',
-                        nested: {
-                          path: 'ssm.consequence.transcript',
-                          nested: {
-                            path: 'ssm.consequence.transcript.gene',
-                            in: {
-                              gene_id: [gene],
-                            },
-                          },
-                        },
-                      },
+                    in: {
+                      'ssm.consequence.transcript.gene.gene_id': [gene],
                     },
                   },
                   ...gqlContextIntersection,
@@ -143,11 +125,8 @@ const ssmPlotSlice = guppyApi.injectEndpoints({
                     },
                   },
                   {
-                    nested: {
-                      path: 'ssms',
-                      in: {
-                        ssm_id: [ssms],
-                      },
+                    in: {
+                      'gene.ssm.ssm_id': [ssms],
                     },
                   },
                 ],

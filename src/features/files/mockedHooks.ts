@@ -1,7 +1,7 @@
 import { FilterSet } from '@gen3/core';
 import FileInfoData_1 from './data/b5e705b58eb8.json';
 import FileInfoData_2 from './data/5a7d97351f4c.json';
-import FileInfoData_3 from './data/712839fb11a3.json';
+import FileInfoData_3 from './data/ae84a65fbb00.json';
 
 const fileInfoData = [FileInfoData_1, FileInfoData_2, FileInfoData_3];
 

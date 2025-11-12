@@ -1,13 +1,10 @@
 import {
   GEN3_GUPPY_API,
-  FilterSet,
   GQLFilter,
   guppyDownloadApi,
-
   Accessibility,
 } from '@gen3/core';
 import { flatten} from 'flat';
-import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
 import { MMRFFile } from '@/core/features/files/filesSlice';
 
 
@@ -26,7 +23,7 @@ interface FilesResponse {
   files: ReadonlyArray<any>;
 }
 
-const allFilesSlide = guppyDownloadApi.injectEndpoints({
+const allFilesSlice = guppyDownloadApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getAllFiles: builder.query<MMRFFile[], DownloadApiRequestParameters<GQLFilter>>({
@@ -68,4 +65,4 @@ const allFilesSlide = guppyDownloadApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllFilesQuery, useLazyGetAllFilesQuery } = allFilesSlide;
+export const { useGetAllFilesQuery, useLazyGetAllFilesQuery } = allFilesSlice;

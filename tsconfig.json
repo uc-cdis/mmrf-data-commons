@@ -23,7 +23,9 @@
       "@/*": [
         "./src/*"
       ],
-      "@/core/*": ["src/core/*"]
+      "@/core/*": [
+        "src/core/*"
+      ]
     },
     "plugins": [
       {

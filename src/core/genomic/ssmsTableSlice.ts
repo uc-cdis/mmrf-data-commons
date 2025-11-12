@@ -1,14 +1,18 @@
 import {
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  FilterSet,
+  guppyApi,
   Union,
   DataStatus,
-  guppyApi,
-  TablePageOffsetProps,
+  convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { getSSMTestedCases } from './utils';
 import { GraphQLApiResponse } from '@/core';
-import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
+import {
+  SsmsTableRequestParameters,
+  SSMSData,
+  SSMSConsequence,
+  SSMSTableResponse,
+} from './types';
 
 const SSMSTableGraphQLQuery = `query SsmsTable(
     $ssmTested: JSON
@@ -28,7 +32,7 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
             _totalCount
         }
     }
-    ssm: Ssm_ssm(
+    ssm: SsmCentric_ssm_centric(
         first: $ssmsTable_size
         offset: $ssmsTable_offset
         filter: $ssmsTable_filters
@@ -61,63 +65,17 @@ const SSMSTableGraphQLQuery = `query SsmsTable(
             }
         }
     }
-    filteredOccurrences: Ssm__aggregation {
-        ssm(filter: $ssmCaseFilter) {
+    filteredOccurrences: SsmCentric__aggregation {
+        ssm_centric(filter: $ssmCaseFilter) {
             _totalCount
         }
     }
-    ssms: Ssm__aggregation {
-        ssm(filter: $ssmTotalFilter) {
+    ssms: SsmCentric__aggregation {
+        ssm_centric(filter: $ssmTotalFilter) {
             _totalCount
         }
     }
 }`;
-
-interface CaseIdData {
-  case: {
-    case_id: string;
-  };
-}
-
-export interface SSMSConsequence {
-  readonly id: string;
-  readonly transcript: {
-    readonly aa_change: string;
-    readonly annotation: {
-      readonly polyphen_impact: string;
-      readonly polyphen_score: number;
-      readonly sift_impact: string;
-      readonly sift_score: string;
-      readonly vep_impact: string;
-      readonly hgvsc?: string;
-      readonly dbsnp_rs: string;
-    };
-    readonly consequence_type: string;
-    readonly gene: {
-      readonly gene_id: string;
-      readonly symbol: string;
-      readonly gene_strand?: number;
-    };
-    readonly is_canonical: boolean;
-    readonly transcript_id?: string;
-  };
-}
-export interface SSMSData {
-  readonly ssm_id: string;
-  readonly filteredOccurrences: number;
-  readonly id: string;
-  readonly score: number;
-  readonly genomic_dna_change: string;
-  readonly mutation_subtype: string;
-  readonly consequence: ReadonlyArray<SSMSConsequence>;
-  readonly occurrence: number;
-}
-
-export interface SSMSDataResponse
-  extends Omit<SSMSData, 'occurrence' | 'filteredOccurrences'> {
-  readonly occurrence: ReadonlyArray<CaseIdData>;
-  readonly filteredOccurrences: { ssm: { _totalCount: number } };
-}
 
 export interface GDCSsmsTable {
   readonly cases: number;
@@ -166,32 +124,6 @@ export const buildSSMSTableSearchFilters = (
   return undefined;
 };
 
-export interface SsmsTableRequestParameters extends TablePageOffsetProps {
-  readonly geneSymbol?: string;
-  readonly genomicFilters: FilterSet;
-  readonly cohortFilters: FilterSet;
-  readonly tableFilters: FilterSet;
-  readonly _cohortFiltersNoSet?: FilterSet;
-}
-
-interface ssmtableResponse {
-  cases: {
-    case_centric: {
-      _totalCount: number;
-    };
-    filteredCases: {
-      _totalCount: number;
-    };
-  };
-  ssm: SSMSDataResponse[];
-  filteredOccurrences: { ssm: { _totalCount: number } };
-  ssms: {
-    ssm: {
-      _totalCount: number;
-    };
-  };
-}
-
 export interface SsmsTableState {
   readonly ssms: GDCSsmsTable;
   readonly status: DataStatus;
@@ -212,7 +144,7 @@ const generateFilter = ({
   tableFilters,
 }: SsmsTableRequestParameters) => {
   const cohortFiltersGQL = buildCohortGqlOperator(cohortFilters);
-  const contextFilters = convertFilterSetToNestedGqlFilter(tableFilters) ?? {};
+  const contextFilters = convertFilterSetToGqlFilter(tableFilters) ?? {};
   const graphQlFilters = {
     ssmCaseFilter: getSSMTestedCases(geneSymbol),
     // for table filters use both cohort and genomic filter along with search filter
@@ -222,28 +154,13 @@ const generateFilter = ({
     ssmsTable_filters: {
       and: [
         {
-          nested: {
-            path: 'consequence',
-            nested: {
-              path: 'consequence.transcript',
-              eq: {
-                is_canonical: true,
-              },
-            },
+          eq: {
+            'consequence.transcript.is_canonical': true,
           },
         },
         {
-          nested: {
-            path: 'consequence',
-            nested: {
-              path: 'consequence.transcript',
-              nested: {
-                path: 'consequence.transcript.gene',
-                in: {
-                  symbol: [geneSymbol],
-                },
-              },
-            },
+          in: {
+            'consequence.transcript.gene.symbol': [geneSymbol],
           },
         },
         contextFilters,
@@ -257,11 +174,8 @@ const generateFilter = ({
           },
         },
         {
-          nested: {
-            path: 'gene',
-            in: {
-              symbol: [geneSymbol],
-            },
+          in: {
+            'gene.symbol': [geneSymbol],
           },
         },
       ],
@@ -278,14 +192,8 @@ const generateFilter = ({
     ssmTotalFilter: {
       and: [
         {
-          nested: {
-            path: 'occurrence',
-            nested: {
-              path: 'occurrence.case',
-              in: {
-                available_variation_data: ['ssm'],
-              },
-            },
+          in: {
+            'occurrence.case.available_variation_data': ['ssm'],
           },
         },
       ],
@@ -305,7 +213,7 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         query: SSMSTableGraphQLQuery,
         variables: generateFilter(request),
       }),
-      transformResponse: (response: { data: ssmtableResponse }) => {
+      transformResponse: (response: { data: SSMSTableResponse }) => {
         const { consequence, ssm_id } = response?.data?.ssm[0] ?? {
           consequence: {},
           ssm_id: '',
@@ -324,45 +232,43 @@ export const ssmTableSlice = guppyApi.injectEndpoints({
         query: SSMSTableGraphQLQuery,
         variables: generateFilter(request),
       }),
-      transformResponse: (response: GraphQLApiResponse<ssmtableResponse>) => {
+      transformResponse: (response: GraphQLApiResponse<SSMSTableResponse>) => {
         const data = response.data;
-        const ssmsTotal = data.filteredOccurrences.ssm._totalCount;
+        const ssmsTotal = data.filteredOccurrences.ssm_centric._totalCount;
         const cases = data.cases.case_centric._totalCount;
         const filteredCases = data.cases.filteredCases._totalCount;
 
-        const ssms =
-          Array.isArray(data.ssm) &&
-          data.ssm.map((node): SSMSData => {
-            return {
-              ssm_id: node.ssm_id,
-              score: 1.0,
-              id: node.ssm_id,
-              mutation_subtype: node.mutation_subtype,
-              genomic_dna_change: node.genomic_dna_change,
-              occurrence: node.occurrence.length,
-              filteredOccurrences: node.occurrence.length,
-              consequence: node.consequence.reduce(
-                (acc: SSMSConsequence[], node) => {
-                  const transcript = node.transcript;
-                  if (!transcript.is_canonical)
-                    // only return canonical
-                    return acc;
-                  acc.push({
-                    id: node.id,
-                    transcript: {
-                      aa_change: node.transcript.aa_change,
-                      annotation: { ...node.transcript.annotation },
-                      consequence_type: transcript.consequence_type,
-                      gene: { ...transcript.gene },
-                      is_canonical: transcript.is_canonical,
-                    },
-                  });
+        const ssms = data.ssm.map((node): SSMSData => {
+          return {
+            ssm_id: node.ssm_id,
+            score: 1.0,
+            id: node.ssm_id,
+            mutation_subtype: node.mutation_subtype,
+            genomic_dna_change: node.genomic_dna_change,
+            occurrence: node.occurrence.length,
+            filteredOccurrences: node.occurrence.length,
+            consequence: node.consequence.reduce(
+              (acc: SSMSConsequence[], node) => {
+                const transcript = node.transcript;
+                if (!transcript.is_canonical)
+                  // only return canonical
                   return acc;
-                },
-                [],
-              ),
-            };
-          });
+                acc.push({
+                  id: node.id,
+                  transcript: {
+                    aa_change: node.transcript.aa_change,
+                    annotation: { ...node.transcript.annotation },
+                    consequence_type: transcript.consequence_type,
+                    gene: { ...transcript.gene },
+                    is_canonical: transcript.is_canonical,
+                  },
+                });
+                return acc;
+              },
+              [],
+            ),
+          };
+        });
         return {
           ssmsTotal,
           cases,

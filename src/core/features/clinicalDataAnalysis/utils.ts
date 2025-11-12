@@ -1,4 +1,4 @@
-import { FromToRange, } from '@gen3/frontend';
+import { FromToRange } from '@gen3/frontend';
 import {
   Intersection,
   NumericFromTo,
@@ -188,14 +188,15 @@ export const buildRangeFilters = (
 };
 
 export const buildRangeQuery = (
-  field: string,  case_filters: Operation, ranges: Array<NumericFromTo>, rangeBaseName: string = "range"
+  field: string,  case_filters: Operation, ranges: Array<NumericFromTo>, rangeBaseName: string = "range",
+  index: string = "cases", indexPrefix: string = ""
 ) => {
   const rangeFilters = buildRangeFilters(field,case_filters, ranges,  rangeBaseName  );
 
-  let query = `query rangeQuery ($accessibility: Accessibility, ${Object.keys(rangeFilters).map((rangeKey) => `$${rangeKey}: JSON`).join(',')} ) { _aggregation {`;
+  let query = `query rangeQuery ($accessibility: Accessibility, ${Object.keys(rangeFilters).map((rangeKey) => `$${rangeKey}: JSON`).join(',')} ) { ${indexPrefix}_aggregation {`;
   Object.keys(rangeFilters).forEach((rangeKey) => {
     const rangeQuery = buildAliasedNestedCountsQuery({
-      type: 'case',
+      type: index,
       field,
       rangeName: rangeKey,
     });

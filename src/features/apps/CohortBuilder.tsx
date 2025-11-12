@@ -11,7 +11,7 @@ const CohortBuilderApp = () => {
       {isDemoMode ? (
         <DemoUtil text="Demo mode is not available for this app" />
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-4">
           <TabbedCohortBuilder {...config as unknown as TabbedCohortBuilderConfiguration} />
         </div>
       )}

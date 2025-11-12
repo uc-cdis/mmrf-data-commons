@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
       <div className="mt-4 mx-4 mb-16">
         <DownloadInfo />
         <div className="flex flex-col xl:flex-row gap-8 mt-4">
-          <div className="flex-1">
+          <div className="flex flex-col hidden">
             <HeaderTitle>File counts by authorization level</HeaderTitle>
             <AuthorizationTable
               customDataTestID="table-file-counts-by-authorization-level"
@@ -69,7 +69,7 @@ const Cart: React.FC = () => {
               loading={userDetailsFetching}
             />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-1/2">
             <HeaderTitle>File counts by project</HeaderTitle>
             <ProjectTable
               customDataTestID="table-file-counts-by-project"

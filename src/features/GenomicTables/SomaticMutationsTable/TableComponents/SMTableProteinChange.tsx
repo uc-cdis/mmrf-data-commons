@@ -36,7 +36,7 @@ const SMTableProteinChange = ({
               handleClick={() =>
                 setEntityMetadata({
                   entity_type: 'genes',
-                  entity_id: proteinChange.geneId,
+                  entity_id: proteinChange?.geneId,
                 })
               }
               label={symbol}
@@ -44,7 +44,7 @@ const SMTableProteinChange = ({
             />
           ) : shouldLink ? (
             <Link
-              href={`/genes/${proteinChange.geneId}`}
+              href={`/genes/${proteinChange?.geneId}`}
               className="text-utility-link underline"
               id={ariaId}
             >

@@ -67,7 +67,7 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     isUninitialized: cohortFacetsUninitialized,
   } = useCohortFacetsQuery(
     {
-      index: "case",
+      index: "case_centric",
       continuousFacets: ["diagnoses.age_at_diagnosis"],
       facetFields: fieldsToQuery,
       primaryCohort: convertFilterSetToGqlFilter(cohorts.primary_cohort.filter),

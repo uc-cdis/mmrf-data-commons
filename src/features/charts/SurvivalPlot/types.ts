@@ -1,4 +1,4 @@
-import { SurvivalPlotData } from '@/core/survival';
+import { SurvivalPlotData } from '@/core/features/survival';
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { entityMetadataType } from '@/utils/contexts';
 

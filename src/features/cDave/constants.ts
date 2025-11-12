@@ -40,10 +40,10 @@ export const HIDE_QQ_BOX_FIELDS = [
 
 export const COLOR_MAP : Record<string, string>= {
   demographic: "plum",
-  diagnoses: "sand",
+  diagnoses: "apricot",
   treatments: "platinum",
   exposures: "blush",
-  other_clinical_attributes: "pricot",
+  other_clinical_attributes: "gunmetal",
 };
 
 // this is done so tailwind loads the classes properly

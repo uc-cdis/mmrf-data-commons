@@ -26,7 +26,7 @@ const Repository = ({
   ) {
     return (
       <MessagePage>
-        <ErrorCard message="Invalid file stats configuration" />
+        <ErrorCard message="Invalid repository configuration" />
       </MessagePage>
     );
   }

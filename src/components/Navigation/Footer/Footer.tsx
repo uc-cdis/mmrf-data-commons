@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
             {mmrfFooter.rightSection.description}
           </div>
           <div className="mt-3 w-full">
-            {mmrfFooter.rightSection.linkSet.map((item, i) => (
+            {mmrfFooter.rightSection.linkSet.map((item: any, i) => (
               <React.Fragment key={i}>
                 <Text className="block md:inline text-xs">
                   <b>{item.text}</b> {item.version}

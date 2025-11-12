@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-
+import { FilterSet } from "@gen3/core";
 import { ButtonProps } from "@mantine/core";
 import tw from "tailwind-styled-components";
 import {   FaPlus as PlusIcon  } from 'react-icons/fa';
@@ -47,6 +47,10 @@ export const IconWrapperTW = tw.span`
 interface CohortCreationButtonProps {
   readonly label: ReactNode;
   readonly numCases: number;
+  readonly filters?: FilterSet;
+  readonly caseFilters?: FilterSet;
+  readonly filtersCallback?: () => Promise<FilterSet>;
+  readonly createStaticCohort?: boolean;
 }
 
 /**

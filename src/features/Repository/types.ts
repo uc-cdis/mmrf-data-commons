@@ -2,28 +2,13 @@ import {
   DataTypeConfigWithManifest,
   DownloadButtonConfig,
   DropdownsWithButtonsProps,
-  SummaryTable,
   Gen3AppConfigData,
+  SummaryTable,
   TabsConfig,
 } from '@gen3/frontend';
-import { Accessibility, AggregationsData, FilterSet } from '@gen3/core';
+import { Accessibility, FilterSet } from '@gen3/core';
 import React from 'react';
-
-export interface FacetQueryParameters {
-  type: string;
-  fields: ReadonlyArray<string>;
-  filters: FilterSet;
-  accessibility?: Accessibility;
-  filterSelf?: boolean;
-  indexPrefix?: string;
-}
-
-export interface FacetQueryResponse {
-  data: AggregationsData;
-  isSuccess: boolean;
-  isFetching: boolean;
-  isError: boolean;
-}
+import { FacetQueryParameters, FacetQueryResponse } from '@/features/types';
 
 export interface FileCountsQueryParameters {
   repositoryFilters: FilterSet;

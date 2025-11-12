@@ -1,5 +1,5 @@
 {
-  "index" : "case",
+  "index" : "case_centric",
   "indexPrefix": "CaseCentric_",
   "tabsConfiguration": {
     "general": {
@@ -26,8 +26,20 @@
         "demographic.vital_status"
       ],
       "queryOptions": {
-        "index": "case",
+        "index": "case_centric",
         "indexPrefix": "CaseCentric_"
+      },
+      "fieldsConfig": {
+        "diagnoses.age_at_diagnosis": {
+          "label": "Age at Diagnosis",
+          "field": "diagnoses.age_at_diagnosis",
+          "type": "age_in_years",
+          "description": "Age of the patient at diagnosis",
+          "range": {
+            "maximum": 32872,
+            "minimum": 0
+          }
+        }
       }
     },
     "general_diagnosis": {

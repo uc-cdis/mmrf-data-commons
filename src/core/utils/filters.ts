@@ -7,6 +7,7 @@ import {
   GQLFilter,
   isGQLUnion,
   isGQLIntersection,
+  ifOperationWithField,
   OperationHandler,
   Equals,
   GQLNestedFilter,
@@ -38,8 +39,15 @@ import {
   GQLGreaterThanOrEquals,
   GQLGreaterThan,
   handleOperation,
+  OperationWithField,
+  isIncludes, convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { GqlOperation } from '@/core/types';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 
 /**
  * Constructs a nested operation object based on the provided field and leaf operand.
@@ -390,3 +398,60 @@ export const convertFilterSetToNestedGqlFilter = (
     ? { and: fsKeys.map((key) => convertFilterToNestedGqlFilter(fs.root[key])) }
     : { or: fsKeys.map((key) => convertFilterToNestedGqlFilter(fs.root[key])) };
 };
+
+export const mergeFilterWithPrefix = (source: FilterSet, other: FilterSet, prefix: string): FilterSet => {
+  // Ensure root property exists
+  const results = {
+    ...source,
+    root: { ...(source.root || {}) }
+  };
+
+  // Guard against missing other.root
+  if (!other?.root) {
+    return results;
+  }
+
+  for (const [key, value] of Object.entries(other.root)) {
+    if (isIncludes(value)) {
+      const prefixedKey = `${prefix}${key}`;
+
+      // Optional: warn about overwrites
+      if (results.root[prefixedKey]) {
+        console.warn(`Overwriting existing filter for key: ${prefixedKey}`);
+      }
+
+      results.root[prefixedKey] = {
+        field: prefixedKey,
+        operator: 'in',
+        operands: [...value.operands],
+      } satisfies Includes;
+    }
+    // Optional: handle or log non-Includes filters
+    else if (value) {
+      console.warn(`Skipping non-Includes filter for key: ${key}`, value);
+    }
+  }
+  return results;
+};
+
+export function addPrefixToOperation(op:Operation, prefix: string): Operation  {
+  if (ifOperationWithField(op)) {
+    return {
+      ...op,
+      field: `${prefix}${op.field}`
+    } as Operation;
+  }
+  if (op.operator === 'and' || op.operator === 'or') {
+    return {
+      ...op,
+      operands: op.operands.map((x) => addPrefixToOperation(x, prefix))
+    }
+  }
+  if (op.operator === 'nested') {
+    return {
+      ...op,
+      operand: addPrefixToOperation(op.operand, prefix)
+    }
+  }
+  return op;
+}

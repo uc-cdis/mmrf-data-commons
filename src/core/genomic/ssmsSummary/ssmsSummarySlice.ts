@@ -1,6 +1,6 @@
 import { guppyApi,  } from '@gen3/core';
 import { ClinicalAnnotation, SSMSSummaryData } from '@/core';
-import { SSMSConsequence } from '@/core/genomic/ssmsTableSlice';
+import { SSMSConsequence } from '@/core/genomic/types';
 
 const SSMSummaryQuery = `
 query SSMSummaryQuery($filter: JSON) {
