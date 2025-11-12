@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { FilterSet } from "@gen3/core";
+import React, { ReactNode, useState } from 'react';
+import { EmptyFilterSet, FilterSet, useCoreDispatch } from '@gen3/core';
 import { ButtonProps } from "@mantine/core";
 import tw from "tailwind-styled-components";
 import {   FaPlus as PlusIcon  } from 'react-icons/fa';
@@ -66,12 +66,14 @@ interface CohortCreationButtonProps {
 const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   label,
   numCases,
+  filters = EmptyFilterSet,
+  filtersCallback,
 }: CohortCreationButtonProps) => {
-  // const [showSaveCohort, setShowSaveCohort] = useState(false);
-  // const [cohortFilters, setCohortFilters] = useState<FilterSet>(filters);
-  // const [loading, setLoading] = useState(false);
+  const [showSaveCohort, setShowSaveCohort] = useState(false);
+  const [cohortFilters, setCohortFilters] = useState<FilterSet>(filters);
+  const [loading, setLoading] = useState(false);
   const disabled = numCases === undefined || numCases === 0;
- // const dispatch = useCoreDispatch();
+  const dispatch = useCoreDispatch();
   const tooltipText = disabled
     ? "No cases available"
     : `Save a new cohort of ${
@@ -82,6 +84,26 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
     <div className="p-1">
         <CohortCreationStyledButton
           data-testid="button-save-filtered-cohort"
+          onClick={async () => {
+            if (loading) {
+              return;
+            }
+            if (filtersCallback) {
+              setLoading(true);
+              await filtersCallback()
+                .then((createdFilters) => {
+                  setCohortFilters(createdFilters);
+                  setLoading(false);
+                  setShowSaveCohort(true);
+                })
+                .catch(() => {
+                  dispatch(showModal({ modal: Modals.SaveCohortErrorModal }));
+                  setLoading(false);
+                });
+            } else {
+              setShowSaveCohort(true);
+            }
+          }}
           disabled={disabled}
           $fullWidth={React.isValidElement(label)} // if label is JSX.Element take the full width
           aria-label={tooltipText}
@@ -92,7 +114,15 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
           <span className="pr-2 self-center">{label ?? "--"}</span>
         </CohortCreationStyledButton>
 
-
+      <SaveCohortModal
+        onClose={() => setShowSaveCohort(false)}
+        opened={showSaveCohort}
+        filters={cohortFilters}
+        caseFilters={caseFilters}
+        createStaticCohort={createStaticCohort}
+        hooks={cohortActionsHooks}
+        invalidCohortNames={INVALID_COHORT_NAMES}
+      />
     </div>
   );
 };
