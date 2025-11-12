@@ -137,7 +137,7 @@ export const FileFacetPanel = ({
         },
         {},
       );
-
+      console.log("classifyFacets", facetData, index, fieldMapping, configFacetDefs)
       const facetDefs = classifyFacets(
         facetData,
         index,
