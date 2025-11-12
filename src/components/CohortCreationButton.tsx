@@ -97,7 +97,7 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
                   setShowSaveCohort(true);
                 })
                 .catch(() => {
-                  dispatch(showModal({ modal: Modals.SaveCohortErrorModal }));
+                 //  dispatch(showModal({ modal: Modals.SaveCohortErrorModal }));
                   setLoading(false);
                 });
             } else {
@@ -114,15 +114,6 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
           <span className="pr-2 self-center">{label ?? "--"}</span>
         </CohortCreationStyledButton>
 
-      <SaveCohortModal
-        onClose={() => setShowSaveCohort(false)}
-        opened={showSaveCohort}
-        filters={cohortFilters}
-        caseFilters={caseFilters}
-        createStaticCohort={createStaticCohort}
-        hooks={cohortActionsHooks}
-        invalidCohortNames={INVALID_COHORT_NAMES}
-      />
     </div>
   );
 };
