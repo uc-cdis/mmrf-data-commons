@@ -7,7 +7,13 @@ WORKDIR /gen3
 
 # Copy dependency files first for better caching
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && \
+
+# Install ALL dependencies once (including dev deps for build)
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm ci && \
+    npm install @swc/core@1.13.5 @napi-rs/magic-string && \
     npm cache clean --force
 
 # Copy necessary config files
@@ -19,10 +25,9 @@ COPY ./src ./src
 COPY ./public ./public
 COPY ./config ./config
 COPY ./start.sh ./
-# Install build-only dependencies and build
-RUN npm ci && \
-    npm install @swc/core@1.13.5 @napi-rs/magic-string && \
-    npm run build && \
+
+# Build and prune
+RUN npm run build && \
     npm prune --production
 
 # Production stage
