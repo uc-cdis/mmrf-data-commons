@@ -41,6 +41,12 @@ jobs:
     needs: [build-amd64, build-arm64]
     runs-on: ubuntu-latest
     steps:
+      - name: Set tag name
+        id: tag
+        run: |
+          TAG=$(echo "${{ github.ref_name }}" | tr / _)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
       - name: Login to Quay.io
         uses: docker/login-action@v3
         with:
@@ -51,8 +57,8 @@ jobs:
       - name: Create and push manifest
         run: |
           docker manifest create \
-            quay.io/cdis/mmrf-data-commons:${{ github.ref_name }} \
-            quay.io/cdis/mmrf-data-commons:${{ github.ref_name }}-amd64 \
-            quay.io/cdis/mmrf-data-commons:${{ github.ref_name }}-arm64
+            quay.io/cdis/mmrf-data-commons:${{ steps.tag.outputs.tag }} \
+            quay.io/cdis/mmrf-data-commons:${{ steps.tag.outputs.tag }}-amd64 \
+            quay.io/cdis/mmrf-data-commons:${{ steps.tag.outputs.tag }}-arm64
 
-          docker manifest push quay.io/cdis/mmrf-data-commons:${{ github.ref_name }}
+          docker manifest push quay.io/cdis/mmrf-data-commons:${{ steps.tag.outputs.tag }}
