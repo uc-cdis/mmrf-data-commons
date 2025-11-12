@@ -8,69 +8,14 @@ jobs:
     uses: uc-cdis/.github/.github/workflows/securitypipeline.yaml@master
     with:
       python-poetry: 'false'
-    secrets: inherit #pragma: allowlist secret
-
-  prepare:
-    name: Prepare Tag Names
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.set-tag.outputs.tag }}
-      tag-amd64: ${{ steps.set-tag.outputs.tag-amd64 }}
-      tag-arm64: ${{ steps.set-tag.outputs.tag-arm64 }}
-    steps:
-      - name: Set tag names
-        id: set-tag
-        run: |
-          TAG=$(echo "${{ github.ref_name }}" | tr / _)
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "tag-amd64=${TAG}-amd64" >> $GITHUB_OUTPUT
-          echo "tag-arm64=${TAG}-arm64" >> $GITHUB_OUTPUT
-
-  build-amd64:
-    name: Build AMD64 Image
-    needs: prepare
+    secrets: inherit # pragma: allowlist-secret
+  ci:
+    name: Build Image and Push to Quay
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
       USE_QUAY_ONLY: true
-      BUILD_PLATFORMS: "linux/amd64"
-      OVERRIDE_TAG_NAME: ${{ needs.prepare.outputs.tag-amd64 }}
     secrets:
       ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
       ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
-
-  build-arm64:
-    name: Build ARM64 Image
-    needs: prepare
-    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
-    with:
-      USE_QUAY_ONLY: true
-      BUILD_PLATFORMS: "linux/arm64"
-      OVERRIDE_TAG_NAME: ${{ needs.prepare.outputs.tag-arm64 }}
-    secrets:
-      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
-
-  create-manifest:
-    name: Create Multi-arch Manifest
-    needs: [prepare, build-amd64, build-arm64]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Login to Quay.io
-        uses: docker/login-action@v3
-        with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
-
-      - name: Create and push manifest
-        run: |
-          docker manifest create \
-            quay.io/cdis/mmrf-data-commons:${{ needs.prepare.outputs.tag }} \
-            quay.io/cdis/mmrf-data-commons:${{ needs.prepare.outputs.tag-amd64 }} \
-            quay.io/cdis/mmrf-data-commons:${{ needs.prepare.outputs.tag-arm64 }}
-
-          docker manifest push quay.io/cdis/mmrf-data-commons:${{ needs.prepare.outputs.tag }}
