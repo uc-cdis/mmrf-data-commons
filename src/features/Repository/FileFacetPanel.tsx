@@ -78,7 +78,6 @@ export const FileFacetPanel = ({
 
   const coreDispatch = useCoreDispatch();
 
-
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),
   );

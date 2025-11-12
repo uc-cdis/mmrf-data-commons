@@ -21,7 +21,6 @@ const CaseSummaryPage: NextPage = () => {
   return (
     <>
       <PageTitle pageName="Case Summary" />
-
       <h1 className="sr-only">Case Summary</h1>
       {ready && (
         <CaseSummary case_id={caseId as string} bio_id={bioId as string} />

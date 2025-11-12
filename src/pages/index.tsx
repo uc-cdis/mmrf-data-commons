@@ -98,7 +98,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
             size="md"
             customActions={getCustomCohortButtons()}
           />
-          <QueryExpression index="case" />
+          <QueryExpression index="case_centric" />
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
