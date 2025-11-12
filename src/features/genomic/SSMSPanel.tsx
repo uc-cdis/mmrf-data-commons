@@ -7,12 +7,17 @@ import {
   emptySurvivalPlot,
   ComparativeSurvival,
 } from '@/features/genomic/types';
-import { useSelectFilterContent } from '@/features/genomic/hooks';
-
 import { useScrollIntoView } from '@mantine/hooks';
 import { SMTableContainer } from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
-import { useGeneAndSSMPanelData } from './mockedHooks';
+import { useSelectFilterContent, useGeneAndSSMPanelData } from './hooks';
 import { EmptyFilterSet, FilterSet } from '@gen3/core';
+import { useAdvancedSmmTableDataQuery } from '@/core/genomic';
+import { COHORT_FILTER_INDEX } from '@/core';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 const SurvivalPlot = dynamic(
   () => import('../charts/SurvivalPlot/SurvivalPlot'),
   {
@@ -48,14 +53,15 @@ export const SSMSPanel = ({
 }: SSMSPanelProps): JSX.Element => {
   const {
     isDemoMode,
-    // cohortFilters,
+    cohortFilters: currentCohortFilters,
     genomicFilters,
     survivalPlotData,
     overwritingDemoFilter,
     survivalPlotFetching,
     survivalPlotReady,
   } = useGeneAndSSMPanelData(comparativeSurvival, false);
-  const cohortFilters: FilterSet = EmptyFilterSet;
+  const cohortFilters =
+    currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
   /**
    * Get the mutations in cohort
    */
@@ -68,7 +74,7 @@ export const SSMSPanel = ({
     (idAndSymbol: Record<string, any>) =>
       handleGeneAndSSmToggled(
         toggledMutations,
-        'ssms.ssm_id',
+        'gene.ssm.ssm_id',
         'mutationID',
         idAndSymbol,
       ),
@@ -85,9 +91,26 @@ export const SSMSPanel = ({
     // should happen only on mount
     if (searchTermsForGene) scrollIntoView();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  /* Scroll for gene search end */
+
+
+  const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
+    const filters = separateGeneAndSSMFilters(genomicFilters);
+
+    const ssmFilters = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.ssm.ssm}`,
+    );
+    const geneFilters = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
+    );
+
+    return {
+      geneFilters,
+      ssmFilters,
+    };
+  }, [genomicFilters]);
 
   return (
     <div className="flex flex-col" data-testid="ssms-panel">
@@ -118,7 +141,8 @@ export const SSMSPanel = ({
         <SMTableContainer
           selectedSurvivalPlot={comparativeSurvival}
           handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-          genomicFilters={genomicFilters}
+          geneFilters={geneFilters}
+          ssmFilters={ssmFilters}
           cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
           handleSsmToggled={handleSsmToggled}
           toggledSsms={toggledMutations}
@@ -126,6 +150,7 @@ export const SSMSPanel = ({
           isModal={true}
           searchTermsForGene={searchTermsForGene}
           clearSearchTermsForGene={clearSearchTermsForGene}
+          dataHook={useAdvancedSmmTableDataQuery}
         />
       </div>
     </div>

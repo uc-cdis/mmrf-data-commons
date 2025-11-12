@@ -24,6 +24,7 @@ const GenesTableSurvival = ({
   const { numerator } = SSMSAffectedCasesInCohort ?? {
     numerator: 0,
   };
+
   const disabled = numerator < 10;
   const selected = survival;
   const isActive = selected.checked;
@@ -32,6 +33,7 @@ const GenesTableSurvival = ({
     : isActive
       ? `Remove ${selected.symbol} from plot`
       : `Plot ${selected.symbol}`;
+
   // NOTE: If button is disabled then tooltips will not show up
   // https://floating-ui.com/docs/react#disabled-elements
   return (

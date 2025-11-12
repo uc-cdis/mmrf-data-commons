@@ -1,49 +1,13 @@
 import {
   gen3Api,
+  Operation,
+  convertFilterSetToGqlFilter,
   FilterSet,
 } from '@gen3/core';
 import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
 import { GEN3_ANALYSIS_API, TablePageOffsetProps} from '@/core';
 import { extractContents } from '@/core/utils';
 
-
-const GeneMutationFrequencyQuery = `
-    query CaseCentric__aggregation(
-        $geneCaseFilter: JSON
-        $geneFrequencyChart_filters: JSON
-        $geneFrequencyChart_size: Int
-        $geneFrequencyChart_offset: Int
-    ) {
-        cases: CaseCentric__aggregation {
-            case_centric(filter: $geneCaseFilter) {
-                case_id {
-                    _totalCount
-                }
-            }
-        }
-        genes: Gene_gene(
-            filter: $geneFrequencyChart_filters
-            offset: $geneFrequencyChart_offset
-            first: $geneFrequencyChart_size
-        ) {
-            gene_id
-            name
-            case {
-                case_id
-            }
-            is_cancer_gene_census
-            biotype
-            symbol
-        }
-        geneCounts: Gene__aggregation {
-            gene {
-                gene_id {
-                    _totalCount
-                }
-            }
-        }
-    }
-`;
 
 export interface GeneFrequencyTableProps extends TablePageOffsetProps {
   geneFilters: FilterSet;
@@ -77,19 +41,18 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
       GeneFrequencyTableProps
     >({
       query: ({ cohortFilters, geneFilters, ssmFilters, pageSize= 20, offset = 0 }) => {
-        const caseFilters = convertFilterSetToNestedGqlFilter(cohortFilters);
-        const geneFilterContents = extractContents(convertFilterSetToNestedGqlFilter(geneFilters)) ?? []
-        const ssmFilterContents = extractContents(convertFilterSetToNestedGqlFilter(ssmFilters)) ?? []
+        const caseFilters = convertFilterSetToGqlFilter(cohortFilters);
+        const geneFilterContents = extractContents(convertFilterSetToGqlFilter(geneFilters)) ?? []
+        const ssmFilterContents = extractContents(convertFilterSetToGqlFilter(ssmFilters)) ?? []
 
         const request = {
-          case_filters: caseFilters ? caseFilters : {},
-          gene_filters: {
+          cohort_filter: caseFilters ? caseFilters : {},
+          gene_filter: {
             "and": [
-
               ...geneFilterContents,
             ],
           },
-          ssm_filters: {
+          ssm_filter: {
             "and": [
               ...ssmFilterContents,
             ],
@@ -97,17 +60,17 @@ const geneFrequencyChartSlice = gen3Api.injectEndpoints({
         };
 
         return ({
-          url:`${GEN3_ANALYSIS_API}/cohorts/top_genes_in_cohort`,
+          url:`${GEN3_ANALYSIS_API}/genomic/gene_frequency_chart`,
           method: 'POST',
           body:  JSON.stringify(request),
         }) },
       transformResponse: (response: any) => {
-        const data = response.data;
+        const data = response;
         return {
-          filteredCases: data?.totalCases ?? 0,
+          filteredCases: data?.filteredCases ?? 0,
           cnvCases: 0, // TODO: add cnv data
-          genesTotal: data?.totalGenes ?? 0,
-          genes: data?.genes ?? [],
+          genesTotal: data?.genesTotal ?? 0,
+          genes: data?.data ?? [],
         };
       },
     }),

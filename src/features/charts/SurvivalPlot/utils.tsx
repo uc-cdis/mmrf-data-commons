@@ -1,5 +1,5 @@
 import React from 'react';
-import { SurvivalElement } from '@/core/survival';
+import { SurvivalElement } from '@/core/features/survival';
 import { MINIMUM_CASES, SurvivalPlotLegend, SurvivalPlotTypes } from './types';
 
 export const DAYS_IN_MONTH_ROUNDED = 30;

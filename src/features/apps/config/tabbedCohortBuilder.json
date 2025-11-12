@@ -1,6 +1,7 @@
 {
-  "index" : "case",
-  "indexPrefix": "Case_",
+  "index" : "case_centric",
+  "indexPrefix": "CaseCentric_",
+  "fieldsAreFlat": true,
   "tabsConfiguration": {
     "general": {
       "label": "General",
@@ -12,8 +13,8 @@
         "diagnoses.tissue_or_organ_of_origin"
       ],
       "queryOptions": {
-        "index": "case",
-        "indexPrefix": "Case_"
+        "index": "case_centric",
+        "indexPrefix": "CaseCentric_"
       }
     },
     "demographic": {
@@ -26,16 +27,27 @@
         "demographic.vital_status"
       ],
       "queryOptions": {
-        "index": "case",
-        "indexPrefix": "Case_"
+        "index": "case_centric",
+        "indexPrefix": "CaseCentric_"
+      },
+      "fieldsConfig": {
+        "diagnoses.age_at_diagnosis": {
+          "label": "Age at Diagnosis",
+          "field": "diagnoses.age_at_diagnosis",
+          "type": "age_in_years",
+          "description": "Age of the patient at diagnosis",
+          "range": {
+            "maximum": 32872,
+            "minimum": 0
+          }
+        }
       }
     },
     "general_diagnosis": {
       "label": "General Diagnosis",
       "facets": ["diagnoses.tumor_grade", "diagnoses.morphology"],
       "queryOptions": {
-        "index": "case",
-        "indexPrefix": "Case_"
+        "index": "case"
       }
     },
     "disease_status": {
@@ -43,7 +55,7 @@
       "facets": ["diagnoses.progression_or_recurrence"],
       "queryOptions": {
         "docType": "cases",
-        "indexPrefix": "Case_"
+        "indexType": "explore"
       }
     },
     "treatment": {
@@ -51,7 +63,7 @@
       "facets": ["diagnoses.treatments.therapeutic_agents", "diagnoses.treatments.treatment_type"],
       "queryOptions": {
         "docType": "cases",
-        "indexPrefix": "Case_"
+        "indexType": "explore"
       }
     },
     "biospecimen": {
@@ -64,14 +76,16 @@
         "samples.tumor_descriptor"
       ],
       "queryOptions": {
-        "docType": "cases"
+        "docType": "cases",
+        "indexType": "explore"
       }
     },
     "custom": {
       "label": "Custom Filters",
       "facets": [],
       "queryOptions": {
-        "docType": "cases"
+        "docType": "cases",
+        "indexType": "explore"
       }
     }
   }

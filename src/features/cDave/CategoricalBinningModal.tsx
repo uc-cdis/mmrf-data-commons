@@ -176,7 +176,7 @@ const CategoricalBinningModal: React.FC<CategoricalBinningModalProps> = ({
       opened={opened}
       onClose={() => setModalOpen(false)}
       size={800}
-      zIndex={400}
+      zIndex={350}
       title={`Create Custom Bins: ${field}`}
       classNames={{
         header: "text-xl !m-0 !px-0",

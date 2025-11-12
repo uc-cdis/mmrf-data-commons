@@ -12,10 +12,11 @@ import {
   FacetDefinition,
   isIntersection,
   selectIndexFilters,
-  useCoreSelector,
-  useCoreDispatch,
-  toggleCohortBuilderAllFilters,
+  convertFilterSetToGqlFilter,
   selectAllCohortFiltersCollapsed,
+  toggleCohortBuilderAllFilters,
+  useCoreDispatch,
+  useCoreSelector,
   clearCohortFilters
 } from '@gen3/core';
 
@@ -44,6 +45,7 @@ import {
 } from './hooks';
 import { useGetFacetValuesQuery } from './hooks';
 import { StylingOverride} from '@/features/types/styling';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 
 export interface TabConfig {
@@ -76,21 +78,15 @@ export const FileFacetPanel = ({
 
   const coreDispatch = useCoreDispatch();
 
-  const allFiltersCollapsed = useCoreSelector((state) =>
-    selectAllCohortFiltersCollapsed(state, index),
-  );
-
-  const toggleAllFiltersExpanded = (expand: boolean) => {
-    coreDispatch(toggleCohortBuilderAllFilters({ expand, index }));
-  };
-
-  const clearAllFilters = useCallback(() => {
-    coreDispatch(clearCohortFilters({ index }));
-  }, [coreDispatch, index]);
-
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),
   );
+
+  const cohortFilters = useCoreSelector((state: CoreState) =>
+    selectIndexFilters(state, COHORT_FILTER_INDEX),
+  );
+
+  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilters)
 
   const fields = useMemo(
     () => getAllFieldsFromFilterConfigs(filters?.tabs ?? []),
@@ -105,15 +101,30 @@ export const FileFacetPanel = ({
     Record<string, FacetDefinition>
   >({});
 
+  const allFiltersCollapsed = useCoreSelector((state) =>
+    selectAllCohortFiltersCollapsed(state, index),
+  );
+
+  const toggleAllFiltersExpanded = (expand: boolean) => {
+    coreDispatch(toggleCohortBuilderAllFilters({ expand, index }));
+  };
+
+  const clearAllFilters = useCallback(() => {
+    coreDispatch(clearCohortFilters({ index }));
+  }, [coreDispatch, index]);
+
+
   const {
     data: facetData,
     isSuccess: isFacetsQuerySuccess,
     isFetching: isFacetsQueryFetching,
     isError: isFacetsQueryError,
   } = useGetFacetValuesQuery({
+    cohortFilter: cohortFilterGQL,
     type: index,
     fields: fields,
-    filters: repositoryFilters,
+    filter: repositoryFilters,
+    caseIdsFilterPath: "cases.case_id",
     indexPrefix: indexPrefix,
   });
 

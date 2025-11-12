@@ -50,7 +50,7 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
                                                     noData,
                                                     hideYTicks = false,
                                                   }: HistogramProps) => {
-  const [displayPercent, setDisplayPercent] = useState(false);
+  const [displayPercent, setDisplayPercent] = useState(true);
   const downloadChartRef = useRef<HTMLElement>(null!);
   const { downloadInProgress, setDownloadInProgress } = useContext(
     DownloadProgressContext,
@@ -92,13 +92,13 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
         </div>
       ) : (
         <>
-          <div className="flex flex-row justify-between pl-2 pr-0">
+          <div className="flex justify-between pl-2 pr-0">
             <Radio.Group
               size="sm"
               onChange={(value) => setDisplayPercent(value === "percent")}
-              defaultValue={"counts"}
+              defaultValue="percent"
             >
-              <Group className="px-2 flex flex-row items-center gap-2">
+              <Group className="px-2 flex  items-center gap-2">
                 <Radio
                   data-testid="radio-number-of-cases"
                   classNames={{ label: "font-heading pl-1", icon: "hidden" }}
@@ -111,7 +111,7 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
                   classNames={{ label: "font-heading pl-1", icon: "hidden" }}
                   value="percent"
                   label="% of Cases"
-                  color="blue"
+                  color="primary.4"
                 />
               </Group>
             </Radio.Group>
@@ -192,7 +192,7 @@ const CDaveHistogram: React.FC<HistogramProps> = ({
               }
               truncateLabels
               yAxisFormatAsInteger
-              includeDomainPadding={!displayPercent}
+              includeDomainPadding={true}
             />
           </div>
           <OffscreenWrapper>

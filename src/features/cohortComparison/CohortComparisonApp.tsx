@@ -12,6 +12,7 @@ import { useDeepCompareEffect } from 'use-deep-compare';
 import { SelectionScreenContext } from '@/components/analysis';
 import CohortComparison from './CohortComparison';
 import AdditionalCohortSelection from './AdditionalCohortSelection';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 
 const CohortComparisonApp = () => {
@@ -31,18 +32,18 @@ const CohortComparisonApp = () => {
 
   const cohorts = {
     primary_cohort: {
-      filter: primaryCohort.filters && 'case' in  primaryCohort.filters ?  primaryCohort.filters['case'] : EmptyFilterSet,
+      filter: primaryCohort.filters && COHORT_FILTER_INDEX in  primaryCohort.filters ?  primaryCohort.filters[COHORT_FILTER_INDEX] : EmptyFilterSet,
       name: primaryCohort.name ?? 'uninitialize',
       id: primaryCohort.id ?? 'uninitialized',
-      counts: primaryCohort.counts?.['case'] ?? 0,
+      counts: primaryCohort.counts?.[COHORT_FILTER_INDEX] ?? 0,
     },
     comparison_cohort: {
-      filter: comparisonCohortFilter && 'case' in comparisonCohortFilter
-        ? comparisonCohortFilter['case']
+      filter: comparisonCohortFilter && COHORT_FILTER_INDEX in comparisonCohortFilter
+        ? comparisonCohortFilter[COHORT_FILTER_INDEX]
         : EmptyFilterSet,
       name: comparisonCohort?.name ?? 'uninitialize',
       id: comparisonCohort?.id ?? 'uninitialize',
-      counts: comparisonCohort?.counts?.['case'] ?? 0,
+      counts: comparisonCohort?.counts?.[COHORT_FILTER_INDEX] ?? 0,
     },
   };
 
@@ -70,7 +71,7 @@ const CohortComparisonApp = () => {
       setOpen={setSelectionScreenOpen}
       setActiveApp={setActiveApp}
       setComparisonCohort={setComparisonCohort}
-      index="case"
+      index={COHORT_FILTER_INDEX}
     />
   ) : (
     <CohortComparison cohorts={cohorts} demoMode={false} />

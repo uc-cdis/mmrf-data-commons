@@ -46,6 +46,7 @@ const ToggledCheck: React.FC<ToggleProps> = ({
         aria-disabled={disabled}
         aria-label={ariaText}
         variant="outline"
+        color={isActive ? "white" : "black"}
         onChange={() => {
           if (!disabled)
             if (icon && typeof selected === 'object') {
@@ -55,11 +56,14 @@ const ToggledCheck: React.FC<ToggleProps> = ({
               handleSwitch(selected);
             }
         }}
-        className="gene-panel-table-survival"
         classNames={{
           root: `${margin} bg-transparent gene-panel-table-survival`,
-          input: ` cursor-pointer peer  hover:bg-mmrf-blush checked:bg-mmrf-rust`,
-          icon: "!text-white",
+          input: `peer cursor-pointer bg-base checked:bg-accent checked:border-accent ${
+            disabled
+              ? "bg-base-lighter hover:bg-primary-lighter"
+              : "hover:bg-primary checked:bg-mmrf-rust"
+          }`,
+          icon: "peer-hover:!text-white",
         }}
       />
     </Tooltip>

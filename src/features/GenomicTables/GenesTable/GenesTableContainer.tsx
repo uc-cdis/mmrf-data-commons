@@ -1,7 +1,6 @@
-import React from 'react';
-import { FilterSet } from '@/core';
-import { useGeneTable } from '../../genomic/mockedHooks';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
+import { FilterSet } from '@gen3/core';
+import { useGeneTableDataQuery } from '@/core';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import FunctionButton from '@/components/FunctionButton';
 import { joinFilters } from '@/core/utils';
@@ -29,9 +28,13 @@ import { getGene, useGenerateGenesTableColumns } from './utils';
 import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
 import { downloadTSV } from '@/components/Table/utils';
 import saveAs from 'file-saver';
-import useStandardPagination from '@/hooks/useStandardPagination';
-import { GenesTableClientSideSearch } from './GenesTableClientSideSearch';
-import GenesTableData from '@/features/genomic/data/useGenesTable_data_all.json';
+import {
+  addPrefixToFilterSet, GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
+import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
+
+const DEFAULT_PAGE_SIZE = 10;
 
 export interface GTableContainerProps {
   readonly selectedSurvivalPlot: ComparativeSurvival;
@@ -46,10 +49,6 @@ export interface GTableContainerProps {
   cohortFilters: FilterSet;
   toggledGenes?: ReadonlyArray<string>;
   isDemoMode?: boolean;
-  data: any;
-  isFetching: boolean;
-  isError: boolean;
-  isSuccess: boolean;
 }
 
 export const GenesTableContainer: React.FC<GTableContainerProps> = ({
@@ -61,39 +60,60 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   toggledGenes = [],
   isDemoMode = false,
   handleMutationCountClick,
-  data, isFetching, isError, isSuccess,
 }: GTableContainerProps) => {
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
   // const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
+  const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
+    const filters = separateGeneAndSSMFilters(genomicFilters);
+
+    const ssmFilterForGeneCentric = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.gene.ssm}`
+    );
+    const geneFiltersForSSMCentric = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
+    );
+
+    return {
+      geneFilters: filters.gene,
+      ssmFilters: ssmFilterForGeneCentric,
+    };
+  }, [genomicFilters]);
+
   const searchFilters = buildGeneTableSearchFilters(searchTerm);
   // filters for the genes table using local filters
+  // TODO add search support for genes table
   const genesTableFilters = appendSearchTermFilters(
-    genomicFilters as any,
+    geneFilters,
     searchFilters as any,
   );
-
-  // // GeneTable call
-  // const { data, isSuccess, isFetching, isError } = useGeneTable({
-  //   pageSize: 0,
-  //   offset: 0,
-  //   searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
-  //   genomicFilters: genomicFilters,
-  //   cohortFilters: cohortFilters,
-  //   genesTableFilters,
-  // });
-  // // GeneTable call end
+  // GeneTable call
+  const { data, isSuccess, isFetching, isError } = useGeneTableDataQuery({
+    pageSize: pageSize,
+    offset: (page - 1) * pageSize,
+    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+    geneFilters: geneFilters,
+    ssmFilters: ssmFilters,
+    cohortFilters: cohortFilters,
+  });
+  // GeneTable call end
 
   // Extract only the "genes." filters
   const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
-    genomicFilters as any,
+    geneFilters as any,
     'genes.',
   );
+  // get the totals for all cases
+  const { data: countsData} = useGetTotalCountsQuery({});
 
   const generateFilters = useDeepCompareCallback(
-    (cnvType: CnvChange, geneId: string) => {
+    (cnvType: CnvChange | undefined, geneId: string) => {
       if (cnvType !== undefined) {
         // only genes filters
         return joinFilters(genesOnlyFilters, {
@@ -113,7 +133,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       } else {
         // any other type will use all filters
-        return joinFilters(genomicFilters as any, {
+        return joinFilters(geneFilters as any, {
           mode: 'and',
           root: {
             'ssms.ssm_id': {
@@ -132,35 +152,17 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       }
     },
-    [genomicFilters, genesOnlyFilters],
+    [geneFilters, genesOnlyFilters],
   );
   // End Create Cohort /
 
-  // TODO: Causes type error TypeError: can't access property "genes", state.sets is undefined
-  //const sets = useCoreSelector((state) => selectSetsByType(state, "genes"));
-  /*
-  const sets = '';
-  const prevGenomicFilters = usePrevious(genomicFilters);
-  const prevCohortFilters = usePrevious(cohortFilters);
-  */
-
   const formattedTableData = useDeepCompareMemo(() => {
     if (!data?.genes) return [];
-
-    const { cases, cnvCases, mutationCounts, filteredCases, genes } =
-      data;
-
+    const { ssmCases, cnvCases, totalCases, genes, genesTotal } = data;
     return genes.map((gene: any) =>
-      getGene(
-        gene,
-        selectedSurvivalPlot,
-        mutationCounts,
-        filteredCases,
-        cases,
-        cnvCases,
-      ),
+      getGene(gene, selectedSurvivalPlot, ssmCases,countsData?.ssmCaseCount ?? 0, cnvCases),
     );
-  }, [data?.genes, selectedSurvivalPlot]);
+  }, [data?.genes, selectedSurvivalPlot, countsData]);
 
   const genesTableDefaultColumns = useGenerateGenesTableColumns({
     handleSurvivalPlotToggled,
@@ -169,36 +171,35 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     isDemoMode,
     setEntityMetadata,
     cohortFilters,
-    genomicFilters,
+    genomicFilters: geneFilters,
     generateFilters,
     handleMutationCountClick,
-    currentPage: 0,
-    totalPages: Math.ceil(data?.genes?.genes_total / 1),
+    currentPage: page,
+    totalPages: Math.ceil((data?.genesTotal ?? 1) / pageSize),
   });
 
-  const {
-    handlePageChange,
-    handlePageSizeChange,
-    page,
-    pages,
-    size,
-    from,
-    total,
-    displayedData,
-  } = useStandardPagination(formattedTableData, genesTableDefaultColumns);
-
-  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
-    [] as any[],
-  );
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      setDisplayedDataAfterSearch(
-        GenesTableClientSideSearch(displayedData, searchTerm),
-      );
-    } else {
-      setDisplayedDataAfterSearch(displayedData);
-    }
-  }, [searchTerm, displayedData]);
+  const pagination = useMemo(() => {
+    return isSuccess
+      ? {
+          count: pageSize,
+          from: (page - 1) * pageSize,
+          page: page,
+          pages: Math.ceil((data?.genesTotal ?? 1) / pageSize),
+          size: pageSize,
+          total: data?.genesTotal,
+          sort: 'None',
+          label: 'gene',
+        }
+      : {
+          count: 0,
+          from: 0,
+          page: 1,
+          pages: 0,
+          size: DEFAULT_PAGE_SIZE,
+          total: 0,
+          label: '---',
+        };
+  }, [pageSize, page, data?.genesTotal, isSuccess]);
 
   const getRowId = (originalRow: Gene) => {
     return originalRow.gene_id;
@@ -265,30 +266,27 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case 'newSearch':
-        setExpanded({});
-        setSearchTerm(obj.newSearch as string);
-        handlePageChange(1);
-        break;
       case 'newPageSize':
-        handlePageSizeChange(obj.newPageSize as string);
+        setPageSize(parseInt(obj?.newPageSize ?? '20'));
+        setPage(1);
         break;
       case 'newPageNumber':
-        handlePageChange(obj.newPageNumber as number);
+        setPage(obj?.newPageNumber ?? 1);
+        setExpanded({});
+        break;
+      case 'newSearch':
+        setSearchTerm(obj?.newSearch ?? '');
+        setPage(1);
+        setExpanded({});
         break;
     }
   };
-
-  /*
-  const operationCohortFilters = filterSetToOperation(cohortFilters);
-  const operationSetFilters = filterSetToOperation(setFilters as any);
-  */
 
   return (
     <>
       <VerticalTable
         customDataTestID="table-genes"
-        data={displayedDataAfterSearch}
+        data={formattedTableData}
         columns={genesTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">
@@ -311,14 +309,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         tableTotalDetail={
           <TotalItems total={data?.genesTotal} itemName="gene" />
         }
-        pagination={{
-          page,
-          pages,
-          size,
-          from,
-          total,
-          label: 'gene',
-        }}
+        pagination={pagination}
         showControls={true}
         search={{
           enabled: true,
@@ -327,11 +318,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         }}
         status={statusBooleansToDataStatus(isFetching, isSuccess, isError)}
         handleChange={handleChange}
-        enableRowSelection={true}
+        enableRowSelection={false}
         setRowSelection={setRowSelection}
         rowSelection={rowSelection}
-        getRowCanExpand={() => true}
-        expandableColumnIds={['#_ssm_affected_cases_across_the_mmrf']}
+        getRowCanExpand={() => false} // TODO: change to true > 1 project: ['#_ssm_affected_cases_across_the_mmrf']
+        expandableColumnIds={[/* TODO: turn on when > 1 project: ['#_ssm_affected_cases_across_the_mmrf'] */]}
         renderSubComponent={({ row }) => <GenesTableSubcomponent row={row} />}
         setColumnVisibility={setColumnVisibility}
         columnVisibility={columnVisibility}

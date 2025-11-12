@@ -2,6 +2,7 @@
   "sections": [
     {
       "label": "Core Tools",
+      "core" : true,
       "tools": [
         {
           "title": "Projects",
@@ -13,6 +14,7 @@
           "href": "/",
           "count": 1000,
           "countUnits": "Cases",
+          "hideCounts" : true,
           "appId" : "Projects"
         },
         {
@@ -23,6 +25,7 @@
           "description": "Build and define your custom cohorts using a variety of clinical and biospecimen features.",
           "icon": "/icons/apps/CohortBuilder.svg",
           "count": 1000,
+          "hideCounts" : true,
           "appId" : "CohortBuilder",
           "countUnits": "Cases"
         },
@@ -34,6 +37,7 @@
           "description": "Browse and download the files associated with your cohort for more sophisticated analysis.",
           "icon": "/icons/apps/Repository.svg",
           "count": 1000,
+          "hideCounts" : true,
           "appId" : "Repository",
           "countUnits": "Cases"
         }
@@ -50,6 +54,7 @@
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
           "count": 1000,
+          "hideCounts" : true,
           "appId" : "MutationFrequency",
           "countUnits": "Case"
         },
@@ -61,6 +66,7 @@
           "description": "Use clinical variables to perform basic statistical analysis of your cohort.",
           "icon": "/icons/apps/ClinicalData.svg",
           "count": 1000,
+          "hideCounts" : true,
           "appId" : "cDave",
           "countUnits": "Cases"
         },
@@ -72,6 +78,7 @@
           "description": "Display the survival analysis of your cohorts and compare characteristics such as gender, vital status and age at diagnosis.",
           "icon": "/icons/apps/CohortComparison.svg",
           "count": 1000,
+          "hideCounts" : true,
           "appId" : "CohortComparison",
           "countUnits": "Cases"
         },
@@ -84,6 +91,7 @@
           "icon": "/icons/apps/ProteinPaint.svg",
           "href": "/",
           "count": 1000,
+          "hideCounts" : true,
           "countUnits": "Cases"
         },
         {
@@ -95,6 +103,7 @@
           "icon": "/icons/apps/OncoMatrix.svg",
           "href": "/",
           "count": 1000,
+          "hideCounts" : true,
           "countUnits": "Cases"
         },
         {
@@ -106,6 +115,7 @@
           "icon": "/icons/apps/SetOperations.svg",
           "href": "/",
           "count": 1000,
+          "hideCounts" : true,
           "countUnits": "Cases"
         }
       ]

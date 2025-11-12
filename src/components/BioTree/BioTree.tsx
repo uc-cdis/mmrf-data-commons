@@ -3,7 +3,7 @@ import Highlight from './Highlight';
 import { BioTreeProps, NodeProps, overrideMessage } from './types';
 import { UnstyledButton } from '@mantine/core';
 import { ArrowRight, CollapsedNodeIcon, ExpandNodeIcon } from '@/utils/icons';
-import { BiospecimenEntityType } from '@/core';
+import { BiospecimenEntityType } from '@/features/biospecimen/types';
 
 const Node = ({
   entity,

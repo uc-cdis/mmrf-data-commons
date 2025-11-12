@@ -3,7 +3,9 @@ import {
   convertFilterToGqlFilter,
   UnionOrIntersection,
   filterSetToOperation,
-  FilterSet, GQLIntersection,
+  FilterSet,
+  GQLIntersection,
+  convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { extractContents } from '@/core/utils';
 import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
@@ -21,14 +23,14 @@ export interface GenomicCountsResponse {
 }
 
 const genomicCountsQuery = `
-query Gene_gene($geneFilter: JSON, $ssmsFilter: JSON) {
+query GeneCounts($geneFilter: JSON, $ssmsFilter: JSON) {
     genesTotal: Gene__aggregation {
-        gene(filter: $geneFilter) {
+        GeneCentric__aggregation(filter: $geneFilter) {
             _totalCount
         }
     }
-    ssmsTotal: Ssm__aggregation {
-        ssm(filter: $ssmsFilter) {
+    ssmsTotal: SsmCentric__aggregation {
+        ssm_centric(filter: $ssmsFilter) {
             _totalCount
         }
     }
@@ -45,7 +47,7 @@ const genomicCountsSlice = guppyApi.injectEndpoints({
           cohortFilters,
         } = request;
 
-        const caseFilters = convertFilterSetToNestedGqlFilter(cohortFilters);
+        const caseFilters = convertFilterSetToGqlFilter(cohortFilters);
 
         const baseFilters = filterSetToOperation(genomicFilters) as
           | UnionOrIntersection
@@ -74,16 +76,11 @@ const genomicCountsSlice = guppyApi.injectEndpoints({
             and: [
               ...(onlySsmsFilters ?? []),
               {
-                nested: {
-                  path: 'occurrence',
-                  nested: {
-                    path: 'occurrence.case',
+
 
                     in: {
-                      available_variation_data: ['ssm'],
+                      'occurrence.case.available_variation_data': ['ssm'],
                     },
-                  },
-                },
               },
             ],
           },

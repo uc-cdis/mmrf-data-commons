@@ -89,7 +89,7 @@ function ColumnOrdering<TData>({
       middlewares={{ shift: false, flip: false }}
       onChange={setShowColumnMenu}
       offset={0}
-      zIndex={400}
+      zIndex={350}
       withinPortal={true}
     >
       <Tooltip label="Customize Columns" disabled={showColumnMenu}>
@@ -125,7 +125,7 @@ function ColumnOrdering<TData>({
           <Tooltip
             label="Restore defaults"
             disabled={isBackToDefaults}
-            zIndex={400}
+            zIndex={350}
           >
             <span>
               <ActionIcon

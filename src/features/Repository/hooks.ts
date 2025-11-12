@@ -1,33 +1,37 @@
-import {
-  FacetQueryParameters,
-  FacetQueryResponse,
-  FileCountsQueryParameters,
-  FilesSizeData,
-} from './types';
+import { FileCountsQueryParameters, FilesSizeData, } from './types';
 import {
   Accessibility,
-  customQueryStrForField,
-  useGeneralGQLQuery,
-  useGetAggsQuery,
-  useCoreSelector,
-  useCoreDispatch,
-  CoreState,
-  selectCohortFilterExpanded,
   CombineMode,
-  setCohortFilterCombineMode,selectCohortFilterCombineMode,toggleCohortBuilderCategoryFilter
+  convertFilterSetToGqlFilter,
+  CoreState,
+  customQueryStrForField,
+  selectCohortFilterCombineMode,
+  selectCohortFilterExpanded,
+  selectCurrentCohortFilters,
+  setCohortFilterCombineMode,
+  toggleCohortBuilderCategoryFilter,
+  useCoreDispatch,
+  useCoreSelector,
 } from '@gen3/core';
-import { getByPath} from '@gen3/frontend';
+import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
 import { useDeepCompareEffect } from 'use-deep-compare';
 import {
-  convertFilterSetToNestedGqlFilter,
-} from '@/core/utils/filters';
-
+  COHORT_FILTER_INDEX,
+  useGetCohortCentricAggsQuery,
+  useGetCohortCentricQuery,
+} from '@/core';
+import {
+  CohortCentricAggsQueryRequest,
+  FacetQueryResponse,
+} from '@/features/types';
 
 export const useGetFacetValuesQuery = (
-  args: FacetQueryParameters,
+  args: CohortCentricAggsQueryRequest,
 ): FacetQueryResponse => {
-  const { data, isSuccess, isFetching, isError } = useGetAggsQuery(args);
+
+
+  const { data, isSuccess, isFetching, isError } = useGetCohortCentricAggsQuery(args);
 
   return {
     data: data ?? {},
@@ -37,23 +41,23 @@ export const useGetFacetValuesQuery = (
   };
 };
 
-const buildFileStatsdQuery = (
+const buildFileStatsQuery = (
   type: string,
   fileSizeField: string,
   cohortItemIdField: string,
   fileItemIdField: string,
   indexPrefix: string = '',
 ) => {
-  const fileStatsQuery = `query repositoryTotals ($filter: JSON, $accessibility:${indexPrefix}Accessibility) {
+
+  return `query repositoryTotals ($filter: JSON, $accessibility: Accessibility) {
     ${indexPrefix}_aggregation {
         ${type} (accessibility: $accessibility, filter: $filter) {
             ${customQueryStrForField(fileItemIdField, '{_totalCount }')}
-             ${customQueryStrForField(fileSizeField, ' {  histogram {sum} }')}
-                ${customQueryStrForField(cohortItemIdField, '{histogram { count }}')}
+            ${customQueryStrForField(fileSizeField, ' {  histogram {sum} }')}
+            ${customQueryStrForField(cohortItemIdField, '{ _cardinalityCount }')}
         }
     }
 }`;
-  return fileStatsQuery;
 };
 interface FileCountsQueryResponse {
   [aggregationKey: `${string}_aggregation`]: Record<
@@ -65,12 +69,10 @@ interface FileCountsQueryResponse {
 export const useTotalFileSizeQuery = ({
   repositoryFilters,
   repositoryIndex,
-  cohortIndex,
   fileSizeField,
   cohortItemIdField,
   fileItemIdField,
   accessibility = Accessibility.ALL,
-  cohortIndexPrefix = '',
   repositoryIndexPrefix = '',
 }: FileCountsQueryParameters) => {
   const [totals, setTotals] = useState<FilesSizeData>({
@@ -78,7 +80,7 @@ export const useTotalFileSizeQuery = ({
     totalCaseCount: 0,
     totalFileCount: 0,
   });
-  const query = buildFileStatsdQuery(
+  const query = buildFileStatsQuery(
     repositoryIndex,
     fileSizeField,
     cohortItemIdField,
@@ -86,12 +88,20 @@ export const useTotalFileSizeQuery = ({
     repositoryIndexPrefix,
   );
 
-  const { data, isSuccess, isFetching, isError } = useGeneralGQLQuery({
-    query,
-    variables: {
-      accessibility,
-      filter: convertFilterSetToNestedGqlFilter(repositoryFilters),  // Must used nested for MMRF
-    },
+  // add case_id filter to repository filters
+  const repositoryFilterWithCases = { mode: repositoryFilters.mode, root: {
+    ...repositoryFilters.root}
+  }
+
+  const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
+  const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? [];
+  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
+  const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
+      cohortFilter: cohortFilterGQL,
+      query,
+      filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
+      caseIdsFilterPath: "cases.case_id",
+      limit: 0,
   });
 
   useDeepCompareEffect(() => {
@@ -105,7 +115,7 @@ export const useTotalFileSizeQuery = ({
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileSizeField
         ]?.histogram?.[0]?.sum || 0;
-      const totalCaseCount = countsRoot?.histogram?.length || 0;
+      const totalCaseCount = countsRoot?._cardinalityCount || 0;
       const totalFileCount =
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileItemIdField
