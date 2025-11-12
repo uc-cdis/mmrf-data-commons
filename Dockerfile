@@ -7,7 +7,7 @@ WORKDIR /gen3
 
 # Copy dependency files first for better caching
 COPY package.json package-lock.json ./
-RUN npm ci --only=production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Copy necessary config files
