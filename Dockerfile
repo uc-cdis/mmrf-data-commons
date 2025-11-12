@@ -27,8 +27,7 @@ COPY ./config ./config
 COPY ./start.sh ./
 
 # Build and prune
-RUN npm run build && \
-    npm prune --production
+RUN npm run build
 
 # Production stage
 FROM node:22-alpine AS runner
