@@ -245,7 +245,7 @@ export const useGeneAndSSMPanelData = (
     selectCurrentCohortFilters(state),
   );
 
-  const cohortFilters = currentCohortFilters[COHORT_FILTER_INDEX] ?? [];
+  const cohortFilters = currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
 
   const genomicFilters: FilterSet = useAppSelector((state: AppState) =>
     selectGeneAndSSMFilters(state),

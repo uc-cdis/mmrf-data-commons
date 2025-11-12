@@ -5,6 +5,7 @@ import {
   convertFilterSetToGqlFilter,
   CoreState,
   customQueryStrForField,
+  EmptyFilterSet,
   selectCohortFilterCombineMode,
   selectCohortFilterExpanded,
   selectCurrentCohortFilters,
@@ -94,7 +95,7 @@ export const useTotalFileSizeQuery = ({
   }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters[COHORT_FILTER_INDEX] ?? [];
+  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
       cohortFilter: cohortFilterGQL,
