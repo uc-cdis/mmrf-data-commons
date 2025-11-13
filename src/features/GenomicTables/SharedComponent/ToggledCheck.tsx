@@ -39,14 +39,17 @@ const ToggledCheck: React.FC<ToggleProps> = ({
       multiline
     >
       <Checkbox
+        classNames={{
+          inner: "hover:bg-accent",
+        }}
         radius="xs"
         checked={isActive}
         indeterminate
         icon={CheckboxIcon}
         aria-disabled={disabled}
         aria-label={ariaText}
-        variant="outline"
-        color={isActive ? "white" : "black"}
+        variant={isActive ? "filled" : "outline"}
+        color={"primary.4"}
         onChange={() => {
           if (!disabled)
             if (icon && typeof selected === 'object') {
@@ -55,15 +58,6 @@ const ToggledCheck: React.FC<ToggleProps> = ({
             } else {
               handleSwitch(selected);
             }
-        }}
-        classNames={{
-          root: `${margin} bg-transparent gene-panel-table-survival`,
-          input: `peer cursor-pointer bg-base checked:bg-accent checked:border-accent ${
-            disabled
-              ? "bg-base-lighter hover:bg-primary-lighter"
-              : "hover:bg-primary checked:bg-mmrf-rust"
-          }`,
-          icon: "peer-hover:!text-white",
         }}
       />
     </Tooltip>
