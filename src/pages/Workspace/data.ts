@@ -34,12 +34,5 @@ export const WorkspacePageGetServerSideProps: GetServerSideProps<
   }
 };
 
-export const WorkspaceNoAccessPageServerSideProps: GetServerSideProps<
-  NavPageLayoutProps
-> = async () => {
-  return {
-    props: {
-      ...(await getNavPageLayoutPropsFromConfig()),
-    },
-  };
-};
+
+export default WorkspacePageGetServerSideProps;
