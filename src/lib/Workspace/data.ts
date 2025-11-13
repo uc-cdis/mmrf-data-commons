@@ -10,7 +10,7 @@ import { WorkspacePageLayoutProps } from './types';
 
 export const WorkspacePageGetServerSideProps: GetServerSideProps<
   WorkspacePageLayoutProps
-> = async (_context) => {
+> = async () => {
   const workspaceProps: WorkspaceConfig =
     await ContentSource.getContentDatabase().get(
       `${GEN3_COMMONS_NAME}/workspace.json`,

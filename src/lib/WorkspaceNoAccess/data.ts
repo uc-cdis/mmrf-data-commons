@@ -1,13 +1,10 @@
 import { GetServerSideProps } from 'next';
 import {
   getNavPageLayoutPropsFromConfig,
-  NavPageLayoutProps,
 } from '@gen3/frontend';
 
 
-const WorkspaceNoAccessPageServerSideProps: GetServerSideProps<
-  NavPageLayoutProps
-> = async () => {
+const WorkspaceNoAccessPageServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       ...(await getNavPageLayoutPropsFromConfig()),

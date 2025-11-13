@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavPageLayout,  Workspace } from "@gen3/frontend";
-import { WorkspacePageLayoutProps } from './types';
+import { Workspace } from "@gen3/frontend";
+import { WorkspacePageLayoutProps } from '../../lib/Workspace/types';
 import { useRouter } from 'next/router';
 import { NextRouter } from 'next/dist/client/router';
 
@@ -13,8 +13,6 @@ const getWorkspaceId = (router: NextRouter): string | undefined => {
 };
 
 const WorkspacePage = ({
-  headerProps,
-  footerProps,
   workspaceProps,
 }: WorkspacePageLayoutProps): JSX.Element => {
   const router = useRouter();
