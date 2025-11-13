@@ -93,6 +93,15 @@ const useGetFacetValuesQuery = (
   };
 };
 
+const GenomicValueLabel = (def?:FacetDefinition) : string => {
+  if (def) {
+    if (def.index === 'gene_centric') {return 'Genes'}
+    else if (def.index === 'ssm_centric') {return 'Mutations'}
+    else return "Genes/SSMs";
+  }
+  return "Genes/SSMs"
+}
+
 const GeneAndSSMFilterPanel = ({
   isDemoMode = false,
 }: {
@@ -270,6 +279,7 @@ const GeneAndSSMFilterPanel = ({
         allFiltersCollapsed={allFiltersCollapsed}
         toggleAllFiltersExpanded={toggleAllFiltersExpanded}
         clearAllFilters={clearAllFilters}
+        valueLabel={GenomicValueLabel}
       />
     </>
   );
