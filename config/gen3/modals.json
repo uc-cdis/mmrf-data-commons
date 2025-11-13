@@ -1,5 +1,6 @@
 {
   "systemUseModal": {
+    "enabled": false,
     "title": "Data Use Agreement for Academic and Institutional Users",
     "content": {
       "text": [
