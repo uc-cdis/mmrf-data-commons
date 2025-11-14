@@ -21,8 +21,8 @@ import {
 } from "@gen3/core";
 import AnalysisWorkspace from "@/components/analysis/AnalysisWorkspace";
 import AdditionalCohortSelection from "@/features/cohortComparison/AdditionalCohortSelection";
-
 import { useDeepCompareEffect } from "use-deep-compare";
+import { getCustomCohortButtons } from "@/features/cohort/getCustomCohortButtons";
 
 interface CountsPanelProps {
   index: string;
@@ -69,7 +69,6 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   const {
     query: { app },
   } = router;
-
   const REGISTERED_APPS = useMemo(() => {
     if (sections) {
       return sections.reduce(
@@ -95,14 +94,14 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <ProtectedContent>
         <div className="flex flex-col">
           <CohortManager
-            rightPanel={<CountsPanel index="case_centric"  indexPrefix="CaseCentric_" />}
+            rightPanel={<CountsPanel index="case_centric" indexPrefix="CaseCentric_" />}
+            size="md"
+            customActions={getCustomCohortButtons()}
           />
           <QueryExpression index="case_centric" />
-
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
-            // 300px is a hack for now
             <div className="mx-4 mb-6 pr-[300px]">
               <AnalysisCenterWithSections
                 sections={sections}

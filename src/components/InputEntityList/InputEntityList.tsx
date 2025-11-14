@@ -51,7 +51,7 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
 }: InputEntityListProps) => {
   const [state, dispatch] = useReducer(inputEntityListReducer, initialState);
   const inputRef = useRef(null);
-  const resetFileInputRef = useRef<() => void> (null);
+  const resetFileInputRef = useRef<() => void>(null);
   const lastValidatedTokensRef = useRef<Set<string>>(new Set<string>());
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
       dispatch({ type: "RESET" });
       clearShouldReset();
     }
-  }, [shouldReset, clearShouldReset])
+  }, [shouldReset, clearShouldReset]);
 
   const {
     mappedToFields,
@@ -142,11 +142,13 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
         */
 
         // TODO - add API request to validate user input
-        const unvalidatedMatches : MatchResults[] = tokensToValidate.map(token => ({
-          submittedIdentifiers: [{ field: outputField, value: token }],
-          mappedTo: [{ field: outputField, value: token }],
-          output: [{ field: outputField, value: token }],
-        }))
+        const unvalidatedMatches: MatchResults[] = tokensToValidate.map(
+          (token) => ({
+            submittedIdentifiers: [{ field: outputField, value: token }],
+            mappedTo: [{ field: outputField, value: token }],
+            output: [{ field: outputField, value: token }],
+          }),
+        );
 
         dispatch({ type: "SET_MATCHED", payload: unvalidatedMatches });
       } catch {
@@ -234,11 +236,11 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
 
       dispatch({ type: "END_FILE_PROCESSING" });
 
-        setTimeout(() => {
-          if (resetFileInputRef.current !== null) {
-            resetFileInputRef.current();
-          }
-        }, 100);
+      setTimeout(() => {
+        if (resetFileInputRef.current !== null) {
+          resetFileInputRef.current();
+        }
+      }, 100);
     },
     [processInput],
   );
@@ -267,10 +269,9 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
         .map(
           (match) => match.output.find((m) => m.field === outputField)?.value,
         )
-        .filter((match) => (match !== null || match !== undefined)) as string[]
+        .filter((match) => match !== null || match !== undefined) as string[],
     );
-  }, [state.matched, outputField],
-);
+  }, [state.matched, outputField]);
 
   const displayError = state.validationError || state.limitError;
 
@@ -291,6 +292,7 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
             </label>
             <Tooltip
               label={identifierToolTip}
+              position="bottom"
               events={{ hover: true, focus: true, touch: false }}
               withArrow
               withinPortal={false}
