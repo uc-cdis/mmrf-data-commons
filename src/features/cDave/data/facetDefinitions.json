@@ -125,7 +125,7 @@
     "facet_type": "enum"
   },
   "cases.demographic.gender": {
-    "description": "Text designations that identify gender. Gender is described as the assemblage of properties that distinguish people on the basis of their societal roles. [Explanatory Comment 1: Identification of gender is based upon self-report and may come from a form, questionnaire, interview, etc.]",
+    "description": "Text designations that identify biological sex.",
     "doc_type": "cases",
     "field": "demographic.gender",
     "full": "cases.demographic.gender",

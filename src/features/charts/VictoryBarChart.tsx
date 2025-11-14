@@ -10,7 +10,8 @@ import {
   VictoryTooltip,
   Bar,
   VictoryContainer,
-} from "victory";
+  DomainTuple,
+} from 'victory';
 
 interface BarChartTooltipProps {
   readonly x?: number;
@@ -89,29 +90,30 @@ const BarChartLabel: React.FC<
 };
 
 interface VictoryBarChartProps {
-  readonly data: any;
-  readonly title?: string;
-  readonly color: string;
-  readonly includeDomainPadding?: boolean;
-  readonly yLabel?: string;
-  readonly xLabel?: string;
-  readonly chartLabel?: string;
-  readonly width?: number;
-  readonly height?: number;
-  readonly chartPadding?: {
+   data: any;
+   title?: string;
+   color: string;
+   includeDomainPadding?: boolean;
+   yLabel?: string;
+   xLabel?: string;
+   chartLabel?: string;
+   width?: number;
+   height?: number;
+   chartPadding?: {
     left?: number;
     right?: number;
     top?: number;
     bottom?: number;
   };
-  readonly hideYTicks?: boolean;
-  readonly hideXTicks?: boolean;
-  readonly yAxisFormatAsInteger?: boolean;
-  readonly chartRef?: React.MutableRefObject<HTMLElement>;
-  readonly truncateLabels?: boolean;
+   hideYTicks?: boolean;
+   hideXTicks?: boolean;
+   yAxisFormatAsInteger?: boolean;
+   chartRef?: React.MutableRefObject<HTMLElement>;
+   truncateLabels?: boolean;
+   isPercent?: boolean;
 }
 
-const VictoryBarChart: React.FC<VictoryBarChartProps> = ({
+const VictoryBarChart: React.FC<Readonly<VictoryBarChartProps>> = ({
   data,
   title,
   color,
@@ -127,9 +129,9 @@ const VictoryBarChart: React.FC<VictoryBarChartProps> = ({
   yAxisFormatAsInteger = false,
   chartRef = undefined,
   truncateLabels = false,
+  isPercent = false,
 }: VictoryBarChartProps) => {
   const padding = chartPadding ?? { left: 130, right: 80, bottom: 80, top: 10 };
-
   return (
     <VictoryChart
       title={title}
@@ -174,6 +176,8 @@ const VictoryBarChart: React.FC<VictoryBarChartProps> = ({
             ? (t: any) => (Number.isInteger(t) ? t.toLocaleString() : null)
             : undefined
         }
+        maxDomain={isPercent ? { y: 100 } : undefined}
+        tickValues={isPercent ? [25, 50, 75, 100] : undefined}
       />
       <VictoryAxis
         style={{
