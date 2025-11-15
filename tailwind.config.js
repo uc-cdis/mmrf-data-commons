@@ -89,6 +89,8 @@ module.exports = {
         content: themeFonts.content,
       },
       fontSize: {
+        xxxs: '0.4rem',
+        xxs: '0.5rem',
         tiny: '0.625rem',
       },
       borderWidth: {
@@ -100,6 +102,19 @@ module.exports = {
         4: '4px',
         6: '6px',
         8: '8px',
+      },
+      height: {
+        '100px': '100px',
+        '200px': '200px',
+        'workspace': 'h-full'
+      },
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1420px',
+        '3xl': '1536px',
       },
     },
   },
