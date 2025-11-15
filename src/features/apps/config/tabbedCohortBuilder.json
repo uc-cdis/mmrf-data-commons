@@ -23,8 +23,11 @@
         "demographic.gender",
         "demographic.race",
         "demographic.ethnicity",
+        "demographic.age_at_index",
         "diagnoses.age_at_diagnosis",
-        "demographic.vital_status"
+        "demographic.vital_status",
+        "demographic.year_of_death",
+        "follow_ups.ecog_performance_status"
       ],
       "queryOptions": {
         "index": "case_centric",
@@ -43,9 +46,61 @@
         }
       }
     },
+    "family_histories": {
+      "label": "Family Histories",
+      "facets": ["family_histories.relatives_with_cancer_history_count"],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "bone_assessments": {
+      "label": "Bone Assessment",
+      "facets": [
+        "bone_assessments.lytic_bone_lesion_present",
+        "bone_assessments.mm_bone_lesion_femur",
+        "bone_assessments.mm_bone_lesion_pelvis",
+        "bone_assessments.mm_bone_lesion_ribs",
+        "bone_assessments.mm_bone_lesion_ribs",
+        "bone_assessments.mm_bone_lesion_skull",
+        "bone_assessments.mm_bone_lesion_spine",
+        "bone_assessments.number_of_lytic_lesions"
+      ],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "facets": [
+        "outcomes.censor_os",
+        "outcomes.censor_pfs",
+        "outcomes.surivival_time_os",
+        "outcomes.survival_time_pfs"
+      ],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
+    "administered_regimen_lines": {
+      "label": "Administered Regimen",
+      "facets": [
+        "administered_regimen_lines.regimen_duration"
+      ],
+      "queryOptions": {
+        "index": "case"
+      }
+    },
     "general_diagnosis": {
       "label": "General Diagnosis",
-      "facets": ["diagnoses.tumor_grade", "diagnoses.morphology"],
+      "facets": [
+        "diagnoses.bmi_at_diagnosis",
+        "diagnoses.days_to_diagnosis",
+        "diagnoses.days_to_last_follow_up",
+        "diagnoses.days_to_best_overall_response",
+        "diagnoses.iss_stage",
+        "diagnoses.first_progressive_disease",
+        "diagnoses.days_to_best_overall_response"
+      ],
       "queryOptions": {
         "index": "case"
       }
@@ -53,14 +108,6 @@
     "disease_status": {
       "label": "Disease Status and History",
       "facets": ["diagnoses.progression_or_recurrence"],
-      "queryOptions": {
-        "docType": "cases",
-        "indexType": "explore"
-      }
-    },
-    "treatment": {
-      "label": "Treatment",
-      "facets": ["diagnoses.treatments.therapeutic_agents", "diagnoses.treatments.treatment_type"],
       "queryOptions": {
         "docType": "cases",
         "indexType": "explore"
@@ -75,14 +122,6 @@
         "samples.tissue_type",
         "samples.tumor_descriptor"
       ],
-      "queryOptions": {
-        "docType": "cases",
-        "indexType": "explore"
-      }
-    },
-    "custom": {
-      "label": "Custom Filters",
-      "facets": [],
       "queryOptions": {
         "docType": "cases",
         "indexType": "explore"
