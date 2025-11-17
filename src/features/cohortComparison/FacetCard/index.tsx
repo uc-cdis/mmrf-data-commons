@@ -2,16 +2,16 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Paper } from "@mantine/core";
 import saveAs from "file-saver";
-import { Bucket, EmptyFilterSet } from "@/core";
+import {  EmptyFilterSet } from "@/core";
 import { calculatePercentageAsNumber, humanify } from "@/core/utils";
 import FunctionButton from "@/components/FunctionButton";
-import PValue from "../PValue";
 import CohortCreationButton from "@/components/CohortCreationButton";
 import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType, UPPER_FIRST_FIELDS } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
 import { HistogramDataArray } from '@gen3/core';
 import { upperFirst } from "lodash";
+import { toDisplayName} from "../../cDave/utils";
 
 
 const BarChart = dynamic(() => import("@/features/charts/BarChart"), {
@@ -32,7 +32,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
   cohorts,
 }: FacetCardProps) => {
   const divId = `cohort_comparison_bar_chart_${field}`;
-  const fieldLabel = humanify({ term: field });
+
+  const fieldLabel = humanify({ term: field.includes("gender") ? "sex" : toDisplayName(field) });
 
   let formattedData = useDeepCompareMemo(
     () =>
@@ -73,7 +74,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
   );
 
   const barChartData = formattedData.map((cohort, idx) => ({
-    x: cohort.map((facet) => UPPER_FIRST_FIELDS.includes(field) ? upperFirst(facet.key) : facet.key),
+    x: cohort.map((facet) => UPPER_FIRST_FIELDS.includes(field) ? upperFirst(facet.key) : toDisplayName(facet.key)),
     y: cohort.map((facet) => (facet.count / counts[idx]) * 100),
     customdata: cohort.map((facet) => facet.count),
     hovertemplate: `<b>${
@@ -172,7 +173,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                   key={`${field}_${value}`}
                 >
                   <td data-testid={`text-analysis-${value}`} className="pl-2">
-                    {UPPER_FIRST_FIELDS.includes(field) ? upperFirst(value) : value}
+                    {UPPER_FIRST_FIELDS.includes(field) ? upperFirst(value) : toDisplayName(value)}
                   </td>
                   <td>
                     <CohortCreationButton

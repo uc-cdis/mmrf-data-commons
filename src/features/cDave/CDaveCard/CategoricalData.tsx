@@ -14,7 +14,7 @@ import {
   CustomInterval, NamedFromTo,
 } from '../types';
 import { MISSING_KEY, SURVIVAL_PLOT_MIN_COUNT } from "../constants";
-import { flattenBinnedData } from "../utils";
+import { flattenBinnedData, toDisplayName } from '../utils';
 
 interface CategoricalDataProps {
   initialData: ReadonlyArray<Bucket>;
@@ -57,7 +57,7 @@ const CategoricalData: React.FC<CategoricalDataProps> = ({
         ? flattenBinnedData(customBinnedData as CategoricalBins)
         : (initialData || []).map(({ key, count }) => ({
             key,
-            displayName: key === MISSING_KEY ? "missing" : key,
+            displayName: key === MISSING_KEY ? "missing" : toDisplayName(key),
             count: count,
           }))
       ).sort((a, b) => b.count - a.count),
