@@ -96,13 +96,13 @@ export const externalLinks = {
     `http://cancer.sanger.ac.uk/cosmic/ncv/overview?id=${id}`,
   dbsnp: (id: string): string => `https://www.ncbi.nlm.nih.gov/snp/${id}`,
   ensembl: (id: string): string =>
-    `http://nov2020.archive.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${id}`,
+    `http://ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${id}`,
   entrez_gene: (id: string): string => `http://www.ncbi.nlm.nih.gov/gene/${id}`,
   hgnc: (id: string): string =>
     `https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/${id}`,
   omim_gene: (id: string): string => `http://omim.org/entry/${id}`,
   transcript: (id: string): string =>
-    `http://nov2020.archive.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=${id}`,
+    `http://ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=${id}`,
   uniprotkb_swissprot: (id: string): string =>
     `http://www.uniprot.org/uniprot/${id}`,
 };
