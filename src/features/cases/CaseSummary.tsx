@@ -46,7 +46,7 @@ export const CaseSummary = ({
   }, [prevPathValue]);
 
   return (
-    <div>
+    <>
       {isFetching ? (
         <LoadingOverlay visible data-testid="loading-spinner" />
       ) : data && data.hits.length > 0 ? (
@@ -62,6 +62,6 @@ export const CaseSummary = ({
           <SummaryErrorHeader label="Case Not Found" />
         </div>
       )}
-    </div>
+    </>
   );
 };
