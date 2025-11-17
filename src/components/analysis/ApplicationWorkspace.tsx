@@ -52,7 +52,6 @@ const ApplicationWorkspace: React.FC<AnalysisWorkspaceProps> = ({
 
   if (app ) {
     return (
-      <div>
           <SelectionScreenContext.Provider
             value={{
               selectionScreenOpen: cohortSelectionOpen,
@@ -75,7 +74,6 @@ const ApplicationWorkspace: React.FC<AnalysisWorkspaceProps> = ({
               <ActiveAnalysisTool appId={app} />
             </DashboardDownloadContext.Provider>
           </SelectionScreenContext.Provider>
-      </div>
     );
   } else {
     return null;
