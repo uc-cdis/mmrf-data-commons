@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 import { Paper } from "@mantine/core";
 import saveAs from "file-saver";
@@ -50,6 +50,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
     [data, field],
   );
 
+
+
   const uniqueValues = useDeepCompareMemo(
     () =>
       Array.from(
@@ -62,7 +64,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
     uniqueValues.sort();
   }
 
-  formattedData = formattedData.map((cohort) =>
+  formattedData = useMemo(() => formattedData.map((cohort) =>
     uniqueValues.map((value) => {
       const dataPoint = cohort.find((d) => d.key === value);
       if (dataPoint) {
@@ -70,7 +72,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
       }
       return { key: value, count: 0, filter: EmptyFilterSet };
     }),
-  );
+  ), [ formattedData, uniqueValues]);
 
   const barChartData = formattedData.map((cohort, idx) => ({
     x: cohort.map((facet) => UPPER_FIRST_FIELDS.includes(field) ? upperFirst(facet.key) : toDisplayName(facet.key)),
@@ -166,6 +168,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
             {uniqueValues.map((value, idx) => {
               const cohort1Value = formattedData[0][idx].count;
               const cohort2Value = formattedData[1][idx].count;
+              const cohort1Filter = formattedData[0][idx].filter;
+              const cohort2Filter = formattedData[1][idx].filter;
               return (
                 <tr
                   className={idx % 2 ? undefined : "bg-base-lightest"}
@@ -178,8 +182,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                     <CohortCreationButton
                       numCases={cohort1Value}
                       label={cohort1Value?.toLocaleString() || "--"}
-                      caseFilters={cohorts?.primary_cohort?.filter ?? undefined}
-                      filters={formattedData[0][idx].filter ?? undefined}
+                      caseFilter={cohorts?.primary_cohort?.filter ?? undefined}
+                      filter={cohort1Filter}
                     />
                   </td>
                   <td>
@@ -189,6 +193,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                     <CohortCreationButton
                       numCases={cohort2Value}
                       label={cohort2Value?.toLocaleString() || "--"}
+                      caseFilter={cohorts?.comparison_cohort?.filter ?? undefined}
+                      filter={cohort2Filter}
                     />
                   </td>
                   <td>

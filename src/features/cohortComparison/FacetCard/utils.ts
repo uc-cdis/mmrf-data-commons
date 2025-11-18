@@ -66,8 +66,8 @@ export const createFilters = (field: string , bucket: string | [number, number])
   return {
     mode: "and",
     root: {
-      [`cases.${field}`]: {
-        field: `cases.${field}`,
+      [field]: {
+        field: field,
         operands: [bucket],
         operator: "includes",
       },

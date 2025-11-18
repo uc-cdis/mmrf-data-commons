@@ -6,10 +6,10 @@ import {
 } from '@gen3/core';
 import { ButtonProps, Tooltip } from "@mantine/core";
 import tw from "tailwind-styled-components";
-import {   FaPlus as PlusIcon  } from 'react-icons/fa';
+import { FaPlus as PlusIcon  } from 'react-icons/fa';
 import { modals } from '@mantine/modals';
 
-import { useLazyGetCohortCentricQuery } from '@/core';
+import { MAX_CASES, useLazyGetCohortCentricQuery } from '@/core';
 
 interface CohortCreationStyledButtonProps extends ButtonProps {
   $fullWidth?: boolean;
@@ -63,12 +63,14 @@ const updateFilters = (facetField: string, outputIds: string[]) => {
     innerProps: {
       facetField,
       outputIds,
+      validate: false,
+      setAsCurrentCohort: false,
     },
   });
 };
 
 const COHORT_CASES_QUERY = `query Case_case($filter: JSON) {
-  CaseCentric_case_centric(filter: $filter) {
+  CaseCentric_case_centric(filter: $filter, first:${MAX_CASES}) {
     case_id
   }
 }`;
@@ -77,8 +79,8 @@ const COHORT_CASES_QUERY = `query Case_case($filter: JSON) {
 interface CohortCreationButtonProps {
   readonly label: ReactNode;
   readonly numCases: number;
-  readonly filters?: FilterSet;
-  readonly caseFilters?: FilterSet;
+  readonly filter: FilterSet;
+  readonly caseFilter: FilterSet;
   readonly filtersCallback?: () => Promise<FilterSet>;
   readonly createStaticCohort?: boolean;
 }
@@ -96,8 +98,8 @@ interface CohortCreationButtonProps {
 const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
                                                                      label,
                                                                      numCases,
-                                                                     filters,
-                                                                     caseFilters,
+                                                                     filter,
+                                                                     caseFilter,
                                                                      filtersCallback,
                                                                      createStaticCohort = false,
 }: CohortCreationButtonProps) => {
@@ -112,7 +114,7 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      const cases: Array<string> = data.data.CaseCentric_case_centric ;
+      const cases: Array<string> = data?.data?.CaseCentric_case_centric?.map((caseObj: { case_id: string }) => caseObj.case_id) ?? [] ;
       updateFilters("case_id", cases);
       setLoading(false);
     }
@@ -121,8 +123,8 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
 
   }, [data, isFetching, isSuccess])
 
-  const cohortFilterGql = convertFilterSetToGqlFilter(caseFilters??EmptyFilterSet);
-  const filterGql = convertFilterSetToGqlFilter(filters??EmptyFilterSet);
+  const cohortFilterGql = convertFilterSetToGqlFilter(caseFilter??EmptyFilterSet);
+  const filterGql = convertFilterSetToGqlFilter(filter??EmptyFilterSet);
 
   return (
     <div className="p-1">
