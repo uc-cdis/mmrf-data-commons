@@ -8,9 +8,9 @@ import '../src/styles/globals.css';
 import '../src/styles/survivalplot.css';
 import theme from '../src/mantineTheme';
 import icons from './loadIcons';
-import '@fontsource/montserrat';
-import '@fontsource/source-sans-pro';
-import '@fontsource/poppins';
+import "@fontsource/montserrat";
+import "@fontsource/source-sans-pro";
+import "@fontsource/noto-sans";
 import {
   GeneSummaryMockData,
   CancerDistributionMockData,

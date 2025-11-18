@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { ContextModalProps } from "@mantine/modals";
-import { Button, TextInput, Loader } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import ErrorMessage from "../ErrorMessage";
-import { useCoreDispatch, createNewCohort } from "@gen3/core";
+import React, { useState } from 'react';
+import { ContextModalProps } from '@mantine/modals';
+import { Button, TextInput, Loader } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import ErrorMessage from '../ErrorMessage';
+import { useCoreDispatch, createNewCohort } from '@gen3/core';
+import { COHORT_FILTER_INDEX } from '@/core';
 
 interface SaveCohortModalProps {
   readonly initialName?: string;
   readonly disallowedNames?: string[];
   readonly facetField: string;
   readonly outputIds: string[];
+  readonly validate? : boolean;
+  readonly setAsCurrentCohort?: boolean;
 }
 
 export const SaveCohortModal = ({
@@ -18,10 +21,12 @@ export const SaveCohortModal = ({
   innerProps,
 }: ContextModalProps<SaveCohortModalProps>) => {
   const {
-    initialName = "",
+    initialName = '',
     disallowedNames = [],
     facetField,
     outputIds,
+    validate = true,
+    setAsCurrentCohort = true
   } = innerProps;
   const [isSaving, setIsSaving] = useState(false);
   const dispatch = useCoreDispatch();
@@ -32,8 +37,9 @@ export const SaveCohortModal = ({
     },
     validate: {
       name: (value) => {
+        if (!validate) return null;
         if (value.length === 0) {
-          return "Please fill out this field.";
+          return 'Please fill out this field.';
         } else if (disallowedNames.includes(value.trim().toLowerCase())) {
           return `${value} is not a valid name for a saved cohort. Please try another name.`;
         }
@@ -42,7 +48,7 @@ export const SaveCohortModal = ({
     },
   });
 
-  const { error: _, ...inputProps } = form.getInputProps("name");
+  const { error: _, ...inputProps } = form.getInputProps('name');
   const validationError = form.errors.name;
   const error = validationError && (
     <ErrorMessage message={validationError as string} />
@@ -57,21 +63,18 @@ export const SaveCohortModal = ({
         createNewCohort({
           name: form.values.name,
           filters: {
-            case: {
-              mode: "and",
+            [COHORT_FILTER_INDEX]: {
+              mode: 'and',
               root: {
                 [facetField]: {
-                  operand: {
-                    field: "case_id",
-                    operands: outputIds,
-                    operator: "in",
-                  },
-                  operator: "nested",
-                  path: "case",
+                  field: 'case_id',
+                  operands: outputIds,
+                  operator: 'in',
                 },
               },
             },
           },
+          setAsCurrent: setAsCurrentCohort
         }),
       );
       context.closeModal(id);
@@ -92,15 +95,15 @@ export const SaveCohortModal = ({
           placeholder="New Cohort Name"
           description={<span>Maximum 100 characters</span>}
           classNames={{
-            description: "mt-1",
+            description: 'mt-1',
             input:
-              "font-content data-[invalid=true]:text-utility-error data-[invalid=true]:border-utility-error",
-            error: "text-utility-error",
+              'font-content data-[invalid=true]:text-utility-error data-[invalid=true]:border-utility-error',
+            error: 'text-utility-error',
           }}
           data-autofocus
           maxLength={100}
           error={error}
-          inputWrapperOrder={["label", "input", "error", "description"]}
+          inputWrapperOrder={['label', 'input', 'error', 'description']}
           {...inputProps}
           aria-required
           data-testid="textbox-name-input-field"
@@ -111,7 +114,7 @@ export const SaveCohortModal = ({
           <Button
             data-testid="button-cancel-save"
             variant="outline"
-            classNames={{ root: "bg-base-max" }}
+            classNames={{ root: 'bg-base-max' }}
             color="secondary"
             onClick={() => context.closeModal(id)}
           >

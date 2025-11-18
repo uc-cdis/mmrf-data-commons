@@ -52,7 +52,7 @@ const CohortComparison: React.FC<CohortComparisonProps> = ({
     survival: true,
     ethnicity: false,
     gender: true,
-    race: false,
+    race: true,
     vital_status: true,
     age_at_diagnosis: true,
   } as Record<string, boolean>);

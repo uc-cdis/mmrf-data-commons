@@ -1,6 +1,6 @@
 import { MantineThemeOverride } from '@mantine/core';
 import { ImageComponentType, LinkComponentType } from '@/core/types';
-import { FilterSet } from '@/core';
+import { FilterSet } from '@gen3/core';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 export const URLContext = createContext({ prevPath: '', currentPath: '' });

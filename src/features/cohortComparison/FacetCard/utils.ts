@@ -1,4 +1,5 @@
-import { DAYS_IN_YEAR, FilterSet } from "@/core";
+import { DAYS_IN_YEAR } from "@/core";
+import { FilterSet } from "@gen3/core";
 
 export const formatBucket = (
   bucket: [number, number] | string,
@@ -59,17 +60,17 @@ export const createFilters = (field: string , bucket: string | [number, number])
           operator: "missing",
         },
       },
-    };
+    } as FilterSet;
   }
 
   return {
     mode: "and",
     root: {
-      [`cases.${field}`]: {
-        field: `cases.${field}`,
+      [field]: {
+        field: field,
         operands: [bucket],
         operator: "includes",
       },
     },
-  };
+  } as FilterSet;
 };

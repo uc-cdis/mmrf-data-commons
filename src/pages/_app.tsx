@@ -21,7 +21,7 @@ import "../styles/globals.css";
 import "../styles/survivalplot.css";
 import "@fontsource/montserrat";
 import "@fontsource/source-sans-pro";
-import "@fontsource/poppins";
+import "@fontsource/noto-sans";
 
 import { setDRSHostnames } from "@gen3/core";
 import drsHostnames from "../../config/drsHostnames.json";

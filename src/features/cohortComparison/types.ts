@@ -42,4 +42,4 @@ export const FIELD_LABELS  : { [key: string]: string } = {
 };
 
 
-export const UPPER_FIRST_FIELDS = ["demographic.vital_status", "demographic.race"]
+export const UPPER_FIRST_FIELDS = ["demographic.vital_status"]
