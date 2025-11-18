@@ -6,7 +6,9 @@ const DictionaryPage = ({
   config,
 }: DictionaryPageProps): JSX.Element => {
   return (
+    <div className="flex">
       <DictionaryWithContext config={config} />
+    </div>
   );
 };
 
