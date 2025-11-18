@@ -2,14 +2,13 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Paper } from "@mantine/core";
 import saveAs from "file-saver";
-import {  EmptyFilterSet } from "@/core";
 import { calculatePercentageAsNumber, humanify } from "@/core/utils";
 import FunctionButton from "@/components/FunctionButton";
 import CohortCreationButton from "@/components/CohortCreationButton";
 import { COHORT_A_COLOR, COHORT_B_COLOR, CohortComparisonType, UPPER_FIRST_FIELDS } from '../types';
 import { useDeepCompareMemo } from "use-deep-compare";
 import { createFilters, formatBucket } from "./utils";
-import { HistogramDataArray } from '@gen3/core';
+import { HistogramDataArray, EmptyFilterSet } from '@gen3/core';
 import { upperFirst } from "lodash";
 import { toDisplayName} from "../../cDave/utils";
 
@@ -179,6 +178,8 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                     <CohortCreationButton
                       numCases={cohort1Value}
                       label={cohort1Value?.toLocaleString() || "--"}
+                      caseFilters={cohorts?.primary_cohort?.filter ?? undefined}
+                      filters={formattedData[0][idx].filter ?? undefined}
                     />
                   </td>
                   <td>

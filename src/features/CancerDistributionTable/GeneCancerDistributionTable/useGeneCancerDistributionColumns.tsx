@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ExpandRowComponent from '@/components/Table/ExpandRowComponent';
 import { HeaderTooltip } from '@/components/Table/HeaderTooltip';
 import NumeratorDenominator from '@/components/NumeratorDenominator';
-import { FilterSet } from '@/core';
+import { FilterSet } from '@gen3/core';
 import { CancerDistributionGeneType } from '../types';
 
 const createSortingFn =
