@@ -1,8 +1,6 @@
 import React from "react";
 import { Alert, LoadingOverlay, Paper, Tooltip } from "@mantine/core";
-import {
-  FilterSet,
-} from "@gen3/core";
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 import {
   buildCohortGqlOperator,
 } from "@/core/utils";
@@ -184,6 +182,8 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
                       <CohortCreationButton
                         numCases={cohort1Count}
                         label={cohort1Count.toLocaleString()}
+                        caseFilter={EmptyFilterSet}
+                        filter={EmptyFilterSet}
                        // filtersCallback={generatePrimaryFilters} // TODO: add this back in when we have a way to create a case set from filters
                       />
                     )}
@@ -200,6 +200,8 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
                       <CohortCreationButton
                         numCases={cohort2Count}
                         label={cohort2Count.toLocaleString()}
+                        caseFilter={EmptyFilterSet}
+                        filter={EmptyFilterSet}
                         //  filtersCallback={generateComparisonFilters} // TODO : add this back in when we have a way to create a case set from filters
                       />
                     )}

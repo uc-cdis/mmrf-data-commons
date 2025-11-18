@@ -251,8 +251,8 @@ export const useGenerateSMTableColumns = ({
               />
             }
             numCases={row.original["#_affected_cases_in_cohort"].numerator}
-            filters={generateFilters(row.original.mutation_id)}
-            caseFilters={cohortFilters}
+            filter={generateFilters(row.original.mutation_id)}
+            caseFilter={cohortFilters}
             createStaticCohort
           />
         ),

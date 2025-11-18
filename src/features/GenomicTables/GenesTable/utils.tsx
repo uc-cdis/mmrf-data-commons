@@ -195,8 +195,8 @@ export const useGenerateGenesTableColumns = ({
               />
             }
             numCases={row.original['#_ssm_affected_cases_in_cohort'].numerator}
-            filters={generateFilters(undefined, row.original.gene_id)}
-            caseFilters={cohortFilters}
+            filter={generateFilters(undefined, row.original.gene_id)}
+            caseFilter={cohortFilters}
           />
         ),
       }),
