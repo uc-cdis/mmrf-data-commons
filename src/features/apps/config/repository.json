@@ -5,17 +5,14 @@
       {
         "title": "Filters",
         "fields": [
+          "cases.project.project_id",
           "experimental_strategy",
           "wgs_coverage",
           "data_category",
           "data_type",
           "data_format",
           "platform",
-          "access",
-          "cases.samples.tissue_type",
-          "cases.samples.tumor_descriptor",
-          "cases.samples.specimen_type",
-          "cases.samples.preservation_method"
+          "access"
         ]
       }
     ]

@@ -8,25 +8,17 @@
       "facets": [
         "project.project_id",
         "primary_site",
-        "disease_type",
-        "diagnoses.primary_diagnosis",
-        "diagnoses.tissue_or_organ_of_origin"
+        "disease_type"
       ],
       "fieldsConfig": {
-        "project.project_id" : {
+        "project.project_id": {
           "description": "The project ID is a unique identifier assigned to each project."
         },
-        "primary_site" : {
+        "primary_site": {
           "description": "The text term used to describe the primary site of disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O). This categorization groups cases into general categories. Reference tissue_or_organ_of_origin on the diagnosis node for more specific primary sites of disease."
         },
         "disease_type": {
           "description": "The text term used to describe the type of malignant disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O)."
-        },
-        "diagnoses.primary_diagnosis": {
-          "description": "Text term used to describe the patient's histologic diagnosis, as described by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O)."
-        },
-        "diagnoses.tissue_or_organ_of_origin" : {
-          "description" : "The text term used to describe the anatomic site of origin, of the patient's malignant disease, as described by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O)."
         }
       },
       "queryOptions": {
@@ -41,6 +33,7 @@
         "demographic.race",
         "demographic.ethnicity",
         "demographic.age_at_index",
+        "demographic.days_to_death",
         "diagnoses.age_at_diagnosis",
         "demographic.vital_status",
         "demographic.year_of_death",
@@ -51,14 +44,14 @@
         "indexPrefix": "CaseCentric_"
       },
       "fieldsConfig": {
-        "follow_ups.ecog_performance_status" : {
-          "description" : "The subject's performance status (PS) score reported in its numeric format at the time of the visit. The ECOG PS is a determination of how well a subject is able to perform ordinary tasks and carry out daily activities."
+        "follow_ups.ecog_performance_status": {
+          "description": "The subject's performance status (PS) score reported in its numeric format at the time of the visit. The ECOG PS is a determination of how well a subject is able to perform ordinary tasks and carry out daily activities."
         },
-        "demographic.race" : {
-          "description" : "Subject's race that was collected at baseline, study enrollment, for the US cohort only."
+        "demographic.race": {
+          "description": "Subject's race that was collected at baseline, study enrollment, for the US cohort only."
         },
-        "demographic.vital_status" : {
-          "description" : "\tThe survival state of the person registered on the protocol. CDE: 5."
+        "demographic.vital_status": {
+          "description": "The survival state of the person registered on the protocol. CDE: 5."
         },
         "demographic.ethnicity": {
           "field": "demographic.ethnicity",
@@ -75,6 +68,15 @@
           "field": "diagnoses.age_at_diagnosis",
           "type": "age_in_years",
           "description": "Age in days at which a condition or disease was first diagnosed. CDE: 3225640. TCGA has the age in years with CDE 2006657, this is converted by ceil(age*365.25) to get days.",
+          "range": {
+            "maximum": 32872,
+            "minimum": 0
+          }
+        },
+        "diagnoses.days_to_death": {
+          "field": "diagnoses.age_at_diagnosis",
+          "type": "days",
+          "description": "Number of days between the date used for index and the date from a person's date of death represented as a calculated number of days.",
           "range": {
             "maximum": 32872,
             "minimum": 0
@@ -104,7 +106,9 @@
     },
     "family_histories": {
       "label": "Family Histories",
-      "facets": ["family_histories.relatives_with_cancer_history_count"],
+      "facets": [
+        "family_histories.relatives_with_cancer_history_count"
+      ],
       "fieldsConfig": {
         "family_histories.relatives_with_cancer_history_count": {
           "label": "Relatives With Cancer History",
@@ -127,29 +131,33 @@
         "bone_assessments.mm_bone_lesion_ribs",
         "bone_assessments.mm_bone_lesion_skull",
         "bone_assessments.mm_bone_lesion_spine",
-        "bone_assessments.number_of_lytic_lesions"
+        "bone_assessments.number_of_lytic_lesions",
+        "bone_assessments.osteopenia_osteoporosis"
       ],
       "fieldsConfig": {
-        "bone_assessments.lytic_bone_lesion_present" : {
-          "description" : "Indication and number of lytic bone lesions found on scan if imaging_result=\"positive.\" If imaging_result was not \"positive\", then \"not_applicable\" is recorded."
+        "bone_assessments.lytic_bone_lesion_present": {
+          "description": "Indication and number of lytic bone lesions found on scan if imaging_result=\"positive.\" If imaging_result was not \"positive\", then \"not_applicable\" is recorded."
         },
-        "bone_assessments.mm_bone_lesion_femur" : {
-          "description" : "Indication that the exam found evidence of myeloma-related bone lesion(s) on femur."
+        "bone_assessments.mm_bone_lesion_femur": {
+          "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on femur."
         },
-        "bone_assessments.mm_bone_lesion_pelvis" : {
-          "description" : "Indication that the exam found evidence of myeloma-related bone lesion(s) on pelvis."
+        "bone_assessments.mm_bone_lesion_pelvis": {
+          "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on pelvis."
         },
-        "bone_assessments.mm_bone_lesion_ribs" : {
-          "description" : "Indication that the exam found evidence of myeloma-related bone lesion(s) on ribs."
+        "bone_assessments.mm_bone_lesion_ribs": {
+          "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on ribs."
         },
-        "bone_assessments.mm_bone_lesion_skull" : {
-          "description" : "Indication that the exam found evidence of myeloma-related bone lesion(s) on skull."
+        "bone_assessments.mm_bone_lesion_skull": {
+          "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on skull."
         },
-        "bone_assessments.mm_bone_lesion_spine" : {
-          "description" : "Indication that the exam found evidence of myeloma-related bone lesion(s) on spine."
+        "bone_assessments.mm_bone_lesion_spine": {
+          "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on spine."
         },
-        "bone_assessments.number_of_lytic_lesions" : {
-          "description" : "Number of lytic bone lesions found in exam."
+        "bone_assessments.number_of_lytic_lesions": {
+          "description": "Number of lytic bone lesions found in exam."
+        },
+        "bone_assessments.osteopenia_osteoporosis": {
+          "description": "Indication that the exam found evidence of osteopenia or osteoporosis."
         }
       },
       "queryOptions": {
@@ -166,11 +174,11 @@
         "outcomes.survival_time_pfs"
       ],
       "fieldsConfig": {
-        "outcomes.censor_os" : {
-          "description" : "A numeric (0/1) flag indicating whether the death has occurred (1=TRUE) or the subject was censored (0=FALSE)"
+        "outcomes.censor_os": {
+          "description": "A numeric (0/1) flag indicating whether the death has occurred (1=TRUE) or the subject was censored (0=FALSE)"
         },
-        "outcomes.censor_pfs" : {
-          "description" : "A numeric (0/1) flag indicating whether the progressive disease has occurred (1=TRUE) or the subject was censored (0=FALSE)"
+        "outcomes.censor_pfs": {
+          "description": "A numeric (0/1) flag indicating whether the progressive disease has occurred (1=TRUE) or the subject was censored (0=FALSE)"
         },
         "outcomes.survival_time_pfs": {
           "label": "Survival Time PFS",
@@ -181,17 +189,17 @@
             "maximum": 10000,
             "minimum": 0
           }
-          },
-          "outcomes.surivival_time_os": {
-            "label": "Survival Time OS",
-            "field": "outcomes.surivival_time_os",
-            "description": "For Overall Survival (OS) analyses, the time from the index date to the patient's death or censoring.",
-            "type": "numeric_range",
-            "range": {
-              "maximum": 10000,
-              "minimum": 0
-            }
+        },
+        "outcomes.surivival_time_os": {
+          "label": "Survival Time OS",
+          "field": "outcomes.surivival_time_os",
+          "description": "For Overall Survival (OS) analyses, the time from the index date to the patient's death or censoring.",
+          "type": "numeric_range",
+          "range": {
+            "maximum": 10000,
+            "minimum": 0
           }
+        }
       },
       "queryOptions": {
         "index": "case_centric",
@@ -200,7 +208,15 @@
     },
     "administered_regimen_lines": {
       "label": "Administered Regimen",
-      "facets": ["administered_regimen_lines.regimen_duration"],
+      "facets": [
+        "administered_regimen_lines.cancer_diagnosis",
+        "administered_regimen_lines.line",
+        "administered_regimen_lines.first_line",
+        "administered_regimen_lines.regimen_name",
+        "administered_regimen_lines.regimen_duration",
+        "administered_regimen_lines.regimen_short_name",
+        "administered_regimen_lines.reason_for_discontinuation"
+      ],
       "fieldsConfig": {
         "administered_regimen_lines.regimen_duration": {
           "label": "Regimen Duration",
@@ -211,6 +227,25 @@
             "maximum": 10000,
             "minimum": 0
           }
+        },
+        "administered_regimen_lines.cancer_diagnosis": {
+          "description": "The cancer diagnosis code related to the therapeutic regimen."
+        },
+        "administered_regimen_lines.line": {
+          "description": "The line of therapy. It is important to note that multiple regimens may create one line."
+        },
+        "administered_regimen_lines.first_line": {
+          "description": "The first regimen received by the patient for the treatment of this cancer.",
+          "type": "multiselect"
+        },
+        "administered_regimen_lines.regimen_name": {
+          "description": "The concatenated names of the drugs in the regimen; these are ordered alphabetically, though the steroids are last in the list. The drug names and regimen names are consistent with NCIt."
+        },
+        "administered_regimen_lines.regimen_short_name": {
+          "description": "Abbreviated drug names."
+        },
+        "administered_regimen_lines.reason_for_discontinuation": {
+          "description": "Harmonized reason that the regimen was discontinued."
         }
       },
       "queryOptions": {
@@ -229,14 +264,14 @@
         "diagnoses.first_progressive_disease"
       ],
       "fieldsConfig": {
-        "diagnoses.bmi_at_diagnosis" : {
-          "description" : "Subject's body mass index (BMI) calculated from height and weight recorded prior to first therapy for active multiple myeloma diagnosis. algorithm: (weight/(height*height))."
+        "diagnoses.bmi_at_diagnosis": {
+          "description": "Subject's body mass index (BMI) calculated from height and weight recorded prior to first therapy for active multiple myeloma diagnosis. algorithm: (weight/(height*height))."
         },
-        "diagnoses.iss_stage" : {
-          "description" : "The multiple myeloma disease International Staging System (ISS) stage at diagnosis that prognostically categorizes the severity of multiple myeloma based on routinely obtained lab values."
+        "diagnoses.iss_stage": {
+          "description": "The multiple myeloma disease International Staging System (ISS) stage at diagnosis that prognostically categorizes the severity of multiple myeloma based on routinely obtained lab values."
         },
-        "diagnoses.first_progressive_disease" : {
-          "description" : ""
+        "diagnoses.first_progressive_disease": {
+          "description": ""
         },
         "diagnoses.days_to_diagnosis": {
           "label": "Days To Diagnosis",
@@ -272,43 +307,22 @@
         "indexPrefix": "CaseCentric_"
       }
     },
-    "disease_status": {
-      "label": "Disease Status and History",
-      "facets": ["diagnoses.progression_or_recurrence"],
-      "fieldsConfig": {
-        "diagnoses.progression_or_recurrence" : {
-          "description" : ""
-        }
-      },
-      "queryOptions": {
-        "index": "case_centric",
-        "indexPrefix": "CaseCentric_"
-      }
-    },
     "biospecimen": {
       "label": "Biospecimen",
       "facets": [
-        "samples.preservation_method",
         "samples.sample_type",
         "samples.specimen_type",
-        "samples.tissue_type",
-        "samples.tumor_descriptor"
+        "samples.tissue_type"
       ],
       "fieldsConfig": {
-        "samples.preservation_method" : {
-          "description" : "Text term that represents the method used to preserve the sample."
+        "samples.sample_type": {
+          "description": "Text term to describe the source of a biospecimen used for a laboratory test."
         },
-        "samples.sample_type" : {
-          "description" : "Text term to describe the source of a biospecimen used for a laboratory test."
+        "samples.specimen_type": {
+          "description": "The type of a material sample taken from a biological entity for testing, diagnostic, propagation, treatment or research purposes. This includes particular types of cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory substances."
         },
-        "samples.specimen_type" : {
-          "description" : "The type of a material sample taken from a biological entity for testing, diagnostic, propagation, treatment or research purposes. This includes particular types of cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory substances."
-        },
-        "samples.tissue_type" : {
-          "description" : "Text term that represents a description of the kind of tissue collected with respect to disease status or proximity to tumor tissue."
-        },
-        "samples.tumor_descriptor" : {
-          "description" : "Text that describes the kind of disease present in the tumor specimen as related to a specific timepoint."
+        "samples.tissue_type": {
+          "description": "Text term that represents a description of the kind of tissue collected with respect to disease status or proximity to tumor tissue."
         }
       },
       "queryOptions": {

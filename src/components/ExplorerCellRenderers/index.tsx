@@ -29,6 +29,7 @@ export const OpenLinkInTab = (
   const value = cell.getValue() as string;
   const { linkField, href } = params;
   const id = row.original?.[linkField]
+  const uuid = encodeURIComponent(id?.toString() ?? "")
 
   return (
     <div className="flex flex-nowrap items-center align-middle gap-2">
@@ -40,7 +41,7 @@ export const OpenLinkInTab = (
         alt=""
       />
       <Link
-        href={`${href ?? '/'}${id?.toString() || ''}`}
+        href={`${href ?? '/'}${uuid?.toString()}`}
         target="_blank" rel="noopener noreferrer"
         className="text-utility-link underline font-content text-left"
       >
