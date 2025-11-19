@@ -34,6 +34,14 @@ const localTheme = createTheme({
         position: 'top',
       },
     },
+    Notification: {
+      styles: {
+        root: {
+          padding: '0.5rem 1rem',
+          zIndex: 1200,
+        },
+      }
+    }
   },
 });
 

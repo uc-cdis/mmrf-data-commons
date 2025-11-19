@@ -15,7 +15,7 @@ const graphQLQuery = `
 query File_file (
     $fileFilters: JSON
   ) {
-    files:  File_file (filter: $fileFilters) {
+    files: File_file (filter: $fileFilters) {
         access
         acl
         average_base_quality
@@ -63,10 +63,6 @@ query File_file (
         subclonal_genome_fraction
         submitter_id
         tags
-        tmb
-        tmb_exonic
-        tmb_nonsynonymous
-        tmb_nonsynonymous_exonic
         total_reads
         tumor_ploidy
         tumor_purity
@@ -99,25 +95,6 @@ query File_file (
                 released
                 state
             }
-        }
-        annotations {
-            annotation_id
-            case_id
-            case_submitter_id
-            category
-            classification
-            created_datetime
-            creator
-            entity_id
-            entity_submitter_id
-            entity_type
-            legacy_created_datetime
-            legacy_updated_datetime
-            notes
-            state
-            status
-            submitter_id
-            updated_datetime
         }
     }
     fileTotal: File__aggregation {
