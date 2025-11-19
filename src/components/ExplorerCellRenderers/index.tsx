@@ -45,7 +45,7 @@ export const OpenLinkInTab = (
         target="_blank" rel="noopener noreferrer"
         className="text-utility-link underline font-content text-left"
       >
-        {id?.toString() || ''}
+        {value?.toString() || ''}
       </Link>
     </div>
   );

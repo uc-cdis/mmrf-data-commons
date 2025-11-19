@@ -232,7 +232,8 @@
           "description": "The cancer diagnosis code related to the therapeutic regimen."
         },
         "administered_regimen_lines.line": {
-          "description": "The line of therapy. It is important to note that multiple regimens may create one line."
+          "description": "The line of therapy. It is important to note that multiple regimens may create one line.",
+          "type": "numeric_range"
         },
         "administered_regimen_lines.first_line": {
           "description": "The first regimen received by the patient for the treatment of this cancer.",

@@ -110,7 +110,7 @@
       },
       "file_id": {
         "visible": false,
-        "lockVisible": "filesize"
+        "lockVisible": "file_id"
       },
       "cases.case_id": {
         "type": "link",
