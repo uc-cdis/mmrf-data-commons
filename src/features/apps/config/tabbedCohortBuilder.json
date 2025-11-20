@@ -171,14 +171,18 @@
         "outcomes.censor_os",
         "outcomes.censor_pfs",
         "outcomes.surivival_time_os",
-        "outcomes.survival_time_pfs"
+        "outcomes.survival_time_pfs",
+        "diagnoses.best_overall_response"
       ],
       "fieldsConfig": {
         "outcomes.censor_os": {
-          "description": "A numeric (0/1) flag indicating whether the death has occurred (1=TRUE) or the subject was censored (0=FALSE)"
+          "description": "A numeric (0/1) flag indicating whether the death has occurred (1=TRUE) or the subject was censored (0=FALSE)."
         },
         "outcomes.censor_pfs": {
-          "description": "A numeric (0/1) flag indicating whether the progressive disease has occurred (1=TRUE) or the subject was censored (0=FALSE)"
+          "description": "A numeric (0/1) flag indicating whether the progressive disease has occurred (1=TRUE) or the subject was censored (0=FALSE)."
+        },
+        "diagnoses.best_overall_response": {
+          "description": "The best improvement achieved throughout the entire course of study period."
         },
         "outcomes.survival_time_pfs": {
           "label": "Survival Time PFS",
@@ -209,7 +213,6 @@
     "administered_regimen_lines": {
       "label": "Administered Regimen",
       "facets": [
-        "administered_regimen_lines.cancer_diagnosis",
         "administered_regimen_lines.line",
         "administered_regimen_lines.first_line",
         "administered_regimen_lines.regimen_name",
@@ -227,10 +230,6 @@
             "maximum": 10000,
             "minimum": 0
           }
-        },
-        "administered_regimen_lines.cancer_diagnosis": {
-          "description": "The cancer diagnosis code related to the therapeutic regimen.",
-          "type": "numeric_range"
         },
         "administered_regimen_lines.line": {
           "description": "The line of therapy. It is important to note that multiple regimens may create one line.",
