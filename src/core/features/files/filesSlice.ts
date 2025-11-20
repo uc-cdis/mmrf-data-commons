@@ -1,8 +1,5 @@
 import {
   guppyApi,
-  FilterSet,
-  convertFilterSetToGqlFilter,
-  GQLFilter,
   GQLIntersection,
 } from '@gen3/core';
 import { FileDefaults } from '@/core/features/api';
