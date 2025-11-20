@@ -5,7 +5,6 @@
       {
         "title": "Filters",
         "fields": [
-          "cases.project.project_id",
           "experimental_strategy",
           "data_category",
           "data_type",
