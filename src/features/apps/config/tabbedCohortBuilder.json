@@ -270,7 +270,7 @@
       "fieldsConfig": {
         "diagnoses.bmi_at_diagnosis": {
           "description": "Subject's body mass index (BMI) calculated from height and weight recorded prior to first therapy for active multiple myeloma diagnosis. algorithm: (weight/(height*height)).",
-          "type": "numeric_range"
+          "type": "multiselect"
         },
         "diagnoses.iss_stage": {
           "description": "The multiple myeloma disease International Staging System (ISS) stage at diagnosis that prognostically categorizes the severity of multiple myeloma based on routinely obtained lab values."
