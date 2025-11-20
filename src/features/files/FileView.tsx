@@ -274,7 +274,7 @@ export const FileView: React.FC<FileViewProps> = ({
         }
       />
       <div className={`${!isModal ? 'mt-6' : 'mt-4'} mx-4`}>
-        <div className="flex flex-col lg:flex-row gap-8 xl:gap-4 pt-36">
+        <div className="flex flex-col lg:flex-row gap-8 xl:gap-4">
           <div className="flex-1">
             <SummaryCard
               customDataTestID="table-file-properties-file-summary"

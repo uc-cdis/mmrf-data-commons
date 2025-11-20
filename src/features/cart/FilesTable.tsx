@@ -30,6 +30,8 @@ import { HandleChangeInput } from '@/components/Table/types';
 import { downloadTSV } from '@/components/Table/utils';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import TotalItems from '@/components/Table/TotalItem';
+import { Image } from '@/components/Image';
+import Link from 'next/link';
 
 interface FilesTableProps {
   readonly filesByCanAccess: Record<string, CartFile[]>;
@@ -145,18 +147,28 @@ const FilesTable: React.FC<FilesTableProps> = ({
       cartFilesTableColumnHelper.accessor('file_uuid', {
         id: 'file_uuid',
         header: 'File UUID',
-        cell: ({ getValue }) => (
-          <PopupIconButton
-            handleClick={() =>
-              setEntityMetadata({
-                entity_type: 'file',
-                entity_id: getValue() as string,
-              })
-            }
-            label={getValue()}
-            customStyle="text-utility-link underline font-content text-left"
-          />
-        ),
+        cell: ({ getValue }) => {
+          const value = getValue()?.toString() ?? '';
+          const uuid = encodeURIComponent(value)
+          return (
+            <div className="flex flex-nowrap items-center align-middle gap-2">
+              <Image
+                src="/icons/OpenModal.svg"
+                width={10}
+                height={18}
+                layout="fixed"
+                alt=""
+              />
+              <Link
+                href={`/files/${uuid?.toString()}`}
+                target="_blank" rel="noopener noreferrer"
+                className="text-utility-link underline font-content text-left"
+              >
+                {value}
+              </Link>
+            </div>
+
+        )},
         enableSorting: true,
       }),
       cartFilesTableColumnHelper.accessor('access', {
@@ -168,18 +180,28 @@ const FilesTable: React.FC<FilesTableProps> = ({
       cartFilesTableColumnHelper.accessor('file_name', {
         id: 'file_name',
         header: 'File Name',
-        cell: ({ getValue, row }) => (
-          <PopupIconButton
-            handleClick={() =>
-              setEntityMetadata({
-                entity_type: 'file',
-                entity_id: row.original.file_uuid,
-              })
-            }
-            label={getValue()}
-            customStyle="text-utility-link underline font-content text-left"
-          />
-        ),
+        cell: ({ getValue, row }) => {
+          const value = getValue()?.toString() ?? '';
+          const uuid = encodeURIComponent(row?.original?.file_uuid ?? 'Not Found')
+          return (
+            <div className="flex flex-nowrap items-center align-middle gap-2">
+              <Image
+                src="/icons/OpenModal.svg"
+                width={10}
+                height={18}
+                layout="fixed"
+                alt=""
+              />
+              <Link
+                href={`/files/${uuid?.toString()}`}
+                target="_blank" rel="noopener noreferrer"
+                className="text-utility-link underline font-content text-left"
+              >
+                {value}
+              </Link>
+            </div>
+
+          )},
         enableSorting: true,
       }),
       cartFilesTableColumnHelper.display({
