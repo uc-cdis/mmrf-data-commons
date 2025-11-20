@@ -12,7 +12,7 @@ const gen3Theme = createMantineTheme(
   {
     fontFamily: "Montserrat, Noto Sans, sans-serif",
     heading: ['Montserrat, Noto Sans, sans-serif'],
-    content: ['Montserrat, Noto Sans, sans-serif'],
+    content: ['Noto Sans, sans-serif'],
   },
   themeColors,
 );

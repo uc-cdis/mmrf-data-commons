@@ -12,6 +12,7 @@ export default function Document() {
   return (
     <Html lang="en" {...mantineHtmlProps}>
       <Head>
+        <link rel="icon" href="/icons/favicon.ico" />
         <ColorSchemeScript defaultColorScheme="auto" />
       </Head>
       <body className="flex flex-col min-h-screen">

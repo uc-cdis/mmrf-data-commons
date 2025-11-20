@@ -73,8 +73,8 @@
             "minimum": 0
           }
         },
-        "diagnoses.days_to_death": {
-          "field": "diagnoses.age_at_diagnosis",
+        "demographic.days_to_death": {
+          "field": "demographic.days_to_death",
           "type": "days",
           "description": "Number of days between the date used for index and the date from a person's date of death represented as a calculated number of days.",
           "range": {
@@ -229,7 +229,8 @@
           }
         },
         "administered_regimen_lines.cancer_diagnosis": {
-          "description": "The cancer diagnosis code related to the therapeutic regimen."
+          "description": "The cancer diagnosis code related to the therapeutic regimen.",
+          "type": "numeric_range"
         },
         "administered_regimen_lines.line": {
           "description": "The line of therapy. It is important to note that multiple regimens may create one line.",
@@ -240,10 +241,12 @@
           "type": "multiselect"
         },
         "administered_regimen_lines.regimen_name": {
-          "description": "The concatenated names of the drugs in the regimen; these are ordered alphabetically, though the steroids are last in the list. The drug names and regimen names are consistent with NCIt."
+          "description": "The concatenated names of the drugs in the regimen; these are ordered alphabetically, though the steroids are last in the list. The drug names and regimen names are consistent with NCIt.",
+          "type": "multiselect"
         },
         "administered_regimen_lines.regimen_short_name": {
-          "description": "Abbreviated drug names."
+          "description": "Abbreviated drug names.",
+          "type": "multiselect"
         },
         "administered_regimen_lines.reason_for_discontinuation": {
           "description": "Harmonized reason that the regimen was discontinued."
