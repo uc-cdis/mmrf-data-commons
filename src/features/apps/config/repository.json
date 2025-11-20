@@ -6,12 +6,9 @@
         "title": "Filters",
         "fields": [
           "experimental_strategy",
-          "wgs_coverage",
           "data_category",
           "data_type",
-          "data_format",
-          "platform",
-          "access"
+          "data_format"
         ]
       }
     ]
