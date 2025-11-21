@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Anchor, Burger, Drawer } from "@mantine/core";
 import { Navigation } from "../navigationInterfaces";
 import Image from "next/image";
+import Link from "next/link";
 import SearchBar from "./SearchBar";
 import NavLogo from "./NavLogo";
 
@@ -33,6 +34,7 @@ const MobileView: React.FC<MobileViewProps> = ({ navigation }) => {
                 key={i}
                 href={link.href}
                 className="block my-4 whitespace-nowrap"
+                component={Link}
               >
                 <Image
                   src={link.icon}

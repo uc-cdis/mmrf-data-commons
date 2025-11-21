@@ -54,6 +54,7 @@ const Footer: React.FC = () => {
           <div className="mb-2 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
+                component={Link}
                 key={i}
                 href={item.href}
                 target="_blank"

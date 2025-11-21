@@ -58,6 +58,7 @@ const DownloadAccessAgreement: React.FC<DownloadAccessAgreementProps> = ({
               target="_blank"
               rel="noreferrer"
               className="underline"
+              component={Link}
             >
               dbGaP
             </Anchor>
