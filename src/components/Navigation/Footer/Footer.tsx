@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import footerJSON from '../../../../config/mmrf/footer.json';
 import { Anchor, Text } from '@mantine/core';
 
@@ -31,6 +32,7 @@ const Footer: React.FC = () => {
                 {col.linkSet.map((link, iterator) => (
                   <li key={iterator}>
                     <Anchor
+                      component={Link}
                       data-variant="dark-background"
                       href={link.href}
                       target="_blank"
@@ -52,6 +54,7 @@ const Footer: React.FC = () => {
           <div className="mb-2 w-full">
             {mmrfFooter.rightSection.icons.map((item, i) => (
               <Anchor
+                component={Link}
                 key={i}
                 href={item.href}
                 target="_blank"

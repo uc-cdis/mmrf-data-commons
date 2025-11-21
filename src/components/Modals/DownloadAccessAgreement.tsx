@@ -1,4 +1,5 @@
 import React from "react";
+import Link from 'next/link';
 import { Anchor, Checkbox, Text } from "@mantine/core";
 
 interface DownloadAccessAgreementProps {
@@ -39,6 +40,7 @@ const DownloadAccessAgreement: React.FC<DownloadAccessAgreementProps> = ({
           <Text className="text-[15px]">
             I agree to abide by the{" "}
             <Anchor
+              component={Link}
               data-testid="link-mmrf-data-use-agreement"
               size="sm"
               href="https://gdc.cancer.gov/about-data/data-analysis-policies"
@@ -56,6 +58,7 @@ const DownloadAccessAgreement: React.FC<DownloadAccessAgreementProps> = ({
               target="_blank"
               rel="noreferrer"
               className="underline"
+              component={Link}
             >
               dbGaP
             </Anchor>
