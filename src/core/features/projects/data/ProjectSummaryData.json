@@ -1,0 +1,87 @@
+{
+  "projectData": [
+    {
+      "id": "MMRF-COMMPASS",
+      "summary": {
+        "file_count": 34109,
+        "data_categories": [
+          {
+            "file_count": 18304,
+            "case_count": 961,
+            "data_category": "Simple Nucleotide Variation"
+          },
+          {
+            "file_count": 6577,
+            "case_count": 995,
+            "data_category": "Sequencing Reads"
+          },
+          {
+            "file_count": 2020,
+            "case_count": 908,
+            "data_category": "Copy Number Variation"
+          },
+          {
+            "file_count": 1718,
+            "case_count": 787,
+            "data_category": "Transcriptome Profiling"
+          },
+          {
+            "file_count": 2032,
+            "case_count": 904,
+            "data_category": "Somatic Structural Variation"
+          },
+          {
+            "file_count": 3458,
+            "case_count": 791,
+            "data_category": "Structural Variation"
+          }
+        ],
+        "experimental_strategies": [
+          {
+            "file_count": 17350,
+            "case_count": 975,
+            "experimental_strategy": "WXS"
+          },
+          {
+            "file_count": 7731,
+            "case_count": 787,
+            "experimental_strategy": "RNA-Seq"
+          },
+          {
+            "file_count": 9028,
+            "case_count": 923,
+            "experimental_strategy": "WGS"
+          }
+        ],
+        "case_count": 995,
+        "file_size": 206571821218064
+      },
+      "primary_site": [
+        "Hematopoietic and reticuloendothelial systems"
+      ],
+      "dbgap_accession_number": "phs000748",
+      "project_id": "MMRF-COMMPASS",
+      "disease_type": [
+        "Plasma Cell Tumors"
+      ],
+      "name": "Multiple Myeloma CoMMpass Study",
+      "releasable": true,
+      "state": "open",
+      "program": {
+        "dbgap_accession_number": null,
+        "program_id": "47886a48-87b8-5437-800e-af74f41e6c84",
+        "name": "MMRF"
+      },
+      "released": true
+    }
+  ],
+  "pagination": {
+    "count": 1,
+    "total": 1,
+    "size": 10,
+    "from": 0,
+    "sort": "",
+    "page": 1,
+    "pages": 1
+  }
+}

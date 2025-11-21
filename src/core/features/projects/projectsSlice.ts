@@ -1,8 +1,11 @@
 import { Middleware, Reducer } from "@reduxjs/toolkit";
-import { guppyApi } from "@gen3/core";
-import { GraphQLApiResponse, ProjectDefaults } from '@/core/types';
+import { guppyApi, GQLFilter } from "@gen3/core";
+import {  GraphQLApiResponse, ProjectDefaults } from '@/core/types';
+import ProjectSummaryData from './data/ProjectSummaryData.json';
 
-
+/**
+ * Pending development. Will be used for the Project Summary page.
+ */
 export const projectsApiSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     getProjects: builder.query<ProjectDefaults, string>({
@@ -32,3 +35,11 @@ export const projectApiSliceMiddleware =
   projectsApiSlice.middleware as Middleware;
 export const projectsApiSliceReducerPath: string = projectsApiSlice.reducerPath;
 export const projectsApiReducer: Reducer = projectsApiSlice.reducer as Reducer;
+
+
+export const useGetProjectsQueryMocked = ({
+  filters,
+  expand,
+} : { filters: GQLFilter, expand: string[]}) => {
+  return ProjectSummaryData
+}
