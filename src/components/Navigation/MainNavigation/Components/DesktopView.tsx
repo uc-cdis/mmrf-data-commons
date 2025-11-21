@@ -1,6 +1,7 @@
 import React from 'react';
 import { Anchor } from '@mantine/core';
 import { Navigation } from '../navigationInterfaces';
+import Link from 'next/link';
 import Image from 'next/image';
 import NavLogo from './NavLogo';
 import SearchBar from './SearchBar';
@@ -23,6 +24,7 @@ const DesktopView: React.FC<DesktopViewProps> = ({ navigation }) => (
     >
       {navigation.items.map((link, i) => (
         <Anchor
+          component={Link}
           key={i}
           href={link.href}
           className="text-mmrf-gunmetal whitespace-nowrap text-lg"
