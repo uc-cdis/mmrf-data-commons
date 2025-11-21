@@ -129,11 +129,28 @@ const graphQLQuery = `query Case_case($filter: JSON) {
     }
 }`;
 
+
+const CaseValidateQuery =
+  `query Case_case ($filter: JSON) {
+    Case_case(filter: $filter) {
+        case_id
+    }
+}`;
+
+interface ValidationResult {
+  matched: number;
+  unmatched: number;
+}
+
 interface CaseSummaryRequest {
   caseId?: string;
 }
 
-const casesSlice = guppyApi.injectEndpoints({
+interface CaseValidatationRequest {
+  caseIds: Array<string>;
+}
+
+const caseSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     caseSummary: builder.query<any, CaseSummaryRequest>({
       query: ({ caseId }: CaseSummaryRequest) => ({
@@ -143,7 +160,22 @@ const casesSlice = guppyApi.injectEndpoints({
         },
       }),
     }),
+    validateCases: builder.query<ValidationResult, CaseValidatationRequest>({
+      query: ({ caseIds }: CaseValidatationRequest) => ({
+        query: CaseValidateQuery,
+        variables: {
+          filter: { in: { caseId: caseIds } },
+        },
+      }),
+      transformResponse: (response: any, meta, args) => {
+          const cases = response?.data?.Case_case as string[] ?? [];
+          return {
+            matched: cases.length,
+            unmatched: args.caseIds.length - cases.length
+          }
+      }
+    }),
   }),
 });
 
-export const { useCaseSummaryQuery } = casesSlice;
+export const { useCaseSummaryQuery, useValidateCasesQuery, useLazyValidateCasesQuery } = caseSlice;

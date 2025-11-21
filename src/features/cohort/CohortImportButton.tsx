@@ -2,8 +2,12 @@ import React from "react";
 import { Button, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { UploadIcon } from "@/utils/icons";
+import { useLazyValidateCasesQuery } from '@/core/features/cases/caseSlice';
 
 const CohortImportButton: React.FC = () => {
+
+  const [ trigger, {data, isFetching, isSuccess, isError}] = useLazyValidateCasesQuery()
+
   const updateFilters = (facetField: string, outputIds: string[]) => {
     modals.openContextModal({
       modal: "saveCohortModal",

@@ -13,11 +13,12 @@ import {
   TableXPositionContext,
   getAllFieldsFromFilterConfigs,
 } from '@gen3/frontend';
-import { useTotalFileSizeQuery } from './hooks';
+import { useGetRepositoryData, useTotalFileSizeQuery } from './hooks';
 import Stats from './Stats';
 import FileFacetPanel from './FileFacetPanel';
 import { RepositoryProps } from './types';
 import RepositoryDownloadsPanel from './RepositoryDownloadsPanel';
+import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
 
 export const RepositoryPanel = ({
   guppyConfig,
@@ -100,6 +101,7 @@ export const RepositoryPanel = ({
                   tableConfig={table}
                   accessibility={accessLevel}
                   indexPrefix={indexPrefix}
+                  dataHook={useGetRepositoryData(repositoryFilters)}
                   additionalControls={
                     <DownloadsPanel
                       dropdowns={defaultDropdowns}

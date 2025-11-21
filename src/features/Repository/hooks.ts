@@ -6,6 +6,8 @@ import {
   CoreState,
   customQueryStrForField,
   EmptyFilterSet,
+  FilterSet,
+  RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
   selectCohortFilterExpanded,
   selectCurrentCohortFilters,
@@ -13,6 +15,7 @@ import {
   toggleCohortBuilderCategoryFilter,
   useCoreDispatch,
   useCoreSelector,
+  useGetRawDataAndTotalCountsQuery,
 } from '@gen3/core';
 import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
@@ -26,6 +29,7 @@ import {
   CohortCentricAggsQueryRequest,
   FacetQueryResponse,
 } from '@/features/types';
+import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
 
 export const useGetFacetValuesQuery = (
   args: CohortCentricAggsQueryRequest,
@@ -162,3 +166,23 @@ export const useToggleExpandFilter = (index: string) => {
     dispatch(toggleCohortBuilderCategoryFilter({ index, field, expanded }));
   };
 };
+
+export type ExplorerDataQueryHook = (
+  args: RawDataAndTotalCountsParams,
+) => ReturnType<typeof useRawDataAndTotalCountQuery>;
+
+export const useGetRepositoryData  = (
+  repositoryFilters: FilterSet) : ExplorerDataQueryHook   => {
+
+  const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
+  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
+
+    return (args: RawDataAndTotalCountsParams) =>
+      useRawDataAndTotalCountQuery({
+        cohortFilter: cohortFilterGQL,
+     //   filters: repositoryFilters,
+        caseIdsFilterPath: 'cases.case_id',
+        ...args,
+      });
+  }

@@ -1,37 +1,25 @@
 import React from "react";
 import { LoadingOverlay } from "@mantine/core";
 import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
-import { caseSummaryFields } from "./utils";
 import { CaseView } from "./CaseView";
 import { useContext, useEffect, useState } from "react";
 import { URLContext } from "src/utils/contexts";
-import { useGetCasesQuery } from "@/core/features/cases/casesSlice";
-import { EndpointRequestProps } from "@/core/features/api";
+import { useCaseSummaryQuery } from "@/core/features/cases/caseSlice";
 
 export const CaseSummary = ({
-  case_id,
-  bio_id,
+  caseId,
+  bioId,
   isModal = false,
 }: {
-  case_id: string;
-  bio_id?: string;
+  caseId: string;
+  bioId?: string;
   isModal?: boolean;
 }): JSX.Element => {
   const [shouldScrollToBio, setShouldScrollToBio] = useState(
-    bio_id !== undefined,
+    bioId !== undefined,
   );
-  const { data, isFetching } = useGetCasesQuery({
-    request: {
-      filters: {
-        content: {
-          field: "case_id",
-          value: case_id as string,
-        },
-        op: "=",
-      },
-      fields: caseSummaryFields,
-    },
-  } as unknown as EndpointRequestProps);
+  const { data, isFetching } = useCaseSummaryQuery({ caseId } );
+
 
   const prevPathValue = useContext(URLContext);
   useEffect(() => {
@@ -51,8 +39,8 @@ export const CaseSummary = ({
         <LoadingOverlay visible data-testid="loading-spinner" />
       ) : data && data.hits.length > 0 ? (
         <CaseView
-          case_id={case_id}
-          bio_id={bio_id as string}
+          case_id={caseId}
+          bio_id={bioId as string}
           data={data?.hits?.[0]}
           isModal={isModal}
           shouldScrollToBio={shouldScrollToBio}
