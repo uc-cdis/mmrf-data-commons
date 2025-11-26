@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
 import { buildSSMSTableSearchFilters } from '@/core/genomic/ssmsTableSlice';
-import { useDeepCompareMemo } from 'use-deep-compare';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { statusBooleansToDataStatus } from '../../../utils';
 import FunctionButton from '@/components/FunctionButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
@@ -26,6 +26,11 @@ import { joinFilters } from '@/core/utils';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice';
 import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
 import { LoadingOverlay } from '@mantine/core';
+import {
+  addPrefixToFilterSet,
+  GenomicIndexFilterPrefixes,
+  separateGeneAndSSMFilters,
+} from '@/core/genomic/genomicFilters';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -34,8 +39,7 @@ export interface SMTableContainerProps {
     name: string,
     field: string,
   ) => void;
-  geneFilters?: FilterSet;
-  ssmFilters?: FilterSet;
+  genomicFilters?: FilterSet;
   cohortFilters?: FilterSet;
   handleSsmToggled?: SsmToggledHandler;
   toggledSsms?: Array<string>;
@@ -90,8 +94,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   handleSurvivalPlotToggled = DefaultSurvialPlotToggle,
   geneSymbol = undefined,
   projectId = undefined,
-  geneFilters = { mode: 'and', root: {} },
-  ssmFilters = { mode: 'and', root: {} },
+  genomicFilters = { mode: 'and', root: {} },
   cohortFilters = { mode: 'and', root: {} },
   caseFilter = undefined,
   handleSsmToggled = NullOp,
@@ -111,6 +114,37 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
+
+  const { geneFilters, ssmFilters, genomicFiltersForCaseCentric } = useDeepCompareMemo(() => {
+    const filters = separateGeneAndSSMFilters(genomicFilters);
+
+    const ssmFilters = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.ssm.ssm}`,
+    );
+    const geneFilters = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.ssm.gene}`,
+    );
+
+    const ssmFiltersForCaseCentric = addPrefixToFilterSet(
+      filters.ssm,
+      `${GenomicIndexFilterPrefixes.case.ssm}`,
+    );
+    const geneFiltersForCaseCentric = addPrefixToFilterSet(
+      filters.gene,
+      `${GenomicIndexFilterPrefixes.case.gene}`,
+    );
+
+    const genomicFiltersForCaseCentric = joinFilters(geneFiltersForCaseCentric, ssmFiltersForCaseCentric);
+
+    return {
+      geneFilters,
+      ssmFilters,
+      genomicFiltersForCaseCentric
+    };
+  }, [genomicFilters]);
+
   const genomicFiltersWithPossibleGeneSymbol = geneSymbol
     ? joinFilters(
         {
@@ -168,7 +202,23 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     });
   }, [data, selectedSurvivalPlot, countsData]);
   const setEntityMetadata = null;
-  const generateFilters = () => EmptyFilterSet;
+  const generateFilters = useDeepCompareCallback(
+    (ssmId: string) => {
+      return joinFilters(genomicFiltersForCaseCentric, {
+        mode: "and",
+        root: {
+          "gene.ssm.ssm_id": {
+            field: "gene.ssm.ssm_id",
+            operator: "includes",
+            operands: [ssmId],
+          },
+        },
+      } as FilterSet);
+    },
+    [ genomicFiltersForCaseCentric],
+  );
+  /* Create Cohort end  */
+
 
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,

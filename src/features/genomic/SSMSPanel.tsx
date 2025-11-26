@@ -141,8 +141,7 @@ export const SSMSPanel = ({
         <SMTableContainer
           selectedSurvivalPlot={comparativeSurvival}
           handleSurvivalPlotToggled={handleSurvivalPlotToggled}
-          geneFilters={geneFilters}
-          ssmFilters={ssmFilters}
+          genomicFilters={genomicFilters}
           cohortFilters={isDemoMode ? overwritingDemoFilter : cohortFilters}
           handleSsmToggled={handleSsmToggled}
           toggledSsms={toggledMutations}
