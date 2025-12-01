@@ -169,6 +169,7 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
 };
 
 interface Mds3Arg {
+  dslabel?: string;
   holder?: HTMLElement;
   noheader?: boolean;
   nobox?: boolean;
@@ -206,6 +207,7 @@ function getLollipopTrack(
   callback: SelectSamplesCallback,
 ) {
   const arg: Mds3Arg = {
+    dslabel: 'MMRF',
     // host in gdc is just a relative url path,
     // using the same domain as the GDC portal where PP is embedded
     host: props.basepath || (basepath as string),
@@ -228,7 +230,7 @@ function getLollipopTrack(
     arg.gene2canonicalisoform = props.geneId;
   } else if (props.ssm_id) {
     arg.mds3_ssm2canonicalisoform = {
-      dslabel: "GDC",
+      dslabel: "MMRF",
       ssm_id: props.ssm_id,
     };
   } else {

@@ -89,7 +89,6 @@
           "loginRequired": false,
           "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
           "icon": "/icons/apps/ProteinPaint.svg",
-          "href": "/?app=ProteinPaint",
           "appId" : "ProteinPaint",
           "count": 1000,
           "countUnits": "Cases"
@@ -102,7 +101,6 @@
           "description": "Visualize the top most mutated cases and genes affected by high impact mutations in your cohort.",
           "icon": "/icons/apps/OncoMatrix.svg",
           "appId" : "OncoMatrix",
-          "href": "/?app=OncoMatrix",
           "count": 1000,
           "countUnits": "Cases"
         },

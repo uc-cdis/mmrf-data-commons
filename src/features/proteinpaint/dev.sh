@@ -28,4 +28,10 @@ fi
 # run the following tab in a separate tab
 # local-ssl-proxy --config ssl-proxy.json --cert localhost.pem --key localhost-key.pem
 # then from the gff dir
-PORT=3333 npm run dev
+PROTEINPAINT_API="http://localhost:3000" PORT=3333 npm run dev
+#
+# OR start close all open Chrome browser windows and in macOS terminal:
+# open -n /Applications/Google\ Chrome.app --args --user-data-dir="/tmp/chrome-dev-session" --disable-web-security
+#
+# TODO: setup and use https://localhost.dev-virtuallab.themmrf.org using local-ssl-proxy
+#
