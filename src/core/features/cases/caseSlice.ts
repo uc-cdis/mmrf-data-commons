@@ -1,7 +1,7 @@
 import { guppyApi } from '@gen3/core';
 
 const graphQLQuery = `query Case_case($filter: JSON) {
-    Case_case (filter: $filter, first: 1) {
+    hits : Case_case (filter: $filter, first: 1) {
         case_id
         submitter_id
         disease_type
@@ -156,7 +156,7 @@ const caseSlice = guppyApi.injectEndpoints({
       query: ({ caseId }: CaseSummaryRequest) => ({
         query: graphQLQuery,
         variables: {
-          filter: { in: { caseId: caseId } },
+          filter: { eq: { case_id: caseId } },
         },
       }),
     }),
@@ -164,7 +164,7 @@ const caseSlice = guppyApi.injectEndpoints({
       query: ({ caseIds }: CaseValidatationRequest) => ({
         query: CaseValidateQuery,
         variables: {
-          filter: { in: { caseId: caseIds } },
+          filter: { in: { case_id: caseIds } },
         },
       }),
       transformResponse: (response: any, meta, args) => {

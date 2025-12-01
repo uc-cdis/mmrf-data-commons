@@ -83,7 +83,7 @@ function NullOp() {
   return null;
 }
 
-function DefaultSurvialPlotToggle(
+function DefaultSurvivalPlotToggle(
   symbol: string,
   name: string,
   field: string,
@@ -91,7 +91,7 @@ function DefaultSurvialPlotToggle(
 
 export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   selectedSurvivalPlot,
-  handleSurvivalPlotToggled = DefaultSurvialPlotToggle,
+  handleSurvivalPlotToggled = DefaultSurvivalPlotToggle,
   geneSymbol = undefined,
   projectId = undefined,
   genomicFilters = { mode: 'and', root: {} },

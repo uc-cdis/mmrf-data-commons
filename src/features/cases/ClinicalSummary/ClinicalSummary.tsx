@@ -195,7 +195,7 @@ export const ClinicalSummary = ({
           <Tabs.Tab value="exposures" data-testid="button-exposures-tab">
             <span>
               Exposures
-              <CountComponent count={exposures.length} />
+              <CountComponent count={exposures?.length ?? "N/A"} />
             </span>
           </Tabs.Tab>
           <Tabs.Tab
@@ -245,7 +245,7 @@ export const ClinicalSummary = ({
         </Tabs.Panel>
 
         <Tabs.Panel value="family" pt="xs">
-          {family_histories.length === 0 ? (
+          {family_histories?.length === 0 ? (
             <Text className="p-5 font-content text-secondary-contrast-lighter">
               No Family Histories Found.
             </Text>
@@ -255,7 +255,7 @@ export const ClinicalSummary = ({
         </Tabs.Panel>
 
         <Tabs.Panel value="exposures" pt="xs">
-          {exposures.length === 0 ? (
+          {exposures?.length === 0 ? (
             <Text className="p-5 font-content">No Exposures Found.</Text>
           ) : (
             <FamilyHistoryOrExposure dataInfo={exposures} />

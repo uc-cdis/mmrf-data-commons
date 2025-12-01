@@ -17,14 +17,15 @@ import {
 import CategoryTableSummary from '@/components/Summary/CategoryTableSummary';
 import { ClinicalSummary } from './ClinicalSummary/ClinicalSummary';
 import {
-  formatDataForDataCateogryTable,
-  formatDataForExpCateogryTable,
+  formatDataForDataCategoryTable,
+  formatDataForExpCategoryTable,
   getSlideCountFromCaseSummary,
   ITEMS_PER_COLUMN,
 } from './utils';
 import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableContainer';
 import { CartIcon, FileIcon } from '@/utils/icons';
 import FilesTableContainer from './FilesTable/FilesTableContainer';
+import { useAdvancedSmmTableDataQuery } from '@/core';
 
 export interface CaseViewProps {
   readonly data: any;
@@ -85,7 +86,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
       summary: { experimental_strategies },
     } = data;
 
-    const slideCount = getSlideCountFromCaseSummary(experimental_strategies);
+    const slideCount =experimental_strategies?.experimental_strategy ? getSlideCountFromCaseSummary(experimental_strategies) : 0;
 
     const imageFiles: CartItem[] = files?.filter(
       (file: any) => file.data_type === 'Slide Image',
@@ -199,21 +200,15 @@ export const CaseView: React.FC<CaseViewProps> = ({
   const projectFilter: FilterSet = {
     mode: 'and',
     root: {
-      'cases.project.project_id': {
+      'project.project_id': {
         operator: 'includes',
-        field: 'cases.project.project_id',
+        field: 'project.project_id',
         operands: [data.project.project_id],
       },
-    },
-  };
-
-  const caseFilter: FilterSet = {
-    mode: 'and',
-    root: {
-      'cases.case_id': {
+      'case_id': {
         operator: 'includes',
-        field: 'cases.case_id',
-        operands: [data.case_id],
+        field: 'case_id',
+        operands: [case_id],
       },
     },
   };
@@ -292,14 +287,14 @@ export const CaseView: React.FC<CaseViewProps> = ({
         </div>
 
         {(data.summary.data_categories ||
-          data.summary.experimental_strategies) && (
+          data.summary.experimental_strategies?.experimental_strategy) && (
           <div className="flex flex-col lg:flex-row gap-8 mt-8">
             {data.summary.data_categories && (
               <div className="basis-1/2">
                 <CategoryTableSummary
                   customDataTestID="table-data-category-case-summary"
                   title="File Counts by Data Category"
-                  {...formatDataForDataCateogryTable(
+                  {...formatDataForDataCategoryTable(
                     data.summary.data_categories,
                     filesCountTotal,
                   )}
@@ -309,12 +304,12 @@ export const CaseView: React.FC<CaseViewProps> = ({
                 />
               </div>
             )}
-            {data.summary.experimental_strategies && (
+            {data.summary.experimental_strategies?.experimental_strategy && (
               <div className="basis-1/2">
                 <CategoryTableSummary
                   customDataTestID="table-experimental-strategy-case-summary"
                   title="File Counts by Experimental Strategy"
-                  {...formatDataForExpCateogryTable(
+                  {...formatDataForExpCategoryTable(
                     data.summary.experimental_strategies,
                     filesCountTotal,
                   )}
@@ -364,11 +359,10 @@ export const CaseView: React.FC<CaseViewProps> = ({
         <div className={`mt-8 mb-16`}>
           <SMTableContainer
             projectId={data.project.project_id}
-            case_id={case_id}
             cohortFilters={projectFilter}
-            caseFilter={caseFilter}
             tableTitle="Most Frequent Somatic Mutations"
             inModal={isModal}
+            dataHook={useAdvancedSmmTableDataQuery}
           />
         </div>
       </div>

@@ -158,12 +158,11 @@ const generateFilter = ({
             'consequence.transcript.is_canonical': true,
           },
         },
-        {
+        geneSymbol ? {
           in: {
             'consequence.transcript.gene.symbol': [geneSymbol],
           },
-        },
-        contextFilters,
+        } : {},
       ],
     },
     caseTotalFilter: {
@@ -173,11 +172,11 @@ const generateFilter = ({
             available_variation_data: ['ssm'],
           },
         },
-        {
+        geneSymbol ? {
           in: {
             'gene.symbol': [geneSymbol],
           },
-        },
+        } : {}
       ],
     },
     ssmTested: {
