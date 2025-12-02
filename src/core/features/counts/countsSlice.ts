@@ -31,8 +31,20 @@ const GraphQL = `query totalsQuery($filter: JSON) {
     }
 }`;
 
+const caseCountQuery = `query caseCount ($filter: JSON) {
+    Case__aggregation {
+        case(filter: $filter) {
+            _totalCount
+        }
+    }
+}`;
+
 interface TotalsRequest {
   cohortFilters?: FilterSet;
+}
+
+interface ProjectCaseCountResponse {
+  casesInProject: number;
 }
 
 interface TotalsResponce {
@@ -48,13 +60,16 @@ interface TotalsResponce {
             count: number;
           }[];
         };
-        gene: { geneId: {
-          total: number;
-        }
-        ssm: {
-          ssm_id: {
-          total: number;
-        }}};
+        gene: {
+          geneId: {
+            total: number;
+          };
+          ssm: {
+            ssm_id: {
+              total: number;
+            };
+          };
+        };
       };
     };
   };
@@ -84,13 +99,14 @@ const countsSlice = guppyApi.injectEndpoints({
           response?.data?.CaseCentric__aggregation?.case_centric?.caseCount
             ?.total ?? 0;
         const ssmCaseCount =
-          response?.data?.CaseCentric__aggregation?.case_centric?.available_variation_data?.histogram?.[0].count ?? 0
+          response?.data?.CaseCentric__aggregation?.case_centric
+            ?.available_variation_data?.histogram?.[0].count ?? 0;
         const geneCount =
           response?.data?.CaseCentric__aggregation?.case_centric?.gene?.geneId
             ?.total ?? 0;
         const ssmCount =
-          response?.data?.CaseCentric__aggregation?.case_centric?.gene?.ssm?.ssm_id
-            ?.total ?? 0;
+          response?.data?.CaseCentric__aggregation?.case_centric?.gene?.ssm
+            ?.ssm_id?.total ?? 0;
         return {
           caseCount,
           ssmCaseCount,
@@ -99,7 +115,22 @@ const countsSlice = guppyApi.injectEndpoints({
         };
       },
     }),
+    projectCaseCounts: builder.query<ProjectCaseCountResponse, string>({
+      query: (projectId: string) => {
+        return {
+          query: caseCountQuery,
+          variables: {
+            filter: { in: { 'project.project_id': [projectId] } },
+          },
+        };
+      },
+      transformResponse: (results: any) => ({
+        casesInProject:
+          results?.data?.Case__aggregation?.case?._totalCount ?? 0,
+      }),
+    }),
   }),
 });
 
-export const { useGetTotalCountsQuery } = countsSlice;
+export const { useGetTotalCountsQuery, useProjectCaseCountsQuery } =
+  countsSlice;

@@ -24,7 +24,10 @@ import useStandardPagination from '@/hooks/useStandardPagination';
 import { appendSearchTermFilters } from '@/features/GenomicTables/utils';
 import { joinFilters } from '@/core/utils';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice';
-import { useGetTotalCountsQuery } from '@/core/features/counts/countsSlice';
+import {
+  useGetTotalCountsQuery,
+  useProjectCaseCountsQuery,
+} from '@/core/features/counts/countsSlice';
 import { LoadingOverlay } from '@mantine/core';
 import {
   addPrefixToFilterSet,
@@ -114,7 +117,6 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
-
   const { geneFilters, ssmFilters, genomicFiltersForCaseCentric } = useDeepCompareMemo(() => {
     const filters = separateGeneAndSSMFilters(genomicFilters);
 
@@ -230,7 +232,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
     setEntityMetadata,
     projectId,
     generateFilters,
-    currentPage: 1,
+    currentPage: page,
     totalPages: Math.ceil(data?.ssmsTotal ? data?.ssmsTotal / pageSize : 0),
     cohortFilters,
   });
