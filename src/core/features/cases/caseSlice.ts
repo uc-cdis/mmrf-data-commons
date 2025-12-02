@@ -1,4 +1,4 @@
-import { guppyApi } from '@gen3/core';
+import { guppyApi, JSONObject } from '@gen3/core';
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
@@ -129,13 +129,27 @@ const graphQLQuery = `query Case_case($filter: JSON) {
     }
 }`;
 
-
-const CaseValidateQuery =
-  `query Case_case ($filter: JSON) {
+const CaseValidateQuery = `query Case_case ($filter: JSON) {
     Case_case(filter: $filter) {
         case_id
     }
 }`;
+
+const FileValidateQuery = `query File_file ($filter: JSON) {
+    File_file(filter: $filter) {
+        file_id
+    }
+}`;
+
+const EntityFields: Record<ValidateTypes, string> = {
+  file: 'file_id',
+  case: 'case_id',
+};
+
+const EntityQueryHeaders: Record<ValidateTypes, string> = {
+  file: 'File_file',
+  case: 'Case_case',
+};
 
 interface ValidationResult {
   matched: number;
@@ -148,6 +162,18 @@ interface CaseSummaryRequest {
 
 interface CaseValidatationRequest {
   caseIds: Array<string>;
+}
+
+type ValidateTypes = 'file' | 'case';
+
+const ValidationQueries: Record<ValidateTypes, string> = {
+  file: FileValidateQuery,
+  case: CaseValidateQuery,
+};
+
+interface ValidateEntitiesRequest {
+  ids: ReadonlyArray<string>;
+  entityType: ValidateTypes;
 }
 
 const caseSlice = guppyApi.injectEndpoints({
@@ -168,14 +194,33 @@ const caseSlice = guppyApi.injectEndpoints({
         },
       }),
       transformResponse: (response: any, meta, args) => {
-          const cases = response?.data?.Case_case as string[] ?? [];
-          return {
-            matched: cases.length,
-            unmatched: args.caseIds.length - cases.length
-          }
+        const cases = (response?.data?.Case_case as string[]) ?? [];
+        return {
+          matched: cases.length,
+          unmatched: args.caseIds.length - cases.length,
+        };
+      },
+    }),
+    fetchEntities: builder.query<ReadonlyArray<string>, ValidateEntitiesRequest>({
+      query: ({ ids, entityType }: ValidateEntitiesRequest) => ({
+        query: ValidationQueries[entityType],
+        variables: { filter: { in: { [EntityFields[entityType]]: ids } } },
+      }),
+      transformResponse: (results: {
+        data: Record<string, Array<Record<string, string>>>
+      }, _p, meta) : ReadonlyArray<string> => {
+        return results?.data?.[EntityQueryHeaders[meta.entityType]]?.map(
+          (x) => x[EntityFields[meta.entityType]]
+        )
       }
     }),
   }),
 });
 
-export const { useCaseSummaryQuery, useValidateCasesQuery, useLazyValidateCasesQuery } = caseSlice;
+export const {
+  useCaseSummaryQuery,
+  useValidateCasesQuery,
+  useLazyValidateCasesQuery,
+  useFetchEntitiesQuery,
+  useLazyFetchEntitiesQuery,
+} = caseSlice;
