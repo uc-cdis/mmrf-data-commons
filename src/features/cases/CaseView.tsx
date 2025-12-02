@@ -1,7 +1,15 @@
 import React from 'react';
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { FilterSet, CartItem } from '@gen3/core';
+import { pick } from "lodash";
+import { addToCart, removeFromCart } from '@/features/cart/updateCart';
+import {
+  FilterSet,
+  CartItem,
+  useCoreSelector,
+  selectCart,
+  useCoreDispatch,
+} from '@gen3/core';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
 import { ActionIcon, Button, Tooltip } from '@mantine/core';
@@ -26,6 +34,8 @@ import SMTableContainer from '../GenomicTables/SomaticMutationsTable/SMTableCont
 import { CartIcon, FileIcon } from '@/utils/icons';
 import FilesTableContainer from './FilesTable/FilesTableContainer';
 import { useAdvancedSmmTableDataQuery } from '@/core';
+import { MMRFFile } from '@/core/features/files/filesSlice';
+import { file } from '@babel/types';
 
 export interface CaseViewProps {
   readonly data: any;
@@ -35,9 +45,21 @@ export interface CaseViewProps {
   readonly shouldScrollToBio: boolean;
 }
 
-// Temporary Func to get page to compile Oct 9
-const mapGdcFileToCartFile = (CartItemArr: CartItem[]) =>
-  null as unknown as CartItem[];
+export const mapGdcFileToCartFile = (
+  files: MMRFFile[],
+): CartItem[] => {
+  return files?.map((file: MMRFFile) => ({
+    id: file.file_id,
+      access: file.access,
+      acl: file.acl,
+      file_id: file.file_id,
+      file_size: file.file_size,
+      state: file.state,
+      project_id: file.project_id,
+      file_name: file.file_name
+      })
+  );
+}
 
 export const CaseView: React.FC<CaseViewProps> = ({
   data,
@@ -48,12 +70,14 @@ export const CaseView: React.FC<CaseViewProps> = ({
 }: CaseViewProps) => {
   const filesCountTotal = data?.files?.length ?? 0;
   const headerTitle = `${data?.project?.project_id} / ${data?.submitter_id}`;
-  const currentCart = {} as any;
-
+  const currentCart = useCoreSelector((state) => selectCart(state));
+  const dispatch = useCoreDispatch();
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
-  const isAllFilesInCart = false;
+  const isAllFilesInCart = data?.files
+    ? allFilesInCart(currentCart, mapGdcFileToCartFile(data?.files ?? []))
+    : false;
   const { width } = useViewportSize();
   const leftSummaryTableRef = useRef<HTMLTableElement>(null);
   const rightSummaryTableRef = useRef<HTMLTableElement>(null);
@@ -110,33 +134,16 @@ export const CaseView: React.FC<CaseViewProps> = ({
       primary_site,
     };
 
+    /* -- MMRF does not have image files ---- */
     const isAllImagesFilesInCart = allFilesInCart(
       currentCart,
-      mapGdcFileToCartFile(imageFiles),
+      mapGdcFileToCartFile([]),
     );
 
     if (!!slideCount && imageFiles.length > 0) {
       const images = (
         <div className="flex items-center gap-2">
-          <Tooltip
-            label="View Slide Image"
-            withinPortal={true}
-            withArrow
-            offset={-2}
-          >
-            <div className="pt-0.5">
-              {/* This needs both passHref and legacyBehavior:
-              https://nextjs.org/docs/pages/api-reference/components/link#if-the-child-is-a-functional-component */}
-              <Link
-                href={`/image-viewer/MultipleImageViewerPage?caseId=${case_id}`}
-                passHref
-                legacyBehavior
-              >
-                <h4>Placeholder for ImageSlideCount</h4>
-                {/* <ImageSlideCount slideCount={slideCount} /> */}
-              </Link>
-            </div>
-          </Tooltip>
+
 
           <Tooltip
             label={!isAllImagesFilesInCart ? 'Add to Cart' : 'Remove from Cart'}
@@ -242,8 +249,16 @@ export const CaseView: React.FC<CaseViewProps> = ({
                data-disabled:text-primary `}
               onClick={() =>
                 isAllFilesInCart
-                  ? console.log('placeholder forremoveFromCar')
-                  : console.log('placeholder for addToCart')
+                  ? removeFromCart(
+                    mapGdcFileToCartFile(data.files),
+                    currentCart,
+                    dispatch,
+                  )
+                  : addToCart(
+                    mapGdcFileToCartFile(data.files),
+                    currentCart,
+                    dispatch,
+                  )
               }
               disabled={filesCountTotal === 0}
               classNames={{ label: 'font-medium text-sm' }}
