@@ -141,7 +141,7 @@ const FileValidateQuery = `query File_file ($filter: JSON) {
     }
 }`;
 
-const EntityFields: Record<ValidateTypes, string> = {
+export const EntityFields: Record<ValidateTypes, string> = {
   file: 'file_id',
   case: 'case_id',
 };
@@ -164,7 +164,7 @@ interface CaseValidatationRequest {
   caseIds: Array<string>;
 }
 
-type ValidateTypes = 'file' | 'case';
+export type ValidateTypes = 'file' | 'case';
 
 const ValidationQueries: Record<ValidateTypes, string> = {
   file: FileValidateQuery,

@@ -1,5 +1,45 @@
 import { MatchResults } from "./type";
 
+
+export const getMatchedIdentifiersFromDataArray = (
+  data: ReadonlyArray<string>,
+  submittedIdentifierField: string,
+  tokens: string[],
+): MatchResults[] => {
+
+  const matchedData : MatchResults[] = [];
+  const caseInsensitiveTokens = new Set(tokens.map((t) => t.toLowerCase()));
+
+  data.forEach((d) => {
+    const matches: MatchResults = {
+      submittedIdentifiers: [],
+      mappedTo: [],
+      output: [],
+    };
+
+    if (tokens.includes(d.toLowerCase())) {
+      matches.submittedIdentifiers.push({
+        field: submittedIdentifierField,
+        value: d,
+      });
+      matches.mappedTo.push({
+        field: submittedIdentifierField,
+        value: d,
+      });
+      matches.output.push({
+        field: submittedIdentifierField,
+        value: d,
+      })
+    }
+
+    if (matches.submittedIdentifiers.length > 0) {
+      matchedData.push(matches);
+    }
+  })
+
+  return matchedData;
+}
+
 /**
   Parses through the API response to figure out what fields our matched values correspond to
   @param data - API response for the matches
@@ -144,12 +184,12 @@ const findAllIdentifiers = (
   });
 };
 
-export const MATCH_LIMIT = 50000;
+export const MATCH_LIMIT = 10000;
 
 export const REACHED_LIMIT_WARNING =
-  "Your data contains the maximum of 50,000 identifiers. Only 50,000 identifiers can be processed.";
+  "Your data contains the maximum of 10,000 identifiers. Only 10,000 identifiers can be processed.";
 export const EXCEED_LIMIT_ERROR =
-  "Your data exceeds the maximum of 50,000 identifiers. Only the first 50,000 will be processed.";
+  "Your data exceeds the maximum of 10,000 identifiers. Only the first 10,000 will be processed.";
 
 export const parseTokens = (input: string) =>
   input
