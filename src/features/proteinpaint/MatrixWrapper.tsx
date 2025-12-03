@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState, FC } from "react";
+import React, { useRef, useCallback, useState, FC } from "react";
 import { useDeepCompareEffect } from "use-deep-compare";
 import { bindProteinPaint } from "@sjcrh/proteinpaint-client";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
