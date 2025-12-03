@@ -1,7 +1,7 @@
-import "react";
+import React from "react";
 import { ProteinPaintWrapper } from "@/features/proteinpaint/ProteinPaintWrapper";
 
-const ProteinPaintApp = () => {
+const ProteinPaintApp: React.FC = () => {
   return <ProteinPaintWrapper />;
 };
 

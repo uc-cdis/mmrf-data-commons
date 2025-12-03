@@ -1,7 +1,7 @@
-import { FC } from "react";
+import React from "react";
 import { MatrixWrapper } from "../proteinpaint/MatrixWrapper";
 
-const MatrixApp: FC = () => {
+const MatrixApp: React.FC = () => {
   return <MatrixWrapper chartType="matrix" />;
 };
 
