@@ -7,7 +7,7 @@ export interface PpApi {
 }
 
 export type SampleData = {
-  "cases.case_id"?: string;
+  "cases.case_id": string;
 };
 
 export interface SelectSamplesCallBackArg {
@@ -32,7 +32,7 @@ export interface SelectSamples {
 export function getFilters(arg: SelectSamplesCallBackArg): FilterSet {
   const { samples } = arg;
   // see comments below about SV-2228
-  const ids = samples.map((d) => d["cases.case_id"]).filter((d) => d && true);
+  const ids: (string | number)[] = samples.map((d) => d["cases.case_id"]).filter((d) => typeof d === 'string' || typeof d === 'number');
   return {
     mode: "and",
     root: {

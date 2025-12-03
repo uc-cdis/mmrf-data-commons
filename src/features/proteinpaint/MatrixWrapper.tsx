@@ -220,10 +220,10 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
           return prevData.current != data;
         },
       })
-        .then?.((_app) => {
+        .then?.((_app: any) => {
           toolApp.current = _app;
         })
-        .catch((e) => {
+        .catch((e: any) => {
           // the app should either work or display an error in a red banner within the tool container div,
           // this uncaught-by-app error is unlikely to happen except for bundling issues that are not detected at build time
           console.error(e);
@@ -242,7 +242,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
     [filter0, userDetails, /*geneDetailData*/],
   );
 
-  const divRef = useRef<HTMLElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   // const updateFilters = (field: string, operation: Operation) => {
   //   dispatch(hideModal());
