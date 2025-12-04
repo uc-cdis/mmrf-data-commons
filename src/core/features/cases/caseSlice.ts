@@ -1,4 +1,10 @@
-import { guppyApi, JSONObject } from '@gen3/core';
+import {
+  convertFilterSetToGqlFilter,
+  FilterSet,
+  guppyApi,
+  JSONObject,
+} from '@gen3/core';
+import { filter } from 'lodash';
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
@@ -176,6 +182,10 @@ interface ValidateEntitiesRequest {
   entityType: ValidateTypes;
 }
 
+interface CohortCaseIdsRequest {
+  filter: FilterSet;
+}
+
 const caseSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     caseSummary: builder.query<any, CaseSummaryRequest>({
@@ -201,18 +211,39 @@ const caseSlice = guppyApi.injectEndpoints({
         };
       },
     }),
-    fetchEntities: builder.query<ReadonlyArray<string>, ValidateEntitiesRequest>({
+    fetchEntities: builder.query<
+      ReadonlyArray<string>,
+      ValidateEntitiesRequest
+    >({
       query: ({ ids, entityType }: ValidateEntitiesRequest) => ({
         query: ValidationQueries[entityType],
         variables: { filter: { in: { [EntityFields[entityType]]: ids } } },
       }),
-      transformResponse: (results: {
-        data: Record<string, Array<Record<string, string>>>
-      }, _p, meta) : ReadonlyArray<string> => {
+      transformResponse: (
+        results: {
+          data: Record<string, Array<Record<string, string>>>;
+        },
+        _p,
+        meta,
+      ): ReadonlyArray<string> => {
         return results?.data?.[EntityQueryHeaders[meta.entityType]]?.map(
-          (x) => x[EntityFields[meta.entityType]]
-        )
-      }
+          (x) => x[EntityFields[meta.entityType]],
+        );
+      },
+    }),
+    cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
+      query: ({ filter }: CohortCaseIdsRequest) => {
+        const gqlFilter = convertFilterSetToGqlFilter(filter);
+        return {
+          query: `query CohortCentric_case_centric($filter: JSON) {
+            hits: Cohort_case(filter: $filter) {
+                case_id
+            }
+        }`,
+          variables: { filter: gqlFilter },
+        };
+      },
+      transformResponse: (response: any) => response?.data?.hits?.map((x : any) => x?.case_id) ?? []
     }),
   }),
 });
@@ -223,4 +254,6 @@ export const {
   useLazyValidateCasesQuery,
   useFetchEntitiesQuery,
   useLazyFetchEntitiesQuery,
+  useCohortCaseIdQuery,
+  useLazyCohortCaseIdQuery,
 } = caseSlice;
