@@ -235,8 +235,8 @@ const caseSlice = guppyApi.injectEndpoints({
       query: ({ filter }: CohortCaseIdsRequest) => {
         const gqlFilter = convertFilterSetToGqlFilter(filter);
         return {
-          query: `query CohortCentric_case_centric($filter: JSON) {
-            hits: Cohort_case(filter: $filter) {
+          query: `query getCaseIdFromFilter($filter: JSON) {
+            hits: CaseCentric_case_centric(filter: $filter) {
                 case_id
             }
         }`,
