@@ -37,11 +37,11 @@ export const CaseSummary = ({
     <>
       {isFetching ? (
         <LoadingOverlay visible data-testid="loading-spinner" />
-      ) : data && data.hits.length > 0 ? (
+      ) : data?.data && data?.data.hits.length > 0 ? (
         <CaseView
           case_id={caseId}
           bio_id={bioId as string}
-          data={data?.hits?.[0]}
+          data={data?.data.hits?.[0]}
           isModal={isModal}
           shouldScrollToBio={shouldScrollToBio}
         />

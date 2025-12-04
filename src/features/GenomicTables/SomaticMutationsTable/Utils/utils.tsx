@@ -20,6 +20,7 @@ import RatioWithSpring from '@/components/RatioWithSpring';
 import { ComparativeSurvival } from '@/features/genomic/types';
 import { CollapseCircleIcon, ExpandCircleIcon } from '@/utils/icons';
 import CohortCreationButton from '@/components/CohortCreationButton';
+import { useProjectCaseCountsQuery } from '@/core/features/counts/countsSlice';
 
 export const filterMutationType = (mutationSubType: string): string => {
   if (
@@ -70,6 +71,8 @@ export const useGenerateSMTableColumns = ({
   rowSelectionEnabled?: boolean;
 }): ColumnDef<SomaticMutation>[] => {
   const componentId = useId();
+
+  const { data: projectCaseCount, isFetching: isFetchingProjectCounts} = useProjectCaseCountsQuery(projectId ?? "", { skip: projectId === undefined });
 
   return useDeepCompareMemo<any>(
     () => [
@@ -244,7 +247,7 @@ export const useGenerateSMTableColumns = ({
             label={
               <NumeratorDenominator
                 numerator={row.original["#_affected_cases_in_cohort"].numerator}
-                denominator={
+                denominator={ projectCaseCount?.casesInProject ? projectCaseCount?.casesInProject:
                   row.original["#_affected_cases_in_cohort"].denominator
                 }
                 boldNumerator={true}
