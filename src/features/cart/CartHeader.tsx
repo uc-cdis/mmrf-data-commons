@@ -208,6 +208,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   </Menu.Item>
                 </span>
               </Tooltip>
+              { /* ------ TODO: Add back then Gen3 supports this
               <Tooltip
                 label="A previous download is being processed. Additional downloads may be started."
                 disabled={!cartDownloadActive}
@@ -236,6 +237,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   </Menu.Item>
                 </span>
               </Tooltip>
+              --- */ }
             </Menu.Dropdown>
           </Menu>
           {/* Biospecimen */}
