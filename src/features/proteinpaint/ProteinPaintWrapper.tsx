@@ -4,16 +4,16 @@ import { bindProteinPaint } from "@sjcrh/proteinpaint-client";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import {
   useCoreSelector,
-  selectCurrentCohortFilters,
   FilterSet,
   //PROTEINPAINT_API,
   useFetchUserDetailsQuery,
   useCoreDispatch,
-  convertFilterSetToGqlFilter as buildCohortGqlOperator,
-  //useCreateCaseSetFromValuesMutation,
+  convertFilterSetToGqlFilter as buildCohortGqlOperator
 } from "@gen3/core";
 import { isEqual, cloneDeep } from "lodash";
 import { DemoText } from "@/components/tailwindComponents";
+import { joinFilters, selectCurrentCohortCaseFilters } from "@/core/utils";
+import { DEMO_COHORT_FILTERS } from "./constants";
 // import { SaveCohortModal } from "@gff/portal-components";
 import {
   SelectSamples,
@@ -22,6 +22,7 @@ import {
 } from "./sjpp-types";
 // import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
 // import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
+import { COHORT_FILTER_INDEX } from '@/core';
 
 const basepath = 'http://localhost:3000'; //PROTEINPAINT_API;
 
@@ -37,13 +38,10 @@ interface PpProps {
 
 export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
   const isDemoMode = useIsDemoApp();
-  const currentCohort = useCoreSelector(selectCurrentCohortFilters);
-
-  // const cohortFilters = useCoreSelector((state) =>
-  //   isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state),
-  // );
-
-  const filter0 = null // isDemoMode ? null : buildCohortGqlOperator(currentCohort);
+  const currentCohort = useCoreSelector((state) =>
+    selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
+  );
+  const filter0 = isDemoMode ? null : buildCohortGqlOperator(currentCohort);
   const userDetails = useFetchUserDetailsQuery();
 
   // to track reusable instance for mds3 skewer track

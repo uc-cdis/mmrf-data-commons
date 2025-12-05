@@ -4,7 +4,6 @@ import { bindProteinPaint } from "@sjcrh/proteinpaint-client";
 import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import {
   useCoreSelector,
-  selectCurrentCohortFilters,
   convertFilterSetToGqlFilter as buildCohortGqlOperator,
   FilterSet,
   //PROTEINPAINT_API,
@@ -19,6 +18,8 @@ import {
   Modals,
   selectCurrentModal,
 } from "@gen3/core";
+import { joinFilters, selectCurrentCohortCaseFilters } from "@/core/utils";
+import { DEMO_COHORT_FILTERS } from "./constants";
 import { DemoText } from "@/components/tailwindComponents";
 import { LoadingOverlay } from "@mantine/core";
 import {
@@ -32,6 +33,7 @@ import {
 import { isEqual, cloneDeep } from "lodash";
 //import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
 //import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
+import { COHORT_FILTER_INDEX } from '@/core';
 
 const basepath = 'http://localhost:3000' // PROTEINPAINT_API;
 
@@ -40,24 +42,20 @@ interface PpProps {
   basepath?: string;
 }
 
-export const demoFilter = Object.freeze({
-  op: "in",
-  content: Object.freeze({
-    field: "cases.disease_type",
-    value: Object.freeze(["Gliomas"]),
-  }),
-});
+// export const demoFilter = Object.freeze({
+//   op: "in",
+//   content: Object.freeze({
+//     field: "cases.disease_type",
+//     value: Object.freeze(["Gliomas"]),
+//   }),
+// });
 
 export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
   const isDemoMode = useIsDemoApp();
-  // const demoFilter = {
-  //   op: "in",
-  //   content: { field: "cases.disease_type", value: ["Gliomas"] },
-  // };
-  const currentCohort = useCoreSelector(selectCurrentCohortFilters);
-  const filter0 = null // isDemoMode
-    // ? cloneDeep(demoFilter)
-    // : buildCohortGqlOperator(currentCohort);
+  const currentCohort = useCoreSelector((state) =>
+    selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
+  );
+  const filter0 = isDemoMode ? null : buildCohortGqlOperator(currentCohort);
   const userDetails = useFetchUserDetailsQuery();
   const prevData = useRef<any>();
   const toolApp = useRef<any>();
@@ -251,7 +249,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
   const existingFiltersHook = () => null;
   return (
     <div className="relative">
-      {isDemoMode && <DemoText>Demo showing cases with Gliomas.</DemoText>}
+      {isDemoMode && <DemoText>Showing cases in demo cohort.</DemoText>}
       <div
         ref={divRef}
         className="sjpp-wrapper-root-div"
