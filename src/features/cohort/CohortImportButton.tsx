@@ -2,13 +2,23 @@ import React from "react";
 import { Button, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { UploadIcon } from "@/utils/icons";
-import { useLazyValidateCasesQuery } from '@/core/features/cases/caseSlice';
+import { COHORT_FILTER_INDEX } from "@/core";
 
 const CohortImportButton: React.FC = () => {
-
-  const [ trigger, {data, isFetching, isSuccess, isError}] = useLazyValidateCasesQuery()
-
   const updateFilters = (facetField: string, outputIds: string[]) => {
+    const filters = {
+      [COHORT_FILTER_INDEX]: {
+        mode: 'and',
+        root: {
+          [facetField]: {
+            field: 'case_id',
+            operands: outputIds,
+            operator: 'in',
+          },
+        },
+      },
+    };
+
     modals.openContextModal({
       modal: "saveCohortModal",
       title: "Save Cohort",
@@ -20,8 +30,7 @@ const CohortImportButton: React.FC = () => {
         },
       },
       innerProps: {
-        facetField,
-        outputIds,
+        filters,
       },
     });
   };
