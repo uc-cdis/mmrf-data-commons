@@ -5,12 +5,10 @@ import { Modal, Radio, Text, Loader } from "@mantine/core";
 import { useMemo, useState } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import VerticalTable from "@/components/Table/VerticalTable";
-import {
-  selectAvailableCohorts,
-  useCoreSelector,
-  selectCohortFilters,
-} from "@gen3/core";
+import { selectAvailableCohorts, useCoreSelector } from "@gen3/core";
+import { COHORT_FILTER_INDEX } from "@/core";
 import { HandleChangeInput } from "@/components/Table/types";
+import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
 
 export type WithOrWithoutCohortType = "with" | "without" | undefined;
 
@@ -18,21 +16,19 @@ export const SelectCohortsModal = ({
   opened,
   onClose,
   withOrWithoutCohort,
-  pickedCases,
   currentFilters,
   onSaveCohort,
 }: {
   opened: boolean;
   onClose: () => void;
   withOrWithoutCohort: WithOrWithoutCohortType;
-  pickedCases: readonly string[];
   currentFilters: any;
-  onSaveCohort: (combinedFilters: any) => void;
+  onSaveCohort: (caseIds: ReadonlyArray<string>) => void;
 }): JSX.Element => {
   const cohorts = useCoreSelector((state) => selectAvailableCohorts(state));
   const [checkedValue, setCheckedValue] = useState("");
-  const cohortFilter = useCoreSelector((state) => selectCohortFilters(state));
   const [loading, setLoading] = useState(false);
+  const [fetchCaseIds] = useLazyCohortCaseIdQuery();
 
   const isWithCohort = withOrWithoutCohort === "with";
 
@@ -43,13 +39,13 @@ export const SelectCohortsModal = ({
         ?.sort((a, b) => a.name.localeCompare(b.name))
         .map((cohort) => ({
           cohort_id: cohort?.id,
+          cohort_filters: cohort?.filters,
           name: cohort?.name,
           num_cases: cohort?.counts?.case_centric?.toLocaleString(),
         })),
     [cohorts],
   );
 
-  console.log({ cohortListData });
   const cohortListTableColumnHelper =
     createColumnHelper<(typeof cohortListData)[0]>();
 
@@ -102,10 +98,72 @@ export const SelectCohortsModal = ({
     displayedData,
   } = useStandardPagination(cohortListData);
 
+  const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
+    // Check if filter only contains cases.case_id
+    const rootKeys = Object.keys(filter?.root || {});
+    if (
+      rootKeys.length === 1 &&
+      rootKeys[0] === "cases.case_id" &&
+      filter.root["cases.case_id"]?.operands
+    ) {
+      return filter.root["cases.case_id"].operands;
+    }
+    return null;
+  };
+
   const handleSubmit = async () => {
-    if (loading || !checkedValue || !cohortFilter) return;
+    if (loading || !checkedValue) return;
 
     setLoading(true);
+
+    try {
+      // Find the selected cohort
+      const selectedCohort = cohortListData.find(
+        (c) => c.cohort_id === checkedValue,
+      );
+
+      if (!selectedCohort?.cohort_filters) {
+        console.error("No filters found for selected cohort");
+        setLoading(false);
+        return;
+      }
+
+      // Get current case IDs - either extract or fetch
+      const directCurrentCaseIds = getCaseIdsFromFilter(currentFilters);
+      console.log({ directCurrentCaseIds });
+      const currentCaseIdsResult = directCurrentCaseIds
+        ? directCurrentCaseIds
+        : await fetchCaseIds({ filter: currentFilters }).unwrap();
+
+      // Get cohort case IDs - either extract or fetch
+      const cohortFilterSet =
+        selectedCohort.cohort_filters[COHORT_FILTER_INDEX];
+      const directCohortCaseIds = getCaseIdsFromFilter(cohortFilterSet);
+      const cohortCaseIdsResult = directCohortCaseIds
+        ? directCohortCaseIds
+        : await fetchCaseIds({ filter: cohortFilterSet }).unwrap();
+
+      let finalCaseIds: ReadonlyArray<string>;
+
+      if (isWithCohort) {
+        finalCaseIds = Array.from(
+          new Set([...currentCaseIdsResult, ...cohortCaseIdsResult]),
+        );
+      } else {
+        // "Without" - cohort cases minus current cases
+        finalCaseIds = cohortCaseIdsResult.filter(
+          (id) => !currentCaseIdsResult.includes(id),
+        );
+        console.log({ finalCaseIds });
+      }
+
+      // Call the callback to open SaveCohortModal with final case IDs
+      onSaveCohort(finalCaseIds);
+    } catch (error) {
+      console.error("Error processing cohorts:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (obj: HandleChangeInput) => {

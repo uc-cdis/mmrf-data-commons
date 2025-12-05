@@ -8,6 +8,7 @@ import {
   WithOrWithoutCohortType,
 } from "./SelectCohortsModal";
 import { COHORT_FILTER_INDEX } from "@/core";
+import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
 
 interface CasesCohortButtonProps {
   readonly filters: any;
@@ -21,9 +22,20 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   const [openSelectCohorts, setOpenSelectCohorts] = useState(false);
   const [withOrWithoutCohort, setWithOrWithoutCohort] =
     useState<WithOrWithoutCohortType>(undefined);
+  const [fetchCaseIds] = useLazyCohortCaseIdQuery();
 
-  // this is only being used for "Only Selected Cases"
-  const openSaveCohortModal = (cohortFilters: any) => {
+  const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
+    const cohortFilters = {
+      mode: "and",
+      root: {
+        "cases.case_id": {
+          operator: "in",
+          field: "case_id",
+          operands: Array.from(caseIds),
+        },
+      },
+    };
+
     modals.openContextModal({
       modal: "saveCohortModal",
       title: "Save Cohort",
@@ -42,9 +54,37 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
     });
   };
 
-  const handleSaveOnlySelectedCases = () => {
-    if (numCases > 1) {
-      openSaveCohortModal(filters);
+  // can reuse also in SelectCohortsModal right now
+  const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
+    // Check if filter only contains cases.case_id
+    const rootKeys = Object.keys(filter?.root || {});
+    if (
+      rootKeys.length === 1 &&
+      rootKeys[0] === "cases.case_id" &&
+      filter.root["cases.case_id"]?.operands
+    ) {
+      return filter.root["cases.case_id"].operands;
+    }
+    return null;
+  };
+
+  const handleSaveOnlySelectedCases = async () => {
+    if (numCases < 1) return;
+
+    try {
+      // Check if we can extract case IDs directly
+      const directCaseIds = getCaseIdsFromFilter(filters);
+
+      if (directCaseIds) {
+        // Use extracted IDs directly
+        openSaveCohortModal(directCaseIds);
+      } else {
+        // Fetch case IDs from current filters
+        const result = await fetchCaseIds({ filter: filters }).unwrap();
+        openSaveCohortModal(result);
+      }
+    } catch (error) {
+      console.error("Error fetching case IDs:", error);
     }
   };
 
@@ -57,14 +97,14 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
           onClick: handleSaveOnlySelectedCases,
         },
         {
-          title: " Existing Cohort With Selected Cases",
+          title: "Existing Cohort With Selected Cases",
           onClick: () => {
             setWithOrWithoutCohort("with");
             setOpenSelectCohorts(true);
           },
         },
         {
-          title: " Existing Cohort Without Selected Cases",
+          title: "Existing Cohort Without Selected Cases",
           onClick: () => {
             setWithOrWithoutCohort("without");
             setOpenSelectCohorts(true);
@@ -78,6 +118,11 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       menuLabelText={`${numCases.toLocaleString()}
         ${numCases > 1 ? " Cases" : " Case"}`}
       menuLabelCustomClass="bg-primary text-primary-contrast font-heading font-bold mb-2"
+      LeftSection={
+        numCases ? (
+          <CountsIcon $count={numCases}>{numCases.toLocaleString()}</CountsIcon>
+        ) : undefined
+      }
       customPosition="bottom-start"
     />
   );
@@ -98,10 +143,9 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
         opened={openSelectCohorts}
         onClose={() => setOpenSelectCohorts(false)}
         withOrWithoutCohort={withOrWithoutCohort}
-        pickedCases={[]}
         currentFilters={filters}
-        onSaveCohort={(combinedFilters) => {
-          openSaveCohortModal(combinedFilters);
+        onSaveCohort={(caseIds) => {
+          openSaveCohortModal(caseIds);
           setOpenSelectCohorts(false);
         }}
       />

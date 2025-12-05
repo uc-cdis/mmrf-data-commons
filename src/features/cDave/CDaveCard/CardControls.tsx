@@ -3,7 +3,6 @@ import { Button } from "@mantine/core";
 import { saveAs } from "file-saver";
 import { FilterSet } from "@gen3/core";
 import { DropdownWithIcon } from "@gen3/frontend";
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { getFormattedTimestamp } from "@/utils/date";
 import {
   CategoricalBins,
@@ -80,8 +79,6 @@ const CardControls: React.FC<CardControlsProps> = ({
       ),
     [continuous, field, selectedFacets, customBinnedData],
   );
-
-  console.log({ filters });
 
   return (
     <>
