@@ -158,8 +158,6 @@ const RepositoryDownloadsPanel = ({
           "platform",
           "experimental_strategy",
           "center.short_name",
-          "annotations.annotation_id",
-          "annotations.entity_id",
           "tags",
           "submitter_id",
           "archive.archive_id",

@@ -2,9 +2,8 @@ import {
   convertFilterSetToGqlFilter,
   FilterSet,
   guppyApi,
-  JSONObject,
 } from '@gen3/core';
-import { filter } from 'lodash';
+
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
@@ -246,6 +245,7 @@ const caseSlice = guppyApi.injectEndpoints({
       transformResponse: (response: any) => response?.data?.hits?.map((x : any) => x?.case_id) ?? []
     }),
   }),
+
 });
 
 export const {
