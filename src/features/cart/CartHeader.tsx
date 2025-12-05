@@ -53,7 +53,7 @@ const downloadCart = (
       method: 'POST',
       dispatch,
       params: {
-        ids: filesByCanAccess.true.map((file) => file.file_id),
+        ids: filesByCanAccess.true.map((file) => file?.file_id),
         annotations: true,
         related_files: true,
       },
@@ -76,7 +76,7 @@ const downloadManifest = (
         op: 'in',
         content: {
           field: 'files.file_id',
-          value: cart.map((file) => file.file_id),
+          value: cart.map((file) => file?.file_id),
         },
       },
       return_type: 'manifest',
@@ -201,7 +201,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                         'file_id': {
                           operator: "in",
                           field: "file_id",
-                          operands: cart.map((file) => file.file_id)
+                          operands: cart.map((file) => file?.file_id)
                         }
                       }}}
                   >
@@ -304,7 +304,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                     'file_id': {
                       operator: "in",
                       field: "file_id",
-                      operands: cart.map((file) => file.file_id)
+                      operands: cart.map((file) => file?.file_id)
                     }
                   }}}
               />
@@ -422,7 +422,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                     'file_id': {
                       operator: "in",
                       field: "file_id",
-                      operands: cart.map((file) => file.file_id)
+                      operands: cart.map((file) => file?.file_id)
                     }
                   }}}
               />
@@ -471,7 +471,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 'file_id': {
                   operator: "in",
                   field: "file_id",
-                  operands: cart.map((file) => file.file_id)
+                  operands: cart.map((file) => file?.file_id)
                 }
               }}}
           />
@@ -535,7 +535,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   'file_id': {
                     operator: "in",
                     field: "file_id",
-                    operands: cart.map((file) => file.file_id)
+                    operands: cart.map((file) => file?.file_id)
                     }
                     }}}
           />

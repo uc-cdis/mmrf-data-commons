@@ -23,7 +23,7 @@ import {useCartSummaryQuery  } from "@/core";
 const Cart: React.FC = () => {
    const cart = useCoreSelector((state:CoreState) => selectCart(state));
 
-  const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f.file_id));
+  const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f?.file_id));
 
   const { data: userDetails, isFetching: userDetailsFetching } =
     useFetchUserDetailsQuery();

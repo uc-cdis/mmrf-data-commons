@@ -21,7 +21,7 @@ export const getSlideCountFromCaseSummary = (
   );
 };
 
-export const formatDataForDataCateogryTable = (
+export const formatDataForDataCategoryTable = (
   data_categories: {
     readonly data_category: string;
     readonly file_count: number;
@@ -40,10 +40,10 @@ export const formatDataForDataCateogryTable = (
     unknown
   >[];
 } => {
-  const sortedDataCategories = sortByPropertyAsc(
+  const sortedDataCategories = data_categories ? sortByPropertyAsc(
     data_categories,
     'data_category',
-  );
+  ) : [];
 
   const dataCategoryTableColumnHelper =
     createColumnHelper<(typeof sortedDataCategories)[0]>();
@@ -84,7 +84,7 @@ export const formatDataForDataCateogryTable = (
   return { data: sortedDataCategories, columns: dataCategoryTableColumns };
 };
 
-export const formatDataForExpCateogryTable = (
+export const formatDataForExpCategoryTable = (
   experimental_strategies: {
     readonly experimental_strategy: string;
     readonly file_count: number;

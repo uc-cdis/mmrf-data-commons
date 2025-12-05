@@ -47,6 +47,7 @@ export const FilterByUserInputModal = ({
         </Button>
         <Button
           data-testid="button-submit"
+          disabled={outputIds.length === 0}
           onClick={() => {
             updateFilters(facetField, outputIds);
             context.closeModal(id)
