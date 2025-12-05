@@ -68,21 +68,22 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   // const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
-  const { geneFilters, ssmFilters } = useDeepCompareMemo(() => {
+  const { geneFilters, ssmFilters, geneFiltersForCaseCentric } = useDeepCompareMemo(() => {
     const filters = separateGeneAndSSMFilters(genomicFilters);
 
     const ssmFilterForGeneCentric = addPrefixToFilterSet(
       filters.ssm,
       `${GenomicIndexFilterPrefixes.gene.ssm}`
     );
-    const geneFiltersForSSMCentric = addPrefixToFilterSet(
+    const geneFiltersForCaseCentric = addPrefixToFilterSet(
       filters.gene,
-      `${GenomicIndexFilterPrefixes.ssm.gene}`,
+      `${GenomicIndexFilterPrefixes.case.gene}`,
     );
 
     return {
       geneFilters: filters.gene,
       ssmFilters: ssmFilterForGeneCentric,
+      geneFiltersForCaseCentric: geneFiltersForCaseCentric
     };
   }, [genomicFilters]);
 
@@ -104,11 +105,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   });
   // GeneTable call end
 
-  // Extract only the "genes." filters
-  const genesOnlyFilters = extractFiltersWithPrefixFromFilterSet(
-    geneFilters as any,
-    'genes.',
-  );
   // get the totals for all cases
   const { data: countsData} = useGetTotalCountsQuery({});
 
@@ -116,16 +112,16 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     (cnvType: CnvChange | undefined, geneId: string) => {
       if (cnvType !== undefined) {
         // only genes filters
-        return joinFilters(genesOnlyFilters, {
+        return joinFilters(geneFiltersForCaseCentric, {
           mode: 'and',
-          root: {
-            'genes.cnv.cnv_change': {
+          root: { // TODO: test when cvn data becomes available
+            'gene.cnv.cnv_change': { // TODO: change to case_centric version of the cnv filter
               field: 'genes.cnv.cnv_change_5_category',
               operator: '=',
               operand: cnvType,
             },
-            'genes.gene_id': {
-              field: 'genes.gene_id',
+            'gene_id': {
+              field: 'gene_id',
               operator: '=',
               operand: geneId,
             },
@@ -133,18 +129,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       } else {
         // any other type will use all filters
-        return joinFilters(geneFilters as any, {
+        return joinFilters(geneFiltersForCaseCentric, {
           mode: 'and',
-          root: {
-            'ssms.ssm_id': {
-              field: 'ssms.ssm_id',
-              // operator: "exists",
-              // TODO: Code added just to get application to compile July 24
-              operator: 'in',
-              operands: ['add'],
-            },
-            'genes.gene_id': {
-              field: 'genes.gene_id',
+          root: { // NOTE: case_centric version of the geneId filter
+            'gene.gene_id': {
+              field: 'gene.gene_id',
               operator: 'includes',
               operands: [geneId],
             },
@@ -152,7 +141,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       }
     },
-    [geneFilters, genesOnlyFilters],
+    [geneFilters, geneFiltersForCaseCentric],
   );
   // End Create Cohort /
 

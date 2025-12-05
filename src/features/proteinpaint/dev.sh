@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# run from the gdc-frontend-framework project root folder
+# ./packages/portal-proto/src/features/proteinpaint/dev.sh
+# assumes that the proteinpaint folder is a sibling dir of gff
+if [[ "$1" == "unlink" ]]; then
+	# to test the published client package before submitting a PR with an updated pp-client version
+	npm unlink ../proteinpaint/client
+	npm uninstall @sjcrh/proteinpaint-client --save --workspace=packages/portal-proto
+	npm install @sjcrh/proteinpaint-client --save --save-exact --workspace=packages/portal-proto
+
+else
+	# to test the local PP client code
+	npm link ../proteinpaint/client
+	# An issue with npm link and workspaces: the non-linked @sjcrh/proteinpaint-client package
+	# may be moved to portal-proto/node_modules, creating 2 separate modules of the same package,
+	# must ensure only the linked module is used for bundling so delete
+	rm -rf packages/portal-proto/node_modules/@sjcrh
+	# also not able to do a simpler
+	# `cd packages/portal-proto && npm link path/to/proteinpaint/client`,
+	# where the linked module would be in portal-proto/node_modules instead of the
+	# other way around
+fi
+
+# sometimes the nextjs bundle cache are stale after npm link
+# rm -rf packages/portal-proto/.next
+
+# run the following tab in a separate tab
+# local-ssl-proxy --config ssl-proxy.json --cert localhost.pem --key localhost-key.pem
+# then from the gff dir
+PROTEINPAINT_API="http://localhost:3000" PORT=3333 npm run dev
+#
+# OR start close all open Chrome browser windows and in macOS terminal:
+# open -n /Applications/Google\ Chrome.app --args --user-data-dir="/tmp/chrome-dev-session" --disable-web-security
+#
+# TODO: setup and use https://localhost.dev-virtuallab.themmrf.org using local-ssl-proxy
+#

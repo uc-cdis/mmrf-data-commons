@@ -76,7 +76,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
     and: [
       {
         in: {
-          file_id: cart.map((f) => f.file_id),
+          file_id: cart.map((f) => f?.file_id),
         },
       }
     ],
@@ -95,9 +95,9 @@ const FilesTable: React.FC<FilesTableProps> = ({
       isSuccess
         ? (data?.files.map((file: MMRFFile) => ({
             file: file,
-            file_uuid: file.file_id,
+            file_uuid: file?.file_id ?? "N/A",
             access: file.access,
-            file_name: file.file_name,
+            file_name: file?.file_name ?? "N/A",
             cases: file.cases,
             project: file.project_id,
             data_category: file.data_category,

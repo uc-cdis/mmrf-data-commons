@@ -14,19 +14,25 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
-import { flatten } from "lodash";
+import { flatten, uniq } from 'lodash';
 import DarkFunctionButton from "@/components/StyledComponents/DarkFunctionButton";
 import { FileIcon, InfoIcon } from "@/utils/icons";
 import {
   EXCEED_LIMIT_ERROR,
+  getMatchedIdentifiersFromDataArray,
   MATCH_LIMIT,
   parseTokens,
   REACHED_LIMIT_WARNING,
-} from "./utils";
+} from './utils';
 import MatchTablesWrapper from "./MatchTablesWrapper";
 import fieldConfig from "./fieldConfig";
 import { initialState, inputEntityListReducer } from "./InputEntityListReducer";
 import { MatchResults } from "./type";
+import {
+  EntityFields,
+  useLazyFetchEntitiesQuery,
+} from '@/core/features/cases/caseSlice';
+
 
 export interface InputEntityListProps {
   readonly inputInstructions: string;
@@ -53,7 +59,7 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
   const inputRef = useRef(null);
   const resetFileInputRef = useRef<() => void>(null);
   const lastValidatedTokensRef = useRef<Set<string>>(new Set<string>());
-
+  const [ trigger, { data, isFetching, isSuccess, isError } ] = useLazyFetchEntitiesQuery();
   useEffect(() => {
     if (shouldReset) {
       processInputDebounced.flush();
@@ -112,45 +118,16 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
 
       lastValidatedTokensRef.current = uniqueNewTokens;
       dispatch({ type: "START_FETCH" });
-
       try {
-        /*()
-        const response = await fetchGdcEntities(
-          entityType,
-          {
-            filters: {
-              op: "in",
-              content: {
-                field: searchField,
-                value: uniq(tokensToValidate.map((t) => t.toLowerCase())),
-              },
-            },
-            fields: [...mappedToFields, ...matchAgainstIdentifiers],
-            size: 10000,
-          },
-          true,
-        );
-        const response = { data: { hits: []}};
+        const response = await  trigger({ ids: uniq(tokensToValidate.map((t) => t.toLowerCase())), entityType: 'case' });
 
-        const matches = getMatchedIdentifiers(
-          response.data.hits,
-          mappedToFields,
-          matchAgainstIdentifiers,
-          outputField,
+        const matches = getMatchedIdentifiersFromDataArray(
+          response?.data ?? [],
+          "case_id",
           tokensToValidate,
         );
-        */
 
-        // TODO - add API request to validate user input
-        const unvalidatedMatches: MatchResults[] = tokensToValidate.map(
-          (token) => ({
-            submittedIdentifiers: [{ field: outputField, value: token }],
-            mappedTo: [{ field: outputField, value: token }],
-            output: [{ field: outputField, value: token }],
-          }),
-        );
-
-        dispatch({ type: "SET_MATCHED", payload: unvalidatedMatches });
+        dispatch({ type: "SET_MATCHED", payload: matches });
       } catch {
         dispatch({
           type: "SET_VALIDATION_ERROR",

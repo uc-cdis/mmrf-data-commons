@@ -44,7 +44,6 @@ import { COHORT_FILTER_INDEX } from '@/core';
 import {
   addPrefixToFilterSet,
   GenomicIndexFilterPrefixes,
-  mergeGeneAndSSMFilters,
   separateGeneAndSSMFilters,
 } from '@/core/genomic/genomicFilters';
 import {
