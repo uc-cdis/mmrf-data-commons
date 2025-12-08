@@ -242,6 +242,7 @@ const caseSlice = guppyApi.injectEndpoints({
         response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
     }),
   }),
+
 });
 
 export const {

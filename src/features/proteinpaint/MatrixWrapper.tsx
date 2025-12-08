@@ -33,9 +33,9 @@ import {
 import { isEqual, cloneDeep } from "lodash";
 //import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
 //import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
-import { COHORT_FILTER_INDEX } from '@/core';
+import { COHORT_FILTER_INDEX, PROTEINPAINT_API } from '@/core';
 
-const basepath = 'http://localhost:3000' // PROTEINPAINT_API;
+const basepath = PROTEINPAINT_API;
 
 interface PpProps {
   chartType: "matrix" | "hierCluster";

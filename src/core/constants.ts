@@ -12,3 +12,5 @@ export const CASE_ID_FIELD = "case_id";
 export const COHORT_FILTER_INDEX = "case_centric";
 export const GENE_CENTRIC_INDEX = 'GeneCentric_gene_centric';
 export const SSM_CENTRIC_INDEX = 'SSMCentric_ssm_centric';
+
+export const PROTEINPAINT_API =  process.env.NEXT_PUBLIC_PROTEINPAINT_API || `${GEN3_API}/protein-paint`;
