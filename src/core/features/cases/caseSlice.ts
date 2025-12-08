@@ -228,7 +228,9 @@ const caseSlice = guppyApi.injectEndpoints({
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
       query: ({ filter }: CohortCaseIdsRequest) => {
-        const gqlFilter = convertFilterSetToGqlFilter(filter);
+        const gqlFilter = convertFilterSetToGqlFilter(
+          filter !== undefined ? filter : { mode: "and", root: {} },
+        );
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
           hits: CaseCentric_case_centric(filter: $filter first: ${MAX_CASES}) {
@@ -242,7 +244,6 @@ const caseSlice = guppyApi.injectEndpoints({
         response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
     }),
   }),
-
 });
 
 export const {
