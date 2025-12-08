@@ -1,3 +1,4 @@
+import React from 'react'
 import FunctionButton from "@/components/FunctionButton";
 import DarkFunctionButton from "@/components/StyledComponents/DarkFunctionButton";
 import useStandardPagination from "@/hooks/useStandardPagination";
