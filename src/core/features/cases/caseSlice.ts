@@ -4,6 +4,8 @@ import {
   guppyApi,
 } from '@gen3/core';
 
+import { MAX_CASES} from '@/core';
+
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
