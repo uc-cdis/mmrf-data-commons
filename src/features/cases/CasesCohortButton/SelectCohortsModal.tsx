@@ -169,10 +169,10 @@ export const SelectCohortsModal = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case "newPageNumber":
-        handlePageChange(obj.newPageNumber as number); // probably need to double check this
+        handlePageChange(obj.newPageNumber as number); // TODO: probably need to double check this
         break;
       case "newPageSize":
-        handlePageSizeChange(obj.newPageSize as string); // probably need to double check this
+        handlePageSizeChange(obj.newPageSize as string); // TODO: probably need to double check this
         break;
     }
   };
