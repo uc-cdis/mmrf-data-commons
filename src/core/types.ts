@@ -438,11 +438,16 @@ export interface ProjectDefaults {
       readonly experimental_strategy: string;
       readonly file_count: number;
     }>;
+
   };
-  readonly program?: {
+  readonly program: {
     readonly dbgap_accession_number: string;
     readonly name: string;
     readonly program_id: string;
+  };
+  access: {
+    controlled?: number;
+    open?: number;
   };
 }
 
