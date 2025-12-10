@@ -110,15 +110,25 @@
       },
       "cases.case_id": {
         "type": "link",
-        "cellRenderFunction": "modalLink",
+        "cellRenderFunction": "openLinkInTab",
         "title": "Cases",
-        "accessorPath" : "cases.case_id.length"
+        "accessorPath": "cases.case_id.length",
+        "params": {
+          "classNames": { "text": "text-primary" },
+          "linkField": "cases.case_id[0]",
+          "href": "/cases/"
+        }
       },
       "cases.project.project_id": {
         "type": "link",
-        "cellRenderFunction": "modalLink",
+        "cellRenderFunction": "openLinkInTab",
         "title": "Project",
-        "accessorPath" : "cases.project[0].project_id"
+        "params": {
+          "classNames": { "text": "text-primary" },
+          "linkField": "cases.project[0].project_id",
+          "href": "/projects/"
+        },
+        "accessorPath": "cases.project[0].project_id"
       }
     }
   },

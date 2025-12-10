@@ -6,12 +6,12 @@ import PageTitle from '@/components/PageTitle';
 import MainNavigation from '@/components/Navigation/MainNavigation/MainNavigation';
 import { FileSummary } from '@/features/files/FileSummary';
 
-const GenesPage: NextPage = () => {
+const FileSummaryPage: NextPage = () => {
   const router = useRouter();
   const file = router.asPath.split('/')[2]?.split('?')?.[0];
 
-  let file_id = '';
-  if (file) file_id = decodeURIComponent(file);
+  let fileId = '';
+  if (file) fileId = decodeURIComponent(file);
 
   const [ready, setReady] = useState(false);
 
@@ -25,9 +25,9 @@ const GenesPage: NextPage = () => {
     <>
       <PageTitle pageName="File Summary" />
       <h1 className="sr-only">File Summary</h1>
-      {ready && <FileSummary file_id={file_id} />}
+      {ready && <FileSummary fileId={fileId} />}
     </>
   );
 };
 
-export default GenesPage;
+export default FileSummaryPage;

@@ -1,7 +1,13 @@
-import { Middleware, Reducer } from "@reduxjs/toolkit";
-import { guppyApi, GQLFilter } from "@gen3/core";
-import {  GraphQLApiResponse, ProjectDefaults } from '@/core/types';
-import ProjectSummaryData from './data/ProjectSummaryData.json';
+import { guppyApi} from "@gen3/core";
+import { ProjectDefaults } from '@/core/types';
+
+function capitalizeFirstLetter(inputString: string): string {
+  if (!inputString) {
+    return inputString; // Handle empty or null strings
+  }
+  return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+}
+
 
 const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFilter: JSON) {
     project: Project_project(filter: $projectFilter) {
@@ -11,6 +17,7 @@ const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFil
             dbgap_accession_number
         }
         project_id
+        name
         summary {
             case_count
             file_count
@@ -33,12 +40,15 @@ const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFil
     file: File__aggregation {
         file(filter: $fileFilter) {
             totalFiles: _totalCount
+            file_size {
+                histogram {
+                    sum
+                }
+            }
             experimental_strategy {
                 histogram {
-                    termsFields {
-                        field
-                        count
-                    }
+                    key
+                    count
                 }
             }
             data_category {
@@ -74,17 +84,17 @@ export const projectsApiSlice = guppyApi.injectEndpoints({
       // @ts-expect-error transformResponse is not typed correctly
       transformResponse: (response: any) => {
         if (response?.data) {
-          const project = response.data;
-          const file = response.file;
+          const project = response.data.project[0];
+          const file = response.data.file.file;
           const fileSummary = {
             case_count: 0,
             file_count: file.totalFiles,
-            file_size: file.file_size.histogram.sum,
+            file_size: file?.file_size?.histogram?.[0]?.sum ?? '0',
             data_categories: file.data_category.histogram.map((x: any) => ({
-              file_count: x.count, case_count: 0, data_category: x.key
+              file_count: x.count, case_count: 0, data_category: capitalizeFirstLetter(x.key)
             })),
             experimental_strategies: file.experimental_strategy.histogram.map((x: any) => ({
-              file_count: x.count, case_count: 0, data_category: x.key
+              file_count: x.count, case_count: 0, data_category: capitalizeFirstLetter(x.key)
             })),
             };
 
@@ -98,7 +108,10 @@ export const projectsApiSlice = guppyApi.injectEndpoints({
               ...project.program
             },
             name: project?.name ?? "",
-            summary: project?.summary?.case_count > 0 ? project?.summary : fileSummary,
+            summary: {
+              ...fileSummary,
+              case_count: project?.summary?.case_count ?? 0
+            },
             access: file.access?.histogram.reduce((acc: Record<string, number>, x: any) => {
               acc[x.key] = x.count
             }, {})

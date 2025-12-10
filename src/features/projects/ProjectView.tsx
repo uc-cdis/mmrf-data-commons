@@ -12,7 +12,6 @@ import {
 } from "./utils";
 import { useViewportSize } from "@mantine/hooks";
 import { LG_BREAKPOINT } from "src/utils";
-import SummaryHeaderControls from "./SummaryHeaderControls";
 import { useSynchronizedRowHeights } from "@/components/HorizontalTable/useSynchronizedRowHeights";
 import { FileIcon, PersonIcon } from "@/utils/icons";
 
@@ -78,13 +77,13 @@ export const ProjectView: React.FC<ProjectViewProps> = (
   return (
     <>
       <SummaryHeader
-        iconPath="/icons/user.svg"
+        iconPath='mmrf:projects'
         headerTitleLeft="Project"
         headerTitle={projectData.project_id}
         isModal={projectData.isModal}
-        leftElement={<SummaryHeaderControls projectData={projectData} />}
+        leftElement={<div className="flex items-center text-sm md:text-xl xl:text-xl 2xl:text-xl text-base-lightest leading-4 font-montserrat uppercase whitespace-no-wrap">{projectData.name}</div>}
         rightElement={
-          <div className="flex items-center gap-2 text-sm md:text-xl xl:text-sm 2xl:text-xl text-base-lightest leading-4 font-montserrat uppercase whitespace-no-wrap">
+          <div className="flex items-center gap-2 text-sm md:text-xl xl:text-xl 2xl:text-xl text-base-lightest leading-4 font-montserrat uppercase whitespace-no-wrap">
             Total of {Cases} {Files}
           </div>
         }

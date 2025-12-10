@@ -39,8 +39,6 @@ export const ProjectSummary: React.FC<ContextualProjectViewProps> = ({
     isModal,
   };
 
-  console.log("ProjectSummary projectsData", projectsData);
-
   return (
     <>
       {isProjectFetching ? (
