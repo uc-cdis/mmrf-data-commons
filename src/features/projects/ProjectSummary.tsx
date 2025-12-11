@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  useGetProjectsQuery,
-} from "@/core/features/projects/projectsSlice";
+import { useProjectSummaryQuery } from '@/core/features/projects/projectsSlice';
 import { LoadingOverlay } from "@mantine/core";
 import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
 import { ProjectView } from "./ProjectView";
@@ -17,7 +15,7 @@ export const ProjectSummary: React.FC<ContextualProjectViewProps> = ({
                                                                        isModal = false,
                                                                      }: ContextualProjectViewProps) => {
   const { data: projectsData, isFetching: isProjectFetching } =
-    useGetProjectsQuery(projectId);
+    useProjectSummaryQuery(projectId);
 
   const projectData : ProjectDefaults = projectsData ?? {
     dbgap_accession_number: "",

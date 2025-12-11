@@ -1,5 +1,5 @@
-import { guppyApi} from "@gen3/core";
-import { ProjectDefaults } from '@/core/types';
+import { convertFilterSetToGqlFilter, FilterSet, guppyApi } from '@gen3/core';
+import { ProjectDefaults, SortBy } from '@/core/types';
 
 function capitalizeFirstLetter(inputString: string): string {
   if (!inputString) {
@@ -7,7 +7,6 @@ function capitalizeFirstLetter(inputString: string): string {
   }
   return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
-
 
 const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFilter: JSON) {
     project: Project_project(filter: $projectFilter) {
@@ -67,63 +66,151 @@ const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFil
     }
 }`;
 
+const ProjectsQuery = `query projectsQuery($filter: JSON, $first: Int, $start: Int, $sort: JSON) {
+    Project_project(filter: $filter, first: $first, offset: $start, sort: $sort) {
+        program {
+            name
+            program_id
+            dbgap_accession_number
+        }
+        project_id
+        name
+        summary {
+            case_count
+            file_count
+            file_size
+            data_categories {
+                case_count
+                data_category
+                file_count
+            }
+            experimental_strategies {
+                case_count
+                experimental_strategy
+                file_count
+            }
+        }
+        dbgap_accession_number
+        disease_type
+        primary_site
+    }
+    numProjects: Project__aggregation($filter: JSON) {
+        project {
+            _totalCount
+        }
+    }
+}`;
+
+const EmptyProjectDefaults: ProjectDefaults = {
+  dbgap_accession_number: '',
+  disease_type: [],
+  name: '',
+  primary_site: [],
+  project_id: '',
+  program: {
+    dbgap_accession_number: '',
+    name: '',
+    program_id: '',
+  },
+  access: {
+    controlled: 0,
+    open: 0,
+  },
+};
+
+const processProjectData = (data: any): ProjectDefaults => {
+  if (data) {
+    const project = data.project[0];
+    const file = data?.file?.file ?? null;
+    const fileSummary = {
+      case_count: 0,
+      file_count: file.totalFiles,
+      file_size: file?.file_size?.histogram?.[0]?.sum ?? '0',
+      data_categories:
+        file.data_category.histogram.map((x: any) => ({
+          file_count: x.count,
+          case_count: 0,
+          data_category: capitalizeFirstLetter(x.key),
+        })) ?? null,
+      experimental_strategies:
+        file.experimental_strategy.histogram.map((x: any) => ({
+          file_count: x.count,
+          case_count: 0,
+          data_category: capitalizeFirstLetter(x.key),
+        })) ?? null,
+    };
+
+    return {
+      dbgap_accession_number: project?.dbgap_accession_number ?? '',
+      disease_type: project.disease_type,
+      primary_site: project.primary_site,
+      project_id: project.project_id,
+      program: {
+        ...project.program,
+      },
+      name: project?.name ?? '',
+      summary: {
+        ...project?.summary,
+        ...(fileSummary ?? {}),
+        case_count: project?.summary?.case_count ?? 0,
+      },
+      access: file.access?.histogram.reduce(
+        (acc: Record<string, number>, x: any) => {
+          acc[x.key] = x.count;
+        },
+        {},
+      ),
+    } satisfies ProjectDefaults;
+  }
+  return EmptyProjectDefaults;
+};
+
+interface ProjectsRequest {
+  filter: FilterSet;
+  from?: number;
+  size?: number;
+  sortBy?: SortBy[];
+}
+
+interface ProjectsResponse {
+  projects: ProjectDefaults[];
+  totalProjects: number;
+}
 
 /**
  * Used for the Project Summary page.
  */
 export const projectsApiSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProjects: builder.query<ProjectDefaults, string>({
+    projectSummary: builder.query<ProjectDefaults, string>({
       query: (projectId: string) => ({
         query: ProjectSummaryQuery,
         variables: {
-          projectFilter : { "eq" : { project_id : projectId}},
-          fileFilter: { "eq" : { "cases.project.project_id" : projectId}}
-        }
+          projectFilter: { eq: { project_id: projectId } },
+          fileFilter: { eq: { 'cases.project.project_id': projectId } },
+        },
       }),
-      // @ts-expect-error transformResponse is not typed correctly
-      transformResponse: (response: any) => {
-        if (response?.data) {
-          const project = response.data.project[0];
-          const file = response.data.file.file;
-          const fileSummary = {
-            case_count: 0,
-            file_count: file.totalFiles,
-            file_size: file?.file_size?.histogram?.[0]?.sum ?? '0',
-            data_categories: file.data_category.histogram.map((x: any) => ({
-              file_count: x.count, case_count: 0, data_category: capitalizeFirstLetter(x.key)
-            })),
-            experimental_strategies: file.experimental_strategy.histogram.map((x: any) => ({
-              file_count: x.count, case_count: 0, data_category: capitalizeFirstLetter(x.key)
-            })),
-            };
-
-          return {
-            dbgap_accession_number:
-              project?.dbgap_accession_number ?? '',
-            disease_type: project.disease_type,
-            primary_site: project.primary_site,
-            project_id: project.project_id,
-            program: {
-              ...project.program
-            },
-            name: project?.name ?? "",
-            summary: {
-              ...fileSummary,
-              case_count: project?.summary?.case_count ?? 0
-            },
-            access: file.access?.histogram.reduce((acc: Record<string, number>, x: any) => {
-              acc[x.key] = x.count
-            }, {})
-
-          } satisfies ProjectDefaults;
-        }
+      transformResponse: (response: any) => processProjectData(response?.data),
+    }),
+    projects: builder.query<ProjectsResponse, ProjectsRequest>({
+      query: ({ filter, size, from, sortBy }: ProjectsRequest) => {
         return {
-          projectData: undefined,
+          query: ProjectsQuery,
+          variables: {
+            filter: convertFilterSetToGqlFilter(filter),
+            first: size ?? 20,
+            start: from ?? 0,
+            sort: sortBy ?? {},
+          },
         };
       },
+      transformResponse: (response: any) => ({
+        projects:
+          response?.data?.project.map((x: any) => processProjectData(x)) ?? [],
+        totalProjects: response?.data?.numProjects?.project?._totalCount ?? 0,
+      }),
     }),
   }),
 });
 
-export const { useGetProjectsQuery } = projectsApiSlice;
+export const { useProjectSummaryQuery, useProjectsQuery } = projectsApiSlice;
