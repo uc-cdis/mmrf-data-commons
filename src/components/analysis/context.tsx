@@ -70,6 +70,6 @@ export const AppContext = createContext<AppContextType>({
   theme: undefined,
   // eslint-disable-next-line
   Image: (props) => <img {...props} />,
-// eslint-disable-next-line
+
 Link: (props) => <a {...props} />,
 });

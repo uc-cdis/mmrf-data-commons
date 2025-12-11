@@ -31,7 +31,7 @@ export const createKeyboardAccessibleFunction = (
 ): KeyboardEventHandler<any> => {
   return (e: React.KeyboardEvent<any>) => (e.key === 'Enter' ? func() : null);
 };
-/* eslint-enable */
+
 
 export const capitalize = (original: string): string => {
   const customCapitalizations: Record<string, string> = {

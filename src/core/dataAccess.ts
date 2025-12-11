@@ -77,7 +77,7 @@ export const createUseCoreDataHook = <P, A, T>(
         // not compatible with thunk actions. hence, the `as any` cast. ;(
         coreDispatch(action as any); // eslint-disable-line
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [status, coreDispatch, action, params, prevParams]);
 
     return {

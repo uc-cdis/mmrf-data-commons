@@ -22,7 +22,7 @@ const useScrollToHash = (
     }
     // Remove hash when component unmounts
     return () => (removeHash ? history.replaceState(null, "", " ") : undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 };
 
