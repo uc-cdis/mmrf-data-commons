@@ -1,5 +1,15 @@
-import { convertFilterSetToGqlFilter, FilterSet, guppyApi } from '@gen3/core';
+import {
+  convertFilterSetToGqlFilter,
+  FilterSet,
+  GQLIntersection,
+  GQLUnion,
+  guppyApi,
+  isGQLIntersection,
+  isIntersection,
+  isUnion,
+} from '@gen3/core';
 import { ProjectDefaults, SortBy } from '@/core/types';
+import orderBy from 'lodash/orderBy';
 
 function capitalizeFirstLetter(inputString: string): string {
   if (!inputString) {
@@ -67,7 +77,7 @@ const ProjectSummaryQuery = `query projectSummary($projectFilter: JSON, $fileFil
 }`;
 
 const ProjectsQuery = `query projectsQuery($filter: JSON, $first: Int, $start: Int, $sort: JSON) {
-    Project_project(filter: $filter, first: $first, offset: $start, sort: $sort) {
+    projects: Project_project(filter: $filter, first: $first, offset: $start, sort: $sort) {
         program {
             name
             program_id
@@ -94,8 +104,8 @@ const ProjectsQuery = `query projectsQuery($filter: JSON, $first: Int, $start: I
         disease_type
         primary_site
     }
-    numProjects: Project__aggregation($filter: JSON) {
-        project {
+    numProjects: Project__aggregation {
+        project  (filter: $filter){
             _totalCount
         }
     }
@@ -170,6 +180,7 @@ interface ProjectsRequest {
   from?: number;
   size?: number;
   sortBy?: SortBy[];
+  searchTerm?: string;
 }
 
 interface ProjectsResponse {
@@ -193,22 +204,31 @@ export const projectsApiSlice = guppyApi.injectEndpoints({
       transformResponse: (response: any) => processProjectData(response?.data),
     }),
     projects: builder.query<ProjectsResponse, ProjectsRequest>({
-      query: ({ filter, size, from, sortBy }: ProjectsRequest) => {
+      query: ({  size, from, searchTerm }: ProjectsRequest) => {
+        let filters  = {}
+        if (searchTerm && searchTerm.length > 0) {
+          filters =
+              { search: { keyword: searchTerm, fields: ['project_id'] } }
+        }
         return {
           query: ProjectsQuery,
           variables: {
-            filter: convertFilterSetToGqlFilter(filter),
+            filter: filters,
             first: size ?? 20,
             start: from ?? 0,
-            sort: sortBy ?? {},
+            sort: {} // NOTE: The mapping of summary causes issues with guppy's sort. This response
+                      // will be small (for now) so we will ort the response
           },
         };
       },
-      transformResponse: (response: any) => ({
-        projects:
-          response?.data?.project.map((x: any) => processProjectData(x)) ?? [],
-        totalProjects: response?.data?.numProjects?.project?._totalCount ?? 0,
-      }),
+      transformResponse: (response: any, arg0, params ) => {
+        const projects = response?.data?.projects;
+        const sortedProjects = orderBy(projects, params.sortBy?.map(x=>x.field), params.sortBy?.map(x => x.direction))
+        return {
+          projects: sortedProjects,
+          totalProjects: response?.data?.numProjects?.project?._totalCount ?? 0,
+        };
+      },
     }),
   }),
 });

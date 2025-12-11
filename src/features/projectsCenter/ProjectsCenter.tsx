@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import {
-  useCoreSelector,
-  selectCurrentCohortId,
-  usePrevious,
-} from '@gen3/core';
+import React, { useState } from 'react';
 import ProjectsTable from './ProjectsTable';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 import { TableXPositionContext } from '@/components/Table/VerticalTable';
-
-export const ProjectsCenter = (): JSX.Element => {
-  const cohortId = useCoreSelector((state) => selectCurrentCohortId(state));
+const ProjectsCenter = (): JSX.Element => {
 
   const [tableXPosition, setTableXPosition] = useState<number | undefined>(
     undefined,
@@ -33,3 +24,5 @@ export const ProjectsCenter = (): JSX.Element => {
     </>
   );
 };
+
+export default ProjectsCenter;

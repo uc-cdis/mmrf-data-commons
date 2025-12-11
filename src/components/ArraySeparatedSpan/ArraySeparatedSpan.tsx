@@ -17,7 +17,7 @@ export const ArraySeparatedSpan = ({
           </span>
         ))
     ) : (
-      <span>--</span>
+      <span></span>
     )}
   </div>
 );
