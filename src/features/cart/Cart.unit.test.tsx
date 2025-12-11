@@ -57,7 +57,7 @@ describe("<Cart />", () => {
     jest.mocked(useFetchUserDetailsQuery).mockImplementation(() => ({} as any));
   //  jest.mocked(useGetFilesQuery).mockImplementation(() => ({} as any));
 
-    // eslint-disable-next-line react/react-in-jsx-scope
+
     const { getByTestId } = render(<Cart />);
     expect(getByTestId("cart-header").textContent).toContain("1 File");
     expect(getByTestId("cart-header").textContent).toContain("30 Cases");

@@ -15,7 +15,7 @@
       },
       {
         "icon": "/icons/apps/Projects.svg",
-        "href": "/",
+        "href": "/?app=Projects",
         "name": "Projects"
       },
       {

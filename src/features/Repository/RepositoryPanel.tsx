@@ -30,9 +30,6 @@ export const RepositoryPanel = ({
   fileStatsConfiguration,
   additionalControls = null,
 }: RepositoryProps) => {
-  const isSm = useMediaQuery('(min-width: 639px)');
-  const isMd = useMediaQuery('(min-width: 1373px)');
-  const isXl = useMediaQuery('(min-width: 1600px)');
   const [tableXPosition, setTableXPosition] = useState<number | undefined>(
     undefined,
   );
