@@ -99,7 +99,7 @@
     "jest-fixed-jsdom": "^0.0.9",
     "msw": "^2.7.0",
     "msw-storybook-addon": "^2.0.4",
-    "next": "^15.5.7",
+    "next": "^15.5.9",
     "postcss": "^8.4.29",
     "postcss-import": "^16.1.0",
     "postcss-loader": "^7.3.2",
