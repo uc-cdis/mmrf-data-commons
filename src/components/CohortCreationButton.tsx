@@ -90,9 +90,7 @@ interface CohortCreationButtonProps {
  * @param label - the text label
  * @param numCases - the number of cases in the cohort
  * @param filters - the filters to use for the cohort
- * @param caseFilters - the case filters to use for the cohort
  * @property filtersCallback - callback to create filters, used when filters are too complicated for FilterSet
- * @param createStaticCohort - whether to create a case set from the filters so the cases in the cohort remain static
  * @category Buttons
  */
 const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({

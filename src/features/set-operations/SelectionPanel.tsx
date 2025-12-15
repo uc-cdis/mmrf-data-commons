@@ -133,7 +133,7 @@ const useCasesSets = () => {
         return {
           caseSets: { [cohort.id]: cohort.name, ...acc.caseSets },
           caseCounts: {
-            [cohort.id]: cohort.counts.caseCount,
+            [cohort.id]: cohort?.counts?.caseCount,
             ...acc.caseCounts,
           },
         };
@@ -147,6 +147,13 @@ const useCasesSets = () => {
   }, [cohorts]);
   return casesSets;
 };
+
+interface SetEntry {
+  readonly entity_type: SetOperationEntityType;
+  readonly name: string;
+  readonly setId: string;
+  readonly count: number;
+}
 
 interface SelectionPanelProps {
   readonly app: string;
@@ -168,19 +175,6 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
 }: SelectionPanelProps) => {
   const componentId = useId();
   const [sortBy, setSortBy] = useState<SortingState>([]);
-  const geneSets = useCoreSelector((state) => selectSetsByType(state, "genes"));
-  const mutationSets = useCoreSelector((state) =>
-    selectSetsByType(state, "ssms"),
-  );
-
-  const { data: geneCounts, isSuccess: isGeneSuccess } = useGeneSetCountsQuery({
-    setIds: Object.keys(geneSets),
-  });
-
-  const { data: mutationCounts, isSuccess: isMutationSuccess } =
-    useSsmSetCountsQuery({
-      setIds: Object.keys(mutationSets),
-    });
 
   // cohorts are not sets, but we want to display them in the same table
   // the associated case set will be created when a cohort is selected
@@ -188,45 +182,25 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
 
   useEffect(() => {
     if (selectedEntities.length === 0) {
-      setSelectedEntityType(undefined);
+      setSelectedEntityType('cohort');
     }
   }, [selectedEntities, setSelectedEntityType]);
 
   const tableData = useDeepCompareMemo(() => {
     return [
-      ...Object.entries(geneSets).map(([setId, setName]) => {
-        const count = geneCounts?.[setId] || 0;
-
-        return {
-          entity_type: "genes",
-          name: setName,
-          setId,
-          count,
-        };
-      }),
-      ...Object.entries(mutationSets).map(([setId, setName]) => {
-        const count = mutationCounts?.[setId] || 0;
-
-        return {
-          entity_type: "mutations",
-          name: setName,
-          setId,
-          count: count,
-        };
-      }),
       ...Object.entries(caseSetsAndCounts.caseSets).map(([setId, setName]) => {
         const count = caseSetsAndCounts.caseCounts?.[setId] || 0;
 
         return {
-          entity_type: "cohort",
+          entity_type: 'cohort',
           name: setName,
           setId,
           count,
         };
       }),
-    ].sort((a, b) => {
+    ].sort((a: any, b: any) => {
       for (const sort of sortBy) {
-        if (typeof a[sort.id] === "string") {
+        if (typeof a[sort.id] === 'string') {
           return sort.desc
             ? b[sort.id].localeCompare(a[sort.id])
             : a[sort.id].localeCompare(b[sort.id]);
@@ -239,10 +213,6 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
     });
   }, [
     caseSetsAndCounts,
-    geneSets,
-    geneCounts,
-    mutationSets,
-    mutationCounts,
     sortBy,
   ]);
 
@@ -379,10 +349,10 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
       case "newPageSize":
-        handlePageSizeChange(obj.newPageSize);
+        handlePageSizeChange(obj.newPageSize ?? "20");
         break;
       case "newPageNumber":
-        handlePageChange(obj.newPageNumber);
+        handlePageChange(obj.newPageNumber ?? 0);
         break;
     }
   };
@@ -430,7 +400,6 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
             total,
             label: "set",
           }}
-          status={isGeneSuccess && isMutationSuccess ? "fulfilled" : "pending"}
           sorting={sorting}
           setSorting={setSorting}
           handleChange={handleChange}
@@ -442,7 +411,6 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
           data-testid="button-cancel-set-operations"
           className="mr-4"
           onClick={() => {
-            setActiveApp(null);
             setOpen(false);
           }}
         >

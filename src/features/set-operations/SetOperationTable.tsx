@@ -9,11 +9,9 @@ import { useState, useId } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import CountButtonWrapperForSetsAndCases from "./CountButtonWrapperForSetsAndCases";
 import { Checkbox, Tooltip } from "@mantine/core";
-import { createSetFiltersByKey } from "./utils";
 import { pickBy } from "lodash";
-import { SelectedEntities } from "./types";
+import { SelectedEntities, SetOperationEntityType } from "./types";
 import DownloadButtonTotal from "./DownloadButton";
-import { GQLUnion } from "@gen3/core";
 
 type SetOperationTableDataType = {
   setOperation: string;
@@ -28,18 +26,16 @@ export const SetOperationTable = ({
   data,
   selectedSets,
   setSelectedSets,
-  queryHook,
   entityType,
-  sets,
+  cohorts,
 }: {
-  readonly sets: SelectedEntities;
-  readonly entityType: "cohort" | "genes" | "mutations";
+  readonly cohorts: SelectedEntities;
+  readonly entityType: SetOperationEntityType;
   readonly data: {
     readonly label: string;
     readonly key: string;
     readonly value: number;
   }[];
-  readonly queryHook: typeof useSetOperationsCasesTotalQuery;
   selectedSets: {
     [k: string]: boolean;
   };
@@ -49,21 +45,11 @@ export const SetOperationTable = ({
     }>
   >;
 }): JSX.Element => {
-  const unionFilter = {
-    op: "or",
-    content: Object.keys(pickBy(selectedSets, (v) => v)).map((set) =>
-      createSetFiltersByKey(set, entityType, sets),
-    ),
-  } as GqlUnion;
 
-  const { data: totalSelectedSets, isFetching } = queryHook({
-    filters: {
-      filters: unionFilter,
-    },
-  });
+
   const totalCount =
     Object.keys(pickBy(selectedSets, (v) => v)).length > 0
-      ? totalSelectedSets
+      ? cohorts.length
       : 0;
   const [rowSelection, setRowSelection] = useState({});
   const [operationTableSorting, setOperationTableSorting] =
@@ -81,12 +67,12 @@ export const SetOperationTable = ({
   );
 
   const setOperationTableColumns = useDeepCompareMemo<
-    ColumnDef<SetOperationTableDataType>[]
+    ColumnDef<SetOperationTableDataType, any>[]
   >(
     () => [
       {
-        id: "select",
-        header: "Select",
+        id: 'select',
+        header: 'Select',
         cell: ({ row }) => (
           <Tooltip
             label="This region contains 0 items"
@@ -97,7 +83,7 @@ export const SetOperationTable = ({
               data-testid={`checkbox-${row.original.operationKey}-set-operations`}
               size="xs"
               classNames={{
-                input: "checked:bg-accent checked:border-accent",
+                input: 'checked:bg-accent checked:border-accent',
               }}
               value={row.original.operationKey}
               id={`${componentId}-setOperation-${row.original.operationKey}`}
@@ -113,8 +99,8 @@ export const SetOperationTable = ({
           </Tooltip>
         ),
       },
-      setOperationTableColumnsHelper.accessor("setOperation", {
-        header: "Set Operation",
+      setOperationTableColumnsHelper.accessor('setOperation', {
+        header: 'Set Operation',
         enableSorting: false,
         cell: ({ getValue, row }) => (
           <label
@@ -125,41 +111,32 @@ export const SetOperationTable = ({
           </label>
         ),
       }),
-      setOperationTableColumnsHelper.accessor("count", {
-        header: "# Items",
+      setOperationTableColumnsHelper.accessor('count', {
+        header: '# Items',
         cell: ({ row, getValue }) => (
           <CountButtonWrapperForSetsAndCases
             count={getValue()}
-            filters={createSetFiltersByKey(
-              row.original.operationKey,
-              entityType,
-              sets,
-            )}
+            filters={{ and: [] }}
             entityType={entityType}
           />
         ),
         enableSorting: true,
       }),
       setOperationTableColumnsHelper.display({
-        id: "download",
-        header: "Download",
+        id: 'download',
+        header: 'Download',
         cell: ({ row }) => (
           <DownloadButtonTotal
-            filters={createSetFiltersByKey(
-              row.original.operationKey,
-              entityType,
-              sets,
-            )}
+            filters={{ and: [] }}
             entityType={entityType}
             setKey={row.original.setOperation}
-            createSetHook={ENTITY_TYPE_TO_CREATE_SET_HOOK[entityType]}
             disabled={row.original.count === 0}
           />
         ),
       }),
     ],
 
-    [selectedSets, entityType, sets, setSelectedSets, componentId],
+    [selectedSets, entityType, cohorts, setSelectedSets, componentId],
   );
 
   return (
@@ -182,17 +159,16 @@ export const SetOperationTable = ({
           <td className="p-2 font-bold">Union of selected sets:</td>
           <td className="w-52 px-2.5">
             <CountButtonWrapperForSetsAndCases
-              count={isFetching ? 0 : totalCount}
-              filters={unionFilter}
+              count={totalCount}
+              filters={{ and: [] }}
               entityType={entityType}
             />
           </td>
           <td className="p-2.5">
             <DownloadButtonTotal
+              entityType="cohort"
               setKey="union-of"
-              filters={unionFilter}
-              createSetHook={ENTITY_TYPE_TO_CREATE_SET_HOOK[entityType]}
-              entityType={entityType}
+              filters={{ and: [] }}
               disabled={totalCount === 0}
             />
           </td>

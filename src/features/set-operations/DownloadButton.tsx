@@ -2,43 +2,36 @@ import React, { useEffect, useState } from "react";
 import { ActionIcon, Loader, Tooltip, Modal } from "@mantine/core";
 import { SetOperationEntityType } from "@/features/set-operations/types";
 import {
-  GqlOperation,
+  GQLFilter,
   useCoreDispatch,
 } from "@gen3/core";
-import download from "@/utils/download";
 import { getFormattedTimestamp } from "@/utils/date";
 import ModalButtonContainer from "@/components/StyledComponents/ModalButtonContainer";
 import DarkFunctionButton from "@/components/StyledComponents/DarkFunctionButton";
 import { DownloadIcon } from "@/utils/icons";
 
 const ENTITY_TYPE_TO_TAR = {
-  mutations: "ssm",
-  genes: "gene",
   cohort: "case",
 };
 
 interface DownloadButtonProps {
-  readonly createSetHook:
-    | typeof useCreateCaseSetFromFiltersMutation
-    | typeof useCreateGeneSetFromFiltersMutation
-    | typeof useCreateSsmsSetFromFiltersMutation;
   readonly entityType: SetOperationEntityType;
-  readonly filters: GqlOperation;
+  readonly filters: GQLFilter;
   readonly setKey: string;
   readonly disabled: boolean;
 }
 
 const DownloadButton: React.FC<DownloadButtonProps> = ({
-  createSetHook,
   entityType,
   filters,
   setKey,
   disabled,
 }: DownloadButtonProps) => {
   const [loading, setLoading] = useState(false);
-  const [createSet, response] = createSetHook();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const dispatch = useCoreDispatch();
+  // TODO: complete when download endpoint is finished
+  const response = { isLoading: false, isSuccess: false, isError: false, data: ""  };
 
   useEffect(() => {
     if (response.isLoading) {
@@ -47,42 +40,6 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       setLoading(false);
     }
   }, [response.isLoading]);
-
-  useEffect(() => {
-    if (response.isSuccess) {
-      download({
-        params: {
-          attachment: true,
-          format: "tsv",
-          sets: [
-            {
-              id: response.data,
-              type: ENTITY_TYPE_TO_TAR[entityType],
-              filename: `${setKey
-                .replace(/∩/g, "intersection")
-                .replace(
-                  /∪/g,
-                  "union",
-                )}-set-ids.${getFormattedTimestamp()}.tsv`,
-            },
-          ],
-        },
-        endpoint: "tar_sets",
-        method: "POST",
-        dispatch,
-        hideNotification: true,
-      });
-    } else if (response.isError) {
-      setShowErrorModal(true);
-    }
-  }, [
-    dispatch,
-    entityType,
-    response.data,
-    response.isSuccess,
-    response.isError,
-    setKey,
-  ]);
 
   return (
     <>
@@ -105,8 +62,9 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
         <div className="w-fit">
           <ActionIcon
             data-testid="button-download-tsv-set-operations"
-            onClick={() =>
-              createSet({ filters, set_type: "instant", intent: "portal" })
+            onClick={() => {}
+              // TODO: complete when download endpoint is finished
+              // createSet({ filters, set_type: "instant", intent: "portal" })
             }
             color="primary"
             variant="outline"

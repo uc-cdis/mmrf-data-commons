@@ -3,7 +3,8 @@ import {
   FilterSet,
   GQLUnion,
   GQLIntersection,
-} from "@gen3/core";
+  EmptyFilterSet,
+} from '@gen3/core';
 import { SetOperationEntityType } from "@/features/set-operations/types";
 import { Loader, Tooltip } from "@mantine/core";
 import CohortCreationButton, {
@@ -69,7 +70,8 @@ const CountButtonWrapperForSetsAndCases: React.FC<
       <CohortCreationButton
         numCases={count}
         label={count?.toLocaleString()}
-        filtersCallback={createCohort}
+        caseFilter={EmptyFilterSet}
+        filter={EmptyFilterSet}
       />
     );
   }

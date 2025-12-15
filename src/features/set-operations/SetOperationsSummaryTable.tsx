@@ -13,26 +13,22 @@ type SummaryTableDataType = {
 };
 
 export const SetOperationsSummaryTable = ({
-  sets,
-  countHook,
+  cohorts,
   entityType,
 }: {
-  sets: SelectedEntities;
-  countHook: typeof useCaseSetCountsQuery;
-  entityType: "cohort";
+  cohorts: SelectedEntities;
+  entityType: 'cohort';
 }): JSX.Element => {
-  const { data: summaryCounts, isFetching } = countHook({
-    setIds: sets.map((s) => s.id),
-  });
+
   const summaryTableData: SummaryTableDataType[] = useMemo(
     () =>
-      sets.map((set, idx) => ({
+      cohorts.map((set, idx) => ({
         idx,
         entityType: upperFirst(entityType),
         name: set.name,
-        count: isFetching ? "..." : summaryCounts?.[set.id],
+        count: set.count,
       })),
-    [entityType, isFetching, sets, summaryCounts],
+    [entityType,  cohorts],
   );
 
   const [summaryTableSorting, setSummaryTableSorting] = useState<SortingState>(
@@ -42,29 +38,29 @@ export const SetOperationsSummaryTable = ({
   const summaryTableColumns = useMemo(
     () => [
       summaryTableColumnsHelper.display({
-        id: "alias",
-        header: "Alias",
+        id: 'alias',
+        header: 'Alias',
         cell: ({ row }) => (
           <span>
             S<sub>{row.original.idx + 1}</sub>
           </span>
         ),
       }),
-      summaryTableColumnsHelper.accessor("entityType", {
-        id: "entityType",
-        header: "Entity Type",
+      summaryTableColumnsHelper.accessor('entityType', {
+        id: 'entityType',
+        header: 'Entity Type',
         enableSorting: false,
       }),
-      summaryTableColumnsHelper.accessor("name", {
-        id: "name",
-        header: "Name",
+      summaryTableColumnsHelper.accessor('name', {
+        id: 'name',
+        header: 'Name',
         enableSorting: false,
       }),
-      summaryTableColumnsHelper.accessor("count", {
-        header: "# Items",
+      summaryTableColumnsHelper.accessor('count', {
+        header: '# Items',
         enableSorting: true,
         cell: ({ getValue }) =>
-          getValue() !== undefined ? getValue().toLocaleString() : "...",
+          getValue() !== undefined ? getValue().toLocaleString() : '...',
       }),
     ],
     [summaryTableColumnsHelper],
@@ -79,8 +75,7 @@ export const SetOperationsSummaryTable = ({
       sorting={summaryTableSorting}
       setSorting={setSummaryTableSorting}
       columnSorting="enable"
-      status={isFetching ? "pending" : "fulfilled"}
-      customAriaLabel={"Summary Table"}
+      customAriaLabel={'Summary Table'}
     />
   );
 };

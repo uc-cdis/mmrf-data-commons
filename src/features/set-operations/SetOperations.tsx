@@ -12,12 +12,9 @@ const VennDiagram = dynamic(() => import("../charts/VennDiagram"), {
 });
 
 export const SetOperations: React.FC<SetOperationsProps> = ({
-  sets,
+  cohorts,
   entityType,
   data,
-  queryHook,
-  countHook,
-  isLoading,
 }: SetOperationsProps) => {
   const isDemoMode = useIsDemoApp();
   const [selectedSets, setSelectedSets] = useState(
@@ -28,10 +25,10 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
     () =>
       data.map((set) => ({
         key: set.key,
-        value: isLoading ? "..." : set.value,
+        value: set.value,
         highlighted: selectedSets[set.key],
       })),
-    [data, isLoading, selectedSets],
+    [data, selectedSets],
   );
 
   const onClickHandler = useDeepCompareCallback(
@@ -56,9 +53,8 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
       </div>
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-4">
         <div className="relative my-auto lg:basis-1/3 max-w-[400px] 2xl:max-w-[600px] w-full mx-auto">
-          <LoadingOverlay visible={isLoading} />
           <VennDiagram
-            labels={["S₁", "S₂", "S₃"]}
+            labels={['S₁', 'S₂', 'S₃']}
             ariaLabel="The Venn diagram displays the intersections, unions, or differences in the cohorts or sets. Additional information can be found in the Summary Table and the Overlap Table."
             chartData={chartData}
             onClickHandler={onClickHandler}
@@ -66,8 +62,7 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
         </div>
         <div className="relative lg:basis-2/3">
           <SetOperationsSummaryTable
-            sets={sets}
-            countHook={countHook}
+            cohorts={cohorts}
             entityType={entityType}
           />
           <div className="m-8" />
@@ -75,9 +70,8 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
             data={data}
             selectedSets={selectedSets}
             setSelectedSets={setSelectedSets}
-            queryHook={queryHook}
             entityType={entityType}
-            sets={sets}
+            cohorts={cohorts}
           />
         </div>
       </div>

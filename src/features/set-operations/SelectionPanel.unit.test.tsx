@@ -1,3 +1,4 @@
+import React from "react";
 import { render } from "test-utils";
 import SelectionPanel from "./SelectionPanel";
 
@@ -34,7 +35,7 @@ describe("<SelectionPanel />", () => {
         setOpen={jest.fn()}
         selectedEntities={[{ name: "Mutation Set 1", id: "1" }]}
         setSelectedEntities={jest.fn()}
-        selectedEntityType="mutations"
+        selectedEntityType="cohort"
         setSelectedEntityType={jest.fn()}
       />,
     );
@@ -46,15 +47,15 @@ describe("<SelectionPanel />", () => {
   it("can only select up to three entities", () => {
     const { getByLabelText } = render(
       <SelectionPanel
-        app={""}
+        app={''}
         setOpen={jest.fn()}
         selectedEntities={[
-          { name: "Mutation Set 1", id: "1" },
-          { name: "Mutation Set 2", id: "2" },
-          { name: "Mutation Set 3", id: "3" },
+          { name: 'Mutation Set 1', id: '1' },
+          { name: 'Mutation Set 2', id: '2' },
+          { name: 'Mutation Set 3', id: '3' },
         ]}
         setSelectedEntities={jest.fn()}
-        selectedEntityType="mutations"
+        selectedEntityType="cohort"
         setSelectedEntityType={jest.fn()}
       />,
     );
@@ -66,11 +67,11 @@ describe("<SelectionPanel />", () => {
   it("can run app with 2 entities selected", () => {
     const { getByText, rerender } = render(
       <SelectionPanel
-        app={""}
+        app={''}
         setOpen={jest.fn()}
         selectedEntities={[]}
         setSelectedEntities={jest.fn()}
-        selectedEntityType="mutations"
+        selectedEntityType="cohort"
         setSelectedEntityType={jest.fn()}
       />,
     );
@@ -79,14 +80,14 @@ describe("<SelectionPanel />", () => {
 
     rerender(
       <SelectionPanel
-        app={""}
+        app={''}
         setOpen={jest.fn()}
         selectedEntities={[
-          { name: "Mutation Set 1", id: "1" },
-          { name: "Mutation Set 2", id: "2" },
+          { name: 'Mutation Set 1', id: '1' },
+          { name: 'Mutation Set 2', id: '2' },
         ]}
         setSelectedEntities={jest.fn()}
-        selectedEntityType="mutations"
+        selectedEntityType="cohort"
         setSelectedEntityType={jest.fn()}
       />,
     );

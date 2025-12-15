@@ -1,12 +1,8 @@
-import {
-  useSetOperationsCasesTotalQuery,
-  useCaseSetCountsQuery,
-} from "@gen3/core";
-
 export type SetOperationEntityType = "cohort";
 export type SelectedEntity = {
   name: string;
   id: string;
+  count: number;
 };
 export type SelectedEntities = SelectedEntity[];
 
@@ -18,21 +14,21 @@ export interface SetOperationsChartInputProps {
 }
 
 export interface SetOperationsProps {
-  readonly sets: SelectedEntities;
+  readonly cohorts: SelectedEntities;
   readonly entityType: SetOperationEntityType;
   readonly data: {
     readonly label: string;
     readonly key: string;
     readonly value: number;
+    readonly caseIds: string[];
   }[];
-  readonly queryHook: typeof useSetOperationsCasesTotalQuery;
-  readonly countHook: typeof useCaseSetCountsQuery;
-  readonly isLoading: boolean;
 }
 
 export interface SetOperationsExternalProps {
-  readonly sets: SelectedEntities;
+  readonly cohorts: SelectedEntities;
   readonly entityType: SetOperationEntityType;
-  readonly queryHook: typeof useSetOperationsCasesTotalQuery;
-  readonly countHook: typeof useCaseSetCountsQuery;
+}
+
+export interface SetOperationsData {
+  case_ids: string[];
 }
