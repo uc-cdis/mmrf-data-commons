@@ -77,7 +77,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       scrollIntoView();
     }
     // this should only happen on initial component mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
   }, []);
 

@@ -428,21 +428,26 @@ export interface ProjectDefaults {
     readonly case_count: number;
     readonly file_count: number;
     readonly file_size: number;
-    readonly data_categories?: Array<{
+    readonly data_categories: Array<{
       readonly case_count: number;
       readonly data_category: string;
       readonly file_count: number;
-    }>;
-    readonly experimental_strategies?: Array<{
+    }> | null;
+    readonly experimental_strategies: Array<{
       readonly case_count: number;
       readonly experimental_strategy: string;
       readonly file_count: number;
-    }>;
+    }> | null;
+
   };
-  readonly program?: {
+  readonly program: {
     readonly dbgap_accession_number: string;
     readonly name: string;
     readonly program_id: string;
+  };
+  access: {
+    controlled?: number;
+    open?: number;
   };
 }
 

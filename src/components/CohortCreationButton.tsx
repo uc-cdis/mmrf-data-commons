@@ -99,9 +99,7 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
                                                                      label,
                                                                      numCases,
                                                                      filter,
-                                                                     caseFilter,
-                                                                     filtersCallback,
-                                                                     createStaticCohort = false,
+                                                                     caseFilter
 }: CohortCreationButtonProps) => {
   const [loading, setLoading] = useState(false);
   const disabled = numCases === undefined || numCases === 0;

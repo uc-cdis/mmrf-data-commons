@@ -236,7 +236,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
         toolApp.current.triggerAbort();
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [filter0, userDetails, /*geneDetailData*/],
   );
 

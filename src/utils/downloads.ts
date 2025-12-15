@@ -211,6 +211,7 @@ export interface DownloadArgs {
   filename: string;
   format: 'tsv' | 'json' |'csv';
   isManifest?: boolean;
+  size?: number;
 }
 
 interface DownloadParams {

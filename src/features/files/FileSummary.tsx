@@ -5,16 +5,16 @@ import { SummaryErrorHeader } from '@/components/Summary/SummaryErrorHeader';
 import { useGetFileSummaryQuery } from '../../core/features/files/filesSlice';
 
 export interface FileSummaryProps {
-  readonly file_id: string;
+  readonly fileId: string;
   readonly isModal?: boolean;
 }
 
 export const FileSummary: React.FC<FileSummaryProps> = ({
-  file_id,
+                                                          fileId,
   isModal,
 }: FileSummaryProps) => {
 
-  const { data: { files } = {}, isFetching } = useGetFileSummaryQuery(file_id);
+  const { data: { files } = {}, isFetching } = useGetFileSummaryQuery(fileId);
 
   return (
     <div>

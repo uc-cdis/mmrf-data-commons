@@ -18,7 +18,7 @@ import { useEffect, useCallback, MutableRefObject } from "react";
  * useSynchronizedRowHeights([table1Ref, table2Ref]);
  */
 export const useSynchronizedRowHeights = (
-  tableRefs: MutableRefObject<HTMLTableElement>[],
+  tableRefs: MutableRefObject<HTMLTableElement|null>[],
 ) => {
   const synchronizeRowHeights = useCallback(() => {
     const validTableRefs = tableRefs.filter((ref) => ref.current !== null);
