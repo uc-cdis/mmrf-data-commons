@@ -1,11 +1,15 @@
 import React, { ReactElement } from "react";
 import {
   Cohort,
-} from "@gen3/core";
+  type CoreState,
+  selectAvailableCohorts,
+  useCoreSelector,
+} from '@gen3/core';
 import { Loader } from "@mantine/core";
 import { SetOperationsTwo } from "./SetOperationsTwo";
 import { SetOperationsThree } from "./SetOperationsThree";
 import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
+import { SelectedEntity } from '@/features/set-operations/types';
 
 /**
  * This component handles the case when the user has selected cohorts for set operations.
@@ -14,23 +18,27 @@ import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
  * @param selectedEntities - the selected cohorts
  */
 const SetOperationChartsForCohorts = ({
-  cohorts,
+  selection,
 }: {
-  cohorts: Cohort[] | undefined;
+  selection: SelectedEntity[] | undefined;
 }): ReactElement => {
 
-  return cohorts?.length === 0 ? (
+  const cohorts = useCoreSelector((state: CoreState) =>
+    selectAvailableCohorts(state),
+  );
+
+  const selectedCohorts = useDeepCompareMemo(
+    () => selection?.map((x) => cohorts.find((c) => x.id === c.id) as Cohort), [selection, cohorts]
+  );
+
+  return selection?.length === 0 ? (
     <div className="flex items-center justify-center w-100 h-96">
       <Loader size={100} />
     </div>
-  ) : cohorts?.length === 2 ? (
-    <SetOperationsTwo
-      cohorts={cohorts}
-    />
+  ) : selectedCohorts?.length === 2 ? (
+    <SetOperationsTwo cohorts={selectedCohorts} />
   ) : (
-    <SetOperationsThree
-      cohorts={cohorts}
-    />
+    <SetOperationsThree cohorts={selectedCohorts} />
   );
 };
 

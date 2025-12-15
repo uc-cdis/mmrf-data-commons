@@ -13,7 +13,6 @@ const VennDiagram = dynamic(() => import("../charts/VennDiagram"), {
 
 export const SetOperations: React.FC<SetOperationsProps> = ({
   cohorts,
-  entityType,
   data,
 }: SetOperationsProps) => {
   const isDemoMode = useIsDemoApp();
@@ -63,14 +62,12 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
         <div className="relative lg:basis-2/3">
           <SetOperationsSummaryTable
             cohorts={cohorts}
-            entityType={entityType}
           />
           <div className="m-8" />
           <SetOperationTable
             data={data}
             selectedSets={selectedSets}
             setSelectedSets={setSelectedSets}
-            entityType={entityType}
             cohorts={cohorts}
           />
         </div>

@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useMemo } from 'react';
 import { SetOperations } from "./SetOperations";
 import { SetOperationsExternalProps } from "./types";
+import { useCohortCaseIdQuery } from '@/core/features/cases/caseSlice';
+import { computeS2SetValues } from '@/features/set-operations/utils';
 
 export const SetOperationsTwo: React.FC<SetOperationsExternalProps> = ({
   cohorts,
-  entityType,
 }: SetOperationsExternalProps) => {
 
   const intersectionData: Array<string>  = []
   const s1MinusS2Data: Array<string> = [];
   const s2MinusS1Data: Array<string> = [];
+
+  const { data: s1Cases, isFetching: s1CasesFetching, isError: s1CasesError, isSuccess: s1CasesSuccess } = useCohortCaseIdQuery({
+    filter: cohorts[0].filters['case_centric'],
+  });
+
+  const {
+    data: s2Cases,
+    isFetching: s2CasesFetching,
+    isError: s2CasesError,
+    isSuccess: s2CasesSuccess,
+  } = useCohortCaseIdQuery({
+    filter: cohorts[0].filters['case_centric'],
+  });
+
+  const setData = useMemo(() => {
+    if (s1CasesSuccess && s2CasesSuccess)
+      return computeS2SetValues(s1Cases, s2Cases);
+
+  }, [s1CasesSuccess, s2CasesSuccess, s1Cases, s2Cases]);
+
 
   const data = [
     {
@@ -35,7 +56,6 @@ export const SetOperationsTwo: React.FC<SetOperationsExternalProps> = ({
   return (
     <SetOperations
       cohorts={cohorts}
-      entityType={entityType}
       data={data}
     />
   );

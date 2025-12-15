@@ -7,7 +7,8 @@ import { upperFirst } from "lodash";
 import {
   useCoreSelector,
   selectAvailableCohorts,
-} from "@gen3/core";
+  type CoreState,
+} from '@gen3/core';
 import useStandardPagination from "@/hooks/useStandardPagination";
 import FunctionButton from "@/components/FunctionButton";
 import DarkFunctionButton from "@/components/StyledComponents/DarkFunctionButton";
@@ -98,7 +99,7 @@ const SelectCell: React.FC<SelectCellProps> = ({
           checked={selectedEntities.map((e) => e.id).includes(setId)}
           onChange={() => {
             selectEntity(
-              { id: setId, name },
+              { id: setId, name, count },
               selectedEntities,
               setSelectedEntities,
             );
@@ -178,7 +179,10 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
 
   // cohorts are not sets, but we want to display them in the same table
   // the associated case set will be created when a cohort is selected
-  const caseSetsAndCounts = useCasesSets();
+  // Need to get current ids of selected cohorts because the ids update after the cohort is saved
+  const cohorts = useCoreSelector((state: CoreState) =>
+    selectAvailableCohorts(state),
+  );
 
   useEffect(() => {
     if (selectedEntities.length === 0) {
@@ -188,14 +192,14 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
 
   const tableData = useDeepCompareMemo(() => {
     return [
-      ...Object.entries(caseSetsAndCounts.caseSets).map(([setId, setName]) => {
-        const count = caseSetsAndCounts.caseCounts?.[setId] || 0;
+      ...cohorts.map((cohort) => {
+        const count = cohort?.counts?.caseCount ?? 0;
 
         return {
           entity_type: 'cohort',
-          name: setName,
-          setId,
-          count,
+          name: cohort.name,
+          setId: cohort.id,
+          count: count,
         };
       }),
     ].sort((a: any, b: any) => {
@@ -211,10 +215,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
       }
       return 0;
     });
-  }, [
-    caseSetsAndCounts,
-    sortBy,
-  ]);
+  }, [cohorts, sortBy]);
 
   const setSelectionPanelColumnHelper =
     createColumnHelper<(typeof tableData)[0]>();
@@ -223,8 +224,8 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
   const setSelectionPanelColumns = useMemo(
     () => [
       setSelectionPanelColumnHelper.display({
-        id: "select",
-        header: "Select",
+        id: 'select',
+        header: 'Select',
         cell: ({ row }) => {
           const disabled = shouldDisableInput(
             row.original.entity_type,
@@ -251,9 +252,9 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
           );
         },
       }),
-      setSelectionPanelColumnHelper.accessor("entity_type", {
-        id: "entity_type",
-        header: "Entity Type",
+      setSelectionPanelColumnHelper.accessor('entity_type', {
+        id: 'entity_type',
+        header: 'Entity Type',
         cell: ({ getValue, row }) => (
           <span
             data-testid="text-entity-type-set-operations"
@@ -265,7 +266,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
                 selectedEntityType,
                 selectedEntities,
               )
-                ? "text-base-lighter"
+                ? 'text-base-lighter'
                 : undefined
             }
           >
@@ -273,9 +274,9 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
           </span>
         ),
       }),
-      setSelectionPanelColumnHelper.accessor("name", {
-        id: "name",
-        header: "Name",
+      setSelectionPanelColumnHelper.accessor('name', {
+        id: 'name',
+        header: 'Name',
         cell: ({ getValue, row }) => (
           <span
             data-testid="text-entity-name-set-operations"
@@ -290,7 +291,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
                 selectedEntityType,
                 selectedEntities,
               )
-                ? "text-base-lighter"
+                ? 'text-base-lighter'
                 : undefined
             }
           >
@@ -298,9 +299,9 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
           </span>
         ),
       }),
-      setSelectionPanelColumnHelper.accessor("count", {
-        id: "count",
-        header: "# Items",
+      setSelectionPanelColumnHelper.accessor('count', {
+        id: 'count',
+        header: '# Items',
         cell: ({ getValue, row }) => (
           <span
             data-testid={`text-${row.original.name}-item-count-set-operations`}
@@ -312,7 +313,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
                 selectedEntityType,
                 selectedEntities,
               )
-                ? "text-base-lighter"
+                ? 'text-base-lighter'
                 : undefined
             }
           >
@@ -348,10 +349,10 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case "newPageSize":
-        handlePageSizeChange(obj.newPageSize ?? "20");
+      case 'newPageSize':
+        handlePageSizeChange(obj.newPageSize ?? '20');
         break;
-      case "newPageNumber":
+      case 'newPageNumber':
         handlePageChange(obj.newPageNumber ?? 0);
         break;
     }
@@ -369,15 +370,15 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
             the same type.
           </p>
           <p className="pb-2 font-content text-sm">
-            Create cohorts in the Analysis Center. Create gene/mutation sets in{" "}
+            Create cohorts in the Analysis Center. Create gene/mutation sets in{' '}
             <Link
               data-testid="link-manage-sets"
               href="/manage_sets"
               className="text-utility-link font-content underline font-bold"
             >
               Manage Sets
-            </Link>{" "}
-            or in analysis tools (e.g.{" "}
+            </Link>{' '}
+            or in analysis tools (e.g.{' '}
             <Link
               data-testid="link-mutation-frequency"
               href="/analysis_page?app=MutationFrequencyApp"
@@ -398,7 +399,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
             size,
             from,
             total,
-            label: "set",
+            label: 'set',
           }}
           sorting={sorting}
           setSorting={setSorting}

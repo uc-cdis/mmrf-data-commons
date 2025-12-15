@@ -1,3 +1,5 @@
+import { Cohort } from '@gen3/core';
+
 export type SetOperationEntityType = "cohort";
 export type SelectedEntity = {
   name: string;
@@ -25,8 +27,7 @@ export interface SetOperationsProps {
 }
 
 export interface SetOperationsExternalProps {
-  readonly cohorts: SelectedEntities;
-  readonly entityType: SetOperationEntityType;
+  readonly cohorts: Cohort[];
 }
 
 export interface SetOperationsData {

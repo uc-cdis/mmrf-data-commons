@@ -7,7 +7,7 @@ import SetOperationChartsForCohorts from "@/features/set-operations/SetOperation
 import { SelectionScreenContext } from '@/components/analysis';
 import SelectionPanel from "@/features/set-operations/SelectionPanel";
 import { useRouter } from "next/router";
-import { useCoreSelector } from "@gen3/core";
+import { useCoreSelector, type CoreState, selectAvailableCohorts } from "@gen3/core";
 import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareEffect } from "use-deep-compare";
 
@@ -37,29 +37,17 @@ const SetOperationsSelection = (): JSX.Element => {
   // Link from Cohort Comparison app can set the viewed cohorts
   const overwriteSelectedEntities = cohort1Id && cohort2Id;
 
-  // Need to get current ids of selected cohorts because the ids update after the cohort is saved
-  const cohorts = useCoreSelector((state: any) =>
-    selectMultipleCohortsByIdOrName(
-      state,
-      overwriteSelectedEntities
-        ? [{ id: cohort1Id as string }, { id: cohort2Id as string }]
-        : selectedEntityType === "cohort"
-        ? selectedEntities
-        : [],
-    ),
-  );
-
   useDeepCompareEffect(() => {
     if ( overwriteSelectedEntities) {
       setSelectedEntityType("cohort");
     }
 
     // A cohort has been deleted, kick user back to selection screen
-    if (cohorts.length < 2) {
+    if (selectedEntities.length < 2) {
       setSelectionScreenOpen(true);
     }
   }, [
-    cohorts,
+    selectedEntities,
     setSelectionScreenOpen,
     overwriteSelectedEntities,
   ]);
@@ -72,12 +60,7 @@ const SetOperationsSelection = (): JSX.Element => {
       setActiveApp={setActiveApp}
       setOpen={setSelectionScreenOpen}
       selectedEntities={
-        selectedEntityType === "cohort"
-          ? cohorts.map((cohort: any) => ({
-              id: cohort.id,
-              name: cohort.name,
-            }))
-          : selectedEntities
+        selectedEntities
       }
       setSelectedEntities={setSelectedEntities}
       selectedEntityType={selectedEntityType}
@@ -86,7 +69,7 @@ const SetOperationsSelection = (): JSX.Element => {
   ) : (
     // handle cohorts as they require case set to be available
     <SetOperationChartsForCohorts
-      cohorts={cohorts}
+      selection={selectedEntities}
     />
   );
 };

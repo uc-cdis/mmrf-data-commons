@@ -105,8 +105,8 @@
           "loginRequired": false,
           "description": "Display a Venn diagram and compare/contrast your cohorts or sets of the same type.",
           "icon": "/icons/apps/SetOperations.svg",
-          "href": "/",
           "hideCounts": true,
+          "appId": "SetOperations",
           "countUnits": "Cases"
         }
       ]
