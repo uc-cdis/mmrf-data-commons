@@ -8,7 +8,7 @@ import {
 import { Loader } from "@mantine/core";
 import { SetOperationsTwo } from "./SetOperationsTwo";
 import { SetOperationsThree } from "./SetOperationsThree";
-import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
+import { useDeepCompareMemo } from "use-deep-compare";
 import { SelectedEntity } from '@/features/set-operations/types';
 
 /**
@@ -31,14 +31,14 @@ const SetOperationChartsForCohorts = ({
     () => selection?.map((x) => cohorts.find((c) => x.id === c.id) as Cohort), [selection, cohorts]
   );
 
-  return selection?.length === 0 ? (
+  return !selection || selection?.length === 0 ? (
     <div className="flex items-center justify-center w-100 h-96">
       <Loader size={100} />
     </div>
   ) : selectedCohorts?.length === 2 ? (
     <SetOperationsTwo cohorts={selectedCohorts} />
   ) : (
-    <SetOperationsThree cohorts={selectedCohorts} />
+    <SetOperationsThree cohorts={selectedCohorts ?? []} />
   );
 };
 

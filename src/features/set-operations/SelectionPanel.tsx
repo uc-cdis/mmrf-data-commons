@@ -22,6 +22,7 @@ import { useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
 import { entityTypes } from "@/components/BioTree/types";
 import { HandleChangeInput } from "@/components/Table/types";
 import VerticalTable from "@/components/Table/VerticalTable";
+import { COHORT_FILTER_INDEX } from '@/core';
 
 const shouldDisableInput = (
   entityType: string,
@@ -193,7 +194,7 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
   const tableData = useDeepCompareMemo(() => {
     return [
       ...cohorts.map((cohort) => {
-        const count = cohort?.counts?.caseCount ?? 0;
+        const count = cohort?.counts?.[COHORT_FILTER_INDEX] ?? 0;
 
         return {
           entity_type: 'cohort',
@@ -363,30 +364,10 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
       <div className="p-4 w-full xl:w-3/4 flex flex-col gap-2">
         <div>
           <h2 className="font-content text-xl font-bold text-primary-content-darkest">
-            Select 2 or 3 of the same set type
+            Select 2 or 3 cohorts to compare.
           </h2>
           <p className="font-content text-sm">
-            Display a Venn diagram and compare/contrast your cohorts or sets of
-            the same type.
-          </p>
-          <p className="pb-2 font-content text-sm">
-            Create cohorts in the Analysis Center. Create gene/mutation sets in{' '}
-            <Link
-              data-testid="link-manage-sets"
-              href="/manage_sets"
-              className="text-utility-link font-content underline font-bold"
-            >
-              Manage Sets
-            </Link>{' '}
-            or in analysis tools (e.g.{' '}
-            <Link
-              data-testid="link-mutation-frequency"
-              href="/analysis_page?app=MutationFrequencyApp"
-              className="text-utility-link font-content underline font-bold"
-            >
-              Mutation Frequency
-            </Link>
-            ).
+            Display a Venn diagram and compare/contrast your cohorts.
           </p>
         </div>
 

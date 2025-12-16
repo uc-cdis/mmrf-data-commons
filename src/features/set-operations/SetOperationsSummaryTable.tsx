@@ -13,22 +13,19 @@ type SummaryTableDataType = {
 };
 
 export const SetOperationsSummaryTable = ({
-  cohorts,
-  entityType,
+  entities,
 }: {
-  cohorts: SelectedEntities;
-  entityType: 'cohort';
+  entities: SelectedEntities;
 }): JSX.Element => {
-
   const summaryTableData: SummaryTableDataType[] = useMemo(
     () =>
-      cohorts.map((set, idx) => ({
+      entities.map((set, idx) => ({
         idx,
-        entityType: upperFirst(entityType),
+        entityType: 'Cohort',
         name: set.name,
         count: set.count,
       })),
-    [entityType,  cohorts],
+    [entities],
   );
 
   const [summaryTableSorting, setSummaryTableSorting] = useState<SortingState>(

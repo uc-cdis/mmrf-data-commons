@@ -1,21 +1,18 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
-import { SetOperationsProps } from "./types";
-import { SetOperationsSummaryTable } from "./SetOperationsSummaryTable";
-import { SetOperationTable } from "./SetOperationTable";
-import { LoadingOverlay } from "@mantine/core";
-import { useDeepCompareCallback, useDeepCompareMemo } from "use-deep-compare";
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { SetOperationsProps } from './types';
+import { SetOperationsSummaryTable } from './SetOperationsSummaryTable';
+import { SetOperationTable } from './SetOperationTable';
+import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 
-const VennDiagram = dynamic(() => import("../charts/VennDiagram"), {
+const VennDiagram = dynamic(() => import('../charts/VennDiagram'), {
   ssr: false,
 });
 
 export const SetOperations: React.FC<SetOperationsProps> = ({
-  cohorts,
+  entities,
   data,
 }: SetOperationsProps) => {
-  const isDemoMode = useIsDemoApp();
   const [selectedSets, setSelectedSets] = useState(
     Object.fromEntries(data.map((set) => [set.key, false])),
   );
@@ -42,14 +39,6 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
 
   return (
     <div className="flex flex-col p-4 w-full">
-      <div>
-        {isDemoMode && (
-          <p className="mb-2">
-            Demo showing high impact mutations overlap in Bladder between
-            Mutect, Varscan and Muse pipelines.
-          </p>
-        )}
-      </div>
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-4">
         <div className="relative my-auto lg:basis-1/3 max-w-[400px] 2xl:max-w-[600px] w-full mx-auto">
           <VennDiagram
@@ -60,15 +49,12 @@ export const SetOperations: React.FC<SetOperationsProps> = ({
           />
         </div>
         <div className="relative lg:basis-2/3">
-          <SetOperationsSummaryTable
-            cohorts={cohorts}
-          />
+          <SetOperationsSummaryTable entities={entities} />
           <div className="m-8" />
           <SetOperationTable
             data={data}
             selectedSets={selectedSets}
             setSelectedSets={setSelectedSets}
-            cohorts={cohorts}
           />
         </div>
       </div>

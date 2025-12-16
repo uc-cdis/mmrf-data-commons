@@ -1,5 +1,6 @@
 import {
   convertFilterSetToGqlFilter,
+  EmptyFilterSet,
   FilterSet,
   guppyApi,
 } from '@gen3/core';
@@ -234,10 +235,10 @@ const caseSlice = guppyApi.injectEndpoints({
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
       query: ({ filter }: CohortCaseIdsRequest) => {
-        const gqlFilter = convertFilterSetToGqlFilter(filter);
+        const gqlFilter = convertFilterSetToGqlFilter(filter ?? EmptyFilterSet);
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
-            hits: CaseCentric_case_centric(filter: $filter) {
+            hits: CaseCentric_case_centric(filter: $filter, first: ${MAX_CASES}) {
                 case_id
             }
         }`,

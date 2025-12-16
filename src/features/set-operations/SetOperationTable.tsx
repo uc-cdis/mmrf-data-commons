@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState, useId } from "react";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {
   ColumnDef,
   createColumnHelper,
   SortingState,
 } from "@tanstack/react-table";
-import { useState, useId } from "react";
 import { useDeepCompareMemo } from "use-deep-compare";
 import CountButtonWrapperForSetsAndCases from "./CountButtonWrapperForSetsAndCases";
 import { Checkbox, Tooltip } from "@mantine/core";
-import { pickBy } from "lodash";
-import { SelectedEntities, SetOperationEntityType } from "./types";
+import { pickBy, set } from "lodash";
 import DownloadButtonTotal from "./DownloadButton";
+import { count } from 'mathjs';
 
 type SetOperationTableDataType = {
   setOperation: string;
@@ -26,15 +25,12 @@ export const SetOperationTable = ({
   data,
   selectedSets,
   setSelectedSets,
-  entityType,
-  cohorts,
 }: {
-  readonly cohorts: SelectedEntities;
-  readonly entityType: SetOperationEntityType;
   readonly data: {
     readonly label: string;
     readonly key: string;
     readonly value: number;
+    readonly caseIds: string[];
   }[];
   selectedSets: {
     [k: string]: boolean;
@@ -47,10 +43,10 @@ export const SetOperationTable = ({
 }): JSX.Element => {
 
 
-  const totalCount =
-    Object.keys(pickBy(selectedSets, (v) => v)).length > 0
-      ? cohorts.length
-      : 0;
+  const totalCount = data.reduce((count, set) => {
+    if (set.caseIds.length > 0 && Object.keys(selectedSets).includes(set.key)) count += set.caseIds.length;
+    return count;
+  }, 0)
   const [rowSelection, setRowSelection] = useState({});
   const [operationTableSorting, setOperationTableSorting] =
     useState<SortingState>([]);
@@ -117,7 +113,7 @@ export const SetOperationTable = ({
           <CountButtonWrapperForSetsAndCases
             count={getValue()}
             filters={{ and: [] }}
-            entityType={entityType}
+            entityType="cohort"
           />
         ),
         enableSorting: true,
@@ -128,7 +124,7 @@ export const SetOperationTable = ({
         cell: ({ row }) => (
           <DownloadButtonTotal
             filters={{ and: [] }}
-            entityType={entityType}
+            entityType="cohort"
             setKey={row.original.setOperation}
             disabled={row.original.count === 0}
           />
@@ -136,7 +132,7 @@ export const SetOperationTable = ({
       }),
     ],
 
-    [selectedSets, entityType, cohorts, setSelectedSets, componentId],
+    [selectedSets, setSelectedSets, componentId],
   );
 
   return (
@@ -161,7 +157,7 @@ export const SetOperationTable = ({
             <CountButtonWrapperForSetsAndCases
               count={totalCount}
               filters={{ and: [] }}
-              entityType={entityType}
+              entityType='cohort'
             />
           </td>
           <td className="p-2.5">

@@ -16,8 +16,7 @@ export interface SetOperationsChartInputProps {
 }
 
 export interface SetOperationsProps {
-  readonly cohorts: SelectedEntities;
-  readonly entityType: SetOperationEntityType;
+  readonly entities: SelectedEntities;
   readonly data: {
     readonly label: string;
     readonly key: string;
