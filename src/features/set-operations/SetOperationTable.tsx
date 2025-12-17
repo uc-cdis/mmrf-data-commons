@@ -8,14 +8,14 @@ import {
 import { useDeepCompareMemo } from "use-deep-compare";
 import CountButtonWrapperForSetsAndCases from "./CountButtonWrapperForSetsAndCases";
 import { Checkbox, Tooltip } from "@mantine/core";
-import { pickBy, set } from "lodash";
 import DownloadButtonTotal from "./DownloadButton";
-import { count } from 'mathjs';
+import { FilterSet } from '@gen3/core';
 
 type SetOperationTableDataType = {
   setOperation: string;
   count: number;
   operationKey: string;
+  caseIds: string[];
 };
 
 const setOperationTableColumnsHelper =
@@ -52,12 +52,21 @@ export const SetOperationTable = ({
     useState<SortingState>([]);
   const componentId = useId();
 
+  const unionData = useDeepCompareMemo(() => {
+    const ids =  data.reduce((acc: string[], set) => {
+      return set.caseIds.length > 0 ? [...acc, ...set.caseIds] : acc;
+    }, [] )
+
+    return [...new Set(ids)];
+  }, [data])
+
   const setOperationTableData: SetOperationTableDataType[] = useDeepCompareMemo(
     () =>
       data.map((r) => ({
         setOperation: r.label,
         count: r.value,
         operationKey: r.key,
+        caseIds: r.caseIds
       })),
     [data],
   );
@@ -112,7 +121,7 @@ export const SetOperationTable = ({
         cell: ({ row, getValue }) => (
           <CountButtonWrapperForSetsAndCases
             count={getValue()}
-            filters={{ and: [] }}
+            filters={ { mode: "and", root : { "case_id" : {operator: 'in', field: "case_id", operands: row.original.caseIds }}} satisfies FilterSet }
             entityType="cohort"
           />
         ),
@@ -123,8 +132,7 @@ export const SetOperationTable = ({
         header: 'Download',
         cell: ({ row }) => (
           <DownloadButtonTotal
-            filters={{ and: [] }}
-            entityType="cohort"
+            data={row.original.caseIds}
             setKey={row.original.setOperation}
             disabled={row.original.count === 0}
           />
@@ -156,15 +164,25 @@ export const SetOperationTable = ({
           <td className="w-52 px-2.5">
             <CountButtonWrapperForSetsAndCases
               count={totalCount}
-              filters={{ and: [] }}
-              entityType='cohort'
+              filters={
+                {
+                  mode: 'and',
+                  root: {
+                    case_id: {
+                      operator: 'in',
+                      field: 'case_id',
+                      operands: unionData,
+                    },
+                  },
+                } satisfies FilterSet
+              }
+              entityType="cohort"
             />
           </td>
           <td className="p-2.5">
             <DownloadButtonTotal
-              entityType="cohort"
               setKey="union-of"
-              filters={{ and: [] }}
+              data={unionData}
               disabled={totalCount === 0}
             />
           </td>

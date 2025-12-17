@@ -4,6 +4,7 @@ import {
   GQLUnion,
   GQLIntersection,
   EmptyFilterSet,
+  convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { SetOperationEntityType } from "@/features/set-operations/types";
 import { Loader, Tooltip } from "@mantine/core";
@@ -57,7 +58,7 @@ export const CreateFromCountButton = ({
 
 interface CountButtonWrapperForSetProps {
   readonly count: number;
-  readonly filters: GQLUnion | GQLIntersection;
+  readonly filters: FilterSet;
   readonly entityType?: SetOperationEntityType;
 }
 
@@ -70,7 +71,7 @@ const CountButtonWrapperForSetsAndCases: React.FC<
       <CohortCreationButton
         numCases={count}
         label={count?.toLocaleString()}
-        caseFilter={EmptyFilterSet}
+        caseFilter={filters}
         filter={EmptyFilterSet}
       />
     );
