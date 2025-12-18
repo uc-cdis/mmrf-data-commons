@@ -134,7 +134,7 @@ export const BioTree = ({
         setExpandedCount((c) => Math.max(c - 1, 0));
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const onTreeClick = () => {

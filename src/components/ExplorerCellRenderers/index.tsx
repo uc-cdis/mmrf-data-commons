@@ -6,6 +6,7 @@ import {
 import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
 import { Image } from '@/components/Image';
 import Link from 'next/link';
+import { JSONPath } from 'jsonpath-plus';
 
 export const PopupIconLink = (
   { cell }: CellRendererFunctionProps,
@@ -28,7 +29,12 @@ export const OpenLinkInTab = (
 ) => {
   const value = cell.getValue() as string;
   const { linkField, href } = params;
-  const id = row.original?.[linkField]
+  const jsonData = JSONPath({
+    json: row.original,
+    path: `$.${linkField}`,
+    resultType: 'value',
+  });
+  const id = jsonData?.[0]?.toString() ?? '';
   const uuid = encodeURIComponent(id?.toString() ?? "")
 
   return (

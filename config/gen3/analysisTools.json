@@ -11,8 +11,6 @@
           "loginRequired": false,
           "description": "Explore the available projects and select those for further investigation and analysis.",
           "icon": "/icons/apps/Projects.svg",
-          "href": "/",
-          "count": 1000,
           "countUnits": "Cases",
           "hideCounts" : true,
           "appId" : "Projects"
@@ -24,7 +22,6 @@
           "loginRequired": false,
           "description": "Build and define your custom cohorts using a variety of clinical and biospecimen features.",
           "icon": "/icons/apps/CohortBuilder.svg",
-          "count": 1000,
           "hideCounts" : true,
           "appId" : "CohortBuilder",
           "countUnits": "Cases"
@@ -36,7 +33,6 @@
           "loginRequired": false,
           "description": "Browse and download the files associated with your cohort for more sophisticated analysis.",
           "icon": "/icons/apps/Repository.svg",
-          "count": 1000,
           "hideCounts" : true,
           "appId" : "Repository",
           "countUnits": "Cases"
@@ -53,7 +49,6 @@
           "loginRequired": false,
           "description": "Visualize most frequently mutated genes and somatic mutations.",
           "icon": "/icons/apps/MutationFrequency.svg",
-          "count": 1000,
           "hideCounts" : true,
           "appId" : "MutationFrequency",
           "countUnits": "Case"
@@ -65,7 +60,6 @@
           "loginRequired": false,
           "description": "Use clinical variables to perform basic statistical analysis of your cohort.",
           "icon": "/icons/apps/ClinicalData.svg",
-          "count": 1000,
           "hideCounts" : true,
           "appId" : "cDave",
           "countUnits": "Cases"
@@ -89,8 +83,8 @@
           "loginRequired": false,
           "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
           "icon": "/icons/apps/ProteinPaint.svg",
-          "appId" : "ProteinPaint",
-          "count": 1000,
+          "appId": "ProteinPaint",
+          "hideCounts": true,
           "countUnits": "Cases"
         },
         {
@@ -100,8 +94,8 @@
           "loginRequired": false,
           "description": "Visualize the top most mutated cases and genes affected by high impact mutations in your cohort.",
           "icon": "/icons/apps/OncoMatrix.svg",
-          "appId" : "OncoMatrix",
-          "count": 1000,
+          "appId": "OncoMatrix",
+          "hideCounts": true,
           "countUnits": "Cases"
         },
         {
@@ -112,7 +106,7 @@
           "description": "Display a Venn diagram and compare/contrast your cohorts or sets of the same type.",
           "icon": "/icons/apps/SetOperations.svg",
           "href": "/",
-          "count": 1000,
+          "hideCounts": true,
           "countUnits": "Cases"
         }
       ]

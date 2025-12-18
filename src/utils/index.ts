@@ -216,7 +216,9 @@ export const ageDisplay = (
 export const extractToArray = (
   data: ReadonlyArray<Record<string, number | string>>,
   nodeKey: string,
-): (string | number)[] => data?.map((x) => x[nodeKey]);
+): (string | number)[] => {
+  return data?.map((x) => x[nodeKey]);
+}
 
 export const processFilters = (
   filter_A: FilterSet,
