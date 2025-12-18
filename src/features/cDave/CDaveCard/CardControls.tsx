@@ -1,22 +1,17 @@
 import React from "react";
 import { Button } from "@mantine/core";
 import { saveAs } from "file-saver";
-import {
-  FilterSet,
-  useCoreSelector,
-  selectCurrentCohortFilters,
-} from "@gen3/core";
+import { FilterSet } from "@gen3/core";
 import { DropdownWithIcon } from "@gen3/frontend";
-import { useIsDemoApp } from "@/hooks/useIsDemoApp";
 import { getFormattedTimestamp } from "@/utils/date";
 import {
-  CategoricalBins, CustomBinData,
+  CategoricalBins,
+  CustomBinData,
   CustomInterval,
   DisplayData,
   NamedFromTo,
   SelectedFacet,
-} from '../types';
-import { DEMO_COHORT_FILTERS } from "../constants";
+} from "../types";
 import {
   createFiltersFromSelectedValues,
   formatPercent,
@@ -24,6 +19,7 @@ import {
 } from "../utils";
 import { useMemo } from "react";
 import { DropdownIcon } from "@/utils/icons";
+import { CasesCohortButtonFromFilters } from "@/features/cases/CasesCohortButton/CasesCohortButton";
 
 interface CardControlsProps {
   readonly continuous: boolean;
@@ -36,11 +32,10 @@ interface CardControlsProps {
   readonly setCustomBinnedData:
     | ((bins: CategoricalBins) => void)
     | ((bins: NamedFromTo[] | CustomInterval) => void)
-    | ((bins?: any ) => void)
+    | ((bins?: any) => void);
   readonly selectedFacets: SelectedFacet[];
   readonly dataDimension?: string;
 }
-
 
 const CardControls: React.FC<CardControlsProps> = ({
   continuous,
@@ -54,7 +49,6 @@ const CardControls: React.FC<CardControlsProps> = ({
   selectedFacets,
   dataDimension,
 }: CardControlsProps) => {
-  const isDemoMode = useIsDemoApp();
   const displayDataDimension = useDataDimension(field);
 
   const downloadTSVFile = () => {
@@ -75,10 +69,6 @@ const CardControls: React.FC<CardControlsProps> = ({
     );
   };
 
-  const cohortFilters = useCoreSelector((state) =>
-    isDemoMode ? DEMO_COHORT_FILTERS : selectCurrentCohortFilters(state),
-  );
-
   const filters: FilterSet = useMemo(
     () =>
       createFiltersFromSelectedValues(
@@ -94,6 +84,18 @@ const CardControls: React.FC<CardControlsProps> = ({
     <>
       <div className="flex justify-between gap-2 py-2 flex-reverse-wrap md:flex-wrap">
         <div className="flex flex-wrap gap-2">
+          <div className="order-2 md:order-1">
+            <CasesCohortButtonFromFilters
+              filters={selectedFacets.length === 0 ? undefined : filters}
+              numCases={
+                selectedFacets.length === 0
+                  ? 0
+                  : selectedFacets
+                      .map((facet) => facet.numCases)
+                      .reduce((a, b) => a + b)
+              }
+            />
+          </div>
           <Button
             data-testid="button-tsv-cdave-card"
             className="bg-base-max text-primary border-primary order-1 md:order-2"

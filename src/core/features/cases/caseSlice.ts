@@ -150,13 +150,13 @@ const FileValidateQuery = `query File_file ($filter: JSON) {
 }`;
 
 export const EntityFields: Record<ValidateTypes, string> = {
-  file: 'file_id',
-  case: 'case_id',
+  file: "file_id",
+  case: "case_id",
 };
 
 const EntityQueryHeaders: Record<ValidateTypes, string> = {
-  file: 'File_file',
-  case: 'Case_case',
+  file: "File_file",
+  case: "Case_case",
 };
 
 interface ValidationResult {
@@ -172,7 +172,7 @@ interface CaseValidatationRequest {
   caseIds: Array<string>;
 }
 
-export type ValidateTypes = 'file' | 'case';
+export type ValidateTypes = "file" | "case";
 
 const ValidationQueries: Record<ValidateTypes, string> = {
   file: FileValidateQuery,
@@ -245,10 +245,10 @@ const caseSlice = guppyApi.injectEndpoints({
           variables: { filter: gqlFilter },
         };
       },
-      transformResponse: (response: any) => response?.data?.hits?.map((x : any) => x?.case_id) ?? []
+      transformResponse: (response: any) =>
+        response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
     }),
   }),
-
 });
 
 export const {
