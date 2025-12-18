@@ -1,5 +1,12 @@
-import { MAX_CASES } from "@/core";
-import { convertFilterSetToGqlFilter, FilterSet, guppyApi } from "@gen3/core";
+import {
+  convertFilterSetToGqlFilter,
+  EmptyFilterSet,
+  FilterSet,
+  guppyApi,
+} from '@gen3/core';
+
+import { MAX_CASES} from '@/core';
+
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
@@ -228,12 +235,10 @@ const caseSlice = guppyApi.injectEndpoints({
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
       query: ({ filter }: CohortCaseIdsRequest) => {
-        const gqlFilter = convertFilterSetToGqlFilter(
-          filter !== undefined ? filter : { mode: "and", root: {} },
-        );
+        const gqlFilter = convertFilterSetToGqlFilter(filter ?? EmptyFilterSet);
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
-          hits: CaseCentric_case_centric(filter: $filter first: ${MAX_CASES}) {
+            hits: CaseCentric_case_centric(filter: $filter, first: ${MAX_CASES}) {
                 case_id
             }
         }`,

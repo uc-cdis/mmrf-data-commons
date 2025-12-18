@@ -1,0 +1,118 @@
+import React, { useEffect, useState } from 'react';
+import { ActionIcon, Loader, Tooltip, Modal } from '@mantine/core';
+import { SetOperationEntityType } from '@/features/set-operations/types';
+import { GQLFilter, useCoreDispatch } from '@gen3/core';
+import { getFormattedTimestamp } from '@/utils/date';
+import ModalButtonContainer from '@/components/StyledComponents/ModalButtonContainer';
+import DarkFunctionButton from '@/components/StyledComponents/DarkFunctionButton';
+import { DownloadIcon } from '@/utils/icons';
+import { formatPercent } from '@/features/cDave/utils';
+import { saveAs } from 'file-saver';
+
+const ENTITY_TYPE_TO_TAR = {
+  cohort: 'case',
+};
+
+interface DownloadButtonProps {
+  readonly data: string[];
+  readonly setKey: string;
+  readonly disabled: boolean;
+}
+
+function saveCaseIdsToTSV(ids: string[], filename: string) {
+  const header = ['case_id'];
+  const body = ids.map((id) => [id].join('\t'));
+  const tsv = [header.join('\t'), body.join('\n')].join('\n');
+  saveAs(
+    new Blob([tsv], {
+      type: 'text/tsv',
+    }),
+    filename,
+  );
+}
+
+
+
+const DownloadButton: React.FC<DownloadButtonProps> = ({
+  data,
+  setKey,
+  disabled,
+}: DownloadButtonProps) => {
+  const [loading, setLoading] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  // TODO: complete when download endpoint is finished
+  const response = {
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    data: '',
+  };
+
+  useEffect(() => {
+    if (response.isLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [response.isLoading]);
+
+
+
+  const filename = `${setKey
+    .replace(/∩/g, 'intersection')
+    .replace(/∪/g, 'union')}-case-ids.${getFormattedTimestamp()}.tsv`;
+
+  const handleClick = React.useCallback(() => {
+    if (disabled) return;
+    try {
+      saveCaseIdsToTSV(data, filename);
+    } catch {
+      // setShowErrorModal(true); // if you have such state
+    }
+  }, [disabled, data, filename]);
+
+  return (
+    <>
+      <Modal
+        opened={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        title="Export Set Error"
+      >
+        <p className="py-2 px-4">There was a problem exporting the set.</p>
+        <ModalButtonContainer data-testid="modal-button-container">
+          <DarkFunctionButton onClick={() => setShowErrorModal(false)}>
+            OK
+          </DarkFunctionButton>
+        </ModalButtonContainer>
+      </Modal>
+      <Tooltip
+        label={disabled ? 'No items to export' : 'Export as TSV'}
+        withArrow
+      >
+        <div className="w-fit">
+          <ActionIcon
+            data-testid="button-download-tsv-set-operations"
+            onClick={handleClick}
+            color="primary"
+            variant="outline"
+            className={`${
+              disabled
+                ? 'bg-base-lighter'
+                : 'bg-base-max hover:bg-primary hover:text-base-max'
+            }`}
+            disabled={disabled}
+            aria-label="download TSV"
+          >
+            {loading ? (
+              <Loader size={14} />
+            ) : (
+              <DownloadIcon aria-hidden="true" />
+            )}
+          </ActionIcon>
+        </div>
+      </Tooltip>
+    </>
+  );
+};
+
+export default DownloadButton;
