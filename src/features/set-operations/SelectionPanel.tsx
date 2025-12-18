@@ -393,7 +393,10 @@ const SelectionPanel: React.FC<SelectionPanelProps> = ({
           data-testid="button-cancel-set-operations"
           className="mr-4"
           onClick={() => {
+            if (setActiveApp)
+              setActiveApp('');
             setOpen(false);
+            setSelectedEntities([]);
           }}
         >
           Cancel

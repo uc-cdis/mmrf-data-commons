@@ -43,10 +43,7 @@ export const SetOperationTable = ({
 }): JSX.Element => {
 
 
-  const totalCount = data.reduce((count, set) => {
-    if (set.caseIds.length > 0 && Object.keys(selectedSets).includes(set.key)) count += set.caseIds.length;
-    return count;
-  }, 0)
+
   const [rowSelection, setRowSelection] = useState({});
   const [operationTableSorting, setOperationTableSorting] =
     useState<SortingState>([]);
@@ -59,6 +56,8 @@ export const SetOperationTable = ({
 
     return [...new Set(ids)];
   }, [data])
+
+  const totalCount = unionData.length;
 
   const setOperationTableData: SetOperationTableDataType[] = useDeepCompareMemo(
     () =>

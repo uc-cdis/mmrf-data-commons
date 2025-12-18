@@ -7,7 +7,6 @@ import SetOperationChartsForCohorts from "@/features/set-operations/SetOperation
 import { SelectionScreenContext } from '@/components/analysis';
 import SelectionPanel from "@/features/set-operations/SelectionPanel";
 import { useRouter } from "next/router";
-import { useCoreSelector, type CoreState, selectAvailableCohorts } from "@gen3/core";
 import { LoadingOverlay } from "@mantine/core";
 import { useDeepCompareEffect } from "use-deep-compare";
 

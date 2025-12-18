@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react';
-import { SetOperations } from "./SetOperations";
-import { SelectedEntities, SetOperationsExternalProps } from "./types";
+import { SetOperations } from './SetOperations';
+import { SelectedEntities, SetOperationsExternalProps } from './types';
 import { useCohortCaseIdQuery } from '@/core/features/cases/caseSlice';
 import { computeS2SetValues } from '@/features/set-operations/utils';
-import { x } from 'tar';
+import { LoadingOverlay } from '@mantine/core';
 
 export const SetOperationsTwo: React.FC<SetOperationsExternalProps> = ({
   cohorts,
 }: SetOperationsExternalProps) => {
-
-  const entities = useMemo< SelectedEntities>(() =>
-    cohorts.map((x) => ({
-    name: x.name, id: x.id, count: x.counts?.['case_centric'] ?? 0
-  })), [cohorts]);
+  const entities = useMemo<SelectedEntities>(
+    () =>
+      cohorts.map((x) => ({
+        name: x.name,
+        id: x.id,
+        count: x.counts?.['case_centric'] ?? 0,
+      })),
+    [cohorts],
+  );
 
   const {
     data: s1Cases,
@@ -58,5 +62,22 @@ export const SetOperationsTwo: React.FC<SetOperationsExternalProps> = ({
     },
   ];
 
-  return <SetOperations entities={entities} data={data} />;
+  if (s1CasesError || s2CasesError)
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <div className="font-medium font-montserrat text-2xl text-base-contrast-lighter">
+          Error fetching data.
+        </div>
+      </div>
+    )
+
+  if (s1CasesFetching || s2CasesFetching)
+    return (
+      <div className="relative w-full h-64">
+        <LoadingOverlay visible={s1CasesFetching || s2CasesFetching} />
+      </div>
+    );
+  return (
+      <SetOperations entities={entities} data={data} />
+  );
 };

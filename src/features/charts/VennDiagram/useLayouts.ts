@@ -29,29 +29,6 @@ const c1c3I = [
   { x: 100.838, y: 237.081 },
 ];
 
-interface CircleCenter {
-  x: number;
-  y: number;
-}
-
-interface TwoCircleLayout {
-  [key: string]: CircleCenter;
-  S1_minus_S2: CircleCenter;
-  S2_minus_S1: CircleCenter;
-  S1_intersect_S2: CircleCenter;
-}
-
-interface ThreeCircleLayout {
-  [key: string]: CircleCenter;
-  S1_minus_S2_union_S3: CircleCenter;
-  S2_minus_S1_union_S3: CircleCenter;
-  S3_minus_S1_union_S2: CircleCenter;
-  S1_intersect_S2_minus_S3: CircleCenter;
-  S1_intersect_S3_minus_S2: CircleCenter;
-  S2_intersect_S3_minus_S1: CircleCenter;
-  S1_intersect_S2_intersect_S3: CircleCenter;
-}
-
 const style = {
   fill: "#f0f0f0",
   stroke: "#5c5c5c",
@@ -60,7 +37,7 @@ const style = {
 };
 
 /*
-  Create a venn diagram by drawing circles and then drawing the overlaps over top with svg paths.
+  Create venn diagram by drawing circles and then drawing the overlaps over top with svg paths.
   Bezier control points calculated with this: https://stackoverflow.com/questions/734076/how-to-best-approximate-a-geometrical-arc-with-a-bezier-curve/44829356#44829356
 */
 export const createThreeCircleLayout = (
@@ -622,12 +599,12 @@ const chartConfig: EChartsOption = {
 };
 
 const addHighlight = (
-  chartLayout:    GraphicComponentGroupOption[],
+  chartLayout: GraphicComponentOption[],
   highlightedIndices: string[],
   hoveredId: string | null = null,
   isCursorAllowed: boolean = true,
 ) => {
-  return chartLayout.map((group) => {
+  return chartLayout.map((group: any) => {
     const isHighlighted = highlightedIndices.includes(group.id);
     const isHovered = hoveredId === group.id;
 
@@ -651,7 +628,7 @@ const addHighlight = (
       if (group?.children) {
         return {
           ...group,
-          children: group.children.map((child) => ({
+          children: group.children.map((child: any) => ({
             ...child,
             ...(!isCursorAllowed && { cursor: "not-allowed" }),
             style: {
@@ -685,10 +662,10 @@ const getLayout = (
   xOffset: number = 0,
   yOffset: number = 0,
 ) => {
-  const layout: GraphicComponentOption[] = twoCircles
+  const layout = twoCircles
     ? createTwoCircleLayout(scaleFactor, xOffset, yOffset)
     : createThreeCircleLayout(scaleFactor, xOffset, yOffset);
-  return addHighlight(layout as never , highlightedIndices, hoveredId, isCursorAllowed);
+  return addHighlight(layout, highlightedIndices, hoveredId, isCursorAllowed);
 };
 
 type UseLayoutProps = VennDiagramProps & {
@@ -730,7 +707,7 @@ export const useLayout = ({
     [height, scaleFactor],
   );
 
-  const labelLayout = useMemo<TwoCircleLayout|ThreeCircleLayout>(
+  const labelLayout = useMemo(
     () =>
       twoCircles
         ? createTwoCircleLabelLayout(scaleFactor, xOffset, yOffset)
@@ -758,7 +735,7 @@ export const useLayout = ({
       } else if (type === "mouseout") {
         setCurrentMouseOver("");
       } else if (type === "click" && isCursorAllowed) {
-        if (onClickHandler)  onClickHandler(id);
+        if (onClickHandler) onClickHandler(id);
       }
     },
     [chartData, onClickHandler],
@@ -800,7 +777,7 @@ export const useLayout = ({
             ...handlers,
             ...cursorProp,
             ...zeroTooltip,
-            children: section?.children?.map((child) => ({
+            children: section.children?.map((child) => ({
               ...child,
               ...handlers,
               ...cursorProp,
@@ -828,33 +805,36 @@ export const useLayout = ({
     [handleEvent],
   );
 
+
+
   const valueTexts = useMemo(
     () =>
       chartData.map(({ key, value }) => ({
-        type: "text",
+        type: 'text',
         id: `value-${key}`,
+        // @ts-expect-error key type is string
         ...labelLayout[key],
         style: {
           text: value.toLocaleString(),
-          textAlign: "middle",
-          textVerticalAlign: "middle",
+          textAlign: 'middle',
+          textVerticalAlign: 'middle',
           fill:
-            value === 0 && currentMouseOver === key ? NOT_ALLOWED_TEXT : "#333",
+            value === 0 && currentMouseOver === key ? NOT_ALLOWED_TEXT : '#333',
           fontSize: 16 * scaleFactor,
         },
         z: 300,
 
-        ...(interactable ? handleEventWrapper(key) : { cursor: "auto" }),
+        ...(interactable ? handleEventWrapper(key) : { cursor: 'auto' }),
 
         ...(interactable
           ? {
               tooltip: {
                 show: true,
                 formatter: () =>
-                  value === 0 ? "This region contains 0 items" : undefined,
+                  value === 0 ? 'This region contains 0 items' : undefined,
                 borderWidth: 0,
-                backgroundColor: "black",
-                textStyle: { color: "white" },
+                backgroundColor: 'black',
+                textStyle: { color: 'white' },
               },
             }
           : {}),
