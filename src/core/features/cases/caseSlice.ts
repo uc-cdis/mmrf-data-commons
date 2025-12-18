@@ -1,11 +1,5 @@
-import {
-  convertFilterSetToGqlFilter,
-  FilterSet,
-  guppyApi,
-} from '@gen3/core';
-
-import { MAX_CASES} from '@/core';
-
+import { MAX_CASES } from "@/core";
+import { convertFilterSetToGqlFilter, FilterSet, guppyApi } from "@gen3/core";
 
 const graphQLQuery = `query Case_case($filter: JSON) {
     hits : Case_case (filter: $filter, first: 1) {
@@ -149,13 +143,13 @@ const FileValidateQuery = `query File_file ($filter: JSON) {
 }`;
 
 export const EntityFields: Record<ValidateTypes, string> = {
-  file: 'file_id',
-  case: 'case_id',
+  file: "file_id",
+  case: "case_id",
 };
 
 const EntityQueryHeaders: Record<ValidateTypes, string> = {
-  file: 'File_file',
-  case: 'Case_case',
+  file: "File_file",
+  case: "Case_case",
 };
 
 interface ValidationResult {
@@ -171,7 +165,7 @@ interface CaseValidatationRequest {
   caseIds: Array<string>;
 }
 
-export type ValidateTypes = 'file' | 'case';
+export type ValidateTypes = "file" | "case";
 
 const ValidationQueries: Record<ValidateTypes, string> = {
   file: FileValidateQuery,
@@ -234,20 +228,22 @@ const caseSlice = guppyApi.injectEndpoints({
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
       query: ({ filter }: CohortCaseIdsRequest) => {
-        const gqlFilter = convertFilterSetToGqlFilter(filter);
+        const gqlFilter = convertFilterSetToGqlFilter(
+          filter !== undefined ? filter : { mode: "and", root: {} },
+        );
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
-            hits: CaseCentric_case_centric(filter: $filter) {
+          hits: CaseCentric_case_centric(filter: $filter first: ${MAX_CASES}) {
                 case_id
             }
         }`,
           variables: { filter: gqlFilter },
         };
       },
-      transformResponse: (response: any) => response?.data?.hits?.map((x : any) => x?.case_id) ?? []
+      transformResponse: (response: any) =>
+        response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
     }),
   }),
-
 });
 
 export const {
