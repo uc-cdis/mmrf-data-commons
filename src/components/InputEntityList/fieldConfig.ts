@@ -51,7 +51,7 @@ export default {
       "samples.portions.analytes.aliquots.aliquot_id": "Aliquot UUID",
       "samples.portions.analytes.aliquots.submitter_id": "Aliquot ID",
     },
-    facetField: "cases.case_id",
+    facetField: "case_id",
     outputField: "case_id",
   },
 };
