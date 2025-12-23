@@ -1,17 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, ActionIcon, Tooltip, SegmentedControlItem } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
-import {
-  useCoreSelector,
-  Operation,
-} from "@gen3/core";
+import { useCoreSelector, Operation } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
-import {
-  SegmentedControl,
-} from "@gen3/frontend";
+import { SegmentedControl } from "@gen3/frontend";
 // restore later when API and FacetDictionary is implemented
 //import { selectFacetDefinitionByName } from '@/core/features/facets/selectors';
-import { DownloadProgressContext} from "@/components/analysis/context";
+import { DownloadProgressContext } from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";
 import CategoricalData from "./CategoricalData";
@@ -22,10 +17,13 @@ import {
   DATA_DIMENSIONS,
   MISSING_KEY,
 } from "../constants";
-import { selectFacetDefinitionByName, toDisplayName, useDataDimension } from '../utils';
+import {
+  selectFacetDefinitionByName,
+  toDisplayName,
+  useDataDimension,
+} from "../utils";
 import {
   BarChartIcon,
-  BoxPlotIcon,
   CloseIcon,
   SurvivalChartIcon,
 } from "@/utils/icons";
@@ -54,19 +52,22 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
     selectFacetDefinitionByName(state, `cases.${field}`),
   );
   const [dataDimension, setDataDimension] = useState<DataDimension>(
-    (displayDataDimension && DATA_DIMENSIONS?.[field]?.toggleValue
+    displayDataDimension && DATA_DIMENSIONS?.[field]?.toggleValue
       ? DATA_DIMENSIONS?.[field]?.toggleValue
-      : DATA_DIMENSIONS?.[field]?.unit ?? "Unset"),
+      : (DATA_DIMENSIONS?.[field]?.unit ?? "Unset"),
   );
 
   const continuous = CONTINUOUS_FACET_TYPES.includes(facet?.type);
 
   let noData = true; // start off assuming no data
-  if (data) { // check if we have enough data to display
+  if (data) {
+    // check if we have enough data to display
     if (continuous) {
       noData = (data as Stats)?.stats?.count === 0;
     } else {
-      noData = (data as Buckets)?.buckets?.every((bucket) => bucket.key === MISSING_KEY);
+      noData = (data as Buckets)?.buckets?.every(
+        (bucket) => bucket.key === MISSING_KEY,
+      );
     }
   }
 
@@ -77,17 +78,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       scrollIntoView();
     }
     // this should only happen on initial component mount
-
-
   }, []);
-
-  const setDownloadProgress = useCallback(
-    (inProgress: boolean, type: DownloadType) => {
-      setDownloadInProgress(inProgress);
-      setDownloadType(type);
-    },
-    [],
-  );
 
   const chartButtons: SegmentedControlItem[] = [
     {
@@ -153,7 +144,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       padding="md"
       radius={0}
       ref={targetRef}
-      className="border-1 border-base-lighter h-full flex flex-col"
+      className="border-1 border-base-lighter h-full flex flex-col relative"
     >
       <div className="flex justify-between mb-1">
         <h2 className="font-heading font-medium">{fieldName}</h2>

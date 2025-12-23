@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { modals } from "@mantine/modals";
 import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
 import { CountsIcon } from "@/components/tailwindComponents";
-import { Tooltip } from "@mantine/core";
+import { LoadingOverlay, Tooltip } from "@mantine/core";
 import {
   SelectCohortsModal,
   WithOrWithoutCohortType,
@@ -22,16 +22,16 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   const [openSelectCohorts, setOpenSelectCohorts] = useState(false);
   const [withOrWithoutCohort, setWithOrWithoutCohort] =
     useState<WithOrWithoutCohortType>(undefined);
-  const [fetchCaseIds] = useLazyCohortCaseIdQuery();
+  const [fetchCaseIds, { isFetching }] = useLazyCohortCaseIdQuery();
 
   const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
     const cohortFilters = {
       mode: "and",
       root: {
-        "cases.case_id": {
+        "case_id": {
           operator: "in",
           field: "case_id",
-          operands: Array.from(caseIds),
+          operands: Array.from(caseIds ?? []),
         },
       },
     };
@@ -129,6 +129,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
 
   return (
     <>
+      <LoadingOverlay visible={isFetching} />
       <span>
         {numCases === 0 ? (
           <Tooltip label={"Save a new cohort based on selection"}>
