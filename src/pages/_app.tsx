@@ -32,6 +32,10 @@ import { registerGenesAndMutationFrequencyAnalysisTool } from "@/features/genomi
 import Gen3GDCCompatabilityProvider from "@/utils/providers";
 import { registerMMRFTableCellRenderers } from "@/components/ExplorerCellRenderers";
 import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
+import {
+  type AuthorizedRoutesConfig,
+  DefaultAuthorizedRoutesConfig,
+} from '@gen3/frontend';
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -45,6 +49,7 @@ interface Gen3AppProps {
   icons: Array<RegisteredIcons>;
   modalsConfig: ModalsConfig;
   sessionConfig: SessionConfiguration;
+  protectedRoutes: AuthorizedRoutesConfig;
 }
 
 const Gen3App = ({
@@ -124,7 +129,7 @@ Gen3App.getInitialProps = async (
     ...ctx,
     icons: [
       {
-        prefix: "gen3",
+        prefix: 'gen3',
         lastModified: 0,
         icons: {},
         width: 0,
@@ -133,6 +138,7 @@ Gen3App.getInitialProps = async (
     ],
     modalsConfig: {},
     sessionConfig: {},
+    protectedRoutes: DefaultAuthorizedRoutesConfig,
   };
 };
 export default Gen3App;
