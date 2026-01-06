@@ -10,7 +10,7 @@
     "lint": "next lint",
     "lint-fix": "next lint --fix",
     "predev": " NODE_ENV=development npm run build:middlewarePaths",
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "prebuild": "NODE_ENV=production npm run build:middlewarePaths",
     "build": "next build",
     "start": "next start",
