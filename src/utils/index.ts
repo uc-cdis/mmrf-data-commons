@@ -217,6 +217,7 @@ export const extractToArray = (
   data: ReadonlyArray<Record<string, number | string>>,
   nodeKey: string,
 ): (string | number)[] => {
+  if (!data) return [];
   return data?.map((x) => x[nodeKey]);
 }
 
