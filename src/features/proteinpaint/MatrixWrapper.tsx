@@ -327,7 +327,7 @@ function getMatrixTrack(
 ): MatrixArg {
   const arg: MatrixArg = {
     dslabel: 'MMRF',
-    genes: ['MYC', 'MYCN', 'NSD2', 'KRAS'],
+    // genes: ['MYC', 'MYCN', 'NSD2', 'KRAS'],
     // host in gdc is just a relative url path,
     // using the same domain as the GDC portal where PP is embedded
     host: props.basepath || (basepath as string),
