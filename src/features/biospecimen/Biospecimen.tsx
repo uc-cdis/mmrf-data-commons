@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { BioTree } from '@/components/BioTree/BioTree';
-import { Button, Input, LoadingOverlay, ActionIcon } from '@mantine/core';
-import { HorizontalTable } from '@/components/HorizontalTable';
-import { formatEntityInfo, searchForStringInNode } from './utils';
-import { trimEnd, find, flatten, escapeRegExp } from 'lodash';
-import { useRouter } from 'next/router';
-import { entityTypes, overrideMessage } from '@/components/BioTree/types';
-import { HeaderTitle } from '@/components/tailwindComponents';
-import { useDeepCompareEffect } from 'use-deep-compare';
-import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
-import { ClearIcon, DownloadIcon, SearchIcon } from '@/utils/icons';
-import { BiospecimenEntityType } from './types';
-import { useCoreDispatch, useCoreSelector } from '@gen3/core';
-import { useBiospecimenDataQuery } from '@/core/features/cases/bioSpecimanDataSlice';
-import { CartFile } from '@/core';
-import { handleJSONDownload, handleTSVDownload } from '../cases/utils';
+import React, { useEffect, useState } from "react";
+import { BioTree } from "@/components/BioTree/BioTree";
+import { Button, Input, LoadingOverlay, ActionIcon } from "@mantine/core";
+import { HorizontalTable } from "@/components/HorizontalTable";
+import { formatEntityInfo, searchForStringInNode } from "./utils";
+import { flatten, escapeRegExp } from "lodash";
+import { useRouter } from "next/router";
+import { HeaderTitle } from "@/components/tailwindComponents";
+import { useDeepCompareEffect } from "use-deep-compare";
+import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
+import { ClearIcon, DownloadIcon, SearchIcon } from "@/utils/icons";
+import { handleJSONDownload } from "../cases/utils";
+import { useBiospecimenForCaseQuery } from "@/core/features/biospecimen/biospecimenSlice";
+import {
+  BiospecimenEntityType,
+  entityTypes,
+  overrideMessage,
+} from "@/components/BioTree/types";
 
 interface BiospecimenProps {
   readonly caseId: string;
@@ -37,55 +38,50 @@ export const Biospecimen = ({
   const [selectedEntity, setSelectedEntity] =
     useState<BiospecimenEntityType>(null);
   const [isAllExpanded, setIsAllExpanded] = useState(false);
-  const [selectedType, setSelectedType] = useState(undefined);
+  const [selectedType, setSelectedType] = useState<string | undefined>(
+    undefined,
+  );
   const [expandedCount, setExpandedCount] = useState(1);
   const [totalNodeCount, setTotalNodeCount] = useState(0);
-  const [searchText, setSearchText] = useState(bioId || '');
+  const [searchText, setSearchText] = useState(bioId || "");
   const [entityClicked, setEntityClicked] = useState(false);
 
-  const selectCart = (a: any) => null; // placeholder to get component to compile Sep 10
-  const currentCart = useCoreSelector((state) => selectCart(state));
-  const dispatch = useCoreDispatch();
+  const { data: biospecimenData, isFetching: isBiospecimentDataFetching } =
+    useBiospecimenForCaseQuery(caseId);
 
-  const { data: bioSpecimenData, isFetching: isBiospecimentDataFetching } =
-    useBiospecimenDataQuery(caseId);
+  console.log({ biospecimenData });
+
+  const caseData = biospecimenData?.data?.hits?.[0];
+  const samples = caseData?.samples || [];
 
   useEffect(() => {
-    setIsAllExpanded(expandedCount === totalNodeCount);
+    setIsAllExpanded(expandedCount === totalNodeCount && totalNodeCount > 0);
   }, [expandedCount, totalNodeCount]);
 
   const getType = (node: any) =>
     (entityTypes.find((type) => node[`${type.s}_id`]) || { s: null }).s;
 
   useDeepCompareEffect(() => {
-    if (
-      !isBiospecimentDataFetching &&
-      bioSpecimenData?.samples?.hits?.edges?.length
-    ) {
+    if (!isBiospecimentDataFetching && samples.length > 0) {
       const escapedSearchText = escapeRegExp(searchText);
-      const founds = bioSpecimenData?.samples?.hits?.edges.map((e: any) => {
+
+      const founds = samples.map((e: any) => {
         return searchForStringInNode(escapedSearchText, e);
       });
+
       const flattened = flatten(founds);
       const foundNode =
-        flattened.length > 0
-          ? (flattened[0] as any).node
-          : bioSpecimenData?.samples?.hits?.edges?.[0]?.node;
+        flattened.length > 0 ? (flattened[0] as any).node : samples[0];
 
       if (!entityClicked && foundNode) {
         setSelectedEntity(foundNode);
-        setSelectedType(getType(foundNode) as unknown as any);
+        setSelectedType(getType(foundNode) as string);
       }
     }
-  }, [
-    bioSpecimenData?.samples?.hits?.edges,
-    isBiospecimentDataFetching,
-    searchText,
-    entityClicked,
-  ]);
+  }, [samples, isBiospecimentDataFetching, searchText, entityClicked]);
 
   const onSelectEntity = (entity: any, type: any) => {
-    setSearchText('');
+    setSearchText("");
     setSelectedEntity(entity);
     setSelectedType(type.s);
     setEntityClicked(true);
@@ -108,32 +104,22 @@ export const Biospecimen = ({
     }
   };
 
-  const supplementalFiles = bioSpecimenData?.files?.hits?.edges || [];
-  const withTrimmedSubIds = supplementalFiles.map(({ node }: any) => ({
-    ...node,
-    submitter_id: trimEnd(node.submitter_id, '_slide_image'),
-  }));
-  const selectedSlide = find(withTrimmedSubIds, {
-    submitter_id: selectedEntity?.submitter_id,
-  });
+  const downloadFileName = `biospecimen.case-${submitter_id}-${project_id}.${new Date().toISOString().slice(0, 10)}`;
 
-  const downloadFileName = `biospecimen.case-${submitter_id}-${project_id}.${new Date()
-    .toISOString()
-    .slice(0, 10)}`;
-  const handleBiospeciemenTSVDownload = () => {
-    const downloadDataColumns = Object.keys(bioSpecimenData).map((key) => ({
-      id: key,
-      header: key,
-    }));
-    handleTSVDownload(downloadFileName, [bioSpecimenData], downloadDataColumns);
-  };
+
+  // TODO: Need to work on this separately
+  // const handleBiospeciemenTSVDownload = () => {
+  //   const downloadDataColumns = Object.keys(caseData || {}).map((key) => ({
+  //     id: key,
+  //     header: key,
+  //   }));
+  //   handleTSVDownload(downloadFileName, [caseData], downloadDataColumns);
+  // };
 
   const handleBiospeciemenJSONDownload = () => {
-    handleJSONDownload(downloadFileName, [bioSpecimenData]);
+    handleJSONDownload(downloadFileName, [caseData]);
   };
 
-  // TODO:  Need to add error message in place after this is moved to the Case Summary page
-  // for invalid case ids
   return (
     <>
       {isBiospecimentDataFetching ? (
@@ -148,13 +134,13 @@ export const Biospecimen = ({
 
           <DropdownWithIcon
             dropdownElements={[
+              // {
+              //   title: "TSV",
+              //   icon: <DownloadIcon size={16} aria-label="download" />,
+              //   onClick: handleBiospeciemenTSVDownload,
+              // },
               {
-                title: 'TSV',
-                icon: <DownloadIcon size={16} aria-label="download" />,
-                onClick: handleBiospeciemenTSVDownload,
-              },
-              {
-                title: 'JSON',
+                title: "JSON",
                 icon: <DownloadIcon size={16} aria-label="download" />,
                 onClick: handleBiospeciemenJSONDownload,
               },
@@ -172,8 +158,8 @@ export const Biospecimen = ({
                   leftSection={<SearchIcon size={24} aria-hidden="true" />}
                   placeholder="Search"
                   classNames={{
-                    wrapper: 'basis-5/6',
-                    input: 'border-base-lighter',
+                    wrapper: "basis-5/6",
+                    input: "border-base-lighter",
                   }}
                   onChange={(e) => {
                     if (e.target.value.length === 0) {
@@ -183,9 +169,7 @@ export const Biospecimen = ({
                         shallow: true,
                       });
                     }
-                    if (setEntityClicked) {
-                      setEntityClicked(false);
-                    }
+                    setEntityClicked(false);
                     setSearchText(e.target.value);
                   }}
                   value={searchText}
@@ -197,10 +181,8 @@ export const Biospecimen = ({
                         onClick={() => {
                           setExpandedCount(0);
                           setTreeStatusOverride(overrideMessage.Expanded);
-                          setSearchText('');
-                          if (setEntityClicked) {
-                            setEntityClicked(false);
-                          }
+                          setSearchText("");
+                          setEntityClicked(false);
                           router.replace(`/cases/${caseId}`, undefined, {
                             shallow: true,
                           });
@@ -220,46 +202,35 @@ export const Biospecimen = ({
                     );
                     setExpandedCount(0);
                   }}
-                  className={`flex-none text-primary hover:enabled:bg-primary-darker
-                   hover:enabled:text-base-lightest font-medium`}
+                  className={`flex-none text-primary hover:enabled:bg-primary-darker hover:enabled:text-base-lightest font-medium`}
                   disabled={searchText.length > 0}
                   variant="outline"
                 >
-                  {isAllExpanded ? 'Collapse All' : 'Expand All'}
+                  {isAllExpanded ? "Collapse All" : "Expand All"}
                 </Button>
               </div>
-              {!isBiospecimentDataFetching &&
-                bioSpecimenData.samples?.hits?.edges.length > 0 && (
-                  <BioTree
-                    entities={bioSpecimenData.samples}
-                    entityTypes={entityTypes}
-                    parentNode="root"
-                    selectedEntity={selectedEntity}
-                    selectEntity={onSelectEntity}
-                    type={{
-                      p: 'samples',
-                      s: 'sample',
-                    }}
-                    treeStatusOverride={treeStatusOverride}
-                    setTreeStatusOverride={setTreeStatusOverride as any}
-                    setTotalNodeCount={setTotalNodeCount}
-                    setExpandedCount={setExpandedCount}
-                    query={searchText.toLocaleLowerCase().trim()}
-                    search={searchForStringInNode}
-                  />
-                )}
+
+              {!isBiospecimentDataFetching && samples.length > 0 && (
+                <BioTree
+                  entities={samples}
+                  entityTypes={entityTypes}
+                  parentNode="root"
+                  selectedEntity={selectedEntity}
+                  selectEntity={onSelectEntity}
+                  type={{ p: "samples", s: "sample" }}
+                  treeStatusOverride={treeStatusOverride}
+                  setTreeStatusOverride={setTreeStatusOverride}
+                  setTotalNodeCount={setTotalNodeCount}
+                  setExpandedCount={setExpandedCount}
+                  query={searchText.toLocaleLowerCase().trim()}
+                  search={searchForStringInNode}
+                />
+              )}
             </div>
             <div className="basis-3/5 lg:basis-2/3">
               <HorizontalTable
                 customDataTestID="table-selection-information-biospecimen"
-                tableData={formatEntityInfo(
-                  selectedEntity,
-                  selectedType,
-                  caseId,
-                  dispatch,
-                  currentCart as unknown as CartFile[],
-                  [selectedSlide],
-                )}
+                tableData={formatEntityInfo(selectedEntity, selectedType)}
               />
             </div>
           </div>

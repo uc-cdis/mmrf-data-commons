@@ -1,4 +1,5 @@
 import { convertFilterSetToGqlFilter, FilterSet, guppyApi } from '@gen3/core';
+import { BiospecimenApiResponse } from './types';
 
 const biospecimenDownload = `query biospecimenDownload ($filter: JSON) {
    hits : CaseCentric_case_centric (filter: $filter, offset: 0, first:10) {
@@ -13,7 +14,6 @@ const biospecimenDownload = `query biospecimenDownload ($filter: JSON) {
             submitter_id
             state
             preservation_method
-            created_datetime
             tissue_type
             days_to_sample_procurement
             portions {
@@ -22,8 +22,6 @@ const biospecimenDownload = `query biospecimenDownload ($filter: JSON) {
                     analyte_id
                     aliquots {
                         aliquot_id
-                        updated_datetime
-                        created_datetime
                         submitter_id
                         state
                     }
@@ -55,7 +53,7 @@ const biospecimenSlice = guppyApi.injectEndpoints({
         },
       }),
     }),
-    biospecimenForCase: builder.query<BiospecimenDownloadResults, string>({
+    biospecimenForCase: builder.query<BiospecimenApiResponse, string>({
       query: (caseId: string) => ({
         query: biospecimenDownload,
         variables: {
