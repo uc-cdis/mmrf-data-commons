@@ -35,7 +35,7 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
   accessibility = Accessibility.ALL,
   indexPrefix = "Case_",
 }: CountsPanelProps) => {
-  const [getCounts, { data: counts, isFetching, isError, isSuccess }] =
+  const [getCounts, { data: counts, isFetching, isError }] =
     useLazyGetCountsQuery();
   const currentCohortId = useCoreSelector((state: CoreState) =>
     selectCurrentCohortId(state),
@@ -88,17 +88,28 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
+  const handleQueryExpressionSummaryLogic = (field: string, count: number) => {
+    const isCaseField = field.includes("case_id");
+    const isAboveThreshold = count > 1;
+    return isCaseField && isAboveThreshold;
+  };
+
   return (
     <>
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
         <div className="flex flex-col">
           <CohortManager
-            rightPanel={<CountsPanel index="case_centric" indexPrefix="CaseCentric_" />}
+            rightPanel={
+              <CountsPanel index="case_centric" indexPrefix="CaseCentric_" />
+            }
             size="md"
             customActions={getCustomCohortButtons()}
           />
-          <QueryExpression index="case_centric" />
+          <QueryExpression
+            index="case_centric"
+            shouldShowSummary={handleQueryExpressionSummaryLogic}
+          />
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
