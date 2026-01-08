@@ -33,7 +33,6 @@ export const SelectCohortsModal = ({
 
   const isWithCohort = withOrWithoutCohort === "with";
 
-  console.log({ cohorts });
   const cohortListData = useMemo(
     () =>
       cohorts
@@ -131,7 +130,7 @@ export const SelectCohortsModal = ({
 
       // Get current case IDs - either extract or fetch
       const directCurrentCaseIds = getCaseIdsFromFilter(currentFilters);
-      console.log({ directCurrentCaseIds });
+
       const currentCaseIdsResult = directCurrentCaseIds
         ? directCurrentCaseIds
         : await fetchCaseIds({ filter: currentFilters }).unwrap();
@@ -155,7 +154,6 @@ export const SelectCohortsModal = ({
         finalCaseIds = cohortCaseIdsResult.filter(
           (id) => !currentCaseIdsResult.includes(id),
         );
-        console.log({ finalCaseIds });
       }
 
       // Call the callback to open SaveCohortModal with final case IDs

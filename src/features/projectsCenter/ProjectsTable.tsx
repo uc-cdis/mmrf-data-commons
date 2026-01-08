@@ -13,17 +13,17 @@ import {
   ColumnOrderState,
   createColumnHelper,
   ExpandedState,
-  Row,
   SortingState,
   VisibilityState,
 } from '@tanstack/react-table';
-import { Checkbox } from '@mantine/core';
+
 import { HandleChangeInput } from '@/components/Table/types';
 import SubrowPrimarySiteDiseaseType from '@/components/SubrowPrimarySiteDiseaseType/SubrowPrimarySiteDiseaseType';
 import TotalItems from '@/components/Table/TotalItem';
 import { useProjectsQuery } from '@/core/features/projects/projectsSlice';
 import { Image } from '@/components/Image';
 import Link from 'next/link';
+import { isArray } from 'lodash';
 
 type ProjectDataType = {
   project: string;
@@ -77,6 +77,7 @@ const ProjectsTable: React.FC = () => {
 
   const [formattedTableData, tempPagination] = useDeepCompareMemo(() => {
     if (!isFetching && isSuccess) {
+
       return [
         projectsData?.projects?.map(
           ({
@@ -95,16 +96,20 @@ const ProjectsTable: React.FC = () => {
             ),
             program: program?.name,
             cases: summary?.case_count ?? 0,
-            experimental_strategy: summary?.experimental_strategies
-              ? (
-                  [
-                    ...extractToArray(
-                      summary?.experimental_strategies,
-                      'experimental_strategy',
-                    ),
-                  ] as string[]
-                ).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-              : [],
+            experimental_strategy:
+              (summary?.experimental_strategies &&
+              isArray(summary?.experimental_strategies))
+                ? (
+                    [
+                      ...extractToArray(
+                        summary?.experimental_strategies,
+                        'experimental_strategy',
+                      ),
+                    ] as string[]
+                  ).sort((a, b) =>
+                    a.toLowerCase().localeCompare(b.toLowerCase()),
+                  )
+                : [],
             files: summary?.file_count.toLocaleString(),
           }),
         ) as ProjectDataType[],

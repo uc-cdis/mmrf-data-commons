@@ -26,7 +26,6 @@ import { joinFilters } from '@/core/utils';
 import { useGetSsmsTableDataQuery } from '@/core/genomic/ssmsTableSlice';
 import {
   useGetTotalCountsQuery,
-  useProjectCaseCountsQuery,
 } from '@/core/features/counts/countsSlice';
 import { LoadingOverlay } from '@mantine/core';
 import {
