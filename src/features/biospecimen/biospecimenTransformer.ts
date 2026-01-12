@@ -76,7 +76,7 @@ export const flattenBiospecimenData = (caseData: Case): Buckets => {
 
         const prop_key = `${level}s.${key}`;
 
-        if (!rowData.hasOwnProperty(prop_key)) {
+        if (!Object.hasOwn(rowData, prop_key)) {
           rowData[prop_key] = (node as any)[key];
         }
       });
