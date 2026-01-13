@@ -50,7 +50,7 @@ export const useSurvival: UseSurvivalType = (
         shouldShowConfidenceIntervals: false,
         confidenceAreaOpacity: 0.2,
         xAxisLabel: "Duration (years)",
-        yAxisLabel: "Survival Rate",
+        yAxisLabel: "Survival Rate (percent)",
         xDomain: xDomain,
         onDomainChange: setXDomain,
         minimumDonors: MINIMUM_CASES,
