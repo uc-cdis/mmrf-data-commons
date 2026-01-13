@@ -16,6 +16,9 @@ import {
   entityTypes,
   overrideMessage,
 } from "@/components/BioTree/types";
+import { arrayToTSV, flattenBiospecimenData } from "./biospecimenTransformer";
+import { generateTarGzBlob } from "@/utils/archiver";
+import { handleDownload } from "@/utils/downloads";
 
 interface BiospecimenProps {
   readonly caseId: string;
@@ -48,8 +51,6 @@ export const Biospecimen = ({
 
   const { data: biospecimenData, isFetching: isBiospecimentDataFetching } =
     useBiospecimenForCaseQuery(caseId);
-
-  console.log({ biospecimenData });
 
   const caseData = biospecimenData?.data?.hits?.[0];
   const samples = caseData?.samples || [];
@@ -106,15 +107,26 @@ export const Biospecimen = ({
 
   const downloadFileName = `biospecimen.case-${submitter_id}-${project_id}.${new Date().toISOString().slice(0, 10)}`;
 
+  const handleBiospeciemenTSVDownload = async () => {
+    if (!caseData) return;
 
-  // TODO: Need to work on this separately
-  // const handleBiospeciemenTSVDownload = () => {
-  //   const downloadDataColumns = Object.keys(caseData || {}).map((key) => ({
-  //     id: key,
-  //     header: key,
-  //   }));
-  //   handleTSVDownload(downloadFileName, [caseData], downloadDataColumns);
-  // };
+    try {
+      const buckets = flattenBiospecimenData(caseData);
+
+      const files = [
+        { name: "sample.tsv", content: arrayToTSV(buckets.sample) },
+        { name: "portion.tsv", content: arrayToTSV(buckets.portion) },
+        { name: "analyte.tsv", content: arrayToTSV(buckets.analyte) },
+        { name: "aliquot.tsv", content: arrayToTSV(buckets.aliquot) },
+      ];
+
+      const blob = await generateTarGzBlob(files);
+
+      handleDownload(blob, `${downloadFileName}.tar.gz`);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
 
   const handleBiospeciemenJSONDownload = () => {
     handleJSONDownload(downloadFileName, [caseData]);
@@ -134,11 +146,11 @@ export const Biospecimen = ({
 
           <DropdownWithIcon
             dropdownElements={[
-              // {
-              //   title: "TSV",
-              //   icon: <DownloadIcon size={16} aria-label="download" />,
-              //   onClick: handleBiospeciemenTSVDownload,
-              // },
+              {
+                title: "TSV",
+                icon: <DownloadIcon size={16} aria-label="download" />,
+                onClick: handleBiospeciemenTSVDownload,
+              },
               {
                 title: "JSON",
                 icon: <DownloadIcon size={16} aria-label="download" />,

@@ -4,7 +4,7 @@ import { formatDataForHorizontalTable } from "../files/utils";
 import { humanify } from "src/utils";
 import { BiospecimenEntityType } from "@/components/BioTree/types";
 
-const childrenKeys = ["samples", "portions", "analytes", "aliquots", "slides"];
+export const CHILDREN_KEYS = ["samples", "portions", "analytes", "aliquots", "slides"];
 
 export const match = (query: string, entity: any): boolean => {
   if (!entity) return false;
@@ -17,7 +17,7 @@ export const match = (query: string, entity: any): boolean => {
     );
   });
 
-  const keyMatch = childrenKeys.some(
+  const keyMatch = CHILDREN_KEYS.some(
     (key) =>
       key.includes(lowerQuery) &&
       Array.isArray(entity[key]) &&
@@ -37,7 +37,7 @@ export const searchForStringInNode = (query: string, entity: any): any[] => {
       found.push({ node });
     }
 
-    childrenKeys.forEach((key) => {
+    CHILDREN_KEYS.forEach((key) => {
       const children = node[key];
       if (Array.isArray(children)) {
         children.forEach((child: any) => {
