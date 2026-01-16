@@ -295,6 +295,9 @@ interface MatrixArg {
   filter0?: any; //FilterSet;
   opts: MatrixArgOpts;
   state?: any;
+  settings: {
+    [key: string]: any
+  }
 }
 
 interface MatrixArgOpts {
@@ -333,6 +336,11 @@ function getMatrixTrack(
     host: props.basepath || (basepath as string),
     launchGdcMatrix: props.chartType == "matrix",
     launchGdcHierCluster: props.chartType == "hierCluster",
+    settings: {
+      matrix: {
+        maxGenes: 5
+      }
+    },
     opts: {
       app: {
         callbacks: appCallbacks,
