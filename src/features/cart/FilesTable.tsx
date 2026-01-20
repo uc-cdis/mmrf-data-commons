@@ -34,7 +34,6 @@ import { Image } from '@/components/Image';
 import Link from 'next/link';
 
 interface FilesTableProps {
-  readonly filesByCanAccess: Record<string, CartFile[]>;
   readonly customDataTestID: string;
 }
 

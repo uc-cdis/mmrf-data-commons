@@ -7,36 +7,31 @@ import {
   EmptyFilterSet,
   convertFilterSetToGqlFilter,
   Accessibility,
-} from '@gen3/core';
-import { CartIcon } from '@/utils/icons';
-import React,  {useState} from 'react';
-import { DownloadButton} from '@/components/DownloadButtons';
-import FunctionButton from '@/components/FunctionButton';
-import FunctionButtonRemove from '@/components/FunctionButton';
-import { getFormattedTimestamp } from '@/utils/date';
-import { focusStyles } from '@/utils';
-import { useLazyGetAllFilesQuery} from '@/core/features/files/allFilesSlice';
-import { addToCart, removeFromCart } from '@/features/cart/updateCart';
-import {  mapFileToCartItem } from '@/features/files/utils';
-import { convertFilterSetToNestedGqlFilter } from '@/core/utils';
-import { joinFilters} from '@/core/utils';
-import { GqlOperation } from '@/core';
-
-export const MANIFEST_DOWNLOAD_MESSAGE = `Download a manifest for use with the Gen3 SDK. The Gen3
-          SDK is recommended for transferring large volumes of data.`;
+} from "@gen3/core";
+import { CartIcon } from "@/utils/icons";
+import React, { useState } from "react";
+import { DownloadButton } from "@/components/DownloadButtons";
+import FunctionButton from "@/components/FunctionButton";
+import FunctionButtonRemove from "@/components/FunctionButton";
+import { getFormattedTimestamp } from "@/utils/date";
+import { focusStyles } from "@/utils";
+import { useLazyGetAllFilesQuery } from "@/core/features/files/allFilesSlice";
+import { addToCart, removeFromCart } from "@/features/cart/updateCart";
+import { mapFileToCartItem } from "@/features/files/utils";
+import { convertFilterSetToNestedGqlFilter } from "@/core/utils";
+import { joinFilters } from "@/core/utils";
+import { GqlOperation } from "@/core";
+import { MANIFEST_DOWNLOAD_MESSAGE } from "@/utils/constants";
 
 interface RepositoryDownloadsPanelProps {
   localFilters: FilterSet;
   fileDataFetching: boolean;
 }
 
-
-
 const RepositoryDownloadsPanel = ({
   localFilters: repositoryFilters,
   fileDataFetching,
-                                  } : RepositoryDownloadsPanelProps) => {
-
+}: RepositoryDownloadsPanelProps) => {
   const [manifestActive, setManifestActive] = useState(false);
   const [addFilesLoading, setAddFilesLoading] = useState(false);
   const [removeFilesLoading, setRemoveFilesLoading] = useState(false);
@@ -46,14 +41,15 @@ const RepositoryDownloadsPanel = ({
   const currentCart = useCoreSelector((state) => selectCart(state));
   const dispatch = useCoreDispatch();
   const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
-   const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
-
+  const cohortFilters = useCoreSelector((state) =>
+    selectCurrentCohortFilters(state),
+  );
 
   const buildCohortGqlOperatorWithCart = (): GqlOperation => {
     // create filter with current cart file ids
     const cartFilterSet: FilterSet = {
       root: {
-        "file_id": {
+        file_id: {
           operator: "includes",
           field: "file_id",
           operands: currentCart.map((obj) => obj.file_id),
@@ -61,7 +57,9 @@ const RepositoryDownloadsPanel = ({
       },
       mode: "and",
     };
-    return convertFilterSetToNestedGqlFilter(joinFilters(repositoryFilters, cartFilterSet));
+    return convertFilterSetToNestedGqlFilter(
+      joinFilters(repositoryFilters, cartFilterSet),
+    );
   };
 
   const handleCartOperation = async (operationType: "add" | "remove") => {
@@ -76,27 +74,28 @@ const RepositoryDownloadsPanel = ({
 
     try {
       const data = await getFileSizeSliceData({
-        cohortFilter: convertFilterSetToNestedGqlFilter(cohortFilters['case'] ?? EmptyFilterSet),
+        cohortFilter: convertFilterSetToNestedGqlFilter(
+          cohortFilters["case"] ?? EmptyFilterSet,
+        ),
         filter: filters,
         type: "file",
         fields: [
-          'access',
-          'acl',
-          'file_id',
-          'file_size',
-          'state',
-          'cases.project.project_id',
-          'file_name',
+          "access",
+          "acl",
+          "file_id",
+          "file_size",
+          "state",
+          "cases.project.project_id",
+          "file_name",
         ],
         accessibility: Accessibility.ALL,
       }).unwrap();
-      const cartFiles = (!data || data.length === 0)
-        ? []
-        : mapFileToCartItem(data);
+      const cartFiles =
+        !data || data.length === 0 ? [] : mapFileToCartItem(data);
 
       callback(cartFiles, currentCart, dispatch);
     } catch (err) {
-      console.error('Failed to fetch files for cart operation:', err);
+      console.error("Failed to fetch files for cart operation:", err);
     } finally {
       setLoading(false);
     }
@@ -114,8 +113,8 @@ const RepositoryDownloadsPanel = ({
         filename={`mmrf_sample_sheet.${new Date()
           .toISOString()
           .slice(0, 10)}.json`}
-        format="json"
         method="POST"
+        format="json"
         fields={[
           "file_id",
           "file_name",
@@ -142,6 +141,7 @@ const RepositoryDownloadsPanel = ({
         filename={`metadata.repository.${new Date()
           .toISOString()
           .slice(0, 10)}.json`}
+        format="json"
         method="POST"
         caseFilters={EmptyFilterSet}
         filters={repositoryFilters}
@@ -194,16 +194,15 @@ const RepositoryDownloadsPanel = ({
         multilineTooltip
         endpoint="file"
         method="POST"
-        format="manifest"
         fields={[
           "file_id",
           "file_name",
           "file_size",
           "md5sum",
-          "cases.case_id"
-          ]}
+          "cases.case_id",
+        ]}
         extraParams={{
-          isManifest: true
+          isManifest: true,
         }}
         caseFilters={EmptyFilterSet}
         filters={repositoryFilters}
@@ -217,18 +216,14 @@ const RepositoryDownloadsPanel = ({
       <FunctionButton
         data-testid="button-add-all-files-table"
         leftSection={
-          (<CartIcon
-              aria-hidden="true"
-              className="hidden xl:block"
-            />
-          )
+          <CartIcon aria-hidden="true" className="hidden xl:block" />
         }
         isActive={addFilesLoading}
         variant="outline"
         disabled={fileDataFetching}
         onClick={() => {
           // check the number of files selected before making call
-            handleCartOperation("add");
+          handleCartOperation("add");
         }}
       >
         Add All Files to Cart
@@ -238,10 +233,7 @@ const RepositoryDownloadsPanel = ({
         data-testid="button-remove-all-files-table"
         leftSection={
           removeFilesLoading ? undefined : (
-            <CartIcon
-              aria-hidden="true"
-              className="hidden xl:block"
-            />
+            <CartIcon aria-hidden="true" className="hidden xl:block" />
           )
         }
         classNames={{

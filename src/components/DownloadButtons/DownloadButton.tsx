@@ -96,7 +96,7 @@ export const DownloadButton = forwardRef<
       disabled = false,
       filename,
       downloadSize = 10000,
-      format = "JSON",
+      format = "json",
       fields = [],
       caseFilters = EmptyFilterSet,
       filters = EmptyFilterSet,

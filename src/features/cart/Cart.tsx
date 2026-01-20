@@ -1,42 +1,19 @@
 import React from "react";
 import { Grid } from "@mantine/core";
-import {
-  // useCartSummaryQuery,
-  useCoreSelector,
-  ////  selectCart,
-  useFetchUserDetailsQuery,
-  UserProfile,
-  CoreState,
-  AuthzMapping,
-  selectCart,
-} from '@gen3/core';
+import { useCoreSelector, CoreState, selectCart } from "@gen3/core";
 import FilesTable from "./FilesTable";
 import ProjectTable from "./ProjectTable";
 import CartHeader from "./CartHeader";
-import AuthorizationTable from "./AuthorizationTable";
-import { groupByAccess } from "./utils";
 import { HeaderTitle } from "@/components/tailwindComponents";
 import DownloadInfo from "./DownloadInfo";
 import { CartIcon } from "@/utils/icons";
-import {useCartSummaryQuery  } from "@/core";
+import { useCartSummaryQuery } from "@/core";
 
 const Cart: React.FC = () => {
-   const cart = useCoreSelector((state:CoreState) => selectCart(state));
+  const cart = useCoreSelector((state: CoreState) => selectCart(state));
 
-  const { data: summaryData } = useCartSummaryQuery(cart.map((f) => f?.file_id));
-
-  const { data: userDetails, isFetching: userDetailsFetching } =
-    useFetchUserDetailsQuery();
-
- //  const filesByCanAccess = groupByAccess(cart, userDetails?.data ? userDetails.data : {} as unknown as AuthzMapping);
-  // TODO: enable when we have indexed new data
-   const filesByCanAccess: any = {};
-  const dbGapList = Array.from(
-    new Set(
-      (filesByCanAccess?.true || [])
-        .reduce((acc: any, f: any) => acc.concat(f.acl), [])
-        .filter((f :any) => f !== "open"),
-    ),
+  const { data: summaryData } = useCartSummaryQuery(
+    cart.map((f) => f?.file_id),
   );
 
   return cart.length === 0 ? (
@@ -55,20 +32,10 @@ const Cart: React.FC = () => {
       <CartHeader
         summaryData={summaryData}
         cart={cart}
-        filesByCanAccess={filesByCanAccess}
-        dbGapList={dbGapList as string[]}
       />
       <div className="mt-4 mx-4 mb-16">
         <DownloadInfo />
         <div className="flex flex-col xl:flex-row gap-8 mt-4">
-          <div className="flex flex-col hidden">
-            <HeaderTitle>File counts by authorization level</HeaderTitle>
-            <AuthorizationTable
-              customDataTestID="table-file-counts-by-authorization-level"
-              filesByCanAccess={filesByCanAccess}
-              loading={userDetailsFetching}
-            />
-          </div>
           <div className="flex-1 w-1/2">
             <HeaderTitle>File counts by project</HeaderTitle>
             <ProjectTable
@@ -81,7 +48,6 @@ const Cart: React.FC = () => {
           <HeaderTitle>Cart Items</HeaderTitle>
           <FilesTable
             customDataTestID="table-cart-items"
-            filesByCanAccess={filesByCanAccess}
           />
         </div>
       </div>
