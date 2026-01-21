@@ -67,8 +67,10 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   const router = useRouter();
   const {
-    query: { app },
+    query: { app, filter },
   } = router;
+
+  console.log("app", app, "filter", filter)
   const REGISTERED_APPS = useMemo(() => {
     if (sections) {
       return sections.reduce(
@@ -99,6 +101,8 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
         <div className="flex flex-col">
+          { !filter && (
+            <div>
           <CohortManager
             rightPanel={
               <CountsPanel index="case_centric" indexPrefix="CaseCentric_" />
@@ -110,6 +114,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
             index="case_centric"
             shouldShowSummary={handleQueryExpressionSummaryLogic}
           />
+            </div>)}
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (

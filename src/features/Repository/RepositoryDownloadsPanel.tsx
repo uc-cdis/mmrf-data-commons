@@ -6,7 +6,7 @@ import {
   selectCurrentCohortFilters,
   EmptyFilterSet,
   convertFilterSetToGqlFilter,
-  Accessibility,
+  Accessibility, Includes,
 } from '@gen3/core';
 import { CartIcon } from '@/utils/icons';
 import React,  {useState} from 'react';
@@ -28,6 +28,7 @@ export const MANIFEST_DOWNLOAD_MESSAGE = `Download a manifest for use with the G
 interface RepositoryDownloadsPanelProps {
   localFilters: FilterSet;
   fileDataFetching: boolean;
+  projectId?: string;
 }
 
 
@@ -35,6 +36,7 @@ interface RepositoryDownloadsPanelProps {
 const RepositoryDownloadsPanel = ({
   localFilters: repositoryFilters,
   fileDataFetching,
+  projectId,
                                   } : RepositoryDownloadsPanelProps) => {
 
   const [manifestActive, setManifestActive] = useState(false);
@@ -47,6 +49,7 @@ const RepositoryDownloadsPanel = ({
   const dispatch = useCoreDispatch();
   const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
    const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
+
 
 
   const buildCohortGqlOperatorWithCart = (): GqlOperation => {
@@ -74,11 +77,26 @@ const RepositoryDownloadsPanel = ({
 
     setLoading(true);
 
+    let cohortFilter;
+    if (projectId) {
+      cohortFilter = convertFilterSetToNestedGqlFilter({
+        mode: 'and',
+        root: {
+          'project.project_id': {
+            operator: 'in',
+            field: 'project.project_id',
+            operands: [projectId],
+          } as Includes,
+        },
+      });
+    } else cohortFilter = convertFilterSetToNestedGqlFilter(cohortFilters['case'] ?? EmptyFilterSet);
+
+
     try {
       const data = await getFileSizeSliceData({
-        cohortFilter: convertFilterSetToNestedGqlFilter(cohortFilters['case'] ?? EmptyFilterSet),
+        cohortFilter: cohortFilter,
         filter: filters,
-        type: "file",
+        type: 'file',
         fields: [
           'access',
           'acl',
