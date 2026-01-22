@@ -19,6 +19,7 @@ import {
   selectCurrentCohortId,
   selectIndexFilters,
 } from '@gen3/core';
+import { Text} from "@mantine/core";
 import AnalysisWorkspace from '@/components/analysis/AnalysisWorkspace';
 import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCohortSelection';
 import { useDeepCompareEffect } from 'use-deep-compare';
@@ -102,7 +103,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
         <div className="flex flex-col">
-          {!projectId && (
+          {!projectId ? (
             <>
               <CohortManager
                 rightPanel={
@@ -119,7 +120,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
                 shouldShowSummary={handleQueryExpressionSummaryLogic}
               />
             </>
-          )}
+          ):<div className="flex justify-center items-center h-10 my-2 w-full bg-primary text-base-lightest"><Text fw={900} size="xl"> Project {projectId }</Text></div>}
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (

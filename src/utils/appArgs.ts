@@ -22,9 +22,7 @@ export const getCohortFilter = (router: NextRouter): FilterSet => {
   const jsonStr = toFirstString(cohortFilterParam);
 
   if (!jsonStr) return defaultFilter;
-  console.log("jsonStr:", jsonStr)
   const parsedFilter = JSON.parse(jsonStr);
-  console.log("parsedFilter:", parsedFilter)
   return {
     mode: 'and',
     root: { "filter": parsedFilter as Operation}
