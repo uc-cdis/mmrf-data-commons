@@ -75,7 +75,7 @@ const RepositoryDownloadsPanel = ({
     try {
       const data = await getFileSizeSliceData({
         cohortFilter: convertFilterSetToNestedGqlFilter(
-          cohortFilters["case"] ?? EmptyFilterSet,
+          cohortFilters["case_centric"] ?? EmptyFilterSet,
         ),
         filter: filters,
         type: "file",
@@ -128,7 +128,7 @@ const RepositoryDownloadsPanel = ({
           "cases.samples.specimen_type",
           "cases.samples.preservation_method",
         ]}
-        caseFilters={EmptyFilterSet}
+        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
       />
       <DownloadButton
@@ -143,7 +143,7 @@ const RepositoryDownloadsPanel = ({
           .slice(0, 10)}.json`}
         format="json"
         method="POST"
-        caseFilters={EmptyFilterSet}
+        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
         fields={[
           "state",
@@ -204,7 +204,7 @@ const RepositoryDownloadsPanel = ({
         extraParams={{
           isManifest: true,
         }}
-        caseFilters={EmptyFilterSet}
+        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
         setActive={setManifestActive}
         active={manifestActive}

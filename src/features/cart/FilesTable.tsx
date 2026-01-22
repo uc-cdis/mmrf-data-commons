@@ -1,43 +1,41 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { filesize } from 'filesize';
-import { capitalize } from 'lodash';
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { filesize } from "filesize";
+import { capitalize } from "lodash";
 import {
   useCoreSelector,
   selectCart,
-  useCoreDispatch,
   GQLFilter as GqlOperation,
-} from '@gen3/core';
-import { CartFile } from '@/core';
-import { MMRFFile, useGetFilesQuery } from '@/core/features/files/filesSlice';
-import { SortBy } from '@/core';
-import { RemoveFromCartButton } from './updateCart';
-import FunctionButton from '@/components/FunctionButton';
-import { PopupIconButton } from '@/components/PopupIconButton/PopupIconButton';
-import { getFormattedTimestamp } from 'src/utils/date';
-import { FileAccessBadge } from '@/components/FileAccessBadge';
-import { statusBooleansToDataStatus } from 'src/utils';
-import { SummaryModalContext } from 'src/utils/contexts';
-import { FilesTableDataType } from '@/core';
+} from "@gen3/core";
+import { MMRFFile, useGetFilesQuery } from "@/core/features/files/filesSlice";
+import { SortBy } from "@/core";
+import { RemoveFromCartButton } from "./updateCart";
+import FunctionButton from "@/components/FunctionButton";
+import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
+import { getFormattedTimestamp } from "src/utils/date";
+import { FileAccessBadge } from "@/components/FileAccessBadge";
+import { statusBooleansToDataStatus } from "src/utils";
+import { SummaryModalContext } from "src/utils/contexts";
+import { FilesTableDataType } from "@/core";
 import {
-  ColumnDef,
   ColumnOrderState,
   SortingState,
   VisibilityState,
   createColumnHelper,
-} from '@tanstack/react-table';
-import VerticalTable from '@/components/Table/VerticalTable';
-import { HandleChangeInput } from '@/components/Table/types';
-import { downloadTSV } from '@/components/Table/utils';
-import { useDeepCompareMemo } from 'use-deep-compare';
-import TotalItems from '@/components/Table/TotalItem';
-import { Image } from '@/components/Image';
-import Link from 'next/link';
+} from "@tanstack/react-table";
+import VerticalTable from "@/components/Table/VerticalTable";
+import { HandleChangeInput } from "@/components/Table/types";
+import { downloadTSV } from "@/components/Table/utils";
+import { useDeepCompareMemo } from "use-deep-compare";
+import TotalItems from "@/components/Table/TotalItem";
+import { Image } from "@/components/Image";
+import Link from "next/link";
+import { DownloadButton } from "@/components/DownloadButtons";
+import { Loader } from "@mantine/core";
+import { DownloadIcon } from "@/utils/icons";
 
 interface FilesTableProps {
   readonly customDataTestID: string;
 }
-
-const download = (arg: any) => null;
 
 const cartFilesTableColumnHelper = createColumnHelper<FilesTableDataType>();
 
@@ -46,26 +44,26 @@ const FilesTable: React.FC<FilesTableProps> = ({
 }: FilesTableProps) => {
   const { setEntityMetadata } = useContext(SummaryModalContext);
   const cart = useCoreSelector((state) => selectCart(state));
-  const dispatch = useCoreDispatch();
   const [tableData, setTableData] = useState<FilesTableDataType[]>([]);
   const [pageSize, setPageSize] = useState(20);
   const [activePage, setActivePage] = useState(1);
   const [sortBy, setSortBy] = useState<SortBy[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [jsonDownloadInProgress, setJsonDownloadInProgress] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [jsonDownloadActive, setJsonDownloadActive] = useState(false);
+  const [tsvDownloadActive, setTsvDownloadActive] = useState(false);
 
   const sortByActions = (sortByObj: SortingState) => {
     const tempSortBy: SortBy[] = sortByObj.map((sortObj) => {
       let tempSortId = sortObj.id;
       // map sort ids to api ids
-      if (sortObj.id === 'project') {
-        tempSortId = 'cases.project.project_id';
-      } else if (sortObj.id === 'file_uuid') {
-        tempSortId = 'file_id';
+      if (sortObj.id === "project") {
+        tempSortId = "cases.project.project_id";
+      } else if (sortObj.id === "file_uuid") {
+        tempSortId = "file_id";
       }
       return {
         field: tempSortId,
-        direction: sortObj.desc ? 'desc' : 'asc',
+        direction: sortObj.desc ? "desc" : "asc",
       };
     });
     setSortBy(tempSortBy);
@@ -77,7 +75,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
         in: {
           file_id: cart.map((f) => f?.file_id),
         },
-      }
+      },
     ],
   };
 
@@ -102,8 +100,8 @@ const FilesTable: React.FC<FilesTableProps> = ({
             data_category: file.data_category,
             data_type: file.data_type,
             data_format: file.data_format,
-            experimental_strategy: file.experimental_strategy || '--',
-            platform: file.platform || '--',
+            experimental_strategy: file.experimental_strategy || "--",
+            platform: file.platform || "--",
             file_size: filesize(file.file_size),
             annotations: file.annotations,
           })) as FilesTableDataType[])
@@ -120,8 +118,8 @@ const FilesTable: React.FC<FilesTableProps> = ({
           pages: Math.ceil(data?.total / pageSize),
           size: pageSize,
           total: data?.total,
-          sort: 'None',
-          label: 'file',
+          sort: "None",
+          label: "file",
         }
       : {
           count: 0,
@@ -130,25 +128,44 @@ const FilesTable: React.FC<FilesTableProps> = ({
           pages: 0,
           size: 0,
           total: 0,
-          label: '',
+          label: "",
         };
   }, [pageSize, activePage, data?.total, isSuccess]);
+
+  const DOWNLOAD_FIELDS = [
+    "file_id",
+    "access",
+    "file_name",
+    "cases.case_id",
+    "cases.project.project_id",
+    "data_category",
+    "data_type",
+    "data_format",
+    "experimental_strategy",
+    "platform",
+    "file_size",
+  ];
 
   const cartFilesTableDefaultColumns = useMemo(
     () => [
       cartFilesTableColumnHelper.display({
-        id: 'remove',
-        header: 'Remove',
+        id: "remove",
+        header: "Remove",
         cell: ({ row }) => (
-          <RemoveFromCartButton files={[{ id: row.original.file_uuid, file_id: row.original.file_uuid}]} iconOnly />
+          <RemoveFromCartButton
+            files={[
+              { id: row.original.file_uuid, file_id: row.original.file_uuid },
+            ]}
+            iconOnly
+          />
         ),
       }),
-      cartFilesTableColumnHelper.accessor('file_uuid', {
-        id: 'file_uuid',
-        header: 'File UUID',
+      cartFilesTableColumnHelper.accessor("file_uuid", {
+        id: "file_uuid",
+        header: "File UUID",
         cell: ({ getValue }) => {
-          const value = getValue()?.toString() ?? '';
-          const uuid = encodeURIComponent(value)
+          const value = getValue()?.toString() ?? "";
+          const uuid = encodeURIComponent(value);
           return (
             <div className="flex flex-nowrap items-center align-middle gap-2">
               <Image
@@ -160,28 +177,31 @@ const FilesTable: React.FC<FilesTableProps> = ({
               />
               <Link
                 href={`/files/${uuid?.toString()}`}
-                target="_blank" rel="noopener noreferrer"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-utility-link underline font-content text-left"
               >
                 {value}
               </Link>
             </div>
-
-        )},
+          );
+        },
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('access', {
-        id: 'access',
-        header: 'Access',
+      cartFilesTableColumnHelper.accessor("access", {
+        id: "access",
+        header: "Access",
         cell: ({ getValue }) => <FileAccessBadge access={getValue()} />,
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('file_name', {
-        id: 'file_name',
-        header: 'File Name',
+      cartFilesTableColumnHelper.accessor("file_name", {
+        id: "file_name",
+        header: "File Name",
         cell: ({ getValue, row }) => {
-          const value = getValue()?.toString() ?? '';
-          const uuid = encodeURIComponent(row?.original?.file_uuid ?? 'Not Found')
+          const value = getValue()?.toString() ?? "";
+          const uuid = encodeURIComponent(
+            row?.original?.file_uuid ?? "Not Found",
+          );
           return (
             <div className="flex flex-nowrap items-center align-middle gap-2">
               <Image
@@ -193,25 +213,26 @@ const FilesTable: React.FC<FilesTableProps> = ({
               />
               <Link
                 href={`/files/${uuid?.toString()}`}
-                target="_blank" rel="noopener noreferrer"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-utility-link underline font-content text-left"
               >
                 {value}
               </Link>
             </div>
-
-          )},
+          );
+        },
         enableSorting: true,
       }),
       cartFilesTableColumnHelper.display({
-        id: 'cases',
-        header: 'Cases',
+        id: "cases",
+        header: "Cases",
         cell: ({ row }) => (
           <PopupIconButton
             handleClick={() => {
               if (row.original.cases?.length === 0) return;
               setEntityMetadata({
-                entity_type: row.original.cases?.length === 1 ? 'case' : 'file',
+                entity_type: row.original.cases?.length === 1 ? "case" : "file",
                 entity_id:
                   row.original.cases?.length === 1
                     ? row.original.cases?.[0].case_id
@@ -220,24 +241,24 @@ const FilesTable: React.FC<FilesTableProps> = ({
             }}
             label={row.original.cases?.length.toLocaleString() || 0}
             customAriaLabel={`Open ${
-              row.original.cases?.length === 1 ? 'case' : 'file'
+              row.original.cases?.length === 1 ? "case" : "file"
             } information in modal`}
             customStyle={`font-content ${
               row.original.cases?.length > 0
-                ? 'text-utility-link underline'
-                : 'cursor-default'
+                ? "text-utility-link underline"
+                : "cursor-default"
             }`}
           />
         ),
       }),
-      cartFilesTableColumnHelper.accessor('project', {
-        id: 'project',
-        header: 'Project',
+      cartFilesTableColumnHelper.accessor("project", {
+        id: "project",
+        header: "Project",
         cell: ({ getValue }) => (
           <PopupIconButton
             handleClick={() =>
               setEntityMetadata({
-                entity_type: 'project',
+                entity_type: "project",
                 entity_id: getValue(),
               })
             }
@@ -247,39 +268,39 @@ const FilesTable: React.FC<FilesTableProps> = ({
         ),
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('data_category', {
-        id: 'data_category',
-        header: 'Data Category',
+      cartFilesTableColumnHelper.accessor("data_category", {
+        id: "data_category",
+        header: "Data Category",
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('data_type', {
-        id: 'data_type',
-        header: 'Data Type',
+      cartFilesTableColumnHelper.accessor("data_type", {
+        id: "data_type",
+        header: "Data Type",
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('data_format', {
-        id: 'data_format',
-        header: 'Data Format',
+      cartFilesTableColumnHelper.accessor("data_format", {
+        id: "data_format",
+        header: "Data Format",
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('experimental_strategy', {
-        id: 'experimental_strategy',
-        header: 'Experimental Strategy',
+      cartFilesTableColumnHelper.accessor("experimental_strategy", {
+        id: "experimental_strategy",
+        header: "Experimental Strategy",
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('platform', {
-        id: 'platform',
-        header: 'Platform',
+      cartFilesTableColumnHelper.accessor("platform", {
+        id: "platform",
+        header: "Platform",
         enableSorting: true,
       }),
-      cartFilesTableColumnHelper.accessor('file_size', {
-        id: 'file_size',
-        header: 'File Size',
+      cartFilesTableColumnHelper.accessor("file_size", {
+        id: "file_size",
+        header: "File Size",
         enableSorting: true,
       }),
       cartFilesTableColumnHelper.display({
-        id: 'annotations',
-        header: 'Annotations',
+        id: "annotations",
+        header: "Annotations",
         cell: ({ row }) => row.original?.annotations?.length ?? 0,
       }),
     ],
@@ -298,16 +319,16 @@ const FilesTable: React.FC<FilesTableProps> = ({
 
   const handleChange = (obj: HandleChangeInput) => {
     switch (Object.keys(obj)?.[0]) {
-      case 'newPageSize':
+      case "newPageSize":
         setActivePage(1);
-        setPageSize(parseInt(obj.newPageSize ?? '0'));
+        setPageSize(parseInt(obj.newPageSize ?? "0"));
         break;
-      case 'newPageNumber':
+      case "newPageNumber":
         setActivePage(obj.newPageNumber ?? 0);
         break;
-      case 'newSearch':
+      case "newSearch":
         setActivePage(1);
-        setSearchTerm(obj.newSearch ?? '');
+        setSearchTerm(obj.newSearch ?? "");
         break;
     }
   };
@@ -318,48 +339,16 @@ const FilesTable: React.FC<FilesTableProps> = ({
     sortByActions(sorting);
   }, [sorting]);
 
-  const handleDownloadJSON = async () => {
-    setJsonDownloadInProgress(true);
-    await download({
-      endpoint: 'files',
-      method: 'POST',
-      params: {
-        filters: tableFilters,
-        size: 10000,
-        attachment: true,
-        format: 'JSON',
-        pretty: true,
-        annotations: true,
-        related_files: true,
-        fields: [
-          'file_id',
-          'access',
-          'file_name',
-          'cases.case_id',
-          'cases.project.project_id',
-          'data_category',
-          'data_type',
-          'data_format',
-          'experimental_strategy',
-          'platform',
-          'file_size',
-          'annotations.annotation_id',
-        ].join(','),
-      },
-      dispatch,
-      done: () => setJsonDownloadInProgress(false),
-    });
-  };
-
   const handleDownloadTSV = () => {
+    setTsvDownloadActive(true);
     downloadTSV({
       tableData,
       columnOrder,
-      fileName: `files-table.${getFormattedTimestamp()}.tsv`,
+      fileName: `files-table_cart.${getFormattedTimestamp()}.tsv`,
       columnVisibility,
       columns: cartFilesTableDefaultColumns as any,
       option: {
-        blacklist: ['remove'],
+        blacklist: ["remove"],
         overwrite: {
           access: {
             composer: (file) => capitalize(file.access),
@@ -373,6 +362,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
         },
       },
     });
+    setTsvDownloadActive(false);
   };
 
   return (
@@ -380,26 +370,47 @@ const FilesTable: React.FC<FilesTableProps> = ({
       customDataTestID={customDataTestID}
       data={tableData}
       columns={cartFilesTableDefaultColumns}
-      tableTotalDetail={
-        <TotalItems total={data?.total} itemName="file" />
-      }
+      tableTotalDetail={<TotalItems total={data?.total} itemName="file" />}
       additionalControls={
         <div className="flex gap-2">
-          <FunctionButton
-            data-testid="button-json"
-            onClick={handleDownloadJSON}
-            aria-label="Download JSON"
+          <DownloadButton
+            buttonLabel="JSON"
+            endpoint="file"
+            format="json"
+            method="POST"
+            filters={{
+              mode: "and",
+              root: {
+                file_id: {
+                  operator: "in",
+                  field: "file_id",
+                  operands: cart.map((file) => file?.file_id),
+                },
+              },
+            }}
+            fields={DOWNLOAD_FIELDS}
+            filename={`files_table_cart.${getFormattedTimestamp()}.json`}
+            active={jsonDownloadActive}
+            setActive={setJsonDownloadActive}
             disabled={isFetching}
-            isDownload
-            isActive={jsonDownloadInProgress}
-          >
-            JSON
-          </FunctionButton>
+            extraParams={{
+              pretty: true,
+              annotations: true,
+              related_files: true,
+            }}
+          />
           <FunctionButton
             data-testid="button-tsv"
             onClick={handleDownloadTSV}
             aria-label="Download TSV"
             disabled={isFetching}
+            leftSection={
+              tsvDownloadActive ? (
+                <Loader size={15} />
+              ) : (
+                <DownloadIcon aria-hidden="true" className="hidden xl:block" />
+              )
+            }
           >
             TSV
           </FunctionButton>
@@ -411,7 +422,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
       search={{
         enabled: true,
         tooltip:
-          'e.g. HCM-CSHL-0062-C18.json, 4b5f5ba0-3010-4449-99d4-7bd7a6d73422, HCM-CSHL-0062-C18',
+          "e.g. HCM-CSHL-0062-C18.json, 4b5f5ba0-3010-4449-99d4-7bd7a6d73422, HCM-CSHL-0062-C18",
       }}
       showControls={true}
       setColumnVisibility={setColumnVisibility}

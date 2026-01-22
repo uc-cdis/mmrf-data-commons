@@ -1,12 +1,9 @@
 import React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import GenericLink from '@/components/GenericLink';
-import { TableActionButtons } from '@/components/TableActionButtons';
 import { AccessType, CartFile, GdcCartFile, GdcFile } from '@/core';
 import { createColumnHelper } from '@tanstack/react-table';
 import { filesize } from 'filesize';
-import { mapGdcFileToCartFile } from './utils';
-import { fileInCart } from '@/utils/index';
 import VerticalTable from '@/components/Table/VerticalTable';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { FileAccessBadge } from '@/components/FileAccessBadge';
@@ -76,21 +73,22 @@ const SourceFiles = ({
       SourceFilesTableColumnHelper.accessor('file_size', {
         header: 'Size',
       }),
-      SourceFilesTableColumnHelper.display({
-        id: 'action',
-        header: 'Action',
-        cell: ({ row }) => (
-          <TableActionButtons
-          /* isOutputFileInCart={fileInCart(
-              currentCart as any,
-              row.original.file_id,
-            )} */
-          // file={mapGdcFileToCartFile([row.original.file])}
-          // downloadFile={row.original.file}
-          // setFileToDownload={setFileToDownload}
-          />
-        ),
-      }),
+      // commenting this out as it is not being used
+      // SourceFilesTableColumnHelper.display({
+      //   id: 'action',
+      //   header: 'Action',
+      //   cell: ({ row }) => (
+      //     <TableActionButtons
+      //     /* isOutputFileInCart={fileInCart(
+      //         currentCart as any,
+      //         row.original.file_id,
+      //       )} */
+      //     // file={mapGdcFileToCartFile([row.original.file])}
+      //     // downloadFile={row.original.file}
+      //     // setFileToDownload={setFileToDownload}
+      //     />
+      //   ),
+      // }),
     ],
     [currentCart, setFileToDownload],
   );

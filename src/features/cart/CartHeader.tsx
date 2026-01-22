@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import {
   useCoreDispatch,
-  useCoreSelector,
-  selectCurrentModal,
   CartItem,
   EmptyFilterSet,
+  downloadJSONDataFromGuppy,
 } from "@gen3/core";
 import { filesize } from "filesize";
 import { Button, Loader, Menu } from "@mantine/core";
@@ -21,9 +20,19 @@ import {
 } from "@/utils/icons";
 import { getFormattedTimestamp } from "@/utils/date";
 import { MANIFEST_DOWNLOAD_MESSAGE } from "@/utils/constants";
+import { handleDownload } from "@/utils/downloads";
+import { BIOSPECIMEN_FIELDS, CLINICAL_FIELDS } from "./utils";
+import {
+  arrayToTSV,
+  processBiospecimenResponse,
+} from "../biospecimen/biospecimenTransformer";
+import { generateTarGzBlob } from "@/utils/archiver";
+import FunctionButton from "@/components/FunctionButton";
+import { processClinicalResponse } from "./clinicalTransformer";
 
 const buttonStyle =
   "bg-base-max text-primary border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary hover:bg-base-max hover:text-primary";
+
 interface CartHeaderProps {
   summaryData: any;
   cart: CartItem[];
@@ -46,7 +55,117 @@ const CartHeader: React.FC<CartHeaderProps> = ({
   const [metadataDownloadActive, setMetadataDownloadActive] = useState(false);
   const [sampleSheetDownloadActive, setSampleSheetDownloadActive] =
     useState(false);
-  const modal = useCoreSelector((state) => selectCurrentModal(state));
+
+  const handleBiospecimenTsvDownload = async () => {
+    try {
+      setBiospecimenTSVDownloadActive(true);
+
+      const rawData = await downloadJSONDataFromGuppy({
+        parameters: {
+          type: "file",
+          fields: BIOSPECIMEN_FIELDS,
+          filter: {
+            mode: "and",
+            root: {
+              file_id: {
+                operator: "in",
+                field: "file_id",
+                operands: cart.map((file) => file?.file_id),
+              },
+            },
+          },
+          format: "json",
+        },
+      });
+
+      const buckets = processBiospecimenResponse(rawData);
+
+      const files = [
+        { name: "sample.tsv", content: arrayToTSV(buckets.sample) },
+        { name: "portion.tsv", content: arrayToTSV(buckets.portion) },
+        { name: "analyte.tsv", content: arrayToTSV(buckets.analyte) },
+        { name: "aliquot.tsv", content: arrayToTSV(buckets.aliquot) },
+      ];
+
+      const blob = await generateTarGzBlob(files);
+
+      const filename = `biospecimen_cart.${new Date().toISOString().slice(0, 10)}.tar.gz`;
+      handleDownload(blob, filename);
+    } catch (error) {
+      console.error("Error downloading biospecimen TSV:", error);
+    } finally {
+      setBiospecimenTSVDownloadActive(false);
+    }
+  };
+
+  const handleClinicalTsvDownload = async () => {
+    try {
+      setClinicalTSVDownloadActive(true);
+
+      const rawData = await downloadJSONDataFromGuppy({
+        parameters: {
+          type: "file",
+          filter: {
+            mode: "and",
+            root: {
+              file_id: {
+                operator: "in",
+                field: "file_id",
+                operands: cart.map((file) => file?.file_id),
+              },
+            },
+          },
+          fields: CLINICAL_FIELDS,
+          format: "json",
+        },
+      });
+
+      const buckets = processClinicalResponse(rawData);
+
+      const files = [];
+
+      console.log(buckets);
+      if (buckets.clinical.length) {
+        files.push({
+          name: "clinical.tsv",
+          content: arrayToTSV(buckets.clinical),
+        });
+      }
+      if (buckets.follow_up.length) {
+        files.push({
+          name: "follow_up.tsv",
+          content: arrayToTSV(buckets.follow_up),
+        });
+      }
+      if (buckets.exposure.length) {
+        files.push({
+          name: "exposure.tsv",
+          content: arrayToTSV(buckets.exposure),
+        });
+      }
+      if (buckets.family_history.length) {
+        files.push({
+          name: "family_history.tsv",
+          content: arrayToTSV(buckets.family_history),
+        });
+      }
+
+      if (files.length === 0) {
+        console.warn("No clinical data found to download");
+        return;
+      }
+
+      const blob = await generateTarGzBlob(files);
+      handleDownload(
+        blob,
+        `clinical_cart.${new Date().toISOString().slice(0, 10)}.tar.gz`,
+      );
+    } catch (err) {
+      console.error("Clinical TSV Download failed", err);
+    } finally {
+      setClinicalTSVDownloadActive(false);
+    }
+  };
 
   return (
     <>
@@ -81,7 +200,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
               manifestDownloadActive ? (
                 <Loader size={15} />
               ) : (
-                <DownloadIcon aria-hidden="true"  className="hidden xl:block" />
+                <DownloadIcon aria-hidden="true" className="hidden xl:block" />
               )
             }
             caseFilters={EmptyFilterSet}
@@ -134,29 +253,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 filename={`biospecimen_cart.${new Date()
                   .toISOString()
                   .slice(0, 10)}.json`}
-                fields={[
-                  "cases.case_id",
-                  "cases.project.project_id",
-                  "submitter_id",
-                  "cases.samples.tumor_descriptor",
-                  "cases.samples.specimen_type",
-                  "cases.samples.days_to_sample_procurement",
-                  "cases.samples.updated_datetime",
-                  "cases.samples.sample_id",
-                  "cases.samples.submitter_id",
-                  "cases.samples.state",
-                  "cases.samples.preservation_method",
-                  "cases.samples.sample_type",
-                  "cases.samples.tissue_type",
-                  "cases.samples.created_datetime",
-                  "cases.samples.portions.portion_id",
-                  "cases.samples.portions.analytes.analyte_id",
-                  "cases.samples.portions.analytes.aliquots.aliquot_id",
-                  "cases.samples.portions.analytes.aliquots.updated_datetime",
-                  "cases.samples.portions.analytes.aliquots.submitter_id",
-                  "cases.samples.portions.analytes.aliquots.state",
-                  "cases.samples.portions.analytes.aliquots.created_datetime",
-                ]}
+                fields={BIOSPECIMEN_FIELDS}
                 caseFilters={EmptyFilterSet}
                 filters={{
                   mode: "and",
@@ -169,56 +266,18 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   },
                 }}
               />
-              {/* doesn't work properly - probably need to parse it and make it download as tsvs - multiple files */}
               <Menu.Item
-                component={DownloadButton}
-                classNames={{ item: "font-normal border-0" }}
-                buttonLabel="TSV"
-                preventClickEvent
-                endpoint="file"
-                setActive={setBiospecimenTSVDownloadActive}
-                active={biospecimenTSVDownloadActive}
-                format="tsv"
-                method="POST"
-                filename={`biospecimen_cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.tsv`}
-                fields={[
-                  "cases.case_id",
-                  "cases.project.project_id",
-                  "submitter_id",
-                  "cases.samples.tumor_descriptor",
-                  "cases.samples.specimen_type",
-                  "cases.samples.days_to_sample_procurement",
-                  "cases.samples.updated_datetime",
-                  "cases.samples.sample_id",
-                  "cases.samples.submitter_id",
-                  "cases.samples.state",
-                  "cases.samples.preservation_method",
-                  "cases.samples.sample_type",
-                  "cases.samples.tissue_type",
-                  "cases.samples.created_datetime",
-                  "cases.samples.portions.portion_id",
-                  "cases.samples.portions.analytes.analyte_id",
-                  "cases.samples.portions.analytes.aliquots.aliquot_id",
-                  "cases.samples.portions.analytes.aliquots.updated_datetime",
-                  "cases.samples.portions.analytes.aliquots.submitter_id",
-                  "cases.samples.portions.analytes.aliquots.state",
-                  "cases.samples.portions.analytes.aliquots.created_datetime",
-                ]}
-                caseFilters={EmptyFilterSet}
-                filters={{
-                  mode: "and",
-                  root: {
-                    file_id: {
-                      operator: "in",
-                      field: "file_id",
-                      operands: cart.map((file) => file?.file_id),
-                    },
-                  },
-                }}
-                toolTip="TSV download is not available."
-              />
+                component={FunctionButton}
+                onClick={handleBiospecimenTsvDownload}
+                disabled={biospecimenTSVDownloadActive}
+                $variant="subtle"
+                isDownload
+                showDownloadIcon
+                isActive={biospecimenJSONDownloadActive}
+                closeMenuOnClick={false}
+              >
+                TSV
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
           {/* Clinical */}
@@ -260,60 +319,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   .toISOString()
                   .slice(0, 10)}.json`}
                 caseFilters={EmptyFilterSet}
-                fields={[
-                  "cases.primary_site",
-                  "cases.disease_type",
-                  "updated_datetime",
-                  "cases.case_id",
-                  "cases.follow_ups.follow_up_id",
-                  "cases.follow_ups.updated_datetime",
-                  "cases.follow_ups.submitter_id",
-                  "cases.follow_ups.days_to_follow_up",
-                  "cases.follow_ups.state",
-                  "cases.follow_ups.created_datetime",
-                  "cases.project.project_id",
-                  "submitter_id",
-                  "cases.index_date",
-                  "state",
-                  "cases.diagnoses.iss_stage",
-                  "cases.diagnoses.morphology",
-                  "cases.diagnoses.submitter_id",
-                  "cases.diagnoses.created_datetime",
-                  "cases.diagnoses.treatments.days_to_treatment_end",
-                  "cases.diagnoses.treatments.days_to_treatment_start",
-                  "cases.diagnoses.treatments.updated_datetime",
-                  "cases.diagnoses.treatments.regimen_or_line_of_therapy",
-                  "cases.diagnoses.treatments.submitter_id",
-                  "cases.diagnoses.treatments.treatment_id",
-                  "cases.diagnoses.treatments.treatment_type",
-                  "cases.diagnoses.treatments.state",
-                  "cases.diagnoses.treatments.treatment_or_therapy",
-                  "cases.diagnoses.treatments.created_datetime",
-                  "cases.diagnoses.last_known_disease_status",
-                  "cases.diagnoses.tissue_or_organ_of_origin",
-                  "cases.diagnoses.days_to_last_follow_up",
-                  "cases.diagnoses.age_at_diagnosis",
-                  "cases.diagnoses.primary_diagnosis",
-                  "cases.diagnoses.updated_datetime",
-                  "cases.diagnoses.diagnosis_id",
-                  "cases.diagnoses.site_of_resection_or_biopsy",
-                  "cases.diagnoses.state",
-                  "cases.diagnoses.days_to_last_known_disease_status",
-                  "cases.diagnoses.tumor_grade",
-                  "cases.diagnoses.progression_or_recurrence",
-                  "created_datetime",
-                  "cases.demographic.demographic_id",
-                  "cases.demographic.ethnicity",
-                  "cases.demographic.gender",
-                  "cases.demographic.race",
-                  "cases.demographic.vital_status",
-                  "cases.demographic.updated_datetime",
-                  "cases.demographic.age_at_index",
-                  "cases.demographic.submitter_id",
-                  "cases.demographic.days_to_birth",
-                  "cases.demographic.state",
-                  "cases.demographic.created_datetime",
-                ]}
+                fields={CLINICAL_FIELDS}
                 filters={{
                   mode: "and",
                   root: {
@@ -325,86 +331,18 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   },
                 }}
               />
-              {/* need to also parse the JSON response and download it separately - multiple files */}
               <Menu.Item
-                component={DownloadButton}
-                classNames={{ item: "font-normal border-0" }}
-                buttonLabel="TSV"
-                preventClickEvent
-                endpoint="file"
-                setActive={setClinicalTSVDownloadActive}
-                active={clinicalTSVDownloadActive}
-                format="tsv"
-                method="POST"
-                filename={`clinical_cart.${new Date()
-                  .toISOString()
-                  .slice(0, 10)}.json`}
-                caseFilters={EmptyFilterSet}
-                fields={[
-                  "cases.primary_site",
-                  "cases.disease_type",
-                  "updated_datetime",
-                  "cases.case_id",
-                  "cases.follow_ups.follow_up_id",
-                  "cases.follow_ups.updated_datetime",
-                  "cases.follow_ups.submitter_id",
-                  "cases.follow_ups.days_to_follow_up",
-                  "cases.follow_ups.state",
-                  "cases.follow_ups.created_datetime",
-                  "cases.project.project_id",
-                  "submitter_id",
-                  "cases.index_date",
-                  "state",
-                  "cases.diagnoses.iss_stage",
-                  "cases.diagnoses.morphology",
-                  "cases.diagnoses.submitter_id",
-                  "cases.diagnoses.created_datetime",
-                  "cases.diagnoses.treatments.days_to_treatment_end",
-                  "cases.diagnoses.treatments.days_to_treatment_start",
-                  "cases.diagnoses.treatments.updated_datetime",
-                  "cases.diagnoses.treatments.regimen_or_line_of_therapy",
-                  "cases.diagnoses.treatments.submitter_id",
-                  "cases.diagnoses.treatments.treatment_id",
-                  "cases.diagnoses.treatments.treatment_type",
-                  "cases.diagnoses.treatments.state",
-                  "cases.diagnoses.treatments.treatment_or_therapy",
-                  "cases.diagnoses.treatments.created_datetime",
-                  "cases.diagnoses.last_known_disease_status",
-                  "cases.diagnoses.tissue_or_organ_of_origin",
-                  "cases.diagnoses.days_to_last_follow_up",
-                  "cases.diagnoses.age_at_diagnosis",
-                  "cases.diagnoses.primary_diagnosis",
-                  "cases.diagnoses.updated_datetime",
-                  "cases.diagnoses.diagnosis_id",
-                  "cases.diagnoses.site_of_resection_or_biopsy",
-                  "cases.diagnoses.state",
-                  "cases.diagnoses.days_to_last_known_disease_status",
-                  "cases.diagnoses.tumor_grade",
-                  "cases.diagnoses.progression_or_recurrence",
-                  "created_datetime",
-                  "cases.demographic.demographic_id",
-                  "cases.demographic.ethnicity",
-                  "cases.demographic.gender",
-                  "cases.demographic.race",
-                  "cases.demographic.vital_status",
-                  "cases.demographic.updated_datetime",
-                  "cases.demographic.age_at_index",
-                  "cases.demographic.submitter_id",
-                  "cases.demographic.days_to_birth",
-                  "cases.demographic.state",
-                  "cases.demographic.created_datetime",
-                ]}
-                filters={{
-                  mode: "and",
-                  root: {
-                    file_id: {
-                      operator: "in",
-                      field: "file_id",
-                      operands: cart.map((file) => file?.file_id),
-                    },
-                  },
-                }}
-              />
+                component={FunctionButton}
+                onClick={handleClinicalTsvDownload}
+                disabled={clinicalTSVDownloadActive}
+                $variant="subtle"
+                isDownload
+                showDownloadIcon
+                isActive={clinicalTSVDownloadActive}
+                closeMenuOnClick={false}
+              >
+                TSV
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
 

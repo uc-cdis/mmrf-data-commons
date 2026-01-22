@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { useMediaQuery } from '@mantine/hooks';
 import {
   Accessibility,
   CoreState,
@@ -11,14 +10,12 @@ import {
   ExplorerTable,
   DownloadsPanel,
   TableXPositionContext,
-  getAllFieldsFromFilterConfigs,
 } from '@gen3/frontend';
 import { useGetRepositoryData, useTotalFileSizeQuery } from './hooks';
 import Stats from './Stats';
 import FileFacetPanel from './FileFacetPanel';
 import { RepositoryProps } from './types';
 import RepositoryDownloadsPanel from './RepositoryDownloadsPanel';
-import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
 
 export const RepositoryPanel = ({
   guppyConfig,
@@ -28,7 +25,6 @@ export const RepositoryPanel = ({
   buttons,
   loginForDownload,
   fileStatsConfiguration,
-  additionalControls = null,
 }: RepositoryProps) => {
   const [tableXPosition, setTableXPosition] = useState<number | undefined>(
     undefined,
@@ -42,10 +38,6 @@ export const RepositoryPanel = ({
 
   const index = guppyConfig.dataType;
   const indexPrefix = guppyConfig?.indexPrefix ?? '';
-  const fields = useMemo(
-    () => getAllFieldsFromFilterConfigs(filters?.tabs ?? []),
-    [filters?.tabs],
-  );
 
   const repositoryFilters = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, index),
