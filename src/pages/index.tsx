@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { useRouter } from "next/router";
-import PageTitle from "@/components/PageTitle";
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import PageTitle from '@/components/PageTitle';
 import {
   AnalysisCenterWithSections,
   AnalysisPageGetServerSideProps as getServerSideProps,
@@ -10,7 +10,7 @@ import {
   QueryExpression,
   CountsValue,
   ProtectedContent,
-} from "@gen3/frontend";
+} from '@gen3/frontend';
 import {
   useLazyGetCountsQuery,
   Accessibility,
@@ -18,11 +18,12 @@ import {
   useCoreSelector,
   selectCurrentCohortId,
   selectIndexFilters,
-} from "@gen3/core";
-import AnalysisWorkspace from "@/components/analysis/AnalysisWorkspace";
-import AdditionalCohortSelection from "@/features/cohortComparison/AdditionalCohortSelection";
-import { useDeepCompareEffect } from "use-deep-compare";
-import { getCustomCohortButtons } from "@/features/cohort/getCustomCohortButtons";
+} from '@gen3/core';
+import AnalysisWorkspace from '@/components/analysis/AnalysisWorkspace';
+import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCohortSelection';
+import { useDeepCompareEffect } from 'use-deep-compare';
+import { getCustomCohortButtons } from '@/features/cohort/getCustomCohortButtons';
+import { useProjectId } from '@/hooks/useAppFilters';
 
 interface CountsPanelProps {
   index: string;
@@ -33,7 +34,7 @@ interface CountsPanelProps {
 const CountsPanel: React.FC<CountsPanelProps> = ({
   index,
   accessibility = Accessibility.ALL,
-  indexPrefix = "Case_",
+  indexPrefix = 'Case_',
 }: CountsPanelProps) => {
   const [getCounts, { data: counts, isFetching, isError }] =
     useLazyGetCountsQuery();
@@ -67,10 +68,8 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
 const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
   const router = useRouter();
   const {
-    query: { app, filter },
+    query: { app },
   } = router;
-
-  console.log("app", app, "filter", filter)
   const REGISTERED_APPS = useMemo(() => {
     if (sections) {
       return sections.reduce(
@@ -86,35 +85,41 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
     ? REGISTERED_APPS.find((a: AnalysisToolConfiguration) => a?.appId === app)
     : undefined;
 
-  if (appInfo && appInfo.appId === "CohortComparison") {
+  if (appInfo && appInfo.appId === 'CohortComparison') {
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
   const handleQueryExpressionSummaryLogic = (field: string, count: number) => {
-    const isCaseField = field.includes("case_id");
+    const isCaseField = field.includes('case_id');
     const isAboveThreshold = count > 1;
     return isCaseField && isAboveThreshold;
   };
+
+  const projectId = useProjectId();
 
   return (
     <>
       <PageTitle pageName="Analysis Center" />
       <ProtectedContent>
         <div className="flex flex-col">
-          { !filter && (
-            <div>
-          <CohortManager
-            rightPanel={
-              <CountsPanel index="case_centric" indexPrefix="CaseCentric_" />
-            }
-            size="md"
-            customActions={getCustomCohortButtons()}
-          />
-          <QueryExpression
-            index="case_centric"
-            shouldShowSummary={handleQueryExpressionSummaryLogic}
-          />
-            </div>)}
+          {!projectId && (
+            <>
+              <CohortManager
+                rightPanel={
+                  <CountsPanel
+                    index="case_centric"
+                    indexPrefix="CaseCentric_"
+                  />
+                }
+                size="md"
+                customActions={getCustomCohortButtons()}
+              />
+              <QueryExpression
+                index="case_centric"
+                shouldShowSummary={handleQueryExpressionSummaryLogic}
+              />
+            </>
+          )}
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (
