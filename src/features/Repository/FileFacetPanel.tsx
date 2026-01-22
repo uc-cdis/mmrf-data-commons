@@ -17,7 +17,8 @@ import {
   toggleCohortBuilderAllFilters,
   useCoreDispatch,
   useCoreSelector,
-  clearCohortFilters
+  clearCohortFilters,
+  Includes,
 } from '@gen3/core';
 
 import {
@@ -66,6 +67,7 @@ interface FileFacetPanelProps {
   fieldMapping?: ReadonlyArray<FieldToName>;
   tabTitle: string;
   indexPrefix?: string;
+  projectId?: string;
 }
 
 export const FileFacetPanel = ({
@@ -74,6 +76,7 @@ export const FileFacetPanel = ({
   tabTitle,
   fieldMapping,
   indexPrefix = '',
+                                 projectId,
 }: FileFacetPanelProps): JSX.Element => {
 
   const coreDispatch = useCoreDispatch();
@@ -82,11 +85,24 @@ export const FileFacetPanel = ({
     selectIndexFilters(state, index),
   );
 
-  const cohortFilters = useCoreSelector((state: CoreState) =>
+  let cohortFilter = useCoreSelector((state: CoreState) =>
     selectIndexFilters(state, COHORT_FILTER_INDEX),
   );
 
-  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilters)
+  if (projectId) {
+    cohortFilter = {
+      mode: 'and',
+      root: {
+        'project.project_id': {
+          operator: 'in',
+          field: 'project.project_id',
+          operands: [projectId],
+        } as Includes,
+      },
+    };
+  }
+
+  const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter)
 
   const fields = useMemo(
     () => getAllFieldsFromFilterConfigs(filters?.tabs ?? []),

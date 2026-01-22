@@ -7,6 +7,7 @@ import {
   customQueryStrForField,
   EmptyFilterSet,
   FilterSet,
+  Includes,
   RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
   selectCohortFilterExpanded,
@@ -77,6 +78,7 @@ export const useTotalFileSizeQuery = ({
   fileSizeField,
   cohortItemIdField,
   fileItemIdField,
+  projectId,
   accessibility = Accessibility.ALL,
   repositoryIndexPrefix = '',
 }: FileCountsQueryParameters) => {
@@ -99,7 +101,22 @@ export const useTotalFileSizeQuery = ({
   }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  let cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  if (projectId) {
+    cohortFilter = {
+      mode: 'and',
+      root: {
+        'project.project_id': {
+          operator: 'in',
+          field: 'project.project_id',
+          operands: [projectId],
+        } as Includes,
+      },
+    };
+  }
+
+
+
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
       cohortFilter: cohortFilterGQL,
@@ -172,10 +189,12 @@ export type ExplorerDataQueryHook = (
 ) => ReturnType<typeof useRawDataAndTotalCountQuery>;
 
 export const useGetRepositoryData  = (
-  repositoryFilters: FilterSet) : ExplorerDataQueryHook   => {
-
+  projectId?: string) : ExplorerDataQueryHook   => {
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  let cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  if (projectId) {
+    cohortFilter = { mode: 'and', root: { "project.project_id" : { operator: "in", field: "project.project_id", operands: [projectId]} as Includes}};
+  }
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
 
     return (args: RawDataAndTotalCountsParams) =>

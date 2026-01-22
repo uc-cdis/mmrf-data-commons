@@ -123,7 +123,6 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   const filterGql = convertFilterSetToGqlFilter(filter??EmptyFilterSet);
 
   return (
-    <div className="p-1">
       <div className="p-1">
         <Tooltip
           label={
@@ -173,7 +172,6 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
 
         </Tooltip>
       </div>
-    </div>
   );
 };
 export default CohortCreationButton;

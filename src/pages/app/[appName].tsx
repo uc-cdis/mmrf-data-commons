@@ -8,7 +8,7 @@ import {
 } from '@gen3/core';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { getAppName } from '../../utils/apps';
+import { getAppName } from '@/utils/appArgs';
 import {
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,

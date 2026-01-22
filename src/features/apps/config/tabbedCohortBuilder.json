@@ -12,7 +12,8 @@
       ],
       "fieldsConfig": {
         "project.project_id": {
-          "description": "The project ID is a unique identifier assigned to each project."
+          "description": "The project ID is a unique identifier assigned to each project.",
+          "excludeValues" : ["MMRF-IA11", "MMRF-IA12", "MMRF-IA13", "MMRF-IA14", "MMRF-IA15", "MMRF-IA16", "MMRF-IA17", "MMRF-IA18", "MMRF-IA19", "MMRF-IA20", "MMRF-IA21", "MMRF-IA22", "MMRF-IA23"]
         },
         "primary_site": {
           "description": "The text term used to describe the primary site of disease, as categorized by the World Health Organization's (WHO) International Classification of Diseases for Oncology (ICD-O). This categorization groups cases into general categories. Reference tissue_or_organ_of_origin on the diagnosis node for more specific primary sites of disease."
