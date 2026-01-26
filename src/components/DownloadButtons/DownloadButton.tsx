@@ -39,6 +39,7 @@ import { modals } from '@mantine/modals';
  */
 interface DownloadButtonProps {
   endpoint: string;
+  caseIdField: string;
   disabled?: boolean;
   buttonLabel: string;
   filename?: string;
@@ -93,6 +94,7 @@ export const DownloadButton = forwardRef<
   (
     {
       endpoint,
+      caseIdField,
       disabled = false,
       filename,
       downloadSize = 10000,
@@ -122,9 +124,10 @@ export const DownloadButton = forwardRef<
           format: format,
           fields: fields,
           index: endpoint,
+          caseIdField,
           cohortFilters: caseFilters,
           filters,
-          filename: filename ?? "download.txt",
+          filename: filename ?? "download.json",
           ...extraParams
         }
       }

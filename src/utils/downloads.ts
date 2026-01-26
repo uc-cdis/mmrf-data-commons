@@ -1,8 +1,42 @@
 import { JSONPath } from 'jsonpath-plus';
 import { getCookie } from 'cookies-next';
-import {GuppyDownloadDataParams, GEN3_GUPPY_API, convertFilterSetToGqlFilter, DownloadFromGuppyParams, selectCSRFToken, coreStore,
-  FilterSet, jsonToFormat, isJSONObject,
+import {
+  GuppyDownloadDataParams,
+  GEN3_GUPPY_API,
+  convertFilterSetToGqlFilter,
+  selectCSRFToken,
+  coreStore,
+  FilterSet,
+  jsonToFormat,
+  isJSONObject,
+  GuppyActionParams,
 } from '@gen3/core';
+import { GEN3_ANALYSIS_API } from '@/core';
+
+export type ActionButtonFunction = (
+  done?: () => void,
+  onError?: (error: Error) => void,
+  onAbort?: () => void,
+  signal?: AbortSignal,
+  onCompleted?: (data: any) => void,
+) => Promise<void>;
+
+export type ActionButtonWithArgsFunction = (
+  params: Record<string, any>,
+  done?: (_?: Blob) => void,
+  onError?: (error: Error) => void,
+  onAbort?: () => void,
+  signal?: AbortSignal,
+  onCompleted?: (data: any) => void,
+) => Promise<void>;
+
+interface DownloadCohortDataParams extends GuppyDownloadDataParams {
+  cohortFilters: FilterSet;
+  caseIdField: string;
+  isManifest?: boolean;
+}
+
+type DownloadFromAnalysisParams = GuppyActionParams<DownloadCohortDataParams>;
 
 /**
  * Represents a configuration for making a fetch request.
@@ -24,7 +58,7 @@ export type FetchConfig = {
  * @param {string} apiUrl - The base URL to be used for preparing the download URL.
  * @returns {URL} - The prepared download URL as a URL object.
  */
-const prepareUrl = (apiUrl: string) => `${apiUrl}/download`;
+const prepareUrl = (apiUrl: string) => `${apiUrl}/cohorts/download`;
 
 /**
  * Prepares a fetch configuration object for downloading files from Guppy.
@@ -34,7 +68,7 @@ const prepareUrl = (apiUrl: string) => `${apiUrl}/download`;
  * @returns {FetchConfig} - The prepared fetch configuration object.
  */
 const prepareFetchConfig = (
-  parameters: GuppyDownloadDataParams,
+  parameters: DownloadCohortDataParams,
   csrfToken?: string,
 ): FetchConfig => {
   const headers: Headers = new Headers({
@@ -54,7 +88,9 @@ const prepareFetchConfig = (
     method: 'POST',
     headers: headers,
     body: JSON.stringify({
-      type: parameters.type,
+      index: parameters.type,
+      case_ids_filter_path: parameters.caseIdField,
+      cohort_filter: convertFilterSetToGqlFilter(parameters.cohortFilters),
       filter: convertFilterSetToGqlFilter(parameters.filter),
       accessibility: parameters.accessibility,
       fields: parameters?.fields,
@@ -74,20 +110,24 @@ const prepareFetchConfig = (
  * @param onAbort - The function to call when the download is aborted.
  * @param signal - AbortSignal to use for the request.
  */
-export const downloadFromGuppyToBlob = async ({
-                                                parameters,
-                                                onStart = () => null,
-                                                onDone = (_: Blob) => null,
-                                                onError = (_: Error) => null,
-                                                onAbort = () => null,
-                                                signal = undefined,
-  isManifest = false,
-                                              }: DownloadFromGuppyParams & { isManifest?: boolean}) => {
+export const downloadFromGuppyToBlob: ActionButtonWithArgsFunction = async (
+  parameters,
+  onDone = (_?: Blob) => {},
+  onError = (_: Error) => null,
+  onAbort = () => null,
+  signal = undefined,
+) => {
   const csrfToken = selectCSRFToken(coreStore.getState());
-  onStart?.();
 
-  const url = prepareUrl(GEN3_GUPPY_API);
-  const fetchConfig = prepareFetchConfig(parameters, csrfToken);
+  const url = prepareUrl(GEN3_ANALYSIS_API);
+  const fetchConfig = prepareFetchConfig(
+    parameters as DownloadCohortDataParams,
+    csrfToken,
+  );
+
+  const isManifest = parameters?.isManifest;
+
+  console.log('signal', signal);
 
   fetch(url.toString(), {
     ...fetchConfig,
@@ -110,25 +150,29 @@ export const downloadFromGuppyToBlob = async ({
 
       if (isManifest) {
         jsonData = jsonData.map((x: any) => ({
-            file_name: x.file_name,
-            file_size: x.file_size,
-          cases: x.cases, md5sum: x.md5sum,
-            object_id: x.file_id
+          file_name: x.file_name,
+          file_size: x.file_size,
+          cases: x.cases,
+          md5sum: x.md5sum,
+          object_id: x.file_id,
         }));
       }
       // convert the data to the specified format and return a Blob
       let str = '';
-      if (parameters?.format === undefined || parameters.format === 'json' || isManifest) {
+      if (
+        parameters?.format === undefined ||
+        parameters.format === 'json' ||
+        isManifest
+      ) {
         str = JSON.stringify(jsonData);
-      }
-      else {
+      } else {
         try {
-        const convertedData = await jsonToFormat(jsonData, parameters.format);
-        if (isJSONObject(convertedData)) {
-          str = JSON.stringify(convertedData, null, 2);
-        } else {
-          str = convertedData;
-        }
+          const convertedData = await jsonToFormat(jsonData, parameters.format);
+          if (isJSONObject(convertedData)) {
+            str = JSON.stringify(convertedData, null, 2);
+          } else {
+            str = convertedData;
+          }
         } catch (error) {
           console.error('Error converting data to format:', error);
           throw new Error('Error converting data to format');
@@ -143,6 +187,7 @@ export const downloadFromGuppyToBlob = async ({
       // Abort is handle as an exception
       if (error.name == 'AbortError') {
         // handle abort()
+        console.log('Aborted');
         onAbort?.();
       }
       onError?.(error);
@@ -150,10 +195,10 @@ export const downloadFromGuppyToBlob = async ({
 };
 
 export const downloadJSONDataFromGuppy = async ({
-                                                  parameters,
-                                                  onAbort = () => null,
-                                                  signal = undefined,
-                                                }: DownloadFromGuppyParams) => {
+  parameters,
+  onAbort = () => null,
+  signal = undefined,
+}: DownloadFromAnalysisParams) => {
   const csrfToken = selectCSRFToken(coreStore.getState());
 
   const url = prepareUrl(GEN3_GUPPY_API);
@@ -185,7 +230,6 @@ export const downloadJSONDataFromGuppy = async ({
   }
 };
 
-
 /**
  * Handles downloading of a Blob object as a file.
  *
@@ -207,9 +251,10 @@ export interface DownloadArgs {
   fields: Array<string>;
   cohortFilters: FilterSet;
   filters: FilterSet;
+  caseIdField: string;
   index: string;
   filename: string;
-  format: 'tsv' | 'json' |'csv';
+  format: 'tsv' | 'json' | 'csv';
   isManifest?: boolean;
   size?: number;
 }
@@ -217,43 +262,94 @@ export interface DownloadArgs {
 interface DownloadParams {
   params: DownloadArgs;
   done?: () => void;
+  error?: (error: Error) => void;
+  abort?: () => void;
 }
-export const download = async ({
-  params,
-  done
-}: DownloadParams) => {
-    const { fields, cohortFilters, filters, index, filename, format, isManifest } = params;
-    await downloadFromGuppyToBlob({
-      parameters: {
-        filter: filters,
-        type: index,
-        fields: fields,
-        format: format
-      },
-    onDone: (data: Blob) => {
-      handleDownload(data, filename);
+export const download = async ({ params, done }: DownloadParams) => {
+  const {
+    fields,
+    cohortFilters,
+    filters,
+    index,
+    filename,
+    format,
+    isManifest,
+    caseIdField,
+  } = params;
+  await downloadFromGuppyToBlob(
+    {
+      filter: filters,
+      caseIdField,
+      cohortFilters,
+      type: index,
+      fields: fields,
+      format: format,
+      isManifest: isManifest,
+    },
+    (data?: Blob) => {
+      if (data) handleDownload(data, filename);
       if (done) done();
     },
-      isManifest: isManifest,
-  });
-}
+    (error: Error) => {
+      if (error) {
+        console.error(error);
+        if (error.message === 'AbortError') {
+          console.log('Aborted');
+        } else {
+          console.error('Error downloading file');
+        }
+      }
+    },
+    () => {
+      console.log('Aborted');
+    },
+  );
+};
 
 export const downloadWithArgs = async (
   params: Record<string, any>,
-done?: () => void
-                              ) => {
-  const { fields, cohortFilters, filters, index, filename, format, isManifest } = params;
-  await downloadFromGuppyToBlob({
-    parameters: {
+  done?: (_?: Blob) => void,
+  onError?: (error: Error) => void,
+  onAbort?: () => void,
+  signal?: AbortSignal,
+) => {
+  const {
+    fields,
+    cohortFilters,
+    filters,
+    index,
+    filename,
+    format,
+    isManifest,
+    caseIdField,
+  } = params;
+  await downloadFromGuppyToBlob(
+    {
+      cohortFilters,
+      caseIdField,
       filter: filters,
       type: index,
       fields: fields,
-      format: format
+      format: format,
+      isManifest: isManifest,
     },
-    onDone: (data: Blob) => {
-      handleDownload(data, filename);
+    (data?: Blob) => {
+      if (data) handleDownload(data, filename);
       if (done) done();
     },
-    isManifest: isManifest,
-  });
-}
+    (error: Error) => {
+      if (error) {
+        if (error.message === 'AbortError') {
+          if (onError)
+            onError({ name: 'Abort', message: 'Download cancelled' });
+        } else {
+          console.error('Error downloading file', error.message);
+        }
+      }
+    },
+    () => {
+      if (onAbort) onAbort();
+    },
+    signal,
+  );
+};
