@@ -1,4 +1,4 @@
-import { FileCountsQueryParameters, FilesSizeData } from "./types";
+import { FileCountsQueryParameters, FilesSizeData, } from './types';
 import {
   Accessibility,
   CombineMode,
@@ -7,6 +7,7 @@ import {
   customQueryStrForField,
   EmptyFilterSet,
   FilterSet,
+  Includes,
   RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
   selectCohortFilterExpanded,
@@ -15,26 +16,28 @@ import {
   toggleCohortBuilderCategoryFilter,
   useCoreDispatch,
   useCoreSelector,
-} from "@gen3/core";
-import { getByPath } from "@gen3/frontend";
-import { useState } from "react";
-import { useDeepCompareEffect } from "use-deep-compare";
+  useGetRawDataAndTotalCountsQuery,
+} from '@gen3/core';
+import { getByPath } from '@gen3/frontend';
+import { useState } from 'react';
+import { useDeepCompareEffect } from 'use-deep-compare';
 import {
   COHORT_FILTER_INDEX,
   useGetCohortCentricAggsQuery,
   useGetCohortCentricQuery,
-} from "@/core";
+} from '@/core';
 import {
   CohortCentricAggsQueryRequest,
   FacetQueryResponse,
-} from "@/features/types";
-import { useRawDataAndTotalCountQuery } from "@/core/features/cohortQuery/cohortQuerySlice";
+} from '@/features/types';
+import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
 
 export const useGetFacetValuesQuery = (
   args: CohortCentricAggsQueryRequest,
 ): FacetQueryResponse => {
-  const { data, isSuccess, isFetching, isError } =
-    useGetCohortCentricAggsQuery(args);
+
+
+  const { data, isSuccess, isFetching, isError } = useGetCohortCentricAggsQuery(args);
 
   return {
     data: data ?? {},
@@ -49,14 +52,15 @@ const buildFileStatsQuery = (
   fileSizeField: string,
   cohortItemIdField: string,
   fileItemIdField: string,
-  indexPrefix: string = "",
+  indexPrefix: string = '',
 ) => {
+
   return `query repositoryTotals ($filter: JSON, $accessibility: Accessibility) {
     ${indexPrefix}_aggregation {
         ${type} (accessibility: $accessibility, filter: $filter) {
-            ${customQueryStrForField(fileItemIdField, "{_totalCount }")}
-            ${customQueryStrForField(fileSizeField, " {  histogram {sum} }")}
-            ${customQueryStrForField(cohortItemIdField, "{ _cardinalityCount }")}
+            ${customQueryStrForField(fileItemIdField, '{_totalCount }')}
+            ${customQueryStrForField(fileSizeField, ' {  histogram {sum} }')}
+            ${customQueryStrForField(cohortItemIdField, '{ _cardinalityCount }')}
         }
     }
 }`;
@@ -74,8 +78,9 @@ export const useTotalFileSizeQuery = ({
   fileSizeField,
   cohortItemIdField,
   fileItemIdField,
+  projectId,
   accessibility = Accessibility.ALL,
-  repositoryIndexPrefix = "",
+  repositoryIndexPrefix = '',
 }: FileCountsQueryParameters) => {
   const [totals, setTotals] = useState<FilesSizeData>({
     totalFileSize: 0,
@@ -91,22 +96,34 @@ export const useTotalFileSizeQuery = ({
   );
 
   // add case_id filter to repository filters
-  const repositoryFilterWithCases = {
-    mode: repositoryFilters.mode,
-    root: {
-      ...repositoryFilters.root,
-    },
-  };
+  const repositoryFilterWithCases = { mode: repositoryFilters.mode, root: {
+    ...repositoryFilters.root}
+  }
 
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  let cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  if (projectId) {
+    cohortFilter = {
+      mode: 'and',
+      root: {
+        'project.project_id': {
+          operator: 'in',
+          field: 'project.project_id',
+          operands: [projectId],
+        } as Includes,
+      },
+    };
+  }
+
+
+
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
-    cohortFilter: cohortFilterGQL,
-    query,
-    filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
-    caseIdsFilterPath: "cases.case_id",
-    limit: 0,
+      cohortFilter: cohortFilterGQL,
+      query,
+      filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
+      caseIdsFilterPath: "cases.case_id",
+      limit: 0,
   });
 
   useDeepCompareEffect(() => {
@@ -171,19 +188,20 @@ export type ExplorerDataQueryHook = (
   args: RawDataAndTotalCountsParams,
 ) => ReturnType<typeof useRawDataAndTotalCountQuery>;
 
-export const useGetRepositoryData = (
-  repositoryFilters: FilterSet,
-): ExplorerDataQueryHook => {
+export const useGetRepositoryData  = (
+  projectId?: string) : ExplorerDataQueryHook   => {
   const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
-  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  let cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+  if (projectId) {
+    cohortFilter = { mode: 'and', root: { "project.project_id" : { operator: "in", field: "project.project_id", operands: [projectId]} as Includes}};
+  }
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
 
-  console.log("cohortFilterGQL: ", cohortFilterGQL);
-  return (args: RawDataAndTotalCountsParams) =>
-    useRawDataAndTotalCountQuery({
-      cohortFilter: cohortFilterGQL,
-      //   filters: repositoryFilters,
-      caseIdsFilterPath: "cases.case_id",
-      ...args,
-    });
-};
+    return (args: RawDataAndTotalCountsParams) =>
+      useRawDataAndTotalCountQuery({
+        cohortFilter: cohortFilterGQL,
+     //   filters: repositoryFilters,
+        caseIdsFilterPath: 'cases.case_id',
+        ...args,
+      });
+  }

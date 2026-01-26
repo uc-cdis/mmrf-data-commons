@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from 'react';
 import { ProjectDefaults } from "@/core";
 import { SummaryHeader } from "@/components/Summary/SummaryHeader";
 import CategoryTableSummary from "@/components/Summary/CategoryTableSummary";
@@ -14,6 +14,9 @@ import { useViewportSize } from "@mantine/hooks";
 import { LG_BREAKPOINT } from "src/utils";
 import { useSynchronizedRowHeights } from "@/components/HorizontalTable/useSynchronizedRowHeights";
 import { FileIcon, PersonIcon } from "@/utils/icons";
+import { Button } from '@mantine/core';
+import { Icon } from '@iconify-icon/react';
+import { useRouter } from 'next/router';
 
 export interface ProjectViewProps extends ProjectDefaults {
   hasControlledAccess: boolean;
@@ -27,6 +30,12 @@ export const ProjectView: React.FC<ProjectViewProps> = (
   const leftSummaryTableRef = useRef<HTMLTableElement|null>(null);
   const rightSummaryTableRef = useRef<HTMLTableElement|null>(null);
   useSynchronizedRowHeights([leftSummaryTableRef, rightSummaryTableRef]);
+
+  const router = useRouter();
+
+  const handleSeeFiles = useCallback(() => {
+    router.push(`/?app=Repository&project=${projectData.project_id}`);
+  }, [projectData.project_id]);
 
   const Cases = (
     <span className="flex items-center gap-1">
@@ -49,10 +58,24 @@ export const ProjectView: React.FC<ProjectViewProps> = (
         count={projectData.summary?.file_count ?? 0}
         title="File"
       />
+      <Button
+        data-testid="button-view-files-in-repository"
+        variant="filled"
+        color="accent.4"
+        size="sm"
+        onClick={handleSeeFiles}
+        classNames={{
+          root: 'ml-2',
+        }}
+        leftSection={<Icon icon="gen3:link" width={24} height={24}  />}
+      >
+        View Files
+      </Button>
     </span>
   );
 
-  const message = projectData.hasControlledAccess ? (
+  const message = null;  // TODO: re-enable this later
+    /*projectData.hasControlledAccess ? (
     <p className="font-content">
       The project has controlled access data which requires dbGaP Access. See
       instructions for{" "}
@@ -66,7 +89,7 @@ export const ProjectView: React.FC<ProjectViewProps> = (
         Obtaining Access to Controlled Data.
       </a>
     </p>
-  ) : null;
+  ) : null; */
 
   const summaryData = formatDataForSummary(projectData);
   const [leftColumnData, rightColumnData] = [

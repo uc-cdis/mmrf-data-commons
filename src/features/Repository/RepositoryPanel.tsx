@@ -16,6 +16,8 @@ import Stats from './Stats';
 import FileFacetPanel from './FileFacetPanel';
 import { RepositoryProps } from './types';
 import RepositoryDownloadsPanel from './RepositoryDownloadsPanel';
+import { useAppFilters, useProjectId } from '@/hooks/useAppFilters';
+import { getProjectId } from '@/utils/appArgs';
 
 export const RepositoryPanel = ({
   guppyConfig,
@@ -43,11 +45,14 @@ export const RepositoryPanel = ({
     selectIndexFilters(state, index),
   );
 
+  const projectId = useProjectId();
+
   const { data: fileSizeSliceData, isFetching: isFileSizeFetching } =
     useTotalFileSizeQuery({
       repositoryFilters: repositoryFilters,
       cohortFilters: EmptyFilterSet,
       repositoryIndexPrefix: indexPrefix,
+      projectId: projectId,
       ...fileStatsConfiguration,
     });
 
@@ -71,6 +76,7 @@ export const RepositoryPanel = ({
                   tabTitle="Files"
                   fieldMapping={guppyConfig?.fieldMapping ?? []}
                   indexPrefix={indexPrefix}
+                  projectId={projectId}
                 />
               )}
             </div>
@@ -80,8 +86,10 @@ export const RepositoryPanel = ({
               id="cohort-builder-content"
               className="flex flex-col md:w-3/4 lg:w-4/5 pl-4"
             >
-              <RepositoryDownloadsPanel localFilters={repositoryFilters}  fileDataFetching={isFileSizeFetching}
-
+              <RepositoryDownloadsPanel
+                localFilters={repositoryFilters}
+                fileDataFetching={isFileSizeFetching}
+                projectId={projectId}
               />
               {/* Table Section */}
               {table?.enabled && (
@@ -90,7 +98,7 @@ export const RepositoryPanel = ({
                   tableConfig={table}
                   accessibility={accessLevel}
                   indexPrefix={indexPrefix}
-                  dataHook={useGetRepositoryData(repositoryFilters)}
+                  dataHook={useGetRepositoryData(projectId)}
                   additionalControls={
                     <DownloadsPanel
                       dropdowns={defaultDropdowns}

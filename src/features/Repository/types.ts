@@ -14,6 +14,7 @@ export interface FileCountsQueryParameters {
   repositoryFilters: FilterSet;
   cohortFilters?: FilterSet; // TODO: change to required
   accessibility?: Accessibility;
+  projectId?: string;
   cohortIndex: string;
   cohortIndexPrefix?: string;
   repositoryIndex: string;
