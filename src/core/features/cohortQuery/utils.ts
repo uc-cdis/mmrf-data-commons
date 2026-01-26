@@ -1,5 +1,35 @@
 import { rawDataQueryStrForEachField } from '@gen3/core';
 
+type Sort = ReadonlyArray<Record<string, string>>;
+
+const toGraphQLInputValue = (value: unknown): string => {
+  if (value === null) return 'null';
+
+  if (Array.isArray(value)) {
+    return `[${value.map(toGraphQLInputValue).join(',')}]`;
+  }
+
+  if (typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    return `{${Object.entries(obj)
+      .map(([k, v]) => `${k}: ${toGraphQLInputValue(v)}`)
+      .join(',')}}`;
+  }
+
+  if (typeof value === 'string') {
+    // treat sort directions as enum values (no quotes) if that’s what your GraphQL expects
+    if (value === 'asc' || value === 'desc') return value;
+
+    // otherwise quote as a GraphQL string
+    return JSON.stringify(value);
+  }
+
+  // numbers / booleans
+  return String(value);
+};
+
+
+
 export const buildRawQuery = (
   type: string,
   indexPrefix: string,
@@ -17,11 +47,12 @@ export const buildRawQuery = (
     ...(format ? ['$format: Format'] : []),
   ].join(',');
   const queryLine = `query getRawDataAndTotalCounts (${params}) {`;
+  const sortGql = sort ? toGraphQLInputValue(sort as Sort) : '';
 
   const dataParams = [
     ...[`filter: $${filterName}`],
     ...(format ? [`format: ${format}`] : []),
-    ...(sort ? [`sort: ${sort}`] : []),
+    ...(sort ? `sort: ${sortGql}` : []),
   ].join(',');
   const dataTypeLine = `${indexPrefix}${type} (accessibility: ${accessibility}, offset: ${offset}, first: ${size},
         ${dataParams}) {`;
