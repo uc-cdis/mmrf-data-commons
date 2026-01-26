@@ -127,15 +127,14 @@ export const downloadFromGuppyToBlob: ActionButtonWithArgsFunction = async (
 
   const isManifest = parameters?.isManifest;
 
-  console.log('signal', signal);
-
   fetch(url.toString(), {
     ...fetchConfig,
     ...(signal ? { signal: signal } : {}),
   } as RequestInit)
     .then(async (response: Response) => {
       if (!response.ok) {
-        throw new Error(response.statusText);
+        onError?.(new Error(response.statusText));
+        return;
       }
 
       let jsonData = await response.json();
@@ -184,10 +183,9 @@ export const downloadFromGuppyToBlob: ActionButtonWithArgsFunction = async (
     })
     .then((blob) => onDone?.(blob))
     .catch((error) => {
-      // Abort is handle as an exception
+      // Abort is handled as an exception
       if (error.name == 'AbortError') {
         // handle abort()
-        console.log('Aborted');
         onAbort?.();
       }
       onError?.(error);

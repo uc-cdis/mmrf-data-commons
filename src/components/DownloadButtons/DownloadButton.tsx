@@ -118,7 +118,7 @@ export const DownloadButton = forwardRef<
     ref,
   ) => {
 
-    const { handleClick, active: downloadActive }  = useGuppyActionButton(
+    const { handleClick, active: downloadActive, cancel }  = useGuppyActionButton(
       {
         actionFunction: downloadWithArgs, actionArgs: {
           format: format,
@@ -133,7 +133,16 @@ export const DownloadButton = forwardRef<
       }
     )
 
+    const clickHandler = useCallback(() => {
+      console.log('download button clicked (active)', downloadActive);
+      if (disabled) return;
+      if (!downloadActive) handleClick();
+      else cancel();
+    }, [downloadActive, disabled, handleClick, cancel]);
+
     const tooltipContent = downloadActive ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
+
+    console.log('download button render (active)', downloadActive);
 
     return (
       <FunctionButton
@@ -147,10 +156,10 @@ export const DownloadButton = forwardRef<
         multilineTooltip={multilineTooltip}
         disabled={disabled}
         variant="outline"
-        onClick={handleClick}
+        onClick={clickHandler}
         {...buttonProps}
       >
-        {buttonLabel}
+        {downloadActive ? "Cancel" : buttonLabel}
       </FunctionButton>
     );
   },
