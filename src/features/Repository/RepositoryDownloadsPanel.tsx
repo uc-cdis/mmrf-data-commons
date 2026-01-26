@@ -89,7 +89,7 @@ const RepositoryDownloadsPanel = ({
           } as Includes,
         },
       });
-    } else cohortFilter = convertFilterSetToNestedGqlFilter(cohortFilters['case'] ?? EmptyFilterSet);
+    } else cohortFilter = convertFilterSetToNestedGqlFilter(cohortFilters['case_centric'] ?? EmptyFilterSet);
 
 
     try {
@@ -136,17 +136,17 @@ const RepositoryDownloadsPanel = ({
         method="POST"
         format="json"
         fields={[
-          "file_id",
-          "file_name",
-          "data_category",
-          "data_type",
-          "cases.project.project_id",
-          "cases.submitter_id",
-          "cases.samples.submitter_id",
-          "cases.samples.tissue_type",
-          "cases.samples.tumor_descriptor",
-          "cases.samples.specimen_type",
-          "cases.samples.preservation_method",
+          'file_id',
+          'file_name',
+          'data_category',
+          'data_type',
+          'cases.project.project_id',
+          'cases.submitter_id',
+          'cases.samples.submitter_id',
+          'cases.samples.tissue_type',
+          'cases.samples.tumor_descriptor',
+          'cases.samples.specimen_type',
+          'cases.samples.preservation_method',
         ]}
         caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
@@ -167,45 +167,45 @@ const RepositoryDownloadsPanel = ({
         caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
         fields={[
-          "state",
-          "access",
-          "md5sum",
-          "data_format",
-          "data_type",
-          "data_category",
-          "file_name",
-          "file_size",
-          "file_id",
-          "platform",
-          "experimental_strategy",
-          "center.short_name",
-          "tags",
-          "submitter_id",
-          "archive.archive_id",
-          "archive.submitter_id",
-          "archive.revision",
-          "associated_entities.entity_id",
-          "associated_entities.entity_type",
-          "associated_entities.case_id",
-          "analysis.analysis_id",
-          "analysis.workflow_type",
-          "analysis.updated_datetime",
-          "analysis.input_files.file_id",
-          "analysis.metadata.read_groups.read_group_id",
-          "analysis.metadata.read_groups.is_paired_end",
-          "analysis.metadata.read_groups.read_length",
-          "analysis.metadata.read_groups.library_name",
-          "analysis.metadata.read_groups.sequencing_center",
-          "analysis.metadata.read_groups.sequencing_date",
-          "downstream_analyses.output_files.access",
-          "downstream_analyses.output_files.file_id",
-          "downstream_analyses.output_files.file_name",
-          "downstream_analyses.output_files.data_category",
-          "downstream_analyses.output_files.data_type",
-          "downstream_analyses.output_files.data_format",
-          "downstream_analyses.workflow_type",
-          "downstream_analyses.output_files.file_size",
-          "index_files.file_id",
+          'state',
+          'access',
+          'md5sum',
+          'data_format',
+          'data_type',
+          'data_category',
+          'file_name',
+          'file_size',
+          'file_id',
+          'platform',
+          'experimental_strategy',
+          'center.short_name',
+          'tags',
+          'submitter_id',
+          'archive.archive_id',
+          'archive.submitter_id',
+          'archive.revision',
+          'associated_entities.entity_id',
+          'associated_entities.entity_type',
+          'associated_entities.case_id',
+          'analysis.analysis_id',
+          'analysis.workflow_type',
+          'analysis.updated_datetime',
+          'analysis.input_files.file_id',
+          'analysis.metadata.read_groups.read_group_id',
+          'analysis.metadata.read_groups.is_paired_end',
+          'analysis.metadata.read_groups.read_length',
+          'analysis.metadata.read_groups.library_name',
+          'analysis.metadata.read_groups.sequencing_center',
+          'analysis.metadata.read_groups.sequencing_date',
+          'downstream_analyses.output_files.access',
+          'downstream_analyses.output_files.file_id',
+          'downstream_analyses.output_files.file_name',
+          'downstream_analyses.output_files.data_category',
+          'downstream_analyses.output_files.data_type',
+          'downstream_analyses.output_files.data_format',
+          'downstream_analyses.workflow_type',
+          'downstream_analyses.output_files.file_size',
+          'index_files.file_id',
         ]}
       />
       <DownloadButton
@@ -215,15 +215,16 @@ const RepositoryDownloadsPanel = ({
         multilineTooltip
         endpoint="file"
         method="POST"
+        caseIdField="cases.case_id"
         fields={[
-          "file_id",
-          "file_name",
-          "file_size",
-          "md5sum",
-          "cases.case_id"
-          ]}
+          'file_id',
+          'file_name',
+          'file_size',
+          'md5sum',
+          'cases.case_id',
+        ]}
         extraParams={{
-          isManifest: true
+          isManifest: true,
         }}
         caseFilters={cohortFilters.case_centric} // replace it with cohort filters
         filters={repositoryFilters}
@@ -237,18 +238,14 @@ const RepositoryDownloadsPanel = ({
       <FunctionButton
         data-testid="button-add-all-files-table"
         leftSection={
-          (<CartIcon
-              aria-hidden="true"
-              className="hidden xl:block"
-            />
-          )
+          <CartIcon aria-hidden="true" className="hidden xl:block" />
         }
         isActive={addFilesLoading}
         variant="outline"
         disabled={fileDataFetching}
         onClick={() => {
           // check the number of files selected before making call
-            handleCartOperation("add");
+          handleCartOperation('add');
         }}
       >
         Add All Files to Cart
@@ -258,10 +255,7 @@ const RepositoryDownloadsPanel = ({
         data-testid="button-remove-all-files-table"
         leftSection={
           removeFilesLoading ? undefined : (
-            <CartIcon
-              aria-hidden="true"
-              className="hidden xl:block"
-            />
+            <CartIcon aria-hidden="true" className="hidden xl:block" />
           )
         }
         classNames={{
@@ -270,7 +264,7 @@ const RepositoryDownloadsPanel = ({
         isActive={removeFilesLoading}
         disabled={fileDataFetching}
         onClick={() => {
-          handleCartOperation("remove");
+          handleCartOperation('remove');
         }}
       >
         Remove All From Cart
