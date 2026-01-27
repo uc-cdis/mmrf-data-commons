@@ -2,8 +2,6 @@
 import React, { Dispatch, SetStateAction, forwardRef, useCallback } from "react";
 import { ButtonProps } from "@mantine/core";
 import {
-  download,
-  DownloadArgs,
   downloadWithArgs,
 } from '../../utils/downloads';
 import { FilterSet, EmptyFilterSet } from "@gen3/core";
@@ -12,7 +10,6 @@ import FunctionButton, {
   FunctionButtonVariants,
 } from "@/components/FunctionButton";
 import { ADDITIONAL_DOWNLOAD_MESSAGE } from "@/utils/constants";
-import { modals } from '@mantine/modals';
 
 /**
  * Properties for the DownloadButton component.

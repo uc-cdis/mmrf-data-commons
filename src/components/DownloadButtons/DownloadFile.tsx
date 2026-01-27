@@ -1,9 +1,5 @@
-
-import { userCanDownloadFile } from "src/utils/userProjectUtils";
 import {
   useCoreDispatch,
-  showModal,
-  Modals,
   useLazyFetchUserDetailsQuery,
 } from "@gen3/core";
 import { DownloadButton } from "./DownloadButton";
