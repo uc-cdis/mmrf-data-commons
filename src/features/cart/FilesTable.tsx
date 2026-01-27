@@ -7,7 +7,7 @@ import {
   GQLFilter as GqlOperation,
 } from "@gen3/core";
 import { MMRFFile, useGetFilesQuery } from "@/core/features/files/filesSlice";
-import { SortBy } from "@/core";
+import {  SortBy } from "@/core";
 import { RemoveFromCartButton } from "./updateCart";
 import FunctionButton from "@/components/FunctionButton";
 import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
@@ -398,6 +398,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
               annotations: true,
               related_files: true,
             }}
+            caseIdField="cases.case_id"
           />
           <FunctionButton
             data-testid="button-tsv"

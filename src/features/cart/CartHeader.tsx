@@ -214,6 +214,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 },
               },
             }}
+            caseIdField="cases.case_id"
           />
           {/* Biospecimen */}
           <Menu width="target">
@@ -265,6 +266,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                     },
                   },
                 }}
+                caseIdField="cases.case_id"
               />
               <Menu.Item
                 component={FunctionButton}
@@ -330,6 +332,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                     },
                   },
                 }}
+                caseIdField="cases.case_id"
               />
               <Menu.Item
                 component={FunctionButton}
@@ -382,6 +385,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 },
               },
             }}
+            caseIdField="cases.case_id"
           />
           {/* Metadata */}
           <DownloadButton
@@ -447,6 +451,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 },
               },
             }}
+            caseIdField="cases.case_id"
           />
           {/* Remove From Cart */}
           <Button
