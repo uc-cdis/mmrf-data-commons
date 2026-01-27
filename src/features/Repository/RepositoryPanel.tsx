@@ -18,6 +18,7 @@ import { RepositoryProps } from './types';
 import RepositoryDownloadsPanel from './RepositoryDownloadsPanel';
 import { useAppFilters, useProjectId } from '@/hooks/useAppFilters';
 import { getProjectId } from '@/utils/appArgs';
+import { useGetFileCaseCountQuery } from '@/core/features/files/filesSlice';
 
 export const RepositoryPanel = ({
   guppyConfig,
@@ -55,6 +56,7 @@ export const RepositoryPanel = ({
       projectId: projectId,
       ...fileStatsConfiguration,
     });
+
 
   if (fileStatsConfiguration)
     return (

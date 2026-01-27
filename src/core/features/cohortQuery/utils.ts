@@ -18,11 +18,11 @@ export const buildRawQuery = (
   ].join(',');
   const queryLine = `query getRawDataAndTotalCounts (${params}) {`;
 
-  const dataParams = [
+  let dataParams = [
     ...[`filter: $${filterName}`],
     ...(format ? [`format: ${format}`] : []),
-    ...(sort ? [`sort: ${sort}`] : []),
   ].join(',');
+  if (sort) dataParams += `, sort: $sort`;
   const dataTypeLine = `${indexPrefix}${type} (accessibility: ${accessibility}, offset: ${offset}, first: ${size},
         ${dataParams}) {`;
 
