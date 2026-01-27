@@ -7,6 +7,7 @@ import {
   customQueryStrForField,
   EmptyFilterSet,
   FilterSet,
+  GQLIntersection,
   Includes,
   RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
@@ -31,6 +32,9 @@ import {
   FacetQueryResponse,
 } from '@/features/types';
 import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
+import { useGetFileCaseCountQuery } from '@/core/features/files/filesSlice';
+import { addPrefixToFilterSet } from '@/core/genomic/genomicFilters';
+import { mergeFilterWithPrefix } from '@/core/utils';
 
 export const useGetFacetValuesQuery = (
   args: CohortCentricAggsQueryRequest,
@@ -114,7 +118,17 @@ export const useTotalFileSizeQuery = ({
       },
     };
   }
+  // need to query the number of cases using the query below which
+  // requires adding file to the repository filters
 
+
+
+
+  const caseFilterWithFiles = mergeFilterWithPrefix(cohortFilter, repositoryFilterWithCases, 'files.');
+  const { data: caseCounts, isFetching: isCaseCountsFetching, isSuccess: isCaseCountsSuccess } =
+    useGetFileCaseCountQuery({
+      filters: convertFilterSetToGqlFilter(caseFilterWithFiles)
+    });
 
 
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
@@ -127,7 +141,7 @@ export const useTotalFileSizeQuery = ({
   });
 
   useDeepCompareEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && isCaseCountsSuccess) {
       const response = data.data as unknown as FileCountsQueryResponse;
       const countsRoot = getByPath(
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex],
@@ -137,7 +151,7 @@ export const useTotalFileSizeQuery = ({
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileSizeField
         ]?.histogram?.[0]?.sum || 0;
-      const totalCaseCount = countsRoot?._cardinalityCount || 0;
+      const totalCaseCount = caseCounts?.cases || 0;
       const totalFileCount =
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileItemIdField

@@ -112,6 +112,7 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
             case_index: caseIndex,
             cohort_item_field: caseIdField,
             case_ids_filter_path: caseIdsFilterPath,
+            sort: sort ?? []
           },
         };
       },
