@@ -2,8 +2,6 @@
 import React, { Dispatch, SetStateAction, forwardRef, useCallback } from "react";
 import { ButtonProps } from "@mantine/core";
 import {
-  download,
-  DownloadArgs,
   downloadWithArgs,
 } from '../../utils/downloads';
 import { FilterSet, EmptyFilterSet } from "@gen3/core";
@@ -12,7 +10,6 @@ import FunctionButton, {
   FunctionButtonVariants,
 } from "@/components/FunctionButton";
 import { ADDITIONAL_DOWNLOAD_MESSAGE } from "@/utils/constants";
-import { modals } from '@mantine/modals';
 
 /**
  * Properties for the DownloadButton component.
@@ -39,6 +36,7 @@ import { modals } from '@mantine/modals';
  */
 interface DownloadButtonProps {
   endpoint: string;
+  caseIdField: string;
   disabled?: boolean;
   buttonLabel: string;
   filename?: string;
@@ -93,10 +91,11 @@ export const DownloadButton = forwardRef<
   (
     {
       endpoint,
+      caseIdField,
       disabled = false,
       filename,
       downloadSize = 10000,
-      format = "JSON",
+      format = "json",
       fields = [],
       caseFilters = EmptyFilterSet,
       filters = EmptyFilterSet,
@@ -116,21 +115,31 @@ export const DownloadButton = forwardRef<
     ref,
   ) => {
 
-    const { handleClick, active: downloadActive }  = useGuppyActionButton(
+    const { handleClick, active: downloadActive, cancel }  = useGuppyActionButton(
       {
         actionFunction: downloadWithArgs, actionArgs: {
           format: format,
           fields: fields,
           index: endpoint,
+          caseIdField,
           cohortFilters: caseFilters,
           filters,
-          filename: filename ?? "download.txt",
+          filename: filename ?? "download.json",
           ...extraParams
         }
       }
     )
 
+    const clickHandler = useCallback(() => {
+      console.log('download button clicked (active)', downloadActive);
+      if (disabled) return;
+      if (!downloadActive) handleClick();
+      else cancel();
+    }, [downloadActive, disabled, handleClick, cancel]);
+
     const tooltipContent = downloadActive ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
+
+    console.log('download button render (active)', downloadActive);
 
     return (
       <FunctionButton
@@ -144,10 +153,10 @@ export const DownloadButton = forwardRef<
         multilineTooltip={multilineTooltip}
         disabled={disabled}
         variant="outline"
-        onClick={handleClick}
+        onClick={clickHandler}
         {...buttonProps}
       >
-        {buttonLabel}
+        {downloadActive ? "Cancel" : buttonLabel}
       </FunctionButton>
     );
   },

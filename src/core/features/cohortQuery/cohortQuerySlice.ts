@@ -56,7 +56,7 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         filter,
         caseIdsFilterPath,
         caseIndex = CASE_CENTRIC_INDEX,
-        caseIdField = CASE_ID_FIELD,
+        caseIdField = "cases.case_id",
         limit = MAX_CASES,
       }: CohortCentricQueryRequest) => {
         return {

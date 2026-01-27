@@ -3,11 +3,11 @@ import {
   GQLFilter,
   guppyDownloadApi,
   Accessibility,
+  gen3Api,
 } from '@gen3/core';
 import { flatten} from 'flat';
 import { MMRFFile } from '@/core/features/files/filesSlice';
-
-
+import { GEN3_ANALYSIS_API } from '@/core';
 
 export interface DownloadApiRequestParameters<T> {
   cohortFilter: T
@@ -18,12 +18,7 @@ export interface DownloadApiRequestParameters<T> {
   sort?: string[];
 }
 
-
-interface FilesResponse {
-  files: ReadonlyArray<any>;
-}
-
-const allFilesSlice = guppyDownloadApi.injectEndpoints({
+const allFilesSlice = gen3Api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getAllFiles: builder.query<MMRFFile[], DownloadApiRequestParameters<GQLFilter>>({
@@ -37,9 +32,9 @@ const allFilesSlice = guppyDownloadApi.injectEndpoints({
               }:  DownloadApiRequestParameters<GQLFilter>) => {
 
 
-        const queryBody: DownloadApiRequestParameters<GQLFilter> = {
+        const queryBody = {
           filter: filter,
-          cohortFilter: cohortFilter,
+          cohort_filters: cohortFilter,
           fields,
           sort,
           type,
@@ -47,7 +42,7 @@ const allFilesSlice = guppyDownloadApi.injectEndpoints({
         };
 
         return {
-          url: `${GEN3_GUPPY_API}/download`,
+          url: `${GEN3_ANALYSIS_API}/download`,
           method: 'POST',
           body: queryBody,
           cache: 'no-cache',

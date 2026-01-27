@@ -1,10 +1,10 @@
-import React from 'react';
-import { HorizontalTable } from '@/components/HorizontalTable';
-import { formatDataForHorizontalTable } from '@/features/files/utils';
-import { Tabs, Tooltip } from '@mantine/core';
-import { useState } from 'react';
-import { humanify } from 'src/utils';
-import { Exposures, FamilyHistories } from './types';
+import React from "react";
+import { HorizontalTable } from "@/components/HorizontalTable";
+import { formatDataForHorizontalTable } from "@/features/files/utils";
+import { Tabs, Tooltip } from "@mantine/core";
+import { useState } from "react";
+import { humanify } from "src/utils";
+import { Exposures, FamilyHistories } from "./types";
 
 export const FamilyHistoryOrExposure = ({
   dataInfo,
@@ -23,7 +23,7 @@ export const FamilyHistoryOrExposure = ({
   ) => {
     let tableData: Record<string, any>;
 
-    if ('family_history_id' in data) {
+    if ("family_history_id" in data) {
       const {
         submitter_id: family_history_id,
         family_history_id: family_history_uuid,
@@ -70,7 +70,9 @@ export const FamilyHistoryOrExposure = ({
   };
   return (
     <>
-      {dataInfo.length > 1 ? (
+      {!dataInfo ? (
+        <p>No Data</p>
+      ) : dataInfo?.length > 1 ? (
         <Tabs
           variant="pills"
           orientation="vertical"
@@ -87,8 +89,8 @@ export const FamilyHistoryOrExposure = ({
                     key={data.submitter_id}
                     className={`my-1 ${
                       activeTab === index
-                        ? 'bg-primary text-primary-contrast'
-                        : 'bg-base-lightest text-base-contrast-lightest'
+                        ? "bg-primary text-primary-contrast"
+                        : "bg-base-lightest text-base-contrast-lightest"
                     }`}
                     data-testid="tab"
                   >
@@ -114,7 +116,9 @@ export const FamilyHistoryOrExposure = ({
         </Tabs>
       ) : (
         <HorizontalTable
-          tableData={formatDataForFamilyHistoriesorExposures(dataInfo[0])}
+          tableData={formatDataForFamilyHistoriesorExposures(
+            dataInfo?.[0] ?? [],
+          )}
         />
       )}
     </>

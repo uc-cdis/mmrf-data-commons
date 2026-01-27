@@ -214,7 +214,6 @@ export const useGetRepositoryData  = (
     return (args: RawDataAndTotalCountsParams) =>
       useRawDataAndTotalCountQuery({
         cohortFilter: cohortFilterGQL,
-     //   filters: repositoryFilters,
         caseIdsFilterPath: 'cases.case_id',
         ...args,
       });
