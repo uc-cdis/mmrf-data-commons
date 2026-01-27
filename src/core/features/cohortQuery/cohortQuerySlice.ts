@@ -92,8 +92,6 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         sort = undefined,
         accessibility = Accessibility.ALL,
       }: RawDataAndTotalCountsRequest) => {
-
-        console.log("sort", sort);
         const gqlFilter = convertFilterSetToGqlFilter(filters);
         const gqlQuery = buildRawQuery(
           type,
