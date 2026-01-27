@@ -10,7 +10,7 @@ import { DownloadButton } from "./DownloadButton";
 import React, { useState } from "react";
 import { useDeepCompareCallback } from "use-deep-compare";
 import { FunctionButtonVariants } from "../FunctionButton";
-import { GdcFile } from '@/core';
+import { CASE_ID_FIELD, GdcFile } from '@/core';
 
 interface DownloadFileProps {
   file: GdcFile;
@@ -73,6 +73,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
         setActive={setActive}
         active={active}
         displayVariant={displayVariant}
+        caseIdField={CASE_ID_FIELD}
       />
     );
   }
@@ -86,6 +87,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
       active={active}
       endpoint={`data/${file.file_id}`}
       displayVariant={displayVariant}
+      caseIdField={CASE_ID_FIELD}
     />
   );
 };
