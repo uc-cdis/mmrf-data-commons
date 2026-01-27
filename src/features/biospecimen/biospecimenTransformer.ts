@@ -1,5 +1,3 @@
-// this is used to generate tsv files for biospecimen downloads
-
 import {
   Aliquot,
   Analyte,
@@ -37,6 +35,7 @@ export const arrayToTSV = (data: FlattenedRow[]): string => {
   return [headerRow, ...rows].join("\n");
 };
 
+// this is used to generate tsv files for biospecimen downloads and a util function
 export const flattenBiospecimenData = (caseData: Case): Buckets => {
   const buckets: Buckets = {
     sample: [],
@@ -97,4 +96,38 @@ export const flattenBiospecimenData = (caseData: Case): Buckets => {
   }
 
   return buckets;
+};
+
+
+/**
+ * Adapter to process the raw API response (list of files)
+ * and generate the final Buckets for all data.
+ * This is used in cart download biospecimen TSV
+ */
+export const processBiospecimenResponse = (apiResponse: any[]): Buckets => {
+  const masterBuckets: Buckets = {
+    sample: [],
+    portion: [],
+    analyte: [],
+    aliquot: [],
+  };
+
+  if (!apiResponse || !Array.isArray(apiResponse)) return masterBuckets;
+
+  apiResponse.forEach((file) => {
+    if (file?.cases && Array.isArray(file?.cases)) {
+      file?.cases.forEach((caseData: any) => {
+
+        // single case parser
+        const caseBuckets = flattenBiospecimenData(caseData);
+
+        masterBuckets.sample.push(...caseBuckets.sample);
+        masterBuckets.portion.push(...caseBuckets.portion);
+        masterBuckets.analyte.push(...caseBuckets.analyte);
+        masterBuckets.aliquot.push(...caseBuckets.aliquot);
+      });
+    }
+  });
+
+  return masterBuckets;
 };

@@ -5,11 +5,9 @@ import {
 } from '@/core';
 import { filesize } from 'filesize';
 import tw from 'tailwind-styled-components';
-// import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import {
   formatDataForHorizontalTable,
   mapGdcFileToCartFile,
-  parseSlideDetailsInfo,
   shouldDisplayReferenceGenome,
 } from './utils';
 import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
@@ -24,8 +22,9 @@ import ReadGroups from './ReadGroups';
 import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { DownloadFile } from '@/components/DownloadButtons';
-import { Button } from '@mantine/core';
-import { CartIcon } from '@/utils/icons';
+// import { Button } from '@mantine/core';
+// import { CartIcon } from '@/utils/icons';
+import { AddToCartButton } from '../cart/updateCart';
 
 const Modals = {} as any;
 
@@ -44,16 +43,16 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
 }: LeftSideElementForHeaderProps) => (
   <div className="flex gap-4">
     {!isFileInCart ? (
-      // <AddToCartButton files={mapGdcFileToCartFile([file])} />
-      <Button
-        variant="outline"
-        leftSection={<CartIcon aria-hidden="true" />}
-        onClick={() => alert('click event for Add to Cart button')}
-        className={`font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal
-        hover:text-primary-contrast-darker`}
-      >
-        Add to Cart
-      </Button>
+      <AddToCartButton files={mapGdcFileToCartFile([file])} />
+      // <Button
+      //   variant="outline"
+      //   leftSection={<CartIcon aria-hidden="true" />}
+      //   onClick={() => alert('click event for Add to Cart button')}
+      //   className={`font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal
+      //   hover:text-primary-contrast-darker`}
+      // >
+      //   Add to Cart
+      // </Button>
     ) : (
       <h4 className="text-gen3-white">Placeholder for RemoveFromCartButton</h4>
       // <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />

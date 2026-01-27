@@ -1,9 +1,9 @@
 import React from "react";
-import {  hideModal, useCoreDispatch } from "@gen3/core";
+import { hideModal, useCoreDispatch } from "@gen3/core";
 import { GdcFile } from "@/core";
 import { Button, Text } from "@mantine/core";
 import { SetStateAction, useEffect, useState } from "react";
-import { DownloadButton } from '@/components/DownloadButtons';
+import { DownloadButton } from "@/components/DownloadButtons";
 import { BaseModal } from "./BaseModal";
 import DownloadAccessAgreement from "./DownloadAccessAgreement";
 
@@ -71,6 +71,7 @@ export const AgreementModal = ({
           setActive={setActive}
           active={active}
           displayVariant="filled"
+          caseIdField="cases.case_id"
         />
       </div>
     </BaseModal>

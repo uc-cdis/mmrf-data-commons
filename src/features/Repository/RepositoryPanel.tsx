@@ -27,7 +27,6 @@ export const RepositoryPanel = ({
   buttons,
   loginForDownload,
   fileStatsConfiguration,
-  additionalControls = null,
 }: RepositoryProps) => {
   const [tableXPosition, setTableXPosition] = useState<number | undefined>(
     undefined,

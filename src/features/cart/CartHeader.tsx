@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  // CartSummaryData,
-  showModal,
   useCoreDispatch,
-  CoreDispatch,
-  useCoreSelector,
-  selectCurrentModal,
-  Modals,
-  useFetchUserDetailsQuery,
-  CartItem, EmptyFilterSet,
-} from '@gen3/core';
-import { filesize } from 'filesize';
-import { Button, Loader, Menu, Tooltip } from '@mantine/core';
-//import CartSizeLimitModal from "@/components/Modals/CartSizeLimitModal";
-// import CartDownloadModal from "@/components/Modals/CartDownloadModal";
-import { DownloadButton} from '@/components/DownloadButtons';
-import { removeFromCart } from './updateCart';
-import { focusStyles } from '@/utils';
-import { cartAboveLimit } from './utils';
+  CartItem,
+  EmptyFilterSet,
+  downloadJSONDataFromGuppy,
+} from "@gen3/core";
+import { filesize } from "filesize";
+import { Button, Loader, Menu } from "@mantine/core";
+import { DownloadButton } from "@/components/DownloadButtons";
+import { removeFromCart } from "./updateCart";
+import { focusStyles } from "@/utils";
 import {
   ArrowDropDownIcon,
   CartIcon,
@@ -25,87 +17,32 @@ import {
   FileIcon,
   PersonIcon,
   SaveIcon,
-} from '@/utils/icons';
-import { getFormattedTimestamp } from '@/utils/date';
-import { ADDITIONAL_DOWNLOAD_MESSAGE } from '@/utils/constants';
-
-const download = (arg: any) => null;
+} from "@/utils/icons";
+import { getFormattedTimestamp } from "@/utils/date";
+import { MANIFEST_DOWNLOAD_MESSAGE } from "@/utils/constants";
+import { handleDownload } from "@/utils/downloads";
+import { BIOSPECIMEN_FIELDS, CLINICAL_FIELDS } from "./utils";
+import {
+  arrayToTSV,
+  processBiospecimenResponse,
+} from "../biospecimen/biospecimenTransformer";
+import { generateTarGzBlob } from "@/utils/archiver";
+import FunctionButton from "@/components/FunctionButton";
+import { processClinicalResponse } from "./clinicalTransformer";
 
 const buttonStyle =
-  'bg-base-max text-primary border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary hover:bg-base-max hover:text-primary';
-
-const downloadCart = (
-  filesByCanAccess: Record<string, CartItem[]>,
-  dbGapList: string[],
-  setActive: (active: boolean) => void,
-  dispatch: CoreDispatch,
-) => {
-  if (
-    cartAboveLimit(filesByCanAccess) ||
-    (filesByCanAccess?.false || []).length > 0 ||
-    dbGapList.length > 0
-  ) {
-    //    dispatch(showModal({ modal: Modals.CartDownloadModal }));
-    setActive(false);
-  } else {
-    download({
-      endpoint: 'data',
-      method: 'POST',
-      dispatch,
-      params: {
-        ids: filesByCanAccess.true.map((file) => file?.file_id),
-        annotations: true,
-        related_files: true,
-      },
-      done: () => setActive(false),
-    });
-  }
-};
-
-const downloadManifest = (
-  cart: CartItem[],
-  setActive: (active: boolean) => void,
-  dispatch: CoreDispatch,
-) => {
-  download({
-    endpoint: 'files',
-    method: 'POST',
-    dispatch,
-    params: {
-      filters: {
-        op: 'in',
-        content: {
-          field: 'files.file_id',
-          value: cart.map((file) => file?.file_id),
-        },
-      },
-      return_type: 'manifest',
-      size: 10000,
-      filename: `gdc_manifest.${getFormattedTimestamp({
-        includeTimes: true,
-      })}.txt`,
-    },
-    done: () => setActive(false),
-  });
-};
+  "bg-base-max text-primary border-primary data-disabled:opacity-50 data-disabled:bg-base-max data-disabled:text-primary hover:bg-base-max hover:text-primary";
 
 interface CartHeaderProps {
-  // summaryData: CartSummaryData;
   summaryData: any;
   cart: CartItem[];
-  filesByCanAccess: Record<string, CartItem[]>;
-  dbGapList: string[];
 }
 
 const CartHeader: React.FC<CartHeaderProps> = ({
   summaryData,
   cart,
-  filesByCanAccess,
-  dbGapList,
 }: CartHeaderProps) => {
   const dispatch = useCoreDispatch();
-  const { data: userDetails } = useFetchUserDetailsQuery();
-  const [cartDownloadActive, setCartDownloadActive] = useState(false);
   const [manifestDownloadActive, setManifestDownloadActive] = useState(false);
   const [clinicalTSVDownloadActive, setClinicalTSVDownloadActive] =
     useState(false);
@@ -118,128 +55,167 @@ const CartHeader: React.FC<CartHeaderProps> = ({
   const [metadataDownloadActive, setMetadataDownloadActive] = useState(false);
   const [sampleSheetDownloadActive, setSampleSheetDownloadActive] =
     useState(false);
-  const modal = useCoreSelector((state) => selectCurrentModal(state));
+
+  const handleBiospecimenTsvDownload = async () => {
+    try {
+      setBiospecimenTSVDownloadActive(true);
+
+      const rawData = await downloadJSONDataFromGuppy({
+        parameters: {
+          type: "file",
+          fields: BIOSPECIMEN_FIELDS,
+          filter: {
+            mode: "and",
+            root: {
+              file_id: {
+                operator: "in",
+                field: "file_id",
+                operands: cart.map((file) => file?.file_id),
+              },
+            },
+          },
+          format: "json",
+        },
+      });
+
+      const buckets = processBiospecimenResponse(rawData);
+
+      const files = [
+        { name: "sample.tsv", content: arrayToTSV(buckets.sample) },
+        { name: "portion.tsv", content: arrayToTSV(buckets.portion) },
+        { name: "analyte.tsv", content: arrayToTSV(buckets.analyte) },
+        { name: "aliquot.tsv", content: arrayToTSV(buckets.aliquot) },
+      ];
+
+      const blob = await generateTarGzBlob(files);
+
+      const filename = `biospecimen_cart.${new Date().toISOString().slice(0, 10)}.tar.gz`;
+      handleDownload(blob, filename);
+    } catch (error) {
+      console.error("Error downloading biospecimen TSV:", error);
+    } finally {
+      setBiospecimenTSVDownloadActive(false);
+    }
+  };
+
+  const handleClinicalTsvDownload = async () => {
+    try {
+      setClinicalTSVDownloadActive(true);
+
+      const rawData = await downloadJSONDataFromGuppy({
+        parameters: {
+          type: "file",
+          filter: {
+            mode: "and",
+            root: {
+              file_id: {
+                operator: "in",
+                field: "file_id",
+                operands: cart.map((file) => file?.file_id),
+              },
+            },
+          },
+          fields: CLINICAL_FIELDS,
+          format: "json",
+        },
+      });
+
+      const buckets = processClinicalResponse(rawData);
+
+      const files = [];
+
+      console.log(buckets);
+      if (buckets.clinical.length) {
+        files.push({
+          name: "clinical.tsv",
+          content: arrayToTSV(buckets.clinical),
+        });
+      }
+      if (buckets.follow_up.length) {
+        files.push({
+          name: "follow_up.tsv",
+          content: arrayToTSV(buckets.follow_up),
+        });
+      }
+      if (buckets.exposure.length) {
+        files.push({
+          name: "exposure.tsv",
+          content: arrayToTSV(buckets.exposure),
+        });
+      }
+      if (buckets.family_history.length) {
+        files.push({
+          name: "family_history.tsv",
+          content: arrayToTSV(buckets.family_history),
+        });
+      }
+
+      if (files.length === 0) {
+        console.warn("No clinical data found to download");
+        return;
+      }
+
+      const blob = await generateTarGzBlob(files);
+      handleDownload(
+        blob,
+        `clinical_cart.${new Date().toISOString().slice(0, 10)}.tar.gz`,
+      );
+    } catch (err) {
+      console.error("Clinical TSV Download failed", err);
+    } finally {
+      setClinicalTSVDownloadActive(false);
+    }
+  };
 
   return (
     <>
-      {/* ----
-      {modal === Modals.CartSizeLimitModal && <CartSizeLimitModal openModal />}
-      {modal === Modals.CartDownloadModal && (
-        <CartDownloadModal
-          openModal
-          user={userDetails?.data}
-          filesByCanAccess={filesByCanAccess}
-          dbGapList={dbGapList}
-          setActive={setCartDownloadActive}
-        />
-      )}
-      --- */}
       <div
         className="bg-primary text-primary-contrast-darkest flex flex-col-reverse 2xl:flex-row 2xl:items-center gap-4 w-full p-4"
         data-testid="cart-header"
       >
         <div className="flex flex-wrap gap-2">
-          <Menu width="target" closeOnItemClick={false}>
-            <Menu.Target>
-              <Button
-                data-testid="button-download-cart"
-                classNames={{
-                  root: `${buttonStyle} ${focusStyles}`,
-                }}
-                leftSection={
-                  <DownloadIcon
-                    aria-hidden="true"
-                    size="1rem"
-                    className="hidden xl:block"
-                  />
-                }
-                rightSection={
-                  <div className="border-l pl-1 -mr-2">
-                    <ArrowDropDownIcon size="1.5em" aria-hidden="true" />
-                  </div>
-                }
-              >
-                Download Cart
-              </Button>
-            </Menu.Target>
-            <Menu.Dropdown data-testid="dropdown-menu-options">
-              <Tooltip
-                label={ADDITIONAL_DOWNLOAD_MESSAGE}
-                disabled={!manifestDownloadActive}
-              >
-                <span>
-                  <Menu.Item
-                    component={DownloadButton}
-                    classNames={{ item: 'font-normal border-0' }}
-                    buttonLabel="Manifest"
-                    preventClickEvent
-                    endpoint="file"
-                    setActive={setManifestDownloadActive}
-                    active={manifestDownloadActive}
-                    format="tsv"
-                    variant="white"
-                    method="POST"
-                    fields={[
-                      "file_id",
-                      "file_name",
-                      "file_size",
-                      "md5sum",
-                      "cases.case_id"
-                    ]}
-                    extraParams={{
-                      isManifest: true
-                    }}
-                    leftSection={
-                      manifestDownloadActive ? (
-                        <Loader size={15} />
-                      ) : (
-                        <DownloadIcon aria-hidden="true" />
-                      )
-                    }
-                    caseFilters={EmptyFilterSet}
-                    filters={{ mode: "and", root: {
-                        'file_id': {
-                          operator: "in",
-                          field: "file_id",
-                          operands: cart.map((file) => file?.file_id)
-                        }
-                      }}}
-                  >
-                  </Menu.Item>
-                </span>
-              </Tooltip>
-              { /* ------ TODO: Add back then Gen3 supports this
-              <Tooltip
-                label="A previous download is being processed. Additional downloads may be started."
-                disabled={!cartDownloadActive}
-              >
-                <span>
-                  <Menu.Item
-                    onClick={() => {
-                      setCartDownloadActive(true);
-                      downloadCart(
-                        filesByCanAccess,
-                        dbGapList,
-                        setCartDownloadActive,
-                        dispatch,
-                      );
-                    }}
-                    leftSection={
-                      cartDownloadActive ? (
-                        <Loader size={15} />
-                      ) : (
-                        <DownloadIcon aria-hidden="true" />
-                      )
-                    }
-                    disabled={true}
-                  >
-                    Cart
-                  </Menu.Item>
-                </span>
-              </Tooltip>
-              --- */ }
-            </Menu.Dropdown>
-          </Menu>
+          <DownloadButton
+            buttonLabel="Manifest"
+            toolTip={MANIFEST_DOWNLOAD_MESSAGE}
+            preventClickEvent
+            endpoint="file"
+            setActive={setManifestDownloadActive}
+            active={manifestDownloadActive}
+            filename={`mmrf_manifest.${getFormattedTimestamp({
+              includeTimes: true,
+            })}.json`}
+            variant="white"
+            method="POST"
+            fields={[
+              "file_id",
+              "file_name",
+              "file_size",
+              "md5sum",
+              "cases.case_id",
+            ]}
+            extraParams={{
+              isManifest: true,
+            }}
+            leftSection={
+              manifestDownloadActive ? (
+                <Loader size={15} />
+              ) : (
+                <DownloadIcon aria-hidden="true" className="hidden xl:block" />
+              )
+            }
+            caseFilters={EmptyFilterSet}
+            filters={{
+              mode: "and",
+              root: {
+                file_id: {
+                  operator: "in",
+                  field: "file_id",
+                  operands: cart.map((file) => file?.file_id),
+                },
+              },
+            }}
+            caseIdField="cases.case_id"
+          />
           {/* Biospecimen */}
           <Menu width="target">
             <Menu.Target>
@@ -267,10 +243,10 @@ const CartHeader: React.FC<CartHeaderProps> = ({
             <Menu.Dropdown data-testid="dropdown-menu-options">
               <Menu.Item
                 component={DownloadButton}
-                classNames={{ item: 'font-normal border-0' }}
+                classNames={{ item: "font-normal border-0" }}
                 buttonLabel="JSON"
                 preventClickEvent
-                endpoint="biospecimen_tar"
+                endpoint="file"
                 setActive={setBiospecimenJSONDownloadActive}
                 active={biospecimenJSONDownloadActive}
                 format="json"
@@ -278,51 +254,32 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                 filename={`biospecimen_cart.${new Date()
                   .toISOString()
                   .slice(0, 10)}.json`}
-                fields={[
-                  "cases.case_id",
-                  "cases.project.project_id",
-                  "submitter_id",
-                  "cases.samples.tumor_descriptor",
-                  "cases.samples.specimen_type",
-                  "cases.samples.days_to_sample_procurement",
-                  "cases.samples.updated_datetime",
-                  "cases.samples.sample_id",
-                  "cases.samples.submitter_id",
-                  "cases.samples.state",
-                  "cases.samples.preservation_method",
-                  "cases.samples.sample_type",
-                  "cases.samples.tissue_type",
-                  "cases.samples.created_datetime",
-                  "cases.samples.portions.portion_id",
-                  "cases.samples.portions.analytes.analyte_id",
-                  "cases.samples.portions.analytes.aliquots.aliquot_id",
-                  "cases.samples.portions.analytes.aliquots.updated_datetime",
-                  "cases.samples.portions.analytes.aliquots.submitter_id",
-                  "cases.samples.portions.analytes.aliquots.state",
-                  "cases.samples.portions.analytes.aliquots.created_datetime"
-                ]}
+                fields={BIOSPECIMEN_FIELDS}
                 caseFilters={EmptyFilterSet}
-                filters={{ mode: "and", root: {
-                    'file_id': {
+                filters={{
+                  mode: "and",
+                  root: {
+                    file_id: {
                       operator: "in",
                       field: "file_id",
-                      operands: cart.map((file) => file?.file_id)
-                    }
-                  }}}
+                      operands: cart.map((file) => file?.file_id),
+                    },
+                  },
+                }}
+                caseIdField="cases.case_id"
               />
               <Menu.Item
-                component={DownloadButton}
-                classNames={{ item: 'font-normal border-0' }}
-                buttonLabel="TSV"
-                preventClickEvent
-                endpoint="file"
-                setActive={setBiospecimenTSVDownloadActive}
-                active={biospecimenTSVDownloadActive}
-                format="tsv"
-                method="POST"
-                disabled={true}
-                toolTip="TSV download is not available."
-              />
+                component={FunctionButton}
+                onClick={handleBiospecimenTsvDownload}
+                disabled={biospecimenTSVDownloadActive}
+                $variant="subtle"
+                isDownload
+                showDownloadIcon
+                isActive={biospecimenJSONDownloadActive}
+                closeMenuOnClick={false}
+              >
+                TSV
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
           {/* Clinical */}
@@ -352,7 +309,7 @@ const CartHeader: React.FC<CartHeaderProps> = ({
             <Menu.Dropdown data-testid="dropdown-menu-options">
               <Menu.Item
                 component={DownloadButton}
-                classNames={{ item: 'font-normal border-0' }}
+                classNames={{ item: "font-normal border-0" }}
                 buttonLabel="JSON"
                 preventClickEvent
                 endpoint="file"
@@ -364,85 +321,34 @@ const CartHeader: React.FC<CartHeaderProps> = ({
                   .toISOString()
                   .slice(0, 10)}.json`}
                 caseFilters={EmptyFilterSet}
-                fields={
-                  [
-                    "cases.primary_site",
-                    "cases.disease_type",
-                    "updated_datetime",
-                    "cases.case_id",
-                    "cases.follow_ups.follow_up_id",
-                    "cases.follow_ups.updated_datetime",
-                    "cases.follow_ups.submitter_id",
-                    "cases.follow_ups.days_to_follow_up",
-                    "cases.follow_ups.state",
-                    "cases.follow_ups.created_datetime",
-                    "cases.project.project_id",
-                    "submitter_id",
-                    "cases.index_date",
-                    "state",
-                    "cases.diagnoses.iss_stage",
-                    "cases.diagnoses.morphology",
-                    "cases.diagnoses.submitter_id",
-                    "cases.diagnoses.created_datetime",
-                    "cases.diagnoses.treatments.days_to_treatment_end",
-                    "cases.diagnoses.treatments.days_to_treatment_start",
-                    "cases.diagnoses.treatments.updated_datetime",
-                    "cases.diagnoses.treatments.regimen_or_line_of_therapy",
-                    "cases.diagnoses.treatments.submitter_id",
-                    "cases.diagnoses.treatments.treatment_id",
-                    "cases.diagnoses.treatments.treatment_type",
-                    "cases.diagnoses.treatments.state",
-                    "cases.diagnoses.treatments.treatment_or_therapy",
-                    "cases.diagnoses.treatments.created_datetime",
-                    "cases.diagnoses.last_known_disease_status",
-                    "cases.diagnoses.tissue_or_organ_of_origin",
-                    "cases.diagnoses.days_to_last_follow_up",
-                    "cases.diagnoses.age_at_diagnosis",
-                    "cases.diagnoses.primary_diagnosis",
-                    "cases.diagnoses.updated_datetime",
-                    "cases.diagnoses.diagnosis_id",
-                    "cases.diagnoses.site_of_resection_or_biopsy",
-                    "cases.diagnoses.state",
-                    "cases.diagnoses.days_to_last_known_disease_status",
-                    "cases.diagnoses.tumor_grade",
-                    "cases.diagnoses.progression_or_recurrence",
-                    "created_datetime",
-                    "cases.demographic.demographic_id",
-                    "cases.demographic.ethnicity",
-                    "cases.demographic.gender",
-                    "cases.demographic.race",
-                    "cases.demographic.vital_status",
-                    "cases.demographic.updated_datetime",
-                    "cases.demographic.age_at_index",
-                    "cases.demographic.submitter_id",
-                    "cases.demographic.days_to_birth",
-                    "cases.demographic.state",
-                    "cases.demographic.created_datetime"
-                  ]
-                }
-                filters={{ mode: "and", root: {
-                    'file_id': {
+                fields={CLINICAL_FIELDS}
+                filters={{
+                  mode: "and",
+                  root: {
+                    file_id: {
                       operator: "in",
                       field: "file_id",
-                      operands: cart.map((file) => file?.file_id)
-                    }
-                  }}}
+                      operands: cart.map((file) => file?.file_id),
+                    },
+                  },
+                }}
+                caseIdField="cases.case_id"
               />
               <Menu.Item
-                component={DownloadButton}
-                classNames={{ item: 'font-normal border-0' }}
-                buttonLabel="TSV"
-                preventClickEvent
-                endpoint="clinical_tar"
-                setActive={setClinicalTSVDownloadActive}
-                active={clinicalTSVDownloadActive}
-                format="tsv"
-                method="POST"
-                disabled={true}
-                toolTip="TSV download is not available."
-              />
+                component={FunctionButton}
+                onClick={handleClinicalTsvDownload}
+                disabled={clinicalTSVDownloadActive}
+                $variant="subtle"
+                isDownload
+                showDownloadIcon
+                isActive={clinicalTSVDownloadActive}
+                closeMenuOnClick={false}
+              >
+                TSV
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
+
           {/* Sample Sheet */}
           <DownloadButton
             buttonLabel="Sample Sheet"
@@ -450,8 +356,8 @@ const CartHeader: React.FC<CartHeaderProps> = ({
             endpoint="file"
             setActive={setSampleSheetDownloadActive}
             active={sampleSheetDownloadActive}
-            format="tsv"
             method="POST"
+            format="json"
             filename={`cart_sample_sheet.${new Date()
               .toISOString()
               .slice(0, 10)}.json`}
@@ -469,13 +375,17 @@ const CartHeader: React.FC<CartHeaderProps> = ({
               "cases.samples.preservation_method",
             ]}
             caseFilters={EmptyFilterSet}
-            filters={{ mode: "and", root: {
-                'file_id': {
+            filters={{
+              mode: "and",
+              root: {
+                file_id: {
                   operator: "in",
                   field: "file_id",
-                  operands: cart.map((file) => file?.file_id)
-                }
-              }}}
+                  operands: cart.map((file) => file?.file_id),
+                },
+              },
+            }}
+            caseIdField="cases.case_id"
           />
           {/* Metadata */}
           <DownloadButton
@@ -490,112 +400,94 @@ const CartHeader: React.FC<CartHeaderProps> = ({
               .toISOString()
               .slice(0, 10)}.json`}
             fields={[
-                'state',
-                'access',
-                'md5sum',
-                'data_format',
-                'data_type',
-                'data_category',
-                'file_name',
-                'file_size',
-                'file_id',
-                'platform',
-                'experimental_strategy',
-                'center.short_name',
-                'annotations.annotation_id',
-                'annotations.entity_id',
-                'tags',
-                'submitter_id',
-                'archive.archive_id',
-                'archive.submitter_id',
-                'archive.revision',
-                'associated_entities.entity_id',
-                'associated_entities.entity_type',
-                'associated_entities.case_id',
-                'analysis.analysis_id',
-                'analysis.workflow_type',
-                'analysis.updated_datetime',
-                'analysis.input_files.file_id',
-                'analysis.metadata.read_groups.read_group_id',
-                'analysis.metadata.read_groups.is_paired_end',
-                'analysis.metadata.read_groups.read_length',
-                'analysis.metadata.read_groups.library_name',
-                'analysis.metadata.read_groups.sequencing_center',
-                'analysis.metadata.read_groups.sequencing_date',
-                'downstream_analyses.output_files.access',
-                'downstream_analyses.output_files.file_id',
-                'downstream_analyses.output_files.file_name',
-                'downstream_analyses.output_files.data_category',
-                'downstream_analyses.output_files.data_type',
-                'downstream_analyses.output_files.data_format',
-                'downstream_analyses.workflow_type',
-                'downstream_analyses.output_files.file_size',
-                'index_files.file_id',
-              ]}
+              "state",
+              "access",
+              "md5sum",
+              "data_format",
+              "data_type",
+              "data_category",
+              "file_name",
+              "file_size",
+              "file_id",
+              "platform",
+              "experimental_strategy",
+              "center.short_name",
+              "tags",
+              "submitter_id",
+              "archive.archive_id",
+              "archive.submitter_id",
+              "archive.revision",
+              "associated_entities.entity_id",
+              "associated_entities.entity_type",
+              "associated_entities.case_id",
+              "analysis.analysis_id",
+              "analysis.workflow_type",
+              "analysis.updated_datetime",
+              "analysis.input_files.file_id",
+              "analysis.metadata.read_groups.read_group_id",
+              "analysis.metadata.read_groups.is_paired_end",
+              "analysis.metadata.read_groups.read_length",
+              "analysis.metadata.read_groups.library_name",
+              "analysis.metadata.read_groups.sequencing_center",
+              "analysis.metadata.read_groups.sequencing_date",
+              "downstream_analyses.output_files.access",
+              "downstream_analyses.output_files.file_id",
+              "downstream_analyses.output_files.file_name",
+              "downstream_analyses.output_files.data_category",
+              "downstream_analyses.output_files.data_type",
+              "downstream_analyses.output_files.data_format",
+              "downstream_analyses.workflow_type",
+              "downstream_analyses.output_files.file_size",
+              "index_files.file_id",
+            ]}
             caseFilters={EmptyFilterSet}
-              filters={{ mode: "and", root: {
-                  'file_id': {
-                    operator: "in",
-                    field: "file_id",
-                    operands: cart.map((file) => file?.file_id)
-                    }
-                    }}}
+            filters={{
+              mode: "and",
+              root: {
+                file_id: {
+                  operator: "in",
+                  field: "file_id",
+                  operands: cart.map((file) => file?.file_id),
+                },
+              },
+            }}
+            caseIdField="cases.case_id"
           />
           {/* Remove From Cart */}
-          <Menu>
-            <Menu.Target>
-              <Button
-                data-testid="button-remove-from-cart"
-                leftSection={
-                  <CartIcon
-                    aria-hidden="true"
-                    size="1rem"
-                    className="hidden xl:block"
-                  />
-                }
-                rightSection={
-                  <div className="border-l pl-1 -mr-2">
-                    <ArrowDropDownIcon size="1.5em" aria-hidden="true" />
-                  </div>
-                }
-                classNames={{
-                  root: `bg-white text-primary hover:bg-removeButtonHover ${focusStyles}`,
-                }}
-              >
-                Remove From Cart
-              </Button>
-            </Menu.Target>
-            <Menu.Dropdown data-testid="dropdown-menu-options">
-              <Menu.Item onClick={() => removeFromCart(cart, cart, dispatch)}>
-                All Files ({cart.length})
-              </Menu.Item>
-              <Menu.Item
-                onClick={() =>
-                  removeFromCart(filesByCanAccess?.false || [], cart, dispatch)
-                }
-              >
-                Unauthorized Files ({(filesByCanAccess?.false || []).length})
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          <Button
+            data-testid="button-remove-from-cart"
+            leftSection={
+              <CartIcon
+                aria-hidden="true"
+                size="1rem"
+                className="hidden xl:block"
+              />
+            }
+            classNames={{
+              root: `bg-white text-primary hover:bg-removeButtonHover ${focusStyles}`,
+            }}
+            onClick={() => removeFromCart(cart, cart, dispatch)}
+          >
+            Remove From Cart ({cart.length})
+          </Button>
         </div>
 
         <h1 className="uppercase flex 2xl:ml-auto items-center truncate text-xl">
-          Total of{' '}
-          <FileIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{' '}
+          Total of{" "}
+          <FileIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{" "}
           <b data-testid="text-file-count" className="mr-1">
-            {summaryData?.total_doc_count?.toLocaleString() || '--'}
-          </b>{' '}
-          {summaryData?.total_doc_count === 1 ? 'File' : 'Files'}
-          <PersonIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{' '}
+            {summaryData?.total_doc_count?.toLocaleString() || "--"}
+          </b>{" "}
+          {summaryData?.total_doc_count === 1 ? "File" : "Files"}
+          <PersonIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{" "}
           <b data-testid="text-case-count" className="mr-1">
-            {summaryData?.total_case_count?.toLocaleString() || '--'}
-          </b>{' '}
-          {summaryData?.total_case_count === 1 ? 'Case' : 'Cases'}{' '}
-          <SaveIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{' '}
+            {summaryData?.total_case_count?.toLocaleString() || "--"}
+          </b>{" "}
+          {summaryData?.total_case_count === 1 ? "Case" : "Cases"}{" "}
+          <SaveIcon size={25} className="ml-2 mr-1" aria-hidden="true" />{" "}
           <span data-testid="text-size-count">
             {filesize(summaryData?.total_file_size || 0)}
-          </span>{' '}
+          </span>{" "}
         </h1>
       </div>
     </>

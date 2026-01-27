@@ -1,9 +1,5 @@
-
-import { userCanDownloadFile } from "src/utils/userProjectUtils";
 import {
   useCoreDispatch,
-  showModal,
-  Modals,
   useLazyFetchUserDetailsQuery,
 } from "@gen3/core";
 import { DownloadButton } from "./DownloadButton";
@@ -73,6 +69,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
         setActive={setActive}
         active={active}
         displayVariant={displayVariant}
+        caseIdField="cases.case_id"
       />
     );
   }
@@ -86,6 +83,7 @@ export const DownloadFile: React.FC<DownloadFileProps> = ({
       active={active}
       endpoint={`data/${file.file_id}`}
       displayVariant={displayVariant}
+      caseIdField="cases.case_id"
     />
   );
 };
