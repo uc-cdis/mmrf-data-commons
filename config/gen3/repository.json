@@ -146,7 +146,7 @@
   "fileStatsConfiguration": {
     "cohortIndex": "case",
     "repositoryIndex": "file",
-    "cohortItemIdField": "cases.case_id",
+    "cohortItemIdField": "case_id",
     "fileItemIdField": "file_id",
     "fileSizeField": "file_size"
   },

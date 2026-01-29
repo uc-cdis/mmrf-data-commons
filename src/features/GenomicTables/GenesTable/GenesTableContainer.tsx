@@ -65,7 +65,6 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // const dispatch = useCoreDispatch();
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
   const { geneFilters, ssmFilters, geneFiltersForCaseCentric } = useDeepCompareMemo(() => {

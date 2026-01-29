@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { EmptyFilterSet, FilterSet, Union } from '@gen3/core';
 import { buildSSMSTableSearchFilters } from '@/core/genomic/ssmsTableSlice';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
@@ -33,6 +33,7 @@ import {
   GenomicIndexFilterPrefixes,
   separateGeneAndSSMFilters,
 } from '@/core/genomic/genomicFilters';
+import { SummaryModalContext } from '@/utils/contexts';
 
 export interface SMTableContainerProps {
   readonly selectedSurvivalPlot?: ComparativeSurvival;
@@ -202,7 +203,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       );
     });
   }, [data, selectedSurvivalPlot, countsData]);
-  const setEntityMetadata = null;
+  const { setEntityMetadata } = useContext(SummaryModalContext);
   const generateFilters = useDeepCompareCallback(
     (ssmId: string) => {
       return joinFilters(genomicFiltersForCaseCentric, {

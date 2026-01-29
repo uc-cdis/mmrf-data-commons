@@ -41,6 +41,7 @@ type HandleSurvivalPlotToggledType = (
   name: string,
   field: string,
 ) => void;
+
 export const useGenerateSMTableColumns = ({
   toggledSsms,
   isDemoMode,

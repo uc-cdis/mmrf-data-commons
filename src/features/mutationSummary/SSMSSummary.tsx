@@ -22,7 +22,7 @@ export const SSMSSummary = ({
   ssm_id: string;
   isModal?: boolean;
 }): JSX.Element => {
-  const { data: summaryData, isFetching } = useSsmsSummaryQuery(ssm_id);
+  const { data: summaryData, isFetching } = useSsmsSummaryQuery(ssm_id)
 
   const formatDataForSummary = (): HorizontalTableProps["tableData"] => {
     const obj = pick(summaryData, [
@@ -122,6 +122,12 @@ export const SSMSSummary = ({
             const key = id
               .substring(0, 4)
               .toLowerCase() as keyof typeof externalLinks;
+
+            if ((key in externalLinks) === false )
+              return  (
+              <span key={id}>--</span>
+            )
+            else
             return (
               <AnchorLink
                 href={externalLinks[key](id.match(/(\d+)$/g)?.[0] || "")}
