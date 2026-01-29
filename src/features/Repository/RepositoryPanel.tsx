@@ -39,6 +39,8 @@ export const RepositoryPanel = ({
     Accessibility.ALL,
   );
 
+  console.log("fileStatsConfiguration, ")
+
   const index = guppyConfig.dataType;
   const indexPrefix = guppyConfig?.indexPrefix ?? '';
 

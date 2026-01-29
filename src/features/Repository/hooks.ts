@@ -54,7 +54,6 @@ export const useGetFacetValuesQuery = (
 const buildFileStatsQuery = (
   type: string,
   fileSizeField: string,
-  cohortItemIdField: string,
   fileItemIdField: string,
   indexPrefix: string = '',
 ) => {
@@ -64,7 +63,6 @@ const buildFileStatsQuery = (
         ${type} (accessibility: $accessibility, filter: $filter) {
             ${customQueryStrForField(fileItemIdField, '{_totalCount }')}
             ${customQueryStrForField(fileSizeField, ' {  histogram {sum} }')}
-            ${customQueryStrForField(cohortItemIdField, '{ _cardinalityCount }')}
         }
     }
 }`;
@@ -94,7 +92,6 @@ export const useTotalFileSizeQuery = ({
   const query = buildFileStatsQuery(
     repositoryIndex,
     fileSizeField,
-    cohortItemIdField,
     fileItemIdField,
     repositoryIndexPrefix,
   );
@@ -121,15 +118,13 @@ export const useTotalFileSizeQuery = ({
   // need to query the number of cases using the query below which
   // requires adding file to the repository filters
 
-
-
-
   const caseFilterWithFiles = mergeFilterWithPrefix(cohortFilter, repositoryFilterWithCases, 'files.');
   const { data: caseCounts, isFetching: isCaseCountsFetching, isSuccess: isCaseCountsSuccess } =
     useGetFileCaseCountQuery({
       filters: convertFilterSetToGqlFilter(caseFilterWithFiles)
     });
 
+  console.log('useGetFileCaseCountQuery', caseCounts);
 
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
@@ -137,6 +132,7 @@ export const useTotalFileSizeQuery = ({
       query,
       filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
       caseIdsFilterPath: "cases.case_id",
+    caseIdField: "case_id",
       limit: 0,
   });
 

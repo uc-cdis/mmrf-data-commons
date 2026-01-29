@@ -229,7 +229,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
   return (
     <>
       <SummaryHeader
-        iconPath="/icons/user.svg"
+        iconPath="mmrf:user"
         headerTitleLeft="Case"
         headerTitle={headerTitle}
         leftElement={
@@ -250,15 +250,15 @@ export const CaseView: React.FC<CaseViewProps> = ({
               onClick={() =>
                 isAllFilesInCart
                   ? removeFromCart(
-                    mapGdcFileToCartFile(data.files),
-                    currentCart,
-                    dispatch,
-                  )
+                      mapGdcFileToCartFile(data.files),
+                      currentCart,
+                      dispatch,
+                    )
                   : addToCart(
-                    mapGdcFileToCartFile(data.files),
-                    currentCart,
-                    dispatch,
-                  )
+                      mapGdcFileToCartFile(data.files),
+                      currentCart,
+                      dispatch,
+                    )
               }
               disabled={filesCountTotal === 0}
               classNames={{ label: 'font-medium text-sm' }}
@@ -339,11 +339,11 @@ export const CaseView: React.FC<CaseViewProps> = ({
 
         <div data-testid="table-clinical-case-summary" className="mt-8">
           <ClinicalSummary
-            diagnoses={diagnoses}
-            follow_ups={follow_ups}
-            demographic={demographic}
-            family_histories={family_histories}
-            exposures={exposures}
+            diagnoses={diagnoses ?? []}
+            follow_ups={follow_ups ?? []}
+            demographic={demographic ?? []}
+            family_histories={family_histories ?? []}
+            exposures={exposures ?? []}
             case_id={case_id}
             submitter_id={data?.submitter_id}
             project_id={data?.project?.project_id}

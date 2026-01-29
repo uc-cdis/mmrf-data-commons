@@ -26,7 +26,7 @@ const SMTableDNAChange = ({
       {DNAChange ? (
         <Tooltip label={DNAChange} disabled={!DNAChange}>
           <span>
-            {isModal && !geneSymbol ? (
+            {!isModal && !geneSymbol ? (
               <PopupIconButton
                 handleClick={() =>
                   setEntityMetadata({
