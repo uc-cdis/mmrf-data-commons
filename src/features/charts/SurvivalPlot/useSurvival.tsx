@@ -9,16 +9,16 @@ import { SurvivalElement, SurvivalDonor } from '@/core/features/survival';
 // based on schemeCategory10
 // 4.5:1 colour contrast for normal text
 const textColors = [
-  "#8d3859",
-  "#FCA88D",
-  "#20313B",
-  "#D62728",
-  "#B94BB9",
-  "#8C564B",
-  "#D42BA1",
-  "#757575",
-  "#7A7A15",
-  "#10828E",
+  '#8d3859',
+  '#20313B',
+  '#D62728',
+  '#B94BB9',
+  '#FCA88D',
+  '#8C564B',
+  '#D42BA1',
+  '#757575',
+  '#7A7A15',
+  '#10828E',
 ];
 
 const SVG_MARGINS = {

@@ -171,4 +171,23 @@ export const Default: Story = {
   parameters: {
     msw: handlers.success,
   },
+  decorators: [
+    (Story) => {
+      const [entityMetadata, setEntityMetadata] = useState<entityMetadataType>({
+        entity_type: null,
+        entity_id: 'unset',
+      });
+
+      return (
+        <SummaryModalContext.Provider
+          value={{
+            entityMetadata,
+            setEntityMetadata,
+          }}
+        >
+          <Story />
+        </SummaryModalContext.Provider>
+      );
+    },
+  ],
 };

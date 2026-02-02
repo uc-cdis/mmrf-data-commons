@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { expect, within } from 'storybook/test';
 import { GeneSummary } from './GeneSummary';
+import { entityMetadataType, SummaryModalContext } from '@/utils/contexts';
 
 const meta = {
   component: GeneSummary,
@@ -9,6 +10,25 @@ const meta = {
   parameters: {
     deepControls: { enabled: true },
   },
+  decorators: [
+    (Story) => {
+      const [entityMetadata, setEntityMetadata] = useState<entityMetadataType>({
+        entity_type: null,
+        entity_id: 'unset',
+      });
+
+      return (
+        <SummaryModalContext.Provider
+          value={{
+            entityMetadata,
+            setEntityMetadata,
+          }}
+        >
+          <Story />
+        </SummaryModalContext.Provider>
+      );
+    },
+  ],
 } satisfies Meta<typeof GeneSummary>;
 
 export default meta;
@@ -19,6 +39,7 @@ export const Default: Story = {
   args: {
     gene_id: 'gene_id',
   },
+
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const testIds = [
