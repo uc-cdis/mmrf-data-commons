@@ -31,7 +31,7 @@
     "@fontsource/noto-sans": "^5.2.10",
     "@fontsource/source-sans-pro": "^5.2.5",
     "@gen3/core": "0.12.16",
-    "@gen3/frontend": "file:.yalc/@gen3/frontend",
+    "@gen3/frontend": "0.12.16",
     "@grafana/faro-react": "^1.9.1",
     "@grafana/faro-web-sdk": "^1.9.1",
     "@grafana/faro-web-tracing": "^1.9.1",
