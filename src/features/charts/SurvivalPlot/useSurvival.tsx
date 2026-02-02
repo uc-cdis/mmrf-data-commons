@@ -10,7 +10,7 @@ import { SurvivalElement, SurvivalDonor } from '@/core/features/survival';
 // 4.5:1 colour contrast for normal text
 const textColors = [
   '#8d3859',
-  '#20313B',
+  '#bb2f02',
   '#D62728',
   '#B94BB9',
   '#FCA88D',
