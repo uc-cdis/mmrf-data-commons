@@ -1,7 +1,4 @@
-import {
-  guppyApi,
-  GQLIntersection,
-} from '@gen3/core';
+import { guppyApi, GQLIntersection, GQLFilter } from '@gen3/core';
 import { FileDefaults } from '@/core/features/api';
 import { castDraft } from 'immer';
 import { SortBy } from '@/core';
@@ -500,6 +497,14 @@ interface FileSummaryRequest {
   fields: string[];
 }
 
+interface FileCaseCountRequest {
+  filters: GQLFilter;
+}
+
+interface FileCaseCountResponse {
+  cases: number;
+}
+
 const filesSlice = guppyApi.injectEndpoints({
   endpoints: (builder) => ({
     getFiles: builder.query<FilesResponse, FileRequest>({
@@ -542,6 +547,7 @@ const filesSlice = guppyApi.injectEndpoints({
           files: castDraft(mapFileData(response?.data?.files ?? [])),
           pagination: response.data.pagination,
           total: response?.data?.fileTotal?.file?._totalCount ?? 0,
+
         };
       },
     }),
@@ -581,7 +587,37 @@ const filesSlice = guppyApi.injectEndpoints({
         };
       },
     }),
+    getFileCaseCount: builder.query<
+      FileCaseCountResponse,
+      FileCaseCountRequest
+    >({
+      query: ({ filters }: FileCaseCountRequest) => {
+        const FileCaseCountGQLQuery = `
+          query CaseCountsForFiles (
+            $filter: JSON
+        ) { cases: CaseCentric__aggregation {
+            case_centric(filter: $filter) {
+              case_id {
+                _totalCount
+               }
+             }
+            }
+           }`;
+
+        return {
+          query: FileCaseCountGQLQuery,
+          variables: {
+            filter: filters,
+          },
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          cases: response?.data?.cases?.case_centric?.case_id?._totalCount || 0
+        }
+      }
+    }),
   }),
 });
 
-export const { useGetFilesQuery, useGetFileSummaryQuery } = filesSlice;
+export const { useGetFilesQuery, useGetFileSummaryQuery, useGetFileCaseCountQuery } = filesSlice;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import type { entityMetadataType } from '@/utils/contexts';
+import { entityMetadataType, SummaryModalContext } from '@/utils/contexts';
 import { expect, within } from 'storybook/test';
 import { CaseView } from './CaseView';
 import casesViewData from './data/caseViewData.json';
@@ -35,7 +35,16 @@ const meta = {
         entity_id: 'unset',
       });
 
-      return <Story />;
+      return (
+        <SummaryModalContext.Provider
+          value={{
+            entityMetadata,
+            setEntityMetadata,
+          }}
+        >
+          <Story />
+        </SummaryModalContext.Provider>
+      );
     },
   ],
 } satisfies Meta<typeof CaseViewWrapped>;

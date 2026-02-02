@@ -73,7 +73,7 @@ export const buildTwoPlotLegend = (
         {
           key: `${name}-mutated`,
           value: (
-            <div className="text-gdc-survival-5 font-content">
+            <div className="text-gdc-survival-1 font-content">
               S<sub>2</sub>
               {` (N = ${getCaseCount(results2.length === 0)})`}
               {['mutation', 'gene'].includes(plotType) && (

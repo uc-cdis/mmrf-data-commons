@@ -40,7 +40,7 @@ export const SummaryHeader = ({
   return (
     <header
       className={`bg-mmrf-purple py-4 px-4 w-full flex flex-col shadow-lg gap-4 ${
-        isModal ? "sticky top-0 rounded-t-sm z-20" : "sticky z-10"
+        isModal ? 'sticky top-0 rounded-t-sm z-20' : 'sticky z-10'
       }`}
       data-testid="summary-header"
       style={!isModal ? { top: topOffset } : undefined}
@@ -51,12 +51,12 @@ export const SummaryHeader = ({
             items-center leading-[22px] font-bold bg-base-lightest"
         >
           <Icon
-            className="object-cover m-1"
+            className="object-cover pl-1.5 pt-1.5"
             icon={iconPath}
             alt=""
-            height={28}
-            width={28}
-            color="primary"
+            height={32}
+            width={32}
+            color="primary.4"
             data-testid="summary-header-icon"
           />
         </span>
@@ -64,7 +64,7 @@ export const SummaryHeader = ({
           data-testid="summary-header-title"
           className="uppercase"
         >
-          {headerTitleLeft} <span className="mx-4 text-2xl inline">•</span>{" "}
+          {headerTitleLeft} <span className="mx-4 text-2xl inline">•</span>{' '}
           {headerTitle}
         </SummaryHeaderTitle>
       </div>

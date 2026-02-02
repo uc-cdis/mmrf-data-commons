@@ -18,11 +18,11 @@ export const buildRawQuery = (
   ].join(',');
   const queryLine = `query getRawDataAndTotalCounts (${params}) {`;
 
-  const dataParams = [
+  let dataParams = [
     ...[`filter: $${filterName}`],
     ...(format ? [`format: ${format}`] : []),
-    ...(sort ? [`sort: ${sort}`] : []),
   ].join(',');
+  if (sort) dataParams += `, sort: $sort`;
   const dataTypeLine = `${indexPrefix}${type} (accessibility: ${accessibility}, offset: ${offset}, first: ${size},
         ${dataParams}) {`;
 
@@ -100,8 +100,9 @@ export const processRawQuery = (response: Record<string, any>, containsDots: Arr
     });
 
     return {
-      data: {
-        _aggregation: response.data._aggregation,
+      data: { // return the data in the format the gen3 Explorer table expects.
+        [`${indexPrefix ?? ''}_aggregation`]:
+          response.data?.[`${indexPrefix ?? ''}_aggregation`],
         [`${indexPrefix ?? ''}${type}`]: tempResponse,
       },
     };

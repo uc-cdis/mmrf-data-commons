@@ -7,6 +7,7 @@ import {
   customQueryStrForField,
   EmptyFilterSet,
   FilterSet,
+  GQLIntersection,
   Includes,
   RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
@@ -31,6 +32,9 @@ import {
   FacetQueryResponse,
 } from '@/features/types';
 import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
+import { useGetFileCaseCountQuery } from '@/core/features/files/filesSlice';
+import { addPrefixToFilterSet } from '@/core/genomic/genomicFilters';
+import { mergeFilterWithPrefix } from '@/core/utils';
 
 export const useGetFacetValuesQuery = (
   args: CohortCentricAggsQueryRequest,
@@ -50,7 +54,6 @@ export const useGetFacetValuesQuery = (
 const buildFileStatsQuery = (
   type: string,
   fileSizeField: string,
-  cohortItemIdField: string,
   fileItemIdField: string,
   indexPrefix: string = '',
 ) => {
@@ -60,7 +63,6 @@ const buildFileStatsQuery = (
         ${type} (accessibility: $accessibility, filter: $filter) {
             ${customQueryStrForField(fileItemIdField, '{_totalCount }')}
             ${customQueryStrForField(fileSizeField, ' {  histogram {sum} }')}
-            ${customQueryStrForField(cohortItemIdField, '{ _cardinalityCount }')}
         }
     }
 }`;
@@ -90,7 +92,6 @@ export const useTotalFileSizeQuery = ({
   const query = buildFileStatsQuery(
     repositoryIndex,
     fileSizeField,
-    cohortItemIdField,
     fileItemIdField,
     repositoryIndexPrefix,
   );
@@ -114,8 +115,14 @@ export const useTotalFileSizeQuery = ({
       },
     };
   }
+  // need to query the number of cases using the query below which
+  // requires adding "file" to the repository filters
 
-
+  const caseFilterWithFiles = mergeFilterWithPrefix(cohortFilter, repositoryFilterWithCases, 'files.');
+  const { data: caseCounts, isFetching: isCaseCountsFetching, isSuccess: isCaseCountsSuccess } =
+    useGetFileCaseCountQuery({
+      filters: convertFilterSetToGqlFilter(caseFilterWithFiles)
+    });
 
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
@@ -123,11 +130,12 @@ export const useTotalFileSizeQuery = ({
       query,
       filter: convertFilterSetToGqlFilter(repositoryFilterWithCases),
       caseIdsFilterPath: "cases.case_id",
+    caseIdField: "case_id",
       limit: 0,
   });
 
   useDeepCompareEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && isCaseCountsSuccess) {
       const response = data.data as unknown as FileCountsQueryResponse;
       const countsRoot = getByPath(
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex],
@@ -137,7 +145,7 @@ export const useTotalFileSizeQuery = ({
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileSizeField
         ]?.histogram?.[0]?.sum || 0;
-      const totalCaseCount = countsRoot?._cardinalityCount || 0;
+      const totalCaseCount = caseCounts?.cases || 0;
       const totalFileCount =
         response?.[`${repositoryIndexPrefix}_aggregation`]?.[repositoryIndex]?.[
           fileItemIdField

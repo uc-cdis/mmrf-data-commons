@@ -1,6 +1,6 @@
 {
   "name": "mmrf-data-commons",
-  "version": "0.12.14",
+  "version": "0.12.16",
   "private": "true",
   "engines": {
     "npm": ">=10.2.3",
@@ -30,8 +30,8 @@
     "@fontsource/montserrat": "^5.2.8",
     "@fontsource/noto-sans": "^5.2.10",
     "@fontsource/source-sans-pro": "^5.2.5",
-    "@gen3/core": "0.12.14",
-    "@gen3/frontend": "0.12.14",
+    "@gen3/core": "0.12.16",
+    "@gen3/frontend": "0.12.16",
     "@grafana/faro-react": "^1.9.1",
     "@grafana/faro-web-sdk": "^1.9.1",
     "@grafana/faro-web-tracing": "^1.9.1",
@@ -72,7 +72,7 @@
   "devDependencies": {
     "@axe-core/react": "^4.10.1",
     "@chromatic-com/storybook": "^4.1.1",
-    "@gen3/toolsff": "^0.12.14",
+    "@gen3/toolsff": "^0.12.16",
     "@next/eslint-plugin-next": "^15.5.9",
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-docs": "^9.1.5",

@@ -292,14 +292,14 @@ export const download = async ({ params, done }: DownloadParams) => {
       if (error) {
         console.error(error);
         if (error.message === 'AbortError') {
-          console.log('Aborted');
+          console.warn('Aborted');
         } else {
           console.error('Error downloading file');
         }
       }
     },
     () => {
-      console.log('Aborted');
+      console.warn('Aborted');
     },
   );
 };
