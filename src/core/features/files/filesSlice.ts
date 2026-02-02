@@ -547,6 +547,7 @@ const filesSlice = guppyApi.injectEndpoints({
           files: castDraft(mapFileData(response?.data?.files ?? [])),
           pagination: response.data.pagination,
           total: response?.data?.fileTotal?.file?._totalCount ?? 0,
+
         };
       },
     }),

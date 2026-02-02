@@ -116,15 +116,13 @@ export const useTotalFileSizeQuery = ({
     };
   }
   // need to query the number of cases using the query below which
-  // requires adding file to the repository filters
+  // requires adding "file" to the repository filters
 
   const caseFilterWithFiles = mergeFilterWithPrefix(cohortFilter, repositoryFilterWithCases, 'files.');
   const { data: caseCounts, isFetching: isCaseCountsFetching, isSuccess: isCaseCountsSuccess } =
     useGetFileCaseCountQuery({
       filters: convertFilterSetToGqlFilter(caseFilterWithFiles)
     });
-
-  console.log('useGetFileCaseCountQuery', caseCounts);
 
   const cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   const { data, isSuccess, isFetching, isError } = useGetCohortCentricQuery({
