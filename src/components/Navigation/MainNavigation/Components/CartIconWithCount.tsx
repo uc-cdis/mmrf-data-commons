@@ -10,7 +10,7 @@ const CartIconWithCount = () => {
   const router = useRouter();
 
   const styling = {
-    root: `flex items-center align-middle px-1 my-2`,
+    root: `flex items-center align-middle px-1 my-2 ml-2`,
     button:
   'flex flex-nowrap items-center align-middle border-b-2 border-transparent',
     leftIcon: 'text-secondary-contrast-lighter pr-1',
@@ -27,7 +27,7 @@ const CartIconWithCount = () => {
       />
       <Badge
         variant="filled"
-        className={`px-1 ml-1 ${
+        className={`px-1 ml-1 mr-2 ${
           router.pathname === "/cart"
             ? "bg-white text-secondary"
             : "bg-accent-vivid"
