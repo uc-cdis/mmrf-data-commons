@@ -23,6 +23,7 @@ import {
 // import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
 // import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
 import { COHORT_FILTER_INDEX, PROTEINPAINT_API } from '@/core';
+import { modals } from '@mantine/modals';
 
 const basepath = PROTEINPAINT_API;
 
@@ -42,7 +43,7 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
     selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
   );
   const filter0 = isDemoMode ? null : buildCohortGqlOperator(currentCohort);
-  const userDetails = useFetchUserDetailsQuery();
+  const userDetails = useFetchUserDetailsQuery()
 
   // to track reusable instance for mds3 skewer track
   const prevArg = useRef<any>({});
@@ -52,27 +53,31 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
   // const [newCohortFilters, setNewCohortFilters] =
   //   useState<FilterSet>(undefined);
 
-  const callback = () => {}
+  // test only
+  const callback = () => {
+    updateFilters('case_ids', ['case_1', 'case_2', 'case_3'])
+  }
   // useCallback<SelectSamplesCallback>(
   //   (arg: SelectSamplesCallBackArg) => {
-  //     const cases = arg.samples.map((d) => d["cases.case_id"]);
-  //     if (cases.length > 1) {
-  //       createSet({ values: cases, intent: "portal", set_type: "frozen" });
-  //     } else {
-  //       setNewCohortFilters({
-  //         mode: "and",
-  //         root: {
-  //           "cases.case_id": {
-  //             operator: "includes",
-  //             field: "cases.case_id",
-  //             operands: cases,
-  //           },
-  //         },
-  //       });
-  //       setShowSaveCohort(true);
-  //     }
+  //     console.log(58, arg)
+  //     // const cases = arg.samples.map((d) => d["cases.case_id"]);
+  //     // if (cases.length > 1) {
+  //     //   createSet({ values: cases, intent: "portal", set_type: "frozen" });
+  //     // } else {
+  //     //   setNewCohortFilters({
+  //     //     mode: "and",
+  //     //     root: {
+  //     //       "cases.case_id": {
+  //     //         operator: "includes",
+  //     //         field: "cases.case_id",
+  //     //         operands: cases,
+  //     //       },
+  //     //     },
+  //     //   });
+  //     //   setShowSaveCohort(true);
+  //     // }
   //   },
-  //   [createSet],
+  //   [] //[createSet],
   // );
 
   // a set for the new cohort is created, now show the save cohort modal
@@ -105,7 +110,7 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
       }
       // compare the argument to runpp to avoid unnecessary render
       if ((data || prevArg.current) && isEqual(prevArg.current, data)) return;
-      prevArg.current = data;
+      prevArg.current = data
 
       const toolContainer = rootElem?.parentNode?.parentNode?.parentNode as HTMLElement;
       if (!toolContainer) return
@@ -138,7 +143,7 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
       props.geneSearch4GDCmds3,
       isDemoMode,
       filter0,
-      userDetails,
+      userDetails.currentData,
     ],
   );
 
@@ -164,6 +169,26 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
       />*/}
     </div>
   );
+};
+
+const updateFilters = (facetField: string, outputIds: string[]) => {
+  modals.openContextModal({
+    modal: "saveCohortModal",
+    title: "Save Cohort",
+    size: "md",
+    zIndex: 1200,
+    styles: {
+      header: {
+        marginLeft: "16px",
+      },
+    },
+    innerProps: {
+      facetField,
+      outputIds,
+      validate: false,
+      setAsCurrentCohort: false,
+    },
+  });
 };
 
 interface Mds3Arg {
@@ -215,7 +240,7 @@ function getLollipopTrack(
     filter0,
     allow2selectSamples: {
       buttonText: "Create Cohort",
-      attributes: [{ from: "sample_id", to: "cases.case_id", convert: true }],
+      attributes: [{ from: "sample_id", to: "cases.case_id", convert: false }],
       callback,
     },
   };

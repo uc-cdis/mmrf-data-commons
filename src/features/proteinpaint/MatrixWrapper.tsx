@@ -237,7 +237,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
       };
     },
 
-    [filter0, userDetails, /*geneDetailData*/],
+    [filter0, userDetails.currentData, /*geneDetailData*/],
   );
 
   const divRef = useRef<HTMLDivElement>(null);
