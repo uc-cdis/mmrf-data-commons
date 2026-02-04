@@ -1,4 +1,4 @@
-// write unit test for buildNestedCountsQuery
+
 
 import { buildAliasedNestedCountsQuery, buildRangeFilters, buildRangeQuery } from '../utils';
 import { Accessibility, FilterSet, Operation } from '@gen3/core';
