@@ -71,7 +71,8 @@
           "description": "Age in days at which a condition or disease was first diagnosed. CDE: 3225640. TCGA has the age in years with CDE 2006657, this is converted by ceil(age*365.25) to get days.",
           "range": {
             "maximum": 32872,
-            "minimum": 0
+            "minimum": 0,
+            "step": 10
           }
         },
         "demographic.days_to_death": {
@@ -80,7 +81,8 @@
           "description": "Number of days between the date used for index and the date from a person's date of death represented as a calculated number of days.",
           "range": {
             "maximum": 32872,
-            "minimum": 0
+            "minimum": 0,
+            "step": 10
           }
         },
         "demographic.year_of_death": {
@@ -90,7 +92,8 @@
           "description": "The year component of the subject's date of death, if applicable. In a de-identified dataset, this variable will help with sequencing events.",
           "range": {
             "maximum": 2050,
-            "minimum": 1950
+            "minimum": 1950,
+            "step": 10
           }
         },
         "demographic.age_at_index": {
@@ -100,7 +103,8 @@
           "description": "Subject's age at the time of first therapy for multiple myeloma diagnosis.",
           "range": {
             "maximum": 32507,
-            "minimum": 0
+            "minimum": 0,
+            "step": 10
           }
         }
       }
