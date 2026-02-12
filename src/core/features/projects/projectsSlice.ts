@@ -132,6 +132,7 @@ const processProjectData = (data: any): ProjectDefaults => {
   if (data) {
     const project = data.project[0];
     const file = data?.file?.file ?? null;
+    console.log('processProjectData', data);
     const fileSummary = {
       case_count: 0,
       file_count: file.totalFiles,
@@ -145,8 +146,7 @@ const processProjectData = (data: any): ProjectDefaults => {
       experimental_strategies:
         file.experimental_strategy.histogram.map((x: any) => ({
           file_count: x.count,
-          case_count: 0,
-          data_category: capitalizeFirstLetter(x.key),
+          experimental_strategy: capitalizeFirstLetter(x.key),
         })) ?? null,
     };
 
@@ -160,9 +160,12 @@ const processProjectData = (data: any): ProjectDefaults => {
       },
       name: project?.name ?? '',
       summary: {
-        ...project?.summary,
-        ...(fileSummary ?? {}),
+        data_categories: project?.summary?.data_categories ?? [],
+        experimental_strategies:
+          project?.summary?.experimental_strategies ?? [],
         case_count: project?.summary?.case_count ?? 0,
+        file_count: fileSummary?.file_count ?? 0,
+        file_size: fileSummary?.file_size ?? '0',
       },
       access: file.access?.histogram.reduce(
         (acc: Record<string, number>, x: any) => {

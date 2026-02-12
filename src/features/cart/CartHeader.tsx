@@ -124,7 +124,6 @@ const CartHeader: React.FC<CartHeaderProps> = ({
 
       const files = [];
 
-      console.log(buckets);
       if (buckets.clinical.length) {
         files.push({
           name: "clinical.tsv",
