@@ -1,45 +1,27 @@
 import React from "react";
-import { hideModal, useCoreDispatch } from "@gen3/core";
 import { GdcFile } from "@/core";
 import { Button, Text } from "@mantine/core";
 import { SetStateAction, useEffect, useState } from "react";
 import { DownloadButton } from "@/components/DownloadButtons";
-import { BaseModal } from "./BaseModal";
 import DownloadAccessAgreement from "./DownloadAccessAgreement";
+import { ContextModalProps } from '@mantine/modals';
 
-export const AgreementModal = ({
-  openModal,
-  file,
-  dbGapList,
-  active,
-  setActive,
-}: {
-  openModal: boolean;
+interface AgreementModalProps {
   file: GdcFile;
   dbGapList?: readonly string[];
-  setActive?: React.Dispatch<SetStateAction<boolean>>;
-  active?: boolean;
-}): JSX.Element => {
-  const dispatch = useCoreDispatch();
+}
+
+export const AgreementModal = ({
+  context,
+  id,
+  innerProps,
+}: ContextModalProps<AgreementModalProps>) => {
   const [checked, setChecked] = useState(false);
 
-  useEffect(() => {
-    if (!openModal) {
-      setChecked(false);
-    }
-  }, [openModal]);
+  const { file, dbGapList} = innerProps;
 
   return (
-    <BaseModal
-      title={
-        <Text size="lg" className="font-medium">
-          Access Alert
-        </Text>
-      }
-      openModal={openModal}
-      onClose={() => setChecked(false)}
-      size="xl"
-    >
+    <>
       <div className="border-y border-y-base-darker py-4">
         <DownloadAccessAgreement
           checked={checked}
@@ -50,12 +32,12 @@ export const AgreementModal = ({
       <div className="flex justify-end mt-2.5 gap-2">
         <Button
           data-testid="button-cancel"
-          onClick={() => dispatch(hideModal())}
+          onClick={() => context.closeModal(id)}
           className="!bg-primary hover:!bg-primary-darker"
         >
           Cancel
         </Button>
-
+        { /* ---- TODO: replace with Presigned URL download button
         <DownloadButton
           data-testid="button-download"
           disabled={!checked}
@@ -72,8 +54,8 @@ export const AgreementModal = ({
           active={active}
           displayVariant="filled"
           caseIdField="cases.case_id"
-        />
+        /> ---- */}
       </div>
-    </BaseModal>
+    </>
   );
 };

@@ -370,7 +370,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
           </div>
         }
         search={{
-          enabled: true,
+          enabled: false,
           defaultSearchTerm: searchTerm,
           tooltip: 'e.g. TP53, ENSG00000141510, chr17:g.7675088C>T, R175H',
         }}

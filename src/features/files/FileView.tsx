@@ -21,10 +21,9 @@ import SourceFiles from './SourceFiles';
 import ReadGroups from './ReadGroups';
 import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
-import { DownloadFile } from '@/components/DownloadButtons';
-// import { Button } from '@mantine/core';
-// import { CartIcon } from '@/utils/icons';
-import { AddToCartButton } from '../cart/updateCart';
+import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
+import DownloadPresignedURL from '@/components/DownloadButtons/DownlloadPresignedURL';
+
 
 const Modals = {} as any;
 
@@ -44,30 +43,18 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   <div className="flex gap-4">
     {!isFileInCart ? (
       <AddToCartButton files={mapGdcFileToCartFile([file])} />
-      // <Button
-      //   variant="outline"
-      //   leftSection={<CartIcon aria-hidden="true" />}
-      //   onClick={() => alert('click event for Add to Cart button')}
-      //   className={`font-medium text-sm text-primary bg-base-max hover:bg-mmrf-gunmetal
-      //   hover:text-primary-contrast-darker`}
-      // >
-      //   Add to Cart
-      // </Button>
     ) : (
-      <h4 className="text-gen3-white">Placeholder for RemoveFromCartButton</h4>
-      // <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />
+       <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />
     )}
     {file.data_format === 'BAM' &&
       file.data_type === 'Aligned Reads' &&
       (file?.index_files?.length as number) > 0 && (
         <BAMSlicingButton isActive={bamActive} /* file={file as any} */ />
       )}
-    <DownloadFile
+    <DownloadPresignedURL
       customDataTestID="button-download-file-summary"
-      buttonLabel="Download"
+      label="Download"
       file={file}
-      displayVariant="header-subtle"
-      setfileToDownload={setFileToDownload}
     />
   </div>
 );
