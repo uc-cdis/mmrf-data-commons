@@ -9,8 +9,6 @@ import { ContextModalProps } from '@mantine/modals';
 interface AgreementModalProps {
   file: GdcFile;
   dbGapList?: readonly string[];
-  setActive?: React.Dispatch<SetStateAction<boolean>>;
-  active?: boolean;
 }
 
 export const AgreementModal = ({
@@ -20,7 +18,7 @@ export const AgreementModal = ({
 }: ContextModalProps<AgreementModalProps>) => {
   const [checked, setChecked] = useState(false);
 
-  const { file, dbGapList, active, setActive } = innerProps;
+  const { file, dbGapList} = innerProps;
 
   return (
     <>
@@ -39,7 +37,7 @@ export const AgreementModal = ({
         >
           Cancel
         </Button>
-
+        { /* ---- TODO: replace with Presigned URL download button
         <DownloadButton
           data-testid="button-download"
           disabled={!checked}
@@ -56,7 +54,7 @@ export const AgreementModal = ({
           active={active}
           displayVariant="filled"
           caseIdField="cases.case_id"
-        />
+        /> ---- */}
       </div>
     </>
   );

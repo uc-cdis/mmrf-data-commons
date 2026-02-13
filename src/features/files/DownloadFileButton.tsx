@@ -3,13 +3,14 @@ import { useLazyFetchUserDetailsQuery } from '@gen3/core';
 import { useDeepCompareCallback } from 'use-deep-compare';
 import { userCanDownloadFile } from '@/utils/userProjectUtils';
 import { MMRFFile } from '@/core/features/files/filesSlice';
+import { modals } from '@mantine/modals';
 
 interface DownloadFileButtonProps {
   file: MMRFFile;
 }
 
 const DownloadFileButton = ({ file } : DownloadFileButtonProps) => {
-  const [fetchUserDetails] = useLazyFetchUserDetailsQuery();
+  const [fetchUserDetails, { isFetching , isSuccess}] = useLazyFetchUserDetailsQuery();
   const [active, setActive] = useState(false);
   const onClick = useDeepCompareCallback(async () => {
     fetchUserDetails()
@@ -19,14 +20,50 @@ const DownloadFileButton = ({ file } : DownloadFileButtonProps) => {
           userInfo?.data?.username &&
           userCanDownloadFile({ user: userInfo?.data, file })
         ) {
-          dispatch(showModal({ modal: Modals.AgreementModal }));
+          modals.openContextModal({
+            modal: 'agreementModal',
+            title: 'Download Agreement',
+            size: 'md',
+            zIndex: 1200,
+            styles: {
+              header: {
+                marginLeft: '16px',
+              },
+            },
+            innerProps: {
+              file: file,
+              dbGapList: [],
+            },
+          });
         } else if (
           userInfo?.data?.username &&
           !userCanDownloadFile({ user: userInfo?.data, file })
         ) {
-          dispatch(showModal({ modal: Modals.NoAccessToProjectModal }));
+          modals.openContextModal({
+            modal: 'noAccessModal',
+            title: 'No Access',
+            size: 'md',
+            zIndex: 1200,
+            styles: {
+              header: {
+                marginLeft: '16px',
+              },
+            },
+            innerProps: {},
+          });
         } else {
-          dispatch(showModal({ modal: Modals.NoAccessModal }));
+          modals.openContextModal({
+            modal: 'noAccessModal',
+            title: 'No Access',
+            size: 'md',
+            zIndex: 1200,
+            styles: {
+              header: {
+                marginLeft: '16px',
+              },
+            },
+            innerProps: {},
+          });
         }
       });
   }, [fetchUserDetails, file]);

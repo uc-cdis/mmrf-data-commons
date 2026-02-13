@@ -21,8 +21,9 @@ import SourceFiles from './SourceFiles';
 import ReadGroups from './ReadGroups';
 import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
-import { DownloadFile } from '@/components/DownloadButtons';
 import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
+import DownloadPresignedURL from '@/components/DownloadButtons/DownlloadPresignedURL';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 
 const Modals = {} as any;
@@ -51,12 +52,10 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
       (file?.index_files?.length as number) > 0 && (
         <BAMSlicingButton isActive={bamActive} /* file={file as any} */ />
       )}
-    <DownloadFile
+    <DownloadPresignedURL
       customDataTestID="button-download-file-summary"
-      buttonLabel="Download"
+      label="Download"
       file={file}
-      displayVariant="header-subtle"
-      setfileToDownload={setFileToDownload}
     />
   </div>
 );

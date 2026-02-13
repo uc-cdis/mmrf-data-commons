@@ -7,7 +7,7 @@ export const isUserProject = ({
   user,
 }: {
   file: MMRFFile | CartItem;
-  user: UserProfile;
+  user: Partial<UserProfile>;
 }): boolean => {
   if (!user) {
     return false;
@@ -28,21 +28,30 @@ export const intersectsWithFileAcl = ({
   user,
 }: {
   file: MMRFFile | CartItem;
-  user: UserProfile;
-}): boolean =>
-  intersection(
-    Object.keys(get(user, "projects.project_access", {})).filter(
-      (p) => user.project_access.phs_ids[0].indexOf("_member_") !== -1, // TODO: need to fix this with Gen3 authz
-    ) || [],
-    file.acl,
-  ).length !== 0;
+  user: Partial<UserProfile>;
+}): boolean => {
+  // if access is not controlled, return false
+  if (user.project_access) {
+    return (
+      intersection(
+        Object.keys(get(user, 'projects.project_access', {})).filter(
+          (p) => user.project_access?.phs_ids[0].indexOf('_member_') !== -1, // TODO: need to fix this with Gen3 authz
+        ) || [],
+        file.acl,
+      ).length !== 0
+    );
+  }
+  return false;
+}
+
+
 
 export const userCanDownloadFiles = ({
   files,
   user,
 }: {
   files: MMRFFile[] | CartItem[];
-  user: UserProfile;
+  user: Partial<UserProfile>;
 }): boolean =>
   files.every((file) => {
     if (file.access === "open") {
@@ -73,7 +82,7 @@ export const userCanDownloadFile = ({
   file,
   user,
 }: {
-  user: UserProfile;
+  user: Partial<UserProfile>;
   file: MMRFFile | CartItem;
 }): boolean =>
   userCanDownloadFiles({

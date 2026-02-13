@@ -8,6 +8,6 @@ export const mmrfModals = {
   baseContextModal: BaseContextModal,
   filterByUserInputModal: FilterByUserInputModal,
   saveCohortModal: SaveCohortModal,
-  aggregateModal: AgreementModal,
+  agreementModal: AgreementModal,
   noAccessModal: NoAccessModal,
 };
