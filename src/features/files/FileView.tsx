@@ -23,7 +23,6 @@ import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import DownloadPresignedURL from '@/components/DownloadButtons/DownlloadPresignedURL';
-import { MMRFFile } from '@/core/features/files/filesSlice';
 
 
 const Modals = {} as any;

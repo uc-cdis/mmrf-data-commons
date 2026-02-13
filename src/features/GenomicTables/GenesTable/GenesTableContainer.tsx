@@ -300,7 +300,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         pagination={pagination}
         showControls={true}
         search={{
-          enabled: true,
+          enabled: false,
           defaultSearchTerm: searchTerm,
           tooltip: 'e.g. TP53, ENSG00000141510, 17p13.1, tumor protein p53',
         }}
