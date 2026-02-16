@@ -184,6 +184,7 @@ export const FacetCard: React.FC<FacetCardProps> = ({
                       label={cohort1Value?.toLocaleString() || "--"}
                       caseFilter={cohorts?.primary_cohort?.filter ?? undefined}
                       filter={cohort1Filter}
+
                     />
                   </td>
                   <td>

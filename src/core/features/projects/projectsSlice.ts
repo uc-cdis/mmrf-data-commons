@@ -132,7 +132,6 @@ const processProjectData = (data: any): ProjectDefaults => {
   if (data) {
     const project = data.project[0];
     const file = data?.file?.file ?? null;
-    console.log('processProjectData', data);
     const fileSummary = {
       case_count: 0,
       file_count: file.totalFiles,

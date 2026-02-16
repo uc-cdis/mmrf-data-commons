@@ -117,35 +117,39 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const [searchTerm, setSearchTerm] = useState(
     searchTermsForGene?.geneId ?? '',
   );
-  const { geneFilters, ssmFilters, genomicFiltersForCaseCentric } = useDeepCompareMemo(() => {
-    const filters = separateGeneAndSSMFilters(genomicFilters);
+  const { geneFilters, ssmFilters, genomicFiltersForCaseCentric } =
+    useDeepCompareMemo(() => {
+      const filters = separateGeneAndSSMFilters(genomicFilters);
 
-    const ssmFilters = addPrefixToFilterSet(
-      filters.ssm,
-      `${GenomicIndexFilterPrefixes.ssm.ssm}`,
-    );
-    const geneFilters = addPrefixToFilterSet(
-      filters.gene,
-      `${GenomicIndexFilterPrefixes.ssm.gene}`,
-    );
+      const ssmFilters = addPrefixToFilterSet(
+        filters.ssm,
+        `${GenomicIndexFilterPrefixes.ssm.ssm}`,
+      );
+      const geneFilters = addPrefixToFilterSet(
+        filters.gene,
+        `${GenomicIndexFilterPrefixes.ssm.gene}`,
+      );
 
-    const ssmFiltersForCaseCentric = addPrefixToFilterSet(
-      filters.ssm,
-      `${GenomicIndexFilterPrefixes.case.ssm}`,
-    );
-    const geneFiltersForCaseCentric = addPrefixToFilterSet(
-      filters.gene,
-      `${GenomicIndexFilterPrefixes.case.gene}`,
-    );
+      const ssmFiltersForCaseCentric = addPrefixToFilterSet(
+        filters.ssm,
+        `${GenomicIndexFilterPrefixes.case.ssm}`,
+      );
+      const geneFiltersForCaseCentric = addPrefixToFilterSet(
+        filters.gene,
+        `${GenomicIndexFilterPrefixes.case.gene}`,
+      );
 
-    const genomicFiltersForCaseCentric = joinFilters(geneFiltersForCaseCentric, ssmFiltersForCaseCentric);
+      const genomicFiltersForCaseCentric = joinFilters(
+        geneFiltersForCaseCentric,
+        ssmFiltersForCaseCentric,
+      );
 
-    return {
-      geneFilters,
-      ssmFilters,
-      genomicFiltersForCaseCentric
-    };
-  }, [genomicFilters]);
+      return {
+        geneFilters,
+        ssmFilters,
+        genomicFiltersForCaseCentric,
+      };
+    }, [genomicFilters]);
 
   const genomicFiltersWithPossibleGeneSymbol = geneSymbol
     ? joinFilters(
@@ -207,20 +211,19 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
   const generateFilters = useDeepCompareCallback(
     (ssmId: string) => {
       return joinFilters(genomicFiltersForCaseCentric, {
-        mode: "and",
+        mode: 'and',
         root: {
-          "gene.ssm.ssm_id": {
-            field: "gene.ssm.ssm_id",
-            operator: "includes",
+          'gene.ssm.ssm_id': {
+            field: 'gene.ssm.ssm_id',
+            operator: 'includes',
             operands: [ssmId],
           },
         },
       } as FilterSet);
     },
-    [ genomicFiltersForCaseCentric],
+    [genomicFiltersForCaseCentric],
   );
   /* Create Cohort end  */
-
 
   const SMTableDefaultColumns = useGenerateSMTableColumns({
     isDemoMode,
@@ -259,23 +262,20 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
           label: '',
         };
   }, [pageSize, page, data?.ssmsTotal, isSuccess]);
-  const { displayedData } = useStandardPagination(
-    formattedTableData,
-    SMTableDefaultColumns,
-  );
-  const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
-    [] as SomaticMutation[],
-  );
+  // TODO: Reenable after search support is added to guppy
+  // const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
+  //   [] as SomaticMutation[],
+  // );
 
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      setDisplayedDataAfterSearch(
-        SMTableClientSideSearch(displayedData, searchTerm),
-      );
-    } else {
-      setDisplayedDataAfterSearch(displayedData);
-    }
-  }, [searchTerm, displayedData]);
+  // useEffect(() => {
+  //   if (searchTerm.length > 0) {
+  //     setDisplayedDataAfterSearch(
+  //       SMTableClientSideSearch(displayedData, searchTerm),
+  //     );
+  //   } else {
+  //     setDisplayedDataAfterSearch(displayedData);
+  //   }
+  // }, [searchTerm, displayedData]);
 
   useEffect(() => {
     if (searchTerm === '' && clearSearchTermsForGene) {
@@ -342,7 +342,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       <LoadingOverlay visible={isFetching} />
       <VerticalTable
         customDataTestID="table-most-frequent-somatic-mutations"
-        data={displayedDataAfterSearch ?? []}
+        data={formattedTableData ?? []}
         columns={SMTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">

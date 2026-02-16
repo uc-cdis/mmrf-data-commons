@@ -171,7 +171,7 @@ const AdditionalCohortSelection: React.FC<AdditionalCohortSelectionProps> = ({
         </FunctionButton>
         <DarkFunctionButton
           data-testid="button-run-cohort-comparison"
-          disabled={selectedCohort === null}
+          disabled={selectedCohort === undefined}
           onClick={() => {
             setOpen(false);
             setComparisonCohort(selectedCohort);

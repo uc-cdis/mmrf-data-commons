@@ -3,7 +3,7 @@ import { ContextModalProps } from "@mantine/modals";
 import { Button, TextInput, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import ErrorMessage from "../ErrorMessage";
-import { useCoreDispatch, createNewCohort } from "@gen3/core";
+import { useCoreDispatch, createNewCohort, useCoreSelector, CoreState, selectAvailableCohorts } from '@gen3/core';
 
 interface SaveCohortModalProps {
   readonly initialName?: string;
@@ -11,6 +11,7 @@ interface SaveCohortModalProps {
   readonly filters: Record<string, any>;
   readonly validate?: boolean;
   readonly setAsCurrentCohort?: boolean;
+  readonly disallowDuplicateNames?: boolean;
 }
 
 export const SaveCohortModal = ({
@@ -19,14 +20,19 @@ export const SaveCohortModal = ({
   innerProps,
 }: ContextModalProps<SaveCohortModalProps>) => {
   const {
-    initialName = "",
+    initialName = '',
     disallowedNames = [],
     filters,
     validate = true,
     setAsCurrentCohort = true,
+    disallowDuplicateNames = true,
   } = innerProps;
   const [isSaving, setIsSaving] = useState(false);
   const dispatch = useCoreDispatch();
+
+  const cohorts = useCoreSelector((state: CoreState) =>
+    selectAvailableCohorts(state),
+  );
 
   const form = useForm({
     initialValues: {
@@ -39,6 +45,9 @@ export const SaveCohortModal = ({
           return "Please fill out this field.";
         } else if (disallowedNames.includes(value.trim().toLowerCase())) {
           return `${value} is not a valid name for a saved cohort. Please try another name.`;
+        }
+        else if (disallowDuplicateNames && cohorts.some(cohort => cohort.name.toLowerCase() === value.trim().toLowerCase())) {
+          return `${value} already exists. Please try another name.`;
         }
         return null;
       },
