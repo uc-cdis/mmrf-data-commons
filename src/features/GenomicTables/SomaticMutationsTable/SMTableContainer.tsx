@@ -259,23 +259,24 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
           label: '',
         };
   }, [pageSize, page, data?.ssmsTotal, isSuccess]);
-  const { displayedData } = useStandardPagination(
-    formattedTableData,
-    SMTableDefaultColumns,
-  );
+  // const { displayedData } = useStandardPagination(
+  //   formattedTableData,
+  //   SMTableDefaultColumns,
+  // );
   const [displayedDataAfterSearch, setDisplayedDataAfterSearch] = useState(
     [] as SomaticMutation[],
   );
 
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      setDisplayedDataAfterSearch(
-        SMTableClientSideSearch(displayedData, searchTerm),
-      );
-    } else {
-      setDisplayedDataAfterSearch(displayedData);
-    }
-  }, [searchTerm, displayedData]);
+  // TODO: Reenable after search support is added to guppy
+  // useEffect(() => {
+  //   if (searchTerm.length > 0) {
+  //     setDisplayedDataAfterSearch(
+  //       SMTableClientSideSearch(displayedData, searchTerm),
+  //     );
+  //   } else {
+  //     setDisplayedDataAfterSearch(displayedData);
+  //   }
+  // }, [searchTerm, displayedData]);
 
   useEffect(() => {
     if (searchTerm === '' && clearSearchTermsForGene) {
@@ -342,7 +343,7 @@ export const SMTableContainer: React.FC<SMTableContainerProps> = ({
       <LoadingOverlay visible={isFetching} />
       <VerticalTable
         customDataTestID="table-most-frequent-somatic-mutations"
-        data={displayedDataAfterSearch ?? []}
+        data={formattedTableData ?? []}
         columns={SMTableDefaultColumns}
         additionalControls={
           <div className="flex gap-2 items-center">
