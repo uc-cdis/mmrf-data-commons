@@ -151,14 +151,13 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
             }
 
             setLoading(true);
-            getCaseIds(
-              {
-                cohortFilter: cohortFilterGql,
-                filter: filterGql,
-                query: COHORT_CASES_QUERY,
-                caseIdsFilterPath: 'case_id',
-              }
-            );
+            getCaseIds({
+              cohortFilter: cohortFilterGql,
+              filter: filterGql,
+              query: COHORT_CASES_QUERY,
+              caseIdsFilterPath: 'case_id',
+              caseIdField: 'case_id',
+            });
           }}
           disabled={disabled}
           $fullWidth={React.isValidElement(label)} // if label is JSX.Element take the full width

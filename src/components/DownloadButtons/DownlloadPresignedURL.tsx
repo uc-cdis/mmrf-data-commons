@@ -14,7 +14,6 @@ const DownloadPresignedURL = ({
   customDataTestID,
   label,
 }: DownloadPresignedURLProps) => {
-  console.log(file);
   return (
     <Button
       test-id={customDataTestID}
