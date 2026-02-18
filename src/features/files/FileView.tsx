@@ -22,7 +22,7 @@ import ReadGroups from './ReadGroups';
 import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
-import DownloadPresignedURL from '@/components/DownloadButtons/DownlloadPresignedURL';
+import DownloadPresignedURL from '@/components/DownloadButtons/DownloadPresignedURL';
 
 
 const Modals = {} as any;
@@ -108,7 +108,7 @@ export const FileView: React.FC<FileViewProps> = ({
         },
         {
           field: 'file_id',
-          name: 'UUID',
+          name: 'GUID',
         },
         {
           field: 'data_format',
