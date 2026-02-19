@@ -94,7 +94,7 @@ const FilesTable = ({
       }) as ColumnDef<CaseFilesTableDataType>,
       caseFilesTableColumnHelper.accessor('file_uuid', {
         id: 'file_uuid',
-        header: 'File UUID',
+        header: 'File GUID',
         cell: ({ row }) => (
           <Link
             href={`/files/${row.original.file_uuid}`}

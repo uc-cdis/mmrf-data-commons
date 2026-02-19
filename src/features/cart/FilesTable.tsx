@@ -162,7 +162,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
       }),
       cartFilesTableColumnHelper.accessor("file_uuid", {
         id: "file_uuid",
-        header: "File UUID",
+        header: "File GUID",
         cell: ({ getValue }) => {
           const value = getValue()?.toString() ?? "";
           const uuid = encodeURIComponent(value);

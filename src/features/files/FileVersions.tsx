@@ -90,7 +90,7 @@ const FileVersions = ({ file_id }: { file_id: string }): JSX.Element => {
       }),
       fileVersionsColumnHelper.display({
         id: 'file_uuid',
-        header: 'File UUID',
+        header: 'File GUID',
         cell: ({ row }) => (
           <>
             {row.original.file_id}
