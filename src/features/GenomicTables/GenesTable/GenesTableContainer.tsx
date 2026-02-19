@@ -18,10 +18,8 @@ import { Gene, GeneToggledHandler } from './types';
 import GenesTableSubcomponent from './GenesTableSubcomponent';
 import { getFormattedTimestamp } from '@/utils/date';
 import { ComparativeSurvival } from '@/features/genomic/types';
-import { appendSearchTermFilters } from '../utils';
 import TotalItems from '@/components/Table/TotalItem';
 import {
-  buildGeneTableSearchFilters,
   CnvChange,
 } from '@/core/genomic/genesTableSlice';
 import { getGene, useGenerateGenesTableColumns } from './utils';
@@ -86,18 +84,11 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     };
   }, [genomicFilters]);
 
-  const searchFilters = buildGeneTableSearchFilters(searchTerm);
-  // filters for the genes table using local filters
-  // TODO add search support for genes table
-  const genesTableFilters = appendSearchTermFilters(
-    geneFilters,
-    searchFilters as any,
-  );
   // GeneTable call
   const { data, isSuccess, isFetching, isError } = useGeneTableDataQuery({
     pageSize: pageSize,
     offset: (page - 1) * pageSize,
-    searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
+    searchTerm: searchTerm.length > 0 ? `*${searchTerm}*` : undefined,
     geneFilters: geneFilters,
     ssmFilters: ssmFilters,
     cohortFilters: cohortFilters,
@@ -203,8 +194,8 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     gene_id: false,
     cytoband: false,
     type: false,
-    '#_cnv_gains': false,
-    '#_cnv_heterozygous_deletions': false,
+    '#_cnv_homozygous_deletions': false,
+    '#_cnv_amplifications': false,
   });
 
   /*   const setFilters =
@@ -300,7 +291,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         pagination={pagination}
         showControls={true}
         search={{
-          enabled: false,
+          enabled: true,
           defaultSearchTerm: searchTerm,
           tooltip: 'e.g. TP53, ENSG00000141510, 17p13.1, tumor protein p53',
         }}
