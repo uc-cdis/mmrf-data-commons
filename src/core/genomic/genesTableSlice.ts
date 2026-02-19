@@ -31,6 +31,7 @@ interface GeneTableRequest extends TablePageOffsetProps {
   geneFilters: FilterSet;
   ssmFilters: FilterSet;
   cohortFilters: FilterSet;
+  searchTerm?: string;
 }
 
 interface GeneTableResponse {
@@ -50,6 +51,7 @@ const genesTableSlice = gen3Api.injectEndpoints({
         ssmFilters,
         pageSize = 10,
         offset = 0,
+        searchTerm = undefined
       }: GeneTableRequest) => {
         const caseFilters = convertFilterSetToGqlFilter(cohortFilters);
         const geneFilterContents =
@@ -65,7 +67,8 @@ const genesTableSlice = gen3Api.injectEndpoints({
             and: [...ssmFilterContents],
           },
           size: (offset + pageSize),
-          offset: offset
+          offset: offset,
+            ...(searchTerm ? { search: searchTerm} : {})
         };
 
         return {
@@ -78,11 +81,7 @@ const genesTableSlice = gen3Api.injectEndpoints({
   }),
 });
 
-export type CnvChange =
-  | 'Amplification'
-  | 'Gain'
-  | 'Loss'
-  | 'Homozygous Deletion';
+export type CnvChange = 'Amplification' | 'Gain' | 'Loss' | 'Neutral' |'Homozygous Deletion';
 
 export const buildGeneTableSearchFilters = (
   term?: string,

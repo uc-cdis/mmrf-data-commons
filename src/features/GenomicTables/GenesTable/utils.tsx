@@ -58,38 +58,42 @@ export const useGenerateGenesTableColumns = ({
 
   return useDeepCompareMemo<ColumnDef<Gene>[]>(
     () => [
-    ...(rowSelectionEnabled ? [genesTableColumnHelper.display({
-        id: 'select',
-        header: ({ table }: any) => (
-          <Checkbox
-            size="xs"
-            classNames={{
-              input: 'checked:bg-accent checked:border-accent',
-              label: 'sr-only',
-            }}
-            label={`Select all gene rows on page ${currentPage} of ${totalPages}`}
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
-        cell: ({ row }: any) => (
-          <Checkbox
-            size="xs"
-            classNames={{
-              input:
-                'checked:bg-accent checked:border-accent gene-panel-table-row-select',
-            }}
-            aria-label={row.original.symbol}
-            {...{
-              checked: row.getIsSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        ),
-        enableHiding: false,
-      })] : []),
+      ...(rowSelectionEnabled
+        ? [
+            genesTableColumnHelper.display({
+              id: 'select',
+              header: ({ table }: any) => (
+                <Checkbox
+                  size="xs"
+                  classNames={{
+                    input: 'checked:bg-accent checked:border-accent',
+                    label: 'sr-only',
+                  }}
+                  label={`Select all gene rows on page ${currentPage} of ${totalPages}`}
+                  {...{
+                    checked: table.getIsAllRowsSelected(),
+                    onChange: table.getToggleAllRowsSelectedHandler(),
+                  }}
+                />
+              ),
+              cell: ({ row }: any) => (
+                <Checkbox
+                  size="xs"
+                  classNames={{
+                    input:
+                      'checked:bg-accent checked:border-accent gene-panel-table-row-select',
+                  }}
+                  aria-label={row.original.symbol}
+                  {...{
+                    checked: row.getIsSelected(),
+                    onChange: row.getToggleSelectedHandler(),
+                  }}
+                />
+              ),
+              enableHiding: false,
+            }),
+          ]
+        : []),
       genesTableColumnHelper.display({
         id: 'cohort',
         header: () => (
@@ -302,19 +306,17 @@ export const useGenerateGenesTableColumns = ({
         },
       }),
       genesTableColumnHelper.display({
-        id: '#_cnv_heterozygous_deletions',
+        id: '#_cnv_loss',
         header: () => (
           <HeaderTooltip
-            title="# CNV Heterozygous Deletions"
+            title="# CNV Losses"
             tooltip={
-              '# Cases where CNV heterozygous deletions are observed in Gene / # Cases tested for Copy Number Variations in Gene'
+              '# Cases where CNV losses are observed in Gene / # Cases tested for Copy Number Variations in Gene'
             }
           />
         ),
         cell: ({ row }: any) => {
-          const { numerator, denominator } = row.original[
-            '#_cnv_heterozygous_deletions'
-          ] ?? {
+          const { numerator, denominator } = row.original['#_cnv_loss'] ?? {
             numerator: 0,
             denominator: 1,
           };
@@ -452,19 +454,19 @@ export const getGene = (
       denominator: totalCases,
     },
     '#_cnv_amplifications': {
-      numerator: g.case_cnv_amplification,
+      numerator: g.cnv_count_amplification,
       denominator: cnvCases,
     },
     '#_cnv_gains': {
-      numerator: g.case_cnv_gain,
+      numerator: g.cnv_count_gain,
       denominator: cnvCases,
     },
-    '#_cnv_heterozygous_deletions': {
-      numerator: g.case_cnv_loss,
+    '#_cnv_loss': {
+      numerator: g.cnv_count_loss,
       denominator: cnvCases,
     },
     '#_cnv_homozygous_deletions': {
-      numerator: g.case_cnv_homozygous_deletion,
+      numerator: g.cnv_count_homozygous_deletion,
       denominator: cnvCases,
     },
     '#_mutations': g?.ssm_count?.toLocaleString() ?? '0',

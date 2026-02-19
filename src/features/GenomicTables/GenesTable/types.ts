@@ -6,10 +6,10 @@ export type GeneToggledHandler = (symbol: Record<string, any>) => void;
 export interface GeneRowInfo {
   readonly case_count: number;
   readonly biotype: string;
-  readonly case_cnv_amplification: number;
-  readonly case_cnv_gain: number;
-  readonly case_cnv_loss: number;
-  readonly case_cnv_homozygous_deletion: number;
+  readonly cnv_count_amplification: number;
+  readonly cnv_count_gain: number;
+  readonly cnv_count_loss: number;
+  readonly cnv_count_homozygous_deletion: number;
   readonly cnv_case: number;
   readonly cytoband: Array<string>;
   readonly gene_id: string;
@@ -39,7 +39,7 @@ export interface Gene {
     numerator: number;
     denominator: number;
   };
-  '#_cnv_heterozygous_deletions': {
+  '#_cnv_loss': {
     numerator: number;
     denominator: number;
   };
