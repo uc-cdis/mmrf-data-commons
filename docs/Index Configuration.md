@@ -51,5 +51,5 @@ You need to ensure that the array configuration is set up correctly. Here is the
 you can update the array config using a tool like [eleasticvue](https://github.com/sudhirnl7/elasticvue) which would allow you to update the array configuration in real time.
 or you can update the array configuration manually using elasticdump:
 ```
-elasticdump --input=ia24_array_config.json --output=http://localhost:9200/_ia24-config_ --type=data
+elasticdump --input=ia24_array_config.json --output=http://localhost:9200/ia24-config --type=data
 ```
