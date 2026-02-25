@@ -1,6 +1,6 @@
 {
   "name": "mmrf-data-commons",
-  "version": "0.12.21",
+  "version": "0.12.23",
   "private": "true",
   "engines": {
     "npm": ">=10.2.3",
