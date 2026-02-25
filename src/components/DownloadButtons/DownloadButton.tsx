@@ -137,6 +137,7 @@ export const DownloadButton = forwardRef<
     }, [downloadActive, disabled, handleClick, cancel]);
 
     const tooltipContent = downloadActive ? ADDITIONAL_DOWNLOAD_MESSAGE : toolTip;
+
     return (
       <FunctionButton
         $variant={displayVariant}

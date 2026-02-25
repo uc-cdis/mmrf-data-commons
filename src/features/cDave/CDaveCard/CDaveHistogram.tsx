@@ -14,7 +14,6 @@ import { toDisplayName } from '../utils';
 import { DisplayData } from '../types';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { DownloadIcon } from '@/utils/icons';
-import { ADDITIONAL_DOWNLOAD_MESSAGE } from '@/utils/constants';
 
 const formatBarChartData = (
   data: DisplayData,

@@ -6,8 +6,6 @@ import {
   CoreState,
   customQueryStrForField,
   EmptyFilterSet,
-  FilterSet,
-  GQLIntersection,
   Includes,
   RawDataAndTotalCountsParams,
   selectCohortFilterCombineMode,
@@ -17,7 +15,6 @@ import {
   toggleCohortBuilderCategoryFilter,
   useCoreDispatch,
   useCoreSelector,
-  useGetRawDataAndTotalCountsQuery,
 } from '@gen3/core';
 import { getByPath } from '@gen3/frontend';
 import { useState } from 'react';
@@ -33,7 +30,6 @@ import {
 } from '@/features/types';
 import { useRawDataAndTotalCountQuery } from '@/core/features/cohortQuery/cohortQuerySlice';
 import { useGetFileCaseCountQuery } from '@/core/features/files/filesSlice';
-import { addPrefixToFilterSet } from '@/core/genomic/genomicFilters';
 import { mergeFilterWithPrefix } from '@/core/utils';
 
 export const useGetFacetValuesQuery = (

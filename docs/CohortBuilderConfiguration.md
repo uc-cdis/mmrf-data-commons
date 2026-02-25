@@ -163,9 +163,43 @@ where:
 - `facets` is an array of facet that will be displayed in the tab.
 - `fieldsConfig` is an optional object that allows to define a description for each facet. The allows for the label to be overwritten,as
     well as to add a description which will be displayed in the tooltip.
-- The `type` field can be used to specify the type of the facet, and can be found in the
-data dictionary.
+- The `type` field can be used to specify the type of the facet. The possible values are:
+    - `enum`
+    - `exact`
+    - `range`
+    - `age`
+    - `age_in_years`
+    - `year`
+    - `years`
+    - `days`
+    - `percent`
+    - `numeric_range`
+    - `datetime`
+    - `toggle`
+    - `multiselect`
+    - `upload`
+Note that the `type` field is optional and defaults to `enum` if not specified.
 - The `range` field can be used to specify the range of values for numeric facets.
+    where:
+        `maximum` is the maximum value of the range
+        `minimum` is the minimum value of the range
+        `step` is the step size of the range.
 - The `excludeValues` field can be used to exclude specific values from enumerated facets.
 - `queryOptions` is an optional object that allows to define the index and indexPrefix to query.
--
+- `description` is an optional field that can be used to add a description to the facet that shows up in the tooltip on the facet card.
+- `label` is an optional field that can be used to overwrite the label of the facet. You can use this to adjust capitalization or add a prefix.
+These facets are based on the GDC facets: https://docs.gdc.cancer.gov/Data_Portal/Users_Guide/Developers_Guide/#facets
+
+To add new facets to the configuration, add a new tab to the `tabsConfiguration` object.
+
+For example, to add a new tab called "Files" with a single facet called "Experimental Strategy", the configuration would look like this:
+
+```json
+  "files": {
+      "label": "Files",
+      "facets": ["files.experimental_strategy"]
+    }
+```
+
+And the cohort builder would look like this:
+![cohort builder with files tab](images/CohortBuilderWithFilesTab.png)
