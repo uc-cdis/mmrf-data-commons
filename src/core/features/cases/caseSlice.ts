@@ -138,13 +138,13 @@ const graphQLQuery = `query Case_case($filter: JSON) {
 }`;
 
 const CaseValidateQuery = `query Case_case ($filter: JSON) {
-    Case_case(filter: $filter) {
+    Case_case(filter: $filter, first: 10000) {
         case_id
     }
 }`;
 
 const FileValidateQuery = `query File_file ($filter: JSON) {
-    File_file(filter: $filter) {
+    File_file(filter: $filter, first: 10000) {
         file_id
     }
 }`;

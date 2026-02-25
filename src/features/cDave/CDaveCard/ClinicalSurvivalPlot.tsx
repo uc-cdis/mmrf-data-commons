@@ -148,7 +148,7 @@ const ClinicalSurvivalPlot: React.FC<ClinicalSurvivalPlotProps> = ({
 
   return isError ? (
     <div className="h-64">
-      <Alert color="red">Something&apos;s gone wrong</Alert>
+      <Alert color="red">Something&#39;s gone wrong</Alert>
     </div>
   ) : (
     <div className="relative">
