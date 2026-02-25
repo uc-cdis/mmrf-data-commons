@@ -4,8 +4,6 @@ import { useScrollIntoView } from "@mantine/hooks";
 import { useCoreSelector, Operation } from "@gen3/core";
 import { Buckets, Stats } from "@/core/features/api/types";
 import { SegmentedControl } from "@gen3/frontend";
-// restore later when API and FacetDictionary is implemented
-//import { selectFacetDefinitionByName } from '@/core/features/facets/selectors';
 import { DownloadProgressContext } from "@/components/analysis/context";
 import { DownloadType } from "@/components/analysis/types";
 import ContinuousData from "./ContinuousData";

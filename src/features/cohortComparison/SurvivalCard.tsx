@@ -127,7 +127,7 @@ const SurvivalCard: React.FC<SurvivalCardProps> = ({
       ) : (
         <>
           {isError ? (
-            <Alert>Something`&apos;s gone wrong</Alert>
+            <Alert>Something`s gone wrong</Alert>
           ) : (
             <div className="relative">
               <LoadingOverlay
