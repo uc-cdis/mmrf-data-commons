@@ -78,6 +78,8 @@ const nextConfig = {
           destination: `${GEN3_TARGET}/requestor/:path*`,
         },
       ];
+    } else {
+      return [];
     }
   },
   async headers() {
