@@ -8,6 +8,9 @@
       "guidType": "discovery_metadata",
       "studyField": "gen3_discovery",
       "features": {
+        "dataLoader" : {
+          "dataFetchFunction": "MDSAllLocal"
+        },
         "advSearchFilters": {
           "enabled": false,
           "field": "advSearchFilters",
@@ -208,7 +211,7 @@
               {
                 "name": "Study Description",
                 "field": "study_description",
-                "contentType": "paragraph",
+                "contentType": "paragraphs",
                 "includeIfNotAvailable": false,
                 "valueIfNotAvailable": "No summary has been provided for this study."
               }

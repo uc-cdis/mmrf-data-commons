@@ -5,20 +5,15 @@ import {
   type FooterProps,
   type HeaderMetadata,
   type HeaderProps,
-} from '@gen3/frontend';
-import DiscoveryIndexPanel from '../../node_modules/@gen3/frontend/dist/dts/features/Discovery/DiscoveryIndexPanel';
-import NavPageLayout from '../../node_modules/@gen3/frontend/dist/dts/features/Navigation/NavPageLayout';
-import { DiscoveryPageGetServerSideProps as getServerSideProps } from '../../node_modules/@gen3/frontend/dist/dts/pages/Discovery/data';
-import { DiscoveryCellRendererFactory } from '../../node_modules/@gen3/frontend/dist/dts/features/Discovery/TableRenderers/CellRendererFactory';
-import {
+  DiscoveryIndexPanel,
+  NavPageLayout,
+  DiscoveryPageGetServerSideProps as getServerSideProps,
+  DiscoveryCellRendererFactory,
   registerDiscoveryDefaultCellRenderers,
-} from '../../node_modules/@gen3/frontend/dist/dts/features/Discovery/TableRenderers/CellRenderers';
-import {
-  registerDiscoveryDefaultStudyPreviewRenderers,
-} from '../../node_modules/@gen3/frontend/dist/dts/features/Discovery/TableRenderers/RowRendererFactory';
+} from '@gen3/frontend';
+
 
 registerDiscoveryDefaultCellRenderers();
-registerDiscoveryDefaultStudyPreviewRenderers();
 
 const DemoManifestCellRenderer = ({ value }: { value: unknown }) => {
   if (!Array.isArray(value)) return <Text>0</Text>;

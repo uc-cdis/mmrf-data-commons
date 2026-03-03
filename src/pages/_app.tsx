@@ -11,11 +11,13 @@ import {
   RegisteredIcons,
   registerExplorerDefaultCellRenderers,
   registerMetadataSchemaApp,
+  registerDiscoveryDefaultCellRenderers,
   SessionConfiguration,
 } from "@gen3/frontend";
 
 import { registerCohortTableCustomCellRenderers } from "@/lib/CohortBuilder/CustomCellRenderers";
 import { registerCustomExplorerDetailsPanels } from "@/lib/CohortBuilder/FileDetailsPanel";
+import { registerDiscoveryCustomCellRenderers } from "@/lib/Discovery/CustomCellRenderers";
 
 import "../styles/globals.css";
 import "../styles/survivalplot.css";
@@ -65,9 +67,11 @@ const Gen3App = ({
     if (isFirstRender.current) {
       setDRSHostnames(drsHostnames);
       registerMetadataSchemaApp();
+      registerDiscoveryDefaultCellRenderers();
       registerExplorerDefaultCellRenderers();
       registerCohortBuilderDefaultPreviewRenderers();
       registerCohortTableCustomCellRenderers();
+      registerDiscoveryCustomCellRenderers();
       registerMMRFTableCellRenderers();
       registerCustomExplorerDetailsPanels();
       registerCohortComparisonApp();

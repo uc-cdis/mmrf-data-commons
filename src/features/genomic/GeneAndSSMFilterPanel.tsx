@@ -34,7 +34,7 @@ import {
   removeIntersectionFromEnum,
   ToggleFacetDataHooks,
   UploadFacetDataHooks,
-  useFieldNameToTitle,
+  useFieldNameToLabel,
 } from '@gen3/frontend';
 import { AppState, useAppSelector } from './appApi';
 import { selectFiltersAppliedCount, selectGeneAndSSMFilters, } from './geneAndSSMFiltersSlice';
@@ -239,12 +239,12 @@ const GeneAndSSMFilterPanel = ({
       useGetFacetFilters: useGenomicFilterByName,
       useToggleExpandFilter: useToggleExpandFilter,
       useFilterExpanded: useFilterExpandedState,
-      useFieldNameToTitle,
+      useFieldNameToLabel,
     },
     upload: {
       useFilterItems: useUploadFilterItems as any,
       useClearFilter: useClearGenomicFilters,
-      useFieldNameToTitle,
+      useFieldNameToLabel,
       useOpenUploadModal: useOpenUploadModal,
       useUpdateFacetFilters: useUpdateGenomicEnumFacetFilter,
       useGetFacetFilters: useGenomicFilterByName,
@@ -252,8 +252,8 @@ const GeneAndSSMFilterPanel = ({
         data: {},
         enumFilters: undefined,
         isSuccess: true,
-        isFetching: false
-      })
+        isFetching: false,
+      }),
     },
     toggle: {
       useGetFacetData: getEnumFacetData,
@@ -263,7 +263,7 @@ const GeneAndSSMFilterPanel = ({
       useGetFacetFilters: useGenomicFilterByName,
       useToggleExpandFilter: useToggleExpandFilter,
       useFilterExpanded: useFilterExpandedState,
-      useFieldNameToTitle,
+      useFieldNameToLabel,
     } satisfies ToggleFacetDataHooks,
   };
 
