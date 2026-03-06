@@ -1,12 +1,15 @@
-import { capitalize, flatten, isNumber, omitBy, some } from 'lodash';
+import { capitalize, flatten, isArray, isNumber, omitBy, some } from 'lodash';
 import {
   AggregationsData,
   CoreState,
   FacetDefinition,
   FilterSet,
+  HistogramDataArray,
+  HistogramDataAsStringKey,
   isObject,
   NumericFromTo,
   StatsData,
+  StatValues,
 } from '@gen3/core';
 import { Bucket, Buckets, Stats } from '@/core/features/api/types';
 import { DAYS_IN_YEAR } from '@gen3/frontend';
@@ -49,15 +52,15 @@ const ZeroStats : Stats = {
 }
 
 export const filterUsefulFacets = (
-  facets: Record<string, Buckets | Stats>,
-): Record<string, Buckets | Stats> => {
+  facets: Record<string, Array<HistogramDataAsStringKey> | StatValues>,
+): Record<string, HistogramDataArray | StatValues> => {
   return omitBy(facets, (aggregation) =>
     some([
-      (aggregation as Buckets).buckets &&
-        (aggregation as Buckets).buckets.filter(
-          (bucket: Bucket) => bucket.key !== '_missing',
+      aggregation && isArray(aggregation) &&
+        (aggregation as Array<HistogramDataAsStringKey>).filter(
+          (bucket: HistogramDataAsStringKey) => bucket.key !== '_missing',
         ).length === 0,
-      (aggregation as Stats).stats && (aggregation as Stats).stats.count === 0,
+      (aggregation as StatValues) && (aggregation as StatValues).count === 0,
     ]),
   );
 };
@@ -65,29 +68,38 @@ export const filterUsefulFacets = (
 export const combineAnalysisResults = (
   aggregations: AggregationsData,
   stats: StatsData,
-): Record<string, Buckets | Stats> => {
+): Record<string, Array<HistogramDataAsStringKey> | StatValues> => {
   const processedAggregations = Object.entries(aggregations).reduce(
-    (acc: Record<string, Buckets>, [field, data]) => {
-      const convertedData = data.reduce((results: Array<Bucket>, x) => {
-        if (typeof x.key === 'string')
-          results.push({ key: x.key.toString(), count: x.count });
-        return results;
-      }, []);
+    (acc: Record<string, Array<HistogramDataAsStringKey>>, [field, data]) => {
+      if (field === '_totalCount') return acc;
+      const convertedData = data.reduce(
+        (results: Array<HistogramDataAsStringKey>, x) => {
+          if (typeof x.key === 'string')
+            results.push({ key: x.key.toString(), count: x.count });
+          if (isArray(x.key)) {
+            results.push({ key: x.key.join('-'), count: x.count });
+          }
+          return results;
+        },
+        [],
+      );
 
-      acc[field] = { buckets: convertedData };
-
+      acc[field] = convertedData;
       return acc;
     },
     {},
   );
 
   const processStats = Object.entries(stats).reduce(
-    (acc: Record<string, Stats>, [field, data]) => {
-      const convertedData = data.map((x) => {
-        return { count: x.count ?? 0, max: x.max ?? 0, min: x.min ?? 0, sum: x.sum ?? 0 };
-      }, []);
+    (acc: Record<string, StatValues>, [field, x]) => {
+      const convertedData = {
+        count: x.count ?? 0,
+        max: x.max ?? 0,
+        min: x.min ?? 0,
+        sum: x.sum ?? 0,
+      };
 
-      acc[field] = { stats: convertedData.length > 0 ? convertedData[0] : ZeroStats.stats};
+      acc[field] = convertedData;
 
       return acc;
     },

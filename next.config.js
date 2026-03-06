@@ -25,6 +25,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   basePath: process.env.BASE_PATH || '',
+  trailingSlash: true,
   experimental: {
     esmExternals: true,
   },

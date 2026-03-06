@@ -9014,5 +9014,12 @@
     "type": {
       "name": "Aggregations"
     }
+  },
+  {
+    "description": "Number of lytic bone lesions found in exam.",
+    "name": "bone_assessments__number_of_lytic_lesions",
+    "type": {
+      "name": "Aggregations"
+    }
   }
 ]

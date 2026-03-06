@@ -20,7 +20,7 @@ import { SurvivalPlotTypes } from "../charts/SurvivalPlot/types";
 interface DashboardProps {
   readonly cohortFilters: Operation;
   readonly activeFields: string[];
-  readonly results: Record<string, Buckets | Stats>;
+  readonly results: any;
   readonly updateFields: (field: string) => void;
 }
 

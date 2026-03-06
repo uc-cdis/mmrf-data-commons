@@ -1,6 +1,7 @@
 import { FilterSet } from "@gen3/core";
 import { DataDimension } from "./types";
 
+// TODO: This will need to change for whatver MMRF demo cohort is used
 export const DEMO_COHORT_FILTERS: FilterSet = {
   mode: "and",
   root: {
@@ -12,13 +13,14 @@ export const DEMO_COHORT_FILTERS: FilterSet = {
   },
 };
 
+// List of charts to be shown when page is first loaded
 export const DEFAULT_FIELDS = [
   "demographic.gender",
   "demographic.race",
   "demographic.ethnicity",
-  "diagnoses.primary_diagnosis",
 ];
 
+// types that are continuous
 export const CONTINUOUS_FACET_TYPES = [
   "year",
   "years",
@@ -30,6 +32,7 @@ export const CONTINUOUS_FACET_TYPES = [
   "double",
 ];
 
+// QQ PLot (not implmented to show)
 export const HIDE_QQ_BOX_FIELDS = [
   "demographic.year_of_birth",
   "demographic.year_of_death",
@@ -38,23 +41,24 @@ export const HIDE_QQ_BOX_FIELDS = [
   "exposures.tobacco_smoking_quit_year",
 ];
 
-export const COLOR_MAP : Record<string, string>= {
-  demographic: "plum",
-  diagnoses: "apricot",
-  treatments: "platinum",
-  exposures: "blush",
-  other_clinical_attributes: "gunmetal",
+export const COLOR_MAP: Record<string, string> = {
+  demographic: 'plum',
+  diagnoses: 'apricot',
+  bone_assessments: 'gunmetal',
+  exposures: 'blush',
+  other_clinical_attributes: 'purple',
 };
 
 // this is done so tailwind loads the classes properly
-export const COLOR_CLASS_HOVER_MAP : Record<string, string> = {
-  demographic: "hover:brightness-50",
-  diagnoses: "hover:brightness-50",
-  treatments: "hover:brightness-50",
-  exposures: "hover:brightness-50",
-  other_clinical_attributes: "brightness-50",
+export const COLOR_CLASS_HOVER_MAP: Record<string, string> = {
+  demographic: 'hover:brightness-50',
+  diagnoses: 'hover:brightness-50',
+  bone_assessments: 'hover:brightness-50',
+  exposures: 'hover:brightness-50',
+  other_clinical_attributes: 'brightness-50',
 };
 
+// Change to fix MMRF Facets
 export const CAPITALIZED_TERMS = [
   "ajcc",
   "uicc",
@@ -74,29 +78,33 @@ export const SPECIAL_CASE_FIELDS : Record<string, string>= {
   "gender": "Sex",
 };
 
-export const FACET_SORT : Record<string, Array<string>> = {
+// Order to display facets, Also where you define the contents of the facet tabs
+export const FACET_SORT: Record<string, Array<string>> = {
   demographic: [
-    "gender",
-    "race",
-    "ethnicity",
-    "vital_status",
-    "days_to_death",
+    'gender',
+    'race',
+    'ethnicity',
+    'vital_status',
+    'days_to_death',
+    'age_at_index',
+    'age_at_diagnosis',
   ],
   diagnoses: [
-    "uicc_clinical_stage",
-    "uicc_pathologic_stage",
-    "primary_diagnosis",
-    "synchronous_malignancy",
-    "cog_neuroblastoma_risk_group",
-    "morphology",
-    "tumor_grade",
-    "tissue_or_organ_of_origin",
-    "site_of_resection_or_biopsy",
-    "progression_or_recurrence",
-    "days_to_last_follow_up"
-  ]
+    'uicc_clinical_stage',
+    'uicc_pathologic_stage',
+    'synchronous_malignancy',
+    'cog_neuroblastoma_risk_group',
+    'morphology',
+    'tumor_grade',
+    'tissue_or_organ_of_origin',
+    'site_of_resection_or_biopsy',
+    'progression_or_recurrence',
+    'days_to_last_follow_up',
+  ],
+  bone_assessments: ['number_of_lytic_lesions'],
 };
 
+// Set the Toggle between Units
 export const DATA_DIMENSIONS: Record<
   string,
   { unit: DataDimension; toggleValue?: DataDimension }
@@ -132,11 +140,19 @@ export const DATA_DIMENSIONS: Record<
 };
 
 export const TABS = {
-  demographic: "Demographic",
-  diagnoses: "Diagnosis",
-  treatments: "Treatment",
-  exposures: "Exposures",
-  other_clinical_attributes: "Other Clinical Attribute",
+  demographic: 'Demographic',
+  diagnoses: 'Diagnosis',
+  bone_assessments: 'Bone Assessment',
+  exposures: 'Exposures',
+  other_clinical_attributes: 'Other Clinical Attribute',
+};
+
+export const CONTINUOUS_FACET_RANGES : Record<string, { min: number; max: number; step: number }>= {
+  'demographic.age_at_index': {
+    min: 0,
+    max: 89,
+    step: 10,
+  },
 };
 
 export const SURVIVAL_PLOT_MIN_COUNT = 10;
