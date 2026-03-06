@@ -107,7 +107,7 @@ export const FACET_SORT: Record<string, Array<string>> = {
   ],
 };
 
-// Set the Toggle between Units
+// Set the Toggle between Units and defines the Data Dimension and its (optional) toggle value
 export const DATA_DIMENSIONS: Record<
   string,
   { unit: DataDimension; toggleValue?: DataDimension }
