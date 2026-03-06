@@ -235,6 +235,7 @@ export const roundContinuousValue = (
   field: string,
   hasCustomBins: boolean,
 ): number => {
+
   if (hasCustomBins) {
     return formatValue(value);
   } else {

@@ -97,6 +97,7 @@ const toBucketDisplayName = (
   dataDimension: DataDimension,
   hasCustomBins: boolean,
 ): string => {
+
   const [fromValue, toValue] = parseContinuousBucket(bucket);
   const originalDataDimension = DATA_DIMENSIONS[field]?.unit;
   return `${roundContinuousValue(
@@ -107,11 +108,15 @@ const toBucketDisplayName = (
     ),
     field,
     hasCustomBins,
-  )?.toLocaleString()} to <${roundContinuousValue(
+  )?.toLocaleString(undefined, {
+    useGrouping: originalDataDimension !== 'Year',
+  })} to < ${roundContinuousValue(
     convertDataDimension(Number(toValue), originalDataDimension, dataDimension),
     field,
     hasCustomBins,
-  )?.toLocaleString()}`;
+  )?.toLocaleString(undefined, {
+    useGrouping: originalDataDimension !== 'Year',
+  })}`;
 };
 
 interface ContinuousDataProps {
