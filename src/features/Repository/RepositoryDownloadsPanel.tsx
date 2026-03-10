@@ -96,7 +96,7 @@ const RepositoryDownloadsPanel = ({
       const data = await getFileSizeSliceData({
         cohortFilter: cohortFilter,
         filter: filters,
-        type: 'file',
+        type: 'File_file',
         fields: [
           'access',
           'acl',

@@ -78,6 +78,10 @@ const nextConfig = {
           source: '/requestor/:path*',
           destination: `${GEN3_TARGET}/requestor/:path*`,
         },
+        {
+          source: '/analysis/v0/cohorts/:path*',
+          destination: `${GEN3_TARGET}/analysis/v0/cohorts/:path*`,
+        },
       ];
     } else {
       return [];

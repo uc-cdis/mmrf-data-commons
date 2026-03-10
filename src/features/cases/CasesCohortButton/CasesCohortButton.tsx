@@ -9,50 +9,56 @@ import {
 } from "./SelectCohortsModal";
 import { COHORT_FILTER_INDEX } from "@/core";
 import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
+import { EmptyFilterSet, FilterSet } from '@gen3/core';
 
 interface CasesCohortButtonProps {
-  readonly filters: any;
+  readonly filters: FilterSet;
   readonly numCases: number;
+  readonly asFilterRepresentation?: boolean; // set to true to use the cohort filter instead of case ids
 }
+
+const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
+  const cohortFilters = {
+    mode: 'and',
+    root: {
+      case_id: {
+        operator: 'in',
+        field: 'case_id',
+        operands: Array.from(caseIds ?? []),
+      },
+    },
+  };
+
+  modals.openContextModal({
+    modal: 'saveCohortModal',
+    title: 'Save Cohort',
+    size: 'md',
+    zIndex: 1200,
+    styles: {
+      header: {
+        marginLeft: '16px',
+      },
+    },
+    innerProps: {
+      filters: {
+        [COHORT_FILTER_INDEX]: cohortFilters,
+      },
+    },
+  });
+};
 
 export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   filters,
   numCases,
+  asFilterRepresentation = false,
 }: CasesCohortButtonProps) => {
   const [openSelectCohorts, setOpenSelectCohorts] = useState(false);
   const [withOrWithoutCohort, setWithOrWithoutCohort] =
     useState<WithOrWithoutCohortType>(undefined);
+  // TODO: To save a cohort as filters remove this and pass the filters directly to the modal
   const [fetchCaseIds, { isFetching }] = useLazyCohortCaseIdQuery();
 
-  const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
-    const cohortFilters = {
-      mode: "and",
-      root: {
-        "case_id": {
-          operator: "in",
-          field: "case_id",
-          operands: Array.from(caseIds ?? []),
-        },
-      },
-    };
 
-    modals.openContextModal({
-      modal: "saveCohortModal",
-      title: "Save Cohort",
-      size: "md",
-      zIndex: 1200,
-      styles: {
-        header: {
-          marginLeft: "16px",
-        },
-      },
-      innerProps: {
-        filters: {
-          [COHORT_FILTER_INDEX]: cohortFilters,
-        },
-      },
-    });
-  };
 
   // can reuse also in SelectCohortsModal right now
   const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
@@ -60,10 +66,10 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
     const rootKeys = Object.keys(filter?.root || {});
     if (
       rootKeys.length === 1 &&
-      rootKeys[0] === "cases.case_id" &&
-      filter.root["cases.case_id"]?.operands
+      rootKeys[0] === 'cases.case_id' &&
+      filter.root['cases.case_id']?.operands
     ) {
-      return filter.root["cases.case_id"].operands;
+      return filter.root['cases.case_id'].operands;
     }
     return null;
   };
@@ -84,7 +90,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
         openSaveCohortModal(result);
       }
     } catch (error) {
-      console.error("Error fetching case IDs:", error);
+      console.error('Error fetching case IDs:', error);
     }
   };
 
@@ -93,20 +99,20 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       customTargetButtonDataTestId="button-save-new-cohort-cases-table"
       dropdownElements={[
         {
-          title: "Only Selected Cases",
+          title: 'Only Selected Cases',
           onClick: handleSaveOnlySelectedCases,
         },
         {
-          title: "Existing Cohort With Selected Cases",
+          title: 'Existing Cohort With Selected Cases',
           onClick: () => {
-            setWithOrWithoutCohort("with");
+            setWithOrWithoutCohort('with');
             setOpenSelectCohorts(true);
           },
         },
         {
-          title: "Existing Cohort Without Selected Cases",
+          title: 'Existing Cohort Without Selected Cases',
           onClick: () => {
-            setWithOrWithoutCohort("without");
+            setWithOrWithoutCohort('without');
             setOpenSelectCohorts(true);
           },
         },
@@ -116,7 +122,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       disableTargetWidth={true}
       targetButtonDisabled={numCases === 0}
       menuLabelText={`${numCases.toLocaleString()}
-        ${numCases > 1 ? " Cases" : " Case"}`}
+        ${numCases > 1 ? ' Cases' : ' Case'}`}
       menuLabelCustomClass="bg-primary text-primary-contrast font-heading font-bold mb-2"
       LeftSection={
         numCases ? (
@@ -132,7 +138,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       <LoadingOverlay visible={isFetching} />
       <span>
         {numCases === 0 ? (
-          <Tooltip label={"Save a new cohort based on selection"}>
+          <Tooltip label={'Save a new cohort based on selection'}>
             <span>{dropDownIcon}</span>
           </Tooltip>
         ) : (
@@ -155,12 +161,12 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
 };
 
 interface CasesCohortButtonFromFilters {
-  readonly filters?: any;
+  readonly filters?: FilterSet;
   readonly numCases: number;
 }
 
 export const CasesCohortButtonFromFilters: React.FC<
   CasesCohortButtonFromFilters
 > = ({ filters, numCases }: CasesCohortButtonFromFilters) => {
-  return <CasesCohortButton filters={filters} numCases={numCases} />;
+  return <CasesCohortButton filters={filters ?? EmptyFilterSet} numCases={numCases} />;
 };
