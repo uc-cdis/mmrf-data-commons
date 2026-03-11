@@ -79,7 +79,7 @@ const RepositoryDownloadsPanel = ({
 
     let cohortFilter;
     if (projectId) {
-      cohortFilter = convertFilterSetToNestedGqlFilter({
+      cohortFilter = convertFilterSetToGqlFilter({
         mode: 'and',
         root: {
           'project.project_id': {
@@ -96,7 +96,7 @@ const RepositoryDownloadsPanel = ({
       const data = await getFileSizeSliceData({
         cohortFilter: cohortFilter,
         filter: filters,
-        type: 'File_file',
+        type: 'file',
         fields: [
           'access',
           'acl',
@@ -108,6 +108,7 @@ const RepositoryDownloadsPanel = ({
         ],
         accessibility: Accessibility.ALL,
       }).unwrap();
+
       const cartFiles = (!data || data.length === 0)
         ? []
         : mapFileToCartItem(data);
