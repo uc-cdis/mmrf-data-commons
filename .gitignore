@@ -45,3 +45,6 @@ credentials.json
 revproxy_nginx.conf
 backups/*
 prod_credentials.json
+
+indexd/*
+notebooks/*
