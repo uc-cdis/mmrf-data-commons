@@ -86,7 +86,6 @@ const CardControls: React.FC<CardControlsProps> = ({
         <div className="flex flex-wrap gap-2">
           <div className="order-2 md:order-1">
             <CasesCohortButtonFromFilters
-              asFilterRepresentation={true}
               filters={selectedFacets.length === 0 ? undefined : filters}
               numCases={
                 selectedFacets.length === 0

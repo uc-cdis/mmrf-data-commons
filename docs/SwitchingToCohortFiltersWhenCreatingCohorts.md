@@ -5,3 +5,5 @@ To change this, you will need to refactor: `src/features/cases/CasesCohortButton
 and look at the code used to create the cohort.
 There is a `asFilterRepresentation` prioperty that you can use to create a cohort usign the filters and not the case_ids.
 Note that is only possible with `Only Selected Cases` option.
+
+This can be setto true in `src/features/cDave/CDaveCard/CardControls.tsx`
