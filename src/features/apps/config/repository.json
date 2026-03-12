@@ -8,7 +8,8 @@
           "experimental_strategy",
           "data_category",
           "data_type",
-          "data_format"
+          "data_format",
+          "downstream_analyses.workflow_type"
         ]
       }
     ]

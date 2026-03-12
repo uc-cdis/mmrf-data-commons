@@ -208,7 +208,7 @@ const sortFacetFields = (
 interface ControlPanelProps {
   readonly updateFields: (field: string) => void;
   readonly cDaveFields: CDaveField[];
-  readonly fieldsWithData: Record<string, Stats | Buckets>;
+  readonly fieldsWithData: any;
   readonly activeFields: string[];
   readonly controlsExpanded: boolean;
   readonly setControlsExpanded: (expanded: boolean) => void;

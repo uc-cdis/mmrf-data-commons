@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import PageTitle from '@/components/PageTitle';
 import {
@@ -25,6 +25,7 @@ import AdditionalCohortSelection from '@/features/cohortComparison/AdditionalCoh
 import { useDeepCompareEffect } from 'use-deep-compare';
 import { getCustomCohortButtons } from '@/features/cohort/getCustomCohortButtons';
 import { useProjectId } from '@/hooks/useAppFilters';
+import { formatGeneSymbol } from '@/utils/formatQueryExpressionValues';
 
 interface CountsPanelProps {
   index: string;
@@ -118,9 +119,17 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
               <QueryExpression
                 index="case_centric"
                 shouldShowSummary={handleQueryExpressionSummaryLogic}
+                hooks={{ useFormatFilters: () => formatGeneSymbol }}
               />
             </>
-          ):<div className="flex justify-center items-center h-10 my-2 w-full bg-primary text-base-lightest"><Text fw={900} size="xl"> Project {projectId }</Text></div>}
+          ) : (
+            <div className="flex justify-center items-center h-10 my-2 w-full bg-primary text-base-lightest">
+              <Text fw={900} size="xl">
+                {' '}
+                Project {projectId}
+              </Text>
+            </div>
+          )}
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
           ) : sections ? (

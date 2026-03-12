@@ -137,7 +137,7 @@ export const SSMSPanel = ({
           tableTooltip
         />
       </div>
-      <div ref={targetRef}>
+      <div  ref={targetRef as React.Ref<HTMLDivElement>} >
         <SMTableContainer
           selectedSurvivalPlot={comparativeSurvival}
           handleSurvivalPlotToggled={handleSurvivalPlotToggled}

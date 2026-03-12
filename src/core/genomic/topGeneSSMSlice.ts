@@ -1,16 +1,11 @@
 import {
   gen3Api,
-  Operation,
   convertFilterSetToGqlFilter,
   FilterSet,
-  JSONObject,
+
 } from '@gen3/core';
 
-import { extractContents } from '@/core/utils';
 import { GEN3_ANALYSIS_API } from '@/core';
-import { extractFiltersWithPrefixFromFilterSet } from '@/features/cohort/utils';
-import { convertFilterSetToNestedGqlFilter } from '../../core/utils/filters';
-import { BaseQuery } from 'tern';
 import {
   addPrefixToFilterSet,
   GenomicIndexFilterPrefixes,
