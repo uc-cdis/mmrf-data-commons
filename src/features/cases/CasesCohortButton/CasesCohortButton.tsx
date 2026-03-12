@@ -17,18 +17,7 @@ interface CasesCohortButtonProps {
   readonly asFilterRepresentation?: boolean; // set to true to use the cohort filter instead of case ids
 }
 
-const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
-  const cohortFilters = {
-    mode: 'and',
-    root: {
-      case_id: {
-        operator: 'in',
-        field: 'case_id',
-        operands: Array.from(caseIds ?? []),
-      },
-    },
-  };
-
+const openModalWithCohortFilterRepresentation = (cohortFilters: FilterSet) => {
   modals.openContextModal({
     modal: 'saveCohortModal',
     title: 'Save Cohort',
@@ -45,6 +34,21 @@ const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
       },
     },
   });
+}
+
+const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
+  const cohortFilters : FilterSet = {
+    mode: 'and',
+    root: {
+      case_id: {
+        operator: 'in',
+        field: 'case_id',
+        operands: Array.from(caseIds ?? []),
+      },
+    },
+  };
+
+  openModalWithCohortFilterRepresentation(cohortFilters);
 };
 
 export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
@@ -85,9 +89,13 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
         // Use extracted IDs directly
         openSaveCohortModal(directCaseIds);
       } else {
-        // Fetch case IDs from current filters
-        const result = await fetchCaseIds({ filter: filters }).unwrap();
-        openSaveCohortModal(result);
+        if (asFilterRepresentation) {
+          openModalWithCohortFilterRepresentation(filters);
+        } else {
+          // Fetch case IDs from current filters
+          const result = await fetchCaseIds({ filter: filters }).unwrap();
+          openSaveCohortModal(result);
+        }
       }
     } catch (error) {
       console.error('Error fetching case IDs:', error);
@@ -163,10 +171,19 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
 interface CasesCohortButtonFromFilters {
   readonly filters?: FilterSet;
   readonly numCases: number;
+  asFilterRepresentation?: boolean;
 }
 
-export const CasesCohortButtonFromFilters: React.FC<
-  CasesCohortButtonFromFilters
-> = ({ filters, numCases }: CasesCohortButtonFromFilters) => {
-  return <CasesCohortButton filters={filters ?? EmptyFilterSet} numCases={numCases} />;
+export const CasesCohortButtonFromFilters: React.FC<CasesCohortButtonFromFilters> = ({
+  filters,
+  numCases,
+  asFilterRepresentation = false,
+}: CasesCohortButtonFromFilters) => {
+  return (
+    <CasesCohortButton
+      filters={filters ?? EmptyFilterSet}
+      numCases={numCases}
+      asFilterRepresentation={asFilterRepresentation}
+    />
+  );
 };
