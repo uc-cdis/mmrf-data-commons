@@ -9014,5 +9014,54 @@
     "type": {
       "name": "Aggregations"
     }
+  },
+  {
+    "description": "Indication and number of lytic bone lesions found on scan if imaging_result=\"positive.\" If imaging_result was not \"positive\", then \"not_applicable\" is recorded.",
+    "name": "bone_assessments__lytic_bone_lesion_present",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on femur.",
+    "name": "bone_assessments__mm_bone_lesion_femur",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on pelvis.",
+    "name": "bone_assessments__mm_bone_lesion_pelvis",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on ribs.",
+    "name": "bone_assessments__mm_bone_lesion_ribs",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on spine.",
+    "name": "bone_assessments__mm_bone_lesion_spine",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Number of lytic bone lesions found in exam.",
+    "name": "bone_assessments__number_of_lytic_lesions",
+    "type": {
+      "name": "Aggregations"
+    }
+  },
+  {
+    "description": "Indication that the exam found evidence of osteopenia or osteoporosis.",
+    "name": "bone_assessments__osteopenia_osteoporosis",
+    "type": {
+      "name": "Aggregations"
+    }
   }
 ]

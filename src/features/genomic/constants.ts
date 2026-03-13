@@ -1,4 +1,4 @@
-export const GENE_AND_MUTATION_FIELDS = ['genes.gene_id', 'ssms.ssm_id'];
+export const GENE_AND_MUTATION_FIELDS = ['gene.gene_id', 'gene.ssm.ssm_id'];
 
 export const SecondaryTabStyle = `flex flex-row items-center bg-base-max text-primary border font-medium
   border-solid border-primary hover:bg-secondary-darker

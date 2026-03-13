@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Center } from '@mantine/core';
 import {
@@ -15,10 +15,12 @@ import {
   ContentSource,
   CohortManager, QueryExpression,
 } from '@gen3/frontend';
+import { formatGeneSymbol } from '@/utils/formatQueryExpressionValues';
 
 interface AppConfig extends NavPageLayoutProps {
   config?: object;
 }
+
 
 const AppsPage = ({ config }: AppConfig) => {
   const router = useRouter();
@@ -41,8 +43,11 @@ const AppsPage = ({ config }: AppConfig) => {
     <>
       <PageTitle pageName="Analysis Center" />
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
-        <CohortManager/>
-        <QueryExpression index="cases"/>
+        <CohortManager />
+        <QueryExpression
+          index="cases"
+          hooks={{ useFormatFilters: () => formatGeneSymbol }}
+        />
         <div className="w-full overflow-y-auto">
           <Gen3App {...config} />
         </div>

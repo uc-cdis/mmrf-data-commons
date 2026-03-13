@@ -352,7 +352,7 @@ export const CaseView: React.FC<CaseViewProps> = ({
 
         <div
           data-testid="table-biospecimen-case-summary"
-          ref={targetRef}
+          ref={targetRef as React.Ref<HTMLDivElement>}
           id="biospecimen"
           className="mt-8"
         >

@@ -1,9 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Accessibility,
+  clearCohortFilters,
   CoreState,
   EmptyFilterSet,
   selectIndexFilters,
+  useCoreDispatch,
   useCoreSelector,
 } from '@gen3/core';
 import {
@@ -45,6 +47,12 @@ export const RepositoryPanel = ({
   );
 
   const projectId = useProjectId();
+
+  const coreDispatch = useCoreDispatch();
+  const clearAllFilters = useCallback(() => {
+    coreDispatch(clearCohortFilters({ index }));
+  }, [coreDispatch, index]);
+
 
   const { data: fileSizeSliceData, isFetching: isFileSizeFetching } =
     useTotalFileSizeQuery({

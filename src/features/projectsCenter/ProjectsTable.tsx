@@ -236,7 +236,7 @@ const ProjectsTable: React.FC = () => {
   });
 
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'cases', desc: true },
+    { id: 'project', desc: true },
   ]);
 
   useEffect(() => {

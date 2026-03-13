@@ -2,7 +2,9 @@
 //import { FileSummary } from "@/features/files/FileSummary";
 import { GeneSummary } from "@/features/GeneSummary/GeneSummary";
 import { SSMSSummary } from "@/features/mutationSummary/SSMSSummary";
-//import { ProjectSummary } from "@/features/projects/ProjectSummary";
+import { ProjectSummary } from "@/features/projects/ProjectSummary";
+import { CaseSummary } from '@/features/cases/CaseSummary';
+import { FileSummary } from '@/features/files/FileSummary';
 import { focusStyles } from "@/utils/index";
 import { Modal } from "@mantine/core";
 import React, { useContext, useEffect, useState } from "react";
@@ -40,7 +42,7 @@ export const SummaryModal = ({
     return (null as unknown) as JSX.Element;
 
   const { SummaryPage, title } =/* --- TODO: Add support for other entity types --- */
-    /* ---
+
     entity_type === "project"
       ? {
           SummaryPage: <ProjectSummary projectId={entity_id} isModal={true} />,
@@ -48,15 +50,15 @@ export const SummaryModal = ({
         }
       : entity_type === "case"
       ? {
-          SummaryPage: <CaseSummary case_id={entity_id} isModal={true} />,
+          SummaryPage: <CaseSummary caseId={entity_id} isModal={true} />,
           title: "Case",
         }
       : entity_type === "file"
       ? {
-          SummaryPage: <FileSummary file_id={entity_id} isModal={true} />,
+          SummaryPage: <FileSummary fileId={entity_id} isModal={true} />,
           title: "File",
         }
-      : --- */entity_type === "ssms"
+      : entity_type === "ssms"
       ? {
           SummaryPage: <SSMSSummary ssm_id={entity_id} isModal={true} />,
           title: "Mutation",

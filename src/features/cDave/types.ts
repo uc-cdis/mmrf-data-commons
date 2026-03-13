@@ -18,7 +18,7 @@ export type ChartTypes = "histogram" | "survival" | "boxqq";
 
 export type SelectedFacet = { value: string; numCases: number };
 
-export type DataDimension = "Years" | "Days" | "Kilograms" | "Centimeters" | "Unset";
+export type DataDimension = "Years" | "Days" | "Kilograms" | "Centimeters" | "Unset"| "Year";
 
 export type DisplayData = {
   displayName: string;

@@ -57,7 +57,7 @@ export const GenesPanel = ({
   const cohortFilters =
     currentCohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
 
-  const currentGenes = useSelectFilterContent('genes.gene_id');
+  const currentGenes = useSelectFilterContent('gene.gene_id');
   const toggledGenes = useDeepCompareMemo(() => currentGenes, [currentGenes]);
   const handleGeneToggled = useCallback(
     (idAndSymbol: Record<string, any>) =>

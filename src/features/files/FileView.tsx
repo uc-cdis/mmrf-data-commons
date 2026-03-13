@@ -19,7 +19,7 @@ import AssociatedCB from './AssociatedCB';
 import DownstreamAnalyses from './DownstreamAnalyses';
 import SourceFiles from './SourceFiles';
 import ReadGroups from './ReadGroups';
-import FileVersions from './FileVersions';
+//import FileVersions from './FileVersions';
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import DownloadPresignedURL from '@/components/DownloadButtons/DownloadPresignedURL';
@@ -376,7 +376,7 @@ export const FileView: React.FC<FileViewProps> = ({
             />
           </DivWithMargin>
         )}
-        <FileVersions file_id={file.file_id} />
+        { /* <FileVersions file_id={file.file_id} /> */ }
 
         {modal === Modals.NoAccessToProjectModal && (
           // <NoAccessToProjectModal openModal />
