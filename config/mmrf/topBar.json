@@ -1,7 +1,7 @@
 {
   "loginButtonVisibility": "visible",
   "classNames": {
-    "divider": "border-base-min border-1"
+    "divider": "border-base-max border-1"
   },
   "itemClassnames": {
     "button": "hover:border-accent"
