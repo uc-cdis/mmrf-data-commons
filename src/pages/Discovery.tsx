@@ -52,6 +52,19 @@ const Discovery = ({
   footerProps,
   discoveryConfig,
 }: DiscoveryRouteProps) => {
+  const metadataConfig = Array.isArray(discoveryConfig?.metadataConfig)
+    ? discoveryConfig.metadataConfig
+    : [];
+  const [metadataIndex, setMetadataIndex] = useState('0');
+  const menuItems = useMemo(
+    () =>
+      metadataConfig.map((config, index) => ({
+        value: index.toString(),
+        label: extractLabel(config, index),
+      })),
+    [metadataConfig],
+  );
+
   if (!discoveryConfig || !Array.isArray(discoveryConfig.metadataConfig)) {
     return (
       <Center maw={400} h={100} mx="auto">
@@ -59,16 +72,6 @@ const Discovery = ({
       </Center>
     );
   }
-
-  const [metadataIndex, setMetadataIndex] = useState('0');
-  const menuItems = useMemo(
-    () =>
-      discoveryConfig.metadataConfig.map((config, index) => ({
-        value: index.toString(),
-        label: extractLabel(config, index),
-      })),
-    [discoveryConfig.metadataConfig],
-  );
 
   const headerMetadata: HeaderMetadata = {
     title: 'Gen3 Discovery Page',
