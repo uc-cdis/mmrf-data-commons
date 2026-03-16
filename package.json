@@ -137,17 +137,6 @@
       "public"
     ]
   },
-  "overrides": {
-    "mantine-react-table": {
-      "@mantine/core": "^8.3.15",
-      "@mantine/hooks": "^8.3.15",
-      "@mantine/dates": "^8.3.15",
-      "@mantine/form": "^8.3.15",
-      "@mantine/modals": "^8.3.15",
-      "@mantine/notifications": "^8.3.15"
-    },
-    "react-cookie": "^8.0.1"
-  },
   "optionalDependencies": {
     "@nx/nx-darwin-arm64": "^20.6.0",
     "@nx/nx-linux-arm64-gnu": "^20.6.0",
