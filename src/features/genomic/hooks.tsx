@@ -204,23 +204,19 @@ export const useGenesFacets = (
  * of type Includes.
  * @param field - to get values of
  */
-
-/**
- * returns the values of a field. Assumes the required field
- * is of type Includes. Returns an empty array if the filter is undefined or not
- * of type Includes.
- * @param field - to get values of
- */
 export const useSelectFilterContent = (field: string): Array<string> => {
-  const filter = useAppSelector((state: AppState) =>
-    selectGeneAndSSMFiltersByNames(state, [field]),
+  const cohortFilters = useCoreSelector((state) =>
+    selectIndexFilters(state, COHORT_FILTER_INDEX),
   );
+
+  const filter = cohortFilters?.root?.[field];
   if (filter === undefined) return [];
   if (isIncludes(filter)) {
-    return filter.operands.map((x: any) => x.toString());
+    return filter.operands.map((x) => x.toString());
   }
   return [];
 };
+
 
 export interface GeneAndSSMPanelData {
   isDemoMode: boolean;

@@ -67,6 +67,26 @@ const RepositoryDownloadsPanel = ({
     return convertFilterSetToNestedGqlFilter(joinFilters(repositoryFilters, cartFilterSet));
   };
 
+  let cohortFilter = cohortFilters['case_centric'] ?? EmptyFilterSet;
+  let cohortFilterGQL = convertFilterSetToGqlFilter(
+    cohortFilters['case_centric'] ?? EmptyFilterSet,
+  );
+  if (projectId) {
+    cohortFilter = {
+      mode: 'and',
+      root: {
+        'project.project_id': {
+          operator: 'in',
+          field: 'project.project_id',
+          operands: [projectId],
+        } as Includes,
+      },
+    };
+    cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
+  }
+
+  console.log('cohortFilterGQL', cohortFilterGQL);
+
   const handleCartOperation = async (operationType: "add" | "remove") => {
     const isAdd = operationType === "add";
     const setLoading = isAdd ? setAddFilesLoading : setRemoveFilesLoading;
@@ -77,24 +97,9 @@ const RepositoryDownloadsPanel = ({
 
     setLoading(true);
 
-    let cohortFilter;
-    if (projectId) {
-      cohortFilter = convertFilterSetToNestedGqlFilter({
-        mode: 'and',
-        root: {
-          'project.project_id': {
-            operator: 'in',
-            field: 'project.project_id',
-            operands: [projectId],
-          } as Includes,
-        },
-      });
-    } else cohortFilter = convertFilterSetToNestedGqlFilter(cohortFilters['case_centric'] ?? EmptyFilterSet);
-
-
     try {
       const data = await getFileSizeSliceData({
-        cohortFilter: cohortFilter,
+        cohortFilter: cohortFilterGQL,
         filter: filters,
         type: 'file',
         fields: [
@@ -108,6 +113,7 @@ const RepositoryDownloadsPanel = ({
         ],
         accessibility: Accessibility.ALL,
       }).unwrap();
+
       const cartFiles = (!data || data.length === 0)
         ? []
         : mapFileToCartItem(data);
@@ -148,7 +154,7 @@ const RepositoryDownloadsPanel = ({
           'cases.samples.specimen_type',
           'cases.samples.preservation_method',
         ]}
-        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
+        caseFilters={cohortFilter}
         filters={repositoryFilters}
       />
       <DownloadButton
@@ -164,7 +170,7 @@ const RepositoryDownloadsPanel = ({
           .slice(0, 10)}.json`}
         format="json"
         method="POST"
-        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
+        caseFilters={cohortFilter}
         filters={repositoryFilters}
         fields={[
           'state',
@@ -226,7 +232,7 @@ const RepositoryDownloadsPanel = ({
         extraParams={{
           isManifest: true,
         }}
-        caseFilters={cohortFilters.case_centric} // replace it with cohort filters
+        caseFilters={cohortFilter}
         filters={repositoryFilters}
         setActive={setManifestActive}
         active={manifestActive}

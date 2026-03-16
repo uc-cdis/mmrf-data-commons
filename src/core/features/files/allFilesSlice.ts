@@ -1,11 +1,5 @@
-import {
-  GEN3_GUPPY_API,
-  GQLFilter,
-  guppyDownloadApi,
-  Accessibility,
-  gen3Api,
-} from '@gen3/core';
-import { flatten} from 'flat';
+import { Accessibility, gen3Api, GQLFilter, } from '@gen3/core';
+import { flatten } from 'flat';
 import { MMRFFile } from '@/core/features/files/filesSlice';
 import { GEN3_ANALYSIS_API } from '@/core';
 
@@ -34,15 +28,16 @@ const allFilesSlice = gen3Api.injectEndpoints({
 
         const queryBody = {
           filter: filter,
-          cohort_filters: cohortFilter,
+          cohort_filter: cohortFilter,
           fields,
           sort,
-          type,
-          accessibility
+          index: type,
+          accessibility,
+          case_ids_filter_path: "cases.case_id" // NOTE: this is hard coded,but if needed, can be passed
         };
 
         return {
-          url: `${GEN3_ANALYSIS_API}/download`,
+          url: `${GEN3_ANALYSIS_API}/cohorts/download`,
           method: 'POST',
           body: queryBody,
           cache: 'no-cache',
@@ -50,9 +45,11 @@ const allFilesSlice = gen3Api.injectEndpoints({
       },
       transformResponse: (response: any) => {
         try {
-        const files = response?.map((x: any) => flatten(x)) || [];
-        return files;
-        } catch (e) {
+        return response?.map((x: any) => flatten(x)) || [];
+        } catch (e: unknown) {
+          if (e instanceof Error) {
+            console.error("Error flattening response:", e.message);
+          }
           return [];
         }
       },

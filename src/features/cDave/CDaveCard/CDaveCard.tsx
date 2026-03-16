@@ -141,7 +141,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
       data-testid={`${fieldName}-card`}
       padding="md"
       radius={0}
-      ref={targetRef}
+      ref={targetRef as React.Ref<HTMLDivElement>}
       className="border-1 border-base-lighter h-full flex flex-col relative"
     >
       <div className="flex justify-between mb-1">
@@ -194,7 +194,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
           </div>
         ) : continuous ? (
           <ContinuousData
-            initialData={(data as Stats)?.stats}
+            initialData={data as any}
             field={field}
             fieldName={fieldName}
             chartType={chartType}
@@ -204,7 +204,7 @@ const CDaveCard: React.FC<CDaveCardProps> = ({
           />
         ) : (
           <CategoricalData
-            initialData={(data as Buckets)?.buckets}
+            initialData={data as any}
             field={field}
             fieldName={fieldName}
             chartType={chartType}

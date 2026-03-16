@@ -121,7 +121,7 @@ const GenesAndMutationFrequencyAnalysisTool = () => {
               },
             }),
           );
-        else coreDispatch(removeCohortFilter({ index: 'case', field }));
+        else coreDispatch(removeCohortFilter({ index: COHORT_FILTER_INDEX, field }));
       } else
         coreDispatch(
           updateActiveCohortFilter({

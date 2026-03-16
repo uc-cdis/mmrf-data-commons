@@ -2,9 +2,11 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useDeepCompareEffect, useDeepCompareMemo } from 'use-deep-compare';
 import {
   Operation,
-  useGeneralGQLQuery,
-  convertFilterToGqlFilter,
-  GQLFilter, NumericFromTo,
+
+  NumericFromTo,
+  useCustomRangeQuery,
+  useCoreSelector,
+  Accessibility,
 } from '@gen3/core';
 import CDaveHistogram from './CDaveHistogram';
 import CDaveTable from './CDaveTable';
@@ -24,6 +26,7 @@ import {
   SURVIVAL_PLOT_MIN_COUNT,
   DATA_DIMENSIONS,
   MISSING_KEY,
+  CONTINUOUS_FACET_RANGES,
 } from '../constants';
 import {
   isInterval,
@@ -34,10 +37,10 @@ import {
 } from '../utils';
 import ContinuousBinningModal from '../ContinuousBinningModal/ContinuousBinningModal';
 import BoxQQSection from './BoxQQSection';
-import { buildRangeQuery } from '@/core/features/clinicalDataAnalysis';
 import { JSONPath } from 'jsonpath-plus';
+import { COHORT_FILTER_INDEX } from '@/core';
+import { selectCurrentCohortCaseFilters } from '@/core/utils';
 
-const RANGE_BASE_NAME = 'range';
 
 const EmptyContinuousStats = {
   min: 0,
@@ -60,7 +63,7 @@ const processContinuousResultData = (
 ): DisplayData => {
 
   // convert data to buckets
-  const countByRangeBucket = Object.values(data?.data?._aggregation ?? {}).reduce((acc: Record<string, number>, value, idx) => {
+  const countByRangeBucket = Object.values(data?.data?.CaseCentric__aggregation ?? {}).reduce((acc: Record<string, number>, value, idx) => {
     const r = customBinnedData[idx];
     const bucket = `${r.from}-${r.to}`;
 
@@ -70,12 +73,8 @@ const processContinuousResultData = (
       resultType: 'value',
     });
 
-    const countValue = isArray(valueData) ? valueData[0] : valueData;
-    if (acc[bucket]) {
-      acc[bucket] += countValue;
-    } else
-      acc[bucket] = countValue;
-
+    const countValue = isArray(valueData) ? valueData.reduce((sum : number, value: number) =>  sum + value,0) : valueData;
+    acc[bucket] = countValue;
     return acc;
 
   },  {});
@@ -88,7 +87,7 @@ const processContinuousResultData = (
       customBinnedData !== null,
     ),
     key: k,
-    count: v,
+    count: v ?? 0,
   }));
 };
 
@@ -98,6 +97,7 @@ const toBucketDisplayName = (
   dataDimension: DataDimension,
   hasCustomBins: boolean,
 ): string => {
+
   const [fromValue, toValue] = parseContinuousBucket(bucket);
   const originalDataDimension = DATA_DIMENSIONS[field]?.unit;
   return `${roundContinuousValue(
@@ -108,11 +108,15 @@ const toBucketDisplayName = (
     ),
     field,
     hasCustomBins,
-  )?.toLocaleString()} to <${roundContinuousValue(
+  )?.toLocaleString(undefined, {
+    useGrouping: originalDataDimension !== 'Year',
+  })} to < ${roundContinuousValue(
     convertDataDimension(Number(toValue), originalDataDimension, dataDimension),
     field,
     hasCustomBins,
-  )?.toLocaleString()}`;
+  )?.toLocaleString(undefined, {
+    useGrouping: originalDataDimension !== 'Year',
+  })}`;
 };
 
 interface ContinuousDataProps {
@@ -131,7 +135,6 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
   fieldName,
   chartType,
   noData,
-  cohortFilters,
   dataDimension,
 }: ContinuousDataProps) => {
   const [customBinnedData, setCustomBinnedData] = useState<
@@ -146,37 +149,51 @@ const ContinuousData: React.FC<ContinuousDataProps> = ({
   const dataDimensionRef = useRef(dataDimension);
   const hasCustomBins = customBinnedData !== null;
 
-  const ranges = useDeepCompareMemo(
-    () =>
-      isInterval(customBinnedData)
-        ? createBuckets(
-            customBinnedData.min,
-            customBinnedData.max,
-            customBinnedData.interval,
-          )
-        : isArray(customBinnedData) && customBinnedData?.length > 0
-          ? customBinnedData.map((d) => ({
-              to: d.to,
-              from: d.from,
-            }))
-          : createBuckets(initialData?.min ?? 0, initialData?.max ?? 100),
-    [customBinnedData, initialData],
+  const currentCohortFilters = useCoreSelector((state) =>
+    selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
   );
 
-  const rangeQuery = useMemo(() => {
-    return buildRangeQuery(field, cohortFilters, ranges)
-  }, [field, ranges])
+  let rangeDefinition= {
+    min: initialData?.min ?? 0,
+    max: initialData?.max ?? 100,
+    step: 10
+  }
 
-  const gqlFilters = Object.entries(rangeQuery.variables).reduce((acc: Record<string, GQLFilter>, [key, filter] : [string, Operation]) => {
-    acc[key] = convertFilterToGqlFilter(filter);
-    return acc;
-  }, {})
+  if (field in CONTINUOUS_FACET_RANGES) {
+    rangeDefinition = CONTINUOUS_FACET_RANGES[field]
+  }
+    const ranges = useDeepCompareMemo(
+      () =>
+        isInterval(customBinnedData)
+          ? createBuckets(
+              customBinnedData.min,
+              customBinnedData.max,
+              customBinnedData.interval,
+            )
+          : isArray(customBinnedData) && customBinnedData?.length > 0
+            ? customBinnedData.map((d) => ({
+                to: d.to,
+                from: d.from,
+              }))
+            : createBuckets(rangeDefinition.min,  rangeDefinition?.max, rangeDefinition?.step),
+      [customBinnedData, initialData],
+    );
 
   const {
-    data: rangeData, isFetching, isSuccess
-  } = useGeneralGQLQuery(
-    {query: rangeQuery.query, variables: gqlFilters},
-  )
+    data: rangeData,
+    isFetching,
+    isSuccess,
+  } = useCustomRangeQuery({
+    field: field,
+    ranges: ranges as Array<NumericFromTo>,
+    filters: currentCohortFilters,
+    index: COHORT_FILTER_INDEX,
+    indexPrefix: 'CaseCentric_',
+    asTextHistogram: true,
+    rangeBaseName: 'range',
+    accessibility: Accessibility.ALL,
+    isNested: false,
+  });
 
   const statsData = null; // TODO: enable stats data
 

@@ -7,10 +7,6 @@ import {
 } from '@gen3/core';
 
 import { useClinicalAnalysisQuery } from './useClinicalAnalysisQuery';
-
-const CASE_INDEX = 'case';
-
-// import { useClinicalFieldsQuery, useGetClinicalAnalysisQuery } from '@/core/features/clinicalDataAnalysis'
 import { useIsDemoApp } from '@/hooks/useIsDemoApp';
 import Controls from './Controls';
 import Dashboard from './Dashboard';
@@ -24,7 +20,7 @@ import { DemoText } from '@/components/tailwindComponents';
 import { useDeepCompareCallback, useDeepCompareMemo } from 'use-deep-compare';
 import { selectCurrentCohortCaseFilters } from '@/core/utils';
 import fields from './data/clinicalFields.json';
-import { CASE_CENTRIC_INDEX, COHORT_FILTER_INDEX } from '@/core';
+import {  COHORT_FILTER_INDEX } from '@/core';
 
 const ClinicalDataAnalysis: React.FC = () => {
   const isDemoMode = useIsDemoApp();
@@ -35,6 +31,7 @@ const ClinicalDataAnalysis: React.FC = () => {
   const [activeFields, setActiveFields] = useState(DEFAULT_FIELDS); // the fields that have been selected by the user
 
 
+  // all of the fields that are available for selection
   const cDaveFields = useDeepCompareMemo(
     () =>
       Object.values(fields || {})

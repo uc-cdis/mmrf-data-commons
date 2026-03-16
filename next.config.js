@@ -25,6 +25,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   basePath: process.env.BASE_PATH || '',
+  trailingSlash: true,
   experimental: {
     esmExternals: true,
   },
@@ -78,8 +79,8 @@ const nextConfig = {
           destination: `${GEN3_TARGET}/requestor/:path*`,
         },
         {
-          source: '/analysis/v0/survival/:path*',
-          destination: `${GEN3_TARGET}/analysis/v0/survival/:path*`,
+          source: '/analysis/v0/genomic/gene_table',
+          destination: `${GEN3_TARGET}/analysis/v0/genomic/gene_table`,
         },
         {
           source: '/analysis/v0/:path*',

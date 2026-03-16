@@ -1,4 +1,4 @@
-import { GQLFilter } from '@gen3/core';
+import { GQLFilter, StatsValuesArray } from '@gen3/core';
 import { MMRFFile } from '@/core/features/files/filesSlice';
 
 const accessTypes = ['open', 'controlled'] as const;
@@ -478,3 +478,5 @@ export interface CohortCentricQueryRequest {
   caseIdField?: string;
   limit?: number;
 }
+
+export type StatsData = Record<string, StatsValuesArray>;

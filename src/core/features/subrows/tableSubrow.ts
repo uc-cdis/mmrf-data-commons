@@ -72,7 +72,7 @@ export const tableSubrowApiSlice = guppyApi.injectEndpoints({
             content: [
               {
                 content: {
-                  field: 'genes.gene_id',
+                  field: 'gene.gene_id',
                   value: [request.id],
                 },
                 op: 'in',
