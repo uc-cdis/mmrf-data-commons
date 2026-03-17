@@ -4,6 +4,7 @@ import {
   clearCohortFilters,
   CoreState,
   EmptyFilterSet,
+  Includes,
   selectIndexFilters,
   useCoreDispatch,
   useCoreSelector,
@@ -47,6 +48,20 @@ export const RepositoryPanel = ({
   );
 
   const projectId = useProjectId();
+
+  let downloadButtonFilters = repositoryFilters
+  if (projectId) {
+    downloadButtonFilters = {
+      mode: 'and',
+      root: {
+        'cases.project.project_id': {
+          operator: 'in',
+          field: 'cases.project.project_id',
+          operands: [projectId],
+        } as Includes,
+      },
+    };
+  }
 
   const coreDispatch = useCoreDispatch();
   const clearAllFilters = useCallback(() => {
@@ -115,7 +130,7 @@ export const RepositoryPanel = ({
                       index={index}
                       totalCount={fileSizeSliceData.totalCaseCount ?? 0}
                       fields={table?.fields ?? []}
-                      filter={repositoryFilters}
+                      filter={downloadButtonFilters}
                     />
                   }
                   tableTotalDetail={

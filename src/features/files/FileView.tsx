@@ -37,27 +37,31 @@ interface LeftSideElementForHeaderProps {
 const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   isFileInCart,
   file,
-  bamActive,
-  setFileToDownload,
-}: LeftSideElementForHeaderProps) => (
-  <div className="flex gap-4">
-    {!isFileInCart ? (
-      <AddToCartButton files={mapGdcFileToCartFile([file])} />
-    ) : (
-       <RemoveFromCartButton files={mapGdcFileToCartFile([file])} />
-    )}
-    {file.data_format === 'BAM' &&
+}: LeftSideElementForHeaderProps) => {
+  const files = mapGdcFileToCartFile([file]);
+  console.log('files', files);
+  return (
+    <div className="flex gap-4">
+      {!isFileInCart ? (
+        <AddToCartButton files={files} />
+      ) : (
+        <RemoveFromCartButton files={files} />
+      )}
+      {/*
+     TODO: Enable when BAM Slicing is added
+      file.data_format === 'BAM' &&
       file.data_type === 'Aligned Reads' &&
       (file?.index_files?.length as number) > 0 && (
-        <BAMSlicingButton isActive={bamActive} /* file={file as any} */ />
-      )}
-    <DownloadPresignedURL
-      customDataTestID="button-download-file-summary"
-      label="Download"
-      file={file}
-    />
-  </div>
-);
+        <BAMSlicingButton isActive={bamActive} /* file={file as any} />
+      )
+      */}
+      <DownloadPresignedURL
+        customDataTestID="button-download-file-summary"
+        label="Download"
+        file={file}
+      />
+    </div>
+  );};
 
 export interface FileViewProps {
   readonly file?: GdcFile | any;
