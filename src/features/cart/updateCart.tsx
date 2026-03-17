@@ -59,6 +59,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({
   currentCart,
   dispatch,
 }: AddNotificationProps) => {
+
+  console.log('AddNotification files', files);
   const filesToAdd = files.filter(
     (f) => !currentCart.map((c) => c?.file_id).includes(f.file_id),
   );
@@ -137,6 +139,8 @@ const RemoveNotification: React.FC<RemoveNotificationProps> = ({
   currentCart,
   dispatch,
 }: RemoveNotificationProps) => {
+  console.log('RemoveNotification files', files);
+
   const filesToRemove = files.filter((f) =>
     currentCart.map((CartItem) => CartItem.file_id).includes(f.file_id),
   );
@@ -204,6 +208,9 @@ export const addToCart = (
   currentCart: CartItem[],
   dispatch: CoreDispatch,
 ): void => {
+
+  console.log('addToCart files', files);
+  console.log('addToCart currentCart', currentCart);
   const newCartSize = files.length + currentCart.length;
   cleanNotifications();
 
