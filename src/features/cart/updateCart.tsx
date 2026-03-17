@@ -11,6 +11,7 @@ import {
   useCoreSelector,
   useCoreDispatch,
   CartItem,
+  CoreState,
 } from "@gen3/core";
 import { useEffect } from "react";
 import { CartIcon, TrashIcon, UndoIcon } from "@/utils/icons";
@@ -70,6 +71,8 @@ const AddNotification: React.FC<AddNotificationProps> = ({
   const alreadyInCart = files.filter((f) =>
     currentCart.map((c) => c.file_id).includes(f.file_id),
   );
+
+  console.log('AddNotification filesToAdd', filesToAdd);
 
   useEffect(() => {
     if (filesToAdd.length > 0) {
@@ -242,8 +245,10 @@ export const AddToCartButton: React.FC<CartButtonProps> = ({
   files,
   iconOnly = false,
 }: CartButtonProps) => {
-  const currentCart = useCoreSelector((state) => selectCart(state));
+  const currentCart = useCoreSelector((state: CoreState) => selectCart(state));
   const dispatch = useCoreDispatch();
+
+  console.log('AddToCartButton files', files);
 
   return iconOnly ? (
     <ActionIcon

@@ -7,10 +7,10 @@ import { filesize } from 'filesize';
 import tw from 'tailwind-styled-components';
 import {
   formatDataForHorizontalTable,
-  mapGdcFileToCartFile,
+  mapFileToCartItem,
+
   shouldDisplayReferenceGenome,
 } from './utils';
-import { BAMSlicingButton } from '@/features/files/BAMSlicingButton';
 import { HeaderTitle } from '@/components/tailwindComponents';
 import { SummaryCard } from '@/components/Summary/SummaryCard';
 import { SummaryHeader } from '@/components/Summary/SummaryHeader';
@@ -19,7 +19,7 @@ import AssociatedCB from './AssociatedCB';
 import DownstreamAnalyses from './DownstreamAnalyses';
 import SourceFiles from './SourceFiles';
 import ReadGroups from './ReadGroups';
-//import FileVersions from './FileVersions';
+
 import { useSynchronizedRowHeights } from '@/components/HorizontalTable/useSynchronizedRowHeights';
 import { AddToCartButton, RemoveFromCartButton } from '../cart/updateCart';
 import DownloadPresignedURL from '@/components/DownloadButtons/DownloadPresignedURL';
@@ -38,7 +38,7 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   isFileInCart,
   file,
 }: LeftSideElementForHeaderProps) => {
-  const files = mapGdcFileToCartFile([file]);
+  const files = mapFileToCartItem([file]);
   console.log('files', files);
   return (
     <div className="flex gap-4">

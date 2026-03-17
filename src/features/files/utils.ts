@@ -192,28 +192,3 @@ export const shouldDisplayReferenceGenome = (file: GdcFile) => {
     !isIncluded('workflow_type', file?.analysis?.workflow_type as string)
   );
 };
-
-type CartFile = Pick<
-  GdcFile,
-  | 'access'
-  | 'acl'
-  | 'file_id'
-  | 'file_size'
-  | 'state'
-  | 'project_id'
-  | 'file_name'
->;
-export const mapGdcFileToCartFile = (
-  files: GdcFile[] | caseFileType[] | undefined,
-): CartFile[] | any =>
-  files?.map((file: GdcFile | caseFileType) =>
-    pick(file, [
-      'access',
-      'acl',
-      'file_id',
-      'file_size',
-      'state',
-      'project_id',
-      'file_name',
-    ]),
-  );

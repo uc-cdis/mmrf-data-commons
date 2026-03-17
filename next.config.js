@@ -23,6 +23,7 @@ const withMDX = require('@next/mdx')({
 const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   basePath: process.env.BASE_PATH || '',
   experimental: {

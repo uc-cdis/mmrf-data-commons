@@ -1,7 +1,7 @@
 # docker build -t ff .
 # docker run -p 3000:3000 -it ff
 # Build stage
-FROM --platform=$BUILDPLATFORM node:24.13.0-trixie-slim AS builder
+FROM --platform=$BUILDPLATFORM node:24.14.0-trixie-slim AS builder
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -28,12 +28,13 @@ COPY ./public ./public
 COPY ./config ./config
 COPY ./start.sh ./
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
 # Build and prune
 RUN npm run build && \
-    npm prune --production
+    npm prune --omit=dev;
 
 # Production stage
-FROM node:24.13.0-trixie-slim AS runner
+FROM node:24.14.0-trixie-slim AS runner
 
 WORKDIR /gen3
 
