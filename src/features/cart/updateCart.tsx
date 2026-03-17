@@ -60,8 +60,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({
   currentCart,
   dispatch,
 }: AddNotificationProps) => {
-
-  console.log('AddNotification files', files);
   const filesToAdd = files.filter(
     (f) => !currentCart.map((c) => c?.file_id).includes(f.file_id),
   );
@@ -71,8 +69,6 @@ const AddNotification: React.FC<AddNotificationProps> = ({
   const alreadyInCart = files.filter((f) =>
     currentCart.map((c) => c.file_id).includes(f.file_id),
   );
-
-  console.log('AddNotification filesToAdd', filesToAdd);
 
   useEffect(() => {
     if (filesToAdd.length > 0) {

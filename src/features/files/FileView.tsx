@@ -39,7 +39,6 @@ const LeftSideElementForHeader: React.FC<LeftSideElementForHeaderProps> = ({
   file,
 }: LeftSideElementForHeaderProps) => {
   const files = mapFileToCartItem([file]);
-  console.log('files', files);
   return (
     <div className="flex gap-4">
       {!isFileInCart ? (
