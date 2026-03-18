@@ -28,7 +28,7 @@ COPY ./public ./public
 COPY ./config ./config
 COPY ./start.sh ./
 
-ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV NODE_OPTIONS=--max-old-space-size=6144
 # Build and prune
 RUN npm run build && \
     npm prune --omit=dev;
