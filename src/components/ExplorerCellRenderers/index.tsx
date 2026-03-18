@@ -36,7 +36,6 @@ export const OpenLinkInTab = (
   });
   const id = jsonData?.[0]?.toString() ?? '';
   const uuid = encodeURIComponent(id?.toString() ?? "")
-
   return (
     <div className="flex flex-nowrap items-center align-middle gap-2">
       <Image
@@ -48,7 +47,8 @@ export const OpenLinkInTab = (
       />
       <Link
         href={`${href ?? '/'}${uuid?.toString()}`}
-        target="_blank" rel="noopener noreferrer"
+        target="_blank"
+        rel="noopener noreferrer"
         className="text-utility-link underline font-content text-left"
       >
         {value?.toString() || ''}

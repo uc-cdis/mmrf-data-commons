@@ -50,10 +50,8 @@ const RepositoryDownloadsPanel = ({
   const [getFileSizeSliceData] = useLazyGetAllFilesQuery();
    const cohortFilters = useCoreSelector((state) => selectCurrentCohortFilters(state))
 
-
-
   const buildCohortGqlOperatorWithCart = (): GqlOperation => {
-    // create filter with current cart file ids
+    // create a filter with current cart file ids
     const cartFilterSet: FilterSet = {
       root: {
         "file_id": {
@@ -84,8 +82,6 @@ const RepositoryDownloadsPanel = ({
     };
     cohortFilterGQL = convertFilterSetToGqlFilter(cohortFilter);
   }
-
-  console.log('cohortFilterGQL', cohortFilterGQL);
 
   const handleCartOperation = async (operationType: "add" | "remove") => {
     const isAdd = operationType === "add";

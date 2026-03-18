@@ -5,7 +5,6 @@ import { GdcFile, CartFile, AccessType, GdcCartFile } from '@/core';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { filesize } from 'filesize';
 import { Dispatch, SetStateAction, useMemo } from 'react';
-import { mapGdcFileToCartFile } from './utils';
 import { TableActionButtons } from '@/components/TableActionButtons';
 import VerticalTable from '@/components/Table/VerticalTable';
 import { FileAccessBadge } from '@/components/FileAccessBadge';
@@ -105,7 +104,6 @@ const DownstreamAnalyses = ({
             currentCart as unknown as CartItem[],
             row.original.file_id,
           );
-          // const mappedFileObj = mapGdcFileToCartFile([row.original.outputFile]);
           return (
             <TableActionButtons
             /* isOutputFileInCart={isOutputFileInCart}

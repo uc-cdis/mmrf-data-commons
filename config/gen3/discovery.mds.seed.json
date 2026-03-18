@@ -1,0 +1,115 @@
+[
+  {
+    "_hdp_uid": "NCT01454297",
+    "_unique_id": "NCT01454297",
+    "study_title": "Comprehensive molecular profiling of multiple myeloma identifies refined copy number and expression subtypes",
+    "study_description": "Multiple myeloma is a treatable, but currently incurable, hematological malignancy of plasma cells characterized by diverse and complex tumor genetics for which precision medicine approaches to treatment are lacking. The Multiple Myeloma Research Foundation's Relating Clinical Outcomes in Multiple Myeloma to Personal Assessment of Genetic Profile study (NCT01454297) is a longitudinal, observational clinical study of newly diagnosed patients with multiple myeloma (n=1,143) where tumor samples are characterized using whole-genome sequencing, whole-exome sequencing and RNA sequencing at diagnosis and progression, and clinical data are collected every 3 months. Analyses of the baseline cohort identified genes that are the target of recurrent gain-of-function and loss-of-function events. Consensus clustering identified 8 and 12 unique copy number and expression subtypes of myeloma, respectively, identifying high-risk genetic subtypes and elucidating many of the molecular underpinnings of these unique biological groups. Analysis of serial samples showed that 25.5% of patients transition to a high-risk expression subtype at progression. We observed robust expression of immunotherapy targets in this subtype, suggesting a potential therapeutic option.",
+    "source": "ClinicalTrials.gov",
+    "link": "https://clinicaltrials.gov/study/NCT01454297",
+    "project_id": "NCT01454297",
+    "subjects_count": 1143,
+    "data_files_count": 8,
+    "__manifest": [],
+    "data_download_links": [
+      {
+        "guid": "dg.MMRF/1fa796d3-efd5-4690-a1d7-e37018f88a45",
+        "title": "Supplemental_Table_1_Patient_Features_Revised.xlsx",
+        "description": "Supplemental_Table_1_Patient_Features_Revised.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/021f40d5-0150-4e28-abe0-765f5ab3dcb2",
+        "title": "Supplemental_Table_2_Mutations.xlsx",
+        "description": "Supplemental_Table_2_Mutations.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/736ef5e4-b57d-4485-b7e2-f8e366a566c9",
+        "title": "Supplemental_Table_3_Delly_Structural_Calls_Updated.xlsx",
+        "description": "Supplemental_Table_3_Delly_Structural_Calls_Updated.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/55690e6c-c9c7-44f6-b39f-63cb6f31648d",
+        "title": "Supplemental_Table_4_Salmon_V7.2_Filtered_Gene_TPM_and_InFrame_Fusions.xlsx",
+        "description": "Supplemental_Table_4_Salmon_V7.2_Filtered_Gene_TPM_and_InFrame_Fusions.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/98d8331e-9c30-4653-a1e7-b414923c9f25",
+        "title": "Supplemental_Table_5_CNA_PerGene_LowestSegment_and_BAF_PerGene_LargestSegment.xlsx",
+        "description": "Supplemental_Table_5_CNA_PerGene_LowestSegment_and_BAF_PerGene_LargestSegment.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/c1f52e6b-9123-4bc7-8d74-9d8a8f9dcb07",
+        "title": "Supplemental_Table_6_Gene_Impact.xlsx",
+        "description": "Supplemental_Table_6_Gene_Impact.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/098b86f4-69b3-4913-a21e-cb8999f628dc",
+        "title": "Supplemental_Table_7_RNA_Subtyping.xlsx",
+        "description": "Supplemental_Table_7_RNA_Subtyping.xlsx"
+      },
+      {
+        "guid": "dg.MMRF/ace5ddb6-cea6-4d4b-aa1d-871bfb07f768",
+        "title": "Skerget_etal_SupplmentalData.tar.gz",
+        "description": "Skerget_etal_SupplmentalData.tar.gz"
+      }
+    ],
+    "funding": "Multiple Myeloma Research Foundation",
+    "authz": [
+      "/open"
+    ],
+    "__accessible": true
+  },
+  {
+    "_hdp_uid": "s43018-025-01072-4",
+    "_unique_id": "s43018-025-01072-4",
+    "study_title": "A single-cell atlas characterizes dysregulation of the bone marrow immune microenvironment associated with outcomes in multiple myeloma",
+    "study_description": "Multiple myeloma (MM) remains incurable despite advances in treatment options. Although tumor subtypes and specific DNA abnormalities are linked to worse prognosis, the impact of immune dysfunction on disease emergence and/or treatment sensitivity remains unclear. We developed an Immune Atlas of MM by generating profiles of 1,397,272 single cells from the bone marrow (BM) of 337 newly diagnosed participants and characterized immune and hematopoietic cell populations. Cytogenetic risk-based analysis revealed heterogeneous associations with T cells of BM, with 17p13 deletion showing distinct enrichment of a type 1 interferon signature. The disease progression-based analysis revealed the presence of a proinflammatory immune senescence-associated secretory phenotype in rapidly progressing participants. Furthermore, signaling analyses suggested active intercellular communication involving a proliferation-inducing ligand and B cell maturation antigen, potentially promoting tumor growth and survival. Lastly, using independent discovery and validation cohorts, we demonstrated that integrating immune cell signatures with known tumor cytogenetics and individual characteristics significantly improves stratification for the prediction of survival.",
+    "source": "Nature Cancer",
+    "link": "https://www.nature.com/articles/s43018-025-01072-4",
+    "project_id": "s43018-025-01072-4",
+    "subjects_count": 337,
+    "data_files_count": 7,
+    "__manifest": [],
+    "data_download_links": [
+      {
+        "guid": "dg.MMRF/9ab87633-a5fd-48c2-95bf-51f22614c139",
+        "title": "COMBINED_VALIDATION_MMRF_ImmuneAtlas_Full_Censored_Metadata.rds",
+        "description": "COMBINED_VALIDATION_MMRF_ImmuneAtlas_Full_Censored_Metadata.rds"
+      },
+      {
+        "guid": "dg.MMRF/6efe7c8a-97ed-4d80-ae30-20c39d6b72cc",
+        "title": "Pilcher_etal_ExpressionData.tar.gz",
+        "description": "Pilcher_etal_ExpressionData.tar.gz"
+      },
+      {
+        "guid": "dg.MMRF/bb59c5c3-047a-4907-9d81-eebc8a5e21c1",
+        "title": "README.txt",
+        "description": "README.txt"
+      },
+      {
+        "guid": "dg.MMRF/1d465663-e9fb-4bf0-a452-921e39128f16",
+        "title": "md5.txt",
+        "description": "md5.txt"
+      },
+      {
+        "guid": "dg.MMRF/63919e0b-e3a1-4e52-a064-93034ec67396",
+        "title": "per_aliquot_metadata_MMRF_IA.csv",
+        "description": "per_aliquot_metadata_MMRF_IA.csv"
+      },
+      {
+        "guid": "dg.MMRF/a07c503c-18ce-44c8-b177-177bb0d2d62a",
+        "title": "per_aliquot_metadata_MMRF_IA.rds",
+        "description": "per_aliquot_metadata_MMRF_IA.rds"
+      },
+      {
+        "guid": "dg.MMRF/168fa2ef-7797-49ee-bfa0-b0eaba47c1f7",
+        "title": "per_aliquot_metadata_MMRF_IA_dictionary.csv",
+        "description": "per_aliquot_metadata_MMRF_IA_dictionary.csv"
+      }
+    ],
+    "funding": "Multiple Myeloma Research Foundation",
+    "authz": [
+      "/open"
+    ],
+    "__accessible": true
+  }
+]
