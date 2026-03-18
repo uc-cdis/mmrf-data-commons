@@ -102,6 +102,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/:path*.txt',
+        headers: [
+          {
+            key: 'Content-Disposition',
+            value: 'attachment',
+          },
+        ],
+      },
     ];
   },
 };
