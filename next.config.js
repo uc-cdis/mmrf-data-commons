@@ -29,10 +29,10 @@ const nextConfig = {
   trailingSlash: true,
   experimental: {
     esmExternals: true,
-    // support npm-linked modules like protenpaint-client that are tracked under the parent directory
-    // of the mmrf-data-commons repo, not within it
-    outputFileTracingRoot: process.env.PROTEINPAINT_API ? path.join(__dirname, '../') : undefined
   },
+  // support npm-linked modules like protenpaint-client that are tracked under the parent directory
+  // of the mmrf-data-commons repo, not within it
+  outputFileTracingRoot: process.env.PROTEINPAINT_API ? path.join(__dirname, '../') : undefined,
   transpilePackages: ['@gen3/core', '@gen3/frontend'],
   webpack: (config) => {
     config.infrastructureLogging = {
