@@ -147,19 +147,10 @@ export const parseSlideDetailsInfo: parseSlideDetailsInfoFunc = (
 export const mapFileToCartItem = (
   files: MMRFFile[] | caseFileType[] | undefined,
 ): CartItem[] => {
-  files?.map((file: MMRFFile | caseFileType) =>
-    pick(file, [
-      'access',
-      'acl',
-      'file_id',
-      'file_size',
-      'state',
-      'project_id',
-      'file_name',
-    ]),
-  );
+  // remote null and undefined values from array
+  const cartFilesNoNulls = files?.filter((file) => ((file !== null) && (file !== undefined))) ?? [];
 
-  return (files as (MMRFFile | caseFileType)[]).map((file) => ({
+  return (cartFilesNoNulls as (MMRFFile | caseFileType)[]).map((file) => ({
     ...pick(file, [
       'access',
       'acl',
