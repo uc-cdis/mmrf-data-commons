@@ -15,28 +15,6 @@
     ]
   },
   "buttons": [
-    {
-      "enabled": true,
-      "type": "data-json",
-      "title": "JSON",
-      "dropdownId": "download-table",
-      "leftIcon": "datafile",
-      "rightIcon": "download",
-      "actionArgs": {
-        "filename": "data_table.json"
-      }
-    },
-    {
-      "enabled": true,
-      "type": "data-tsv",
-      "title": "TSV",
-      "dropdownId": "download-table",
-      "leftIcon": "datafile",
-      "rightIcon": "download",
-      "actionArgs": {
-        "filename": "data_table.tsv"
-      }
-    }
   ],
   "loginForDownload": false,
   "table": {
