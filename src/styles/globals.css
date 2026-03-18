@@ -19,4 +19,13 @@
   display: none;
 }
 
+[data-hide-selection-column='true'] .mantine-Table-table thead > tr > th:first-child,
+[data-hide-selection-column='true']
+  .mantine-Table-table
+  tbody
+  > tr:not(.mantine-Table-tr-detail-panel)
+  > td:first-child {
+  display: none;
+}
+
 @tailwind variants;

@@ -2,7 +2,7 @@
   "metadataConfig": [
     {
       "tableConfig": {
-        "selectableRows": true,
+        "selectableRows": false,
         "expandableRows": true
       },
       "guidType": "discovery_metadata",

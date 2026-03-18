@@ -75,6 +75,24 @@ const patchDiscoveryIndexLabels = (
     : config.simpleDetailsView,
 });
 
+const shouldHideSelectionColumn = (config?: DiscoveryIndexConfig): boolean =>
+  !config?.tableConfig?.selectableRows &&
+  !config?.tableConfig?.selectableRowConfiguration;
+
+const renderDiscoveryIndexPanel = (
+  config: DiscoveryIndexConfig,
+  indexSelector: React.ReactNode | null,
+) => (
+  <div
+    className="w-full"
+    data-hide-selection-column={
+      shouldHideSelectionColumn(config) ? 'true' : undefined
+    }
+  >
+    <DiscoveryIndexPanel discoveryConfig={config} indexSelector={indexSelector} />
+  </div>
+);
+
 const Discovery = ({
   headerProps,
   footerProps,
@@ -134,10 +152,7 @@ const Discovery = ({
             <div>No discovery configuration</div>
           </Center>
         ) : menuItems.length === 1 ? (
-          <DiscoveryIndexPanel
-            discoveryConfig={patchedMetadataConfig[0]}
-            indexSelector={null}
-          />
+          renderDiscoveryIndexPanel(patchedMetadataConfig[0], null)
         ) : (
           <div className="flex flex-col items-center p-4 w-full bg-base-lightest">
             <Tabs
@@ -155,21 +170,17 @@ const Discovery = ({
               </Tabs.List>
               {menuItems.map((item) => (
                 <Tabs.Panel key={item.value} value={item.value}>
-                  <DiscoveryIndexPanel
-                    discoveryConfig={
-                      patchedMetadataConfig[Number.parseInt(item.value, 10)]
-                    }
-                    indexSelector={
-                      menuItems.length > 1 ? (
-                        <Select
-                          label="Metadata:"
-                          data={menuItems}
-                          value={metadataIndex}
-                          onChange={(value) => setMetadataIndex(value ?? '0')}
-                        />
-                      ) : null
-                    }
-                  />
+                  {renderDiscoveryIndexPanel(
+                    patchedMetadataConfig[Number.parseInt(item.value, 10)],
+                    menuItems.length > 1 ? (
+                      <Select
+                        label="Metadata:"
+                        data={menuItems}
+                        value={metadataIndex}
+                        onChange={(value) => setMetadataIndex(value ?? '0')}
+                      />
+                    ) : null,
+                  )}
                 </Tabs.Panel>
               ))}
             </Tabs>
