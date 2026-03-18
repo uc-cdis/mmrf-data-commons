@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Backup and publish discovery metadata for dev or prod MDS."""
+"""Backup, publish, and delete discovery metadata for dev or prod MDS."""
 
 from __future__ import annotations
 
@@ -12,11 +12,17 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
-import requests
-
 if TYPE_CHECKING:
     from gen3.auth import Gen3Auth
     from gen3.metadata import Gen3Metadata
+
+try:
+    import requests
+except ImportError as import_error:
+    requests = Any  # type: ignore[assignment]
+    REQUESTS_IMPORT_ERROR: Exception | None = import_error
+else:
+    REQUESTS_IMPORT_ERROR = None
 
 try:
     from gen3.auth import Gen3Auth
@@ -45,13 +51,13 @@ DEFAULT_BACKUP_DIR = REPO_ROOT / "backups" / "mds" / "discovery"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Backup and publish Gen3 discovery metadata."
+        description="Backup, publish, and delete Gen3 discovery metadata."
     )
     parser.add_argument(
         "--mode",
-        choices=("backup", "publish", "both"),
+        choices=("backup", "publish", "delete", "both"),
         default="both",
-        help="Choose backup only, publish only, or both (default).",
+        help="Choose backup only, publish only, delete only, or both (default: backup + publish).",
     )
     parser.add_argument(
         "--environment",
@@ -98,7 +104,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Preview publish payloads without writing to MDS.",
+        help="Preview publish/delete operations without writing to MDS.",
+    )
+    parser.add_argument(
+        "--delete-guid",
+        action="append",
+        default=[],
+        help="GUID to delete from MDS. Repeat the flag to delete multiple GUIDs.",
     )
     return parser.parse_args()
 
@@ -256,13 +268,45 @@ def publish_discovery_metadata(
     return published_count
 
 
+def delete_discovery_metadata(
+    auth: Gen3Auth,
+    endpoint: str,
+    guids: list[str],
+    dry_run: bool,
+) -> int:
+    deleted_count = 0
+    for guid in guids:
+        delete_url = f"{endpoint.rstrip('/')}/mds/metadata/{guid}"
+        if dry_run:
+            print(f"[DRY-RUN] would delete GUID '{guid}' at {delete_url}")
+            continue
+
+        response = requests.delete(
+            delete_url,
+            auth=auth,
+            timeout=60,
+        )
+        response.raise_for_status()
+        deleted_count += 1
+        print(f"Deleted GUID '{guid}'")
+
+    return deleted_count
+
+
 def main() -> int:
     args = parse_args()
 
-    if IMPORT_ERROR is not None:
+    if IMPORT_ERROR is not None or REQUESTS_IMPORT_ERROR is not None:
+        missing_dependencies: list[str] = []
+        if IMPORT_ERROR is not None:
+            missing_dependencies.append("gen3")
+        if REQUESTS_IMPORT_ERROR is not None:
+            missing_dependencies.append("requests")
         raise RuntimeError(
-            "Missing dependency 'gen3'. Install it first with: pip install gen3"
-        ) from IMPORT_ERROR
+            "Missing dependency "
+            f"{', '.join(repr(dependency) for dependency in missing_dependencies)}. "
+            "Install them first with: pip install gen3 requests"
+        ) from (IMPORT_ERROR or REQUESTS_IMPORT_ERROR)
 
     credentials_path = Path(args.credentials).expanduser().resolve()
     if not credentials_path.exists():
@@ -270,6 +314,7 @@ def main() -> int:
 
     records_path = Path(args.records_file).expanduser().resolve()
     backup_dir = Path(args.backup_dir).expanduser().resolve()
+    delete_guids = [guid.strip() for guid in args.delete_guid if str(guid).strip()]
 
     api_url = args.api or ENVIRONMENT_APIS[args.environment]
     auth = Gen3Auth(api_url, refresh_file=str(credentials_path))
@@ -303,6 +348,26 @@ def main() -> int:
             print("Dry-run complete: no records were written.")
         else:
             print(f"Publish complete: {published_count} record(s) written.")
+
+    if args.mode == "delete":
+        if not delete_guids:
+            raise ValueError(
+                "Delete mode requires at least one --delete-guid value."
+            )
+        print(
+            f"{'Dry run:' if args.dry_run else 'Deleting'} "
+            f"{len(delete_guids)} discovery record(s)"
+        )
+        deleted_count = delete_discovery_metadata(
+            auth=auth,
+            endpoint=api_url,
+            guids=delete_guids,
+            dry_run=args.dry_run,
+        )
+        if args.dry_run:
+            print("Dry-run complete: no records were deleted.")
+        else:
+            print(f"Delete complete: {deleted_count} record(s) removed.")
 
     return 0
 

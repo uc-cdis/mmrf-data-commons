@@ -1,12 +1,12 @@
 [
   {
-    "_hdp_uid": "NCT01454297",
-    "_unique_id": "NCT01454297",
+    "_hdp_uid": "s41588-024-01853-0",
+    "_unique_id": "s41588-024-01853-0",
     "study_title": "Comprehensive molecular profiling of multiple myeloma identifies refined copy number and expression subtypes",
     "study_description": "Multiple myeloma is a treatable, but currently incurable, hematological malignancy of plasma cells characterized by diverse and complex tumor genetics for which precision medicine approaches to treatment are lacking. The Multiple Myeloma Research Foundation's Relating Clinical Outcomes in Multiple Myeloma to Personal Assessment of Genetic Profile study (NCT01454297) is a longitudinal, observational clinical study of newly diagnosed patients with multiple myeloma (n=1,143) where tumor samples are characterized using whole-genome sequencing, whole-exome sequencing and RNA sequencing at diagnosis and progression, and clinical data are collected every 3 months. Analyses of the baseline cohort identified genes that are the target of recurrent gain-of-function and loss-of-function events. Consensus clustering identified 8 and 12 unique copy number and expression subtypes of myeloma, respectively, identifying high-risk genetic subtypes and elucidating many of the molecular underpinnings of these unique biological groups. Analysis of serial samples showed that 25.5% of patients transition to a high-risk expression subtype at progression. We observed robust expression of immunotherapy targets in this subtype, suggesting a potential therapeutic option.",
-    "source": "ClinicalTrials.gov",
-    "link": "https://clinicaltrials.gov/study/NCT01454297",
-    "project_id": "NCT01454297",
+    "source": "Nature Genetics",
+    "link": "https://www.nature.com/articles/s41588-024-01853-0",
+    "project_id": "s41588-024-01853-0",
     "subjects_count": 1143,
     "data_files_count": 8,
     "__manifest": [],
