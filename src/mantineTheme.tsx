@@ -1,7 +1,8 @@
-import { createTheme, mergeThemeOverrides, Anchor } from '@mantine/core';
+import { createTheme, mergeThemeOverrides, Anchor, Drawer } from '@mantine/core';
 import { GEN3_COMMONS_NAME } from '@gen3/core';
 import { TenStringArray, createMantineTheme } from '@gen3/frontend';
 import themeExtensionClasses from './styles/mantineThemeExtensions.module.css';
+import { STICKY_HEADER_HEIGHT_CSS_VAR } from '@/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const themeColors: Record<string, TenStringArray> = require(
@@ -16,9 +17,30 @@ const gen3Theme = createMantineTheme(
   },
   themeColors,
 );
+
+const stickyHeaderHeight = `var(${STICKY_HEADER_HEIGHT_CSS_VAR}, 0px)`;
+
 const localTheme = createTheme({
   components: {
     Anchor: Anchor.extend({ classNames: themeExtensionClasses }),
+    Drawer: Drawer.extend({
+      styles: (_, props) => {
+        if (props.position !== 'right') return {};
+
+        return {
+          inner: {
+            paddingTop: stickyHeaderHeight,
+          },
+          content: {
+            height: `calc(100vh - ${stickyHeaderHeight})`,
+            maxHeight: `calc(100vh - ${stickyHeaderHeight})`,
+            '& > div': {
+              height: `calc(100vh - ${stickyHeaderHeight}) !important`,
+            },
+          },
+        };
+      },
+    }),
     Tooltip: {
       defaultProps: {
         arrowSize: 10,
