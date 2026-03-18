@@ -15,4 +15,8 @@
   }
 }
 
+[data-discovery-page='true'] .mantine-Drawer-header > .mantine-Button-root:last-of-type {
+  display: none;
+}
+
 @tailwind variants;

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Center, Select, Tabs, Text } from '@mantine/core';
 import {
   type DiscoveryConfig,
@@ -64,6 +64,14 @@ const Discovery = ({
       })),
     [metadataConfig],
   );
+
+  useEffect(() => {
+    document.body.dataset.discoveryPage = 'true';
+
+    return () => {
+      delete document.body.dataset.discoveryPage;
+    };
+  }, []);
 
   if (!discoveryConfig || !Array.isArray(discoveryConfig.metadataConfig)) {
     return (
