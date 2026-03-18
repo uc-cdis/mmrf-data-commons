@@ -5,7 +5,12 @@
         "selectableRows": true,
         "expandableRows": true
       },
+      "guidType": "discovery_metadata",
+      "studyField": "gen3_discovery",
       "features": {
+        "dataLoader" : {
+          "dataFetchFunction": "MDSAllLocal"
+        },
         "advSearchFilters": {
           "enabled": false,
           "field": "advSearchFilters",
@@ -58,7 +63,7 @@
             "searchableTextFields": [
               "study_description",
               "_unique_id",
-              "full_name"
+              "study_title"
             ]
           },
           "tagSearchDropdown": {
@@ -109,13 +114,6 @@
           "valueIfNotAvailable": "n/a"
         },
         {
-          "name": "Study Name",
-          "field": "full_name",
-          "contentType": "string",
-          "errorIfNotAvailable": false,
-          "valueIfNotAvailable": "n/a"
-        },
-        {
           "name": "Study Title",
           "field": "study_title",
           "contentType": "string",
@@ -131,8 +129,8 @@
         },
         {
           "name": "Data Files",
-          "field": "__manifest",
-          "contentType": "manifest",
+          "field": "data_files_count",
+          "contentType": "string",
           "errorIfNotAvailable": false,
           "valueIfNotAvailable": "n/a"
         },
@@ -163,12 +161,6 @@
           {
             "groupWidth": "half",
             "fields": [
-              {
-                "name": "Study Name",
-                "field": "full_name",
-                "contentType": "string",
-                "includeIfNotAvailable": false
-              },
               {
                 "name": "Study Title",
                 "field": "study_title",
@@ -219,7 +211,7 @@
               {
                 "name": "Study Description",
                 "field": "study_description",
-                "contentType": "paragraph",
+                "contentType": "paragraphs",
                 "includeIfNotAvailable": false,
                 "valueIfNotAvailable": "No summary has been provided for this study."
               }

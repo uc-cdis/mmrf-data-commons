@@ -252,8 +252,8 @@ const GeneAndSSMFilterPanel = ({
         data: {},
         enumFilters: undefined,
         isSuccess: true,
-        isFetching: false
-      })
+        isFetching: false,
+      }),
     },
     toggle: {
       useGetFacetData: getEnumFacetData,

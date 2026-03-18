@@ -29,6 +29,11 @@
         "name": "Repository"
       },
       {
+        "icon": "/icons/apps/Discovery.svg",
+        "href": "/Discovery",
+        "name": "Discovery"
+      },
+      {
         "icon": "/icons/apps/Workspaces.svg",
         "href": "/Workspace",
         "name": "Workspaces"
