@@ -39,6 +39,8 @@ type DiscoveryRouteProps = {
 type DiscoveryIndexConfig = DiscoveryConfig['metadataConfig'][number];
 
 const EmptyHeader = () => null;
+const ABSTRACT_FIELD_NAME = 'study_description';
+const ABSTRACT_LABEL = 'Abstract';
 
 const extractLabel = (config: DiscoveryIndexConfig, index: number): string => {
   const pageTitle = config.features?.pageTitle as
@@ -46,6 +48,32 @@ const extractLabel = (config: DiscoveryIndexConfig, index: number): string => {
     | undefined;
   return config.label ?? pageTitle?.title ?? pageTitle?.text ?? `Index ${index + 1}`;
 };
+
+const renameStudyDescriptionField = (
+  fieldConfig?: {
+    field?: string;
+    name?: string;
+  },
+) =>
+  fieldConfig?.field === ABSTRACT_FIELD_NAME
+    ? { ...fieldConfig, name: ABSTRACT_LABEL }
+    : fieldConfig;
+
+const patchDiscoveryIndexLabels = (
+  config: DiscoveryIndexConfig,
+): DiscoveryIndexConfig => ({
+  ...config,
+  studyPreviewField: renameStudyDescriptionField(config.studyPreviewField),
+  simpleDetailsView: config.simpleDetailsView
+    ? {
+        ...config.simpleDetailsView,
+        fieldsToShow: config.simpleDetailsView.fieldsToShow?.map((group) => ({
+          ...group,
+          fields: group.fields?.map(renameStudyDescriptionField),
+        })),
+      }
+    : config.simpleDetailsView,
+});
 
 const Discovery = ({
   headerProps,
@@ -55,14 +83,18 @@ const Discovery = ({
   const metadataConfig = Array.isArray(discoveryConfig?.metadataConfig)
     ? discoveryConfig.metadataConfig
     : [];
+  const patchedMetadataConfig = useMemo(
+    () => metadataConfig.map(patchDiscoveryIndexLabels),
+    [metadataConfig],
+  );
   const [metadataIndex, setMetadataIndex] = useState('0');
   const menuItems = useMemo(
     () =>
-      metadataConfig.map((config, index) => ({
+      patchedMetadataConfig.map((config, index) => ({
         value: index.toString(),
         label: extractLabel(config, index),
       })),
-    [metadataConfig],
+    [patchedMetadataConfig],
   );
 
   useEffect(() => {
@@ -103,7 +135,7 @@ const Discovery = ({
           </Center>
         ) : menuItems.length === 1 ? (
           <DiscoveryIndexPanel
-            discoveryConfig={discoveryConfig.metadataConfig[0]}
+            discoveryConfig={patchedMetadataConfig[0]}
             indexSelector={null}
           />
         ) : (
@@ -125,7 +157,7 @@ const Discovery = ({
                 <Tabs.Panel key={item.value} value={item.value}>
                   <DiscoveryIndexPanel
                     discoveryConfig={
-                      discoveryConfig.metadataConfig[Number.parseInt(item.value, 10)]
+                      patchedMetadataConfig[Number.parseInt(item.value, 10)]
                     }
                     indexSelector={
                       menuItems.length > 1 ? (
