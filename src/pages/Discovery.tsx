@@ -41,6 +41,8 @@ type DiscoveryIndexConfig = DiscoveryConfig['metadataConfig'][number];
 const EmptyHeader = () => null;
 const ABSTRACT_FIELD_NAME = 'study_description';
 const ABSTRACT_LABEL = 'Abstract';
+const DETAIL_PANEL_CELL_SELECTOR = '.mantine-Table-tr-detail-panel > td';
+const DETAIL_PANEL_HEADER_ATTRIBUTE = 'data-discovery-abstract-header';
 
 const extractLabel = (config: DiscoveryIndexConfig, index: number): string => {
   const pageTitle = config.features?.pageTitle as
@@ -49,14 +51,16 @@ const extractLabel = (config: DiscoveryIndexConfig, index: number): string => {
   return config.label ?? pageTitle?.title ?? pageTitle?.text ?? `Index ${index + 1}`;
 };
 
-const renameStudyDescriptionField = (
-  fieldConfig?: {
+const renameStudyDescriptionField = <
+  T extends {
     field?: string;
     name?: string;
-  },
-) =>
+  } | undefined,
+>(
+  fieldConfig: T,
+): T =>
   fieldConfig?.field === ABSTRACT_FIELD_NAME
-    ? { ...fieldConfig, name: ABSTRACT_LABEL }
+    ? ({ ...fieldConfig, name: ABSTRACT_LABEL } as T)
     : fieldConfig;
 
 const patchDiscoveryIndexLabels = (
@@ -78,6 +82,25 @@ const patchDiscoveryIndexLabels = (
 const shouldHideSelectionColumn = (config?: DiscoveryIndexConfig): boolean =>
   !config?.tableConfig?.selectableRows &&
   !config?.tableConfig?.selectableRowConfiguration;
+
+const addAbstractHeadersToDetailPanels = () => {
+  document
+    .querySelectorAll<HTMLTableCellElement>(DETAIL_PANEL_CELL_SELECTOR)
+    .forEach((cell) => {
+      if (cell.querySelector(`[${DETAIL_PANEL_HEADER_ATTRIBUTE}]`)) {
+        return;
+      }
+
+      const header = document.createElement('div');
+      header.setAttribute(DETAIL_PANEL_HEADER_ATTRIBUTE, 'true');
+      header.textContent = ABSTRACT_LABEL;
+      header.style.fontSize = 'var(--mantine-font-size-sm)';
+      header.style.fontWeight = '400';
+      header.style.marginBottom = '0.25rem';
+
+      cell.prepend(header);
+    });
+};
 
 const renderDiscoveryIndexPanel = (
   config: DiscoveryIndexConfig,
@@ -117,8 +140,19 @@ const Discovery = ({
 
   useEffect(() => {
     document.body.dataset.discoveryPage = 'true';
+    addAbstractHeadersToDetailPanels();
+
+    const observer = new MutationObserver(() => {
+      addAbstractHeadersToDetailPanels();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
+      observer.disconnect();
       delete document.body.dataset.discoveryPage;
     };
   }, []);
