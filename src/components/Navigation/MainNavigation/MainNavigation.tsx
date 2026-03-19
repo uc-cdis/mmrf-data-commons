@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TopBar } from "@gen3/frontend";
 import { Navigation } from "./navigationInterfaces";
 import topBarData from "../../../../config/mmrf/topBar.json";
@@ -8,6 +8,10 @@ import DesktopView from "./Components/DesktopView";
 import { SummaryModalContext } from "@/utils/contexts";
 import { SummaryModal } from "@/components/Modals/SummaryModal/SummaryModal";
 import CartIconWithCount from "./Components/CartIconWithCount";
+import {
+  clearStickyHeaderHeightCssVar,
+  syncStickyHeaderHeightCssVar,
+} from "@/utils";
 
 const MainNavigation: React.FC = () => {
   const { navigation }: { navigation: Navigation } = navigationJSON;
@@ -16,6 +20,33 @@ const MainNavigation: React.FC = () => {
     ...topBarData.items.slice(0, -1),
     { ...topBarData.items.at(-1), component: <CartIconWithCount /> },
   ];
+
+  useEffect(() => {
+    const updateStickyHeaderHeight = () => {
+      syncStickyHeaderHeightCssVar();
+    };
+
+    updateStickyHeaderHeight();
+
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? undefined
+        : new ResizeObserver(() => updateStickyHeaderHeight());
+
+    const globalHeader = document.querySelector("#global-header");
+    const contextBar = document.querySelector("#context-bar");
+
+    if (globalHeader) resizeObserver?.observe(globalHeader);
+    if (contextBar) resizeObserver?.observe(contextBar);
+
+    window.addEventListener("resize", updateStickyHeaderHeight);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateStickyHeaderHeight);
+      clearStickyHeaderHeightCssVar();
+    };
+  }, []);
 
   return (
     <div

@@ -261,11 +261,29 @@ export const LG_BREAKPOINT = 1024;
 export const XL_BREAKPOINT = 1280;
 export const REPO_BREAKPOINT = 1420;
 
+export const STICKY_HEADER_HEIGHT_CSS_VAR = '--sticky-header-height';
+
 export const calculateStickyHeaderHeight = (): number => {
+  if (typeof document === 'undefined') return 0;
   const globalHeader = document.querySelector('#global-header');
   const contextBar = document.querySelector('#context-bar');
   return (
     (globalHeader?.getBoundingClientRect()?.height || 0) +
     (contextBar?.getBoundingClientRect()?.height || 0)
   );
+};
+
+export const syncStickyHeaderHeightCssVar = (): void => {
+  if (typeof document === 'undefined') return;
+
+  document.documentElement.style.setProperty(
+    STICKY_HEADER_HEIGHT_CSS_VAR,
+    `${calculateStickyHeaderHeight()}px`,
+  );
+};
+
+export const clearStickyHeaderHeightCssVar = (): void => {
+  if (typeof document === 'undefined') return;
+
+  document.documentElement.style.removeProperty(STICKY_HEADER_HEIGHT_CSS_VAR);
 };
