@@ -18,7 +18,8 @@ pip install gen3 requests
 
 Discovery records are stored in:
 
-- `config/gen3/discovery.mds.seed.json`
+- `config/gen3/discovery.mds.dev.json` for dev
+- `config/gen3/discovery.mds.prod.json` for prod
 
 Each record is published under:
 
@@ -61,13 +62,26 @@ Backup files are written to:
 
 ## 2) Preview Publish (Dry Run)
 
+Dev:
+
 ```bash
 python3 scripts/discovery_mds_sync.py \
   --environment dev \
   --mode publish \
   --dry-run \
   --credentials "credentials.json" \
-  --records-file "config/gen3/discovery.mds.seed.json"
+  --records-file "config/gen3/discovery.mds.dev.json"
+```
+
+Prod:
+
+```bash
+python3 scripts/discovery_mds_sync.py \
+  --environment prod \
+  --mode publish \
+  --dry-run \
+  --credentials "prod_credentials.json" \
+  --records-file "config/gen3/discovery.mds.prod.json"
 ```
 
 ## 3) Publish Discovery Records
@@ -79,7 +93,7 @@ python3 scripts/discovery_mds_sync.py \
   --environment dev \
   --mode both \
   --credentials "credentials.json" \
-  --records-file "config/gen3/discovery.mds.seed.json"
+  --records-file "config/gen3/discovery.mds.dev.json"
 ```
 
 Prod:
@@ -89,7 +103,7 @@ python3 scripts/discovery_mds_sync.py \
   --environment prod \
   --mode both \
   --credentials "prod_credentials.json" \
-  --records-file "config/gen3/discovery.mds.seed.json"
+  --records-file "config/gen3/discovery.mds.prod.json"
 ```
 
 `--mode both` performs backup first, then publishes.

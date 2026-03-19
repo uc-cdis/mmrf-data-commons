@@ -45,7 +45,7 @@ DEFAULT_GUID_TYPE = "discovery_metadata"
 DEFAULT_GUID_FIELD = "_hdp_uid"
 MAX_GUIDS_PER_QUERY = 2000
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RECORDS_FILE = REPO_ROOT / "config" / "gen3" / "discovery.mds.seed.json"
+DEFAULT_RECORDS_FILE = REPO_ROOT / "config" / "gen3" / "discovery.mds.dev.json"
 DEFAULT_BACKUP_DIR = REPO_ROOT / "backups" / "mds" / "discovery"
 
 
