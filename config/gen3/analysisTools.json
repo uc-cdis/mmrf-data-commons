@@ -99,6 +99,17 @@
           "countUnits": "Cases"
         },
         {
+          "title": "Gene Expression Clustering",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Visualize the top most variably expressed genes in your cohort.",
+          "icon": "/icons/apps/OncoMatrix.svg",
+          "appId": "GeneExpression",
+          "hideCounts": true,
+          "countUnits": "Cases"
+        },
+        {
           "title": "Set Operations",
           "type": "application",
           "hasDemo": false,
