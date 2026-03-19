@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Center, Select, Tabs, Text } from '@mantine/core';
 import {
   type DiscoveryConfig,
@@ -43,6 +43,7 @@ const ABSTRACT_FIELD_NAME = 'study_description';
 const ABSTRACT_LABEL = 'Abstract';
 const DETAIL_PANEL_CELL_SELECTOR = '.mantine-Table-tr-detail-panel > td';
 const DETAIL_PANEL_HEADER_ATTRIBUTE = 'data-discovery-abstract-header';
+const DETAIL_PANEL_OBSERVER_DEBOUNCE_MS = 100;
 
 const extractLabel = (config: DiscoveryIndexConfig, index: number): string => {
   const pageTitle = config.features?.pageTitle as
@@ -121,6 +122,7 @@ const Discovery = ({
   footerProps,
   discoveryConfig,
 }: DiscoveryRouteProps) => {
+  const discoveryContainerRef = useRef<HTMLDivElement | null>(null);
   const metadataConfig = Array.isArray(discoveryConfig?.metadataConfig)
     ? discoveryConfig.metadataConfig
     : [];
@@ -142,17 +144,35 @@ const Discovery = ({
     document.body.dataset.discoveryPage = 'true';
     addAbstractHeadersToDetailPanels();
 
+    const observerTarget = discoveryContainerRef.current;
+    let debounceTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    if (!observerTarget) {
+      return () => {
+        delete document.body.dataset.discoveryPage;
+      };
+    }
+
     const observer = new MutationObserver(() => {
-      addAbstractHeadersToDetailPanels();
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
+
+      debounceTimeout = setTimeout(() => {
+        addAbstractHeadersToDetailPanels();
+      }, DETAIL_PANEL_OBSERVER_DEBOUNCE_MS);
     });
 
-    observer.observe(document.body, {
+    observer.observe(observerTarget, {
       childList: true,
       subtree: true,
     });
 
     return () => {
       observer.disconnect();
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
       delete document.body.dataset.discoveryPage;
     };
   }, []);
@@ -180,7 +200,7 @@ const Discovery = ({
       CustomHeaderComponent={EmptyHeader}
       CustomFooterComponent={EmptyHeader}
     >
-      <div className="w-full">
+      <div ref={discoveryContainerRef} className="w-full">
         {menuItems.length === 0 ? (
           <Center maw={400} h={100} mx="auto">
             <div>No discovery configuration</div>
