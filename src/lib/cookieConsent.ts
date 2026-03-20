@@ -5,10 +5,11 @@ export const COOKIE_CONSENT_SESSION_DISMISSED_KEY =
   'mmrf-cookie-consent-dismissed';
 
 const readStorageValue = (
-  storage: Storage | undefined,
+  storageGetter: () => Storage,
   key: string,
 ): string | null => {
   try {
+    const storage = storageGetter();
     return storage?.getItem(key) ?? null;
   } catch {
     return null;
@@ -19,7 +20,7 @@ export const getCookieConsentState = (): CookieConsentState => {
   if (typeof window === 'undefined') return 'pending';
 
   if (
-    readStorageValue(window.localStorage, COOKIE_CONSENT_ACCEPTED_KEY) ===
+    readStorageValue(() => window.localStorage, COOKIE_CONSENT_ACCEPTED_KEY) ===
     'accepted'
   ) {
     return 'accepted';
@@ -27,7 +28,7 @@ export const getCookieConsentState = (): CookieConsentState => {
 
   if (
     readStorageValue(
-      window.sessionStorage,
+      () => window.sessionStorage,
       COOKIE_CONSENT_SESSION_DISMISSED_KEY,
     ) === 'true'
   ) {
