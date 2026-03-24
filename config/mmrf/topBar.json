@@ -10,7 +10,8 @@
     {
       "rightIcon": "mmrf:documentation",
       "href": "https://themmrf.github.io/docs-vlab/",
-      "name": "Documentation"
+      "name": "Documentation",
+      "newWindow": true
     },
     {
       "rightIcon": "mmrf:cart",
