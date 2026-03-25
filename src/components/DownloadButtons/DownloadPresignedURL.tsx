@@ -18,7 +18,6 @@ const DownloadPresignedURL = ({
     <Button
       test-id={customDataTestID}
       component="a"
-      download={file.file_name}
       color="primary.4"
       href={`${GEN3_FENCE_API}/data/download/${
         file.file_id ? encodeURIComponent(file.file_id as string) : ''
