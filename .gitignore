@@ -48,3 +48,5 @@ prod_credentials.json
 
 indexd/*
 notebooks/*
+
+.pycache/*

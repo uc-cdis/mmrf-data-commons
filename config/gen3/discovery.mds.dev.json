@@ -1,12 +1,13 @@
 [
   {
-    "_hdp_uid": "NCT01454297",
-    "_unique_id": "NCT01454297",
+    "_hdp_uid": "s41588-024-01853-0",
+    "_unique_id": "s41588-024-01853-0",
     "study_title": "Comprehensive molecular profiling of multiple myeloma identifies refined copy number and expression subtypes",
     "study_description": "Multiple myeloma is a treatable, but currently incurable, hematological malignancy of plasma cells characterized by diverse and complex tumor genetics for which precision medicine approaches to treatment are lacking. The Multiple Myeloma Research Foundation's Relating Clinical Outcomes in Multiple Myeloma to Personal Assessment of Genetic Profile study (NCT01454297) is a longitudinal, observational clinical study of newly diagnosed patients with multiple myeloma (n=1,143) where tumor samples are characterized using whole-genome sequencing, whole-exome sequencing and RNA sequencing at diagnosis and progression, and clinical data are collected every 3 months. Analyses of the baseline cohort identified genes that are the target of recurrent gain-of-function and loss-of-function events. Consensus clustering identified 8 and 12 unique copy number and expression subtypes of myeloma, respectively, identifying high-risk genetic subtypes and elucidating many of the molecular underpinnings of these unique biological groups. Analysis of serial samples showed that 25.5% of patients transition to a high-risk expression subtype at progression. We observed robust expression of immunotherapy targets in this subtype, suggesting a potential therapeutic option.",
-    "source": "ClinicalTrials.gov",
-    "link": "https://clinicaltrials.gov/study/NCT01454297",
-    "project_id": "NCT01454297",
+    "source": "Nature Genetics",
+    "publication_year": "2024",
+    "link": "https://www.nature.com/articles/s41588-024-01853-0",
+    "project_id": "s41588-024-01853-0",
     "subjects_count": 1143,
     "data_files_count": 8,
     "__manifest": [],
@@ -53,6 +54,7 @@
       }
     ],
     "funding": "Multiple Myeloma Research Foundation",
+    "authors": "Skerget, S., Penaherrera, D., Chari, A. et al.",
     "authz": [
       "/open"
     ],
@@ -64,6 +66,7 @@
     "study_title": "A single-cell atlas characterizes dysregulation of the bone marrow immune microenvironment associated with outcomes in multiple myeloma",
     "study_description": "Multiple myeloma (MM) remains incurable despite advances in treatment options. Although tumor subtypes and specific DNA abnormalities are linked to worse prognosis, the impact of immune dysfunction on disease emergence and/or treatment sensitivity remains unclear. We developed an Immune Atlas of MM by generating profiles of 1,397,272 single cells from the bone marrow (BM) of 337 newly diagnosed participants and characterized immune and hematopoietic cell populations. Cytogenetic risk-based analysis revealed heterogeneous associations with T cells of BM, with 17p13 deletion showing distinct enrichment of a type 1 interferon signature. The disease progression-based analysis revealed the presence of a proinflammatory immune senescence-associated secretory phenotype in rapidly progressing participants. Furthermore, signaling analyses suggested active intercellular communication involving a proliferation-inducing ligand and B cell maturation antigen, potentially promoting tumor growth and survival. Lastly, using independent discovery and validation cohorts, we demonstrated that integrating immune cell signatures with known tumor cytogenetics and individual characteristics significantly improves stratification for the prediction of survival.",
     "source": "Nature Cancer",
+    "publication_year": "2026",
     "link": "https://www.nature.com/articles/s43018-025-01072-4",
     "project_id": "s43018-025-01072-4",
     "subjects_count": 337,
@@ -107,6 +110,7 @@
       }
     ],
     "funding": "Multiple Myeloma Research Foundation",
+    "authors": "Pilcher, W.C., Yao, L., Gonzalez-Kozlova, E. et al.",
     "authz": [
       "/open"
     ],
