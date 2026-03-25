@@ -2,7 +2,7 @@
   "metadataConfig": [
     {
       "tableConfig": {
-        "selectableRows": true,
+        "selectableRows": false,
         "expandableRows": true
       },
       "guidType": "discovery_metadata",
@@ -63,7 +63,10 @@
             "searchableTextFields": [
               "study_description",
               "_unique_id",
-              "study_title"
+              "study_title",
+              "authors",
+              "source",
+              "publication_year"
             ]
           },
           "tagSearchDropdown": {
@@ -128,6 +131,20 @@
           "valueIfNotAvailable": "n/a"
         },
         {
+          "name": "Publication Year",
+          "field": "publication_year",
+          "contentType": "string",
+          "errorIfNotAvailable": false,
+          "valueIfNotAvailable": "n/a"
+        },
+        {
+          "name": "Authors",
+          "field": "authors",
+          "contentType": "string",
+          "errorIfNotAvailable": false,
+          "valueIfNotAvailable": "n/a"
+        },
+        {
           "name": "Data Files",
           "field": "data_files_count",
           "contentType": "string",
@@ -176,6 +193,18 @@
               {
                 "name": "Source",
                 "field": "source",
+                "contentType": "string",
+                "includeIfNotAvailable": false
+              },
+              {
+                "name": "Publication Year",
+                "field": "publication_year",
+                "contentType": "string",
+                "includeIfNotAvailable": false
+              },
+              {
+                "name": "Authors",
+                "field": "authors",
                 "contentType": "string",
                 "includeIfNotAvailable": false
               },
