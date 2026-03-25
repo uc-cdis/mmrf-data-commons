@@ -620,4 +620,4 @@ const filesSlice = guppyApi.injectEndpoints({
   }),
 });
 
-export const { useGetFilesQuery, useGetFileSummaryQuery, useGetFileCaseCountQuery } = filesSlice;
+export const { useGetFilesQuery, useLazyGetFilesQuery, useGetFileSummaryQuery, useGetFileCaseCountQuery } = filesSlice;
