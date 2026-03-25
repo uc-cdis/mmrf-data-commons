@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { filesize } from "filesize";
-import { capitalize } from "lodash";
 import {
   useCoreSelector,
   selectCart,
@@ -23,7 +22,6 @@ import {
 } from "@tanstack/react-table";
 import VerticalTable from "@/components/Table/VerticalTable";
 import { HandleChangeInput } from "@/components/Table/types";
-import { downloadTSV } from "@/components/Table/utils";
 import { useDeepCompareMemo } from "use-deep-compare";
 import TotalItems from "@/components/Table/TotalItem";
 import { Image } from "@/components/Image";
@@ -335,32 +333,6 @@ const FilesTable: React.FC<FilesTableProps> = ({
   useEffect(() => {
     sortByActions(sorting);
   }, [sorting]);
-
-  const handleDownloadTSV = () => {
-    setTsvDownloadActive(true);
-    downloadTSV({
-      tableData,
-      columnOrder,
-      fileName: `files-table_cart.${getFormattedTimestamp()}.tsv`,
-      columnVisibility,
-      columns: cartFilesTableDefaultColumns as any,
-      option: {
-        blacklist: ["remove"],
-        overwrite: {
-          access: {
-            composer: (file) => capitalize(file.access),
-          },
-          cases: {
-            composer: (file) => file.cases?.length.toLocaleString() || 0,
-          },
-          annotations: {
-            composer: (file) => file.annotations?.length || 0,
-          },
-        },
-      },
-    });
-    setTsvDownloadActive(false);
-  };
 
   return (
     <VerticalTable
