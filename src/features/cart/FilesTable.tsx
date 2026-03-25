@@ -9,7 +9,6 @@ import {
 import { MMRFFile, useGetFilesQuery } from "@/core/features/files/filesSlice";
 import {  SortBy } from "@/core";
 import { RemoveFromCartButton } from "./updateCart";
-import FunctionButton from "@/components/FunctionButton";
 import { PopupIconButton } from "@/components/PopupIconButton/PopupIconButton";
 import { getFormattedTimestamp } from "src/utils/date";
 import { FileAccessBadge } from "@/components/FileAccessBadge";
@@ -30,8 +29,6 @@ import TotalItems from "@/components/Table/TotalItem";
 import { Image } from "@/components/Image";
 import Link from "next/link";
 import { DownloadButton } from "@/components/DownloadButtons";
-import { Loader } from "@mantine/core";
-import { DownloadIcon } from "@/utils/icons";
 
 interface FilesTableProps {
   readonly customDataTestID: string;
@@ -379,11 +376,11 @@ const FilesTable: React.FC<FilesTableProps> = ({
             format="json"
             method="POST"
             filters={{
-              mode: "and",
+              mode: 'and',
               root: {
                 file_id: {
-                  operator: "in",
-                  field: "file_id",
+                  operator: 'in',
+                  field: 'file_id',
                   operands: cart.map((file) => file?.file_id),
                 },
               },
@@ -400,21 +397,33 @@ const FilesTable: React.FC<FilesTableProps> = ({
             }}
             caseIdField="cases.case_id"
           />
-          <FunctionButton
-            data-testid="button-tsv"
-            onClick={handleDownloadTSV}
-            aria-label="Download TSV"
+          <DownloadButton
+            buttonLabel="TSV"
+            endpoint="file"
+            format="tsv"
+            method="POST"
+            filters={{
+              mode: 'and',
+              root: {
+                file_id: {
+                  operator: 'in',
+                  field: 'file_id',
+                  operands: cart.map((file) => file?.file_id),
+                },
+              },
+            }}
+            fields={DOWNLOAD_FIELDS}
+            filename={`files_table_cart.${getFormattedTimestamp()}.tsv`}
+            active={tsvDownloadActive}
+            setActive={setTsvDownloadActive}
             disabled={isFetching}
-            leftSection={
-              tsvDownloadActive ? (
-                <Loader size={15} />
-              ) : (
-                <DownloadIcon aria-hidden="true" className="hidden xl:block" />
-              )
-            }
-          >
-            TSV
-          </FunctionButton>
+            extraParams={{
+              pretty: true,
+              annotations: true,
+              related_files: true,
+            }}
+            caseIdField="cases.case_id"
+          />
         </div>
       }
       pagination={pagination}
@@ -423,7 +432,7 @@ const FilesTable: React.FC<FilesTableProps> = ({
       search={{
         enabled: true,
         tooltip:
-          "e.g. HCM-CSHL-0062-C18.json, 4b5f5ba0-3010-4449-99d4-7bd7a6d73422, HCM-CSHL-0062-C18",
+          'e.g. HCM-CSHL-0062-C18.json, 4b5f5ba0-3010-4449-99d4-7bd7a6d73422, HCM-CSHL-0062-C18',
       }}
       showControls={true}
       setColumnVisibility={setColumnVisibility}
