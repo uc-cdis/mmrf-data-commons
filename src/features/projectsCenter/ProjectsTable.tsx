@@ -23,7 +23,6 @@ import Link from 'next/link';
 type ProjectDataType = {
   project: string;
   program: string;
-  cases: number;
   files: string;
 };
 
@@ -34,7 +33,7 @@ const ProjectsTable: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<SortBy[]>([
-    { field: 'summary.case_count', direction: 'desc' },
+    { field: 'project_id', direction: 'desc' },
   ]);
 
   const {
@@ -54,7 +53,6 @@ const ProjectsTable: React.FC = () => {
     const COLUMN_ID_TO_FIELD: Record<string, string> = {
       project: 'project_id',
       files: 'summary.file_count',
-      cases: 'summary.case_count',
       program: 'program.name',
     };
     const tempSortBy: SortBy[] = sortByObj.map((sortObj) => {
@@ -75,7 +73,6 @@ const ProjectsTable: React.FC = () => {
           ({ project_id, program, summary }: ProjectDefaults) => ({
             project: project_id,
             program: program?.name,
-            cases: summary?.case_count ?? 0,
             files: summary?.file_count.toLocaleString(),
           }),
         ) as ProjectDataType[],
@@ -148,12 +145,6 @@ const ProjectsTable: React.FC = () => {
             {getValue()}
           </OverflowTooltippedLabel>
         ),
-        enableSorting: true,
-      }),
-      projectsTableColumnHelper.accessor('cases', {
-        id: 'cases',
-        header: 'Cases',
-        cell: ({ getValue }) => getValue().toLocaleString().padStart(9),
         enableSorting: true,
       }),
       projectsTableColumnHelper.accessor('files', {
