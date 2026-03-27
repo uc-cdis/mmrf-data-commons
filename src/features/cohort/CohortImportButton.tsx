@@ -20,7 +20,7 @@ const CohortImportButton: React.FC = () => {
     };
 
     modals.openContextModal({
-      modal: "saveCohortModal",
+      modal: "saveCohortModalMMRF",
       title: "Save Cohort",
       size: "md",
       zIndex: 1200,
