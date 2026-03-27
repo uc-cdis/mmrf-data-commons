@@ -248,7 +248,6 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         };
       },
       transformResponse: (response: Record<string, any>, _meta, args) => {
-        console.log('response', response);
         return response;
       },
     }),

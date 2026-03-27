@@ -173,7 +173,7 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
 
 const updateFilters = (facetField: string, outputIds: string[]) => {
   modals.openContextModal({
-    modal: "saveCohortModal",
+    modal: "saveCohortModalMMRF",
     title: "Save Cohort",
     size: "md",
     zIndex: 1200,
