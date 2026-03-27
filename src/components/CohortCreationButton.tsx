@@ -10,6 +10,7 @@ import { FaPlus as PlusIcon  } from 'react-icons/fa';
 import { modals } from '@mantine/modals';
 
 import { MAX_CASES, useLazyGetCohortCentricQuery } from '@/core';
+import { openModalWithCohortFilterRepresentation } from '@/features/cases/CasesCohortButton/CasesCohortButton';
 
 interface CohortCreationStyledButtonProps extends ButtonProps {
   $fullWidth?: boolean;
@@ -49,24 +50,18 @@ export const IconWrapperTW = tw.span`
   p-1
 `;
 
-const updateFilters = (facetField: string, outputIds: string[]) => {
-  modals.openContextModal({
-    modal: "saveCohortModal",
-    title: "Save Cohort",
-    size: "md",
-    zIndex: 1200,
-    styles: {
-      header: {
-        marginLeft: "16px",
+const updateFilters = (caseIds: string[]) => {
+  const cohortFilters: FilterSet = {
+    mode: 'and',
+    root: {
+      case_id: {
+        operator: 'in',
+        field: 'case_id',
+        operands: Array.from(caseIds ?? []),
       },
     },
-    innerProps: {
-      facetField,
-      outputIds,
-      validate: false,
-      setAsCurrentCohort: false,
-    },
-  });
+  };
+  openModalWithCohortFilterRepresentation(cohortFilters);
 };
 
 const COHORT_CASES_QUERY = `query Case_case($filter: JSON) {
@@ -111,7 +106,7 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
   useEffect(() => {
     if (isSuccess) {
       const cases: Array<string> = data?.data?.CaseCentric_case_centric?.map((caseObj: { case_id: string }) => caseObj.case_id) ?? [] ;
-      updateFilters("case_id", cases);
+      updateFilters( cases);
       setLoading(false);
     }
     if (isError)
