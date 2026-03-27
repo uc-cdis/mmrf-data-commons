@@ -65,22 +65,22 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
 
   const { setEntityMetadata } = useContext(SummaryModalContext);
 
-  const { geneFilters, ssmFilters, geneFiltersForCaseCentric } = useDeepCompareMemo(() => {
+  const { geneFilters, ssmFilters, geneFiltersForGeneCentric } = useDeepCompareMemo(() => {
     const filters = separateGeneAndSSMFilters(genomicFilters);
 
     const ssmFilterForGeneCentric = addPrefixToFilterSet(
       filters.ssm,
       `${GenomicIndexFilterPrefixes.gene.ssm}`
     );
-    const geneFiltersForCaseCentric = addPrefixToFilterSet(
+    const geneFiltersForGeneCentric = addPrefixToFilterSet(
       filters.gene,
-      `${GenomicIndexFilterPrefixes.case.gene}`,
+      `${GenomicIndexFilterPrefixes.gene.gene}`,
     );
 
     return {
       geneFilters: filters.gene,
       ssmFilters: ssmFilterForGeneCentric,
-      geneFiltersForCaseCentric: geneFiltersForCaseCentric
+      geneFiltersForGeneCentric: geneFiltersForGeneCentric,
     };
   }, [genomicFilters]);
 
@@ -102,15 +102,17 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
     (cnvType: CnvChange | undefined, geneId: string) => {
       if (cnvType !== undefined) {
         // only genes filters
-        return joinFilters(geneFiltersForCaseCentric, {
+        return joinFilters(geneFiltersForGeneCentric, {
           mode: 'and',
-          root: { // TODO: test when cvn data becomes available
-            'gene.cnv.cnv_change': { // TODO: change to case_centric version of the cnv filter
+          root: {
+            // TODO: test when cvn data becomes available
+            'gene.cnv.cnv_change': {
+              // TODO: change to case_centric version of the cnv filter
               field: 'genes.cnv.cnv_change_5_category',
               operator: '=',
               operand: cnvType,
             },
-            'gene_id': {
+            gene_id: {
               field: 'gene_id',
               operator: '=',
               operand: geneId,
@@ -119,11 +121,12 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       } else {
         // any other type will use all filters
-        return joinFilters(geneFiltersForCaseCentric, {
+        return joinFilters(geneFiltersForGeneCentric, {
           mode: 'and',
-          root: { // NOTE: case_centric version of the geneId filter
+          root: {
+            // NOTE: case_centric version of the geneId filter
             'gene.gene_id': {
-              field: 'gene.gene_id',
+              field: 'gene_id',
               operator: 'includes',
               operands: [geneId],
             },
@@ -131,7 +134,7 @@ export const GenesTableContainer: React.FC<GTableContainerProps> = ({
         });
       }
     },
-    [geneFilters, geneFiltersForCaseCentric],
+    [geneFilters, geneFiltersForGeneCentric],
   );
   // End Create Cohort /
 
