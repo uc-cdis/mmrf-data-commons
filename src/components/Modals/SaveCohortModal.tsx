@@ -64,7 +64,6 @@ export const SaveCohortModal = ({
     if (form.validate().hasErrors || isSaving) return;
 
     setIsSaving(true);
-    console.log("handleSave", form.values.name, filters);
     try {
       dispatch(
         createNewCohort({

@@ -50,8 +50,6 @@ export const IconWrapperTW = tw.span`
 `;
 
 const updateFilters = ( caseIds: string[]) => {
-
-
     const cohortFilters: FilterSet = {
       mode: 'and',
       root: {
@@ -62,10 +60,7 @@ const updateFilters = ( caseIds: string[]) => {
         },
       },
     };
-
     openModalWithCohortFilterRepresentation(cohortFilters);
-
-
 };
 
 
@@ -101,8 +96,6 @@ const GeneCohortCreationButton: React.FC<GeneCohortCreationButtonProps> = ({
     : `Save a new cohort of ${
         numCases > 1 ? `these ${numCases.toLocaleString()} cases` : 'this case'
       }`;
-
-  console.log("data", data);
 
   useEffect(() => {
     if (isSuccess) {
