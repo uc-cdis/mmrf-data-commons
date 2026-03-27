@@ -56,7 +56,7 @@ const SourceFiles = ({
         header: 'File Name',
         cell: ({ row }) => (
           <GenericLink
-            path={`/files/${row.original.file_id}`}
+            path={`/files/${encodeURIComponent(row.original.file_id)}`}
             text={row.original.file_name}
           />
         ),

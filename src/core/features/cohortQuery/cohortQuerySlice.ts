@@ -8,7 +8,7 @@ import {
   GQLFilter,
   processHistogramResponse,
 } from '@gen3/core';
-import { CohortCentricQueryRequest, GraphQLApiResponse } from '@/core';
+import { CohortCentricQueryRequest, GraphQLApiResponse, TablePageOffsetProps } from '@/core';
 import { CASE_CENTRIC_INDEX, CASE_ID_FIELD, GEN3_ANALYSIS_API, MAX_CASES, } from '@/core/constants';
 import { buildRawQuery, processRawQuery, } from '@/core/features/cohortQuery/utils';
 
@@ -44,6 +44,12 @@ interface GenomicFacetRequest {
   filter: GQLFilter;
 }
 
+interface GenomicCaseIdsRequest {
+  geneFilters: GQLFilter;
+  ssmFilters: GQLFilter;
+  cohortFilters: GQLFilter;
+}
+
 export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
   endpoints: (builder) => ({
     getCohortCentric: builder.query<
@@ -56,7 +62,7 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         filter,
         caseIdsFilterPath,
         caseIndex = CASE_CENTRIC_INDEX,
-        caseIdField = "cases.case_id",
+        caseIdField = 'cases.case_id',
         limit = MAX_CASES,
       }: CohortCentricQueryRequest) => {
         return {
@@ -84,7 +90,7 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         fields,
         indexPrefix,
         type,
-        caseIdsFilterPath = "cases.case_id",
+        caseIdsFilterPath = 'cases.case_id',
         caseIndex = CASE_CENTRIC_INDEX,
         caseIdField = CASE_ID_FIELD,
         size = 20,
@@ -112,11 +118,11 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
             case_index: caseIndex,
             cohort_item_field: caseIdField,
             case_ids_filter_path: caseIdsFilterPath,
-            sort: sort ?? []
+            sort: sort ?? [],
           },
         };
       },
-      transformResponse: ( response: Record<string, any>, _meta, args) => {
+      transformResponse: (response: Record<string, any>, _meta, args) => {
         const containsDots = args?.fields?.filter((f) => f.includes('.'));
         return processRawQuery(
           response,
@@ -124,7 +130,7 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
           args.type,
           args?.indexPrefix,
         );
-      }
+      },
     }),
     getCohortCentricAggs: builder.query<AggregationsData, CohortAggsRequest>({
       query: ({
@@ -229,6 +235,23 @@ export const cohortCentricQuerySlice = gen3Api.injectEndpoints({
         };
       },
     }),
+    getGeneCaseids: builder.query<any, GenomicCaseIdsRequest>({
+      query: ({ cohortFilters, geneFilters, ssmFilters }: GenomicCaseIdsRequest) => {
+        return {
+          url: `${GEN3_ANALYSIS_API}/genomic/gene_cases`,
+          method: 'POST',
+          body: {
+            cohort_filter: cohortFilters,
+            gene_filter: geneFilters,
+            ssm_filter: ssmFilters,
+          },
+        };
+      },
+      transformResponse: (response: Record<string, any>, _meta, args) => {
+        console.log('response', response);
+        return response;
+      },
+    }),
   }),
 });
 
@@ -239,4 +262,6 @@ export const {
   useGetGeneFacetsQuery,
   useGetSsmFacetsQuery,
   useRawDataAndTotalCountQuery,
+  useGetGeneCaseidsQuery,
+  useLazyGetGeneCaseidsQuery,
 } = cohortCentricQuerySlice;

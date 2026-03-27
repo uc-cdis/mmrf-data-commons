@@ -7,7 +7,7 @@ import { NoAccessModal } from '@/components/Modals/NoAccessModal';
 export const mmrfModals = {
   baseContextModal: BaseContextModal,
   filterByUserInputModal: FilterByUserInputModal,
-  saveCohortModal: SaveCohortModal,
+  saveCohortModalMMRF: SaveCohortModal,
   agreementModal: AgreementModal,
   noAccessModal: NoAccessModal,
 };
