@@ -17,6 +17,7 @@ import GenesTableCohort from './TableComponents/GenesTableCohort';
 import { CountButton } from './CountButton';
 import GenesTableSurvival from './TableComponents/GenesTableSurvival';
 import Link from 'next/link';
+import GeneCohortCreationButton from '@/features/GenomicTables/GenesTable/TableComponents/GeneCohortCreationButton';
 
 const genesTableColumnHelper: any = createColumnHelper<Gene>();
 
@@ -186,7 +187,7 @@ export const useGenerateGenesTableColumns = ({
           />
         ),
         cell: ({ row }: any) => (
-          <CohortCreationButton
+          <GeneCohortCreationButton
             label={
               <NumeratorDenominator
                 numerator={

@@ -64,6 +64,7 @@ export const SaveCohortModal = ({
     if (form.validate().hasErrors || isSaving) return;
 
     setIsSaving(true);
+    console.log("handleSave", form.values.name, filters);
     try {
       dispatch(
         createNewCohort({
@@ -124,7 +125,7 @@ export const SaveCohortModal = ({
               isSaving ? <Loader size={15} color="white" /> : undefined
             }
           >
-            Save
+            Save234
           </Button>
         </div>
       </div>
