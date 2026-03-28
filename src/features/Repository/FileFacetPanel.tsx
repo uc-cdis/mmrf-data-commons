@@ -32,7 +32,7 @@ import {
   useClearFilters,
   useFieldNameToLabel,
   useGetFacetFilters,
-  useUpdateFilters,
+  useUpdateFiltersFlat,
   FacetSortType,
   ErrorCard,
   FacetHooks,
@@ -197,7 +197,7 @@ export const FileFacetPanel = ({
       return {
         enum: {
           useGetFacetData: getEnumFacetData,
-          useUpdateFacetFilters: partial(useUpdateFilters, index),
+          useUpdateFacetFilters: partial(useUpdateFiltersFlat, index),
           useGetFacetFilters: partial(useGetFacetFilters, index),
           useClearFilter: partial(useClearFilters, index),
           useFilterExpanded: partial(useFilterExpandedState, index),
