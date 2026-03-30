@@ -34,6 +34,7 @@ import { isEqual, cloneDeep } from "lodash";
 //import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
 //import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
 import { COHORT_FILTER_INDEX, PROTEINPAINT_API } from '@/core';
+import { updateFilters } from './updateFilters';
 
 const basepath = PROTEINPAINT_API;
 
@@ -71,7 +72,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
   const dispatch = useCoreDispatch();
   const modal = useCoreSelector((state) => selectCurrentModal(state));
 
-  const callback = () => {}
+  //const callback = () => {}
   // useCallback<SelectSamplesCallback>(
   //   (arg: SelectSamplesCallBackArg) => {
   //     const cases = arg.samples.map((d) => d["cases.case_id"]);
@@ -154,7 +155,7 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
   // };
   const initArgs = getMatrixTrack(
     props,
-    callback,
+    updateFilters,
     matrixCallbacks,
     appCallbacks,
     //genesetCallback,
