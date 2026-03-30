@@ -19,6 +19,10 @@
   display: none;
 }
 
+[data-discovery-page='true'] .mantine-Drawer-body > .flex.flex-col > .flex.mb-2 {
+  display: none;
+}
+
 [data-hide-selection-column='true'] .mantine-Table-table thead > tr > th:first-child,
 [data-hide-selection-column='true']
   .mantine-Table-table
