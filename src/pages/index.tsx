@@ -32,7 +32,6 @@ const PROD_HOSTNAME = 'virtuallab.themmrf.org';
 const PROD_HIDDEN_APP_IDS = new Set([
   'OncoMatrix',
   'GeneExpression',
-  'SetOperations',
 ]);
 
 interface CountsPanelProps {
@@ -103,7 +102,7 @@ const Tools = ({
       .map((section) => ({
         ...section,
         tools: section.tools.filter(
-          ({ appId }) => !PROD_HIDDEN_APP_IDS.has(appId),
+          ({ appId }) => !appId || !PROD_HIDDEN_APP_IDS.has(appId),
         ),
       }))
       .filter((section) => section.tools.length > 0);
