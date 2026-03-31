@@ -186,6 +186,7 @@ interface ValidateEntitiesRequest {
 
 interface CohortCaseIdsRequest {
   filter: FilterSet;
+  additionalFields?: string[];
 }
 
 const caseSlice = guppyApi.injectEndpoints({
@@ -234,19 +235,30 @@ const caseSlice = guppyApi.injectEndpoints({
       },
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
-      query: ({ filter }: CohortCaseIdsRequest) => {
+      query: ({ filter, additionalFields }: CohortCaseIdsRequest) => {
         const gqlFilter = convertFilterSetToGqlFilter(filter ?? EmptyFilterSet);
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
             hits: CaseCentric_case_centric(filter: $filter, first: ${MAX_CASES}) {
                 case_id
+                ${additionalFields?.map((field) => `${field}`).join('\n')}
             }
         }`,
           variables: { filter: gqlFilter },
         };
       },
-      transformResponse: (response: any) =>
-        response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
+      transformResponse: (response: any, meta, args) => {
+        if (args?.additionalFields) {
+          return response?.data?.hits?.map((x: any) => {
+            let caseData = x.case_id as string;
+            args?.additionalFields?.forEach((field: string) => {
+              caseData += `,${x[field]}`;
+            });
+            return caseData;
+          }) ?? [];
+        }
+       return  response?.data?.hits?.map((x: any) => x?.case_id) ?? [];
+      }
     }),
   }),
 });

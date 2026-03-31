@@ -57,7 +57,7 @@ const DownstreamAnalyses = ({
   const downstreamAnalysesColumnHelper =
     createColumnHelper<DownstreamAnalysesType>();
 
-  const downstremAnalysesDefaultColumns = useMemo<
+  const downstreamAnalysesDefaultColumns = useMemo<
     ColumnDef<DownstreamAnalysesType>[]
   >(
     () => [
@@ -100,16 +100,8 @@ const DownstreamAnalyses = ({
         id: 'action',
         header: 'Action',
         cell: ({ row }) => {
-          const isOutputFileInCart = fileInCart(
-            currentCart as unknown as CartItem[],
-            row.original.file_id,
-          );
           return (
-            <TableActionButtons
-            /* isOutputFileInCart={isOutputFileInCart}
-              file={mappedFileObj}
-              downloadFile={row.original.outputFile}
-              setFileToDownload={setFileToDownload} */
+            <TableActionButtons fileId={row.original.file_id}
             />
           );
         },
@@ -121,7 +113,7 @@ const DownstreamAnalyses = ({
   return (
     <VerticalTable
       data={downstreamTableData}
-      columns={downstremAnalysesDefaultColumns}
+      columns={downstreamAnalysesDefaultColumns}
       tableTotalDetail={
         <TotalItems total={downstreamTableData?.length} itemName="file" />
       }

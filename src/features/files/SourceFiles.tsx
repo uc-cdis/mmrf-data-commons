@@ -9,6 +9,8 @@ import { HeaderTitle } from '@/components/tailwindComponents';
 import { FileAccessBadge } from '@/components/FileAccessBadge';
 import TotalItems from '@/components/Table/TotalItem';
 import { useDeepCompareMemo } from 'use-deep-compare';
+import DownloadPresignedURLWithIcon from '@/components/DownloadButtons/DownloadPresignedURLWithIcon';
+import { MMRFFile } from '@/core/features/files/filesSlice';
 
 type SourceFilesItems = {
   file: GdcCartFile;
@@ -73,22 +75,20 @@ const SourceFiles = ({
       SourceFilesTableColumnHelper.accessor('file_size', {
         header: 'Size',
       }),
-      // commenting this out as it is not being used
-      // SourceFilesTableColumnHelper.display({
-      //   id: 'action',
-      //   header: 'Action',
-      //   cell: ({ row }) => (
-      //     <TableActionButtons
-      //     /* isOutputFileInCart={fileInCart(
-      //         currentCart as any,
-      //         row.original.file_id,
-      //       )} */
-      //     // file={mapGdcFileToCartFile([row.original.file])}
-      //     // downloadFile={row.original.file}
-      //     // setFileToDownload={setFileToDownload}
-      //     />
-      //   ),
-      // }),
+      SourceFilesTableColumnHelper.display({
+        id: 'action',
+        header: 'Action',
+        cell: ({ row }) => {
+          return (
+            <>
+              <DownloadPresignedURLWithIcon
+                label="Download"
+                file={row.original.file as MMRFFile}
+              ></DownloadPresignedURLWithIcon>
+            </>
+          );
+        },
+      }),
     ],
     [currentCart, setFileToDownload],
   );
