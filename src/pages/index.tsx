@@ -103,7 +103,7 @@ const Tools = ({
       .map((section) => ({
         ...section,
         tools: section.tools.filter(
-          ({ appId }) => !PROD_HIDDEN_APP_IDS.has(appId),
+          ({ appId }) => !appId || !PROD_HIDDEN_APP_IDS.has(appId),
         ),
       }))
       .filter((section) => section.tools.length > 0);
