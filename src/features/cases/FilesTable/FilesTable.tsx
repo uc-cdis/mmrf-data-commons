@@ -23,6 +23,8 @@ import TotalItems from '@/components/Table/TotalItem';
 import { handleJSONDownload } from '../utils';
 import { FilesTableClientSideSearch } from './FilesTableClientSideSearch';
 import useStandardPagination from '@/hooks/useStandardPagination';
+import { MMRFFile } from '@/core/features/files/filesSlice';
+import DownloadPresignedURLWithIcon from '@/components/DownloadButtons/DownloadPresignedURLWithIcon';
 
 const currentCart = null;
 
@@ -146,16 +148,11 @@ const FilesTable = ({
           ); */
           return (
             <>
-              <FunctionButton
-                showDownloadIcon
-                onClick={() =>
-                  handleJSONDownload(row.original.file.file_name, [
-                    row.original.file,
-                  ])
-                }
+              <DownloadPresignedURLWithIcon
+                label="Download"
+                file={row.original.file as MMRFFile}
               >
-                Download
-              </FunctionButton>
+              </DownloadPresignedURLWithIcon>
             </>
           );
         },

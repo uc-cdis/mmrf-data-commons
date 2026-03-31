@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import PageTitle from '@/components/PageTitle';
 import {
   AnalysisCenterWithSections,
-  AnalysisPageGetServerSideProps as getServerSideProps,
+  AnalysisPageGetServerSideProps as baseGetServerSideProps,
   AnalysisPageLayoutProps,
   AnalysisToolConfiguration,
   CohortManager,
@@ -27,11 +28,29 @@ import { getCustomCohortButtons } from '@/features/cohort/getCustomCohortButtons
 import { useProjectId } from '@/hooks/useAppFilters';
 import { formatGeneSymbol } from '@/utils/formatQueryExpressionValues';
 
+const PROD_HOSTNAME = 'virtuallab.themmrf.org';
+const PROD_HIDDEN_APP_IDS = new Set([
+  'OncoMatrix',
+  'GeneExpression',
+]);
+
 interface CountsPanelProps {
   index: string;
   accessibility?: Accessibility;
   indexPrefix?: string;
 }
+
+interface ToolsPageProps extends AnalysisPageLayoutProps {
+  hideProdOnlyTools?: boolean;
+}
+
+const getRequestHostname = (header?: string | string[]) => {
+  const rawHost = Array.isArray(header) ? header[0] : header;
+
+  if (!rawHost) return undefined;
+
+  return rawHost.split(',')[0].trim().split(':')[0].toLowerCase();
+};
 
 const CountsPanel: React.FC<CountsPanelProps> = ({
   index,
@@ -67,11 +86,27 @@ const CountsPanel: React.FC<CountsPanelProps> = ({
   );
 };
 
-const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
+const Tools = ({
+  sections,
+  classNames,
+  hideProdOnlyTools = false,
+}: ToolsPageProps) => {
   const router = useRouter();
   const {
     query: { app },
   } = router;
+  const visibleSections = useMemo(() => {
+    if (!hideProdOnlyTools || !sections) return sections;
+
+    return sections
+      .map((section) => ({
+        ...section,
+        tools: section.tools.filter(
+          ({ appId }) => !appId || !PROD_HIDDEN_APP_IDS.has(appId),
+        ),
+      }))
+      .filter((section) => section.tools.length > 0);
+  }, [hideProdOnlyTools, sections]);
   const REGISTERED_APPS = useMemo(() => {
     if (sections) {
       return sections.reduce(
@@ -82,7 +117,7 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
       );
     }
     return [];
-  }, []);
+  }, [sections]);
   let appInfo = app
     ? REGISTERED_APPS.find((a: AnalysisToolConfiguration) => a?.appId === app)
     : undefined;
@@ -132,10 +167,10 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
           )}
           {appInfo ? (
             <AnalysisWorkspace appInfo={appInfo} />
-          ) : sections ? (
+          ) : visibleSections ? (
             <div className="mx-4 mb-6 pr-[300px]">
               <AnalysisCenterWithSections
-                sections={sections}
+                sections={visibleSections}
                 classNames={classNames}
               />
             </div>
@@ -150,4 +185,22 @@ const Tools = ({ sections, classNames }: AnalysisPageLayoutProps) => {
 
 export default Tools;
 
-export { getServerSideProps };
+export const getServerSideProps: GetServerSideProps<ToolsPageProps> = async (
+  context,
+) => {
+  const result = await baseGetServerSideProps(context);
+
+  if (!('props' in result)) return result;
+
+  const hostname =
+    getRequestHostname(context.req.headers['x-forwarded-host']) ??
+    getRequestHostname(context.req.headers.host);
+
+  return {
+    ...result,
+    props: {
+      ...result.props,
+      hideProdOnlyTools: hostname === PROD_HOSTNAME,
+    },
+  };
+};
