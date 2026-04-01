@@ -134,8 +134,8 @@ const processProjectData = (data: any): ProjectDefaults => {
     const file = data?.file?.file ?? null;
     const fileSummary = {
       case_count: 0,
-      file_count: file.totalFiles,
-      file_size: file?.file_size?.histogram?.[0]?.sum ?? '0',
+      file_count: project.summary.file_count,
+      file_size: project.summary.file_size  ?? '0',
       data_categories:
         file.data_category.histogram.map((x: any) => ({
           file_count: x.count,
