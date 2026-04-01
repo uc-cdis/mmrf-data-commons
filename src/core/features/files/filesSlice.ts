@@ -6,10 +6,12 @@ import { FileSummaryFields } from './summaryFields';
 import { dotNotationToGraphql } from '@/core/utils/conversions';
 
 const graphQLQuery = `
-query File_file (
-    $fileFilters: JSON
+query FilesInfo (
+    $fileFilters: JSON,
+    $first: Int,
+    $offset: Int
   ) {
-    files: File_file (filter: $fileFilters) {
+    files: File_file (filter: $fileFilters, first: $first, offset: $offset) {
         access
         acl
         average_base_quality
@@ -530,8 +532,8 @@ const filesSlice = guppyApi.injectEndpoints({
                   : {},
               ],
             },
-            size,
-            from,
+            first: size,
+            offset: from,
           },
         };
       },
