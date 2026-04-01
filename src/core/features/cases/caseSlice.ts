@@ -241,7 +241,7 @@ const caseSlice = guppyApi.injectEndpoints({
           query: `query getCaseIdFromFilter($filter: JSON) {
             hits: CaseCentric_case_centric(filter: $filter, first: ${MAX_CASES}) {
                 case_id
-                ${additionalFields?.map((field) => `${field}`).join('\n')}
+                ${ additionalFields && additionalFields?.length > 0 ? additionalFields?.map((field) => `${field}`).join('\n') : '' }
             }
         }`,
           variables: { filter: gqlFilter },
