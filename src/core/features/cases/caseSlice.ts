@@ -140,6 +140,10 @@ const graphQLQuery = `query Case_case($filter: JSON) {
 const CaseValidateQuery = `query Case_case ($filter: JSON) {
     Case_case(filter: $filter, first: 10000) {
         case_id
+        submitter_id
+        project {
+            project_id
+        }
     }
 }`;
 
@@ -184,6 +188,14 @@ interface ValidateEntitiesRequest {
   entityType: ValidateTypes;
 }
 
+export interface CaseValidationRecord {
+  readonly case_id: string;
+  readonly submitter_id?: string;
+  readonly project?: {
+    readonly project_id?: string;
+  };
+}
+
 interface CohortCaseIdsRequest {
   filter: FilterSet;
   additionalFields?: string[];
@@ -215,23 +227,31 @@ const caseSlice = guppyApi.injectEndpoints({
       },
     }),
     fetchEntities: builder.query<
-      ReadonlyArray<string>,
+      ReadonlyArray<Record<string, unknown>>,
       ValidateEntitiesRequest
     >({
       query: ({ ids, entityType }: ValidateEntitiesRequest) => ({
         query: ValidationQueries[entityType],
-        variables: { filter: { in: { [EntityFields[entityType]]: ids } } },
+        variables: {
+          filter:
+            entityType === "case"
+              ? {
+                  or: [
+                    { in: { case_id: ids } },
+                    { in: { submitter_id: ids } },
+                  ],
+                }
+              : { in: { [EntityFields[entityType]]: ids } },
+        },
       }),
       transformResponse: (
         results: {
-          data: Record<string, Array<Record<string, string>>>;
+          data: Record<string, Array<Record<string, unknown>>>;
         },
         _p,
-        meta,
-      ): ReadonlyArray<string> => {
-        return results?.data?.[EntityQueryHeaders[meta.entityType]]?.map(
-          (x) => x[EntityFields[meta.entityType]],
-        );
+        args,
+      ): ReadonlyArray<Record<string, unknown>> => {
+        return results?.data?.[EntityQueryHeaders[args.entityType]] ?? [];
       },
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({

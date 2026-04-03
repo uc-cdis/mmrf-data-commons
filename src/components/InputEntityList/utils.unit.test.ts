@@ -1,4 +1,8 @@
-import { getMatchedIdentifiers } from "./utils";
+import {
+  getMatchedIdentifiers,
+  getUniqueTokensForValidation,
+  parseTokens,
+} from "./utils";
 
 describe("getMatchedIdentifiers", () => {
   it("match deeply nested items", () => {
@@ -204,5 +208,29 @@ describe("getMatchedIdentifiers", () => {
         output: [{ field: "symbol", value: "MUC16" }],
       },
     ]);
+  });
+});
+
+describe("parseTokens", () => {
+  it("ignores the exported cohort TSV header", () => {
+    expect(
+      parseTokens(`case_id\tsubmitter_id
+0004d251-3f70-4395-b175-c94c2f5b1b81\tMMRF_1234`),
+    ).toEqual([
+      "0004d251-3f70-4395-b175-c94c2f5b1b81",
+      "MMRF_1234",
+    ]);
+  });
+});
+
+describe("getUniqueTokensForValidation", () => {
+  it("preserves submitter-id casing for validation queries", () => {
+    expect(
+      getUniqueTokensForValidation([
+        "MMRF_1234",
+        "MMRF_1234",
+        "mmrf_1234",
+      ]),
+    ).toEqual(["MMRF_1234", "mmrf_1234"]);
   });
 });
