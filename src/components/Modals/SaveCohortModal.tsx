@@ -124,7 +124,7 @@ export const SaveCohortModal = ({
               isSaving ? <Loader size={15} color="white" /> : undefined
             }
           >
-            Save234
+            Save
           </Button>
         </div>
       </div>
