@@ -196,6 +196,14 @@ export interface CaseValidationRecord {
   };
 }
 
+export interface FileValidationRecord {
+  readonly file_id: string;
+}
+
+export type ValidationEntityRecord =
+  | CaseValidationRecord
+  | FileValidationRecord;
+
 interface CohortCaseIdsRequest {
   filter: FilterSet;
   additionalFields?: string[];
@@ -227,7 +235,7 @@ const caseSlice = guppyApi.injectEndpoints({
       },
     }),
     fetchEntities: builder.query<
-      ReadonlyArray<Record<string, unknown>>,
+      ReadonlyArray<ValidationEntityRecord>,
       ValidateEntitiesRequest
     >({
       query: ({ ids, entityType }: ValidateEntitiesRequest) => ({
@@ -246,11 +254,11 @@ const caseSlice = guppyApi.injectEndpoints({
       }),
       transformResponse: (
         results: {
-          data: Record<string, Array<Record<string, unknown>>>;
+          data: Record<string, Array<ValidationEntityRecord>>;
         },
         _p,
         args,
-      ): ReadonlyArray<Record<string, unknown>> => {
+      ): ReadonlyArray<ValidationEntityRecord> => {
         return results?.data?.[EntityQueryHeaders[args.entityType]] ?? [];
       },
     }),
