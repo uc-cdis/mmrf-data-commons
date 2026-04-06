@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import { MatchResults } from "./type";
 
 
@@ -191,8 +192,25 @@ export const REACHED_LIMIT_WARNING =
 export const EXCEED_LIMIT_ERROR =
   "Your data exceeds the maximum of 10,000 identifiers. Only the first 10,000 will be processed.";
 
-export const parseTokens = (input: string) =>
-  input
-    .trim()
-    .split(/[\s,]+/)
-    .filter((t) => t !== "");
+const stripExportedCohortHeader = (input: string) => {
+  const lines = input.split(/\r?\n/);
+  const header = lines[0]?.trim().toLowerCase();
+
+  if (header === "case_id\tsubmitter_id") {
+    return lines.slice(1).join("\n");
+  }
+
+  return input;
+};
+
+export const parseTokens = (input: string) => {
+  const normalizedInput = stripExportedCohortHeader(input).trim();
+
+  if (normalizedInput === "") {
+    return [];
+  }
+
+  return normalizedInput.split(/[\s,]+/).filter((t) => t !== "");
+};
+
+export const getUniqueTokensForValidation = (tokens: string[]) => uniq(tokens);

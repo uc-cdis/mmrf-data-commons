@@ -6,7 +6,7 @@ import fieldConfig from '../InputEntityList/fieldConfig';
 
 interface FilterByUserInputModalProps {
   readonly userInputProps: InputEntityListProps;
-  readonly type: "genes" | "ssms";
+  readonly type: "genes" | "ssms" | "cases";
   readonly updateFilters: (facetField: string, outputIds: string[]) => void;
 }
 
