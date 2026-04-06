@@ -32,10 +32,15 @@ import { initialState, inputEntityListReducer } from "./InputEntityListReducer";
 import { MatchResults } from "./type";
 import {
   CaseValidationRecord,
+  ValidationEntityRecord,
   useLazyFetchEntitiesQuery,
 } from '@/core/features/cases/caseSlice';
 
 type InputEntityType = "genes" | "ssms" | "cases";
+
+const isCaseValidationRecord = (
+  record: ValidationEntityRecord,
+): record is CaseValidationRecord => "case_id" in record;
 
 export interface InputEntityListProps {
   readonly inputInstructions: string;
@@ -126,20 +131,19 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
           ids: getUniqueTokensForValidation(tokensToValidate),
           entityType: "case",
         }).unwrap();
+        const caseValidationResponse = response.filter(isCaseValidationRecord);
 
         const matches =
           entityType === "cases"
             ? getMatchedIdentifiers(
-                response as ReadonlyArray<CaseValidationRecord>,
+                caseValidationResponse,
                 mappedToFields,
                 matchAgainstIdentifiers,
                 outputField,
                 tokensToValidate,
               )
             : getMatchedIdentifiersFromDataArray(
-                (response as ReadonlyArray<{ case_id: string }>).map(
-                  ({ case_id }) => case_id,
-                ),
+                caseValidationResponse.map(({ case_id }) => case_id),
                 "case_id",
                 tokensToValidate,
               );
