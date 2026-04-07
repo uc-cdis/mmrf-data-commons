@@ -339,7 +339,7 @@ function getMatrixTrack(
     launchGdcHierCluster: props.chartType == "hierCluster",
     settings: {
       matrix: {
-        maxGenes: 5
+        maxGenes: 50
       }
     },
     opts: {
