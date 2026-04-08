@@ -1,7 +1,6 @@
+import React, { useCallback, JSX } from 'react';
 import { LoadingOverlay } from '@mantine/core';
-
 import { SurvivalPlotTypes } from '@/features/charts/SurvivalPlot/types';
-import React, { useCallback } from 'react';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import {
   ComparativeSurvival,

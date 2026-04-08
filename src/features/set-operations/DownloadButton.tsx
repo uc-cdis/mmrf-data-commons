@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ActionIcon, Loader, Tooltip, Modal } from '@mantine/core';
-import { SetOperationEntityType } from '@/features/set-operations/types';
-import { GQLFilter, useCoreDispatch } from '@gen3/core';
 import { getFormattedTimestamp } from '@/utils/date';
 import ModalButtonContainer from '@/components/StyledComponents/ModalButtonContainer';
 import DarkFunctionButton from '@/components/StyledComponents/DarkFunctionButton';
 import { DownloadIcon } from '@/utils/icons';
-import { formatPercent } from '@/features/cDave/utils';
 import { saveAs } from 'file-saver';
 
-const ENTITY_TYPE_TO_TAR = {
-  cohort: 'case',
-};
 
 interface DownloadButtonProps {
   readonly data: string[];

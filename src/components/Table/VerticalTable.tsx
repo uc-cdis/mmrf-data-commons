@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import {
   flexRender,
   getCoreRowModel,
@@ -118,7 +118,7 @@ function VerticalTable<TData>({
     Date.now(),
   );
 
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const { xPosition, setXPosition } = useContext(TableXPositionContext);
   const bottomXCoor = ref?.current?.getBoundingClientRect()?.bottom;
   useEffect(() => {

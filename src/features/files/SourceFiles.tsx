@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import GenericLink from '@/components/GenericLink';
 import { AccessType, CartFile, GdcCartFile, GdcFile } from '@/core';

@@ -113,7 +113,7 @@ const renderDiscoveryIndexPanel = (
       shouldHideSelectionColumn(config) ? 'true' : undefined
     }
   >
-    <DiscoveryIndexPanel discoveryConfig={config} indexSelector={indexSelector} />
+    <DiscoveryIndexPanel indexSelector={indexSelector} />
   </div>
 );
 

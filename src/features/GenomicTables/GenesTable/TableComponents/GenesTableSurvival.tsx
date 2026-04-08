@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { SurvivalChartIcon } from '@/utils/icons';
 import ToggledCheck from '../../SharedComponent/ToggledCheck';
 import { Survival } from '../types';

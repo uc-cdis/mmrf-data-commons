@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { CardContainer } from '@gen3/frontend';
 
 const  supportEmail = "VirtualLab@themmrf.org";

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import VerticalTable from '@/components/Table/VerticalTable';

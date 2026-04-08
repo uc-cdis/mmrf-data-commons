@@ -1,4 +1,4 @@
-import React from "react";
+import { JSX } from 'react';
 import { formatDataForHorizontalTable } from "../files/utils";
 
 import { humanify } from "src/utils";

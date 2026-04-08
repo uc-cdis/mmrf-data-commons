@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from 'react';
 import { LoadingOverlay } from "@mantine/core";
 import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";
 import { CaseView } from "./CaseView";

@@ -1,4 +1,4 @@
-import React, { useState, useId } from "react";
+import React, { useState, useId, JSX } from "react";
 import VerticalTable from "@/components/Table/VerticalTable";
 import {
   ColumnDef,

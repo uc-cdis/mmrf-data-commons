@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { truncateAfterMarker } from '../Utils/utils';
 import { Tooltip } from '@mantine/core';
 import Link from 'next/link';

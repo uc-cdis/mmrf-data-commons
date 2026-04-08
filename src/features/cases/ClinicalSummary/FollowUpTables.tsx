@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Badge, Text } from '@mantine/core';
 import { createColumnHelper } from '@tanstack/react-table';
 import { HorizontalTable } from '@/components/HorizontalTable';

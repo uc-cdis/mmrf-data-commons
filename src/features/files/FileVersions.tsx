@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { useMemo } from 'react';
 import saveAs from 'file-saver';
 import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';

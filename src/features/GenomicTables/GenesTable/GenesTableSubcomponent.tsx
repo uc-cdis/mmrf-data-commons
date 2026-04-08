@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Row } from '@tanstack/react-table';
 import { Gene } from './types';
 import CommonSubcomponent from '../SharedComponent/CommonSubcomponent';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
   Switch,
