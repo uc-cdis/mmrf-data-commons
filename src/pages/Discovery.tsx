@@ -10,6 +10,7 @@ import {
   DiscoveryPageGetServerSideProps as getServerSideProps,
   DiscoveryCellRendererFactory,
   registerDiscoveryDefaultCellRenderers,
+  DiscoveryConfigProvider,
 } from '@gen3/frontend';
 
 
@@ -113,7 +114,9 @@ const renderDiscoveryIndexPanel = (
       shouldHideSelectionColumn(config) ? 'true' : undefined
     }
   >
-    <DiscoveryIndexPanel indexSelector={indexSelector} />
+    <DiscoveryConfigProvider discoveryIndexConfig={config}>
+      <DiscoveryIndexPanel indexSelector={indexSelector} />
+    </DiscoveryConfigProvider>
   </div>
 );
 
@@ -201,45 +204,46 @@ const Discovery = ({
       CustomFooterComponent={EmptyHeader}
     >
       <div ref={discoveryContainerRef} className="w-full">
-        {menuItems.length === 0 ? (
-          <Center maw={400} h={100} mx="auto">
-            <div>No discovery configuration</div>
-          </Center>
-        ) : menuItems.length === 1 ? (
-          renderDiscoveryIndexPanel(patchedMetadataConfig[0], null)
-        ) : (
-          <div className="flex flex-col items-center p-4 w-full bg-base-lightest">
-            <Tabs
-              className="w-full"
-              value={metadataIndex}
-              variant={discoveryConfig.metadataConfig[0]?.tabType}
-              onChange={(value) => setMetadataIndex(value ?? '0')}
-            >
-              <Tabs.List>
+
+          {menuItems.length === 0 ? (
+            <Center maw={400} h={100} mx="auto">
+              <div>No discovery configuration</div>
+            </Center>
+          ) : menuItems.length === 1 ? (
+            renderDiscoveryIndexPanel(patchedMetadataConfig[0], null)
+          ) : (
+            <div className="flex flex-col items-center p-4 w-full bg-base-lightest">
+              <Tabs
+                className="w-full"
+                value={metadataIndex}
+                variant={discoveryConfig.metadataConfig[0]?.tabType}
+                onChange={(value) => setMetadataIndex(value ?? '0')}
+              >
+                <Tabs.List>
+                  {menuItems.map((item) => (
+                    <Tabs.Tab key={item.value} value={item.value}>
+                      {item.label}
+                    </Tabs.Tab>
+                  ))}
+                </Tabs.List>
                 {menuItems.map((item) => (
-                  <Tabs.Tab key={item.value} value={item.value}>
-                    {item.label}
-                  </Tabs.Tab>
+                  <Tabs.Panel key={item.value} value={item.value}>
+                    {renderDiscoveryIndexPanel(
+                      patchedMetadataConfig[Number.parseInt(item.value, 10)],
+                      menuItems.length > 1 ? (
+                        <Select
+                          label="Metadata:"
+                          data={menuItems}
+                          value={metadataIndex}
+                          onChange={(value) => setMetadataIndex(value ?? '0')}
+                        />
+                      ) : null,
+                    )}
+                  </Tabs.Panel>
                 ))}
-              </Tabs.List>
-              {menuItems.map((item) => (
-                <Tabs.Panel key={item.value} value={item.value}>
-                  {renderDiscoveryIndexPanel(
-                    patchedMetadataConfig[Number.parseInt(item.value, 10)],
-                    menuItems.length > 1 ? (
-                      <Select
-                        label="Metadata:"
-                        data={menuItems}
-                        value={metadataIndex}
-                        onChange={(value) => setMetadataIndex(value ?? '0')}
-                      />
-                    ) : null,
-                  )}
-                </Tabs.Panel>
-              ))}
-            </Tabs>
-          </div>
-        )}
+              </Tabs>
+            </div>
+          )}
       </div>
     </NavPageLayout>
   );
