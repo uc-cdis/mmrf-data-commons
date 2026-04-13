@@ -104,8 +104,19 @@
           "hasDemo": false,
           "loginRequired": false,
           "description": "Visualize the top most variably expressed genes in your cohort.",
-          "icon": "/icons/apps/OncoMatrix.svg",
+          "icon": "/icons/apps/GeneExpression.svg",
           "appId": "GeneExpression",
+          "hideCounts": true,
+          "countUnits": "Cases"
+        },
+        {
+          "title": "Differential Gene Expression",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Identify differentially expressed genes between groups.",
+          "icon": "/icons/apps/construction.svg",
+          "appId": "DE",
           "hideCounts": true,
           "countUnits": "Cases"
         },
