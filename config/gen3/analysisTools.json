@@ -114,9 +114,20 @@
           "type": "application",
           "hasDemo": false,
           "loginRequired": false,
-          "description": "Identify differentially expressed genes between groups.",
+          "description": "Identify differentially expressed genes between custom groups.",
           "icon": "/icons/apps/construction.svg",
           "appId": "DE",
+          "hideCounts": true,
+          "countUnits": "Cases"
+        },
+        {
+          "title": "Single Cell RNA-seq",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Visualize single-cell RNA-Seq data with cluster plots and gene expression overlays.",
+          "icon": "/icons/apps/scRNASeq.svg",
+          "appId": "SC",
           "hideCounts": true,
           "countUnits": "Cases"
         },
