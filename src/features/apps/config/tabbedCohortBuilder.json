@@ -8,6 +8,7 @@
       "facets": ["project.project_id", "primary_site", "disease_type"],
       "fieldsConfig": {
         "project.project_id": {
+          "label": "Project ID",
           "description": "The project ID is a unique identifier assigned to each project.",
           "excludeValues": [
             "MMRF-IA11",
@@ -156,15 +157,19 @@
           "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on femur."
         },
         "bone_assessments.mm_bone_lesion_pelvis": {
+          "label": "MM Bone Lesion Pelvis",
           "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on pelvis."
         },
         "bone_assessments.mm_bone_lesion_ribs": {
+          "label": "MM Bone Lesion Ribs",
           "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on ribs."
         },
         "bone_assessments.mm_bone_lesion_skull": {
+          "label": "MM Bone Lesion Skull",
           "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on skull."
         },
         "bone_assessments.mm_bone_lesion_spine": {
+          "label": "MM Bone Lesion Spine",
           "description": "Indication that the exam found evidence of myeloma-related bone lesion(s) on spine."
         },
         "bone_assessments.number_of_lytic_lesions": {
@@ -190,12 +195,15 @@
       ],
       "fieldsConfig": {
         "outcomes.censor_os": {
+          "label": "Censor OS",
           "description": "A numeric (0/1) flag indicating whether the death has occurred (1=TRUE) or the subject was censored (0=FALSE)."
         },
         "outcomes.censor_pfs": {
+          "label": "Censor PFS",
           "description": "A numeric (0/1) flag indicating whether the progressive disease has occurred (1=TRUE) or the subject was censored (0=FALSE)."
         },
         "diagnoses.best_overall_response": {
+          "label": "Best Overall Response",
           "description": "The best improvement achieved throughout the entire course of study period."
         },
         "outcomes.survival_time_pfs": {
@@ -282,10 +290,12 @@
       ],
       "fieldsConfig": {
         "diagnoses.bmi_at_diagnosis": {
+          "label": "BMI at Diagnosis",
           "description": "Subject's body mass index (BMI) calculated from height and weight recorded prior to first therapy for active multiple myeloma diagnosis. algorithm: (weight/(height*height)).",
           "type": "multiselect"
         },
         "diagnoses.iss_stage": {
+          "label": "ISS Stage",
           "description": "The multiple myeloma disease International Staging System (ISS) stage at diagnosis that prognostically categorizes the severity of multiple myeloma based on routinely obtained lab values."
         },
         "diagnoses.first_progressive_disease": {
