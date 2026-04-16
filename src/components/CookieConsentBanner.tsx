@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 
 export const COOKIE_CONSENT_BANNER_TEXT =
-  'This site uses cookies and other tracking technologies to assist with navigation and your ability to provide feedback, and analyze your use of our products and services.';
+  'This site uses cookies and other tracking technologies to assist with navigation, enable feedback, and analyze how the site is used.';
 
 export const COOKIE_CONSENT_PRIVACY_POLICY_URL =
   'https://themmrf.org/privacy-policy/';
