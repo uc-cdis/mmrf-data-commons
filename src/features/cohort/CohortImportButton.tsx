@@ -20,7 +20,7 @@ const CohortImportButton: React.FC = () => {
     };
 
     modals.openContextModal({
-      modal: "saveCohortModal",
+      modal: "saveCohortModalMMRF",
       title: "Save Cohort",
       size: "md",
       zIndex: 1200,
@@ -51,18 +51,14 @@ const CohortImportButton: React.FC = () => {
           inputInstructions:
             "Enter one or more case identifiers in the field below or upload a file to import a new cohort.",
           textInputPlaceholder:
-            "e.g. TCGA-DD-AAVP, TCGA-DD-AAVP-10A-01D-A40U-10, 0004d251-3f70-4395-b175-c94c2f5b1b81",
+            "e.g. MMRF_1234, 0004d251-3f70-4395-b175-c94c2f5b1b81",
           entityType: "cases",
           entityLabel: "case",
           identifierToolTip: (
             <div>
               <p>
-                - Case identifiers accepted: Case UUID, Case ID, Sample UUID,
-                Sample ID, Portion UUID, Portion ID,
-                <p>
-                  Slide UUID, Slide ID, Analyte UUID, Analyte ID, Aliquot UUID,
-                  Aliquot ID
-                </p>
+                - Case identifiers accepted: Case UUID, Case submitter ID
+                (Case ID)
               </p>
               <p>
                 - Delimiters between case identifiers: comma, space, tab or 1

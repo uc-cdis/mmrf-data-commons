@@ -74,14 +74,14 @@ export const SetOperationsThree: React.FC<SetOperationsExternalProps> = ({
     {
       label: '( S2 ∩ S3 ) - ( S1 )',
       key: 'S2_intersect_S3_minus_S1',
-      caseIds: setData?.S1_intersect_S2_minus_S3 ?? [],
+      caseIds: setData?.S2_intersect_S3_minus_S1 ?? [],
       value: setData?.S2_intersect_S3_minus_S1.length ?? 0,
     },
     {
       label: '( S1 ∩ S3 ) - ( S2 )',
       key: 'S1_intersect_S3_minus_S2',
-      caseIds: setData?.S2_intersect_S3_minus_S1 ?? [],
-      value: setData?.S2_intersect_S3_minus_S1.length ?? 0,
+      caseIds: setData?.S1_intersect_S3_minus_S2 ?? [],
+      value: setData?.S1_intersect_S3_minus_S2.length ?? 0,
     },
     {
       label: '( S1 ) - ( S2 ∪ S3 )',

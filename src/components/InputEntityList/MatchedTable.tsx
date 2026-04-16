@@ -210,7 +210,7 @@ const MatchedTable = ({
         <p className="text-sm">
           {numMatched?.toLocaleString()} submitted {entityLabel} identifier
           {numMatched !== 1 && "s"} mapped to {matched.length?.toLocaleString()}{" "}
-          unique GDC {entityLabel}
+          unique {entityLabel}
           {matched.length !== 1 && "s"}{" "}
         </p>
         <FunctionButton onClick={downloadTSV}>TSV</FunctionButton>

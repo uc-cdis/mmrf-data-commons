@@ -7,10 +7,9 @@ import {
 import { ButtonProps, Tooltip } from "@mantine/core";
 import tw from "tailwind-styled-components";
 import { FaPlus as PlusIcon  } from 'react-icons/fa';
-import { modals } from '@mantine/modals';
-
-import { MAX_CASES, useLazyGetCohortCentricQuery } from '@/core';
 import { openModalWithCohortFilterRepresentation } from '@/features/cases/CasesCohortButton/CasesCohortButton';
+
+import { MAX_CASES, useLazyGetGeneCaseidsQuery } from '@/core';
 
 interface CohortCreationStyledButtonProps extends ButtonProps {
   $fullWidth?: boolean;
@@ -50,28 +49,22 @@ export const IconWrapperTW = tw.span`
   p-1
 `;
 
-const updateFilters = (caseIds: string[]) => {
-  const cohortFilters: FilterSet = {
-    mode: 'and',
-    root: {
-      case_id: {
-        operator: 'in',
-        field: 'case_id',
-        operands: Array.from(caseIds ?? []),
+const updateFilters = ( caseIds: string[]) => {
+    const cohortFilters: FilterSet = {
+      mode: 'and',
+      root: {
+        case_id: {
+          operator: 'in',
+          field: 'case_id',
+          operands: Array.from(caseIds ?? []),
+        },
       },
-    },
-  };
-  openModalWithCohortFilterRepresentation(cohortFilters);
+    };
+    openModalWithCohortFilterRepresentation(cohortFilters);
 };
 
-const COHORT_CASES_QUERY = `query Case_case($filter: JSON) {
-  CaseCentric_case_centric(filter: $filter, first:${MAX_CASES}) {
-    case_id
-  }
-}`;
 
-
-interface CohortCreationButtonProps {
+interface GeneCohortCreationButtonProps {
   readonly label: ReactNode;
   readonly numCases: number;
   readonly filter: FilterSet;
@@ -88,56 +81,56 @@ interface CohortCreationButtonProps {
  * @property filtersCallback - callback to create filters, used when filters are too complicated for FilterSet
  * @category Buttons
  */
-const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
-                                                                     label,
-                                                                     numCases,
-                                                                     filter,
-                                                                     caseFilter
-}: CohortCreationButtonProps) => {
+const GeneCohortCreationButton: React.FC<GeneCohortCreationButtonProps> = ({
+  label,
+  numCases,
+  filter,
+  caseFilter,
+}: GeneCohortCreationButtonProps) => {
   const [loading, setLoading] = useState(false);
   const disabled = numCases === undefined || numCases === 0;
-  const [ getCaseIds , { data,  isFetching, isSuccess, isError } ] = useLazyGetCohortCentricQuery();
+  const [getCaseIds, { data, isFetching, isSuccess, isError }] =
+    useLazyGetGeneCaseidsQuery();
   const tooltipText = disabled
-    ? "No cases available"
+    ? 'No cases available'
     : `Save a new cohort of ${
-        numCases > 1 ? `these ${numCases.toLocaleString()} cases` : "this case"
+        numCases > 1 ? `these ${numCases.toLocaleString()} cases` : 'this case'
       }`;
 
   useEffect(() => {
     if (isSuccess) {
-      const cases: Array<string> = data?.data?.CaseCentric_case_centric?.map((caseObj: { case_id: string }) => caseObj.case_id) ?? [] ;
-      updateFilters( cases);
+      updateFilters(data);
       setLoading(false);
     }
-    if (isError)
-      setLoading(false);
+    if (isError) setLoading(false);
+  }, [data, isFetching, isSuccess]);
 
-  }, [data, isFetching, isSuccess])
-
-  const cohortFilterGql = convertFilterSetToGqlFilter(caseFilter??EmptyFilterSet);
-  const filterGql = convertFilterSetToGqlFilter(filter??EmptyFilterSet);
+  const cohortFilterGql = convertFilterSetToGqlFilter(
+    caseFilter ?? EmptyFilterSet,
+  );
+  const filterGql = convertFilterSetToGqlFilter(filter ?? EmptyFilterSet);
 
   return (
-      <div className="p-1">
-        <Tooltip
-          label={
-            disabled ? (
-              "No cases available"
-            ) : (
-              <>
-                Save a new cohort of{" "}
-                {numCases > 1 ? (
-                  <>
-                    these <b>{numCases.toLocaleString()}</b> cases
-                  </>
-                ) : (
-                  "this case"
-                )}
-              </>
-            )
-          }
-          withArrow
-        >
+    <div className="p-1">
+      <Tooltip
+        label={
+          disabled ? (
+            'No cases available'
+          ) : (
+            <>
+              Save a new cohort of{' '}
+              {numCases > 1 ? (
+                <>
+                  these <b>{numCases.toLocaleString()}</b> cases
+                </>
+              ) : (
+                'this case'
+              )}
+            </>
+          )
+        }
+        withArrow
+      >
         <CohortCreationStyledButton
           data-testid="button-save-filtered-cohort"
           onClick={async () => {
@@ -147,11 +140,9 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
 
             setLoading(true);
             getCaseIds({
-              cohortFilter: cohortFilterGql,
-              filter: filterGql,
-              query: COHORT_CASES_QUERY,
-              caseIdsFilterPath: 'case_id',
-              caseIdField: 'case_id',
+              cohortFilters: cohortFilterGql,
+              geneFilters: filterGql,
+              ssmFilters: convertFilterSetToGqlFilter(EmptyFilterSet)
             });
           }}
           disabled={disabled}
@@ -159,13 +150,12 @@ const CohortCreationButton: React.FC<CohortCreationButtonProps> = ({
           aria-label={tooltipText}
         >
           <IconWrapperTW $disabled={disabled} aria-hidden="true">
-              <PlusIcon color="white" size={12} />
+            <PlusIcon color="white" size={12} />
           </IconWrapperTW>
-          <span className="pr-2 self-center">{label ?? "--"}</span>
+          <span className="pr-2 self-center">{label ?? '--'}</span>
         </CohortCreationStyledButton>
-
-        </Tooltip>
-      </div>
+      </Tooltip>
+    </div>
   );
 };
-export default CohortCreationButton;
+export default GeneCohortCreationButton;

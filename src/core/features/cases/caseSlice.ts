@@ -140,6 +140,10 @@ const graphQLQuery = `query Case_case($filter: JSON) {
 const CaseValidateQuery = `query Case_case ($filter: JSON) {
     Case_case(filter: $filter, first: 10000) {
         case_id
+        submitter_id
+        project {
+            project_id
+        }
     }
 }`;
 
@@ -184,8 +188,25 @@ interface ValidateEntitiesRequest {
   entityType: ValidateTypes;
 }
 
+export interface CaseValidationRecord {
+  readonly case_id: string;
+  readonly submitter_id?: string;
+  readonly project?: {
+    readonly project_id?: string;
+  };
+}
+
+export interface FileValidationRecord {
+  readonly file_id: string;
+}
+
+export type ValidationEntityRecord =
+  | CaseValidationRecord
+  | FileValidationRecord;
+
 interface CohortCaseIdsRequest {
   filter: FilterSet;
+  additionalFields?: string[];
 }
 
 const caseSlice = guppyApi.injectEndpoints({
@@ -214,39 +235,58 @@ const caseSlice = guppyApi.injectEndpoints({
       },
     }),
     fetchEntities: builder.query<
-      ReadonlyArray<string>,
+      ReadonlyArray<ValidationEntityRecord>,
       ValidateEntitiesRequest
     >({
       query: ({ ids, entityType }: ValidateEntitiesRequest) => ({
         query: ValidationQueries[entityType],
-        variables: { filter: { in: { [EntityFields[entityType]]: ids } } },
+        variables: {
+          filter:
+            entityType === "case"
+              ? {
+                  or: [
+                    { in: { case_id: ids } },
+                    { in: { submitter_id: ids } },
+                  ],
+                }
+              : { in: { [EntityFields[entityType]]: ids } },
+        },
       }),
       transformResponse: (
         results: {
-          data: Record<string, Array<Record<string, string>>>;
+          data: Record<string, Array<ValidationEntityRecord>>;
         },
         _p,
-        meta,
-      ): ReadonlyArray<string> => {
-        return results?.data?.[EntityQueryHeaders[meta.entityType]]?.map(
-          (x) => x[EntityFields[meta.entityType]],
-        );
+        args,
+      ): ReadonlyArray<ValidationEntityRecord> => {
+        return results?.data?.[EntityQueryHeaders[args.entityType]] ?? [];
       },
     }),
     cohortCaseId: builder.query<ReadonlyArray<string>, CohortCaseIdsRequest>({
-      query: ({ filter }: CohortCaseIdsRequest) => {
+      query: ({ filter, additionalFields }: CohortCaseIdsRequest) => {
         const gqlFilter = convertFilterSetToGqlFilter(filter ?? EmptyFilterSet);
         return {
           query: `query getCaseIdFromFilter($filter: JSON) {
             hits: CaseCentric_case_centric(filter: $filter, first: ${MAX_CASES}) {
                 case_id
+                ${ additionalFields && additionalFields?.length > 0 ? additionalFields?.map((field) => `${field}`).join('\n') : '' }
             }
         }`,
           variables: { filter: gqlFilter },
         };
       },
-      transformResponse: (response: any) =>
-        response?.data?.hits?.map((x: any) => x?.case_id) ?? [],
+      transformResponse: (response: any, meta, args) => {
+        if (args?.additionalFields) {
+          return response?.data?.hits?.map((x: any) => {
+            let caseData = x.case_id as string;
+            args?.additionalFields?.forEach((field: string) => {
+              caseData += `,${x[field]}`;
+            });
+            return caseData;
+          }) ?? [];
+        }
+       return  response?.data?.hits?.map((x: any) => x?.case_id) ?? [];
+      }
     }),
   }),
 });

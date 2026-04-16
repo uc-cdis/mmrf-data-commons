@@ -19,7 +19,9 @@ import DarkFunctionButton from "@/components/StyledComponents/DarkFunctionButton
 import { FileIcon, InfoIcon } from "@/utils/icons";
 import {
   EXCEED_LIMIT_ERROR,
+  getMatchedIdentifiers,
   getMatchedIdentifiersFromDataArray,
+  getUniqueTokensForValidation,
   MATCH_LIMIT,
   parseTokens,
   REACHED_LIMIT_WARNING,
@@ -29,16 +31,22 @@ import fieldConfig from "./fieldConfig";
 import { initialState, inputEntityListReducer } from "./InputEntityListReducer";
 import { MatchResults } from "./type";
 import {
-  EntityFields,
+  CaseValidationRecord,
+  ValidationEntityRecord,
   useLazyFetchEntitiesQuery,
 } from '@/core/features/cases/caseSlice';
 
+type InputEntityType = "genes" | "ssms" | "cases";
+
+const isCaseValidationRecord = (
+  record: ValidationEntityRecord,
+): record is CaseValidationRecord => "case_id" in record;
 
 export interface InputEntityListProps {
   readonly inputInstructions: string;
   readonly identifierToolTip: React.ReactNode;
   readonly textInputPlaceholder: string;
-  readonly entityType: "genes" | "ssms";
+  readonly entityType: InputEntityType;
   readonly entityLabel: string;
   readonly setOutputIds: (outputIds: string[]) => void;
   readonly shouldReset: boolean;
@@ -59,7 +67,7 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
   const inputRef = useRef(null);
   const resetFileInputRef = useRef<() => void>(null);
   const lastValidatedTokensRef = useRef<Set<string>>(new Set<string>());
-  const [ trigger, { data, isFetching, isSuccess, isError } ] = useLazyFetchEntitiesQuery();
+  const [trigger] = useLazyFetchEntitiesQuery();
   useEffect(() => {
     if (shouldReset) {
       processInputDebounced.flush();
@@ -119,13 +127,26 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
       lastValidatedTokensRef.current = uniqueNewTokens;
       dispatch({ type: "START_FETCH" });
       try {
-        const response = await  trigger({ ids: uniq(tokensToValidate.map((t) => t.toLowerCase())), entityType: 'case' });
+        const response = await trigger({
+          ids: getUniqueTokensForValidation(tokensToValidate),
+          entityType: "case",
+        }).unwrap();
+        const caseValidationResponse = response.filter(isCaseValidationRecord);
 
-        const matches = getMatchedIdentifiersFromDataArray(
-          response?.data ?? [],
-          "case_id",
-          tokensToValidate,
-        );
+        const matches =
+          entityType === "cases"
+            ? getMatchedIdentifiers(
+                caseValidationResponse,
+                mappedToFields,
+                matchAgainstIdentifiers,
+                outputField,
+                tokensToValidate,
+              )
+            : getMatchedIdentifiersFromDataArray(
+                caseValidationResponse.map(({ case_id }) => case_id),
+                "case_id",
+                tokensToValidate,
+              );
 
         dispatch({ type: "SET_MATCHED", payload: matches });
       } catch {
@@ -242,11 +263,13 @@ const InputEntityList: React.FC<InputEntityListProps> = ({
 
   useEffect(() => {
     setOutputIds(
-      state.matched
-        .map(
-          (match) => match.output.find((m) => m.field === outputField)?.value,
-        )
-        .filter((match) => match !== null || match !== undefined) as string[],
+      uniq(
+        state.matched
+          .map(
+            (match) => match.output.find((m) => m.field === outputField)?.value,
+          )
+          .filter((match): match is string => match != null),
+      ),
     );
   }, [state.matched, outputField]);
 

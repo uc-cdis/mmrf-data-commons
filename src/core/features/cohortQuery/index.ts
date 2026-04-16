@@ -1,11 +1,13 @@
 import {
   useGetCohortCentricQuery,
   useLazyGetCohortCentricQuery,
-  useGetCohortCentricAggsQuery
+  useGetCohortCentricAggsQuery,
+  useLazyGetGeneCaseidsQuery
 } from './cohortQuerySlice';
 
 export {
   useGetCohortCentricQuery,
   useLazyGetCohortCentricQuery,
-  useGetCohortCentricAggsQuery
+  useGetCohortCentricAggsQuery,
+  useLazyGetGeneCaseidsQuery,
 }

@@ -3,6 +3,9 @@
     "/DataLibrary": {
       "loginRequired": true
     },
+    "/Discovery": {
+      "loginRequired": true
+    },
     "/Workspace": {
       "loginRequired": true
     },

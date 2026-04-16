@@ -6,8 +6,11 @@
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#nvm install 20.11.0
-nvm use 20.11.0
+#node version is reported in package.json in "engines.node"
+#nvm install 24.14.0
+#rm -rf node_modules package-lock.json
+#npm install
+nvm use 24.14.0
 
 if [[ "$1" == "unlink" ]]; then
 	# to test the published client package before submitting a PR with an updated pp-client version

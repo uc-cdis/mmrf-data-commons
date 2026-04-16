@@ -20,20 +20,10 @@ export default {
     facetField: "ssm_id",
   },
   cases: {
-    mappedToFields: ["submitter_id", "project.project_id"],
+    mappedToFields: ["case_id", "submitter_id", "project.project_id"],
     matchAgainstIdentifiers: [
       "case_id",
       "submitter_id",
-      "samples.sample_id",
-      "samples.submitter_id",
-      "samples.portions.portion_id",
-      "samples.portions.submitter_id",
-      "samples.portions.analytes.analyte_id",
-      "samples.portions.analytes.submitter_id",
-      "samples.portions.analytes.aliquots.aliquot_id",
-      "samples.portions.analytes.aliquots.submitter_id",
-      "samples.portions.slides.slide_id",
-      "samples.portions.slides.submitter_id",
     ],
     searchField: "case_autocomplete.lowercase",
     fieldDisplay: {

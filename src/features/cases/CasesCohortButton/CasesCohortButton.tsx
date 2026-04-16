@@ -17,7 +17,7 @@ interface CasesCohortButtonProps {
   readonly asFilterRepresentation?: boolean; // set to true to use the cohort filter instead of case ids
 }
 
-const openModalWithCohortFilterRepresentation = (cohortFilters: FilterSet) => {
+export const openModalWithCohortFilterRepresentation = (cohortFilters: FilterSet) => {
   modals.openContextModal({
     modal: 'saveCohortModal',
     title: 'Save Cohort',

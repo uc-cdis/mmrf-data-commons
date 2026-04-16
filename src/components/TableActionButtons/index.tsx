@@ -1,13 +1,14 @@
 import React from 'react';
-import { DownloadFile } from '../DownloadButtons';
-import { GdcFile } from '@/core';
+import { MMRFFile } from '@/core/features/files/filesSlice';
+import DownloadPresignedURLWithIcon from '@/components/DownloadButtons/DownloadPresignedURLWithIcon';
 
-const placeHolderFile = 'placeHolderFile' as unknown as GdcFile;
-export const TableActionButtons = (): JSX.Element => {
+export const TableActionButtons = ({ fileId }: { fileId: string }): JSX.Element => {
+
   return (
     <div className="flex gap-3">
-      <DownloadFile
-        file={placeHolderFile}
+      <DownloadPresignedURLWithIcon
+        file={{ id: fileId, file_id: fileId } as MMRFFile}
+        label="Download"
         customDataTestID="button-download-file"
       />
     </div>
