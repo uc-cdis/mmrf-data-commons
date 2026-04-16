@@ -13,6 +13,11 @@ export const COOKIE_CONSENT_BANNER_TEXT =
 export const COOKIE_CONSENT_PRIVACY_POLICY_URL =
   'https://themmrf.org/privacy-policy/';
 
+const COOKIE_CONSENT_CLOSE_BUTTON_PROPS = {
+  'aria-label': 'Close cookie consent banner',
+  'data-testid': 'cookie-consent-dismiss',
+};
+
 interface CookieConsentBannerProps {
   onAccept: () => void;
   onDismiss: () => void;
@@ -24,10 +29,7 @@ const CookieConsentBanner = ({
 }: CookieConsentBannerProps): JSX.Element => (
   <Modal
     centered
-    closeButtonProps={{
-      'aria-label': 'Close cookie consent banner',
-      'data-testid': 'cookie-consent-dismiss',
-    }}
+    closeButtonProps={COOKIE_CONSENT_CLOSE_BUTTON_PROPS}
     closeOnClickOutside={false}
     onClose={onDismiss}
     opened
