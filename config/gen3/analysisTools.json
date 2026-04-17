@@ -77,13 +77,13 @@
           "countUnits": "Cases"
         },
         {
-          "title": "ProteinPaint",
+          "title": "Genome Browser",
           "type": "application",
           "hasDemo": false,
           "loginRequired": false,
-          "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
+          "description": "Visualize mutations and copy number variations in genomic regions.",
           "icon": "/icons/apps/ProteinPaint.svg",
-          "appId": "ProteinPaint",
+          "appId": "GB",
           "hideCounts": true,
           "countUnits": "Cases"
         },
