@@ -9,7 +9,13 @@ import {
 } from "./SelectCohortsModal";
 import { COHORT_FILTER_INDEX } from "@/core";
 import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
-import { EmptyFilterSet, FilterSet } from '@gen3/core';
+import {
+  EmptyFilterSet,
+  FilterSet,
+  joinFilters,
+  selectCurrentCohortFilters,
+  useCoreSelector,
+} from '@gen3/core';
 
 interface CasesCohortButtonProps {
   readonly filters: FilterSet;
@@ -63,11 +69,15 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   const [fetchCaseIds, { isFetching }] = useLazyCohortCaseIdQuery();
 
 
+  const cohortFilters = useCoreSelector(selectCurrentCohortFilters);
+  const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
+
+  const createCohortFilters = joinFilters(cohortFilter, filters);
 
   // can reuse also in SelectCohortsModal right now
   const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
     // Check if filter only contains cases.case_id
-    const rootKeys = Object.keys(filter?.root || {});
+    const rootKeys = Object.keys(createCohortFilters?.root || {});
     if (
       rootKeys.length === 1 &&
       rootKeys[0] === 'cases.case_id' &&
@@ -83,17 +93,19 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
 
     try {
       // Check if we can extract case IDs directly
-      const directCaseIds = getCaseIdsFromFilter(filters);
+      const directCaseIds = getCaseIdsFromFilter(createCohortFilters);
 
       if (directCaseIds) {
         // Use extracted IDs directly
         openSaveCohortModal(directCaseIds);
       } else {
         if (asFilterRepresentation) {
-          openModalWithCohortFilterRepresentation(filters);
+          openModalWithCohortFilterRepresentation(createCohortFilters);
         } else {
           // Fetch case IDs from current filters
-          const result = await fetchCaseIds({ filter: filters }).unwrap();
+          const result = await fetchCaseIds({
+            filter: createCohortFilters,
+          }).unwrap();
           openSaveCohortModal(result);
         }
       }
