@@ -33,7 +33,15 @@ import { registerCohortComparisonApp } from "@/features/cohortComparison/registe
 import { registerGenesAndMutationFrequencyAnalysisTool } from "@/features/genomic/registerApp";
 import Gen3GDCCompatabilityProvider from "@/utils/providers";
 import { registerMMRFTableCellRenderers } from "@/components/ExplorerCellRenderers";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
+import GoogleAnalyticsLoader from "@/components/GoogleAnalyticsLoader";
 import MainNavigation from "@/components/Navigation/MainNavigation/MainNavigation";
+import {
+  acceptCookieConsent,
+  dismissCookieConsentForSession,
+  getCookieConsentState,
+  type CookieConsentState,
+} from "@/lib/cookieConsent";
 import {
   type AuthorizedRoutesConfig,
   DefaultAuthorizedRoutesConfig,
@@ -62,6 +70,7 @@ const Gen3App = ({
   modalsConfig,
 }: AppProps & Gen3AppProps) => {
   const isFirstRender = useRef(true);
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -82,10 +91,23 @@ const Gen3App = ({
   }, []);
 
   const [isClient, setIsClient] = useState(false);
+  const [cookieConsentState, setCookieConsentState] =
+    useState<CookieConsentState>('pending');
 
   useEffect(() => {
+    setCookieConsentState(getCookieConsentState());
     setIsClient(true); // Only on the client-side
   }, []);
+
+  const handleCookieConsentAccept = () => {
+    acceptCookieConsent();
+    setCookieConsentState('accepted');
+  };
+
+  const handleCookieConsentDismiss = () => {
+    dismissCookieConsentForSession();
+    setCookieConsentState('dismissed');
+  };
 
   return (
     <React.Fragment>
@@ -101,6 +123,16 @@ const Gen3App = ({
               <Gen3GDCCompatabilityProvider>
                 <MainNavigation />
                 <Component {...pageProps} />
+                <GoogleAnalyticsLoader
+                  enabled={cookieConsentState === 'accepted'}
+                  gaMeasurementId={gaMeasurementId}
+                />
+                {cookieConsentState === 'pending' && (
+                  <CookieConsentBanner
+                    onAccept={handleCookieConsentAccept}
+                    onDismiss={handleCookieConsentDismiss}
+                  />
+                )}
               </Gen3GDCCompatabilityProvider>
             </Gen3Provider>
           </MantineProvider>
@@ -125,8 +157,8 @@ Gen3App.getInitialProps = async (
       ...ctx,
       ...res,
     };
-  } catch (error: any) {
-    console.error("Provider Wrapper error loading config", error.toString());
+  } catch (error: unknown) {
+    console.error("Provider Wrapper error loading config", String(error));
   }
   // return default
   return {
