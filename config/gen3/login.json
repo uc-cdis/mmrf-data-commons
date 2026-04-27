@@ -11,10 +11,15 @@
   ],
   "bottomContent": [
     {
+      "type": "html",
+      "text": "<a href=\"https://mmrf.formstack.com/forms/mmrf_virtual_lab_access_request\" target=\"_blank\" rel=\"noreferrer\" class=\"inline-flex items-center justify-center rounded bg-primary px-6 py-2 text-sm font-semibold text-primary-contrast no-underline hover:bg-primary-darker\">Apply for Access</a>",
+      "className": "text-center mt-10 mb-0"
+    },
+    {
       "type" : "textWithEmail",
       "text": "If you have any questions about access or the registration process, please contact",
       "email": "VirtualLab@themmrf.org",
-      "className": "text-center text-sm mt-10"
+      "className": "text-center text-sm mt-4"
     }
   ],
   "image": "images/empty.svg",

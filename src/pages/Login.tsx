@@ -10,7 +10,7 @@ export const LoginPage = ({ loginConfig }: { loginConfig: LoginConfig }) => {
   return (
     <>
       <PageTitle pageName="Login Page" />
-        <LoginPanel {...loginConfig} />
+      <LoginPanel {...loginConfig} />
     </>
   );
 };

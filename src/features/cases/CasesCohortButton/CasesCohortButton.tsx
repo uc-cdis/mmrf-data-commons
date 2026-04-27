@@ -119,18 +119,18 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       customTargetButtonDataTestId="button-save-new-cohort-cases-table"
       dropdownElements={[
         {
-          title: 'Only Selected Cases',
+          title: 'Create new cohort with selected cases',
           onClick: handleSaveOnlySelectedCases,
         },
         {
-          title: 'Existing Cohort With Selected Cases',
+          title: 'Add selected cases to existing cohort',
           onClick: () => {
             setWithOrWithoutCohort('with');
             setOpenSelectCohorts(true);
           },
         },
         {
-          title: 'Existing Cohort Without Selected Cases',
+          title: 'Remove selected cases from existing cohort',
           onClick: () => {
             setWithOrWithoutCohort('without');
             setOpenSelectCohorts(true);
