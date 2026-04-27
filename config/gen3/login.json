@@ -12,7 +12,7 @@
   "bottomContent": [
     {
       "type": "html",
-      "text": "<a href=\"https://mmrf.formstack.com/forms/mmrf_virtual_lab_access_request\" target=\"_blank\" rel=\"noreferrer\" class=\"inline-flex items-center justify-center rounded bg-primary px-6 py-2 text-sm font-semibold text-primary-contrast no-underline hover:bg-primary-darker\">Apply for Access</a>",
+      "text": "<a href=\"https://mmrf.formstack.com/forms/mmrf_virtual_lab_access_request\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"inline-flex items-center justify-center rounded bg-primary px-6 py-2 text-sm font-semibold text-primary-contrast no-underline hover:bg-primary-darker\">Apply for Access</a>",
       "className": "text-center mt-10 mb-0"
     },
     {

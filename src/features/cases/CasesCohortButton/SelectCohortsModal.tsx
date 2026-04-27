@@ -13,6 +13,14 @@ import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
 
 export type WithOrWithoutCohortType = "with" | "without" | undefined;
 
+const getStringOperands = (operands: unknown): ReadonlyArray<string> | null => {
+  if (!Array.isArray(operands) || !operands.every((id) => typeof id === "string")) {
+    return null;
+  }
+
+  return operands;
+};
+
 export const SelectCohortsModal = ({
   opened,
   onClose,
@@ -100,13 +108,15 @@ export const SelectCohortsModal = ({
 
   const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
     // Check if filter only contains cases.case_id
-    const rootKeys = Object.keys(filter?.root || {});
+    const root = filter?.root || {};
+    const rootKeys = Object.keys(root);
+    const operands = root["cases.case_id"]?.operands;
     if (
       rootKeys.length === 1 &&
       rootKeys[0] === "cases.case_id" &&
-      filter.root["cases.case_id"]?.operands
+      getStringOperands(operands)
     ) {
-      return filter.root["cases.case_id"].operands;
+      return operands;
     }
     return null;
   };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { modals } from "@mantine/modals";
+import { showNotification } from "@mantine/notifications";
 import { DropdownWithIcon } from "@/components/DropdownWithIcon/DropdownWithIcon";
 import { CountsIcon } from "@/components/tailwindComponents";
 import { LoadingOverlay, Tooltip } from "@mantine/core";
@@ -23,6 +24,23 @@ interface CasesCohortButtonProps {
   readonly asFilterRepresentation?: boolean; // set to true to use the cohort filter instead of case ids
 }
 
+const getStringOperands = (operands: unknown): ReadonlyArray<string> | null => {
+  if (!Array.isArray(operands) || !operands.every((id) => typeof id === 'string')) {
+    return null;
+  }
+
+  return operands;
+};
+
+const sanitizeCaseIds = (caseIds: ReadonlyArray<unknown>): ReadonlyArray<string> =>
+  Array.from(
+    new Set(
+      caseIds
+        .filter((caseId) => caseId !== null && caseId !== undefined)
+        .map((caseId) => String(caseId)),
+    ),
+  );
+
 export const openModalWithCohortFilterRepresentation = (cohortFilters: FilterSet) => {
   modals.openContextModal({
     modal: 'saveCohortModal',
@@ -42,14 +60,15 @@ export const openModalWithCohortFilterRepresentation = (cohortFilters: FilterSet
   });
 }
 
-const openSaveCohortModal = (caseIds: ReadonlyArray<string>) => {
+const openSaveCohortModal = (caseIds: ReadonlyArray<unknown>) => {
+  const sanitizedCaseIds = sanitizeCaseIds(caseIds);
   const cohortFilters : FilterSet = {
     mode: 'and',
     root: {
       case_id: {
         operator: 'in',
         field: 'case_id',
-        operands: Array.from(caseIds ?? []),
+        operands: sanitizedCaseIds,
       },
     },
   };
@@ -77,13 +96,15 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   // can reuse also in SelectCohortsModal right now
   const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
     // Check if filter only contains cases.case_id
-    const rootKeys = Object.keys(createCohortFilters?.root || {});
+    const root = filter?.root || {};
+    const rootKeys = Object.keys(root);
+    const operands = root['cases.case_id']?.operands;
     if (
       rootKeys.length === 1 &&
       rootKeys[0] === 'cases.case_id' &&
-      filter.root['cases.case_id']?.operands
+      getStringOperands(operands)
     ) {
-      return filter.root['cases.case_id'].operands;
+      return operands;
     }
     return null;
   };
@@ -111,6 +132,13 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
       }
     } catch (error) {
       console.error('Error fetching case IDs:', error);
+      showNotification({
+        title: 'Unable to create cohort',
+        message:
+          'We could not retrieve the selected case IDs. Please try again.',
+        color: 'red',
+        closeButtonProps: { 'aria-label': 'Close notification' },
+      });
     }
   };
 
