@@ -111,12 +111,13 @@ export const SelectCohortsModal = ({
     const root = filter?.root || {};
     const rootKeys = Object.keys(root);
     const operands = root["cases.case_id"]?.operands;
+    const stringOperands = getStringOperands(operands);
     if (
       rootKeys.length === 1 &&
       rootKeys[0] === "cases.case_id" &&
-      getStringOperands(operands)
+      stringOperands
     ) {
-      return operands;
+      return stringOperands;
     }
     return null;
   };
