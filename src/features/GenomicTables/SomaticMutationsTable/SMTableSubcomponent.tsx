@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { useGetSomaticMutationTableSubrowQuery } from '@/core/features/subrows';
 import { Row } from '@tanstack/react-table';
 import { SomaticMutation } from './types';

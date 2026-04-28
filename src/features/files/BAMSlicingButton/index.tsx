@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { CutIcon } from '@/utils/icons';
 import { Button } from '@mantine/core';
 

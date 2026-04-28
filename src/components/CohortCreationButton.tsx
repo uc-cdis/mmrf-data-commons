@@ -7,7 +7,6 @@ import {
 import { ButtonProps, Tooltip } from "@mantine/core";
 import tw from "tailwind-styled-components";
 import { FaPlus as PlusIcon  } from 'react-icons/fa';
-import { modals } from '@mantine/modals';
 
 import { MAX_CASES, useLazyGetCohortCentricQuery } from '@/core';
 import { openModalWithCohortFilterRepresentation } from '@/features/cases/CasesCohortButton/CasesCohortButton';

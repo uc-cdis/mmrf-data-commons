@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Tooltip } from '@mantine/core';
 import { HeaderTitle } from '@/components/tailwindComponents';

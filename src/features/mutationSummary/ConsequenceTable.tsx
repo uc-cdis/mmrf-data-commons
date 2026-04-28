@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { useSsmsConsequenceTableQuery } from '@/core/genomic/ssmsConsequenceTableSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { ConsequenceTableData } from '@/features/mutationSummary/types';

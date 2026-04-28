@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { AlertIcon } from '@/utils/icons';
 
 export const WarningBanner = ({ text }: { text: string }): JSX.Element => (

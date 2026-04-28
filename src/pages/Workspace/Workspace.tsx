@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Workspace } from "@gen3/frontend";
 import { WorkspacePageLayoutProps } from '../../lib/Workspace/types';
 import { useRouter } from 'next/router';

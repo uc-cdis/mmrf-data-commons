@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX} from 'react';
 import { Loader } from '@mantine/core';
 import { TableSubrowData } from '@/core';
 import ListAffectedCases from './ListAffectedCases';

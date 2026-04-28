@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import GenericLink from '@/components/GenericLink';
-import { fileInCart } from '@/utils/index';
 import { GdcFile, CartFile, AccessType, GdcCartFile } from '@/core';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { filesize } from 'filesize';

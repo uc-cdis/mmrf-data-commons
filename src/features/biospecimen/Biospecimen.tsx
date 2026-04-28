@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, JSX } from "react";
 import { BioTree } from "@/components/BioTree/BioTree";
 import { Button, Input, LoadingOverlay, ActionIcon } from "@mantine/core";
 import { HorizontalTable } from "@/components/HorizontalTable";

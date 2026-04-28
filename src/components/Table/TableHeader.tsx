@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState, JSX } from 'react';
 import { Tooltip, TextInput, ActionIcon } from '@mantine/core';
 import { Table } from '@tanstack/react-table';
 import ColumnOrdering from './ColumnOrdering';

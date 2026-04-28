@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { DictionaryWithContext } from '@gen3/frontend';
 import { DictionaryPageProps } from '@/lib/DataDictionary/types';
 

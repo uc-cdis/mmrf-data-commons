@@ -1,7 +1,7 @@
-import React from "react";
+import React, { JSX } from 'react';
 import VerticalTable from "@/components/Table/VerticalTable";
 import { createColumnHelper, SortingState } from "@tanstack/react-table";
-import { upperFirst } from "lodash";
+
 import { useMemo, useState } from "react";
 import { SelectedEntities } from "./types";
 
