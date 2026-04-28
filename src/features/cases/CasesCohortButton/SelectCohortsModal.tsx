@@ -129,6 +129,7 @@ export const SelectCohortsModal = ({
       }
 
       // Get current case IDs - either extract or fetch
+      // this is a list of case ids so no need to query
       const directCurrentCaseIds = getCaseIdsFromFilter(currentFilters);
 
       const currentCaseIdsResult = directCurrentCaseIds
@@ -155,6 +156,8 @@ export const SelectCohortsModal = ({
           (id) => !currentCaseIdsResult.includes(id),
         );
       }
+
+      console.log('Final case IDs:', finalCaseIds);
 
       // Call the callback to open SaveCohortModal with final case IDs
       onSaveCohort(finalCaseIds);
