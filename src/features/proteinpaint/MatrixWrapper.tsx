@@ -305,6 +305,7 @@ interface MatrixArgOpts {
   app: MatrixArgOptsApp;
   matrix?: MatrixArgOptsMatrix;
   hierCluster?: MatrixArgOptsMatrix;
+  geneset?: { showEditUI?: boolean }
 }
 
 interface MatrixArgOptsApp {
@@ -370,6 +371,12 @@ function getMatrixTrack(
       },
     },
   };
+
+  if (props.chartType == "hierCluster") {
+    arg.opts.geneset = {
+      showEditUI: true, // show geneset edit UI to allow gene selection prior to clustering
+    }
+  }
 
   return arg;
 }
