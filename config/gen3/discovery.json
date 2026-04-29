@@ -70,7 +70,7 @@
             ]
           },
           "tagSearchDropdown": {
-            "enabled": true,
+            "enabled": false,
             "collapsibleButtonText": "Data Repository"
           }
         },
