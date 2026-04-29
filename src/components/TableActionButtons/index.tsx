@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { MMRFFile } from '@/core/features/files/filesSlice';
 import DownloadPresignedURLWithIcon from '@/components/DownloadButtons/DownloadPresignedURLWithIcon';
 

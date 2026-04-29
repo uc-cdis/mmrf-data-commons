@@ -1,5 +1,4 @@
-//import { CaseSummary } from "@/features/cases/CaseSummary";
-//import { FileSummary } from "@/features/files/FileSummary";
+
 import { GeneSummary } from "@/features/GeneSummary/GeneSummary";
 import { SSMSSummary } from "@/features/mutationSummary/SSMSSummary";
 import { ProjectSummary } from "@/features/projects/ProjectSummary";
@@ -7,7 +6,7 @@ import { CaseSummary } from '@/features/cases/CaseSummary';
 import { FileSummary } from '@/features/files/FileSummary';
 import { focusStyles } from "@/utils/index";
 import { Modal } from "@mantine/core";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, JSX } from "react";
 import { entityMetadataType, URLContext } from "src/utils/contexts";
 
 export const SummaryModal = ({

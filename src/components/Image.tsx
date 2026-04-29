@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import getConfig from 'next/config';
 import NextImage, { ImageProps } from 'next/legacy/image';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { useState } from 'react';
 import { CaretDownIcon, CaretUpIcon } from '@/utils/icons';
 

@@ -12,11 +12,17 @@ const renderInputEntityList = () => {
       textInputPlaceholder="ex. TCGA"
       entityType="ssms"
       entityLabel="mutation"
-      hooks={{
-        updateFilters: jest.fn(),
-        getExistingFilters: jest.fn(),
+      setOutputIds={function (outputIds: string[]): void {
+        throw new Error('Function not implemented.');
       }}
-    />
+      shouldReset={false}
+      clearShouldReset={function (): void {
+        throw new Error('Function not implemented.');
+      }} // hooks={{
+      //   updateFilters: jest.fn(),
+      //   getExistingFilters: jest.fn(),
+      // }}
+    />,
   );
 };
 

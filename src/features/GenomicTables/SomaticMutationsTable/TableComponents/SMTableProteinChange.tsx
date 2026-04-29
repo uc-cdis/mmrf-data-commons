@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX }  from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Tooltip } from '@mantine/core';
 import { truncate } from 'lodash';

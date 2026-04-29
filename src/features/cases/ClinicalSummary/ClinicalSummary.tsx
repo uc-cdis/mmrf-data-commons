@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { DropdownWithIcon } from '@/components/DropdownWithIcon/DropdownWithIcon';
 import { HorizontalTable } from '@/components/HorizontalTable';
 import { formatDataForHorizontalTable } from '@/features/files/utils';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { DataStatus } from '@/core';
 import { Pagination, Select } from '@mantine/core';
 import { useEffect, useState } from 'react';

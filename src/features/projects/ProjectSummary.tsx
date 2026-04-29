@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from 'react';
 import { useProjectSummaryQuery } from '@/core/features/projects/projectsSlice';
 import { LoadingOverlay } from "@mantine/core";
 import { SummaryErrorHeader } from "@/components/Summary/SummaryErrorHeader";

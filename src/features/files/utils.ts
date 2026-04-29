@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { GdcFile, caseFileType } from '@/core';
 import { get, omit, pick } from 'lodash';
 import { HorizontalTableProps } from '../../components/HorizontalTable';

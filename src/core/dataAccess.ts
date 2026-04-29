@@ -54,7 +54,7 @@ export interface UserCoreDataHook<P, T> {
  * NOTE: if component using this defines a key prop ensure the key id persist between renders
  */
 export const usePrevious = <T>(value: T): T | undefined => {
-  const ref = useRef<T>();
+  const ref = useRef<T>(undefined);
   useEffect(() => {
     ref.current = value;
   });

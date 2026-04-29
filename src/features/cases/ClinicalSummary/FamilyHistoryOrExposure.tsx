@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from 'react';
 import { HorizontalTable } from "@/components/HorizontalTable";
 import { formatDataForHorizontalTable } from "@/features/files/utils";
 import { Tabs, Tooltip } from "@mantine/core";

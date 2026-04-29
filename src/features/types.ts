@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Accessibility, AggregationsData, FilterSet, GQLFilter } from '@gen3/core';
 
 type JSONValue =
