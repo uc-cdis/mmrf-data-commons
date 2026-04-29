@@ -32,6 +32,7 @@ const PROD_HOSTNAME = 'virtuallab.themmrf.org';
 const PROD_HIDDEN_APP_IDS = new Set([
   'DE',
   'GeneExpression',
+  'SC',
 ]);
 
 interface CountsPanelProps {
