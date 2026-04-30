@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Center } from '@mantine/core';
 import {
@@ -41,7 +41,7 @@ const AppsPage = ({ config }: AppConfig) => {
 
   return (
     <>
-      <PageTitle pageName="Analysis Center" />
+      <PageTitle pageName={appName || 'Analysis Center'} />
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <CohortManager />
         <QueryExpression

@@ -16,9 +16,8 @@
       "className": "text-center mt-10 mb-0"
     },
     {
-      "type" : "textWithEmail",
-      "text": "If you have any questions about access or the registration process, please contact",
-      "email": "VirtualLab@themmrf.org",
+      "type" : "html",
+      "text": "If you have any questions about access or the registration process, please contact <a href=\"mailto:VirtualLab@themmrf.org\">VirtualLab@themmrf.org</a>.",
       "className": "text-center text-sm mt-4"
     }
   ],

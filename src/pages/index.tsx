@@ -126,6 +126,10 @@ const Tools = ({
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
+  const pageName = appInfo?.title
+    ? `${appInfo.title}${router.query.demoMode === 'true' ? ' Demo' : ''}`
+    : 'Analysis Center';
+
   const handleQueryExpressionSummaryLogic = (field: string, count: number) => {
     const isCaseField = field.includes('case_id');
     const isAboveThreshold = count > 1;
@@ -136,7 +140,7 @@ const Tools = ({
 
   return (
     <>
-      <PageTitle pageName="Analysis Center" />
+      <PageTitle pageName={pageName} />
       <ProtectedContent>
         <div className="flex flex-col">
           {!projectId ? (
