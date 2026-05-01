@@ -127,8 +127,11 @@ const Tools = ({
     appInfo = { ...appInfo, selectionScreen: AdditionalCohortSelection as any }; // TODO: remove this cast
   }
 
+  const demoMode = Array.isArray(router.query.demoMode)
+    ? router.query.demoMode[0]
+    : router.query.demoMode;
   const pageName = appInfo?.title
-    ? `${appInfo.title}${router.query.demoMode === 'true' ? ' Demo' : ''}`
+    ? `${appInfo.title}${demoMode === 'true' ? ' Demo' : ''}`
     : 'Analysis Center';
 
   const handleQueryExpressionSummaryLogic = (field: string, count: number) => {

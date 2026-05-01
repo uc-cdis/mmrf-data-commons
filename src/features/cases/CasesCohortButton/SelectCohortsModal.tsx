@@ -10,16 +10,9 @@ import { selectAvailableCohorts, useCoreSelector } from "@gen3/core";
 import { COHORT_FILTER_INDEX } from "@/core";
 import { HandleChangeInput } from "@/components/Table/types";
 import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
+import { getStringOperands } from "./utils";
 
 export type WithOrWithoutCohortType = "with" | "without" | undefined;
-
-const getStringOperands = (operands: unknown): ReadonlyArray<string> | null => {
-  if (!Array.isArray(operands) || !operands.every((id) => typeof id === "string")) {
-    return null;
-  }
-
-  return operands;
-};
 
 export const SelectCohortsModal = ({
   opened,

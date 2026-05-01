@@ -25,6 +25,12 @@ interface AppConfig extends NavPageLayoutProps {
 const AppsPage = ({ config }: AppConfig) => {
   const router = useRouter();
   const appName = getAppName(router);
+  const demoMode = Array.isArray(router.query.demoMode)
+    ? router.query.demoMode[0]
+    : router.query.demoMode;
+  const pageName = `${appName || 'Analysis Center'}${
+    demoMode === 'true' ? ' Demo' : ''
+  }`;
 
   const Gen3App = useCoreSelector(
     () => selectGen3AppByName(appName), // TODO update ById to ByName
@@ -41,7 +47,7 @@ const AppsPage = ({ config }: AppConfig) => {
 
   return (
     <>
-      <PageTitle pageName={appName || 'Analysis Center'} />
+      <PageTitle pageName={pageName} />
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <CohortManager />
         <QueryExpression
