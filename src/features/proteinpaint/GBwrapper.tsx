@@ -10,10 +10,12 @@ import {
   useCoreDispatch,
   convertFilterSetToGqlFilter as buildCohortGqlOperator
 } from "@gen3/core";
+import { SelectSamplesCallback } from "./sjpp-types";
 import { isEqual, cloneDeep } from "lodash";
 import { DemoText } from "@/components/tailwindComponents";
 import { selectCurrentCohortCaseFilters } from "@/core/utils";
 import { COHORT_FILTER_INDEX, PROTEINPAINT_API } from '@/core';
+import { updateFilters } from './updateFilters';
 
 const basepath = PROTEINPAINT_API;
 
@@ -58,7 +60,7 @@ export const GBwrapper: FC<PpProps> = (props: PpProps) => {
   useDeepCompareEffect(
     () => {
       const rootElem = divRef.current;
-      const data = getGBtrack(props, filter0);
+      const data = getGBtrack(props, updateFilters, filter0);
       if (!data) return;
       /*if (isDemoMode) {
         data.geneSymbol = props.hardcodeCnvOnly
@@ -128,10 +130,12 @@ interface Mds3Arg {
   host: string;
   filter0?: FilterSet;
   launchGdcGb?: boolean;
+  opts: any;
 }
 
 function getGBtrack(
   props: PpProps,
+  callback: SelectSamplesCallback,
   filter0: any
 ) {
   const arg: Mds3Arg = {
@@ -141,6 +145,19 @@ function getGBtrack(
     host: props.basepath || (basepath as string),
     launchGdcGb: true,
     filter0,
+    opts: {
+      genomeBrowser: {
+				allow2selectSamples: {
+					buttonText: "Create Cohort",
+					attributes: [{
+						from: "sample_id",
+						to: "cases.case_id",
+						convert: true
+					}],
+					callback
+				}
+			}
+    }
   };
 
   return arg;

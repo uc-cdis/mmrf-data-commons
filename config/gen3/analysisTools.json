@@ -88,6 +88,17 @@
           "countUnits": "Cases"
         },
         {
+          "title": "ProteinPaint",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
+          "icon": "/icons/apps/ProteinPaint.svg",
+          "appId": "ProteinPaint",
+          "hideCounts": true,
+          "countUnits": "Cases"
+        },
+        {
           "title": "OncoMatrix",
           "type": "application",
           "hasDemo": false,
