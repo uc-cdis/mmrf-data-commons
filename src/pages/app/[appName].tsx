@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PageTitle from '@/components/PageTitle';
 import { Center } from '@mantine/core';
 import {
@@ -25,6 +25,8 @@ interface AppConfig extends NavPageLayoutProps {
 const AppsPage = ({ config }: AppConfig) => {
   const router = useRouter();
   const appName = getAppName(router);
+  const validAppName = appName && appName !== 'UNKNOWN_APP_ID';
+  const pageName = validAppName ? appName : 'Analysis Center';
 
   const Gen3App = useCoreSelector(
     () => selectGen3AppByName(appName), // TODO update ById to ByName
@@ -41,7 +43,7 @@ const AppsPage = ({ config }: AppConfig) => {
 
   return (
     <>
-      <PageTitle pageName="Analysis Center" />
+      <PageTitle pageName={pageName} />
       <div className="w-full flex-col flex gap-4 z-10 top-0 bg-base-max">
         <CohortManager />
         <QueryExpression
