@@ -17,7 +17,7 @@ import {
   selectCurrentCohortFilters,
   useCoreSelector,
 } from '@gen3/core';
-import { getStringOperands } from './utils';
+import { getCaseIdsFromFilter } from './utils';
 
 interface CasesCohortButtonProps {
   readonly filters: FilterSet;
@@ -88,23 +88,6 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
   const cohortFilter = cohortFilters?.[COHORT_FILTER_INDEX] ?? EmptyFilterSet;
 
   const createCohortFilters = joinFilters(cohortFilter, filters);
-
-  // can reuse also in SelectCohortsModal right now
-  const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
-    // Check if filter only contains cases.case_id
-    const root = filter?.root || {};
-    const rootKeys = Object.keys(root);
-    const operands = root['cases.case_id']?.operands;
-    const stringOperands = getStringOperands(operands);
-    if (
-      rootKeys.length === 1 &&
-      rootKeys[0] === 'cases.case_id' &&
-      stringOperands
-    ) {
-      return stringOperands;
-    }
-    return null;
-  };
 
   const handleSaveOnlySelectedCases = async () => {
     if (numCases < 1) return;

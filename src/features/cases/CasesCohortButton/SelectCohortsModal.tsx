@@ -10,7 +10,7 @@ import { selectAvailableCohorts, useCoreSelector } from "@gen3/core";
 import { COHORT_FILTER_INDEX } from "@/core";
 import { HandleChangeInput } from "@/components/Table/types";
 import { useLazyCohortCaseIdQuery } from "@/core/features/cases/caseSlice";
-import { getStringOperands } from "./utils";
+import { getCaseIdsFromFilter } from "./utils";
 
 export type WithOrWithoutCohortType = "with" | "without" | undefined;
 
@@ -98,22 +98,6 @@ export const SelectCohortsModal = ({
     total,
     displayedData,
   } = useStandardPagination(cohortListData);
-
-  const getCaseIdsFromFilter = (filter: any): ReadonlyArray<string> | null => {
-    // Check if filter only contains cases.case_id
-    const root = filter?.root || {};
-    const rootKeys = Object.keys(root);
-    const operands = root["cases.case_id"]?.operands;
-    const stringOperands = getStringOperands(operands);
-    if (
-      rootKeys.length === 1 &&
-      rootKeys[0] === "cases.case_id" &&
-      stringOperands
-    ) {
-      return stringOperands;
-    }
-    return null;
-  };
 
   const handleSubmit = async () => {
     if (loading || !checkedValue) return;

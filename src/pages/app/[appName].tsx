@@ -28,7 +28,8 @@ const AppsPage = ({ config }: AppConfig) => {
   const demoMode = Array.isArray(router.query.demoMode)
     ? router.query.demoMode[0]
     : router.query.demoMode;
-  const pageName = `${appName || 'Analysis Center'}${
+  const validAppName = appName && appName !== 'UNKNOWN_APP_ID';
+  const pageName = `${validAppName ? appName : 'Analysis Center'}${
     demoMode === 'true' ? ' Demo' : ''
   }`;
 
