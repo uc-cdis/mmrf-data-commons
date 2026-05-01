@@ -25,13 +25,8 @@ interface AppConfig extends NavPageLayoutProps {
 const AppsPage = ({ config }: AppConfig) => {
   const router = useRouter();
   const appName = getAppName(router);
-  const demoMode = Array.isArray(router.query.demoMode)
-    ? router.query.demoMode[0]
-    : router.query.demoMode;
   const validAppName = appName && appName !== 'UNKNOWN_APP_ID';
-  const pageName = `${validAppName ? appName : 'Analysis Center'}${
-    demoMode === 'true' ? ' Demo' : ''
-  }`;
+  const pageName = validAppName ? appName : 'Analysis Center';
 
   const Gen3App = useCoreSelector(
     () => selectGen3AppByName(appName), // TODO update ById to ByName
