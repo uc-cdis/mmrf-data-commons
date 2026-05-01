@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { Badge, Button, Tooltip } from '@mantine/core';
 import { forwardRef } from 'react';
 import MicroscopeIcon from 'public/icons/Microscope.svg';

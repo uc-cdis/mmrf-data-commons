@@ -1,7 +1,6 @@
 // This table can be found at /analysis_page?app=SetOperations
 import React, { useMemo, useEffect, useState, useId } from "react";
 import { shallowEqual } from "react-redux";
-import Link from "next/link";
 import { Checkbox, Tooltip } from "@mantine/core";
 import { upperFirst } from "lodash";
 import {

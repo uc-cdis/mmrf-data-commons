@@ -1,4 +1,4 @@
-import React, { useState, ComponentType } from 'react';
+import React, { useState, ComponentType, JSX } from 'react';
 import { Tabs, Tooltip } from '@mantine/core';
 import { Diagnoses, FollowUps } from './types';
 

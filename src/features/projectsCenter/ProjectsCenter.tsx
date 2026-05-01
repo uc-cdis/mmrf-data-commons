@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, JSX } from 'react';
 import ProjectsTable from './ProjectsTable';
 import { TableXPositionContext } from '@/components/Table/VerticalTable';
 const ProjectsCenter = (): JSX.Element => {

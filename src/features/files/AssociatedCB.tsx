@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import GenericLink from '@/components/GenericLink';
 import { HandleChangeInput } from '@/components/Table/types';
 import useStandardPagination from '@/hooks/useStandardPagination';

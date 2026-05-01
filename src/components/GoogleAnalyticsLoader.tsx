@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, JSX } from 'react';
 import Script from 'next/script';
 
 export const GA_PLACEHOLDER_LOG_MESSAGE =

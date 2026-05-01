@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, JSX } from 'react';
 import { ProjectDefaults } from "@/core";
 import { SummaryHeader } from "@/components/Summary/SummaryHeader";
 import CategoryTableSummary from "@/components/Summary/CategoryTableSummary";

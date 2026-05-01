@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX }  from 'react';
 import { LinkIcon } from '@/utils/icons';
 import Link from 'next/link';
 import { TypeIcon } from './TypeIcon';

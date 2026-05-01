@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, JSX } from "react";
 import { EmptyFilterSet, FilterSet } from "@gen3/core";
 import { AnchorLink } from "@/components/AnchorLink";
 import { CollapsibleTextArea } from "@/components/CollapsibleTextArea";

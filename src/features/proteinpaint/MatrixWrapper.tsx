@@ -58,8 +58,8 @@ export const MatrixWrapper: FC<PpProps> = (props: PpProps) => {
   );
   const filter0 = isDemoMode ? null : buildCohortGqlOperator(currentCohort);
   const userDetails = useFetchUserDetailsQuery();
-  const prevData = useRef<any>();
-  const toolApp = useRef<any>();
+  const prevData = useRef<any>(undefined);
+  const toolApp = useRef<any>(undefined);
   const coreDispatch = useCoreDispatch();
   const [showSaveCohortModal, setShowSaveCohortModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -305,6 +305,7 @@ interface MatrixArgOpts {
   app: MatrixArgOptsApp;
   matrix?: MatrixArgOptsMatrix;
   hierCluster?: MatrixArgOptsMatrix;
+  geneset?: { showEditUI?: boolean }
 }
 
 interface MatrixArgOptsApp {
@@ -370,6 +371,12 @@ function getMatrixTrack(
       },
     },
   };
+
+  if (props.chartType == "hierCluster") {
+    arg.opts.geneset = {
+      showEditUI: true, // show geneset edit UI to allow gene selection prior to clustering
+    }
+  }
 
   return arg;
 }

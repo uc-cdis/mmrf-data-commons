@@ -12,32 +12,16 @@ import {
 } from "@gen3/core";
 import { isEqual, cloneDeep } from "lodash";
 import { DemoText } from "@/components/tailwindComponents";
-import { joinFilters, selectCurrentCohortCaseFilters } from "@/core/utils";
-import { DEMO_COHORT_FILTERS } from "./constants";
-// import { SaveCohortModal } from "@gff/portal-components";
-import {
-  SelectSamples,
-  SelectSamplesCallBackArg,
-  SelectSamplesCallback,
-} from "./sjpp-types";
-// import { cohortActionsHooks } from "../cohortBuilder/CohortManager/cohortActionHooks";
-// import { INVALID_COHORT_NAMES } from "../cohortBuilder/utils";
+import { selectCurrentCohortCaseFilters } from "@/core/utils";
 import { COHORT_FILTER_INDEX, PROTEINPAINT_API } from '@/core';
-import { modals } from '@mantine/modals';
 
 const basepath = PROTEINPAINT_API;
 
 interface PpProps {
   basepath?: string;
-  geneId?: string;
-  gene2canonicalisoform?: string;
-  ssm_id?: string;
-  mds3_ssm2canonicalisoform?: mds3_isoform;
-  geneSearch4GDCmds3?: boolean;
-  hardcodeCnvOnly?: boolean;
 }
 
-export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
+export const GBwrapper: FC<PpProps> = (props: PpProps) => {
   const isDemoMode = useIsDemoApp();
   const currentCohort = useCoreSelector((state) =>
     selectCurrentCohortCaseFilters(state, COHORT_FILTER_INDEX),
@@ -52,33 +36,6 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
   //const [createSet, response] = useCreateCaseSetFromValuesMutation();
   // const [newCohortFilters, setNewCohortFilters] =
   //   useState<FilterSet>(undefined);
-
-  // test only
-  const callback = () => {
-    updateFilters('case_ids', ['case_1', 'case_2', 'case_3'])
-  }
-  // useCallback<SelectSamplesCallback>(
-  //   (arg: SelectSamplesCallBackArg) => {
-  //     console.log(58, arg)
-  //     // const cases = arg.samples.map((d) => d["cases.case_id"]);
-  //     // if (cases.length > 1) {
-  //     //   createSet({ values: cases, intent: "portal", set_type: "frozen" });
-  //     // } else {
-  //     //   setNewCohortFilters({
-  //     //     mode: "and",
-  //     //     root: {
-  //     //       "cases.case_id": {
-  //     //         operator: "includes",
-  //     //         field: "cases.case_id",
-  //     //         operands: cases,
-  //     //       },
-  //     //     },
-  //     //   });
-  //     //   setShowSaveCohort(true);
-  //     // }
-  //   },
-  //   [] //[createSet],
-  // );
 
   // a set for the new cohort is created, now show the save cohort modal
   // useDeepCompareEffect(() => {
@@ -101,13 +58,14 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
   useDeepCompareEffect(
     () => {
       const rootElem = divRef.current;
-      const data = getLollipopTrack(props, filter0, callback);
+      const data = getGBtrack(props, filter0);
       if (!data) return;
-      if (isDemoMode) {
+      /*if (isDemoMode) {
         data.geneSymbol = props.hardcodeCnvOnly
           ? "chr8:127682515-127792250"
           : "MYC";
-      }
+      }*/
+
       // compare the argument to runpp to avoid unnecessary render
       if ((data || prevArg.current) && isEqual(prevArg.current, data)) return;
       prevArg.current = data
@@ -137,23 +95,13 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
       });
     },
 
-    [
-      props.gene2canonicalisoform,
-      props.mds3_ssm2canonicalisoform,
-      props.geneSearch4GDCmds3,
-      isDemoMode,
-      filter0,
-      userDetails.currentData,
-    ],
+    [ isDemoMode, filter0, userDetails.currentData ],
   );
 
   const divRef = useRef<HTMLDivElement>(null);
-  const demoText = props.hardcodeCnvOnly
-    ? "Demo showing MYC CNV segments from all GDC cases"
-    : "Demo showing MYC mutations from all GDC cases.";
   return (
     <div>
-      {isDemoMode && <DemoText>{demoText}</DemoText>}
+      {isDemoMode && <DemoText>Showing cases in demo cohort.</DemoText>}
       <div
         ref={divRef}
         className="sjpp-wrapper-root-div"
@@ -171,26 +119,6 @@ export const ProteinPaintWrapper: FC<PpProps> = (props: PpProps) => {
   );
 };
 
-const updateFilters = (facetField: string, outputIds: string[]) => {
-  modals.openContextModal({
-    modal: "saveCohortModalMMRF",
-    title: "Save Cohort",
-    size: "md",
-    zIndex: 1200,
-    styles: {
-      header: {
-        marginLeft: "16px",
-      },
-    },
-    innerProps: {
-      facetField,
-      outputIds,
-      validate: false,
-      setAsCurrentCohort: false,
-    },
-  });
-};
-
 interface Mds3Arg {
   dslabel?: string;
   holder?: HTMLElement;
@@ -198,67 +126,22 @@ interface Mds3Arg {
   nobox?: boolean;
   hide_dsHandles?: boolean;
   host: string;
-  gene2canonicalisoform?: string;
-  mds3_ssm2canonicalisoform?: mds3_isoform;
-  geneSearch4GDCmds3?:
-    | boolean
-    | {
-        hardcodeCnvOnly?: boolean;
-      };
-  geneSymbol?: string;
-  tracks?: Track[];
   filter0?: FilterSet;
-  allow2selectSamples?: SelectSamples;
+  launchGdcGb?: boolean;
 }
 
-interface Track {
-  type: string;
-  dslabel: string;
-  filter0: FilterSet;
-  allow2selectSamples?: SelectSamples;
-  hardcodeCnvOnly?: boolean;
-}
-
-interface mds3_isoform {
-  ssm_id: string;
-  dslabel: string;
-}
-
-function getLollipopTrack(
+function getGBtrack(
   props: PpProps,
-  filter0: any,
-  callback: SelectSamplesCallback,
+  filter0: any
 ) {
   const arg: Mds3Arg = {
     dslabel: 'MMRF',
     // host in gdc is just a relative url path,
     // using the same domain as the GDC portal where PP is embedded
     host: props.basepath || (basepath as string),
-    geneSearch4GDCmds3: {
-      hardcodeCnvOnly: props.hardcodeCnvOnly,
-    },
+    launchGdcGb: true,
     filter0,
-    allow2selectSamples: {
-      buttonText: "Create Cohort",
-      attributes: [{ from: "sample_id", to: "cases.case_id", convert: false }],
-      callback,
-    },
   };
-
-  if (props.hardcodeCnvOnly) {
-    arg.geneSearch4GDCmds3 = {
-      hardcodeCnvOnly: true,
-    };
-  } else if (props.geneId) {
-    arg.gene2canonicalisoform = props.geneId;
-  } else if (props.ssm_id) {
-    arg.mds3_ssm2canonicalisoform = {
-      dslabel: "MMRF",
-      ssm_id: props.ssm_id,
-    };
-  } else {
-    arg.geneSearch4GDCmds3 = true;
-  }
 
   return arg;
 }

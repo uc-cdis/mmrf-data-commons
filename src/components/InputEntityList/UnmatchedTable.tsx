@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, JSX } from "react";
 import { upperFirst } from "lodash";
 import { createColumnHelper, SortingState } from "@tanstack/react-table";
 import saveAs from "file-saver";

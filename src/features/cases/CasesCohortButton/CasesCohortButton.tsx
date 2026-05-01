@@ -198,7 +198,7 @@ export const CasesCohortButton: React.FC<CasesCohortButtonProps> = ({
         opened={openSelectCohorts}
         onClose={() => setOpenSelectCohorts(false)}
         withOrWithoutCohort={withOrWithoutCohort}
-        currentFilters={filters}
+        currentFilters={createCohortFilters}
         onSaveCohort={(caseIds) => {
           openSaveCohortModal(caseIds);
           setOpenSelectCohorts(false);

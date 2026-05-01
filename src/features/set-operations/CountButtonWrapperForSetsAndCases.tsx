@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React, { JSX } from "react";
 import {
   FilterSet,
-  GQLUnion,
-  GQLIntersection,
   EmptyFilterSet,
-  convertFilterSetToGqlFilter,
 } from '@gen3/core';
 import { SetOperationEntityType } from "@/features/set-operations/types";
 import { Loader, Tooltip } from "@mantine/core";
