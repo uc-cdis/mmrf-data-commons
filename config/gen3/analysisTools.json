@@ -82,8 +82,19 @@
           "hasDemo": false,
           "loginRequired": false,
           "description": "Visualize mutations and copy number variations in genomic regions.",
-          "icon": "/icons/apps/ProteinPaint.svg",
+          "icon": "/icons/apps/GenomeBrowser.png",
           "appId": "GB",
+          "hideCounts": true,
+          "countUnits": "Cases"
+        },
+        {
+          "title": "ProteinPaint",
+          "type": "application",
+          "hasDemo": false,
+          "loginRequired": false,
+          "description": "Visualize mutations in protein-coding genes by consequence type and protein domain.",
+          "icon": "/icons/apps/ProteinPaint.svg",
+          "appId": "ProteinPaint",
           "hideCounts": true,
           "countUnits": "Cases"
         },
@@ -106,17 +117,6 @@
           "description": "Visualize the top most variably expressed genes in your cohort.",
           "icon": "/icons/apps/GeneExpression.svg",
           "appId": "GeneExpression",
-          "hideCounts": true,
-          "countUnits": "Cases"
-        },
-        {
-          "title": "Differential Gene Expression",
-          "type": "application",
-          "hasDemo": false,
-          "loginRequired": false,
-          "description": "Identify differentially expressed genes between custom groups.",
-          "icon": "/icons/apps/construction.svg",
-          "appId": "DE",
           "hideCounts": true,
           "countUnits": "Cases"
         },
